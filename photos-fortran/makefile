@@ -1,5 +1,5 @@
 # platform - dependant files
-include $(PHOTOSLOCATION)/platform/make.inc
+include ../platform/make.inc
 ###########################################################
 LOCAL_LIB   =  glib.a 
 LIB_OBJECTS =  photos.o 

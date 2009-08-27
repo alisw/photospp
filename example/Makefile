@@ -1,4 +1,4 @@
-include $(PHOTOSLOCATION)/platform/make.inc
+include ../platform/make.inc
 ROOTLIB  := $(shell $(ROOTSYS)/bin/root-config --glibs)
 ROOTINC := $(shell $(ROOTSYS)/bin/root-config --cflags)
 MC_TESTER_LIBS = $(MCTESTERLOCATION)/lib/libHEPEvent.so \
@@ -12,14 +12,14 @@ COMMAND = $(MAIN).exe
 COMMAND_OBJECTS = $(MAIN).o
 COMMAND_C = $(MAIN).c	
 
-GBLIB_LIB  = $(PHOTOSLOCATION)/photos/glib.a
-PHOTOS_LIB  = $(PHOTOSLOCATION)/photos/photos.o
-PHOTOS_CXX_INT_LIB= $(PHOTOSLOCATION)/demo_cxx/lib/libPhotosCxxInterface.so
+HERE=`pwd`
+GBLIB_LIB  = $(HERE)/../photos-fortran/glib.a
+PHOTOS_LIB  = $(HERE)/../photos-fortran/photos.o
+PHOTOS_CXX_INT_LIB= $(HERE)/../lib/libPhotosCxxInterface.so
 
 #TAUOLA LIBRARIES
-TAUOLALOCATION = ../../../TAUOLA/trunk/TAUOLA
-TAUOLA_LIB  = $(TAUOLALOCATION)/tauola/glib.a
-TAUOLA_CXX_INT_LIB=$(TAUOLALOCATION)/demo_cxx/lib/libTauolaCxxInterface.a
+TAUOLA_LIB  = $(TAUOLALOCATION)/tauola-fortran/tauola/glib.a
+TAUOLA_CXX_INT_LIB=$(TAUOLALOCATION)/lib/libTauolaCxxInterface.a
 
 ############
 all:	$(COMMAND)
@@ -31,12 +31,12 @@ all:	$(COMMAND)
 	$(CC) $(CFLAGS) -c $< 
 
 $(COMMAND_OBJECTS): $(COMMAND_C) pythia_loc hepmc_loc
-	$(CC) $(CFLAGS) -I$(PYTHIALOCATION)/include $(ROOTINC) \
+	$(CC) -g $(CFLAGS) -I$(PYTHIALOCATION)/include $(ROOTINC) \
 	-I$(MCTESTERLOCATION)/include -I$(HEPMCLOCATION)/include \
-	-I$(TAUOLALOCATION)/demo_cxx/include -I../include/ -c $(COMMAND_C)
+	-I$(TAUOLALOCATION)/include -I../include/ -c $(COMMAND_C)
 
 # Link procedure
-$(COMMAND): photos_loc pythia_loc hepmc_loc $(COMMAND_OBJECTS)
+$(COMMAND): tauola_loc pythia_loc hepmc_loc $(COMMAND_OBJECTS)
 	$(LD) -o $@ $(COMMAND_OBJECTS) $(PHOTOS_LIB) $(PHOTOS_CXX_INT_LIB) \
 	$(ROOTINC) -L$(HEPMCLOCATION)/lib -lHepMC -lHepMCfio \
 	-L$(PYTHIALOCATION)/lib/archive -lpythia8 -llhapdfdummy \
@@ -46,10 +46,6 @@ $(COMMAND): photos_loc pythia_loc hepmc_loc $(COMMAND_OBJECTS)
 	@echo "#########################################################"	
 	@echo "Please run the example by typing ./"$(COMMAND)
 	@echo "#########################################################"
-# -lstdc++ 
-#$(PHOTOS_CXX_INT_LIB) 
-#@echo "#####################################" \
-
 
 pythia_loc: #check pythia root is set
 ifeq ($(PYTHIALOCATION), )
@@ -75,16 +71,18 @@ else
 	@echo "Using HEPMCLOCATION="$(HEPMCLOCATION)
 endif		
 
-photos_loc: #check tauola root is set
-ifeq ($(PHOTOSLOCATION), )
+tauola_loc: #check tauola root is set
+ifeq ($(TAUOLALOCATION), )
 	@echo "##############################################"
-	@echo "Please set PHOTOSLOCATION to the "
-	@echo "directory where tauola.o can be found "
+	@echo "Please set TAUOLALOCATION to the "
+	@echo "directory where your TAUOLA include/ and "
+	@echo "lib/ directories can be found "
 	@echo "##############################################"
 	@false
 else
-	@echo "Using PHOTOSLOCATION ="$(PHOTOSLOCATION)
+	@echo "Using TAUOLALOCATION ="$(TAUOLALOCATION)
 endif
 
 clean:                                                     
 	rm -f *.o; rm -f *.a; rm -f *~; rm -f *.exe; rm -f \#*
+
