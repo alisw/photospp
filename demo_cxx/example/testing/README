@@ -1,0 +1,42 @@
+This directory contains a number of MC-TESTER tests which can be
+performed to validate the currently installed version of PHOTOS 
+and it's iterface against a benchmark version. It uses the
+example "photos_pythia_example" and "tauola_photos_pythia_example"
+so any changes to this will also alter the tests. Some variable 
+for the test. eg. number of events can be changed in test.inc
+
+To run, compile photos_pythia_example.c and tauola_photos_pythia_example.c, 
+then type "make" in this directory. MC-TESTER booklets can be found 
+in the following subdirectories. You can run a single test by typing 
+"make <booklet name>" in the corresponding subdirectory.
+
+- Zee/
+
+  tester.Zee.pdf
+  ---------------
+  Some description still needs to be given here.
+
+- Zmumu/
+
+  tester.Zmumu.pdf
+  ----------------
+  Similar to Zee test
+
+- Wenu/
+
+  tester.Wenu.pdf
+  ----------------
+  Similar to Zee test
+
+- Wmunu/
+
+  tester.Wmunu.pdf 
+  ---------------- 
+  Similar to Zee test
+
+- Htautau/ 
+
+  tester.Htautau.pdf 
+  --------------------- 
+  Some description still needs to be given here.
+
