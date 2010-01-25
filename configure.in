@@ -1,0 +1,101 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ(2.61)
+AC_INIT( [Tauola C++ Interface], [1.0.0], [tomasz.przedzinski@uj.edu.pl] )
+AC_LANG_CPLUSPLUS
+
+if test -e ./configure.paths.sh; then
+	source ./configure.paths.sh
+fi
+echo ""
+
+##############################################################################
+# Process command line options
+
+AC_ARG_WITH([HepMC],
+    [AS_HELP_STRING([--with-HepMC], [Path to HepMC 2.xx] )],,
+    [with_HepMC=$HEPMCLOCATION])
+
+echo "Using HepMC location:     $with_HepMC"
+
+AC_ARG_WITH([MC-Tester],
+    [AS_HELP_STRING([--with-MC-Tester], [Path to MC-TESTER 1.23 or later (used by examples only)] )],
+[ echo "Using MC-Tester location: $with_MC_Tester" ])
+
+AC_ARG_WITH([Pythia8],
+    [AS_HELP_STRING([--with-Pythia8], [Path to Pythia 8.1 or later (used by examples only)] )],
+[ echo "Using Pythia8 location:   $with_Pythia8" ])
+
+AC_ARG_WITH([Tauola],
+    [AS_HELP_STRING([--with-Tauola], [Path to Tauola C++ v1.0 or later (used by examples only)] )],
+[ echo "Using Pythia8 location:   $with_Tauola" ])
+
+echo ""
+##############################################################################
+# Check for programs
+AC_PROG_MAKE_SET
+AC_PROG_LN_S
+AC_PROG_CC
+AC_PROG_CXX
+AC_PROG_RANLIB
+AC_PROG_F77([gfortran])
+AC_PROG_CPP
+AC_CHECK_PROG(DIRECT_CPP,cpp,cpp,$CPP)
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+AC_C_INLINE
+AC_CHECK_TYPES([ptrdiff_t])
+
+# Checks for library functions.
+AC_FUNC_MALLOC
+AC_FUNC_STRFTIME
+AC_CHECK_FUNCS([atexit getcwd pow sqrt], ,
+[ echo "" &&
+  echo "ERROR: Basic functions not found. Something's wrong with paths." &&
+  exit -1
+])
+
+##############################################################################
+# Check for HepMC header files
+AC_SUBST(with_HepMC)
+CPPFLAGS="-I$with_HepMC/include $CPPFLAGS"
+
+AC_CHECK_HEADERS([HepMC/Version.h], ,
+[ echo "" &&
+  echo "ERROR: HepMC not found. To provide location use:" &&
+  echo "       './configure --with-HepMC=<path_to_HepMC>' "
+  echo ""
+  exit -1
+])
+
+AC_CHECK_HEADERS([HepMC/Units.h], ,
+[ echo "" &&
+  echo "WARNING: HepMC Version lower than 2.04! " &&
+  echo "         The interface will be converted" &&
+  echo "         To HepMC 2.03                  " &&
+  echo "" &&
+  ./platform/to-HepMC-2.03.sh
+])
+
+##############################################################################
+photos=`pwd`
+pythia8data=$PYTHIA8DATA
+
+if test -z $with_Pythia8; then
+	with_Pythia8=$PYTHIALOCATION
+fi
+
+if test -z $with_MC_Tester; then
+	with_MC_Tester=$MCTESTERLOCATION
+fi
+
+AC_SUBST(photos)
+AC_SUBST(with_HepMC)
+AC_SUBST(pythia8data)
+AC_SUBST(with_Tauola)
+AC_SUBST(with_Pythia8)
+AC_SUBST(with_MC_Tester)
+AC_CONFIG_FILES([platform/make.inc configure.paths.sh])
+AC_OUTPUT

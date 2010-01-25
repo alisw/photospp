@@ -1,0 +1,3 @@
+TAUOLALOCATION=   @with_Tauola@
+PYTHIALOCATION=   @with_Pythia8@
+MCTESTERLOCATION= @with_MC_Tester@

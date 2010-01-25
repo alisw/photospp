@@ -1,0 +1,155 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+AC_PREREQ(2.61)
+AC_INIT( [Tauola C++ Interface - examples], [1.0.0], [tomasz.przedzinski@uj.edu.pl] )
+AC_LANG_CPLUSPLUS
+
+if test ! -e ../configure.paths.sh; then
+	echo "ERROR: Exeucte './configure' in main directory first."
+	exit 0
+fi
+
+# This must be done before we load paths from configure.paths.sh!
+pythia8data=$PYTHIA8DATA
+
+source ../configure.paths.sh
+
+if test -z $HEPMCLOCATION; then
+	echo "ERROR: HEPMCLOCATION not set."
+	echo "       Execute './configure --with-HepMC=<path>' in main direcotry."
+fi
+
+photos=$PHOTOS
+prefix=$PREFIX
+with_HepMC=$HEPMCLOCATION
+
+##############################################################################
+# Process command line options
+
+AC_ARG_WITH([MC-Tester],
+    [AS_HELP_STRING([--with-MC-Tester], [Path to MC-TESTER 1.23 or later] )],,
+    [with_MC_Tester=$MCTESTERLOCATION])
+
+AC_ARG_WITH([Pythia8],
+    [AS_HELP_STRING([--with-Pythia8], [Path to Pythia 8.1 or later] )],,
+    [with_Pythia8=$PYTHIALOCATION])
+
+AC_ARG_WITH([Tauola],
+    [AS_HELP_STRING([--with-Tauola], [Path to Tauola v1.0 or later] )],,
+    [with_Tauola=$TAUOLALOCATION])
+
+echo ""
+echo "Using HepMC location:     $with_HepMC"
+echo "Using Tauola location:    $with_Tauola"
+echo "Using MC-Tester location: $with_MC_Tester" 
+echo "Using Pythia8 location:   $with_Pythia8"
+echo ""
+
+CPPFLAGS="$CPPFLAGS -I$ROOTSYS/include -I$PREFIX/include -I$photos/include -I$with_Tauola/include -I$with_HepMC/include -I$with_MC_Tester/include -I$with_Pythia8/include"
+
+##############################################################################
+# Check for Photos
+
+AC_CHECK_HEADER([Photos.h], ,
+[ echo "" &&
+  echo "ERROR: Compile Photos C++ Interface first."
+  echo ""
+  exit 0
+])
+
+##############################################################################
+# Check for Tauola
+
+AC_CHECK_HEADER([Tauola.h],HAS_TAUOLA=1,
+[ HAS_TAUOLA=0 &&
+  echo "" &&
+  echo "" &&
+  echo "INFO: Tauola not found. To provide location use:" &&
+  echo "      './configure --with-Tauola=<path_to_Tauola>' " &&
+  echo ""
+])
+
+##############################################################################
+# Check for ROOT & MC-Tester
+
+AC_CHECK_HEADER([TROOT.h],HAS_MC_TESTER=1,
+[ HAS_MC_TESTER=0 &&
+  echo "" &&
+  echo "INFO: ROOT not found. The location of ROOT" &&
+  echo "      should be set via ROOTSYS variable." &&
+  echo "      MC-Tester will not be used." &&
+  echo ""
+])
+
+if test $HAS_MC_TESTER = 1; then
+	AC_CHECK_HEADER([Generate.h], ,
+	[ HAS_MC_TESTER=0 &&
+	  echo "" &&
+	  echo "INFO: MC-Tester not found. To provide location use:" &&
+	  echo "      './configure --with-MC-Tester=<path_to_MC_Tester>' "
+	  echo ""
+	])
+	if test $HAS_MC_TESTER = 1; then
+		AC_CHECK_HEADER([HepMCParticle.H], ,
+		[ HAS_MC_TESTER=0 &&
+		  echo "" &&
+		  echo "WARNING: MC-Tester has been compiled without the required" &&
+		  echo "         library 'libHepMCEvent'. MC-Tester will not be used." &&
+		  echo ""
+		])
+	fi
+fi
+
+##############################################################################
+# Check for Pythia
+AC_CHECK_HEADER([Pythia.h],HAS_PYTHIA=1,
+[ HAS_PYTHIA=0 &&
+  echo "" &&
+  echo "INFO: Pythia8 not found. To provide location use:" &&
+  echo "      './configure --with-Pythia8=<path_to_Pythia8>' "
+  echo ""
+])
+
+if test $HAS_PYTHIA = 1; then
+	AC_CHECK_HEADER([HepMCInterface.h], ,
+	[ HAS_PYTHIA=0 &&
+	  echo "" &&
+	  echo "WARNING: Pythia8 has been compiled without the required" &&
+	  echo "         library 'libhepmcinterface'. Pythia8 will not be used." &&
+	  echo ""
+	])
+	echo "checking for PYTHIA8DATA: $PYTHIA8DATA"
+	if test $HAS_PYTHIA = 1 && test -z $pythia8data; then
+		pythia8data=$with_Pythia8/xmldoc
+		echo ""
+		echo "WARNING: Pythia8 location is valid, however PYTHIA8DATA"
+		echo "         variable required by Pythia is not set."
+		echo "         Without it, examples will compile, but Pythia cannot"
+		echo "         work properly. Refer to Pythia documentation."
+		echo "         Use 'source ../configure.paths.sh' to set this variable."
+		echo ""
+	fi
+fi
+
+##############################################################################
+if test $HAS_PYTHIA = 0 || test $HAS_MC_TESTER = 0 || test $HAS_TAUOLA = 0; then
+	echo ""
+	echo "ERROR: All paths must be provided for example to compile."
+	echo ""
+	exit -1
+fi
+
+AC_SUBST(photos)
+AC_SUBST(with_HepMC)
+AC_SUBST(with_Tauola)
+AC_SUBST(pythia8data)
+AC_SUBST(with_Pythia8)
+AC_SUBST(with_MC_Tester)
+AC_CONFIG_FILES([make.inc ../configure.paths.sh])
+AC_OUTPUT
+
+##############################################################################
+echo ""
+confloc=`cd .. && pwd`
+echo "Consider using 'source $confloc/configure.paths.sh' or add it to shell"
+echo "startup file for setting up several paths used by examples."

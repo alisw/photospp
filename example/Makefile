@@ -1,88 +1,57 @@
 include ../platform/make.inc
-ROOTLIB  := $(shell $(ROOTSYS)/bin/root-config --glibs)
-ROOTINC := $(shell $(ROOTSYS)/bin/root-config --cflags)
-MC_TESTER_LIBS = $(MCTESTERLOCATION)/lib/libHEPEvent.so \
-	$(MCTESTERLOCATION)/lib/libHepMCEvent.so \
-	$(MCTESTERLOCATION)/lib/libMCTester.so
+include make.inc
 
-#MAIN=photos_pythia_example
-MAIN=tauola_photos_pythia_example
-
-COMMAND = $(MAIN).exe
-COMMAND_OBJECTS = $(MAIN).o
-COMMAND_C = $(MAIN).c	
-
-HERE=`pwd`
-GBLIB_LIB  = $(HERE)/../photos-fortran/glib.a
-PHOTOS_LIB  = $(HERE)/../photos-fortran/photos.o
-PHOTOS_CXX_INT_LIB= $(HERE)/../lib/libPhotosCxxInterface.so
-
-#TAUOLA LIBRARIES
-TAUOLA_LIB  = $(TAUOLALOCATION)/tauola-fortran/tauola/glib.a
-TAUOLA_CXX_INT_LIB=$(TAUOLALOCATION)/lib/libTauolaCxxInterface.a
+PHOTOS        :=  $(shell cd .. && pwd)
+ROOTLIB       :=  $(shell $(ROOTSYS)/bin/root-config --glibs)
+ROOTINC       :=  $(shell $(ROOTSYS)/bin/root-config --cflags)
+TAUOLA_LIBS    = -L$(TAUOLALOCATION)/lib -lTauolaCxxInterface -lTauolaFortran
+PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib/archive -lpythia8 -llhapdfdummy -lhepmcinterface
+MC_TESTER_LIBS = -L$(MCTESTERLOCATION)/lib -lHEPEvent -lHepMCEvent -lMCTester
+HEPMC_LIBS     = -L$(HEPMCLOCATION)/lib -lHepMC
+PHOTOS_LIBS    = -L../lib -lPhotosCxxInterface
 
 ############
-all:	$(COMMAND)
-
-.f.o:
-	$(F77) $(FFLAGS) -c $<
-
-.cxx.o:
-	$(CC) $(CFLAGS) -c $< 
-
-$(COMMAND_OBJECTS): $(COMMAND_C) pythia_loc hepmc_loc
-	$(CC) -g $(CFLAGS) -I$(PYTHIALOCATION)/include $(ROOTINC) \
-	-I$(MCTESTERLOCATION)/include -I$(HEPMCLOCATION)/include \
-	-I$(TAUOLALOCATION)/include -I../include/ -c $(COMMAND_C)
-
-# Link procedure
-$(COMMAND): tauola_loc pythia_loc hepmc_loc $(COMMAND_OBJECTS)
-	$(LD) -o $@ $(COMMAND_OBJECTS) $(PHOTOS_LIB) $(PHOTOS_CXX_INT_LIB) \
-	$(ROOTINC) -L$(HEPMCLOCATION)/lib -lHepMC -lHepMCfio \
-	-L$(PYTHIALOCATION)/lib/archive -lpythia8 -llhapdfdummy \
-	-lhepmcinterface $(ROOTLIB) $(MC_TESTER_LIBS) \
-	$(TAUOLA_CXX_INT_LIB) $(TAUOLA_LIB) \
-	$(TAUOLA_CXX_INT_LIB) $(PHOTOS_CXX_INT_LIB)
-	@echo "#########################################################"	
-	@echo "Please run the example by typing ./"$(COMMAND)
+all:
+	@make tauola_photos_pythia_example.exe
+	@echo "#########################################################"
+	@echo " Please run the example by typing:"
+	@echo " ./tauola_photos_pythia_example.exe"
 	@echo "#########################################################"
 
-pythia_loc: #check pythia root is set
-ifeq ($(PYTHIALOCATION), )
-	@echo "##############################################"
-	@echo "Please set PYTHIALOCATION to the "
-	@echo "directory where your Pythia 8 include/ and "
-	@echo "lib/ directories can be found "
-	@echo "##############################################"
+
+# Universal example (all paths presents)
+%.o: %.c
+	$(CC) $(CFLAGS) -I../include -I$(PYTHIALOCATION)/include \
+	-I$(MCTESTERLOCATION)/include -I$(TAUOLALOCATION)/include \
+	-I$(HEPMCLOCATION)/include $(ROOTINC) -c $<
+
+# Universal example (all paths presents) - linking procedure
+%.exe: %.o
+	$(CC) -o $@ $(LDFLAGS) $< $(ROOTLIB) $(TAUOLA_LIBS) \
+	$(PYTHIA_LIBS) $(MC_TESTER_LIBS) $(HEPMC_LIBS) $(PHOTOS_LIBS) \
+	-Wl,-rpath,$(PREFIX)/lib \
+	-Wl,-rpath,$(PHOTOS)/lib \
+	-Wl,-rpath,$(ROOTSYS)/lib \
+	-Wl,-rpath,$(HEPMCLOCATION)/lib \
+	-Wl,-rpath,$(TAUOLALOCATION)/lib \
+	-Wl,-rpath,$(PYTHIALOCATION)/lib \
+	-Wl,-rpath,$(MCTESTERLOCATION)/lib
+
+clean:
+	rm -f *.o *.a *~ *.exe;
+
+Clean: clean
+	rm -rf config.log config.status autom4te.cache configure.paths.sh
+	rm -f make.inc
+
+make.inc:
+	@echo ""
+	@echo "Please execute ./configure first!"
+	@echo ""
 	@false
-else
-	@echo "Using PYTHIALOCATION="$(PYTHIALOCATION)
-endif	
 
-hepmc_loc: #check HepMC root is set
-ifeq ($(HEPMCLOCATION), )
-	@echo "##############################################"
-	@echo "Please set HEPMCLOCATION to the "
-	@echo "directory where your HepMC include/ and "
-	@echo "lib/ directories can be found "
-	@echo "##############################################"
+../platform/make.inc:
+	@echo ""
+	@echo "Please compile the interface first!"
+	@echo ""
 	@false
-else
-	@echo "Using HEPMCLOCATION="$(HEPMCLOCATION)
-endif		
-
-tauola_loc: #check tauola root is set
-ifeq ($(TAUOLALOCATION), )
-	@echo "##############################################"
-	@echo "Please set TAUOLALOCATION to the "
-	@echo "directory where your TAUOLA include/ and "
-	@echo "lib/ directories can be found "
-	@echo "##############################################"
-	@false
-else
-	@echo "Using TAUOLALOCATION ="$(TAUOLALOCATION)
-endif
-
-clean:                                                     
-	rm -f *.o; rm -f *.a; rm -f *~; rm -f *.exe; rm -f \#*
-
