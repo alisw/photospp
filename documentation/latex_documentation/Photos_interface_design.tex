@@ -21,7 +21,7 @@
 \newpage
 
 \section{Motivation for the Migration to C++}
-Since long, PHOTOS Monte Carlo \cite{Barberio:1990ms,Barberio:1994qi} is used for generation for bremmstrahlung in decay of particle and resonances. Over the years program accuired
+Since long, PHOTOS Monte Carlo \cite{Barberio:1990ms,Barberio:1993qi} is used for generation for bremmstrahlung in decay of particle and resonances. Over the years program accuired
 popularity and discussion of its systematic error, was pushed to high 
 precision regime \cite{Golonka:2006tw}. Multiphoton radiation was introduced \cite{Golonka:2005pn} phase space treatment was shown to be exact \cite{Nanava:2006vv} and for several processes \cite{Golonka:2006tw,Nanava:2006vv,Nanava:2009vg}
 exact matrix element was introduced as optional weight and benchmarks with 
@@ -270,9 +270,34 @@ What is foreseen to be extended in terms of the interface to event record. How c
 \section{Testing}
 
 One of the most important part of PHOTOS project are its tests.
-Physics oriented ones are reported in publications \cite{}. However this
-does not guarranty that the program will perform well. Tests and debuging
-is necessary. That is also the case of the user. If content of the event record is non-standard or rounding error are large PHOTOS performace will change.
+Physics oriented ones are reported in publications \cite{}. Severqal domain
+of physics tests should be mentioned. For user interested in precision 
+simulation of Z or W decay the most interesting will be papers \cite{Nanava:2009vg,Golonka:2006tw}. There, careful comparison with first order matrix element 
+and confirmation that algoritm scheme  is compatible with exclusive 
+exponentiation was the prime target. For users interested in simulation of
+bacground for Higgs searches at LHC and for any other applications where 
+two hard photon configurations are important studies based on comparison with 
+double photon matrix element are of 
+interest \cite{Barberio:1993qi,RichterWas:1994ep,RichterWas:1993ta}.
+Finally user interested in low energy processes where underlying physics model 
+for photon emission can not be controlled in full by theory; scalar QED may 
+be considered only as the starting point will profit 
+from \cite{Nanava:2009vg,Nanava:2006vv}. In all cases it is important that
+ program generation cover the full phase space and that there are no 
+approximation in its treatment. In contrary, as in FORTRAN version code 
+features approximation in the kernel. In some cases process dependent 
+complete first order 
+kernel is available but is not installed in public version  
+because resulting approximation is 
+numerically unimportant and requires control of the spin state for decaying 
+particle. That requires better control of event record than what was available 
+in FORTRAN. At present such option is prepared see section \ref{} but not exploited. 
+
+The main purpose of the present paper is program documentation. That is why
+we concentrate on program tests required to guarrant its proper installation.
+Discussed above physics tests
+do not guarranty that the program will perform well on a particular platform and installation. Tests and debuging
+is necessary.  If content of the event record is non-standard or rounding error are large PHOTOS performace will deteriorate.
 
 The first check of PHOTOS installation is if some energy momentum non 
 conservation would appear. Such offending events should be looked at.
@@ -362,7 +387,7 @@ of hard photons are limited to depletion/increase of content of bins for acoplan
 \end{figure}
 Finally for the sake of debugging we have introduced 'put' methods for the 
 control printouts of internal printouts of FORTRAN part of the code.
-Then routine PHLUPA \cite{Barberio:1994qi} is activated and one can verify  
+Then routine PHLUPA \cite{Barberio:1993qi} is activated and one can verify  
 for the event offending for example  energy momentum conservation how it is 
 constructed. That is quite convenient for tracing inconsistencies in information passed to PHOTOS for example.
 
