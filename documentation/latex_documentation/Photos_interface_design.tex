@@ -20,43 +20,54 @@
 
 \newpage
 
-\section{Motivation for the Migration to C++}
+\section{Introduction}
 Since long, PHOTOS Monte Carlo \cite{Barberio:1990ms,Barberio:1993qi} is used for generation for bremmstrahlung in decay of particle and resonances. Over the years program accuired
 popularity and discussion of its systematic error, was pushed to high 
-precision regime \cite{Golonka:2006tw}. Multiphoton radiation was introduced \cite{Golonka:2005pn} phase space treatment was shown to be exact \cite{Nanava:2006vv} and for several processes \cite{Golonka:2006tw,Nanava:2006vv,Nanava:2009vg}
-exact matrix element was introduced as optional weight and benchmarks with 
-other simulations were completed. 
+precision \cite{Golonka:2006tw}. Multiphoton radiation was introduced \cite{Golonka:2005pn} phase space treatment was shown to be exact \cite{Nanava:2006vv} and for several processes \cite{Golonka:2006tw,Nanava:2006vv,Nanava:2009vg}
+exact matrix element was introduced with the help of optional weights.
+Benchmarks distributions including comparisons with  
+other simulation programs were collected on program web page \cite{Photos_tests}. 
 
  Such high precision applications require good control of the event record content on which PHOTOS operates. On one side it 
 requests skills and experience of the user on the other it provides 
-flexibility necessary for study of effects like systematic errors for measurements of anomalous couplings or W mass for example.
+flexibility necessary for study of effects like systematic errors for 
+measurements of anomalous couplings or W mass for example. Methods of 
+correlated samples  can be applied\footnote{To exploit such methods in 
+high precison regime, good control of matrix element properties is necessary
+\cite{Kleiis}} 
 
-Until recently HEPEVT \cite{Dobbs:2001ck} was used as structure for comunication between physics Monte Carlo programs and Detector/reconstruction packages. Experimental physicists were using that structure often as well.
+Until recently HEPEVT was used as structure for 
+comunication between physics Monte Carlo programs and Detector/reconstruction 
+packages. Experimental physicists were using that structure  as well.
 
-Recently, because of gain in flexibility FORTAN is often replaced by C++ and 
-instead of HEPEVT   C++ event structure called HepMC is used. Nothing prevents 
-moving PHOTOS to environment based HepMC and revrite whole (or at first part
-requring less of numerical tests) 
-of PHOTOSfootnote{Up to date version of the code described in this paper is
-available from unofficial web page of our project~\cite{photosC++}. 
+Recently, because of gain in flexibility FORTRAN is often replaced by C++ and 
+instead of HEPEVT   C++ event structure called HepMC  \cite{Dobbs:2001ck}
+is used. Nothing prevents 
+moving PHOTOS to environment based on HepMC and revrite whole (or at first 
+event record dependent parts) 
+of PHOTOS\footnote{Up to date version of the code described in this paper is
+available from web page of our project~\cite{photosC++}. 
 As we are still in the phase of refining
 we change the program (and update this note) on regular basis. 
-This can be a problem if bug fixing is necessary and user has invested time in his project. We want to overcome this difficulty distributing
-together with the code information of the code version registered on our 
-SVN server. In case of difficulty please include that information in your mail. }
+This can be a problem if bug fixing is necessary and user has invested time 
+in temprary version. To overcome this difficulty, 
+together with the code, information of the code version registered in 
+SVN server is available.  }
  to C++. 
 
-Such solution is convenient for the users, because they need to act on more homogenous software. From physics point of view some gain can be achieved too.
-Channel dependent matrix elements of PHOTOS extensions, at present spread over
-several programs can be  
-installed thanks to easier access to information available in event records.
+At present, such migration is convenient for the users, because they can work
+with  homogenous C++ software. From physics point of view transformation 
+from FORTRAN to C++  bring some potential benefits as well.
+Channel dependent matrix elements of PHOTOS, at present available only 
+in special, process dependent versions
+will be gradually   
+installed if future versions. 
+For that purpose, better access to information available in event records
+will be provided already now.
 
-In principle 
-Some introduction and discussion of the need to move to C++.
-Also so description of the existing Fortran interface would be useful
-along with some references to papers and documentation of it.
+Our paper is organized as follows ...
 
-Here is an example reference~\cite{tauolaC++}.
+
 
 \section{Requirements of the PHOTOS Interface}
 For its action PHOTOS need to skan event record and localize branchings where
