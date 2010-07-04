@@ -17,7 +17,7 @@ CPP     = @DIRECT_CPP@
 CPPFLAGS= -C -P -traditional-cpp
 
 CC      = @CXX@
-CFLAGS  = @CXXFLAGS@ -fPIC
+CFLAGS  = @CXXFLAGS@ -fPIC -Wall -Wno-write-strings
 
 GCC     = @CC@
 GCCFLAGS= -O3 -fomit-frame-pointer -DHAVE_UNDERSCORE

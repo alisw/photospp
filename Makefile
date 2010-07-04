@@ -30,7 +30,8 @@ clean:
 
 Clean: clean
 	rm -f lib/* include/*
-	rm -rf config.log config.status autom4te.cache configure.paths.sh
+	rm -rf config.log config.status autom4te.cache
+	rm -rf configure.paths.sh configure.paths.csh
 	rm -f platform/make.inc
 	rm -f examples/make.inc
 
