@@ -73,6 +73,7 @@ int main(int argc,char **argv){
     ToHepMC.fill_next_event(event, HepMCEvt);
 
     //call photos
+    Photos::setDebugPrintRange(2,4);
     Photos::process(HepMCEvt);
 
     //call mc-tester

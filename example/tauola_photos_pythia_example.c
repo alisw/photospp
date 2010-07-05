@@ -98,7 +98,8 @@ int main(int argc,char **argv){
 
     TauolaHepMCEvent * t_event = new TauolaHepMCEvent(HepMCEvt);
     t_event->decayTaus();
-    
+
+    Photos::setDebugPrintRange(2,4);
     Photos::process(HepMCEvt);
 
     //    HepMCEvt->print();
