@@ -34,7 +34,7 @@ flexibility necessary for study of effects like systematic errors for
 measurements of anomalous couplings or W mass for example. Methods of 
 correlated samples  can be applied\footnote{To exploit such methods in 
 high precison regime, good control of matrix element properties is necessary
-\cite{Kleiis}} 
+\cite{Kleiss:1990jv}} 
 
 Until recently {\tt HEPEVT} was used as structure for 
 comunication between physics Monte Carlo programs and Detector/reconstruction 
@@ -56,17 +56,22 @@ together with the code, information of the code version registered in
 SVN server is available.  }
  to C++. In fact implementaton of the algorihm is clearer and easier to
  maintain. Because of its design {\tt PHOTOS} algorithm benefit from object 
-oriented features of C++.
+oriented features of C++. It is our third program, after MC-TESTER \cite{Davidson:2008ma}
+and TAUOLA interface \cite{Davidson:2010rw} which is ported to {\tt HepMC} and C++.
+This completes main step of migration of these 3 programs to new style.
 
 Such migration is convenient for the users too,  they can now work
 with  homogenous C++ software. From physics point of view transformation 
-from FORTRAN to C++  bring some potential benefits as well.
+of PHOTOS 
+from FORTRAN to C++  bring some benefits as well.
 Channel dependent matrix elements of PHOTOS, in FORTRAN available only 
-in special, process dependent versions
-can be gradually   
-installed if future versions. 
+in special, process dependent versions and working for some special
+kinematical configurations
+can be now installed for general use.
 For that purpose, better access to information available in event records
-will be provided.
+will be provided already now.
+
+
 
 Our paper is organized as follows ...
 
@@ -86,7 +91,7 @@ That is why, gain from re-writing this part of the program to C++ is rather
 limited and will be postponed at this step of the project development.
 On the other hand, there are no much obstacles for such transformation to 
 perform. In fact such transformation was performed already
-previously \cite{GolonkaMSc}, but resulting program was developped too early 
+previously \cite{photosplus}, but resulting program was developped too early 
 and did not attracted users.
 
 Typical result of high energy process simmulation are events of complex structure:
@@ -119,6 +124,7 @@ in our event record interface:
 \item method to search for elementary decays over all tree of the event
 \item method to form lists of all subsequent decay products originating from each elementary decay products.
 \item method to localize first mother of decaying particle 
+\item method to localize second mother of $t \bar t$ pair.
 \item method to read  particles stored in the event tree.
 \item method to add or modify particles of the event tree.
 \end{enumerate}
@@ -192,6 +198,16 @@ Some diagrams/description here.
 \section{Usage and configuration}
 \subsection{Installation}
 \subsection{Running the Examples}
+As in case of TAUOLA several examples are provided
+
+$\bullet$ Whole event tree is searched  for bremsstrahlung to add
+
+$\bullet$ Branch starting from ipoin is searched for bremsstrahlung to add only
+
+$\bullet$ All Branches starting from particle of PDGId is searched for bremsstrahlung to add only
+
+$\bullet$ only single decay vetrex is treated. 
+
 \subsection{Library linking}
 \subsection{Intallation into user project}
 In practice, users will often get interest in installation of TAUOLA
@@ -203,9 +219,29 @@ steps should be performed, and traps watched.
 
 \subsection{Suppress Bremsstrahlung}
 
-(Here we should write about the need for such option) \\
+In general, PHOTOS will attempt generation of bremsstrahlung in every 
+branching point. This is of course not always appropriate. Already inside FORTRAN bremsstrahlung will be prevented for vertices featuring gluons or quarks.
+The only exception is top quark. This is not enough. By default we eliminate 
+generation for vertices like $l^\pm \to l^\pm \gamma$ thanks to request of 
+energy momentum conservation. We can not request that all incoming and/or 
+outgoing 
+lines are  on mass shell, because it is not the case in cascades featuring 
+intermediate states of sizable width. If some parton shower feature
+vertex  $l^\pm \to l^\pm \gamma$ of virtuality of incoming $l^\pm$ 
+matching the infariant mass of the outcoming pair then PHOTOS will act
+obviously introducing error. This can be prevented if generation from vertices
+with one of the decay products flavour matching flavour of incoming 
+one is forbidden. Not always such exclusion should take place. For example
+in cascade decays vertex $\rho \to \rho \pi$ may require algorithm to be 
+active. Methods to enable special cases of previously prevented classes, or to
+prevent generation in specila branches must be introduced. This may be necessary for combination of consecutive branchings. For example if bremsstrahlung
+in leptonic $\tau$ decay is generated by programs prior to PHOTOS, and decay is coded in HepMC as cascade $\tau^\pm \to W^\pm \nu$, $W^\pm \nu \to l^\pm \nu$
+PHOTOS must be prevented to act if such vertices are stored consecutively.
+One can think also of special cases of the following type:
+if vertex $q \bar q \to l^\pm l^\mp$ is found then it should not be ignored
+but passed for generation as $q \bar q \to Z \to l^\pm l^\mp$ where intermediate Z is created internally for PHOTOS. \\
 \\
-Usage:
+For user convenience the following configuration methods are provided:
 \begin{itemize}
  \item {\tt Photos::suppressBremForDecay(daughterCount, motherID, d1ID, d2ID, ...)} \hfill \\
 The basic use of channel suppression, by providing number of daughters, PDGID of the mother and the list of PDGIDs of daughters. There's no upper limit of the number of daughters. If a decay with the matching pattern is found, PHOTOS will skip the corresponding decay.
@@ -330,7 +366,7 @@ What is foreseen to be extended in terms of the interface to event record. How c
 \section{Testing}
 
 One of the most important part of PHOTOS project are its tests.
-Physics oriented ones are reported in publications \cite{}. Severqal domain
+Several domain
 of physics tests should be mentioned. For user interested in precision 
 simulation of Z or W decay the most interesting will be papers \cite{Nanava:2009vg,Golonka:2006tw}. There, careful comparison with first order matrix element 
 and confirmation that algoritm scheme  is compatible with exclusive 
@@ -451,10 +487,28 @@ Then routine PHLUPA \cite{Barberio:1993qi} is activated and one can verify
 for the event offending for example  energy momentum conservation how it is 
 constructed. That is quite convenient for tracing inconsistencies in information passed to PHOTOS for example.
 
-\subsection{Algorithm Performance}
-Speed testing? Is this even necessary? But maybe someone should check for
-memory leaks since I haven't done this.
+\section{Summary and outlook}
+We have presented new version  of PHOTOS Monte Carlo. The part operating on 
+event record is rewritten now to C++ and uses for input the HepMC event rcord 
+format. Physics perormace of the algorithm is the same  as this of 
+FORTRAN/HEPEVT version. Steps toward future improvements are prepared. 
+Whenever algorithm for modification of elementary decay is involved its 
+kinematical configuration is boosted to decay particle rest frame, which 
+z axis is oriented along momentum of the first decaying particle (object) 
+rest frame. Thanks to this extension  installation of process dependent 
+kernels featuring complete first order matrix element will be possible.
+If of numerical interest appropriate corrections explained in 
+refs.~\cite{Golonka:2006tw,Nanava:2006vv,Nanava:2009vg}  will have necesary input prepared.
+At present parts of the algorithm are left in FORTRAN. This part of the code 
+will be rather easy to change to C++. No obstacles are expected. However as this part of the code does not require any special data structures expected gains
+except code homogenity are rather minimal.  
 
+\vskip 2 mm
+
+\centerline{\large\bf Acknowledgements}
+
+Useful discussions with Piotr Golonka and Elzbieta Richter-Was are 
+acknowledged.
 \newpage
 
 \bibliography{Photos_interface_design}{}
