@@ -15,38 +15,7 @@
 #include <vector>
 #include "HepMC/GenEvent.h"
 #include "HepMC/GenParticle.h"
-
-extern "C" {
-  
-  extern struct {
-    double alpha;
-    double xphcut;
-  } phocop_;
-
-  extern struct {
-    double fsec;
-    double fint;
-    double expeps;
-    int interf;
-    int isec;
-    int itre;
-    int iexp;
-    int iftop;
-  } phokey_;
-
-  extern struct {
-    int iseed[2];
-    int i97;
-    int j97;
-    double uran[97];
-    double cran;
-    double cdran;
-    double cmran;
-  } phseed_;
-
-  extern "C" void phcork_(int * modcor);
-  
-}
+#include "f_Init.h"
 
 class Photos{
 

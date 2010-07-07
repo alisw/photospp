@@ -6,7 +6,6 @@
 #include "PhotosHepMCEvent.h"
 #include "PH_HEPEVT_Interface.h"
 
-#include "Photos_make.h"
 #include "Log.h"
 using std::vector;
 
