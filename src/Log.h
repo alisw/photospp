@@ -15,6 +15,8 @@
 #include <sstream>
 #include <stdlib.h>
 #include <list>
+// TEMPORARY
+#include "Photos_make.h"
 
 using std::stringstream;
 using std::string;
@@ -52,6 +54,9 @@ public:
 	static void LogError  (bool flag=true)  { eAction=flag;         }
 
 	static void LogAll    (bool flag=true)  { iAction=wAction=eAction=flag; dRangeS=0; dRangeE=65535; }
+
+	// TEMPORARY
+	static void LogPhlupa(int from, int to)  { phlupy_.ipoinm=from; phlupy_.ipoin=to; }
 
         /** Sets the range of debug codes that will be printed.
             By default, the debug messages are turned off. */

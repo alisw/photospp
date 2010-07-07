@@ -1716,6 +1716,7 @@ env_pythia8data=$PYTHIA8DATA
 tauolalocation=$TAUOLALOCATION
 mctesterlocation=$MCTESTERLOCATION
 pythialocation=$PYTHIALOCATION
+pythia8data=$PYTHIA8DATA
 
 ##############################################################################
 # Load paths and check if we want to use them
@@ -1731,6 +1732,7 @@ if test "$AFS_PATHS" == "yes"; then
 	with_Tauola=$TAUOLALOCATION
 	with_MC_Tester=$MCTESTERLOCATION
 	with_Pythia8=$PYTHIALOCATION
+	pythia8data=$PYTHIA8DATA
 fi
 
 if test -z $HEPMCLOCATION; then
@@ -1757,6 +1759,7 @@ fi
 
 if test -z $pythialocation; then
 	pythialocation=$PYTHIALOCATION
+	pythia8data=$PYTHIA8DATA
 fi
 
 if test -z $pythialocation; then
@@ -5240,7 +5243,7 @@ confloc=`cd .. && pwd`
 echo "Consider using 'source $confloc/configure.paths.sh'"
 echo "(or .csh) for setting up several paths used by examples."
 
-if test $HAS_TAUOLA || $HAS_PYTHIA = 0 || test $HAS_MC_TESTER = 0; then
+if test $HAS_TAUOLA = 0 || test $HAS_PYTHIA = 0 || test $HAS_MC_TESTER = 0; then
 	echo ""
 	echo "Not all examples will be available."
 fi

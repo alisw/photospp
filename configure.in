@@ -113,6 +113,10 @@ AC_CHECK_HEADERS([HepMC/Units.h], ,
 photos=`pwd`
 pythia8data=$PYTHIA8DATA
 
+if test -z "$pythia8data"; then
+	pythia8data=$with_Pythia8/xmldoc
+fi
+
 ln -sf platform/make.inc make.inc
 
 AC_SUBST(photos)

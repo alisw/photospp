@@ -19,17 +19,6 @@ ifneq ($(TAUOLALOCATION), )
 	@make tauola_photos_pythia_example.exe
 endif
 
-else
-	@echo "MC-Tester not present."
-	@echo "Both MC-Tester and Pythia are required to compile the examples."
-	@true;
-endif
-else
-	@echo "Pythia not present."
-	@echo "Both MC-Tester and Pythia are required to compile the examples."
-	@true;
-endif
-
 	@echo "##################################################################"
 	@echo " Examples compiled successfully. Available examples:"
 	@if test -e photos_pythia_example.exe; then \
@@ -37,6 +26,19 @@ endif
 	@if test -e tauola_photos_pythia_example.exe; then \
 	echo " ./tauola_photos_pythia_example.exe"; fi
 	@echo "##################################################################"
+
+else
+	@echo "MC-Tester not present."
+	@echo "Both MC-Tester and Pythia are required to compile the examples."
+	@exit 0;
+endif
+else
+	@echo "Pythia not present."
+	@echo "Both MC-Tester and Pythia are required to compile the examples."
+	@exit 0;
+endif
+
+
 
 
 # Universal example (all paths presents)
@@ -61,7 +63,7 @@ photos_pythia_example.exe: photos_pythia_example.c
 	$(CC) $(CFLAGS) -I../include -I$(PYTHIALOCATION)/include \
 	-I$(MCTESTERLOCATION)/include -I$(HEPMCLOCATION)/include $(ROOTINC) -c $<
 	$(CC) -o $@ $(LDFLAGS) $(<:.c=.o) $(ROOTLIB) $(HEPMC_LIBS) $(PYTHIA_LIBS) \
-	$(TAUOLA_LIBS) $(PYTHIA_LIBS) $(MC_TESTER_LIBS) $(HEPMC_LIBS) $(PHOTOS_LIBS) \
+	$(PYTHIA_LIBS) $(MC_TESTER_LIBS) $(HEPMC_LIBS) $(PHOTOS_LIBS) \
 	-Wl,-rpath,$(PREFIX)/lib \
 	-Wl,-rpath,$(PHOTOS)/lib \
 	-Wl,-rpath,$(ROOTLIBPATH) \

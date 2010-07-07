@@ -19,11 +19,15 @@
 #include "Photos.h"
 #include "Log.h"
 
+//TAUOLA header files
+#include "Tauola.h"
+#include "TauolaHepMCEvent.h"
+
 using namespace std;
 using namespace Pythia8; 
 
 bool ShowersOn=true;
-int NumberOfEvents = 100000;
+int NumberOfEvents = 2000000;
 
 int main(int argc,char **argv){
   HepMC::I_Pythia8 ToHepMC;
@@ -46,50 +50,78 @@ int main(int argc,char **argv){
   if(argc>1)  //pre-set configs
   {
     pythia.readFile(argv[1]);
-    pythia.init( 11, -11, 200.);  //e+ e-
-    //    pythia.init( -2212, -2212, 14000.0); //proton proton collisions
+    //pythia.init( -2212, -2212, 14000.0); //proton proton collisions
+    pythia.init( 11, -11, 500);  //electron positron collisions
   }
   else        //default config
   {
-    pythia.readString("WeakSingleBoson:ffbar2gmZ = on");
+    pythia.readString("HiggsSM:ffbar2H = on");
+    pythia.readString("25:onMode = off");
+    pythia.readString("25:onIfAny = 15");
+    pythia.readString("25:m0 = 120");
+
+    /**    pythia.readString("WeakDoubleBoson:ffbar2WW = on");
+    pythia.readString("24:onMode = off");
+    pythia.readString("24:onIfAny = 15");**/
+
+    /** pythia.readString("WeakSingleBoson:ffbar2gmZ = on");
     pythia.readString("23:onMode = off"); 
-    pythia.readString("23:onIfAny = 11");
-    pythia.init( 11, -11, 100.);          //electron positron collisions
+    pythia.readString("23:onIfAny = 15");**/
+    pythia.particleData.readString("15:mayDecay = off"); //<- uncomment for pythia+tauola    
+    pythia.init( 11, -11, 500);  //electron positron collisions
   }
 
-  MC_Initialize();
+  if(argc > 4){
+    Tauola::setSameParticleDecayMode(atoi(argv[4]));
+    Tauola::setOppositeParticleDecayMode(atoi(argv[4]));
+  }
+  Tauola::initialise();
 
   Photos::initialize();
-  Photos::setInfraredCutOff(0.001/200);//91.187);
+  Photos::setInfraredCutOff(0.01/200);//91.187);
 
   Log::SummaryAtExit();
+  //Log::LogInfo(false) //To turn printing of last five events and pythia statistics off
 
+  //Photos::suppressBremForDecay (2,23,15,-15);
+  //Photos::suppressBremForBranch(0,15);
+
+  MC_Initialize();
   // Begin event loop. Generate event.
   for (int iEvent = 0; iEvent < NumberOfEvents; ++iEvent) {
-    if(iEvent%1000==0) cout<<iEvent<<endl;
+    if(iEvent%10000==0) 
+      Log::Info()<<"Event: "<<iEvent<<endl;
     if (!pythia.next()) continue;
 
     HepMC::GenEvent * HepMCEvt = new HepMC::GenEvent();
+    HepMCEvt->use_units(HepMC::Units::GEV,HepMC::Units::MM);
     ToHepMC.fill_next_event(event, HepMCEvt);
 
-    //call photos
-    Photos::setDebugPrintRange(2,4);
-    Photos::process(HepMCEvt);
+    TauolaHepMCEvent * t_event = new TauolaHepMCEvent(HepMCEvt);
+    t_event->decayTaus();
 
-    //call mc-tester
+    HepMCEvt->print();
+    Log::LogPhlupa(2,4);
+    Photos::process(HepMCEvt);
+    HepMCEvt->print();
+
     HepMCEvent temp_event(*HepMCEvt,false);
     MC_Analyze(&temp_event);
 
+    
     if(iEvent>=NumberOfEvents-5)
-      { 
+      {  //pythia.event.list();
+	Log::RedirectOutput(Log::Info());
 	HepMCEvt->print();
+	Log::RevertOutput();
       }
-
     //clean up
     delete HepMCEvt;
+    delete t_event; //<- uncomment for pythia+tauola
   }
-
+  Log::RedirectOutput(Log::Info());
   pythia.statistics();
+  Log::RevertOutput();
   MC_Finalize();
 
 

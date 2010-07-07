@@ -15,7 +15,6 @@
 #include <vector>
 #include "HepMC/GenEvent.h"
 #include "HepMC/GenParticle.h"
-#include "Photos_make.h"
 
 extern "C" {
   
@@ -59,8 +58,6 @@ class Photos{
    static void process(HepMC::GenEvent * event);
    static void suppressBremForDecay (int count, int motherID, ... );
    static void suppressBremForBranch(int count, int motherID, ... );
-
-   static void setDebugPrintRange(int from, int to)  { phlupy_.ipoinm=from; phlupy_.ipoin=to; }
 
    //Wrappers for the PHOTOS configuration variables
    static void setInfraredCutOff(double cut_off){
