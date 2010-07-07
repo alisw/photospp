@@ -1,20 +1,12 @@
-# platform - dependant files
-include ../platform/make.inc
-###########################################################
-LOCAL_LIB   =  glib.a 
-LIB_OBJECTS =  photos.o 
-##############   What has to be built
-all:	$(LOCAL_LIB) 
-AR = ar
-RANLIB = ranlib
-CPPP = $(CPP)  $(CPPFLAGS)
-#############
-.f.o:
-	$(F77) $(FFLAGS) -c $<
+include ../make.inc
 
-$(LOCAL_LIB): $(LIB_OBJECTS)
-	$(AR) rv  $(LOCAL_LIB) $(LIB_OBJECTS)
-	$(RANLIB) $(LOCAL_LIB)
+SOURCES_F=photos.f
+OBJECTS_F=$(SOURCES_F:.f=.o)
+
+%.o: %.f
+	$(F77) $(FFLAGS) $(DEBUG) -I. -c $< -o $@
+
+all: $(OBJECTS_F)
+
 clean:
-	@rm -f *.o; rm -f *.a; rm -f *~
-
+	rm -f *.o *~;
