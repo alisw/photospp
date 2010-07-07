@@ -1,20 +1,29 @@
 /** 
 
- @mainpage C++ Interface to PHOTOS (...)
+ @mainpage C++ Interface to PHOTOS 
  @brief Description of PHOTOS Interface in C++
 
  @authors Nadia Davidson, Tomasz Przedzinski, Zbigniew Was
 
- @section intro Introduction/Status
+ @section download  release
 
- Documentation, <a href="../Photos_interface_design.pdf">Photos_interface_design.pdf</a> is now available (updated daily).
+  will be given here
 
- The tar ball <a href="../PHOTOS.daily_temp.tar.gz">here</a> contains the latest source code for the
- interface from our subversion repository (updated daily). Note that 
- revision numbers, dates and other info for this development version can be found 
- <a href="../svn_info_photos.txt">here</a>. The tar file contain the c++ interface along with 
+ @section developement Developement version
+
+ The source code and documentation are updated daily from the repository as well. The following files are provided for download of developement version:
+ - <a href="../Photos_interface_design.pdf">Photos_interface_design.pdf</a>  full software documentation.
+ - <a href="../PHOTOS.daily_temp.tar.gz">PHOTOS.daily_temp.tar.gz</a> tarball and its <a href="../svn_info_photos.txt">revision info</a> SVN tag, tarball creation date/time, etc.   The tar file contain the c++ interface along with 
  the source code for PHOTOS (see <a href="http://wasm.web.cern.ch/wasm/goodies.html">here
  </a>, version from Oct 11 2005).
+
+
+ @section intro Introduction/Status
+ At present (Jul 7) tar ball  is still not  complete, but these days
+we work on it most of our time. 
+
+Further content of doxygen web page is not updated since Feb 2 2010.
+ 
 
  @section setup Setup
 
