@@ -218,6 +218,7 @@ steps should be performed, and traps watched.
 
 
 \subsection{Suppress Bremsstrahlung}
+\label{section:suppress}
 
 In general, PHOTOS will attempt generation of bremsstrahlung in every 
 branching point. This is of course not always appropriate. Already inside FORTRAN bremsstrahlung will be prevented for vertices featuring gluons or quarks.
@@ -365,7 +366,13 @@ status of particles with respedct to QED Bremsstrahlung. In some cases like
 $\tau \to l \nu_l \nu_\tau$ bremsstrahlung was already generated earlier
 and if PHOTOS would act on it then double counting would arise.
 At present, instead of such arrangement set of initialization methods is 
-prepared and described in section \ref{}. Internally in FORTRAN part of PHOTOS
+prepared and described in section \ref{section:suppress}. There is a definite room for 
+improvement. For example if vertex $q \bar q \to l^\pm l^\mp g$ is encountered,
+interface can `on flight add inermediate $Z$ to the record and enable PHOTOS
+on such temporarily constructed decay branching $Z \to l^\pm l^\mp $.
+
+
+ Internally in FORTRAN part of PHOTOS
 data structure of HEPEVT type PH\_HEPEVT and PHOEVT are used, but  to store 
 single elementary decay only. At this step in program evolution it is may be 
 not the most elegant solution, but leaves lot of FORTRAN time benchmarks 
