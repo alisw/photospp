@@ -1,4 +1,6 @@
+#include <math.h>
 #include "PhotosParticle.h"
+#include "Log.h"
 
 bool PhotosParticle::hasDaughters(){
   if(getDaughters().size()==0)

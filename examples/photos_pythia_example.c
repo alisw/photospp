@@ -17,13 +17,14 @@
 
 //PHOTOS header files
 #include "Photos.h"
+#include "PhotosHepMCEvent.h"
 #include "Log.h"
 
 using namespace std;
 using namespace Pythia8; 
 
 bool ShowersOn=true;
-int NumberOfEvents = 100000;
+int NumberOfEvents = 10000;
 
 int main(int argc,char **argv){
   HepMC::I_Pythia8 ToHepMC;
@@ -74,10 +75,11 @@ int main(int argc,char **argv){
     ToHepMC.fill_next_event(event, HepMCEvt);
 
     //call photos
-    HepMCEvt->print();
-    Log::LogPhlupa(2,4);
-    Photos::process(HepMCEvt);
-    HepMCEvt->print();
+    //HepMCEvt->print();
+    //Log::LogPhlupa(2,4);
+	PhotosHepMCEvent evt(HepMCEvt);
+	evt.process();
+    //HepMCEvt->print();
 
     //call mc-tester
     HepMCEvent temp_event(*HepMCEvt,false);

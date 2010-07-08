@@ -19,10 +19,7 @@
  * @date 16 June 2008
  */
 
-#include <iostream>
-#include <math.h>
 #include <vector>
-
 #include "Photos.h"
 
 using namespace std;

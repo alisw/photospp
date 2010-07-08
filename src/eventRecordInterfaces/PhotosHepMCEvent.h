@@ -15,46 +15,26 @@
  * @date 17 June 2008
  */
 
-#include <iostream>
 #include "HepMC/GenEvent.h"
-#include "HepMC/GenVertex.h"
-#include "HepMC/GenParticle.h"
 #include "PhotosEvent.h"
 #include "PhotosParticle.h"
-#include "PhotosHepMCParticle.h"
 
-class PhotosHepMCEvent : public PhotosEvent{
+class PhotosHepMCEvent : public PhotosEvent
+{
+public:
+	/** Constructor which keeps a pointer to the HepMC::GenEvent*/
+	PhotosHepMCEvent(HepMC::GenEvent * event);
 
- public:
+	/** Returns the HepMC::GenEvent */
+	HepMC::GenEvent * getEvent();
 
-  /** Constructor which keeps a pointer to the HepMC::GenEvent*/
-  PhotosHepMCEvent(HepMC::GenEvent * event);
+	std::vector<PhotosParticle*> getBranchPoints();
 
-  /** Destructor */
-  ~PhotosHepMCEvent();
+	void print();
 
-  /** Returns the HepMC::GenEvent */
-  HepMC::GenEvent * getEvent();
-
-  std::vector<PhotosParticle*> getBranchPoints();
-
- private:
-  /** The event */
-  HepMC::GenEvent * m_event;
-
-  /** filter for branching points **/
-  bool passBranchPointFilter(HepMC::GenParticle * particle);
-
-  /** Check if the branching point should be skipped by PHOTOS. */
-  bool passSuppressionFilter(PhotosHepMCParticle *particle);
-  /** Check if the particles' mother is on the Photos::supParticles list.
-      If it is, it will also be skipped. */
-  bool passSuppressConsecutive(PhotosHepMCParticle *particle);
-
-  /** branch points which should be given to PHOTOS */
-  std::vector<PhotosParticle*> m_branch_points;
-
+private:
+	/** The event */
+	HepMC::GenEvent * m_event;
 };
 
 #endif  
-

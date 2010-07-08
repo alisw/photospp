@@ -17,6 +17,7 @@
 
 //PHOTOS header files
 #include "Photos.h"
+#include "PhotosHepMCEvent.h"
 #include "Log.h"
 
 //TAUOLA header files
@@ -27,7 +28,7 @@ using namespace std;
 using namespace Pythia8; 
 
 bool ShowersOn=true;
-int NumberOfEvents = 2000000;
+int NumberOfEvents = 10000;
 
 int main(int argc,char **argv){
   HepMC::I_Pythia8 ToHepMC;
@@ -89,7 +90,7 @@ int main(int argc,char **argv){
   MC_Initialize();
   // Begin event loop. Generate event.
   for (int iEvent = 0; iEvent < NumberOfEvents; ++iEvent) {
-    if(iEvent%10000==0) 
+    if(iEvent%1000==0) 
       Log::Info()<<"Event: "<<iEvent<<endl;
     if (!pythia.next()) continue;
 
@@ -100,10 +101,11 @@ int main(int argc,char **argv){
     TauolaHepMCEvent * t_event = new TauolaHepMCEvent(HepMCEvt);
     t_event->decayTaus();
 
-    HepMCEvt->print();
-    Log::LogPhlupa(2,4);
-    Photos::process(HepMCEvt);
-    HepMCEvt->print();
+    //HepMCEvt->print();
+    //Log::LogPhlupa(2,4);
+	PhotosHepMCEvent evt(HepMCEvt);
+	evt.process();
+    //HepMCEvt->print();
 
     HepMCEvent temp_event(*HepMCEvt,false);
     MC_Analyze(&temp_event);

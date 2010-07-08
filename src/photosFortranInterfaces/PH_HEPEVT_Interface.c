@@ -1,8 +1,6 @@
+#include <vector>
 #include "PH_HEPEVT_Interface.h"
 #include "Log.h"
-
-#include <vector>
-#include <iostream>
 
 using namespace std;
 

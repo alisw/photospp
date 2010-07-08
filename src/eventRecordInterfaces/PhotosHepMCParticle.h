@@ -15,13 +15,9 @@
  * @date 17 June 2008
  */
 
-#include <iostream>
 #include <vector>
 
 #include "HepMC/GenParticle.h"
-#include "HepMC/SimpleVector.h"
-#include "HepMC/GenEvent.h"
-
 #include "PhotosParticle.h"
 
 using namespace std;

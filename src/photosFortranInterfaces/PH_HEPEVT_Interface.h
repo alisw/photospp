@@ -2,7 +2,6 @@
 #define _PH_HEPEVT_Interface_included_
 
 #include <vector>
-#include <iostream>
 #include "PhotosParticle.h"
 
 const static int NMXHEP = 10000;
