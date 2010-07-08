@@ -18,14 +18,13 @@ PhotosEvent::~PhotosEvent()
 void PhotosEvent::process()
 {
 	//print();
-	int index = 2;
 	m_branch_points = getBranchPoints();
 	
 	vector<PhotosParticle *> branch_points = filterBranchPoints();
 
 	for(int i=0;i<(int)branch_points.size();i++)
 	{	
-		PH_HEPEVT_Interface::set(branch_points.at(i));
+		int index = PH_HEPEVT_Interface::set(branch_points.at(i));
 		photos_make_(&index);
 		PH_HEPEVT_Interface::get();
 		branch_points.at(i)->checkMomentumConservation();

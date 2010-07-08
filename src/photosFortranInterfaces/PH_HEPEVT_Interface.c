@@ -75,51 +75,57 @@ void PH_HEPEVT_Interface::add_particle(int i,PhotosParticle * particle,
 
 }
 
-void PH_HEPEVT_Interface::set(PhotosParticle * decay_particle){
+int PH_HEPEVT_Interface::set(PhotosParticle * decay_particle)
+{
+	PH_HEPEVT_Interface::clear();
 
-  PH_HEPEVT_Interface::clear();
-  
-  //get mothers
-  std::vector<PhotosParticle *> mothers = decay_particle->getMothers();
-  int nmothers = mothers.size();
-  int index_first_mother = 1;
-  int index_last_mother = nmothers;
-  if(nmothers==0){
-    index_first_mother = 0;
-    index_last_mother = 0;
-  }
+	//get mothers
+	std::vector<PhotosParticle *> mothers = decay_particle->findProductionMothers();
+	int nmothers = mothers.size();
+	int index_first_mother = 1;
+	int index_last_mother  = nmothers;
+	if(nmothers==0)
+	{
+		index_first_mother = 0;
+		index_last_mother  = 0;
+	}
 
-  //get daughters
-  std::vector<PhotosParticle *> daughters = decay_particle->getDaughters();
-  int ndaughters = daughters.size();
-  int index_first_daughter = nmothers+2;
-  int index_last_daughter = nmothers+1+ndaughters;
-  if(ndaughters==0){
-    index_first_daughter = 0;
-    index_last_daughter = 0;
-  } 
+	//get daughters
+	std::vector<PhotosParticle *> daughters = decay_particle->getDaughters();
+	int ndaughters = daughters.size();
+	int index_first_daughter = nmothers+2;
+	int index_last_daughter  = nmothers+1+ndaughters;
+	if(ndaughters==0)
+	{
+		index_first_daughter = 0;
+		index_last_daughter  = 0;
+	}
 
-  int index_particle = nmothers+1;
+	int index_particle = nmothers+1;
+	// here we may want to create decaying particle on flight. Then we will check if *decay_particle
+	// first daughter has second mother. May be this can be done in more inteligent way. 
+	// Anyway if such thing is localized and we like it like for q bar_q to t bar_t we will 
+	// return method with 1 
 
-  //add to ph_hepevt
-  for(int i=0; i < nmothers; i++) 
-    add_particle(i+1,mothers.at(i),
-		 0,0, //mothers
-		 index_particle,index_particle); //daughters
-  
+	//add to ph_hepevt
+	for(int i=0; i < nmothers; i++)
+	add_particle(i+1,mothers.at(i),
+	             0,0, //mothers
+	             index_particle,index_particle); //daughters
 
-  //add decaying particle
-  add_particle(index_particle,decay_particle,
-	       index_first_mother,index_last_mother, //mothers
-	       index_first_daughter,index_last_daughter); //daughters
+	//add decaying particle
+	add_particle(index_particle,decay_particle,
+	             index_first_mother,index_last_mother, //mothers
+	             index_first_daughter,index_last_daughter); //daughters
 
-  //add daughters
-  for(int i=0; i < ndaughters; i++)
-    add_particle(i+index_first_daughter,daughters.at(i),
-		 index_particle,index_particle,
-		 0,0);
+	//add daughters
+	for(int i=0; i < ndaughters; i++)
+	add_particle(i+index_first_daughter,daughters.at(i),
+	             index_particle,index_particle,
+	             0,0);
 
-  //  phodmp_();
+	//  phodmp_();
+	return nmothers+1;
 }
 
 void PH_HEPEVT_Interface::get(){

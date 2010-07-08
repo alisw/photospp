@@ -19,8 +19,9 @@
 
 
  @section intro Introduction/Status
- At present (Jul 7) tar ball  is still not  complete, but these days
-we work on it most of our time. 
+ At present (Jul 8) tar ball  is still not  complete but
+ has functionality  of FORTRAN predecessor for all cases except t bar t  production.
+ Program is under tests and extension (main work direction for July).
 
 Further content of doxygen web page is not updated since Feb 2 2010.
  

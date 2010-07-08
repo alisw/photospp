@@ -34,7 +34,7 @@ extern "C" {
 class PH_HEPEVT_Interface{
 
  public:
-  static void set(PhotosParticle * decay_particle);
+  static int  set(PhotosParticle * decay_particle);
   static void get();
   static void clear();
 
