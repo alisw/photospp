@@ -11,64 +11,63 @@
 
  @section developement Developement version
 
- The source code and documentation are updated daily from the repository as well. The following files are provided for download of developement version:
+ The source code and documentation are updated daily from the repository. The following files are provided for download of developement version:
  - <a href="../Photos_interface_design.pdf">Photos_interface_design.pdf</a>  full software documentation.
  - <a href="../PHOTOS.daily_temp.tar.gz">PHOTOS.daily_temp.tar.gz</a> tarball and its <a href="../svn_info_photos.txt">revision info</a> SVN tag, tarball creation date/time, etc.   The tar file contain the c++ interface along with 
  the source code for PHOTOS (see <a href="http://wasm.web.cern.ch/wasm/goodies.html">here
  </a>, version from Oct 11 2005).
 
-
  @section intro Introduction/Status
  At present (Jul 8) tar ball  is still not  complete but
  has functionality  of FORTRAN predecessor for all cases except t bar t  production.
  Program is under tests and extension (main work direction for July).
-
-Further content of doxygen web page is not updated since Feb 2 2010.
  
+ @section setup Requirements
 
- @section setup Setup
+ For compilation, and to run simple example, the interface requires:
+ - <a href="http://lcgapp.cern.ch/project/simu/HepMC/">HepMC v2.04</a> or later.
 
- In order to run the interface and examples correctly you will need:
- - <a href="http://root.cern.ch/drupal/">ROOT v5.24</a>or later and <a href="http://lcgapp.cern.ch/project/simu/HepMC/">HepMC v2</a> or later
- - To run the PYTHIA example, you need <a href="http://home.thep.lu.se/~torbjorn/Pythia.html">PYTHIA 8.1</a> installed. PYTHIA 8.1 must be compiled with HepMC 2 so that the PYTHIA library hepmcinterface exists.
- - To run the TAUOLA+PYTHIA example, you need <a href="http://www.ph.unimelb.edu.au/~ndavidson/tauola/doxygen/index.html">TAUOLA C++ interface</a>.
- - You will also need <a href="http://mc-tester.web.cern.ch/MC-TESTER/">MC-TESTER</a> for the examples. Do not forget to type 'make libHepMCEvent' after compilation of MC-TESTER is done.
- - after downloading and uncompressing the interface, modify 'PHOTOS/setup.sh' to give the location of PYTHIA, HEPMC, TAUOLA and MC-TESTER.
-   - PYTHIALOCATION should be the path to the base of the /include and /lib directories for PYTHIA 8.1
-   - PYTHIA8DATA is the path to the directory containing PYTHIA xml documents (generally it should be "$(PYTHIA_INSTALL_LOCATION)/xmldoc").
-   - HEPMCLOCATION should be the path to the base of the /include and /lib directories for HepMC
-   - TAUOLALOCATION should be the path to the base of the /include and /lib directories for TAUOLA C++ interface
-   - MCTESTERLOCATION should be the path to MC-TESTER (useful for validating the new interface)
+ For further examples, one need to install also:
+ - <a href="http://root.cern.ch/drupal/">ROOT v5.18</a> or later
+ - <a href="http://home.thep.lu.se/~torbjorn/Pythia.html">PYTHIA 8.1</a> or later. PYTHIA must be compiled with HepMC 2 so that the PYTHIA library hepmcinterface exists.
+ - <a href="http://mc-tester.web.cern.ch/MC-TESTER/">MC-TESTER v1.24</a> or later. Do not forget to compile the additional HepMC library libHepMCEvent as well.
+ - <a href="http://www.ph.unimelb.edu.au/~ndavidson/tauola/doxygen/index.html">TAUOLA C++ Interface v1.0</a> or later.
 
- @section compile Compilation
+ @section compile Configuration and Compilation
 
  In order to compile the PHOTOS C++ interface:
- - modify setup.sh - set appropriate HEPMCLOCATION. If you plan to run examples, set PYTHIALOCATION, TAUOLALOCATION and MCTESTERLOCATION as well.
- - execute 'source setup.sh'
- - check if 'platform/make.inc' points to correct version of your platform and change it if necessary.
+ - Execute './configure' with additional command line options:
+   - '--with-HepMC=\<path\> ' provides the path to HepMC installation directory. One can set HEPMCLOCATION variable instead of using this directive. This path is required for interface to compile.
+   - '--prefix=\<path\>' provides the installation path. The 'include' and 'lib' directories will be copied there if 'make install' is executed later. If none has been provided, the default directory for installation is '/usr/local'.
+ - Execute 'make'
+ - Optionally, execute 'make install' to copy files to the directory provided during configuration.
+
+ The PHOTOS C++ interface will be compiled and the '/lib' and '/include' directories will contain the appropriate library and include files.
+
+ In order to compile the examples, enter 'examples' directory, and:
+ - execute './configure' to determine which examples can be compiled. Additional paths can be provided as command line options:
+   - '--with-Pythia8=\<path\>' provides the path to Pythia8 installation directory. One can set PYTHIALOCATION variable instead of using this directive. This path is required for all examples and tests.
+   - '--with-MC-Tester=\<path\>' provides the path to MC-Tester installation directory (the libHepMCEvent must be compiled as well, check MC-Tester documentation for more details). One can set MCTESTERLOCATION variable instead of using this directive. This path is required for all additional examples and tests. It is assumed that using this option also implies that ROOT has already been installed (since it's required by MC-TESTER). The location of its binaries should be listed in PATH variable.
+   - '--with-Tauola=\<path\>'  provides the path to TAUOLA C++ interface installation directory. One can set TAUOLALOCATION variable instead of using this directive. This path is required for additional examples.
  - execute 'make'
 
- The '/lib' and '/include' directories will contain the appropriate library and include files.
-
- In order to compile the examples:
- - Compile PHOTOS C++ interface
- - Verify that you have both PYTHIA and MC-TESTER installed and compiled.
- - If you haven't done it yet, modify setup.sh setting all four variables and execute 'source setup.sh' again.
- - Enter 'PHOTOS/example' directory and execute 'make'
- - An example of PHOTOS C++ interface compiled along with TAUOLA C++ interface is provided as well. It can be compiled by changing the "MAIN" variable in the Makefile and executing 'make'.
-
- The '/example' directory will contain the compiled example files.
+ Note that for examples working with PYTHIA 8.1, PYTHIA8DATA global variable must be set (refer to instructions provided during configuration).
+ Similar, for examples in examples/testing directory to work, MCTESTERLOCATION global variable must be set.
+ If neither PYTHIA nor MC-TESTER are present, only the simple example will be provided. The '/examples' directory will contain the compiled example files.
 
  @section testing Testing
 
- In order to run some more specific tests:
- - Compile PHOTOS C++ interface as well as examples. For all test to work you will need both aviable example files so modify 'Makefile' inside PHOTOS/example' directory, switching MAIN variable to compile both files. After both files are compiled enter 'PHOTOS/example/testing' directory.
- - modify test.inc if needed.
- - enter choosen directory and execute 'make'.
+ In order to run some more specific tests both PYTHIA and MC-TESTER must be installed.
+ - Compile PHOTOS C++ interface as well as examples.
+ - Check that appropriate system variables are set: normally set by script
+ configure.paths.sh [.csh] (configuation step is mentioning this script).
+ - Enter /examples/testing directory. Modify test.inc if needed.
+ - Enter selected directory and execute 'make'.
 
- The appropriate .root files as well as .pdf files generated by MC-TESTER will be created inside the choosen directory. You can execute 'make clobber' to clean the directory. You can also execute 'make' inside 'PHOTOS/example/testing' directory to run all aviable tests one after another.
+ The appropriate .root files as well as .pdf files generated by MC-TESTER will be created inside the choosen directory. You can execute 'make clobber' to clean the directory. You can also execute 'make' inside 'PHOTOS/examples/testing' directory to run all aviable tests one after another.
 
  <hr>
+ Last update 9 July 2010.
  Expect more information to be added at a later date.
 
 */
