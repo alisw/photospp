@@ -112,7 +112,7 @@ int PH_HEPEVT_Interface::set(PhotosBranch *branch)
 		             1,nmothers, //mothers
 		             nmothers+2,nmothers+1+ndaughters); //daughters
 
-	for(int i=0;i<nmothers;i++)
+	for(int i=0;i<ndaughters;i++)
 	{
 		if(decay_idx)
 			add_particle(idx++,daughters.at(i),
@@ -123,9 +123,8 @@ int PH_HEPEVT_Interface::set(PhotosBranch *branch)
 			             1,nmothers, //mothers
 			             0,0); //daughters
 	}
-
-	//phodmp_();
-	//printf("AND RETURNING: %i\n",(decay_idx) ? decay_idx : 1 );
+	//Log::RedirectOutput( phodmp_ , Log::Debug(1000) );
+	Log::Debug(1000,false)<<"PH_HEPEVT returning: "<<( (decay_idx) ? decay_idx : 1 )<<endl;
 	return (decay_idx) ? decay_idx : 1;
 }
 
