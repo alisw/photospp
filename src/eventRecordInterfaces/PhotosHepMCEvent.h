@@ -28,7 +28,7 @@ public:
 	/** Returns the HepMC::GenEvent */
 	HepMC::GenEvent * getEvent();
 
-	std::vector<PhotosParticle*> getBranchPoints();
+	std::vector<PhotosParticle*> getParticleList();
 
 	void print();
 

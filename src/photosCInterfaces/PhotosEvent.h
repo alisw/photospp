@@ -18,32 +18,31 @@
  * @date 16 June 2008
  */
 #include <vector>
+#include "PhotosBranch.h"
 #include "PhotosParticle.h"
 using std::vector;
 
 class PhotosEvent
 {
 public:
-	virtual std::vector<PhotosParticle*> getBranchPoints() = 0;
+	virtual std::vector<PhotosParticle*> getParticleList() = 0;
 	virtual void print() = 0;
 
 	void process();
-	~PhotosEvent(); 
+	~PhotosEvent();
 private:
-	vector<PhotosParticle *> filterBranchPoints();
+	/** Creates branches from particles list removing the list in the process */
+	vector<PhotosBranch *> createBranches(vector<PhotosParticle *> particles);
 
-	/** filter for branching points **/
-	bool passBranchPointFilter(PhotosParticle *particle);
-
-	/** Check if the branching point should be skipped by PHOTOS. */
-	bool passSuppressionFilter(PhotosParticle *particle);
+	/** Filter suppressed and invalid particles. **/
+	bool passParticleFilter(PhotosParticle *particle);
 
 	/** Check if the particles' mother is on the Photos::supParticles list.
 	  If it is, it will also be skipped. */
 	bool passSuppressConsecutive(PhotosParticle *particle);
 
 	/** branch points which should be given to PHOTOS */
-	vector<PhotosParticle*> m_branch_points;
+	vector<PhotosBranch *> m_branch_points;
 };
 
-#endif  
+#endif

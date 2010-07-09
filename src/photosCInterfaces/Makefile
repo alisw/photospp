@@ -1,6 +1,6 @@
 include ../make.inc
 
-SOURCES_CC=PhotosParticle.cxx PhotosEvent.cxx Photos.cxx
+SOURCES_CC=PhotosParticle.cxx PhotosEvent.cxx PhotosBranch.cxx Photos.cxx
 OBJECTS_CC=$(SOURCES_CC:.cxx=.o)
 
 %.o: %.cxx

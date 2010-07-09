@@ -2,6 +2,7 @@
 #define _PH_HEPEVT_Interface_included_
 
 #include <vector>
+#include "PhotosBranch.h"
 #include "PhotosParticle.h"
 
 const static int NMXHEP = 10000;
@@ -34,7 +35,7 @@ extern "C" {
 class PH_HEPEVT_Interface{
 
  public:
-  static int  set(PhotosParticle * decay_particle);
+  static int  set(PhotosBranch* branch);
   static void get();
   static void clear();
 

@@ -19,17 +19,15 @@ void PhotosHepMCEvent::print()
 	m_event->print();
 }
 
-vector<PhotosParticle*> PhotosHepMCEvent::getBranchPoints()
+vector<PhotosParticle*> PhotosHepMCEvent::getParticleList()
 {
 	vector<PhotosParticle*> list;
 	
 	HepMC::GenEvent::particle_const_iterator part_itr = m_event->particles_begin();
-	//loop over all particle in the event looking for a branch to give to PHOTOS
 	for( ; part_itr!=m_event->particles_end(); part_itr++)
 	{
 		PhotosParticle *particle = new PhotosHepMCParticle(*part_itr);
 		list.push_back(particle);
 	}
-
 	return list;
 }

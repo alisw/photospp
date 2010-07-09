@@ -11,14 +11,12 @@ vector<PhotosParticle* > *Photos::supParticles = 0;
 void Photos::initialize()
 {
 	phoini_();
-	
+
 	setAlphaQED(0.00729735039);
 	setExponentiation(true);
 	setInterference(true);
 	setTopProcessRadiation(true);
-	// debug mode on: printing will be activated for adresses in range 0 to 1000 
-	//  phlupy_.ipoinm=0;
-	//  phlupy_.ipoin=1000;
+	//Log::LogPhlupa(0,1000);
 }
 
 void Photos::suppressBremForDecay(int count, int motherID, ... )
