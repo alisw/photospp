@@ -148,16 +148,132 @@ add of new photons to HepMC and modification of all decsendants of
 daughters would be performed as in more standard case explained above.
 }
 
-\subsection{Interface to the Event Record}
-\subsubsection{HepMC}
+\subsection{C++ Specific Requirements}
+
+The C++ version of the {\tt PHOTOS Interface} implements all functionalities
+of its predecessor, the {\tt PHOTOS} coded in FORTRAN.
+It can be attached to any Monte-Carlo program,
+provided its output is available through a {\tt HepMC} \cite{Dobbs:2001ck} event record.
+
+This condition is not very restrictive, is seems that {\tt HepMC} will
+remain a generally accepted standard for the near future. However,
+already now several different options for how {\tt HepMC} is used are
+widespread. Possibility of the flexible  adaptation of our event record 
+interface to different
+options has been considered in the design,  drawing experience
+from {\tt MC-TESTER} \cite{Golonka:2002rz,Davidson:2008ma}.
+We have also
+envisaged the possibility that {\tt HepMC} may one day be replaced by another
+standard of event record, and we have provided an easy way to extend
+the interface to a possible new event record standard.
+
+\subsection{Object Oriented Event Records  -- The Case of {\tt HepMC}}
+In adopting {\tt PHOTOS Interface} to the C++ event record format
+ the difference between the {\tt HEPEVT} event record used in the FORTRAN
+version of {\tt PHOTOS Interface} and  {\tt HepMC} event record  
+which is used for the C++ based interface
+has to be taken into account. 
+In the first case the whole event was represented
+by a common block containing a list of particles with their properties and
+with integer 
+variables denoting pointers to their origins and descendants.
+ The {\tt HepMC} event structure
+is built from vertices, each of them having pointers to their origins and descendants. Links between vertices represent particles or fields.
+ In both, {\tt FORTRAN} and C++  
+cases, the event is structured as 
+a tree\footnote{At least in principle, because in practice its properties
+may be rather of the graph of not universally defined properties.
+This makes our task challenging.}, the necessary algorithms are  analogous, 
+but nonetheless different.
+
+In {\tt HepMC version 2.04}, an  event is represented by a {\tt GenEvent} object,
+which contains all information regarding itself, including event id,
+units used for dimensional quantities in the event and the list of produced particles. The particles
+themselves are grouped into {\tt GenVertex} objects allowing access to mother
+and daughter particles of a single decay. Vertices provide an easy way
+to point to the whole branch in a decay tree that needs to be accessed,
+modified or deleted if needed. The information of a particle  itself is stored
+in a {\tt GenParticle} object containing the particle id, status and momentum
+as well as information needed to locate its position in the decay tree.
+This approach allows traversing the event record structure in several different
+ways.
+
+The {\tt HepMC} event record format is  evolving with time, making it necessary
+ to adapt
+the code to the new versions.
+{\tt HepMC} version 2.05 is used as a reference. In the case of version 2.03 restrictions on methods for 
+units
+conversion have to be taken into account, for details see Appendix~\ref{subs:Issues}.
+One should keep in mind that future adaptations to {\tt HepMC} changes may restrain
+backward compatibility.
+
+Evolution of the {\tt HepMC} format itself is not a crucial problem.
+In contrary, conventions how physics information is  filled into {\tt HepMC}
+ represent the source of main technical and also physics 
+challenge for our interface. 
+This is quite similar to the previous
+{\tt HEPEVT - FORTRAN} case. Let us discuss this point in more detail now.
+
 \subsubsection{Event Record Structure Scenarios}
-PYTHIA,HERWIG,MC@NLO etc.
 
-\subsection{Interface to PHOTOS}
-This section describes the common blocks and routines which allow
-communication between PHOTOS and the PHOTOS HepMC Interface.
+{\bf PYTHIA,HERWIG,MC@NLO etc. }
 
-\subsection{More...}
+While many Monte-Carlo generators (eg. {\tt PYTHIA 8.1} \cite{Sjostrand:2007gs}, 
+HERWIG++ \cite{Bahr:2008pv})
+store events in {\tt HepMC} format, the  representations of
+these events are not subject to strict standards,  which can therefore
+vary between Monte-Carlo generators or even physics processes. Some examples
+of these variations include the conventions of status codes, the  way
+documentary information on the event is added, the direction of pointers at a vertex
+and the conservation (or lack of conservation) of energy-momentum at a vertex.
+Below is a list of properties for basic scenario we have observed in Monte-Carlo
+generators used for testing the code.
+
+This list will serve as a declaration for convention of  {\tt HepMC} filling, which  the 
+interface should  be able to interpret correctly.
+
+\begin{itemize}
+  \item \textbf{4-momentum conservation} is assumed for all vertices in the event record.
+  \item \textbf{Status codes:} only information whether given particle is incoming, outgoing or intermediate will be used,
+  \item \textbf{Pointers at a vertex} are assumed to be bi-directional. That is, it is possible to traverse the record structure from mother to daughter and from daughter to mother along the same path.
+\end{itemize}
+
+\noindent
+\textbf{ Extensions/Exceptions} to this specifications  are handled in some cases. We will call them
+options for conventions of event record filling.
+  \begin{itemize} 
+    \item  Vertices like $\tau^\pm \rightarrow \tau^\pm$ and $\tau^\mp \rightarrow \tau^\mp \gamma$ 
+           where 4-momentum conservation is not preserved, but this
+           non-conservation is balanced, for example, between the two branches
+outgoing from $Z$. 
+    \item  Lines representing
+           intermediate bosons may be missing. In fact this may be unavoidable, if several 
+           diagrams contribute simultaneously. In that case, our algorithm makes a choice
+           based on an approximation that
+           only the dominant  single diagram is considered
+           and an intermediate boson state is defined accordingly on the fly. Other possible treatments:
+           statistical choice of the dominant process, or calculations based on higher order
+           matrix elements for the hard process, are not available at present.
+    \item
+           As in the FORTRAN cases, we expect that  new  types of 
+           conventions for filling the event record
+           will appear, because of physics motivated requirements.
+           Unfortunately, the resulting options do not always guarantee
+           an algebraically closed structure.  
+           Host program specific patches  may need to be defined for the 
+           {\tt TAUOLA interface}. 
+           Debugging it could be time consuming, and will need to be repeated for every new
+           case.
+   \end{itemize}
+
+
+Detailed
+conventions for the actual filling of physics information into {\tt HepMC} format
+is defined by authors of each Monte Carlo program.
+ In future,  an important special case of event records filling with
+information extracted from experimentally observed event (eg. $Z\to \mu^+\mu^-$
+ modified later to $Z\to \tau^+\tau^-$) should be allowed.
+  Obviously, a new type (or types) of {\tt HepMC} filling will then appear.
 
 
 \section{Design}
