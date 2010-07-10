@@ -662,31 +662,112 @@ communication between {\tt PHOTOS} and {\tt PHOTOS C++ Interface}.
 
 \subsubsection{Common Blocks}
 
-This is an example...
+Some intro goes here.
 
 \begin{description}
-\item[IDFC] Tau pdg id
+\item[PHOCOP] .
     \begin{description}
-    \item[IDFF] \textit{int} Tau pdg id
+    \item[ALPHA]  \textit{double} .
+	\item[XPHCUT] \textit{double} .
+    \end{description}
+\end{description}
+
+\begin{description}
+\item[PHOKEY] .
+    \begin{description}
+    \item[FSEC]   \textit{double} .
+	\item[FINT]   \textit{double} .
+	\item[EXPEPS] \textit{double} .
+	\item[INTERF] \textit{int} .
+	\item[ISEC]   \textit{int} .
+	\item[ITRE]   \textit{int} .
+	\item[IEXP]   \textit{int} .
+	\item[IFTOP]  \textit{int} .
+    \end{description}
+\end{description}
+
+\begin{description}
+\item[PHSEED] .
+    \begin{description}
+    \item[ISEED[ 2]] \textit{int} .
+	\item[I97]        \textit{int} .
+	\item[J97]        \textit{int} .
+	\item[URAN[ 97]] \textit{double} .
+	\item[CRAN]       \textit{double} .
+	\item[CDRAN]      \textit{double} .
+	\item[CMRAN]      \textit{double} .
+    \end{description}
+\end{description}
+
+\begin{description}
+\item[PHLUPY] Debug messages handling
+    \begin{description}
+    \item[IPOIN]  \textit{int} Messages above this value will not be displayed
+	\item[IPOINM] \textit{int} Messages below this value will not be displayed
+    \end{description}
+\end{description}
+
+\begin{description}
+\item[PH\_PHOQED] .
+    \begin{description}
+    \item[QEDRAD[ 10000]]  \textit{int} .
     \end{description}
 \end{description}
 
 \subsubsection{Routines}
 
-This is an example...  
+Some intro goes here...
 
 \begin{description}
-\item[INIETC] Initializes something? \\
+\item[PHOINI] . \\
+  Return type: \textit{void} \\
+  Parameters: none
+\end{description}
+
+\begin{description}
+\item[PHODMP] Prints out the content of HEPEVT. \\
+  Return type: \textit{void} \\
+  Parameters: none
+\end{description}
+
+\begin{description}
+\item[PHOTOS] . \\
   Return type: \textit{void} \\
   Parameters:
   \begin{enumerate}
-    \item \textit {float jak1} ??
-    \item \textit {float jak2} ??
-    \item \textit {float itdkrc} ??
-    \item \textit {float ifphot} ??
+    \item \textit {int id} .
   \end{enumerate}
 \end{description}
 
+\begin{description}
+\item[PHOTOS\_GET] . \\
+  Return type: \textit{void} \\
+  Parameters: none
+\end{description}
+
+\begin{description}
+\item[PHOTOS\_SET] . \\
+  Return type: \textit{void} \\
+  Parameters: none
+\end{description}
+
+\begin{description}
+\item[PHOTOS\_MAKE] . \\
+  Return type: \textit{void} \\
+  Parameters:
+  \begin{enumerate}
+    \item \textit {int id} .
+  \end{enumerate}
+\end{description}
+
+\begin{description}
+\item[PHCORK] . \\
+  Return type: \textit{void} \\
+  Parameters:
+  \begin{enumerate}
+    \item \textit {int modcor} .
+  \end{enumerate}
+\end{description}
 
 \section{Appendix: User Guide}
 \label{sec:User Guide}
