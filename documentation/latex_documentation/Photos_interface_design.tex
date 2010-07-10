@@ -184,7 +184,9 @@ cases, the event is structured as
 a tree\footnote{At least in principle, because in practice its properties
 may be rather of the graph of not universally defined properties.
 This makes our task challenging.}, the necessary algorithms are  analogous, 
-but nonetheless different.
+but nonetheless different. The {\tt HepMC} structure based on vertices is more
+convenient for 
+{\tt PHOTOS Interface}
 
 In {\tt HepMC version 2.04}, an  event is represented by a {\tt GenEvent} object,
 which contains all information regarding itself, including event id,
@@ -203,8 +205,11 @@ The {\tt HepMC} event record format is  evolving with time, making it necessary
 the code to the new versions.
 {\tt HepMC} version 2.05 is used as a reference. In the case of version 2.03 restrictions on methods for 
 units
-conversion have to be taken into account, for details see Appendix~\ref{subs:Issues}.
-One should keep in mind that future adaptations to {\tt HepMC} changes may restrain
+conversion have to be taken into account, for details see Appendix ~\ref{subs:Issues}
+of ref. \cite{Davidson:2010rw}. At present we have not yet introduced such 
+backward compatibility downgrade for {\tt PHOTOS}. It is probably not necessary.
+However,
+one should keep in mind that future adaptations to {\tt HepMC} changes may restrain
 backward compatibility.
 
 Evolution of the {\tt HepMC} format itself is not a crucial problem.
@@ -233,7 +238,7 @@ This list will serve as a declaration for convention of  {\tt HepMC} filling, wh
 interface should  be able to interpret correctly.
 
 \begin{itemize}
-  \item \textbf{4-momentum conservation} is assumed for all vertices in the event record.
+  \item \textbf{4-momentum conservation} is assumed for all vertices in the event record where {\tt PHOTOS} is expected to act.
   \item \textbf{Status codes:} only information whether given particle is incoming, outgoing or intermediate will be used,
   \item \textbf{Pointers at a vertex} are assumed to be bi-directional. That is, it is possible to traverse the record structure from mother to daughter and from daughter to mother along the same path.
 \end{itemize}
@@ -244,16 +249,16 @@ options for conventions of event record filling.
   \begin{itemize} 
     \item  Vertices like $\tau^\pm \rightarrow \tau^\pm$ and $\tau^\mp \rightarrow \tau^\mp \gamma$ 
            where 4-momentum conservation is not preserved, but this
-           non-conservation is balanced, for example, between the two branches
-outgoing from $Z$. 
+           non-conservation is balanced, within each branch starting from decay 
+{\tt PHOTOS} is supposed to act. 
     \item  Lines representing
            intermediate bosons may be missing. In fact this may be unavoidable, if several 
-           diagrams contribute simultaneously. In that case, our algorithm makes a choice
+           diagrams contribute simultaneously. In that case, our algorithm 
+as default will skip such decay vertex. However if requested by user
+{\tt PHOTOS } can make makes a choice
            based on an approximation that
            only the dominant  single diagram is considered
-           and an intermediate boson state is defined accordingly on the fly. Other possible treatments:
-           statistical choice of the dominant process, or calculations based on higher order
-           matrix elements for the hard process, are not available at present.
+           and an intermediate boson state is defined accordingly on the fly. 
     \item
            As in the FORTRAN cases, we expect that  new  types of 
            conventions for filling the event record
@@ -274,6 +279,23 @@ is defined by authors of each Monte Carlo program.
 information extracted from experimentally observed event (eg. $Z\to \mu^+\mu^-$
  modified later to $Z\to \tau^+\tau^-$) should be allowed.
   Obviously, a new type (or types) of {\tt HepMC} filling will then appear.
+\subsection{Interface to event record of FORTRAN}
+In principle it would be rather simple to re-write whole {\tt PHOTOS} into
+C++. However to profit from the numercial tests, for the time being its part
+is still left in FORTRAN. The C++ part of the code search the whole event for
+suitable for generation of bremsstrahlung vertices in HepMC. Once such
+vertex is found it is copied to internal event record  which is 
+called  {\tt PH$\_$HEPEVT} (this is effectively a copy of {\tt HEPEVT};
+ event record of FORTRAN.
+and then FORTRAN code of {\tt PHOTOS} is executed.
+The data structure passed this way is rather simple. Single vertex
+supplemented with mothers of decaying particle are passed only. Information 
+on mothers will be useful in future for calculation of process dependent 
+kernels. Another data structure of   {\tt HEPEVT} type {\tt PHOEVT} is also 
+used in PHOTOS. It is used to store the decay vertex only. Obviously 
+the two structures are of the temporary need and should disappear rather soon.
+
+For details on interface to FORTRAN see appendix \ref{Interface to PHOTOS}
 
 
 \section{Design}
