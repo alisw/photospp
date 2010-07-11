@@ -662,18 +662,19 @@ communication between {\tt PHOTOS} and {\tt PHOTOS C++ Interface}.
 
 \subsubsection{Common Blocks}
 
-Some intro goes here.
+In the following let us list common blocks of {\tt PHOTOS} which are accessed
+from C++.
 
 \begin{description}
 \item[PHOCOP] .
     \begin{description}
-    \item[ALPHA]  \textit{double} .
-	\item[XPHCUT] \textit{double} .
+    \item[ALPHA]  \textit{double}  coupling constant $\alpha_{QED}$.
+	\item[XPHCUT] \textit{double} minimal energy (in units of decaying particle mass) fro photons to be explicitly generated.
     \end{description}
 \end{description}
 
 \begin{description}
-\item[PHOKEY] .
+\item[PHOKEY] keys and parameters controlling algorithm options.
     \begin{description}
     \item[FSEC]   \textit{double} .
 	\item[FINT]   \textit{double} .
@@ -687,7 +688,7 @@ Some intro goes here.
 \end{description}
 
 \begin{description}
-\item[PHSEED] .
+\item[PHSEED] Initialization parameters for random number generator.
     \begin{description}
     \item[ISEED[ 2]] \textit{int} .
 	\item[I97]        \textit{int} .
@@ -708,7 +709,8 @@ Some intro goes here.
 \end{description}
 
 \begin{description}
-\item[PH\_PHOQED] .
+\item[PH\_PHOQED] supplement for PH\_HEPEVT event record to block emission 
+from some particles.
     \begin{description}
     \item[QEDRAD[ 10000]]  \textit{int} .
     \end{description}
@@ -716,10 +718,10 @@ Some intro goes here.
 
 \subsubsection{Routines}
 
-Some intro goes here...
+In the following let us list routines which are called from the interface.
 
 \begin{description}
-\item[PHOINI] . \\
+\item[PHOINI] initialize generator, use as input content of common blocks. \\
   Return type: \textit{void} \\
   Parameters: none
 \end{description}
@@ -731,7 +733,8 @@ Some intro goes here...
 \end{description}
 
 \begin{description}
-\item[PHOTOS] . \\
+\item[PHOTOS] main routine to execute generation,
+uses HEPEVT  (do we use it in iterface?). \\
   Return type: \textit{void} \\
   Parameters:
   \begin{enumerate}
@@ -740,19 +743,19 @@ Some intro goes here...
 \end{description}
 
 \begin{description}
-\item[PHOTOS\_GET] . \\
+\item[PHOTOS\_GET] uses HEPEVT as input and PH\_HEPEVT as output(do we use it in iterface?). \\
   Return type: \textit{void} \\
   Parameters: none
 \end{description}
 
 \begin{description}
-\item[PHOTOS\_SET] . \\
+\item[PHOTOS\_SET] uses PH\_HEPEVT as input and HEPEVT as output (do we use it in iterface?). \\
   Return type: \textit{void} \\
   Parameters: none
 \end{description}
 
 \begin{description}
-\item[PHOTOS\_MAKE] . \\
+\item[PHOTOS\_MAKE] FORTRAN part of interface. \\
   Return type: \textit{void} \\
   Parameters:
   \begin{enumerate}
@@ -761,7 +764,7 @@ Some intro goes here...
 \end{description}
 
 \begin{description}
-\item[PHCORK] . \\
+\item[PHCORK] (do we use it in iterface?). \\
   Return type: \textit{void} \\
   Parameters:
   \begin{enumerate}
