@@ -666,9 +666,9 @@ In the following let us list common blocks of {\tt PHOTOS} which are accessed
 from C++.
 
 \begin{description}
-\item[PHOCOP] .
+\item[PHOCOP] Coupling constant and releted parameters.
     \begin{description}
-    \item[ALPHA]  \textit{double}  coupling constant $\alpha_{QED}$.
+	\item[ALPHA]  \textit{double}  coupling constant $\alpha_{QED}$.
 	\item[XPHCUT] \textit{double} minimal energy (in units of decaying particle mass) fro photons to be explicitly generated.
     \end{description}
 \end{description}
@@ -676,7 +676,7 @@ from C++.
 \begin{description}
 \item[PHOKEY] keys and parameters controlling algorithm options.
     \begin{description}
-    \item[FSEC]   \textit{double} .
+	\item[FSEC]   \textit{double} .
 	\item[FINT]   \textit{double} .
 	\item[EXPEPS] \textit{double} .
 	\item[INTERF] \textit{int} .
@@ -690,10 +690,10 @@ from C++.
 \begin{description}
 \item[PHSEED] Initialization parameters for random number generator.
     \begin{description}
-    \item[ISEED[ 2]] \textit{int} .
+	\item[ISEED[ 2]]  \textit{int} .
 	\item[I97]        \textit{int} .
 	\item[J97]        \textit{int} .
-	\item[URAN[ 97]] \textit{double} .
+	\item[URAN[ 97]]  \textit{double} .
 	\item[CRAN]       \textit{double} .
 	\item[CDRAN]      \textit{double} .
 	\item[CMRAN]      \textit{double} .
@@ -709,7 +709,7 @@ from C++.
 \end{description}
 
 \begin{description}
-\item[PH\_PHOQED] supplement for PH\_HEPEVT event record to block emission 
+\item[PH\_PHOQED] Supplement for PH\_HEPEVT event record to block emission 
 from some particles.
     \begin{description}
     \item[QEDRAD[ 10000]]  \textit{int} .
@@ -733,42 +733,20 @@ In the following let us list routines which are called from the interface.
 \end{description}
 
 \begin{description}
-\item[PHOTOS] main routine to execute generation,
-uses HEPEVT  (do we use it in iterface?). \\
-  Return type: \textit{void} \\
-  Parameters:
-  \begin{enumerate}
-    \item \textit {int id} .
-  \end{enumerate}
-\end{description}
-
-\begin{description}
-\item[PHOTOS\_GET] uses HEPEVT as input and PH\_HEPEVT as output(do we use it in iterface?). \\
-  Return type: \textit{void} \\
-  Parameters: none
-\end{description}
-
-\begin{description}
-\item[PHOTOS\_SET] uses PH\_HEPEVT as input and HEPEVT as output (do we use it in iterface?). \\
-  Return type: \textit{void} \\
-  Parameters: none
-\end{description}
-
-\begin{description}
 \item[PHOTOS\_MAKE] FORTRAN part of interface. \\
   Return type: \textit{void} \\
   Parameters:
   \begin{enumerate}
-    \item \textit {int id} .
+    \item \textit {int id} ID of particle from which photos starts processing. In C++ case importance of this parameter is limited as only one branch is in HEPEVT at a time.
   \end{enumerate}
 \end{description}
 
 \begin{description}
-\item[PHCORK] (do we use it in iterface?). \\
+\item[PHCORK] Initializes Kinematic Corrections. \\
   Return type: \textit{void} \\
   Parameters:
   \begin{enumerate}
-    \item \textit {int modcor} .
+    \item \textit {int modcor} Type of correction. See FORTRAN documentation for details.
   \end{enumerate}
 \end{description}
 
@@ -1000,7 +978,7 @@ suppressed.
 all its daughters.}
 \end{itemize}
 
-\subsection{{\bf Use of {\tt processOne} method (method under construction)}}
+\subsection{{\bf Use of {\tt processParticle} and {\tt processBranch} methods (method under construction)}}
 \label{PHOTOSgun}
 
 In Section~\ref{sect:Outline} an algorithm to process whole event record is explained.
@@ -1009,12 +987,13 @@ To process a single branch in a way independent of the
 event record content another, simple method is provided.
 
 \begin{itemize}
-  \item {\tt Photos::processOne(PhotosParticle *p, bool consecutive={\bf false}) } \hfill \\
-	    The main routine for processing a single particle. When a pointer to particle
+  \item {\tt Photos::processParticle(PhotosParticle *p) } \hfill \\
+		The main routine for processing a single particle. When a pointer to particle
 		is provided, from this partcile a branch containing its mothers and daughters
-		will be created and processed by photos. If {\it consecutive} parameter is set to
-		{\bf true}, photos will process the whole decay tree starting from the particle
-		provided as the first parameter.
+		will be created and processed by photos.
+  \item {\tt Photos::processBranch(PhotosParticle *p) } \hfill \\
+ 		When a pointer to particle is provided, photos will process the whole decay
+		tree starting from the particle	provided as pointer.
 \end{itemize}
 
 {\bf WILL WE HAVE SOME EXAMPLE FOR THAT?}
