@@ -579,7 +579,7 @@ PACKAGE_STRING='Photos C++ Interface 1.0.0'
 PACKAGE_BUGREPORT='tomasz.przedzinski@uj.edu.pl '
 
 ac_default_prefix=`pwd`
-ac_unique_file="src/Photos.cxx"
+ac_unique_file="src/photosCInterfaces/Photos.cxx"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>

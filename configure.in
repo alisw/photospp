@@ -6,7 +6,7 @@ AC_INIT( [Photos C++ Interface], [1.0.0], [tomasz.przedzinski@uj.edu.pl] )
 AC_LANG_CPLUSPLUS
 
 AC_PREFIX_DEFAULT([`pwd`])
-AC_CONFIG_SRCDIR([src/Photos.cxx])
+AC_CONFIG_SRCDIR([src/photosCInterfaces/Photos.cxx])
 
 ##############################################################################
 # Process command line options
