@@ -21,6 +21,8 @@ class PhotosParticle;
 class Photos
 {
 public:
+	class Log;
+
 	/** Initalise Photos with the parameters previously set via the
 	   setter methods */
 	static void initialize();

@@ -6,6 +6,8 @@ using std::ostream;
 using std::cout;
 using std::cerr;
 using std::endl;
+typedef Photos::Log Log;
+
 
 list<Log::Pointer*> *Log::PointerList = NULL;
 

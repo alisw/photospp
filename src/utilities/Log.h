@@ -15,6 +15,7 @@
 #include <sstream>
 #include <stdlib.h>
 #include <list>
+#include "Photos.h"
 // TEMPORARY
 #include "f_Init.h"
 
@@ -26,7 +27,7 @@ using std::list;
 using std::cout;
 using std::endl;
 
-class Log
+class Photos::Log
 {
 public:
 	/** Shows the summary of all messages. */

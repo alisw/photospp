@@ -7,6 +7,7 @@
 #include "Log.h"
 using std::vector;
 using std::list;
+typedef Photos::Log Log;
 
 PhotosEvent::~PhotosEvent()
 {

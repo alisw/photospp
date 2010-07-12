@@ -5,6 +5,7 @@
 #include "Log.h"
 using std::vector;
 using std::endl;
+typedef Photos::Log Log;
 
 PhotosBranch::PhotosBranch(PhotosParticle* p)
 {

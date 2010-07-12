@@ -44,9 +44,6 @@ extern "C"
 
 	//extern void dexay_(int *state, double pol[4]);
 	extern void phoini_(); //PHOTOS initialisation
-	extern void photos_(int * id);
-	extern void photos_get_();
-	extern void photos_set_();
 	extern void photos_make_(int * id);
 }
 

@@ -3,8 +3,8 @@
 #include "PhotosParticle.h"
 #include "PH_HEPEVT_Interface.h"
 #include "Log.h"
-
 using namespace std;
+typedef Photos::Log Log;
 
 vector<PhotosParticle*> PH_HEPEVT_Interface::m_particle_list;
 
@@ -124,7 +124,7 @@ int PH_HEPEVT_Interface::set(PhotosBranch *branch)
 			             0,0); //daughters
 	}
 	//Log::RedirectOutput( phodmp_ , Log::Debug(1000) );
-	Log::Debug(1000,false)<<"PH_HEPEVT returning: "<<( (decay_idx) ? decay_idx : 1 )<<endl;
+	Log::Debug(1000,false)<<"PH_HEPEVT returning: "<<( (decay_idx) ? decay_idx : 1 )<<" from "<<idx-1<<" particles."<<endl;
 	return (decay_idx) ? decay_idx : 1;
 }
 
