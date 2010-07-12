@@ -83,8 +83,9 @@ vector<PhotosBranch *> PhotosEvent::createBranches(vector<PhotosParticle *> part
 
 bool PhotosEvent::passParticleFilter(PhotosParticle *particle)
 {
+//printf("ROFL! %i %i",particle->getStatus(),PhotosParticle::DECAYED);
 	//check that the particle decays
-	if(particle->getStatus()!=PhotosParticle::DECAYED) return false;
+	if(particle->getStatus()==PhotosParticle::STABLE) return false;
 
 	//check for self decays
 	if(particle->getDaughters().size()==1) return false;
