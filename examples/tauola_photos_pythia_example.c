@@ -19,13 +19,14 @@
 #include "Photos.h"
 #include "PhotosHepMCEvent.h"
 #include "Log.h"
+typedef Photos::Log Log; //We're using Photos version of Log class
 
 //TAUOLA header files
 #include "Tauola.h"
 #include "TauolaHepMCEvent.h"
 
 using namespace std;
-using namespace Pythia8; 
+using namespace Pythia8;
 
 bool ShowersOn=true;
 int NumberOfEvents = 10000;
@@ -110,7 +111,6 @@ int main(int argc,char **argv){
     HepMCEvent temp_event(*HepMCEvt,false);
     MC_Analyze(&temp_event);
 
-    
     if(iEvent>=NumberOfEvents-5)
       {  //pythia.event.list();
 	Log::RedirectOutput(Log::Info());

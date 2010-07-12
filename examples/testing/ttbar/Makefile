@@ -4,7 +4,7 @@ include ../test.inc
 NAME_BENCHMARK=mc-tester.root-Zee-photos-100M-sym-10MeV #or use other benchmark
 
 
-CONF=pythia_Z.conf
+CONF=pythia_ttbar.conf
 NAME=Zee
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root

@@ -19,9 +19,11 @@
 #include "Photos.h"
 #include "PhotosHepMCEvent.h"
 #include "Log.h"
+typedef Photos::Log Log; //We're using Photos version of Log class
 
 using namespace std;
-using namespace Pythia8; 
+using namespace Pythia8;
+
 
 bool ShowersOn=true;
 int NumberOfEvents = 10000;
@@ -31,6 +33,7 @@ int main(int argc,char **argv){
   // Initialisation of pythia
   Pythia pythia;
   Event& event = pythia.event;
+  //pythia.settings.listAll();
 
   if(argc>3) NumberOfEvents=atoi(argv[3]);
   if(argc>2) ShowersOn=atoi(argv[2]);
