@@ -8,271 +8,259 @@
  * handles boosting.
  *
  * PhotosParticle is a Photos representation of a particle. It has virtual
- * getter and setter methods that need to be implemented by a derived class. 
+ * getter and setter methods that need to be implemented by a derived class.
  * An example of this is PhotosHepMCParticle. In this way it provides an
  * interface to the information in the Event Record.
- *
- * The class is also responsible for decays and contains the polarimetric 
- * vector returned from tauola. All boosting is also done here.
- *
+ * 
  * @author Nadia Davidson
  * @date 16 June 2008
  */
 
 #include <vector>
 #include "Photos.h"
+using std::vector;
 
-using namespace std;
+class PhotosParticle
+{
+public:
+	/** Stable particle status */
+	static const int STABLE=1;
 
-class PhotosParticle{
+	/** Decayed particle status */
+	static const int DECAYED=2;
 
- public:
-  /** Stable particle status */
-  static const int STABLE=1;
+	/** History particle status */
+	static const int HISTORY=3;
 
-  /** Decayed particle status */
-  static const int DECAYED=2;
+	/** X Axis */
+	static const int X_AXIS=1;
 
-  /** History particle status */
-  static const int HISTORY=3;  
+	/** Y Axis */
+	static const int Y_AXIS=2;
 
-  /** X Axis */
-  static const int X_AXIS=1;
+	/** Z Axis */
+	static const int Z_AXIS=3;
 
-  /** Y Axis */
-  static const int Y_AXIS=2;
+	/** Z0 particle */
+	static const int Z0 = 23;
 
-  /** Z Axis */
-  static const int Z_AXIS=3;
+	/** H particle */
+	static const int HIGGS = 25;
 
-  /** Z0 particle */
-  static const int Z0 = 23;
+	/** H0 particle */
+	static const int HIGGS_H = 35;
 
-  /** H particle */
-  static const int HIGGS = 25;
+	/** A0 particle */
+	static const int HIGGS_A = 36;
 
-  /** H0 particle */
-  static const int HIGGS_H = 35;
+	/** H+ particle */
+	static const int HIGGS_PLUS = 37;
 
-  /** A0 particle */
-  static const int HIGGS_A = 36;
+	/** H- particle */
+	static const int HIGGS_MINUS = -37;
 
-  /** H+ particle */
-  static const int HIGGS_PLUS = 37;
+	/** W+ particle */
+	static const int W_PLUS = 24;
 
-  /** H- particle */
-  static const int HIGGS_MINUS = -37;
+	/** W- particle */
+	static const int W_MINUS = -24;
 
+	/** photon */
+	static const int GAMMA = 22;
 
-  /** W+ particle */
-  static const int W_PLUS = 24;
+	/** tau+ particle */
+	static const int TAU_PLUS = -15;
 
-  /** W- particle */
-  static const int W_MINUS = -24;
+	/** tau- particle */
+	static const int TAU_MINUS = 15;
 
-  /** photon */
-  static const int GAMMA = 22;
+	/** tau neutrino particle */
+	static const int TAU_NEUTRINO = 16;
 
-  /** tau+ particle */
-  static const int TAU_PLUS = -15;
+	/** tau antineutrino particle */
+	static const int TAU_ANTINEUTRINO = -16;
 
-  /** tau- particle */
-  static const int TAU_MINUS = 15;
+	/** muon+ particle */
+	static const int MUON_PLUS = -13;
 
-  /** tau neutrino particle */
-  static const int TAU_NEUTRINO = 16;
+	/** muon- particle */
+	static const int MUON_MINUS = 13;
 
-  /** tau antineutrino particle */
-  static const int TAU_ANTINEUTRINO = -16;
+	/** muon neutrino particle */
+	static const int MUON_NEUTRINO = 14;
 
-  /** muon+ particle */
-  static const int MUON_PLUS = -13;
+	/** muon antineutrino particle */
+	static const int MUON_ANTINEUTRINO = -14;
 
-  /** muon- particle */
-  static const int MUON_MINUS = 13;
+	/** e+ particle */
+	static const int POSITRON = -11;
 
-  /** muon neutrino particle */
-  static const int MUON_NEUTRINO = 14;
+	/** e- particle */
+	static const int ELECTRON = 11;
 
-  /** muon antineutrino particle */
-  static const int MUON_ANTINEUTRINO = -14;
+	/** e neutrino particle */
+	static const int ELECTRON_NEUTRINO = 12;
 
+	/** e antineutrino particle */
+	static const int ELECTRON_ANTINEUTRINO = -12;
 
-  /** e+ particle */
-  static const int POSITRON = -11;
+	/** up quark */
+	static const int UP = 2;
 
-  /** e- particle */
-  static const int ELECTRON = 11;
+	/** anti-up quark */
+	static const int ANTIUP = -2;
 
-  /** e neutrino particle */
-  static const int ELECTRON_NEUTRINO = 12;
+	/** down quark */
+	static const int DOWN = 1;
 
-  /** e antineutrino particle */
-  static const int ELECTRON_ANTINEUTRINO = -12;
+	/** anti-down quark */
+	static const int ANTIDOWN = -1;
 
-  /** up quark */
-  static const int UP = 2;
+	/** All other particle types*/
+	static const int OTHER = 0;
 
-  /** anti-up quark */
-  static const int ANTIUP = -2;
+public:
+	virtual ~PhotosParticle(){};
 
-  /** down quark */
-  static const int DOWN = 1;
+	/** Return whether the particle has any chidren */
+	bool hasDaughters();
 
-  /** anti-down quark */
-  static const int ANTIDOWN = -1;
+	/** Traverse the event structure and find the final version
+	    of this particle which does not have a particle of it's own type
+	    as it's daughter. eg. Generally the final stable copy */
+	PhotosParticle * findLastSelf();
 
+	/** Traverse the event structure and find the first set of mothers
+	    which are not of the same type as this particle. */
+	std::vector<PhotosParticle *> findProductionMothers();
 
-  /** All other particle types*/
-  static const int OTHER = 0;
+	/** Transform this particles four momentum from the lab frome
+	    into the rest frame of the paramter PhotosParticle. */
+	void boostToRestFrame(PhotosParticle * boost);
 
-  virtual ~PhotosParticle(){};
+	/** Transform the four momentum of all the daughters recursively
+	    into the frame of the "particle" PhotosParticle. */
+	void boostDaughtersToRestFrame(PhotosParticle * boost);
 
-  /** Return whether the particle has any chidren */
-  bool hasDaughters();
+	/** Transform this particles four momentum from the rest frame of
+	    the paramter PhotosParticle, back into the lab frame. */
+	void boostFromRestFrame(PhotosParticle * boost);
 
-  /** Traverse the event structure and find the final version
-      of this particle which does not have a particle of it's own type
-      as it's daughter. eg. Generally the final stable copy */ 
-  PhotosParticle * findLastSelf();
+	/** Transform this particles four momentum from the lab frame to
+	    the rest frame of the parameter PhotosParticle. */
+	void boostDaughtersFromRestFrame(PhotosParticle * boost);
 
-  /** Traverse the event structure and find the first set of mothers 
-      which are not of the same type as this particle. */
-  std::vector<PhotosParticle *> findProductionMothers();
+	/** Do a Lorenz transformation along the Z axis. */
+	void boostAlongZ(double pz, double e);
 
-  /** Transform this particles four momentum from the lab frome
-      into the rest frame of the paramter PhotosParticle. **/   
-  void boostToRestFrame(PhotosParticle * boost);
+	/** rotate this particles 4-momentum by an angle phi from
+	    the axisis "axis" towards the axis "second_axis". */
+	void rotate(int axis, double phi, int second_axis=Z_AXIS);
 
-  /** Transform the four momentum of all the daughters recursively 
-      into the frame of the "particle" PhotosParticle. **/   
-  void boostDaughtersToRestFrame(PhotosParticle * boost);
+	/** rotate 4-momentum of daughters of this particle by an angle phi from
+	    the axisis "axis" towards the axis "second_axis". */
+	void rotateDaughters(int axis, double phi, int second_axis=Z_AXIS);
 
+	/** Returns the angle around the axis "axis" needed to rotate
+	    the four momenum is such a way that the non-Z component
+	    disappears and Z>0. This is used to in rotating the coordinate
+	    system into a frame with only a Z component before calling
+	    boostAlongZ(). */
+	double getRotationAngle(int axis, int second_axis=Z_AXIS);
 
-  /** Transform this particles four momentum from the rest frame of
-      the paramter PhotosParticle, back into the lab frame. **/   
-  void boostFromRestFrame(PhotosParticle * boost);
+	/** Get scalar momentum */
+	double getP();
 
-  void boostDaughtersFromRestFrame(PhotosParticle * boost);
+	/** Get momentum component in the direction of "axis" (x,y,z) */
+	double getP(int axis);
 
-  /** Do a Lorenz transformation along the Z axis. */ 
-  void boostAlongZ(double pz, double e);
+	/** Set momentum component in the direction of "axis" (x,y,z) */
+	void  setP(int axis, double p_component);
 
-  /** rotate this particles 4-momentum by an angle phi from
-   the axisis "axis" towards the axis "second_axis". */
-  void rotate(int axis, double phi, int second_axis=Z_AXIS);
+	/** Get the invariant mass from the four momentum*/
+	double getMass();
 
-  void rotateDaughters(int axis, double phi, int second_axis=Z_AXIS);
+public:
+	/** Is particle in rest frame or lab frame
+	    WARNING: this variable must be initialized when new particle is created */
+	bool isInRestFrame;
 
-  /** Returns the angle around the axis "axis" needed to rotate 
-      the four momenum is such a way that the non-Z component 
-      disappears and Z>0. This is used to in rotating the coordinate 
-      system into a frame with only a Z component before calling 
-      boostAlongZ().*/
-  double getRotationAngle(int axis, int second_axis=Z_AXIS);
+public:
+	/** check that the 4 momentum in conserved at the vertices producing
+	    and ending this particle */
+	virtual bool checkMomentumConservation()=0;
 
-  /** Get scalar momentum */
-  double getP();
+	/** Returns the px component of the four vector */
+	virtual double getPx()=0;
 
-  /** Get momentum component in the direction of "axis" (x,y,z) */
-  double getP(int axis);
+	/** Returns the py component of the four vector */
+	virtual double getPy()=0;
 
-  /** Set momentum component in the direction of "axis" (x,y,z) */
-  void  setP(int axis, double p_component);
+	/** Returns the pz component of the four vector */
+	virtual double getPz()=0;
 
-  /** Get the invariant mass from the four momentum*/
-  double getMass();
-  /********************************************** 
-      Fields
+	/** Returns the energy component of the four vector */
+	virtual double getE()=0;
 
-  ********************************************/
+	/** Set the px component of the four vector */
+	virtual void setPx( double px )=0;
 
-  /** is particle in rest frame or lab frame
-      WARNING: this variable must be initialized when new particle is created */
-  bool isInRestFrame;
+	/** Set the px component of the four vector */
+	virtual void setPy( double py )=0;
 
-  /********************************************** 
-      Beginning of virtual methods 
+	/** Set the pz component of the four vector */
+	virtual void setPz( double pz )=0;
 
-  ********************************************/
+	/** Set the energy component of the four vector */
+	virtual void setE( double e )=0;
 
-  /** check that the 4 momentum in conserved at the vertices producing
-      and ending this particle */
-  virtual bool checkMomentumConservation()=0;
+	/** Set the mothers of this particle via a vector of PhotosParticle */
+	virtual void setMothers(std::vector<PhotosParticle*> mothers)=0;
 
-  /** Returns the px component of the four vector*/
-  virtual double getPx()=0;
+	/** Set the daughters of this particle via a vector of PhotosParticle */
+	virtual void setDaughters(std::vector<PhotosParticle*> daughters)=0;
 
-  /** Returns the py component of the four vector */
-  virtual double getPy()=0;
+	/** Add a new daughter to this particle */
+	virtual void addDaughter(PhotosParticle* daughter)=0;
 
-  /** Returns the pz component of the four vector */
-  virtual double getPz()=0;
+	/** Returns the mothers of this particle via a vector of PhotosParticle */
+	virtual std::vector<PhotosParticle*> getMothers()=0;
 
-  /** Returns the energy component of the four vector */
-  virtual double getE()=0;
+	/** Returns the daughters of this particle via a vector of PhotosParticle */
+	virtual std::vector<PhotosParticle*> getDaughters()=0;
 
-  /** Set the px component of the four vector */
-  virtual void setPx( double px )=0;
+	/** Set the PDG ID code of this particle */
+	virtual void setPdgID(int pdg_id)=0;
 
-  /** Set the px component of the four vector */
-  virtual void setPy( double py )=0;
+	/** Set the mass of this particle */
+	virtual void setMass(double mass)=0;
 
-  /** Set the pz component of the four vector */
-  virtual void setPz( double pz )=0;
+	/** Set the status of this particle */
+	virtual void setStatus(int status)=0;
 
-  /** Set the energy component of the four vector */
-  virtual void setE( double e )=0;
+	/** Get the PDG ID code of this particle */
+	virtual int getPdgID()=0;
 
-  /** Set the mothers of this particle via a vector of PhotosParticle */
-  virtual void setMothers(std::vector<PhotosParticle*> mothers)=0;
+	/** Get the status of this particle */
+	virtual int getStatus()=0;
 
-  /** Set the daughters of this particle via a vector of PhotosParticle */  
-  virtual void setDaughters(std::vector<PhotosParticle*> daughters)=0;
+	/** Get the barcode of this particle */
+	virtual int getBarcode()=0;
 
-  /** Add a new daughter to this particle */
-  virtual void addDaughter(PhotosParticle* daughter)=0;
+	/** Create a new particle of the same type, with the given
+	    properties. The new particle bares no relations to this
+	    particle, but it provides a way of creating a intance of
+	    the derived class. eg. createNewParticle() is used inside
+	    filhep_() so that an eg. PhotosHepMCParticle is created without
+	    the method having explicit knowledge of the PhotosHepMCParticle
+	    class */
+	virtual PhotosParticle * createNewParticle(int pdg_id, int status,
+	                                           double mass, double px,
+	                                           double py, double pz,
+	                                           double e)=0;
 
-  /** Returns the mothers of this particle via a vector of PhotosParticle */
-  virtual std::vector<PhotosParticle*> getMothers()=0;
-
-  /** Returns the daughters of this particle via a vector of PhotosParticle */
-  virtual std::vector<PhotosParticle*> getDaughters()=0;
-
-  /** Set the PDG ID code of this particle */
-  virtual void setPdgID(int pdg_id)=0;
-
-  /** Set the mass of this particle */
-  virtual void setMass(double mass)=0;
-
-  /** Set the status of this particle */
-  virtual void setStatus(int status)=0;
-
-  /** Get the PDG ID code of this particle */
-  virtual int getPdgID()=0;
-
-  /** Get the status of this particle */
-  virtual int getStatus()=0;
-
-  /** Get the barcode of this particle */
-  virtual int getBarcode()=0;
-
-  /** Create a new particle of the same type, with the given
-      properties. The new particle bares no relations to this
-      particle, but it provides a way of creating a intance of
-      the derived class. eg. createNewParticle() is used inside
-      filhep_() so that an eg. PhotosHepMCParticle is created without
-      the method having explicit knowledge of the PhotosHepMCParticle 
-      class */
-  virtual PhotosParticle * createNewParticle(int pdg_id, int status, 
-					     double mass, double px,
-					     double py, double pz,
-					     double e)=0;
-
-  /** Print some information about this particle to standard output */
-  virtual void print()=0;
-
+	/** Print some information about this particle to standard output */
+	virtual void print()=0;
 };
 
-#endif  
-
+#endif
