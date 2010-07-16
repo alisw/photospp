@@ -38,6 +38,9 @@ public:
 	/** Check if branch is suppressed */
 	int getSuppressionStatus() { return suppression; }
 
+	/** Check if branch is forced */
+	int getForcingStatus()     { return forcing; }
+
 	/** Checks momentum conservation of decaying particle.
 	    If it does not exist, checks momentum of first mother passed to photos */
 	bool checkMomentumConservation();
@@ -49,11 +52,18 @@ public:
 	static vector<PhotosBranch *> createBranches(vector<PhotosParticle *> particles);
 private:
 	/** Checks if branching is suppressed by PHOTOS. */
-	int checkSuppressionLevel();
+	int checkSuppressionLevel() { return checkList(false); }
 
+	/** Checks if branching is forced by PHOTOS. */
+	int checkForcingLevel()     { return checkList(true);  }
+
+	/** Algorithm used for suppression/forcing check */
+	int checkList(bool forceOrSuppress);
 private:
 	/** State of branching suppression*/
 	int suppression;
+	/** State of branching forcing*/
+	int forcing;
 	/** Decaying particle */
 	PhotosParticle          *particle;
 	/** List of mothers   */

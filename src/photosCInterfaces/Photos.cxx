@@ -26,7 +26,7 @@ void Photos::initialize()
 void Photos::processParticle(PhotosParticle *p)
 {
 	PhotosBranch b(p);
-	b.process();
+	if(!b.getSuppressionStatus()) b.process();
 }
 
 void Photos::processBranch(PhotosParticle *p)

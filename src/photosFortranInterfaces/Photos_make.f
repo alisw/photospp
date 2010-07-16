@@ -69,7 +69,7 @@ C.----------------------------------------------------------------------
         SUM(I)=0.0D0
       ENDDO 
       WRITE(PHLUN,*) 'EVENT NR=',IEV,
-     $            'WE ARE TESTING /PHOEVT/ at IPOINT=',IPOINT
+     $            'WE ARE TESTING /PH_HEPEVT/ at IPOINT=',IPOINT
       WRITE(PHLUN,10)
       I=1
       WRITE(PHLUN,20) IDPHO(I),PPHO(1,I),PPHO(2,I),PPHO(3,I),
