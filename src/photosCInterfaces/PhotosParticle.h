@@ -18,7 +18,6 @@
 
 #include <vector>
 #include "Photos.h"
-using std::vector;
 
 class PhotosParticle
 {
@@ -133,6 +132,9 @@ public:
 	/** Traverse the event structure and find the first set of mothers
 	    which are not of the same type as this particle. */
 	std::vector<PhotosParticle *> findProductionMothers();
+
+	/** Return whole decay tree starting from this particle */
+	std::vector<PhotosParticle *> getDecayTree();
 
 	/** Transform this particles four momentum from the lab frome
 	    into the rest frame of the paramter PhotosParticle. */

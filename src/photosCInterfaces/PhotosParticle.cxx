@@ -3,6 +3,7 @@
 #include "PhotosParticle.h"
 #include "Log.h"
 using std::vector;
+typedef Photos::Log Log;
 
 bool PhotosParticle::hasDaughters()
 {
@@ -37,6 +38,24 @@ vector<PhotosParticle*> PhotosParticle::findProductionMothers()
 		return (*pcl_itr)->findProductionMothers();
 	}
 	return mothers;
+}
+
+vector<PhotosParticle *> PhotosParticle::getDecayTree()
+{
+	vector<PhotosParticle *> particles;
+	particles.push_back(this);
+	vector<PhotosParticle *> daughters = getDaughters();
+	for(int i=0;i<(int)daughters.size();i++)
+	{
+		// Check if we are the first mother of each daughters
+		// If not - skip this daughter
+		PhotosParticle *p = daughters.at(i);
+		vector<PhotosParticle *> mothers = p->getMothers();
+		if(mothers.size()>1 && mothers.at(0)->getBarcode()!=getBarcode()) continue;
+		vector<PhotosParticle *> tree = p->getDecayTree();
+		particles.insert(particles.end(),tree.begin(),tree.end());
+	}
+	return particles;
 }
 
 void PhotosParticle::boostDaughtersFromRestFrame(PhotosParticle * tau_momentum)

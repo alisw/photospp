@@ -20,19 +20,45 @@ using std::vector;
 class PhotosBranch
 {
 public:
+	/** Create branch out of decaying particle */
 	PhotosBranch(PhotosParticle* p);
-	vector<PhotosParticle *> getMothers()          { return mothers;   }
-	vector<PhotosParticle *> getDaughters()        { return daughters; }
+
+	/** Return decaying particle. NULL if branching does not have mid-particle */
 	PhotosParticle*          getDecayingParticle() { return particle;  }
+
+	/** Get list of mothers */
+	vector<PhotosParticle *> getMothers()          { return mothers;   }
+
+	/** Get list of daughters */
+	vector<PhotosParticle *> getDaughters()        { return daughters; }
+
+	/** Get list of all particles used by branch */
 	vector<PhotosParticle *> getParticles();
-	bool isValid() { return valid; }
+
+	/** Check if branch is suppressed */
+	int getSuppressionStatus() { return suppression; }
+
+	/** Checks momentum conservation of decaying particle.
+	    If it does not exist, checks momentum of first mother passed to photos */
 	bool checkMomentumConservation();
+
+	/** Process single branch */
+	void process();
+
+	/** Create branches from particles list */
+	static vector<PhotosBranch *> createBranches(vector<PhotosParticle *> particles);
 private:
-	/** Filter for branches. Checks if branching is suppressed by PHOTOS. */
-	bool passBranchPointFilter();
-	bool valid;
+	/** Checks if branching is suppressed by PHOTOS. */
+	int checkSuppressionLevel();
+
+private:
+	/** State of branching suppression*/
+	int suppression;
+	/** Decaying particle */
 	PhotosParticle          *particle;
+	/** List of mothers   */
 	vector<PhotosParticle *> mothers;
+	/** List of daughters */
 	vector<PhotosParticle *> daughters;
 };
 
