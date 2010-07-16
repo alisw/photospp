@@ -18,12 +18,12 @@
  </a>, version from Oct 11 2005).
 
  @section intro Introduction/Status
- At present (Jul 8) tar ball  is still not  complete but
- has functionality  of FORTRAN predecessor for all cases except t bar t  production.
+ At present (Jul 16) tar ball 
+ has functionality  of FORTRAN predecessor for all cases.
  Program is under tests and extension (main work direction for July).
-The purpose is to extend functionality to all features present in FORTRAN.
-Introduce better control of options and finally get better user
-controllable steering.
+The purpose is to
+introduce better control of options and finally get better user
+controllable steering. Documentation  requires  work going beyond cleaning.
  
  @section setup Requirements
 
