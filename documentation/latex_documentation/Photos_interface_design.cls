@@ -110,7 +110,7 @@ Jagellonian University, Reymonta 4, 30-059 Cracow, Poland.}
 
 This work is partially supported by  EU Marie Curie Research Training Network 
 grant under the contract No. MRTN-CT-2006-0355505 and by  
-Polish Government grant N202 06434 (2008-2010).
+Polish Government grant N202 06434 (2008-2011).
 
 \end{itemize}
 }

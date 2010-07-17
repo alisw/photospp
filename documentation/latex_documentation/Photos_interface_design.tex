@@ -460,20 +460,41 @@ be simply integrated all together into C++ version.
  At present we are however not convinced if such complication is worth 
 the complication for the user as it request more strict control of event 
 record content and gain of precision, which is quite good already now is 
-not that important. 
+not that important. That is why, we have not completed migration to C++.
+Instead as intermediate step we complete work on tests, prior to re-write
+ of numerically sensitive part which at the same time is algorithm wise rather 
+simple.
+Methods deviced to check content of HepMC as used by PHOTOS were already 
+described in Appendix \ref{App:Logging}. They need to be used whenever PHOTOS 
+is expected to work with new source of event record fills origiginating eg. 
+from upgrades of  PYTHIA. 
+Over the years of work with the algorithm it turned out that this is the
+most demanding work, 
+necessity to adopt to varying physics and technical input of event record
+pose a multitude of problems. Nature of difficulties can not be predicted 
+in advance.
 
-Over the years of work with the algorithm it turned out that most demanding is 
-necessity to adopt to varying physics and technical input of event record.
-Numerical stability and is one problem, but variety of physics constraints is 
-important too. Often condition  $E^2-p^2=m^2$ is not fulfilled because of 
+
+For the sake of debugging we have introduced control methods to activate
+ internal printouts of FORTRAN part of the code.
+Routine PHLUPA \cite{Barberio:1993qi} is activated and one can verify  
+for the event offending for example  energy momentum conservation how it is 
+constructed. That is quite convenient for tracing inconsistencies in 
+information passed to PHOTOS for example. 
+
+
+Numerical stability is another  problem. It can not be separated from
+ physics constraints. Condition  $E^2-p^2=m^2$ may be broken  because of 
 rounding errors. However in the same event but for other particle, this on 
 mass shell 
-condition may not be correct as some intermediat particles present in event 
+condition may not be correct as some intermediate particles present in event 
 records may have substantial widths. 
 PHOTOS may become adaptable to such varying conditions, but it requires
 good interaction with the users. Protection against some reversible
 inconsistencies in event record may be the source of unexpected difficulties
-for other cases. 
+for other cases. At present this is left to FORTRAN part of the algorithm.
+This will gradually migrate to C++
+
 
  
 \subsection{Event Record Interface}
@@ -501,7 +522,7 @@ with no  need to redo.
 
 \section{Testing}
 
-One of the most important part of PHOTOS project are its tests.
+One of the most important part of PHOTOS project are its physics oriented tests.
 Several domain
 of physics tests should be mentioned. For user interested in precision 
 simulation of Z or W decay the most interesting will be papers \cite{Nanava:2009vg,Golonka:2006tw}. There, careful comparison with first order matrix element 
@@ -565,6 +586,16 @@ for PHOTOS too. In this case however some soft, final state particles have to be
 was complementing that test implemented now in public version of MC-TESTER
 working with infrared unstable samples too. Seee section .... of 
 ref \cite{Davidson:2008ma} for more details. For standard decay modes benchmarks are collected on our project web page \cite{Photos_tests}.
+Here we have collected numerical results in directory 
+{\tt examples/testing} and its subdirectories; respectively  
+{\tt Htautau, ttbar, Wenu, Wmunu, Zee, Zmumu}. Each of those include
+appropriate initialization files for the particular run of PYTHIA and eventually also TAUOLA. Numerical results from long runs of MC-TESTER based tests
+are stored for reference. Our choice of tests, at present is oriented toward 
+LHC user and radiative corrections in decay of W's, Z's and Higgs particles.
+At present users of low energy experiments are often using FORTRAN version 
+of the code. In future, appropriate   {\tt examples/testing} subdirectories will
+be added.
+
 
 \subsection{Results}
 In principle, at the level of single splitting the C++ interface of PHOTOS
@@ -628,11 +659,13 @@ Note by comparison with fig from ref~\cite{tauolaC++} that kinematical effect
 of hard photons are limited to depletion/increase of content of bins for acoplanarity angle close to $0$, $\pi$ and $2\pi$. For definition of selections C and D see.~\cite{Bower:2002zx}. \label{fig:acoplanarity}
 }
 \end{figure}
-Finally for the sake of debugging we have introduced 'put' methods for the 
-control printouts of internal printouts of FORTRAN part of the code.
-Then routine PHLUPA \cite{Barberio:1993qi} is activated and one can verify  
-for the event offending for example  energy momentum conservation how it is 
-constructed. That is quite convenient for tracing inconsistencies in information passed to PHOTOS for example.
+
+Finally
+let us present LHC oriented plot of Bare electron pair from $Z$ ($W$) decay 
+at LHC 
+with and without PHOTOS. It is similar to plots shown for Horace or Winhac. 
+One should bear in mind that this is technical and of little physcis direct 
+application.
 
 \section{Summary and outlook}
 We have presented new version  of PHOTOS Monte Carlo. The part operating on 
@@ -785,7 +818,7 @@ However, in order to run more advanced examples located in the {\tt /examples} d
         so that the {\tt PYTHIA} library {\tt hepmcinterface} exists.
   \item {\tt MC-TESTER} \cite{Golonka:2002rz,Davidson:2008ma} version 1.24 or later.
         Do not forget to type {\tt make libHepMCEvent} after compilation of {\tt MC-TESTER} is done.
-  \item {\tt TAUOLA} \cite{Tauola???} version 1.0 or later.
+  \item {\tt TAUOLA} \cite{Davidson:2010rw} version 1.02 or later.
 \end{itemize}
 
 In order to compile the {\tt PHOTOS C++ Interface}:
@@ -1017,6 +1050,7 @@ event record content another, simple method is provided.
 {\bf WILL WE HAVE SOME EXAMPLE FOR THAT?}
 
 \subsection{Logging and Debugging}
+\label{App:Logging}
 This section describes the basic functionality of the logging and debugging tool.
 For details on its content we adress the reader to comments in the {\tt /src/utilities/Log.h} header file.
 
@@ -1085,18 +1119,28 @@ for the project).
 
 \subsection*{Functionality}
 \begin{itemize}
-  \item[\ding{111}]{\bf 1} - Example task 1
+  \item[\ding{111}]{\bf 1} - Example t tbar
+  \item[\ding{111}]{\bf 1} - Examples branch, single
+  \item[\ding{111}]{\bf 2} -  Dead fortran remove
+  \item[\ding{111}]{\bf 2} -  Re write parts on HEPEVT type data structure
+  \item[\ding{111}]{\bf 3} - removal of FORTRAN remnants
 \end{itemize}
 
 \subsection*{Testing}
 \begin{itemize}
-  \item[\ding{111}]{\bf 2} - Example task 2
+  \item[\ding{111}]{\bf 1} - Long run root files for tests
+  \item[\ding{111}]{\bf 1} - missing plots
+  \item[\ding{111}]{\bf 2} - even record options
+  \item[\ding{111}]{\bf 3} - further plots of some interest
 \end{itemize}
 
 \subsection*{Usability}
 \begin{itemize}
-  \item[\ding{111}]{\bf 1} - Doxygen documentation updated
-  \item[\ding{111}]{\bf 3} - etc...
+  \item[\ding{111}]{\bf 1} - Doxygen documentation update
+  \item[\ding{111}]{\bf 1} - paper complete
+  \item[\ding{111}]{\bf 1} - READMES 
+  \item[\ding{111}]{\bf 2} - paper cleaning
+  \item[\ding{111}]{\bf 2} - User interaction and resulting fixes
 \end{itemize}
 
 
