@@ -443,6 +443,12 @@ or if only one branch needs to be examined by photos. For details see Appendix~\
 
 The underlying HepMC::GenEvent is hence modified with insertion of photons.
 
+\subsection{How to tun PHOTOS with other generators}
+If user is building large simulation system he may want to avoid our 
+infrastructure and load only libraries. For that purpose our stand-alone 
+example is good starting point. Libraries ....  need to be loaded and in 
+the code lines ... added finally initialization ... . As starting point for 
+drafting  this section 4.4 of mc-tester documentatuin can be used.
 \section{Extensibility}
  The purpose of the present version of C++ interface to PHOTOS is to enable 
 all functionality of its FORTRAN predecessor to be available for HepMC data
