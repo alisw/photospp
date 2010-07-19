@@ -50,7 +50,7 @@ int main(int argc,char **argv){
   if(argc>1)  //pre-set configs
   {
     pythia.readFile(argv[1]);
-    pythia.init( 11, -11, 200.);  //e+ e-
+    pythia.init( 11, -11, 500.);  //e+ e-      //BENCHMARKS WERE DONE FOR 200
     //    pythia.init( -2212, -2212, 14000.0); //proton proton collisions
   }
   else        //default config

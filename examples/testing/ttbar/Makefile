@@ -1,16 +1,20 @@
 ############## Make tests ###########################
 include ../test.inc
 
-NAME_BENCHMARK=mc-tester.root-Zee-photos-100M-sym-10MeV #or use other benchmark
+NAME_BENCHMARK=mc-tester.root-ttbar-photos
 
 
 CONF=pythia_ttbar.conf
-NAME=Zee
+NAME=ttbar
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root
-	$(COMPARE) $(NAME_BENCHMARK) mc-tester.$(NAME).root
-	mv tester.pdf tester.$(NAME).pdf
-	$(VIEWER) tester.$(NAME).pdf &
+	@echo
+	@echo "IMPORTANT:"
+	@echo "Following example is missing hadronization of b b_bar pair"
+	@echo
+#	$(COMPARE) $(NAME_BENCHMARK) mc-tester.$(NAME).root
+#	mv tester.pdf tester.$(NAME).pdf
+#	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
 	$(PROGRAM) $(CONF) 0 $(EVENTS)
@@ -21,4 +25,4 @@ clean:
 	rm -rf MC-TESTER.DAT *_C.so *_C.d
 
 clobber: clean
-	rm -f mc-tester.$(NAME).root 
+	rm -f mc-tester.$(NAME).root
