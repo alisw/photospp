@@ -15,6 +15,7 @@
  * @date 17 June 2008
  */
 
+#include <vector>
 #include "HepMC/GenEvent.h"
 #include "PhotosEvent.h"
 #include "PhotosParticle.h"
@@ -22,6 +23,8 @@
 class PhotosHepMCEvent : public PhotosEvent
 {
 public:
+	~PhotosHepMCEvent();
+
 	/** Constructor which keeps a pointer to the HepMC::GenEvent*/
 	PhotosHepMCEvent(HepMC::GenEvent * event);
 
@@ -35,6 +38,7 @@ public:
 private:
 	/** The event */
 	HepMC::GenEvent * m_event;
+	std::vector<PhotosParticle *> particles;
 };
 
 #endif  

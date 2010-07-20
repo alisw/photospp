@@ -170,7 +170,7 @@ public:
 		int pointers=0,buf=0;
 		unsigned long total=0;
 		char *lastS=" ";
-		int lastL=0;
+		unsigned int lastL=0;
 		if(PointerList->size()==0)
 		{
 			cout<<"----------------------------UNFREED MEMORY POINTERS----------------------------\n";
@@ -215,13 +215,13 @@ public:
 inline void* operator new(long unsigned int size, const char *filename, int line)
 {
 	void *ptr = (void *)malloc(size);
-	Log::NewPointer((unsigned long)ptr, size, filename, line);
+	Photos::Log::NewPointer((unsigned long)ptr, size, filename, line);
 	return(ptr);
 }
 
 inline void  operator delete(void *p)
 {
-	Log::DeletePointer((unsigned long)p);
+	Photos::Log::DeletePointer((unsigned long)p);
 	free(p);
 }
 

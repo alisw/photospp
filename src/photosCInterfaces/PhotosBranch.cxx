@@ -74,8 +74,9 @@ vector<PhotosParticle *> PhotosBranch::getParticles()
 
 bool PhotosBranch::checkMomentumConservation()
 {
-	if(particle)         return particle->checkMomentumConservation();
-	if(mothers.size()>0) return mothers.at(0)->checkMomentumConservation();
+	if(daughters.size()>0) return daughters.at(0)->checkMomentumConservation();
+	if(particle)           return particle->checkMomentumConservation();
+	if(mothers.size()>0)   return mothers.at(0)->checkMomentumConservation();
 	return true;
 }
 
