@@ -391,6 +391,10 @@ event record.
 
   \item {\bf examples/ } - examples of different {\tt TAUOLA C++ Interface} uses
     \begin{itemize}
+	\item {\bf photos\_standalone\_example} - the most basic example which loads pre-generated 
+	      events stored in file in {\tt HepMC} format which are then processed by {\tt Photos}.
+	\item {\bf single\_photos\_gun\_example} - an example of using the {\tt processOne} method
+	      to process only selected particles within the event record.
     \item {\bf photos\_pythia\_example} - simple $e^+e^- \rightarrow Z \rightarrow e^+e^-$ event in
 	{\tt HepMC} format which is then processed by {\tt PHOTOS}.
     \item {\bf tauola\_photos\_pythia\_example } - example of  {\tt TAUOLA} linked with pythia 8.1,
@@ -1001,7 +1005,7 @@ For user convenience the following configuration methods are provided:
 \emph{When a decay {\tt 15 => 16, -211 } is found, it will be skipped by PHOTOS along with the decays of particle 16, -211 and all their daughters. In the end, the whole decay tree starting with {\tt 15 => 16, -211} will be skipped.}
 \end{itemize}
 
-\subsection{{\bf Force {\tt PHOTOS} processing } }
+\subsection{Force {\tt PHOTOS} processing }
 \label{section:force}
 
 For example, suppress all, then turn on any appropriate process.
@@ -1035,7 +1039,7 @@ suppressed.
 all its daughters.}
 \end{itemize}
 
-\subsection{{\bf Use of {\tt processParticle} and {\tt processBranch} methods }}
+\subsection{Use of {\tt processParticle} and {\tt processBranch} methods}
 \label{PHOTOSgun}
 
 In Section~\ref{sect:Outline} an algorithm to process whole event record is explained.
@@ -1053,7 +1057,12 @@ event record content another, simple method is provided.
 		tree starting from the particle	provided as pointer.
 \end{itemize}
 
-{\bf WILL WE HAVE SOME EXAMPLE FOR THAT?}
+An example {\tt single\_photos\_gun\_example.c} is provided in the directory {\tt /examples}
+showing how this functionality can be used to process a decay of selected particles.
+The $Z0 \rightarrow \tau^+ \tau^-$ decays are generated and the event record is traversed
+searching for the first $\tau^-$ particle found in event record.
+Instead of processing the whole event, only the decay of $\tau^-$ is processed by {\tt Photos}.
+
 
 \subsection{Logging and Debugging}
 \label{App:Logging}
@@ -1125,11 +1134,9 @@ for the project).
 
 \subsection*{Functionality}
 \begin{itemize}
-  \item[\ding{111}]{\bf 1} - memory leak remove
-  \item[\ding{111}]{\bf 2} - Comolete example t tbar
-  \item[\ding{111}]{\bf 2} - Complete examples branch, single
-  \item[\ding{111}]{\bf 2} -  Dead fortran remove
-  \item[\ding{111}]{\bf 2} -  Re write parts on HEPEVT type data structure
+  \item[\ding{111}]{\bf 1} - Complete example t tbar
+  \item[\ding{111}]{\bf 2} - Dead fortran code remove
+  \item[\ding{111}]{\bf 2} - Rewrite parts on HEPEVT type data structure
   \item[\ding{111}]{\bf 3} - removal of FORTRAN remnants
 \end{itemize}
 
