@@ -670,12 +670,62 @@ of hard photons are limited to depletion/increase of content of bins for acoplan
 }
 \end{figure}
 
-Finally
+In ref \cite{Adam:2008ge} discussion of systematic errors for measurements of Z cross 
+section at LHC is presented. One of the technical tests for the obtained 
+distribution is fig 1b of that paper. In our fig \ref{fig:lineshape} we have 
+reproduced that plot using PYTHIA 8.1 and PHOTOS. Qualitatively the effect
+of FSR QWD bremsstrahlung is in the two cases quite similar. Discussion
+of complete electroweak corrections as shown in fig 1a of  \cite{Adam:2008ge}
+is not the purpose of our document. Let us point however that electroweak 
+non-QED corrections can be installed into PYTHIA 8.1 PHOTOS simulation with 
+the help of TAUOLA interface \cite{Davidson:2010rw}
+
 let us present LHC oriented plot of Bare electron pair from $Z$ ($W$) decay 
 at LHC 
 with and without PHOTOS. It is similar to plots shown for Horace or Winhac. 
 One should bear in mind that this is technical and of little physcis direct 
 application.
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.85]{lineshape.eps}
+\caption{{\it First draft of the plot.} Distribution of bare $e^+e^-$ invariant mass. Green line represent results when final state 
+bremsstrahlung is generated (with the help of PHOTOS Monte Calro). For red line FSR 
+bremstrahlung is absent. Event sample is generated with the help of PYTHIA 8.1.
+Simulation of pp collision at 14 TeV Center of Mass system ebergy is performed.
+$Z/\gamma$ mediated hard process is used.
+  \label{fig:lineshape}
+}
+\end{figure}
+
+We have checked also that PHOTOS works for the $t \bar t$ as well.
+For that purpose we have produced the  $t \bar t$ pairs of monohromatic 
+virtuality of 500 GeV. We have produced rates for configurations with 0,1 and 
+at least two photons above energy of 1 GeV (in hard scattering frame)
+as in the following table:
+
+
+\vspace{0.3cm} 
+\begin{center}
+{ \begin{tabular}{|c|c |} 
+\hline 
+Final state &  Branching Ratio  $\pm$ Rough Errors \\  
+\hline 
+\hline 
+{$ \widetilde{t} t \; \;\; \;$}  &  {99.6118 $\pm$  0.0998\%}  \\ 
+\hline 
+%\hline 
+ {$  \widetilde{t} t \gamma \;\;$} &   { 0.3874 $\pm$  0.0062\%}   \\ 
+\hline 
+%\hline 
+{$  \widetilde{t} t \gamma \gamma$}  &  { 0.0008 $\pm$  0.0003 \%}  \\ 
+\hline 
+\end{tabular} 
+}  
+\end{center} 
+1 Mevts were generated. 
+{\bf But we are still not ready with public demo. PHOTOS does not work on ee $\to $ tt
+and MC-tester LC option does not work on pythia events ...}
+
 
 \section{Summary and outlook}
 We have presented new version  of PHOTOS Monte Carlo. The part operating on 
