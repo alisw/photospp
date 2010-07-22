@@ -719,7 +719,10 @@ Final state &  Branching Ratio  $\pm$ Rough Errors \\
 \end{center} 
 1 Mevts were generated. 
 {\bf But we are still not ready with public demo. PHOTOS does not work on ee $\to $ tt
-and MC-tester LC option does not work on pythia events ...}
+and MC-tester LC option does not work on pythia events because in initializations 
+we found there is no energy momentum conservation in $q \bar q (gg) \to t \bar t$}
+
+Comment on comparison with CEEX1.
 
 
 \section{Summary and outlook}
@@ -766,7 +769,7 @@ and special users interested in advanced options of {\tt PHOTOS FORTRAN}.
 For this purpose we describe the common blocks and routines which allow
 communication between {\tt PHOTOS} and {\tt PHOTOS C++ Interface}. 
 
-\subsubsection{Common Blocks}
+\subsection{Common Blocks}
 
 In the following let us list common blocks of {\tt PHOTOS} which are accessed
 from C++.
@@ -782,27 +785,27 @@ from C++.
 \begin{description}
 \item[PHOKEY] keys and parameters controlling algorithm options.
     \begin{description}
-	\item[FSEC]   \textit{double} .
-	\item[FINT]   \textit{double} .
-	\item[EXPEPS] \textit{double} .
-	\item[INTERF] \textit{int} .
-	\item[ISEC]   \textit{int} .
-	\item[ITRE]   \textit{int} .
-	\item[IEXP]   \textit{int} .
-	\item[IFTOP]  \textit{int} .
+	\item[FSEC]   \textit{double} internal variable for algorithm options, default is FSEC-1..
+	\item[FINT]   \textit{double} Maximum interference weight.
+	\item[EXPEPS] \textit{double} Technical parameter, blocks crude level high photon multiplicity from configurations less praobable than EXPEPS, default is $10^{-4}$.
+	\item[INTERF] \textit{int} Key for interference, matrix element weight.
+	\item[ISEC]   \textit{int} switch for double bremsstrahlung generation.
+	\item[ITRE]   \textit{int} switch for bremsstrahlung generation up to multiplicity 4.
+	\item[IEXP]   \textit{int} switch for exponentiation mode.
+	\item[IFTOP]  \textit{int} switch for photon emission in top pair production in quark (gluon) pair annihilation.
     \end{description}
 \end{description}
 
 \begin{description}
-\item[PHSEED] Initialization parameters for random number generator.
+\item[PHSEED] common block for a copy of Marsaglia and Zaman random number generator usef in fortran part of PHOTOS.
     \begin{description}
-	\item[ISEED[ 2]]  \textit{int} .
-	\item[I97]        \textit{int} .
-	\item[J97]        \textit{int} .
-	\item[URAN[ 97]]  \textit{double} .
-	\item[CRAN]       \textit{double} .
-	\item[CDRAN]      \textit{double} .
-	\item[CMRAN]      \textit{double} .
+	\item[ISEED[ 2]]  \textit{int} seed values, default is  ISEED[ 1]=1802, ISEED[ 2]=9373
+	\item[I97]        \textit{int} internal variable of the random number generator.
+	\item[J97]        \textit{int} internal variable of the random number generator.
+	\item[URAN[ 97]]  \textit{double} internal variable of the random number generator.
+	\item[CRAN]       \textit{double} internal variable of the random number generator.
+	\item[CDRAN]      \textit{double} internal variable of the random number generator.
+	\item[CMRAN]      \textit{double} internal variable of the random number generator.
     \end{description}
 \end{description}
 
@@ -818,11 +821,13 @@ from C++.
 \item[PH\_PHOQED] Supplement for PH\_HEPEVT event record to block emission 
 from some particles.
     \begin{description}
-    \item[QEDRAD[ 10000]]  \textit{int} .
+    \item[QEDRAD[ 10000]]  \textit{bool} flag enabling FORTRAN user
+    to block emission from particles stored in PH\_HEPEVT. Not used in 
+     our interface.
     \end{description}
 \end{description}
 
-\subsubsection{Routines}
+\subsection{Routines}
 
 In the following let us list routines which are called from the interface.
 

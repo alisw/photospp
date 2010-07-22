@@ -98,10 +98,21 @@ Jagellonian University, Reymonta 4, 30-059 Cracow, Poland.}
  }\\[0.5cm]
 
 %\includegraphics[height=3cm]{logo.eps}\\[1cm]
+{\bf \Large Abstract} \vskip 2 mm 
 
-\normalsize \today
 \end{center}
+
+{ In this paper we document first version of PHOTOS Monte Carlo for bremsstrahlung 
+in decay of particles and resonances working in C++ and with HepMC event record.
+Already now functionality is not worse than of its FORTRAN predecessor. 
+Better steering options are prepared for user convenience. Algorithm is 
+pepared for installation of process dependent weights to implement complete effects
+of first order matrix elements. Multitude of tests are collected.}
+
+\centerline{\normalsize \today}
+
 \vfil
+
 \footnoterule
 \noindent
 {\footnotesize
