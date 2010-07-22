@@ -447,12 +447,6 @@ or if only one branch needs to be examined by photos. For details see Appendix~\
 
 The underlying HepMC::GenEvent is hence modified with insertion of photons.
 
-\subsection{How to tun PHOTOS with other generators}
-If user is building large simulation system he may want to avoid our 
-infrastructure and load only libraries. For that purpose our stand-alone 
-example is good starting point. Libraries ....  need to be loaded and in 
-the code lines ... added finally initialization ... . As starting point for 
-drafting  this section 4.4 of mc-tester documentatuin can be used.
 \section{Extensibility}
  The purpose of the present version of C++ interface to PHOTOS is to enable 
 all functionality of its FORTRAN predecessor to be available for HepMC data
@@ -608,6 +602,7 @@ be added.
 
 
 \subsection{Results}
+\label{sec:results}
 In principle, at the level of single splitting the C++ interface of PHOTOS
 introduces nothing new with respect to standard version of PHOTOS as available 
 in FORTRAN. That is why, standard tests as collected in \cite{Photos_tests} do not need 
@@ -937,23 +932,18 @@ faulty generation by {\tt PHOTOS}.
 
 \subsection{Executing Examples}
 
-{\bf
-EXAMPLES THAT WE SHOULD HAVE: \\
-$\bullet$ Whole event tree is searched  for bremsstrahlung to add \\
-$\bullet$ Branch starting from ipoin is searched for bremsstrahlung to add only \\
-$\bullet$ All Branches starting from particle of PDGId is searched for bremsstrahlung to add only \\
-$\bullet$ only single decay vetrex is treated. \\
-}
-
 Once elementary tests are completed one can turn to the more advanced ones.
 The purpose is not only to validate the installation but to demonstrate how the
 interface can be used.
 
 The examples can be run by executing the appropriate {\tt .exe} file in the {\tt /examples} directory.
 In order to run some more specific tests for the following processes:
-$Z \rightarrow e+e-$, $W \rightarrow e+e-$ {\bf etc...}, the main programs residing
-in subdirectories of the same name placed in the {\tt /examples/testing} directory
-should be executed. In all cases the following actions have to be performed:
+$H \rightarrow \tau^+ \tau^-$, $ e^+ e^- \rightarrow t \bar t$,
+$W \rightarrow e \nu_e$, $W \rightarrow \mu \nu_\mu$,
+$Z \rightarrow e^+ e^-$ or $Z \rightarrow \mu \mu$,
+the main programs residing in subdirectories of the same name placed in the
+{\tt /examples/testing} directory should be executed.
+In all cases the following actions have to be performed:
 
 \begin{itemize}
   \item Compile {\tt PHOTOS C++ Interface} as well as the examples. 
@@ -981,13 +971,18 @@ examples settings are discussed. This may be interesting as an initial step for 
 physics studies.  Numerical results of some of these tests are collected in Section \ref{sec:results}
 and can be thus reproduced by the user.
 
-\subsection{Library Linking}
+\subsection{How to tun PHOTOS with other generators}
+If user is building large simulation system he may want to avoid our 
+infrastructure and load only libraries. For that purpose our stand-alone 
+example is good starting point.
+
 In order to link the libraries to the user's project, both the static libraries and shared objects are
-constructed. To use {\tt PHOTOS FORTRAN} and {\tt PHOTOS Interface} in an external project additional 
+constructed. To use {\tt PHOTOS Interface} in an external project additional 
 compilation directives are required. For the static libraries:
 \begin{itemize}
   \item add {\tt -I<PhotosLocation>/include } at the compilation step,
-  \item add {\tt <PhotosLocation>/lib/libPhotosCxxInterface.a } and {\tt <PhotosLocation>/lib/libPhotosFortran.a } at the linking step.
+  \item add {\tt <PhotosLocation>/lib/libPhotosCxxInterface.a } and\\
+        {\tt <PhotosLocation>/lib/libPhotosFortran.a } at the linking step.
 \end{itemize}
 For the shared objects:
 \begin{itemize}
@@ -995,8 +990,9 @@ For the shared objects:
   \item add {\tt -L<PhotosLocation>/lib } along with {\tt -lPhotosCxxInterface } at the linking step.
   \item  {\tt PHOTOS} libraries must be provided for the executable; eg. with the help of  {\tt LD\_LIBRARY\_PATH }.
 \end{itemize}
-The {\tt <PhotosLocation>} denotes the  path to {\tt PHOTOS} installation directory. 
-
+The {\tt <PhotosLocation>} denotes the  path to {\tt PHOTOS} installation directory.
+In most cases it should be enough to include {\tt Photos.h} and {\tt PhotosEvent.h}
+within user program and use {\tt Photos} class for configuration and {\tt PhotosEvent}
 
 \section{Appendix: User Configuration}
 \label{sec:User Configuration}
@@ -1166,7 +1162,45 @@ of the {\tt Log.h} file%
 the user program  for the memory leak tracking tool to be used only for {\tt PHOTOS Interface}.
 }.
 
+\subsection{Creating advanced plots and custom analysis}
+\label{App:Plots}
 
+In Section \ref{sec:results}, we've presented results of a non-standard
+analysis performed by {\tt MC-Tester}. Figure \ref{fig:lineshape} has been
+obtined by using custom {\tt UserTreeAnalysis} located in file {\tt ZeeAnalysis.C}
+residing in {\tt examples/testing/Zee} directory. This file serves as an
+example of how the custom analysis can be introduced and new plots can be
+added to the project with the help of {\tt MC-Tester}.
+
+The basic {\tt MC-Tester} analysis contains methods used by pre-set examples
+in {\tt examples/testing} directory to limit the number of soft photons generated
+by {\tt Photos}. It's description and usage has already been documented in \cite{??}.
+The content of {\tt ZeeAnalysis.C} is identical to the default {\tt UserTreeAnalysis}
+of {\tt MC-Tester} with the only addition being the simple method to create
+previously mentioned plot.
+
+In order to create a $t \bar t$ example that {\tt Photos} is able to process,
+two additional routines had to be added to {\tt photos\_pythia\_example.c}.
+These routines - {\tt electronToGluon} and {\tt fixForMctester} are necessary
+due to the uniqueness of the generated process.
+
+Due to {\tt Pythia} generating a large amount of vertices where momentum is not
+conserved for all $p p \rightarrow t \bar t$ processes, in order to present this
+example we have used a much more stable $e^+ e^- \rightarrow t \bar t$
+generation. However, the Fortran version of {\tt Photos} has not been designed
+to work with such process, therefore a quick fix converting the pdg ID of
+the incoming particles from electrons to gluons has been introduced.
+
+Additionaly, since {\tt MC-Tester} is not designed to analyze processes involivng
+multiple incoming particles, we've used a simple method similar to previously
+used in Fortran examples {\tt LC\_Analysis} described in \cite{??}. However,
+this method proved to be hard to implement with current version of {\tt HepMC}
+interface of {\tt MC-Tester}, therefore a special routine had to be added
+to add similar modifications to {\tt HepMC} event. This modification transforms
+$X Y \rightarrow t \bar t$ process to $100 \rightarrow Y t \bar t$ process,
+where the momentum of special particle $100$ is $X + 2*Y$ so that momentum is still
+conserved within the vertex. With that modification, {\tt MC-Tester} can be set up
+to analysie partcle $100$ in order to get a desirable results.
 
 %------------------------------------------------------------------------------
 \newpage
