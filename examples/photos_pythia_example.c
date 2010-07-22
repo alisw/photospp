@@ -154,7 +154,7 @@ int main(int argc,char **argv)
 
 		// We mess with the event so MC-Tester can work on it as in LC analysis case
 		if(topDecays) fixForMctester(HepMCEvt);
-		HepMCEvt->print();
+		//HepMCEvt->print();
 
 		// Call MC-Tester
 		HepMCEvent temp_event(*HepMCEvt,false);
