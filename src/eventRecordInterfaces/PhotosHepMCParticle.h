@@ -117,7 +117,8 @@ class PhotosHepMCParticle: public PhotosParticle{
   void setE( double e );
 
 
- private:    
+ private:
+  /** Internal function used to clear particles from the vector */
   void clear(std::vector<PhotosParticle*> v);
 
   /** A pointer to the HepMC::GenParticle particle */

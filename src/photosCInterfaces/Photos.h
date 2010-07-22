@@ -40,25 +40,38 @@ public:
 	/** Suppress processing of whole decay branch */
 	static void suppressBremForBranch(int count, int motherID, ... );
 
-	/** Suppress all processing.
-	    Only forced decays will be processed. */
+	/** Suppress all processing. Only forced decays will be processed. */
 	static void suppressAll()                      { isSuppressed=true; }
 
 	/** Force processing of a single decay */
 	static void forceBremForDecay (int count, int motherID, ... );
+
 	/** Force processing of a whole decay branch */
 	static void forceBremForBranch(int count, int motherID, ... );
 
-	//
-	//ROUTINES BELLOW NEED COMMENTS FOR DOXYGEN!!!
-	//
+public:
+	/** Seed for RANMAR used by fortran part of the Photos */
+	static void setSeed(int iseed1, int iseed2)    { phseed_.iseed[0]=iseed1; phseed_.iseed[1]=iseed2; }
 
-	//Wrappers for the PHOTOS configuration variables
+	/** Maximum interference weight */
+	static void maxWtInterference(double interference) { phokey_.fint=interference; }
+
+	/** Minimal energy (in units of decaying particle mass) for photons to be explicitly generated */
 	static void setInfraredCutOff(double cut_off)  { phocop_.xphcut=cut_off; }
+
+	/** Coupling constant alpha QED */
 	static void setAlphaQED(double alpha)          { phocop_.alpha=alpha; }
+
+	/** Key for interference, matrix element weight */
 	static void setInterference(bool interference) { phokey_.interf=(int)interference; }
+
+	/** Set double bremsstrahlung generation */
 	static void setDoubleBrem(bool doub)           { phokey_.isec=(int)doub; }
+
+	/** Set bremsstrahlung generation up to multiplicity of 4 */
 	static void setHigherBrem(bool higherBrem)     { phokey_.itre=(int)higherBrem; }
+
+	/** Set exponentiation mode */
 	static void setExponentiation(bool expo)
 	{
 		phokey_.iexp = (int) expo;
@@ -72,9 +85,13 @@ public:
 		}
 	};
 
+	/** Set photon emission in top pair production in quark (gluon) pair annihilation */
 	static void setTopProcessRadiation(bool top)         { phokey_.iftop=(int)top; }
+
+	/** Initialize kinematic corrections */
 	static void initializeKinematicCorrections(int flag) { phcork_(&flag); }
 
+public:
 	/** Is in suppressed mode */
 	static bool isSuppressed;
 

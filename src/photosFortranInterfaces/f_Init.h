@@ -35,15 +35,17 @@ extern "C"
 
 	//debug mode on if ipoin <  1 and ipoinm > 1
 	extern struct
-	{    
+	{
 		int ipoin;
 		int ipoinm;
-	} phlupy_;  
+	} phlupy_;
 
+	/** Initialize kinematic corrections */
 	extern void phcork_(int * modcor);
 
-	//extern void dexay_(int *state, double pol[4]);
-	extern void phoini_(); //PHOTOS initialisation
+	/** PHOTOS initialization */
+	extern void phoini_();
+	/** Single branch processing */
 	extern void photos_make_(int * id);
 }
 

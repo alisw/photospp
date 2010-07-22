@@ -778,7 +778,7 @@ from C++.
 \item[PHOCOP] Coupling constant and releted parameters.
     \begin{description}
 	\item[ALPHA]  \textit{double}  coupling constant $\alpha_{QED}$.
-	\item[XPHCUT] \textit{double} minimal energy (in units of decaying particle mass) fro photons to be explicitly generated.
+	\item[XPHCUT] \textit{double} minimal energy (in units of decaying particle mass) for photons to be explicitly generated.
     \end{description}
 \end{description}
 
@@ -788,11 +788,11 @@ from C++.
 	\item[FSEC]   \textit{double} internal variable for algorithm options, default is FSEC-1..
 	\item[FINT]   \textit{double} Maximum interference weight.
 	\item[EXPEPS] \textit{double} Technical parameter, blocks crude level high photon multiplicity from configurations less praobable than EXPEPS, default is $10^{-4}$.
-	\item[INTERF] \textit{int} Key for interference, matrix element weight.
-	\item[ISEC]   \textit{int} switch for double bremsstrahlung generation.
-	\item[ITRE]   \textit{int} switch for bremsstrahlung generation up to multiplicity 4.
-	\item[IEXP]   \textit{int} switch for exponentiation mode.
-	\item[IFTOP]  \textit{int} switch for photon emission in top pair production in quark (gluon) pair annihilation.
+	\item[INTERF] \textit{bool} Key for interference, matrix element weight.
+	\item[ISEC]   \textit{bool} switch for double bremsstrahlung generation.
+	\item[ITRE]   \textit{bool} switch for bremsstrahlung generation up to multiplicity 4.
+	\item[IEXP]   \textit{bool} switch for exponentiation mode.
+	\item[IFTOP]  \textit{bool} switch for photon emission in top pair production in quark (gluon) pair annihilation.
     \end{description}
 \end{description}
 
@@ -1166,6 +1166,19 @@ of the {\tt Log.h} file%
 \footnote{Note that {\tt Log.h } does not need to be included within
 the user program  for the memory leak tracking tool to be used only for {\tt PHOTOS Interface}.
 }.
+
+\subsection{Other User Configuration Methods}
+\label{subsection:other_methods}
+
+The following auxiliary methods are prepared. They are useful for initialization 
+or are introduced for backward compatibility.
+
+\begin{itemize}
+  \item {\tt Photos::setSeed(int iseed1, int iseed2)} \\
+        Set internal fortran RANMAR random generation seed values.
+   \item {\tt Photos::maxWtInterference(double interference)} \\
+        Set maximum interference weight. The default is 2.
+\end{itemize}
 
 \subsection{Creating advanced plots and custom analysis}
 \label{App:Plots}

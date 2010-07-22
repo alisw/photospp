@@ -31,13 +31,15 @@ public:
 	/** Returns the HepMC::GenEvent */
 	HepMC::GenEvent * getEvent();
 
+	/** Returns the list of particles */
 	std::vector<PhotosParticle*> getParticleList();
 
+	/** Prints event summary */
 	void print();
-
 private:
 	/** The event */
 	HepMC::GenEvent * m_event;
+	/** Particle list */
 	std::vector<PhotosParticle *> particles;
 };
 

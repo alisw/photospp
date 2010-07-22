@@ -20,6 +20,7 @@ void Photos::initialize()
 	setExponentiation(true);
 	setInterference(true);
 	setTopProcessRadiation(true);
+	maxWtInterference(3.0); //For Zee, where weight can be above unity
 	//Log::LogPhlupa(0,1000);
 }
 
