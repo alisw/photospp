@@ -1,5 +1,5 @@
 {
-	Setup::decay_particle=6;
+	Setup::decay_particle=100;
 	Setup::debug_mode=false; //verbose output from MC-Tester?
 
 	// Setup histograms
@@ -23,4 +23,6 @@
 
 	Setup::SuppressDecay(22);
 	Setup::SuppressDecay(23);
+	Setup::SuppressDecay(6);
+	Setup::SuppressDecay(-6);
 };

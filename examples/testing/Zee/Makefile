@@ -1,7 +1,7 @@
 ############## Make tests ###########################
 include ../test.inc
 
-NAME_BENCHMARK=mc-tester.root-Zee-photos-100M-sym-10MeV #or use other benchmark
+NAME_BENCHMARK=mc-tester.root-Zee-1M-good #photos-100M-sym-10MeV #or use other benchmark
 
 
 CONF=pythia_Z.conf
@@ -13,7 +13,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) 0 $(EVENTS)
+	$(PROGRAM) $(CONF) 0 $(EVENTS) 2
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:
