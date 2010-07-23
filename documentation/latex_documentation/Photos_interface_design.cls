@@ -83,9 +83,13 @@
 \let\footnotesize\small \let\footnoterule\relax \setcounter{page}{0}
 \null
 \vfil
+\hskip 11.2 cm IFJPAN-IV-2010-6
+
+\hskip 12 cm August 2010
+
 \begin{center}
-\title{PHOTOS Interface in C++\\[0.5cm]\rule{4cm}{1pt}\\[0.5cm]
-\textbf{Draft of Technical Documentation\\[0.5cm]\rule{4cm}{1pt}\\[0.5cm]}}
+\title{PHOTOS Interface in C++\\[0.5cm]{} 
+\textbf{\small Draft of Technical and Physics Documentation\\[0.8cm]\rule{4cm}{1pt}\\[0.5cm]}}
 
 \author{\LARGE N. Davidson$^{a,b}$, T. Przedzinski$^c$, Z. Was$^a$}\\[0.5cm]
 \textsf{\Large{\em $^a$ Institute of Nuclear Physics, 
