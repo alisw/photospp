@@ -718,6 +718,54 @@ Final state &  Branching Ratio  $\pm$ Rough Errors \\
 }  
 \end{center} 
 1 Mevts were generated. 
+
+Let us now turn to example of the test for two photon final state configuration.
+We compare KKMC \cite{} with exponentiation and second order matrix element 
+second order and restricted to first order only, finally results of PHOTOS - exponentiation activated. As one can see from the Table. Rates for configurations 
+where zero one or at least two photons of energy above 1 GeV are up to two
+permille the same for the three cases and $Z\to \mu^+\mu^-$ decay. 
+
+{\centering \begin{tabular}{|c|c|c|c|} 
+\hline 
+Decay channel &\multicolumn{2}{|c|}{ Branching Ratio $\pm$ Rough Errors} & Max. shape\\ 
+      & {KKMC CEEX2} & {KKMC CEEX1} & dif. param.\\ 
+\hline 
+\hline 
+ {$Z^{0} \rightarrow \mu^{+} \mu^{-} $} & {83.9591 $\pm$  0.0916\%} &{  83.7983 $\pm$  0.0463\%} & 0.00000 \\ 
+\hline 
+\hline 
+ {$Z^{0} \rightarrow \gamma \mu^{+} \mu^{-} $} & {14.7665 $\pm$  0.0384\%} &{  14.8728 $\pm$  0.0195\%} & 0.00000 \\ 
+\hline 
+\hline 
+{$Z^{0} \rightarrow \gamma \gamma \mu^{+} \mu^{-} $} & { 1.2744 $\pm$  0.0113\%} &{   1.3289 $\pm$  0.0058\%} & 0.00757 \\ 
+\hline 
+\end{tabular}\par} 
+This is not the case for differential distributions, see Fig.~\cite{fig:gamgam}. For example spectrum of 
+the two gamma mass is quite different between first and second order 
+exponentiation result. This is of potential interest for simulations aiming at 
+bacground for $H \to \gamma \gamma$. In conrary, difference between results fromPHOTOS and CEEX2 are much smaller. PHOTOS exploits first order matrix element 
+in a better way than exponentiation. As consequence it reproduce terms resulting in second order leading logaritms. This observation is important not only for 
+the particular case of $Z$ decay but for the general case of double bremsstrahlung in any decay as well. That is why it was worth mentioning here.
+
+
+\begin{figure}[h!]
+\centering
+\subfigure[CEEX2 red CEEX1 green black CEEX2/CEEX1]{
+\includegraphics[scale=0.35]{{M1@0001.eps}}
+}
+\subfigure[bremsshtrahlung from $Z$, $\tau^+ $ and $\tau^- $ decays]{
+\includegraphics[scale=0.35]{bremall.eps}
+}
+\caption{ Spectrun of the $\gamma \gamma$ invariant mass in $Z \to \mu^+\mu^-$
+decay. Events with two hard photons, both of energy above 1 GeV in $Z$ rest 
+frame are taken. Comparison CEEX2 CEEX1 left hand side plot, and CEEX2 PHOTOS
+right hand plot. 
+  \label{fig:gamgam}.
+}
+\end{figure}
+
+ 
+
 {\bf But we are still not ready with public demo. PHOTOS does not work on ee $\to $ tt
 and MC-tester LC option does not work on pythia events because in initializations 
 we found there is no energy momentum conservation in $q \bar q (gg) \to t \bar t$}
