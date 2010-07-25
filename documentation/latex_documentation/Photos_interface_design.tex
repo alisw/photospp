@@ -727,20 +727,20 @@ permille the same for the three cases and $Z\to \mu^+\mu^-$ decay.
 
 {\centering \begin{tabular}{|c|c|c|c|} 
 \hline 
-Decay channel &\multicolumn{2}{|c|}{ Branching Ratio $\pm$ Rough Errors} & Max. shape\\ 
-      & {KKMC CEEX2} & {KKMC CEEX1} & dif. param.\\ 
+Decay channel &\multicolumn{3}{|c|}{ Branching Ratio $\pm$ Rough Errors}  \\ 
+      & {KKMC CEEX2} & {KKMC CEEX1} & PHOTOS exp.\\ 
 \hline 
 \hline 
- {$Z^{0} \rightarrow \mu^{+} \mu^{-} $} & {83.9591 $\pm$  0.0916\%} &{  83.7983 $\pm$  0.0463\%} & 0.00000 \\ 
+ {$Z^{0} \rightarrow \mu^{+} \mu^{-} $} & {83.9591 $\pm$  0.0916\%} &{  83.7983 $\pm$  0.0463\%} & 83.8547 $\pm$ 0.0290 \%\\ 
 \hline 
 \hline 
- {$Z^{0} \rightarrow \gamma \mu^{+} \mu^{-} $} & {14.7665 $\pm$  0.0384\%} &{  14.8728 $\pm$  0.0195\%} & 0.00000 \\ 
+ {$Z^{0} \rightarrow \gamma \mu^{+} \mu^{-} $} & {14.7665 $\pm$  0.0384\%} &{  14.8728 $\pm$  0.0195\%} & 14.8557$\pm$ 0.0122\% \\ 
 \hline 
 \hline 
-{$Z^{0} \rightarrow \gamma \gamma \mu^{+} \mu^{-} $} & { 1.2744 $\pm$  0.0113\%} &{   1.3289 $\pm$  0.0058\%} & 0.00757 \\ 
+{$Z^{0} \rightarrow \gamma \gamma \mu^{+} \mu^{-} $} & { 1.2744 $\pm$  0.0113\%} &{   1.3289 $\pm$  0.0058\%} & 1.2902 $\pm$ 0.0036\%\\ 
 \hline 
 \end{tabular}\par} 
-This is not the case for differential distributions, see Fig.~\cite{fig:gamgam}. For example spectrum of 
+This is not the case for differential distributions, see Fig.~\ref{fig:gamgam}. For example spectrum of 
 the two gamma mass is quite different between first and second order 
 exponentiation result. This is of potential interest for simulations aiming at 
 bacground for $H \to \gamma \gamma$. In conrary, difference between results fromPHOTOS and CEEX2 are much smaller. PHOTOS exploits first order matrix element 
@@ -750,17 +750,22 @@ the particular case of $Z$ decay but for the general case of double bremsstrahlu
 
 \begin{figure}[h!]
 \centering
-\subfigure[CEEX2 red CEEX1 green black CEEX2/CEEX1]{
+\subfigure[CEEX2: red; CEEX1: green; ratio  CEEX2/CEEX1 black]{
 \includegraphics[scale=0.35]{{M1@0001.eps}}
 }
-\subfigure[bremsshtrahlung from $Z$, $\tau^+ $ and $\tau^- $ decays]{
-\includegraphics[scale=0.35]{bremall.eps}
+\subfigure[CEEX2: red; PHOTOS: green; ratio  CEEX2/PHOTOS black]{
+\includegraphics[scale=0.35]{b-M1@0001.eps}
 }
 \caption{ Spectrun of the $\gamma \gamma$ invariant mass in $Z \to \mu^+\mu^-$
 decay. Events with two hard photons, both of energy above 1 GeV in $Z$ rest 
 frame are taken. Comparison CEEX2 CEEX1 left hand side plot, and CEEX2 PHOTOS
-right hand plot. 
-  \label{fig:gamgam}.
+right hand plot. Prediction from PHOTOS is cleraly superior for applications aiming at
+simulation of Higgs boson backgrounds. In case of solutions basedd on YFS 
+exponentiation second order matrix element must be taken into account. Plot b was obtained
+from our {\tt examples/testing/Zmumu } after adaptation of center of mass energy 
+(91.17 GeV) and test
+energy threshold (1 GeV).
+  \label{fig:gamgam}
 }
 \end{figure}
 
@@ -770,7 +775,7 @@ right hand plot.
 and MC-tester LC option does not work on pythia events because in initializations 
 we found there is no energy momentum conservation in $q \bar q (gg) \to t \bar t$}
 
-Comment on comparison with CEEX1.
+
 
 
 \section{Summary and outlook}
