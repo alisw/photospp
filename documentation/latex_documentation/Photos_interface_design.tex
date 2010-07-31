@@ -594,8 +594,7 @@ appropriate initialization files for the particular run of {\tt PYTHIA}. Numeric
 are stored for reference. Our choice of tests, at present is oriented toward 
 LHC user and radiative corrections in decay of W's, Z's and Higgs particles.
 At present users of low energy experiments are often using {\tt FORTRAN} version 
-of the code. In future, appropriate   {\tt examples/testing} subdirectories will
-be added.
+of the code. 
 
 
 \subsection{Results}
@@ -638,7 +637,7 @@ For left hand side plot,  only  bremsstrahlung in  $\tau^+ $ decay is included.
 On right hand side bremsstrahlung from $Z$ and  $\tau^-$ decays are
  also taken into account.
 These plots has been created using custom {\tt UserTreeAnalysis} of {\tt MC-TESTER}.
-They can be recreated by performing the test located in {\tt examples/testing/Ztautau} directory.
+They can be recreated by  test located in {\tt examples/testing/Ztautau} directory, see  {\tt examples/testing/README-plots} for technical details.
 \label{fig:KKMC}
 }
 \end{figure}
@@ -662,7 +661,7 @@ only events where photons of energy larger than 1 GeV in $H$ rest frame are take
 Note by comparison with fig from ref~\cite{tauolaC++} that kinematical effect
 of hard photons are limited to depletion/increase of content of bins for acoplanarity angle close to $0$, $\pi$ and $2\pi$. For definition of selections C and D see.~\cite{Bower:2002zx}.
 These plots has been created using custom {\tt UserTreeAnalysis} of {\tt MC-TESTER}.
-They can be recreated by performing the test located in {\tt examples/testing/Htautau} directory.
+They can be recreated by performing the test located in {\tt examples/testing/Htautau} directory, see  {\tt examples/testing/README-plots} for technical details.
 \label{fig:acoplanarity}
 }
 \end{figure}
@@ -691,7 +690,7 @@ bremsstrahlung is absent. Event sample is generated with the help of {\tt PYTHIA
 Simulation of pp collision at 14 TeV Center of Mass system energy is performed.
 $Z/\gamma$ mediated hard process is used.
 These plots has been created using custom {\tt UserTreeAnalysis} of {\tt MC-TESTER}.
-They can be recreated by performing the test located in {\tt examples/testing/Zee} directory.
+They can be recreated by performing the test located in {\tt examples/testing/Zee} directory, see  {\tt examples/testing/README-plots} for technical details.
 \label{fig:lineshape}
 }
 \end{figure}
@@ -768,7 +767,9 @@ simulation of Higgs boson backgrounds. In case of solutions based on YFS
 exponentiation second order matrix element must be taken into account. Plot b was obtained
 from our {\tt examples/testing/Zmumu } after adaptation of center of mass energy 
 (91.17 GeV) and test
-energy threshold (1 GeV). Samples of 100 Mevts are used.
+energy threshold (1 GeV). Samples of 100 Mevts are used. 
+See  {\tt examples/testing/README-plots} for technical details, reference 
+{\tt mc-tester.root} files for KKMC CEEX samples are however created outside of the distribution.
   \label{fig:gamgam}
 }
 \end{figure}
