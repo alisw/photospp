@@ -75,8 +75,8 @@ and MC-TESTER must be installed. In some cases TAUOLA C++ will be needed too.
 
 
  <hr>
- Last update 9 July 2010.
+ Last update 3 August 2010.
  Expect more information to be added at a later date (here in the doxygen 
-web page and in software documentation).
+web page and in software documentation, draft of the documentation includes necessary data now, but it is not in orderly form).
 
 */
