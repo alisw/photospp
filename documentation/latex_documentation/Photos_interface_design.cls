@@ -125,7 +125,7 @@ of first order matrix elements. Multitude of tests are collected.}
 
 This work is partially supported by  EU Marie Curie Research Training Network 
 grant under the contract No. MRTN-CT-2006-0355505 and by  
-Polish Government grant N202 06434 (2008-2011).
+Polish Government grant N202 06434 (2008-2011). 
 
 \end{itemize}
 }
