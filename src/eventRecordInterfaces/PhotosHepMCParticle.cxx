@@ -177,14 +177,6 @@ std::vector<PhotosParticle*> PhotosHepMCParticle::getDaughters(){
 }
 
 bool PhotosHepMCParticle::checkMomentumConservation(){
-  if(m_particle->production_vertex()&&
-     m_particle->production_vertex()->check_momentum_conservation()>0.1){
-    Log::Warning()<<"Momentum not conserved in the vertex:"<<endl;
-    Log::RedirectOutput(Log::Warning(false));
-    m_particle->production_vertex()->print();
-    Log::RevertOutput();
-    return false;
-  }
   if(m_particle->end_vertex()&&
      m_particle->end_vertex()->check_momentum_conservation()>0.1){
     Log::Warning()<<"Momentum not conserved in the vertex:"<<endl;
