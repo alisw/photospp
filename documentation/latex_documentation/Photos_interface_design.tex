@@ -698,10 +698,12 @@ They can be recreated by performing the test located in {\tt examples/testing/Ze
 \end{figure}
 
 We have checked also that {\tt PHOTOS} works for the $t \bar t$ as well.
-For that purpose we have produced the  $t \bar t$ pairs of monochromatic 
-virtuality of 500 GeV. We have produced rates for configurations with 0,1 and 
-at least two photons above energy of 1 GeV (in hard scattering frame)
-as in the following table:
+For that purpose we have produced the  $t \bar t$ pairs in $pp$ collision at 
+14 TeV center of mass energy. We have produced rates for configurations with 0,1 and 
+at least two photons of energy above 0.001 of  $t \bar t$ pair mass
+(energies are calculated in  hard scattering frame)
+results are as in the following Table which is constructed from  
+$gg \to t \bar t$ events only:
 
 
 \vspace{0.3cm} 
@@ -722,7 +724,11 @@ Final state &  Branching Ratio  $\pm$ Rough Errors \\
 \end{tabular} 
 }  
 \end{center} 
-1 Mevts were generated. 
+10 Mevts were generated and slightly modified {\tt LC-analysis} of Ref.~\cite{Golonka:2002rz}
+was used for calculation of event rates; no beam was added to list of 
+final state particles. Root files for 
+differential distributions are 
+collected in directory {\tt exaples/testing/ttbar}. 
 
 Let us now turn to example of the test for two photon final state configuration.
 We compare KKMC \cite{kkcpc:1999} with exponentiation and second order matrix element 
@@ -801,11 +807,6 @@ by DELPHI collaboration. Tension of data with theoretical description is
 mentioned. This may mean that description of initial state QED bremsstrahlung 
 at LHC will need to be reinvestigated with the help of LHC data as well.
 
-
-
-{\bf But we are still not ready with public demo. {\tt PHOTOS} does not work on ee $\to $ tt
-and {\tt MC-TESTER} LC option does not work on {\tt PYTHIA} events because in initializations 
-we found there is no energy momentum conservation in $q \bar q (gg) \to t \bar t$}
 
 
 
