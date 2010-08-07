@@ -13,7 +13,9 @@
 	// Filter photons
 	Setup::UserTreeAnalysis = "UserTreeAnalysis";
 	// p_t threshold as fraction of particle energy in mothers frame
-	Setup::UTA_params[0]=0.01/91.187; //10 MeV
+	Setup::UTA_params[0]=0.001/1.4142; // to compensate for mass of 
+	                                   // MC-TESTER created/analyzed
+	                                   // object with PDGid=100 
 	Setup::UTA_params[1]=2;
 	Setup::UTA_params[2]=0.0;
 	Setup::UTA_params[3]=1.0;
