@@ -27,24 +27,6 @@ using namespace Pythia8;
 bool ShowersOn=true;
 int NumberOfEvents = 10000;
 
-// Finds X Y -> 6 -6 and changes pdg id of X & Y to 2 -2
-void electronToGluon(HepMC::GenEvent *evt)
-{
-	for(HepMC::GenEvent::particle_const_iterator p=evt->particles_begin();p!=evt->particles_end(); p++)
-	if((*p)->pdg_id()==6)
-	{
-		HepMC::GenParticle *pt = *p;
-		int id=(* pt->production_vertex()->particles_in_const_begin() )->pdg_id();
-		if(id!=21 && id!=11 && id>5) continue;
-
-		// Change the pdg id
-		HepMC::GenParticle *X = (* pt->production_vertex()->particles_in_const_begin());
-		HepMC::GenParticle *Y = (* ++(pt->production_vertex()->particles_in_const_begin()) );
-		X->set_pdg_id(2);
-		Y->set_pdg_id(-2);
-		return;
-	}
-}
 
 // Finds X Y -> 6 -6 decay and converts it to 100 -> Y 6 -6, where 100 = X + 2*Y
 void fixForMctester(HepMC::GenEvent *evt)
@@ -83,7 +65,6 @@ int main(int argc,char **argv)
 	Pythia pythia;
 	Event& event = pythia.event;
 	//pythia.settings.listAll();
-
 	bool topDecays   =false;
 	bool ppGeneration=false;
 	if(argc>4)
@@ -108,7 +89,7 @@ int main(int argc,char **argv)
 	{
 		pythia.readFile(argv[1]);
 		if(ppGeneration)   pythia.init( -2212, -2212, 14000.0); //p  p  collisions
-		else if(topDecays) pythia.init( 11, -11, 500.);
+		else if(topDecays) pythia.init( -2212, -2212, 14000.0); //p  p  collisions
 		else               pythia.init( 11, -11, 91.17);         //e+ e- collisions
 	}
 	else        //default config
@@ -134,13 +115,6 @@ int main(int argc,char **argv)
 		HepMC::GenEvent * HepMCEvt = new HepMC::GenEvent();
 		HepMCEvt->use_units(HepMC::Units::GEV,HepMC::Units::MM);
 		ToHepMC.fill_next_event(event, HepMCEvt);
-
-		/*
-		  Events are coming from e+e- and vertex ee -> tt is conserving momentum
-		  Photos works for xx->tt only for cases where x is quark or gluon
-		  We modify the HepMC content accordingly so PHOTOS can work
-		*/
-		if(topDecays) electronToGluon(HepMCEvt);
 		//HepMCEvt->print();
 
 		//Log::LogPhlupa(1,3);
