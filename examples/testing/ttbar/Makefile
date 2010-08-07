@@ -3,9 +3,11 @@ include ../test.inc
 
 NAME_BENCHMARK=mc-tester.root-ttbar-photos
 
-
 CONF=pythia_ttbar.conf
 NAME=ttbar
+
+PROGRAM=$(PHOTOS_ONLY)
+MODE=   $(TOP_MODE)
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root
 	@echo
@@ -17,7 +19,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 #	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) 0 $(EVENTS) 1
+	$(PROGRAM) $(CONF) 0 $(EVENTS) $(MODE) 2>/dev/null
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:

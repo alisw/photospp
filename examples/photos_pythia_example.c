@@ -24,8 +24,6 @@ typedef Photos::Log Log; //We're using Photos version of Log class
 using namespace std;
 using namespace Pythia8;
 
-bool topDecays   =false;
-bool ppGeneration=false;
 bool ShowersOn=true;
 int NumberOfEvents = 10000;
 
@@ -86,11 +84,13 @@ int main(int argc,char **argv)
 	Event& event = pythia.event;
 	//pythia.settings.listAll();
 
+	bool topDecays   =false;
+	bool ppGeneration=false;
 	if(argc>4)
 	{
 		// Advanced options
-		topDecays    = (atoi(argv[4])&1);
-		ppGeneration = (atoi(argv[4])&2);
+		topDecays    = (atoi(argv[4])==1);
+		ppGeneration = (atoi(argv[4])==2);
 	}
 	if(argc>3) NumberOfEvents=atoi(argv[3]);
 	if(argc>2) ShowersOn=atoi(argv[2]);
@@ -107,29 +107,28 @@ int main(int argc,char **argv)
 	if(argc>1)  //pre-set configs
 	{
 		pythia.readFile(argv[1]);
-		// Benchmarks were done for e+ e- @200GeV
-		if(!ppGeneration) pythia.init( 11, -11, 500.);         //e+ e- collisions
-		else              pythia.init( -2212, -2212, 14000.0); //p  p  collisions
+		if(ppGeneration)   pythia.init( -2212, -2212, 14000.0); //p  p  collisions
+		else if(topDecays) pythia.init( 11, -11, 500.);
+		else               pythia.init( 11, -11, 91.17);         //e+ e- collisions
 	}
 	else        //default config
 	{
 		pythia.readString("WeakSingleBoson:ffbar2gmZ = on");
 		pythia.readString("23:onMode = off");
 		pythia.readString("23:onIfAny = 11");
-		pythia.init( 11, -11, 100.);          //electron positron collisions
+		pythia.init( 11, -11, 91.17);                           //e+ e- collisions
 	}
 
 	MC_Initialize();
 
 	Photos::initialize();
 	Photos::setInfraredCutOff(0.001/200);//91.187);
-
 	Log::SummaryAtExit();
 
 	// Begin event loop
 	for(int iEvent = 0; iEvent < NumberOfEvents; ++iEvent)
 	{
-		if(iEvent%1000==0) cout<<iEvent<<endl;
+		if(iEvent%1000==0) Log::Info()<<"Event: "<<iEvent<<"\t("<<(iEvent*100)/NumberOfEvents<<"%)"<<endl;
 		if (!pythia.next()) continue;
 
 		HepMC::GenEvent * HepMCEvt = new HepMC::GenEvent();

@@ -40,6 +40,8 @@ int main(int argc,char **argv)
 	Pythia pythia;
 	Event& event = pythia.event;
 
+	int tauolaDecayMode=0;
+	if(argc>4) tauolaDecayMode=atoi(argv[4]);
 	if(argc>3) NumberOfEvents=atoi(argv[3]);
 	if(argc>2) ShowersOn=atoi(argv[2]);
 	if(!ShowersOn)
@@ -55,8 +57,11 @@ int main(int argc,char **argv)
 	if(argc>1)  //pre-set configs
 	{
 		pythia.readFile(argv[1]);
-		//pythia.init( -2212, -2212, 14000.0); //proton proton collisions
-		pythia.init( 11, -11, 500);  //electron positron collisions
+		if(tauolaDecayMode==3) pythia.init( 11, -11, 91.17);
+		else pythia.init( 11, -11, 500.);
+		//3 for Ztautau, 4 for Htautau
+		Tauola::setSameParticleDecayMode(tauolaDecayMode);
+		Tauola::setOppositeParticleDecayMode(tauolaDecayMode);
 	}
 	else        //default config
 	{
@@ -73,7 +78,8 @@ int main(int argc,char **argv)
 		pythia.readString("23:onMode = off");
 		pythia.readString("23:onIfAny = 15");
 		pythia.particleData.readString("15:mayDecay = off"); //<- uncomment for pythia+tauola
-		pythia.init( 11, -11, 500);  //electron positron collisions
+		//pythia.init( -2212, -2212, 14000.0);     //proton proton collisions
+		pythia.init( 11, -11, 500.);             //electron positron collisions
 	}
 	Tauola::initialise();
 
@@ -94,7 +100,7 @@ int main(int argc,char **argv)
 	// Begin event loop. Generate event.
 	for (int iEvent = 0; iEvent < NumberOfEvents; ++iEvent)
 	{
-		if(iEvent%1000==0) Log::Info()<<"Event: "<<iEvent<<endl;
+		if(iEvent%1000==0) Log::Info()<<"Event: "<<iEvent<<"\t("<<(iEvent*100)/NumberOfEvents<<"%)"<<endl;
 		if(!pythia.next()) continue;
 
 		HepMC::GenEvent * HepMCEvt = new HepMC::GenEvent();

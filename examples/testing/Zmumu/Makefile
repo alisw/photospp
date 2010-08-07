@@ -6,13 +6,16 @@ NAME_BENCHMARK=mc-tester.root-Zmumu-photos-100M-sym-10MeV #or use other benchmar
 CONF=pythia_Z.conf
 NAME=Zmumu
 
+PROGRAM=$(PHOTOS_ONLY)
+MODE=   $(DEFAULT_MODE)
+
 tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(COMPARE) $(NAME_BENCHMARK) mc-tester.$(NAME).root
 	mv tester.pdf tester.$(NAME).pdf
 	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) 0 $(EVENTS)
+	$(PROGRAM) $(CONF) 0 $(EVENTS) $(MODE)
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:

@@ -8,9 +8,9 @@
     // Setup histograms 
     int n_bins=120;
     double default_min_bin=0.0;
-    double default_max_bin=120.;
+    double default_max_bin=120;
     Setup::SetHistogramDefaults(n_bins,default_min_bin,default_max_bin);
-    Setup::mass_scale_on=false;
+    //Setup::mass_scale_on=true;
 	Setup::use_log_y=true;
     
   
@@ -37,7 +37,7 @@
   else{ //Setup for analysis step
     Setup::user_analysis=MCTest01;
     //Setup::rebin_factor=4; // to reduce no of bins by rebin_factor
-    Setup::mass_scale_on=false;
+    Setup::mass_scale_on=true;
     Setup::use_log_y=true;
   }
 };

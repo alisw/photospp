@@ -5,8 +5,9 @@ NAME_BENCHMARK=mc-tester.benchmark.Htautau.root #or use other benchmark
 
 CONF=pythia_H.conf
 NAME=Htautau
-PROGRAM=../../tauola_photos_pythia_example.exe
-RHO=4
+
+PROGRAM=$(PHOTOS_TAUOLA)
+MODE=   $(RHORHO_MODE)
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(COMPARE) $(NAME_BENCHMARK) mc-tester.$(NAME).root
@@ -14,7 +15,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) 0 $(EVENTS) $(RHO)
+	$(PROGRAM) $(CONF) 0 $(EVENTS) $(MODE)
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:

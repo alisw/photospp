@@ -15,17 +15,15 @@
     Setup::UserTreeAnalysis = "RhoRhoPHOTOSUserTreeAnalysis";
     
     // Description
-    Setup::gen1_desc_1="Pythia + Tauola + Photos Interface Test";
+    Setup::gen1_desc_1="Pythia + Tauola + Photos";
     Setup::gen1_desc_2=" $H \\rightarrow 2 \\pi^0 \\pi^+ \\pi^- \\nu_{\\tau} \\bar{\\nu_{\\tau}} $";
-    Setup::gen1_desc_3="New";
+    Setup::gen1_desc_3="Benchmark File";
     
     Setup::SuppressDecay(111); // suppress pi0 decays
   }
   else{ //Setup for analysis step
     Setup::user_analysis=MCTest01;
     //Setup::rebin_factor=4; // to reduce no of bins by rebin_factor
-    Setup::use_log_y=true;
-    
   }
 };
 

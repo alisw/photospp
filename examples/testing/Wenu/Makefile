@@ -3,9 +3,11 @@ include ../test.inc
 
 NAME_BENCHMARK=mc-tester.root-Wenu-photos-100M-nosym-10MeV #or use other benchmark
 
-
 CONF=pythia_W.conf
 NAME=Wenu
+
+PROGRAM=$(PHOTOS_ONLY)
+MODE=   $(DEFAULT_MODE)
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(COMPARE) $(NAME_BENCHMARK) mc-tester.$(NAME).root
@@ -13,7 +15,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) 0 $(EVENTS)
+	$(PROGRAM) $(CONF) 0 $(EVENTS) $(MODE)
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:
