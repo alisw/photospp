@@ -713,13 +713,13 @@ $gg \to t \bar t$ events only:
 Final state &  Branching Ratio  $\pm$ Rough Errors \\  
 \hline 
 \hline 
-{$ \widetilde{t} t \; \;\; \;$}  &  {99.6118 $\pm$  0.0998\%}  \\ 
+{$ \widetilde{t} t \; \;\; \;$}  &  {98.9961 $\pm$ 0.0315\%}  \\ 
 \hline 
 %\hline 
- {$  \widetilde{t} t \gamma \;\;$} &   { 0.3874 $\pm$  0.0062\%}   \\ 
+ {$  \widetilde{t} t \gamma \;\;$} &   { 0.9972 $\pm$  0.0032\%}   \\ 
 \hline 
 %\hline 
-{$  \widetilde{t} t \gamma \gamma$}  &  { 0.0008 $\pm$  0.0003 \%}  \\ 
+{$  \widetilde{t} t \gamma \gamma$}  &  { 0.0068 $\pm$  0.0003 \%}  \\ 
 \hline 
 \end{tabular} 
 }  
@@ -1039,7 +1039,7 @@ The examples can be run by executing the appropriate {\tt .exe} file in the {\tt
 In order to run some more specific tests for the following processes:
 $H \rightarrow \tau^+ \tau^-$, $ e^+ e^- \rightarrow t \bar t$,
 $W \rightarrow e \nu_e$, $W \rightarrow \mu \nu_\mu$,
-$Z \rightarrow e^+ e^-$ or $Z \rightarrow \mu \mu$,
+$Z \rightarrow e^+ e^-$, $Z \rightarrow \mu \mu$ or $Z \rightarrow \tau^+ \tau^-$,
 the main programs residing in subdirectories of the same name placed in the
 {\tt /examples/testing} directory should be executed.
 In all cases the following actions have to be performed:
@@ -1057,8 +1057,13 @@ will be created inside the chosen directory. One can execute 'make clobber' to
 clean the directory. One can also execute 'make' inside the {\tt /examples/testing}
 directory to run all available tests one after another. New source
 code changes can easily be validated in this way.
-Tests are run using {\tt examples/photos\_pythia\_example.exe} 
-and booklets will be produced with comparisons to the benchmark files.
+Most of the tests are run using {\tt examples/photos\_pythia\_example.exe};
+only $H \rightarrow \tau^+ \tau^-$ and $Z \rightarrow \tau^+ \tau^-$ require
+{\tt examples/tauola\_photos\_pythia\_example.exe} to be compiled as well.
+After generation. booklets will be produced with comparisons to the benchmark files.
+Note that $W \rightarrow e \nu_e$, $W \rightarrow \mu \nu_\mu$ and $Z \rightarrow \mu \mu$
+examples may show differences higher than statistical error due to photon symmetrization
+used in benchmark files generated with {\tt KKMC}.
 
 A set of benchmark {\tt MC-TESTER} root files are packed with the interface
 distribution in the subdirectories of {\tt examples/testing/}. They can be used
@@ -1298,14 +1303,7 @@ two additional routines had to be added to {\tt photos\_pythia\_example.c}.
 These routines - {\tt electronToGluon} and {\tt fixForMctester} are necessary
 due to the uniqueness of the generated process.
 
-Due to {\tt PYTHIA} generating a large amount of vertices where momentum is not
-conserved for all $p p \rightarrow t \bar t$ processes, in order to present this
-example we have used a much more stable $e^+ e^- \rightarrow t \bar t$
-generation. However, the {\tt FORTRAN} version of {\tt PHOTOS} has not been designed
-to work with such process, therefore a quick fix converting the pdg ID of
-the incoming particles from electrons to gluons has been introduced.
-
-Additionally, since {\tt MC-Tester} is not designed to analyze processes involving
+Since {\tt MC-Tester} is not designed to analyze processes involving
 multiple incoming particles, we've used a simple method similar to previously
 used in {\tt FORTRAN} examples {\tt LC\_Analysis} mentioned in \cite{Golonka:2002rz}, Section 6.1. However,
 this method proved to be hard to implement with current version of {\tt HepMC}
