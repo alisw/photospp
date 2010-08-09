@@ -1062,8 +1062,12 @@ only $H \rightarrow \tau^+ \tau^-$ and $Z \rightarrow \tau^+ \tau^-$ require
 {\tt examples/tauola\_photos\_pythia\_example.exe} to be compiled as well.
 After generation. booklets will be produced with comparisons to the benchmark files.
 Note that $W \rightarrow e \nu_e$, $W \rightarrow \mu \nu_\mu$ and $Z \rightarrow \mu \mu$
-examples may show differences higher than statistical error due to photon symmetrization
-used in benchmark files generated with {\tt KKMC}.
+examples  show differences higher than statistical error this is because  photon symmetrization
+used in benchmark files generated with {\tt KKMC}, and not in the one generated with {\tt PHOTOS}.
+In case of {\tt KKMC} generated photons are strictly ordered in energy. In case of {\tt PHOTOS}
+they are not. Nonetheless, on average second photon has  smaller energy than the one written as the first
+in the event record.
+
 
 A set of benchmark {\tt MC-TESTER} root files are packed with the interface
 distribution in the subdirectories of {\tt examples/testing/}. They can be used
