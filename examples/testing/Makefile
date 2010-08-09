@@ -27,4 +27,4 @@ clobber:
 	make -C Wmunu clobber
 	make -C Htautau clobber
 	make -C Ztautau clobber
-	make -C ttbar clean
+	make -C ttbar clobber

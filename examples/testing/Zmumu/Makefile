@@ -1,13 +1,15 @@
 ############## Make tests ###########################
 include ../test.inc
 
-NAME_BENCHMARK=mc-tester.root-Zmumu-photos-100M-sym-10MeV #or use other benchmark
+NAME_BENCHMARK=mc-tester.root-Zmumu-photos-100M-sym-10MeV
+# Or use other benchmark reference files:
+# NAME_BENCHMARK=mc-tester.root-Zmumu-kkmc-sym-1GeV
 
 CONF=pythia_Z.conf
 NAME=Zmumu
 
 PROGRAM=$(PHOTOS_ONLY)
-MODE=   $(DEFAULT_MODE)
+MODE=   $(Z_MU_MODE)
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(COMPARE) $(NAME_BENCHMARK) mc-tester.$(NAME).root

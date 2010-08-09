@@ -1,19 +1,24 @@
 ############## Make tests ###########################
 include ../test.inc
 
-#NAME_BENCHMARK=NEW-Zee-100M-10MeV.root
-NAME_BENCHMARK=mc-tester.root-Zee-1M-good #photos-100M-sym-10MeV #or use other benchmark
+NAME_BENCHMARK=mc-tester.root-Zee-1M-good
+# Or use other benchmarks reference files:
+# NAME_BENCHMARK=mc-tester.root-Zee-kkmc-sym-1GeV
+# NAME_BENCHMARK=mc-tester.root-Zee-photos-100M-sym-10MeV
 
 CONF=pythia_Z.conf
 NAME=Zee
 
 PROGRAM=$(PHOTOS_ONLY)
-MODE=   $(PP_MODE)
+MODE=   $(Z_EE_MODE)
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(COMPARE) $(NAME_BENCHMARK) mc-tester.$(NAME).root
 	mv tester.pdf tester.$(NAME).pdf
 	$(VIEWER) tester.$(NAME).pdf &
+	@echo
+	@echo "Error messages redirected to /dev/null due to large output from Pythia"
+	@echo
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
 	$(PROGRAM) $(CONF) 0 $(EVENTS) $(MODE) 2>/dev/null

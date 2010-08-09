@@ -1,7 +1,8 @@
 ############## Make tests ###########################
 include ../test.inc
 
-NAME_BENCHMARK=mc-tester.benchmark.Htautau.root #or use other benchmark
+NAME_BENCHMARK=mc-tester.benchmark.Htautau.root
+
 
 CONF=pythia_H.conf
 NAME=Htautau
