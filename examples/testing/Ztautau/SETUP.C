@@ -38,6 +38,6 @@
   else //Setup for analysis step
   {
     Setup::user_analysis=MCTest01;
-    //Setup::use_log_y=true;
+    Setup::use_log_y=true;
   }
 };
