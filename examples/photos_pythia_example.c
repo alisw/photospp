@@ -27,8 +27,7 @@ using namespace Pythia8;
 bool ShowersOn=true;
 int NumberOfEvents = 10000;
 
-
-// Finds X Y -> 6 -6 decay and converts it to 100 -> Y 6 -6, where 100 = X + 2*Y
+// Finds X Y -> 6 -6 decay and converts it to 100 -> 6 -6, where 100 = X + Y
 void fixForMctester(HepMC::GenEvent *evt)
 {
 	for(HepMC::GenEvent::particle_const_iterator p=evt->particles_begin();p!=evt->particles_end(); p++)
@@ -43,17 +42,15 @@ void fixForMctester(HepMC::GenEvent *evt)
 		HepMC::GenParticle *Y = (* ++(pt->production_vertex()->particles_in_const_begin()) );
 		HepMC::FourVector fX = X->momentum();
 		HepMC::FourVector fY = Y->momentum();
-		HepMC::FourVector fXY(fX.px()+fY.px()+fY.px(),fX.py()+fY.py()+fY.py(),fX.pz()+fY.pz()+fY.pz(),fX.e()+fY.e()+fY.e());
+		HepMC::FourVector fXY(fX.px()+fY.px(),fX.py()+fY.py(),fX.pz()+fY.pz(),fX.e()+fY.e());
 		X->set_momentum(fXY);
 		// Unique ID for MC-Tester to analyze
 		X->set_pdg_id(100);
 
-		// Set 2nd mother as decayed and move it to end vertex
+		// Set 2nd mother as decayed and delete it from production vertex
 		Y->set_status(1);
 		(* Y->production_vertex()->particles_in_const_begin())->set_status(1);
 		pt->production_vertex()->remove_particle(Y);
-		pt->production_vertex()->add_particle_out(Y);
-		//evt->remove_vertex( Y->production_vertex() );
 		return;
 	}
 }
@@ -65,13 +62,15 @@ int main(int argc,char **argv)
 	Pythia pythia;
 	Event& event = pythia.event;
 	//pythia.settings.listAll();
-	bool topDecays   =false;
-	bool ppGeneration=false;
+	bool topDecays =false;
+	bool zeeDecays =false;
+	bool zmuDecays =false;
 	if(argc>4)
 	{
 		// Advanced options
-		topDecays    = (atoi(argv[4])==1);
-		ppGeneration = (atoi(argv[4])==2);
+		topDecays = (atoi(argv[4])==1);
+		zeeDecays = (atoi(argv[4])==2);
+		zmuDecays = (atoi(argv[4])==3);
 	}
 	if(argc>3) NumberOfEvents=atoi(argv[3]);
 	if(argc>2) ShowersOn=atoi(argv[2]);
@@ -88,9 +87,9 @@ int main(int argc,char **argv)
 	if(argc>1)  //pre-set configs
 	{
 		pythia.readFile(argv[1]);
-		if(ppGeneration)   pythia.init( -2212, -2212, 14000.0); //p  p  collisions
-		else if(topDecays) pythia.init( -2212, -2212, 14000.0); //p  p  collisions
-		else               pythia.init( 11, -11, 91.17);         //e+ e- collisions
+		if(zeeDecays || topDecays) pythia.init( -2212, -2212, 14000.0); //p  p  collisions
+		else if(zmuDecays)         pythia.init( 11, -11, 91.17);        //e+ e- collisions
+		else                       pythia.init( 11, -11, 200.);         //e+ e- collisions
 	}
 	else        //default config
 	{
@@ -103,6 +102,10 @@ int main(int argc,char **argv)
 	MC_Initialize();
 
 	Photos::initialize();
+
+	// Zee and ttbar require higher maxWtInterference
+	if(zeeDecays || topDecays) Photos::maxWtInterference(3.0);
+
 	Photos::setInfraredCutOff(0.001/200);//91.187);
 	Log::SummaryAtExit();
 
