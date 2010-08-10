@@ -1,42 +1,35 @@
-This directory contains a number of MC-TESTER tests which can be
-performed to validate the currently installed version of PHOTOS 
-and it's iterface against a benchmark version. It uses the
-example "photos_pythia_example" and "tauola_photos_pythia_example"
-so any changes to this will also alter the tests. Some variable 
-for the test. eg. number of events can be changed in test.inc
+---------------------------------------------------------------------------
+This directory contains a number of MC-TESTER tests which can be performed
+to validate the currently installed version of PHOTOS and it's interface
+against benchmark version
+---------------------------------------------------------------------------
 
-To run, compile photos_pythia_example.c and tauola_photos_pythia_example.c, 
-then type "make" in this directory. MC-TESTER booklets can be found 
-in the following subdirectories. You can run a single test by typing 
-"make <booklet name>" in the corresponding subdirectory.
 
-- Zee/
+These tests use examples provided in "examples" directory.
+Any changes to these files will also alter the tests.
 
-  tester.Zee.pdf
-  ---------------
-  Some description still needs to be given here.
+To run, compile photos_pythia_example.c and tauola_photos_pythia_example.c,
+then type "make" in this directory. You can run a single test by typing
+"make" in the corresponding subdirectory. MC-TESTER booklets can be found
+in the subdirectories of each test. The number of generated events can be
+set in "test.inc" file.
 
-- Zmumu/
+Examples using photos_pythia_example:
+- Wenu
+- Wmunu
+- Zee
+- Zmunu
+- ttbar
 
-  tester.Zmumu.pdf
-  ----------------
-  Similar to Zee test
+Examples using tauola_photos_pythia_example:
+- Htautau
+- Ztautau
 
-- Wenu/
 
-  tester.Wenu.pdf
-  ----------------
-  Similar to Zee test
-
-- Wmunu/
-
-  tester.Wmunu.pdf 
-  ---------------- 
-  Similar to Zee test
-
-- Htautau/ 
-
-  tester.Htautau.pdf 
-  --------------------- 
-  Some description still needs to be given here.
-
+---------------------------------------------------------------------------
+These tests use special options of examples provided with PHOTOS. List of
+modes used for generation is located in "test.inc" file; an appropriate
+mode is selected in "Makefile" of each test. In general, these options
+should not be changed. Generation setup can be altered in the code of
+photos_pythia_example.c and tauola_photos_pythia.c instead.
+---------------------------------------------------------------------------
