@@ -12,6 +12,7 @@
 #include "TMath.h"
 
 using namespace std;
+// Limits for particular user histograms
 int L[6] = { 5000000,5000000,2000000,2000000,1000000,1000000 };
 
 // very similar to  MC_FillUserHistogram from Generate.cxx
@@ -131,12 +132,13 @@ int RhoRhoPHOTOSUserTreeAnalysis(HEPParticle *mother,HEPParticleList *stableDaug
 			}	
 			break;
 		case 22:
-			if(photon_e!=0) return 0;
 			d_gamma.Set(&temp);
 			d_gamma.SetM(0);
+			// Only the hardest photon counts
+			if(photon_e>d_gamma.GetX0()) return 0;
 			photon_e=d_gamma.GetX0();
-			// Skip cases with photons with energy < 10MeV
-			if(photon_e<0.01) return 0;
+			// Skip photons with energy < 10MeV
+			if(photon_e<0.01) photon_e=0;
 			break;	
 		default:
 			break;
@@ -188,8 +190,6 @@ int RhoRhoPHOTOSUserTreeAnalysis(HEPParticle *mother,HEPParticleList *stableDaug
 	pi_minus[1]=d_pi_minus.GetX2();
 	pi_minus[2]=d_pi_minus.GetX3();
 	pi_minus[3]=d_pi_minus.GetM();
-
-	photon_e = d_gamma.GetX0();
 
 	/******* calculate acoplanarity (theta) *****/
 
