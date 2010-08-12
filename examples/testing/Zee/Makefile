@@ -1,7 +1,7 @@
 ############## Make tests ###########################
 include ../test.inc
 
-NAME_BENCHMARK=mc-tester.root-Zee-1M-good
+NAME_BENCHMARK=mc-tester.root-Zee-10M-nosym-10MeV
 # Or use other benchmarks reference files:
 # NAME_BENCHMARK=mc-tester.root-Zee-kkmc-sym-1GeV
 # NAME_BENCHMARK=mc-tester.root-Zee-photos-100M-sym-10MeV
