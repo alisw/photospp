@@ -292,8 +292,8 @@ C.----------------------------------------------------------------------
       COMMON/PHOCOP/ALPHA,XPHCUT
 C--
 C--   PHOTOS version number and release date
-      PHOVN1=215
-      PHOVN2=111005
+      PHOVN1=300
+      PHOVN2=120810
 C--
 C--   Print info
       WRITE(PHLUN,9000)
