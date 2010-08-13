@@ -2,8 +2,8 @@
 # README-plots                                                     #
 # ------------                                                     #
 #                                                                  #
-# Insturctions on how to recreate plots used in                    #
-# program documentation (IFJPAN-IV-2010-6)                         #
+# Instructions on how to recreate the plots used in                #
+# our program documentation (IFJPAN-IV-2010-6)                     #
 ####################################################################
 
 ####################################################################
@@ -14,52 +14,52 @@ FAST, SIMPLE METHOD:
 (No generation, use of benchmark root files stored in tar ball only)
 --------------------------------------------------------------------
 
-To create these plots you need to turrn off the logarithmic scale
+To create these plots you need to turn off the logarithmic scale
 and compare the benchmark files. To do so:
 
 > Turn off logarithmic scale:
-  - enter 'examples/testing/Ztautau' directory of PHOTOS
-  - open 'SETUP.C' in editor
+  - enter the 'examples/testing/Ztautau' directory of PHOTOS
+  - open 'SETUP.C' in an editor
   - turn "Setup::use_log_y" from true to false
 
-> Perform analysis
+> Perform analysis:
   - execute '../compare.sh mc-tester.root-pispectr-RCno mc-tester.root-pispectr-RCtau'
     or      '../compare.sh mc-tester.root-pispectr-RCno mc-tester.root-pispectr-RCall'
     for left-hand plot and right-hand plot accordingly.
 
-Resulting Booklet 'tester.Htautau.pdf' will include appropriate plot
-under USER HISTOGRAMS section
+The resulting booklet, 'tester.Htautau.pdf', will include the appropriate
+plot under the USER HISTOGRAMS section.
 
 COMPLETE, ADVANCED METHOD:
-(Generation of root files for figures will be repeated)
---------------------------------------------------------------------
+(The root files for figures will be regenerated)
+--------------------------------------------------
 
-To create these plots you need to set up generation parameters,
-create appropriate .root files and compare them using
+To create these plots you need to set up the generation parameters,
+create the appropriate .root files and compare them using
 MC-TESTER. To do so:
 
-> For both plots; generate file without PHOTOS processing:
-  - change generation setup:
-    - enter 'examples' directory of PHOTOS
+> For both plots; generate a file without PHOTOS processing:
+  - change the generation setup:
+    - enter the 'examples' directory of PHOTOS
     - open 'tauola_photos_pythia_example.c'
-    - uncomment line 'Photos::suppressBremForBranch(0,23);'
+    - uncomment the line 'Photos::suppressBremForBranch(0,23);'
     - execute 'make' in this directory
-  - enter 'examples/testing/Ztautau' directory
+  - enter the 'examples/testing/Ztautau' directory
   - clean any previous generation using 'make clobber'
   - execute 'make mc-tester.Ztautau.root'
-  - copy 'mc-tester.Ztautau.root' as 'Ztautau.RCno.root'
+  - rename 'mc-tester.Ztautau.root' to 'Ztautau.RCno.root'
 
-> For left-hand plot; generate file with PHOTOS processing
-  23 -> 15 -15 decay only:
+> For the left-hand plot; generate a file with PHOTOS processing
+  23 -> 15 -15 decays only:
   - follow all of the instructions for the first file again,
     but in addition to: 'Photos::suppressBremForBranch(0,23);'
     uncomment line      'Photos::forceBremForDecay (2,23,15,-15);'
     as well.
-  - copy 'mc-tester.Ztautau.root' (created as described above)
-    as 'Ztautau.RCtau.root'
+  - rename 'mc-tester.Ztautau.root' (created as described above)
+    to 'Ztautau.RCtau.root'
 
-> For right-hand plot; generate file with PHOTOS processing
-  23 -> 15 -15 and tau decay branch:
+> For the right-hand plot; generate a file with PHOTOS processing
+  23 -> 15 -15 and the tau decay branchs:
   - follow all of the instructions for the first file again,
     but in addition to: 'Photos::suppressBremForBranch(0,23);'
     uncomment line      'Photos::forceBremForDecay (2,23,15,-15);'
@@ -68,54 +68,54 @@ MC-TESTER. To do so:
      -- OR --
     revert any changes made to 'tauola_photos_pythia_example.c'
     (the default setup ensures that the whole event will be processed)
-  - copy 'mc-tester.Ztautau.root' (created as described above)
-    as 'Ztautau.RCall.root'
+  - rename 'mc-tester.Ztautau.root' (created as described above)
+    to 'Ztautau.RCall.root'
 
 > Perform the analysis:
-  - enter 'examples/testing/Ztautau' directory
+  - enter the 'examples/testing/Ztautau' directory
   - execute '../compare.sh Ztautau.RCno.root Ztautau.RCtau.root'
     or      '../compare.sh Ztautau.RCno.root Ztautau.RCall.root'
-    for left-hand plot and right-hand plot accordingly.
+    for the left-hand plot and right-hand plot accordingly.
 
-Resulting Booklet 'tester.pdf' will include appropriate plot
-in its USER_HISTOGRAM section
+The resulting booklet, 'tester.pdf', will include the appropriate
+plot in its USER_HISTOGRAM section.
 
 ####################################################################
 # Figs 3a, 3b: acoplanarity distribution in H -> tau+ tau- decays  #
 ####################################################################
 
 To create these plots you need to use the default options and
-switch samples with and without photons so that they are
+switch the samples with and without photons so that they are
 compared on the same plot. To do so:
 
-> Generate first file:
-  - enter 'examples/testing/Htautau' directory
+> Generate the first file:
+  - enter the 'examples/testing/Htautau' directory
   - clean any previous generation using 'make clobber'
   - execute 'make mc-tester.Htautau.root'
-  - copy 'mc-tester.Htautau.root' as 'Htautau.on.root'
+  - rename 'mc-tester.Htautau.root' to 'Htautau.on.root'
 
-> Generate second file:
-  - advanced users may want to use ROOT the edit the first
+> Generate the second file:
+  - advanced users may want to use ROOT to edit the first
     file, plotting the two histograms for cases without
     photons over the two histograms for cases with photons
     with energy over 1GeV
      -- OR --
-  - switch plots in user analysis and generate second file:
-    - enter 'examples/testing/Htautau' directory
+  - switch plots in the user analysis code and generate a second file:
+    - enter the 'examples/testing/Htautau' directory
     - open 'RhoRhoPHOTOSUserTreeAnalysis.C'
     - search for lines 'if(photon_e==0)'
       and              'if(photon_e>1.0)'
       and switch their places
     - follow all of the instructions for the first file again,
-      copying the resulting file as 'Htautau.off.root'.
+      copying the resulting file to 'Htautau.off.root'.
       (For this generation, the number of events can be changed
-       in 'examples/testing/test.inc' to 1/10 of previous value)
+       in 'examples/testing/test.inc' to 1/10 of the previous value)
 
 > Compare:
   - execute '../compare.sh Htautau.off.root Htautau.on.root'
 
-Resulting Booklet 'tester.pdf' will include appropriate plot
-in its USER_HISTOGRAM section - histograms regarding photons
+The resulting booklet, 'tester.pdf', will include the appropriate
+plot in its USER_HISTOGRAM section - histograms regarding photons
 with energy over 1 GeV.
 
 ####################################################################
@@ -125,47 +125,47 @@ with energy over 1 GeV.
 To create this plot you need to use the default options and
 generate samples with and without PHOTOS.
 
-> Generate first file:
-  - enter 'examples/testing/Zee' directory
+> Generate the first file:
+  - enter the 'examples/testing/Zee' directory
   - clean any previous generation using 'make clobber'
   - execute 'make mc-tester.Zee.root'
-  - copy 'mc-tester.Zee.root' as 'Zee.photos.on.root'
+  - copy 'mc-tester.Zee.root' to 'Zee.photos.on.root'
 
-> Generate second file:
+> Generate the second file:
   - turn off photos:
-    - enter 'examples' directory
+    - enter the 'examples' directory
     - open 'photos_pythia_example.c'
-    - comment out lines 'PhotosHepMCEvent evt(HepMCEvt);'
-      and               'evt.process();'
+    - comment out the lines 'PhotosHepMCEvent evt(HepMCEvt);'
+      and                   'evt.process();'
     - execute 'make' in this directory
   - follow all of the instructions for the first file again,
-    copying the resulting file as 'Zee.photos.off.root'
+    copying the resulting file to 'Zee.photos.off.root'
 
 > Compare:
   - execute '../compare.sh Zee.photos.off.root Zee.photos.on.root'
 
-Resulting Booklet 'tester.pdf' will include appropriate plot
-in its USER_HISTOGRAM section
+The resulting booklet, 'tester.pdf', will include the appropriate
+plot in its USER_HISTOGRAM section
 
 ####################################################################
 # Figs 5a, 5b: gamma gamma mass distribution in Z -> mu mu decays  #
 ####################################################################
 
-To create these plots you need to use benchmark files. Files used
-for CEEX1 and CEEX2 has been generated using external program and
-cannot be reproduced using PHOTOS C++ interface. These files need
-to be compared against default setup for Zmumu. To do so:
+To create these plots you need to use the benchmark files. Files used
+for CEEX1 and CEEX2 have been generated using an external program and
+cannot be reproduced using the PHOTOS C++ interface. These files need
+to be compared against the default setup for Zmumu. To do so:
 
-> For left-hand plot:
-  - enter 'examples/testing/Zmumu' directory
+> For the left-hand plot:
+  - enter the 'examples/testing/Zmumu' directory
   - execute '../compare.sh mc-tester.root-Zmumu-CEEX2-100M-nosym-1GeV mc-tester.root-Zmumu-CEEX1-100M-nosym-1GeV'
-> For right-hand plot:
-  - enter 'examples/testing/Zmumu' directory
+> For the right-hand plot:
+  - enter the 'examples/testing/Zmumu' directory
   - clean any previous generation using 'make clobber'
   - execute 'make mc-tester.Htautau.root'
   - execute '../compare.sh mc-tester.root-Zmumu-CEEX2-100M-nosym-1GeV mc-tester.Htautau.root'
 
-Resulting Booklet 'tester.pdf' will contain appropriate plots
-under 'Z -> gamma gamma mu mu' decay channel section. Note that
-PHOTOS does not use photon symmetrization as compared to
-benchmark files.
+The resulting booklet, 'tester.pdf', will contain the appropriate
+plots under the 'Z -> gamma gamma mu mu' decay channel section.
+Note that PHOTOS does not use photon symmetrization as compared
+to the benchmark files.

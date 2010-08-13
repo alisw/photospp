@@ -1,18 +1,18 @@
 ---------------------------------------------------------------------------
 This directory contains a number of MC-TESTER tests which can be performed
-to validate the currently installed version of PHOTOS and it's interface
-against benchmark version
+to validate the currently installed version of PHOTOS and its interface
+against the benchmark version
 ---------------------------------------------------------------------------
 
 
-These tests use examples provided in "examples" directory.
+These tests use examples provided in the "examples" directory.
 Any changes to these files will also alter the tests.
 
 To run, compile photos_pythia_example.c and tauola_photos_pythia_example.c,
 then type "make" in this directory. You can run a single test by typing
 "make" in the corresponding subdirectory. MC-TESTER booklets can be found
 in the subdirectories of each test. The number of generated events can be
-set in "test.inc" file.
+set in the "test.inc" file.
 
 Examples using photos_pythia_example:
 - Wenu
@@ -27,9 +27,9 @@ Examples using tauola_photos_pythia_example:
 
 
 ---------------------------------------------------------------------------
-These tests use special options of examples provided with PHOTOS. List of
-modes used for generation is located in "test.inc" file; an appropriate
-mode is selected in "Makefile" of each test. In general, these options
+These tests use special options of examples provided with PHOTOS. The list 
+of modes used for generation is located in the "test.inc" file; an appropriate
+mode is selected in the "Makefile" of each test. In general, these options
 should not be changed. Generation setup can be altered in the code of
 photos_pythia_example.c and tauola_photos_pythia.c instead.
 ---------------------------------------------------------------------------
