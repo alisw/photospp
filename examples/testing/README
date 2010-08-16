@@ -29,7 +29,7 @@ Examples using tauola_photos_pythia_example:
 ---------------------------------------------------------------------------
 These tests use special options of examples provided with PHOTOS. The list 
 of modes used for generation is located in the "test.inc" file; an appropriate
-mode is selected in the "Makefile" of each test. In general, these options
-should not be changed. Generation setup can be altered in the code of
-photos_pythia_example.c and tauola_photos_pythia.c instead.
+mode is selected in the "Makefile" of each test. In general, these files
+should not be modified; instead generation setup can be altered in the code
+of photos_pythia_example.c and tauola_photos_pythia.c.
 ---------------------------------------------------------------------------
