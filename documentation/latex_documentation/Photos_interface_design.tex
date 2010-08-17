@@ -111,7 +111,7 @@ member of the list according to the change introduced to the primary daughter.
 
 In the new C++ version of this part of the algorithm additional functionality
 is provided.
-First mother of the decaying particle will be localized and passes together with  
+First mother of the decaying particle will be localized and passed together with  
 elementary branching to internal part of the program. 
 
 Prior to activation
@@ -245,7 +245,7 @@ interface should  be able to interpret correctly.
 
 \begin{itemize}
   \item \textbf{4-momentum conservation} is assumed for all vertices in the event record where {\tt PHOTOS} is expected to act.
-  \item \textbf{Status codes:} only information whether given particle is incoming, outgoing or intermediate will be used. We assume the codes used will be 1,2 or 3 like in HEPEVT. All other codes will be treated as
+  \item \textbf{Status codes:} only information whether given particle is incoming, outgoing or intermediate will be used. We assume the codes used will be 0,1 or 2 like in HEPEVT. All other codes will be treated as
 equivalent to  the status 2.
   \item \textbf{Pointers at a vertex} are assumed to be bi-directional. That is, it is possible to traverse the record structure from mother to daughter and from daughter to mother along the same path.
 \end{itemize}
@@ -503,7 +503,7 @@ predicted in advance.
 For the sake of debugging we have introduced control methods which activate
 internal printouts of the {\tt FORTRAN} part of the code.
 The routine PHLUPA \cite{Barberio:1993qi} can be activated  to verify 
-how an event is constructed/modified, and to investigat energy 
+how an event is constructed/modified, and to investigate energy 
 momentum conservation or other inconsistencies.
 This is quite convenient for tracing inconsistencies in the
 information passed to {\tt PHOTOS} for example.
@@ -572,12 +572,12 @@ background for Higgs searches at the LHC and for any other applications where
 two hard photon configurations are important, studies based on the comparison with 
 double photon matrix element are of 
 interest \cite{Barberio:1993qi,RichterWas:1994ep,RichterWas:1993ta}.
-Finally users interested in low energy processes where th underlying physics model 
+Finally users interested in low energy processes where the underlying physics model 
 for photon emission can not be controlled in full by theory; scalar QED may 
 be considered only as the starting point, will profit 
 from \cite{Nanava:2009vg,Nanava:2006vv}. In all cases it is important that
 the  program generation cover the full phase space and that there are no 
-approximation in phase-spac. As in {\tt FORTRAN} version the code 
+approximation in phase-space. As in {\tt FORTRAN} version the code 
 features approximation in the kernel. In some cases the process dependent 
 complete first order 
 kernel is available but is not installed in the public version  
@@ -631,9 +631,9 @@ Here we have collected numerical results in the directory
 an appropriate initialization files for the particular run of {\tt PYTHIA}. Numerical results from long runs of {\tt MC-TESTER} based tests
 are stored for reference. Our choice of tests, at present is oriented toward 
 LHC user and radiative corrections in decay of W's, Z's and Higgs particles.
-At present users of low energy experiments are often using {\tt FORTRAN} version 
-of the code. Therefore at present our tests and examples are not geared toward 
-such class of applications.
+Most of the users of low energy experiments are using {\tt FORTRAN} version 
+of the code, that is why our tests and examples for C++ version are not geared toward 
+low energy applications.
 
 
 \subsection{Results}
