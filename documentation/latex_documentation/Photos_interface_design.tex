@@ -76,7 +76,7 @@ will be provided already now.
 
 
 
-Our paper is organized as follows ...\textbf{nd-text is missing here}
+Our paper is organized as follows ...
 
 
 
@@ -115,14 +115,12 @@ is provided.
 First mother of the decaying particle will be localized and passed together with  
 elementary branching to internal part of the program. 
 
-Prior to activation
-of the {\tt FORTRAN} part of the algorithm all decay branching 
-(supplemented with the first 
-mother) will be boosted to decaying particle rest frame and first mother
-will be oriented along z axis.
-mother) will be boosted into the decaying particle's rest frame and the first mother
-will be oriented along the z axis.
-%\textbf{nd-it might be worth defining what the FORTRAN part of the algorithm is. Although you explain in the introduction, people might not link the two. ZW: but we write Prior to activation of the {\tt FORTRAN} part}.
+Prior to activation of the algorithm for  photon(s) generation and kinemaic construction
+whole decay branching 
+(supplemented with its mother(s))
+will be boosted into the decaying particle's rest frame and the first mother
+will be oriented along the z axis. At present the part of the code responsable for photon(s) generation and kinematic 
+construction is left in  {\tt FORTRAN}.
 
 We can summarize that the following operations must be implemented
 in our event record interface:
@@ -130,7 +128,7 @@ in our event record interface:
 \item a method to search for elementary decays over entire tree of the event.
 \item a method to form lists of all subsequent decay products originating from each elementary decay product.
 \item a method to localize the first mother of a decaying particle. 
-\item a method to localize the  second mother of a $t \bar t$ pair.
+\item a method to localize the second mother for a special case of $t \bar t$ pair.
 \item a method to read  particles stored in the event tree.
 \item a method to add or modify particles of the event tree.
 \end{enumerate}
@@ -174,8 +172,8 @@ standard of event record, and we have provided an easy way to extend
 the interface to a possible new event record standard.
 
 \subsection{Object Oriented Event Records  -- The Case of {\tt HepMC}}
-\textbf{nd-the next paragraph repeats information
-  that's already stated in other places. will }
+% nd-the next paragraph repeats information that's already stated in other places.
+% zbw: this is short intro to HepMC, later contexts of our use dominate. Nadia is it OK for you?
  In adopting the {\tt PHOTOS} interface to the C++ event record format
 the difference between the {\tt HEPEVT} event record used in the {\tt
   FORTRAN} version of the {\tt PHOTOS} interface and {\tt HepMC} event
@@ -639,17 +637,17 @@ low energy applications.
 
 \subsection{Results}
 \label{sec:results}
-%nd-what do you mean by ``at the level of single splitting''
-In principle, at the level of single splitting, the C++ interface of
+In principle, for the algorithm of single photon construction, the C++ interface of
 {\tt PHOTOS} introduces nothing new with respect to the standard
-version of {\tt PHOTOS} as available in {\tt FORTRAN}. Therefore the
-standard tests which are collected in \cite{Photos_tests} are not
-revisited here. These tests have been checked and are consistant with the
-old {\tt FORTRAN} ones. Let us however show some examples of spin effect observables which are affected by bremsstrahlung.
+version of {\tt PHOTOS} as available in {\tt FORTRAN}.
+That is why the standard tests which are collected in \cite{Photos_tests} are not
+recalled here, they were only reproduced and found consistent with the ones for
+old {\tt FORTRAN PHOTOS}.
+However an algorithm for combining vertex with added photon(s) and the rest of the whole event tree was rewritten.
+Examples of spin dependent observables are of more interest because they test this new part of the code.
 In  fig~\ref{fig:KKMC}, the $\pi$ energy spectrum in the decaying
 Z boson rest-frame is shown. The $\pi^\pm$ originates from $\tau^\pm \to \pi^\pm \nu $ decay as was shown already a long time ago \cite{Boillot:1988re}. The net
-bremsstrahlung  effect is similar 
-to the one of eg. Z polarization.
+bremsstrahlung  effect is similar to the one of eg. Z polarization.
 
 Let us now turn to tests using observables which are sensitive to
 transverse spin effects.  For that purpose we study the decay chain:
@@ -729,10 +727,9 @@ is not the purpose of our document. Let us point out however that electroweak
 non-QED corrections can be installed into the {\tt PYTHIA 8.1} - {\tt PHOTOS} simulation with 
 the help of the {\tt TAUOLA} interface \cite{Davidson:2010rw}.
 
-%nd-What do you mean by bare here? references for Horace and Winhac?
-Let us present next the LHC oriented plot of Bare electron pair from $Z$
+Let us present next the LHC oriented plot of Bare electron pair (that means electrons are not combined with accompanying them collinear photons) from $Z$
 ($W$) decay at the LHC with and without {\tt PHOTOS}, see fig. \ref{fig:lineshape}. It is similar to
-the plots shown for Horace or Winhac.  
+the plots shown for Horace or Winhac see refs \cite{Horace,Winhac}.
 One should bear in mind that this is a technical test with little application directly to physics.
 \begin{figure}[h!]
 \centering
@@ -760,7 +757,7 @@ $gg \to t \bar t$ events only:
 \begin{center}
 { \begin{tabular}{c c} 
 \toprule 
-Final state &  Branching Ratio  $\pm$ Rough Errors \\  
+Final state &  Branching Ratio  $\pm$ Statistical Errors \\  
 \midrule
 {$ \widetilde{t} t \; \;\; \;$}  &  {99.0601 $\pm$ 0.0315\%}  \\ 
 %\hline 
@@ -772,23 +769,16 @@ Final state &  Branching Ratio  $\pm$ Rough Errors \\
 }  
 \end{center} 
 
-%nd-what do you mean by ``rough errors'' in the table.
-
-%nd- ``no beam was added to the list of final state particles'' maybe:
-%nd- ``photons from the underlying event were ignored.'' is clearer?
 10 million events were generated and a slightly modified {\tt LC-analysis} of Ref.~\cite{Golonka:2002rz}
-was used for calculation of the event rates; no beam was added to the list of 
-final state particles. Root files for 
+was used for calculation of the event rates\footnote{  We do not supplement the list of 
+final state particles with the second mother, in contrary to choice of {\tt LC-analysis} from  Ref.~\cite{Golonka:2002rz} } Root files for 
 differential distributions are 
 collected in the directory {\tt exaples/testing/ttbar}. 
 
 Let us now turn to an example of the test for the two photon final state configuration.
-%nd-the following sentence is confusing. Do you mean KKMC with exponentiation and 2nd order matric element
-% and KKMC with exponentiation and 1st order matrix element. or is the second one KKMC with 2st order matric
-% element only.
-We compare KKMC \cite{kkcpc:1999} with exponentiation and second order matrix element, KKMC
-restricted to first order only and finally the results of {\tt PHOTOS} with exponentiation activated. As one can see from the table below, the rates for the event configurations 
-where zero, one or at least two photons of energy above 1 GeV, are the same up to two
+We compare (i) KKMC \cite{kkcpc:1999} with exponentiation and second order matrix element, (ii) KKMC with exponentiation and first order matrix element
+and finally (iii) the results of {\tt PHOTOS} with exponentiation activated. As one can see from the table below, the rates for the event configurations 
+where zero, one or at least two photons of energy above 1 GeV are present, coincide up to two
 permille for the three cases and $Z\to \mu^+\mu^-$ decay. 
 
 \begin{table}
@@ -807,13 +797,12 @@ Decay channel &\multicolumn{3}{c}{ Branching Ratio $\pm$ Rough Errors   (100M ev
 \end{tabular}
 \end{table}
 
-Aggrement at this level is not seen in the differential distributions, see Fig.~\ref{fig:gamgam}. For example the spectrum of 
+Agreement at this level is not seen in the differential distributions, see Fig.~\ref{fig:gamgam}. For example the spectrum of 
 the two gamma mass is quite different between the first and second order 
 exponentiation result. This is of potential interest for background simulations 
 for $H \to \gamma \gamma$. In contrast, the difference between the results from {\tt PHOTOS} and CEEX2 are much smaller. {\tt PHOTOS} exploits the first order matrix element 
 in a better way than exponentiation. As a consequence it reproduces terms resulting in second order leading logarithms. This observation is important not only for 
-the particular case of $Z$ decay but for the general case of double bremsstrahlung in any decay as well. That is why it was worth mentioning here.
-%nd-I don't know if the last sentence is needed.
+the particular case of $Z$ decay but for the general case of double bremsstrahlung in any decay as well.
 
 \begin{figure}[h!]
 \centering
@@ -844,50 +833,32 @@ They are however of  some physics interest as well.
  Photos provides only one step in the simulation chain: 
 bremsstrahlung in decays or final state bremsstrahlung. One can ask 
 the question of whether such a specialized unit is of interest and whether it is not better 
-to provide the complete chain as a single simulation package. Obviously this will
-%nd- I would avoid saying ``complete chain'' because to experimentalists this also
-%nd- includes the simulation of the detector eg. GEANT
-depend on particular needs. Theoretically, final state QED corrections are 
-resonably well separated from the remaining genuine electroweak corrections and 
-in particular the initial state QED bremsstrahlung for quarks if for example 
-Drell Yan process at the LHC is considered. 
-%nd-the previous sentence is not clear. Maybe make into 2 smaller sentences.
-Such separation may look like an unnecessary complication. However one should bear in mind that final state bremsstrahlung 
+to provide the complete chain for ``truth physics simulation'' as a single simulation package. Obviously this will
+depend on particular needs. Final state QED corrections are 
+well separated from the remaining genuine electroweak corrections and 
+in particular the initial state QED bremsstrahlung for quarks. For example, for
+Drell Yan process this breakes only at $\alpha^{n+2}\log^{n}{S/m_l^{2}}$ level.
+One should bear in mind that final state bremsstrahlung 
 needs to be disentangled from detector acceptance dependencies and is not of 
-interest in itself. If one wants to measure the properties of weak bosons then it 
-is natural to combine their propagators defining their properties together with 
-genuine electroweak corrections. 
-%nd-I can't understand what you are trying to say about PHOTOS in the last two sentences.
-Such a solution is now available if together 
-with the PHOTOS interface of electroweak corrections as in TAUOLA Interface is 
-provided. 
-%nd-the previous sentence doesn't make sense (grammatically). Should
-%is be something like: ``such a solution is now available if, together
-%with PHOTOS, the interface of electroweak corrections as found in the
-%TAUOLA Interface is provided.
+interest in itself. This must bed done e.g. to measure the properties of weak bosons.
+Then genuine weak corrections have to be taken into account.
+This can be done if together with the PHOTOS Interface
+these genuine weak corrections are provided with TAUOLA Interface.
 Finally, sizeable initial state QED corrections are usually embodied in  units 
 simulating parton showers. This may need some experimental analysis as well. 
 Recently experimental data from LEP1 times are revisited \cite{Abdallah:2010tk} 
 by the DELPHI collaboration. Tension between data and the theoretical description is 
 mentioned. This may mean that the description of initial state QED bremsstrahlung 
 at the LHC will need to be reinvestigated with the help of LHC data as well.
-%nd-how does PHOTOS help with this?
-
+It might be useful to keep initial state QED, final state QED and their interference corrections in the separate modules.
 
 \section{Summary and outlook}
 We have presented a new version  of {\tt PHOTOS} Monte Carlo. The part of PHOTOS which operates on 
 event records is rewritten now into C++ and takes the HepMC event record 
 format for input. The physics performance of the algorithm is the same  as that of 
 the {\tt FORTRAN/HEPEVT} version. Steps toward future improvements are prepared. 
-Whenever algorithm for modification of an elementary decay is involved its 
-kinematical configuration is boosted to the decaying particle's rest frame, with the 
-$z$ axis oriented along the momentum of the first decaying particle (object) 
-rest frame. 
-%nd-previous sentence I would rewrite eg. ``When an elementary decay
-%is modified by PHOTOS, it is tranformed to the rest frame of the
-%decaying particle, with the $z$-axis orientated ...''  Also, for the
-%last part is ambigious when you say ``first decaying particle''. Do
-%you mean the first in the whole event, or the first in some sub-branch.
+When an elementary decay is to be modified by PHOTOS, it is first tranformed to the rest frame of the
+decaying particle, with the $z$-axis orientated along decaying particle mother, as seen in this frame.
 Thanks to this extension the installation of process dependent kernels
 featuring the complete first order matrix element will be possible.
 If of numerical interest the appropriate corrections are explained in
@@ -1082,18 +1053,14 @@ If neither {\tt Pythia8} nor {\tt MC-TESTER} are present, only the simple exampl
 \subsection{Elementary Tests}
 \label{sect:elem}
 
-%nd-maybe the commands to execute the stand-alone test should be meantioned here.
-%nd-So that the user knows how to conduct the elementary tests after they install PHOTOS.
-The most basic test which should be performed is verification that the interface is installed correctly, that all
-photons are indeed added by the program and that energy momentum conservation is preserved.
-
-Once correct execution of the basic program steps have been confirmed,
-step one of the program installation tests  is completed\footnote{
+The most basic test which should be performed, for our custom examples but also for  user own generation chain, 
+ is verification that the interface is installed correctly, that 
+photons are indeed added by the program and that energy momentum conservation is preserved\footnote{
 We have  performed such  tests for all choices of the {\tt HepMC} event record obtained 
-from  {\tt PYTHIA 8.1} processes and 
-listed later in the paper. Further  options for initializations 
-(parton shower hadronization or QED bremsstrahlung on/off etc.) were studied.
-This installation step  was a necessary one of program development as well.}.
+from  {\tt PYTHIA 8.1} and {\tt PYTHIA 8.135} processes and 
+listed later in the paper as our examples. Further  options for initializations 
+(parton shower hadronization or QED bremsstrahlung on/off etc.) were also studied.
+This was a necessary step of our program development.}.
 
 In principle, these tests have to be performed for any new hard 
 process and after any new installation. This is to ensure that 
@@ -1169,9 +1136,9 @@ For the shared objects:
 \begin{itemize}
   \item add {\tt -I<PhotosLocation>/include } at the compilation step,
   \item add {\tt -L<PhotosLocation>/lib } along with {\tt -lPhotosCxxInterface } at the linking step.
+        This library contains {\tt FORTRAN} routines as well.
   \item  {\tt PHOTOS} libraries must be provided for the executable; eg. with the help of {\tt LD\_LIBRARY\_PATH}.
 \end{itemize}
-%nd-how do you link the fortran libraries in the case of shared objects?
 {\tt <PhotosLocation>} denotes the path to the {\tt PHOTOS} installation directory.
 In most cases it should be enough to include {\tt Photos.h} and {\tt PhotosEvent.h}
 within a user's program and use the {\tt PHOTOS} class for configuration and {\tt PhotosEvent}
@@ -1185,9 +1152,8 @@ for event processing.
 
 In general, {\tt PHOTOS} will attempt to generate bremsstrahlung for every 
 branching point in the event record. This is of course not always appropriate.
-Already inside {\tt FORTRAN}, bremsstrahlung is not generated for vertices involving gluons or quarks 
-(with the exception of top quarks). 
-%nd- Clarify FORTRAN. Do you mean in the FORTRAN part of the new PHOTOS. Or the old FORTRAN Interface to PHOTOS?
+Already inside {\tt FORTRAN} part of the new {\tt PHOTOS}, bremsstrahlung is prevented for vertices involving gluons or quarks 
+(with the exception of top quarks).
 
 This alone is insufficient. By default we suppress bremsstrahlung
 generation for vertices like $l^\pm \to l^\pm \gamma$ because a
@@ -1206,20 +1172,11 @@ Some exceptions to the default behaviour may be necessary. For example
 in cascade decays, the vertex $\rho \to \rho \pi$ may require the
 PHOTOS algorithm to be activated.
 %nd-for my own interest: What is special about rho -> rho pi? isn't this unphysical as well?
+% zbw: it is unphysical, but because rho width is larger than pion mass such things happen in currents used for tau decays and for some models.
+% rho is good example because there is so many of such events in Belle data.
 Methods to reenable these previously prevented cases, or to prevent generation in special
-branches have been introduced and are presented in the next section.
-This may be necessary for the combination of consecutive branches. For
-example if bremsstrahlung in leptonic $\tau$ decay is generated by
-programs prior to {\tt PHOTOS}, and the decay is constructed in HepMC as the cascade
-$\tau^\pm \to W^\pm \nu$, $W^\pm \to l^\pm \nu$, {\tt PHOTOS} must
-be prevented to act on both verticies. One
-can also think of the following type of special case: if a vertex $q
-\bar q \to l^\pm l^\mp$ is found then it should not be ignored but
-passed for generation as $q \bar q \to Z \to l^\pm l^\mp$ where
-the intermediate Z is created internally for {\tt PHOTOS}. \\ \\ 
-%nd-From the last statement about qq->Z->ll, it's not clear to me whether PHOTOS does this by default,
-%doesn't do it by default but has options for doing it, or whether it's something the user
-%has to do in themselves.
+branches have been introduced and are presented in the next section. \\ \\ 
+
 
 For user's convenience the following configuration methods are provided:
 \begin{itemize}
@@ -1242,15 +1199,23 @@ For user's convenience the following configuration methods are provided:
        All branchings will be suppressed except those that are forced using the methods
 	   described in the next section.
  \item \textbf{Example:} \hfill \\
-{\tt Photos::suppressBremForDecay(4, 15, 16, -211, 300, -400); } \\
-{\tt Photos::suppressBremForDecay(2, -15, -16, 211); } \\
+{\tt Photos::suppressBremForDecay(4, tau, nutau, pi-, pi-, pi+); } \\
+{\tt Photos::suppressBremForDecay(2, -15, BAR nutau, 211); } \\
 {\tt Photos::suppressBremForDecay(0, 211); } \\
-\emph{If the decays {\tt 15 => 16, -211, 300, -400} or {\tt -15 => -16, 211} are found, they will be skipped by {\tt PHOTOS}. In addition, all decays of particle {\tt 211} will also be skipped. Note, that the minimum number of parameters that must be provided is two - the number of daughters (which can be zero) and the mother PDGID.} \\ \\
+\emph{If the decays {\tt 15 => 16, -211, -211, 211} or {\tt -15 => -16, 211} are found, they will be skipped by {\tt PHOTOS}. In addition, all decays of particle {\tt 211} will also be skipped. Note, that the minimum number of parameters that must be provided is two - the number of daughters (which can be zero) and the mother PDGID.} \\ \\
 {\tt Photos::suppressBremForBranch(2, 15, 16, -211); } \\
 \emph{When a decay {\tt 15 => 16, -211 } is found, it will be skipped by {\tt PHOTOS} along with the decays of particle 16, -211 and all their daughters. In the end, the whole decay tree starting with {\tt 15 => 16, -211} will be skipped.}
 \end{itemize}
-%nd-might be nice to use the particle symbols above instead of the PDGID. 
-%eg. ``15 => 16 ...'' to ``%\tau^- \rightarrow \nu_{\tau} ...$
+
+In future, an option of suppressing combination of consecutive branches may be introduced.
+For example if bremsstrahlung in leptonic $\tau$ decay is generated by
+programs prior to {\tt PHOTOS}, and the decay is constructed in HepMC as the cascade
+$\tau^\pm \to W^\pm \nu$, $W^\pm \to l^\pm \nu$, {\tt PHOTOS} must
+be prevented to act on both verticies.
+One can also think for another {\tt PHOTOS} extension of the following type of special case: if a vertex $q
+\bar q \to l^\pm l^\mp$ is found then it should not be ignored but
+passed for generation as $q \bar q \to Z \to l^\pm l^\mp$ where
+the intermediate Z is created internally for {\tt PHOTOS}.
 
 \subsection{Force {\tt PHOTOS} processing }
 \label{section:force}
@@ -1340,8 +1305,12 @@ functions can be used from within the user program after including the
   \item {\tt Log::LogPhlupa(int from, int to) } \\
         Turns logging of debug messages from the {\tt FORTRAN} part of the program on and off.
 \end{itemize}
-%nd-what do the debug codes 0-65535 mean? Is there somewhere that the user can find a list of all the possible
-%messages?
+
+At present only the debug codes listed below are used:
+%list
+
+%add: phlupa
+Old {\tt FORTRAN} debugging routine {\tt PHLUPA} can be activated with the help of ... 
 
 Additionally, the option {\tt Log::SetWarningLimit(int limit)} is available, allowing
 only the first {\tt `limit'} warnings to be displayed. The default for {\tt limit} is 100. 
@@ -1391,6 +1360,7 @@ or are introduced for backward compatibility.
 \label{App:Plots}
 
 %nd-I would be inclined to move this section to after B.3 Executing Examples.
+%zbw we leave it here because it is mostly custom analysis
 
 In Section \ref{sec:results}, we've presented results of a non-standard
 analysis performed by {\tt MC-Tester}. Figure \ref{fig:lineshape} has been
@@ -1406,32 +1376,24 @@ The content of {\tt ZeeAnalysis.C} is identical to the default {\tt UserTreeAnal
 of {\tt MC-Tester} with the only addition being a simple method to create
 the previously mentioned plot.
 
-In order to create the $t \bar t$ example that {\tt PHOTOS} is able to process,
-two additional routines had to be added to {\tt photos\_pythia\_example.c}.
-These routines - {\tt electronToGluon} and {\tt fixForMctester} are necessary
-due to the uniqueness of the generated process.
-%nd-I don't know much about the t tbar example. Is the electronToGluon method a fix
-%for the event record so that PHOTOS works on it correctly, or it is just a fix for MC-TESTER?
-%If the extra method is always necessary for PHOTOS to work correctly on ttbar events maybe it should
-%be highlighted more. eg. meantioned in the results section for the ttbar example.
-
+In order to create the $t \bar t$ example, an additional routine had to be added to {\tt photos\_pythia\_example.c}.
 Since {\tt MC-Tester} is not designed to analyze processes involving
 multiple incoming particles, we've used a simple method similar to that previously
-used in the {\tt FORTRAN} examples {\tt LC\_Analysis} mentioned in \cite{Golonka:2002rz}, Section 6.1. However,
-this method proved to be hard to implement with the current version of the {\tt HepMC}
-interface of {\tt MC-Tester}, therefore a special routine had to be added
-to add similar modifications to the {\tt HepMC} event. 
-%nd-I would remove the previous sentence.
-This modification transforms the $X Y \rightarrow t \bar t$ process to
-the $100 \rightarrow Y t \bar t$ process, where the momentum of the
+used in the {\tt FORTRAN} examples {\tt LC\_Analysis} mentioned in \cite{Golonka:2002rz}, Section 6.1.
+This routine, {\tt fixForMctester}, transforms the $X Y \rightarrow t \bar t$
+process to the $100 \rightarrow Y t \bar t$ process, where the momentum of the
 special particle $100$ is $X + 2*Y$ so that momentum remains conserved
 within the vertex. With this modification, {\tt MC-Tester} can be set
 up to analyze the particle $100$ in order to get a desirable results.
+
+For more details regarding the plots created for this documentation, see
+{\tt README-plots} located in {\tt examples/testing/} directory.
 
 %------------------------------------------------------------------------------
 \newpage
 
 %nd-the task list should be removed at some point.
+% We know it.
 \section*{Task List}
 In this section we provide a check-list of incomplete tasks.
 This could be used as a guide for project planning and is foreseen
@@ -1445,7 +1407,6 @@ for the project).
 
 \subsection*{Functionality}
 \begin{itemize}
-  \item[\ding{111}]{\bf 1} - Complete example t tbar
   \item[\ding{111}]{\bf 2} - Remove dead {\tt FORTRAN} code
   \item[\ding{111}]{\bf 2} - Rewrite parts on HEPEVT type data structure
   \item[\ding{111}]{\bf 3} - Move {\tt FORTRAN} remnants to C++
@@ -1453,19 +1414,15 @@ for the project).
 
 \subsection*{Testing}
 \begin{itemize}
-  \item[\ding{111}]{\bf 1} - Long run root files for tests e+e- and pp
-  \item[\ding{111}]{\bf 1} - missing plots for documentation benchmarks
   \item[\ding{111}]{\bf 2} - event record options
   \item[\ding{111}]{\bf 3} - further plots of some interest
 \end{itemize}
 
 \subsection*{Usability}
 \begin{itemize}
-  \item[\ding{111}]{\bf 1} - paper complete
-  \item[\ding{111}]{\bf 1} - READMES 
-  \item[\ding{111}]{\bf 2} - paper cleaning
+  \item[\ding{111}]{\bf 1} - paper cleaning
+  \item[\ding{111}]{\bf 1} - READMES
   \item[\ding{111}]{\bf 2} - User interaction and resulting fixes
-  \item[\ding{111}]{\bf 3} - Doxygen documentation update
 \end{itemize}
 
 
