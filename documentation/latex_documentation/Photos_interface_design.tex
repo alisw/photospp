@@ -1199,12 +1199,19 @@ For user's convenience the following configuration methods are provided:
        All branchings will be suppressed except those that are forced using the methods
 	   described in the next section.
  \item \textbf{Example:} \hfill \\
-{\tt Photos::suppressBremForDecay(4, tau, nutau, pi-, pi-, pi+); } \\
-{\tt Photos::suppressBremForDecay(2, -15, BAR nutau, 211); } \\
+{\tt Photos::suppressBremForDecay(4, 15, 16, -211, -211, 211); } \\
+{\tt Photos::suppressBremForDecay(2, -15, -16, 211); } \\
 {\tt Photos::suppressBremForDecay(0, 211); } \\
-\emph{If the decays {\tt 15 => 16, -211, -211, 211} or {\tt -15 => -16, 211} are found, they will be skipped by {\tt PHOTOS}. In addition, all decays of particle {\tt 211} will also be skipped. Note, that the minimum number of parameters that must be provided is two - the number of daughters (which can be zero) and the mother PDGID.} \\ \\
+\emph{If the decays $\tau^- \rightarrow \nu_\tau \pi^- \pi^- \pi^+$ or
+      $\tau^+ \rightarrow \bar \nu_\tau \pi^+$ are found, they will be skipped by {\tt PHOTOS}.
+	  In addition, all decays of particle $\pi^+$ will also be skipped. Note, that the minimum
+	  number of parameters that must be provided is two - the number of daughters
+	  (which can be zero) and the mother PDGID.} \\ \\
 {\tt Photos::suppressBremForBranch(2, 15, 16, -211); } \\
-\emph{When a decay {\tt 15 => 16, -211 } is found, it will be skipped by {\tt PHOTOS} along with the decays of particle 16, -211 and all their daughters. In the end, the whole decay tree starting with {\tt 15 => 16, -211} will be skipped.}
+\emph{When a decay $\tau^- \rightarrow \nu_\tau \pi^-$ is found, it will be skipped by
+      {\tt PHOTOS} along with the decays of particles $\nu_\tau$ and $\pi^-$ and all
+	  their daughters. In the end, the whole decay tree starting with
+	  $\tau^- \rightarrow \nu_\tau \pi^-$ will be skipped.}
 \end{itemize}
 
 In future, an option of suppressing combination of consecutive branches may be introduced.
@@ -1245,12 +1252,12 @@ suppressed.
 	   of decays instead of just one listed decay.
  \item \textbf{Example:} \hfill \\
 {\tt Photos::suppressAll(); } \\
-{\tt Photos::forceBremForDecay(4, 15, 16, -211, 300, -400); } \\
+{\tt Photos::forceBremForDecay(4, 15, 16, -211, -211, 211); } \\
 {\tt Photos::forceBremForDecay(2, -15, -16, 211); } \\
 {\tt Photos::forceBremForBranch(0, 211); } \\
-\emph{Since suppression of all processess is used, only the listed decays will be processed, these are
-{\tt 15 => 16, -211, 300, -400}, {\tt -15 => -16, 211} and all instances of the decay of {\tt 211} and
-its descendants.}
+\emph{Since suppression of all processess is used, only the listed decays will be processed,
+      these are $\tau^- \rightarrow \nu_\tau \pi^- \pi^- \pi^+$, $\tau^+ \rightarrow \bar \nu_\tau \pi^+$
+      and all instances of the decay of $\pi^+$ and its descendants.}
 \end{itemize}
 
 \subsection{Use of the {\tt processParticle} and {\tt processBranch} methods}
@@ -1304,14 +1311,20 @@ functions can be used from within the user program after including the
         won't be displayed. The last method turns displaying all of the above messages on and off.
   \item {\tt Log::LogPhlupa(int from, int to) } \\
         Turns logging of debug messages from the {\tt FORTRAN} part of the program on and off.
+        Parameters of this routine specify the range of debug codes for the {\tt phlupa\_} routine.
 \end{itemize}
 
 At present only the debug codes listed below are used:
-%list
-
-%add: phlupa
-Old {\tt FORTRAN} debugging routine {\tt PHLUPA} can be activated with the help of ... 
-
+\begin{itemize}
+  \item Debug(1) - Selection between regular case or case without intermediate particle
+  \item Debug(700) - Suppressing / Forcing filter execution for branching
+  \item Debug(701) - List of forced branchings
+  \item Debug(702) - List of suppressed branchings
+  \item Debug(703) - List of processed branchings (branchings that passed the filter)
+  \item Debug(2) - End of the barnching filter
+  \item Debug(1000) - Number of particles sent and returned to {\tt PHOTOS FORTRAN}
+\end{itemize}
+ 
 Additionally, the option {\tt Log::SetWarningLimit(int limit)} is available, allowing
 only the first {\tt `limit'} warnings to be displayed. The default for {\tt limit} is 100. 
 If {\tt limit}=0 is set then there are no limits on the number of warnings to be display.
@@ -1341,19 +1354,29 @@ the user program  for the memory leak tracking tool to be used only for the {\tt
 \subsection{Other User Configuration Methods}
 \label{subsection:other_methods}
 
-%nd-I might have missed it, but shouldn't there also be a section on how to config.
-%photos for physics. eg. stuff like turning exponentiation on/off etc. Most of the
-%stuff in the common blocks PHOCOP and PHOKEY should be settable through C++ as well
-%shouldn't it?
-
 The following auxiliary methods are prepared. They are useful for initialization 
 or are introduced for backward compatibility.
 
 \begin{itemize}
   \item {\tt Photos::setSeed(int iseed1, int iseed2)} \\
         Set the internal {\tt FORTRAN} RANMAR random generation seed values.
-   \item {\tt Photos::maxWtInterference(double interference)} \\
+  \item {\tt Photos::maxWtInterference(double interference)} \\
         Set the maximum interference weight. The default is 2.
+  \item {\tt Photos::setInfraredCutOff(double cut\_off)} \\
+        Set the minimal energy (in units of decaying particle mass)
+        for photons to be explicitly generated.
+  \item {\tt Photos::setAlphaQED(double alpha)} \\
+        Set the coupling constant alpha QED.
+  \item {\tt Photos::setInterference(bool interference)} \\
+        Switch for the interference, matrix element weight.
+  \item {\tt Photos::setDoubleBrem(bool doub)} \\
+        Set the double bremsstrahlung generation.
+  \item {\tt Photos::setHigherBrem(bool higherBrem)} \\
+        Set bremsstrahlung generation up to multiplicity of 4.
+  \item {\tt Photos::setExponentiation(bool expo)} \\
+        Set exponentiation mode.
+  \item {\tt Photos::initializeKinematicCorrections(int flag)} \\
+        Initialize kinematic corrections.
 \end{itemize}
 
 \subsection{Creating advanced plots and custom analysis}
