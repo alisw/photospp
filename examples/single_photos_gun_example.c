@@ -43,6 +43,7 @@ int main(int argc,char **argv)
 	if(argc>1) NumberOfEvents=atoi(argv[1]);
 
 	int photonAdded=0,twoAdded=0,moreAdded=0,tauCount=0;
+
 	// Begin event loop. Generate event.
 	for (int iEvent = 0; iEvent < NumberOfEvents; ++iEvent)
 	{
@@ -82,6 +83,8 @@ int main(int argc,char **argv)
 		delete HepMCEvt;
 	}
 	pythia.statistics();
+
+	// Print results
 	cout.precision(2);
 	cout.setf(ios::fixed);
 	cout<<endl;

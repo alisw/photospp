@@ -62,6 +62,9 @@ int main(int argc,char **argv)
 	Pythia pythia;
 	Event& event = pythia.event;
 	//pythia.settings.listAll();
+
+	// Console input parameters
+	// (set by examples located in 'testing' directory)
 	bool topDecays =false;
 	bool zeeDecays =false;
 	bool zmuDecays =false;
@@ -74,6 +77,7 @@ int main(int argc,char **argv)
 	}
 	if(argc>3) NumberOfEvents=atoi(argv[3]);
 	if(argc>2) ShowersOn=atoi(argv[2]);
+
 	if(!ShowersOn)
 	{
 		//pythia.readString("HadronLevel:all = off");
@@ -102,6 +106,8 @@ int main(int argc,char **argv)
 	MC_Initialize();
 
 	Photos::initialize();
+	//Photos::setDoubleBrem(false);
+	//Photos::setExponentiation(false);
 
 	// Zee and ttbar require higher maxWtInterference
 	if(zeeDecays || topDecays) Photos::maxWtInterference(3.0);

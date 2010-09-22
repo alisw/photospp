@@ -55,6 +55,8 @@ int main()
 		//clean up
 		delete HepMCEvt;
 	}
+
+	// Print results
 	cout.precision(2);
 	cout.setf(ios::fixed);
 	cout<<endl;

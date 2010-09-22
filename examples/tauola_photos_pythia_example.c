@@ -40,10 +40,13 @@ int main(int argc,char **argv)
 	Pythia pythia;
 	Event& event = pythia.event;
 
+	// Console input parameters
+	// (set by examples located in 'testing' directory)
 	int tauolaDecayMode=0;
 	if(argc>4) tauolaDecayMode=atoi(argv[4]);
 	if(argc>3) NumberOfEvents=atoi(argv[3]);
 	if(argc>2) ShowersOn=atoi(argv[2]);
+
 	if(!ShowersOn)
 	{
 		//pythia.readString("HadronLevel:all = off");
@@ -59,7 +62,10 @@ int main(int argc,char **argv)
 		pythia.readFile(argv[1]);
 		if(tauolaDecayMode==3) pythia.init( 11, -11, 91.17);
 		else pythia.init( 11, -11, 500.);
-		//3 for Ztautau, 4 for Htautau
+
+		// Decay mode is set from console input parameters:
+		// tauolaDecayMode=3 (tau => pi nu_tau) for Ztautau
+		// tauolaDecayMode=4 (tau => pi pi nu_tau) for Htautau
 		Tauola::setSameParticleDecayMode(tauolaDecayMode);
 		Tauola::setOppositeParticleDecayMode(tauolaDecayMode);
 	}
@@ -85,6 +91,8 @@ int main(int argc,char **argv)
 
 	Photos::initialize();
 	Photos::setInfraredCutOff(0.01/200);//91.187);
+	//Photos::setDoubleBrem(false);
+	//Photos::setExponentiation(false);
 
 	Log::SummaryAtExit();
 	//Log::LogInfo(false) //To turn printing of last five events and pythia statistics off
