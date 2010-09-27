@@ -46,7 +46,7 @@ extern "C"
 	/** PHOTOS initialization */
 	extern void phoini_();
 	/** Single branch processing */
-	extern void photos_make_(int * id);
+	extern void photos_make_c_(int * id);
 }
 
 #endif

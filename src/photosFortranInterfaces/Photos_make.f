@@ -121,7 +121,7 @@ C.----------------------------------------------------------------------
 
 
 
-      SUBROUTINE PHOTOS_MAKE(IPARR)
+      SUBROUTINE PHOTOS_MAKE_C(IPARR)
 C.----------------------------------------------------------------------
 C.
 C.    PHOTOS_MAKE:   General search routine
@@ -144,7 +144,7 @@ C.
 C.----------------------------------------------------------------------
       IMPLICIT NONE
       REAL*8 PHOTON(5)
-      INTEGER IP,IPARR,IPPAR,I,J,K,L,NLAST,nnn,kkkk
+      INTEGER IP,IPARR,IPPAR,I,J,K,L,NLAST
       DOUBLE PRECISION DATA
       INTEGER MOTHER,POSPHO
       LOGICAL CASCAD
@@ -161,7 +161,6 @@ C.----------------------------------------------------------------------
       INTEGER ISTACK(0:NMXPHO),NUMIT,NTRY,KK,LL,II,NA,FIRST,LAST
       INTEGER FIRSTA,LASTA,IPP,IDA1,IDA2,MOTHER2,IDPHO,ISPHO
       REAL*8 PORIG(5,NMXPHO)
-      INTEGER PHLUN
 C--
       CALL PHLUPAB(3)
 C      NEVHEP=EVENT
