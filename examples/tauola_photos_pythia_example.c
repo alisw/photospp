@@ -30,7 +30,7 @@ using namespace std;
 using namespace Pythia8;
 
 bool ShowersOn=true;
-int NumberOfEvents = 10000;
+unsigned long NumberOfEvents = 10000;
 
 int main(int argc,char **argv)
 {
@@ -44,7 +44,7 @@ int main(int argc,char **argv)
 	// (set by examples located in 'testing' directory)
 	int tauolaDecayMode=0;
 	if(argc>4) tauolaDecayMode=atoi(argv[4]);
-	if(argc>3) NumberOfEvents=atoi(argv[3]);
+	if(argc>3) NumberOfEvents=atol(argv[3]);
 	if(argc>2) ShowersOn=atoi(argv[2]);
 
 	if(!ShowersOn)
@@ -106,9 +106,9 @@ int main(int argc,char **argv)
 
 	MC_Initialize();
 	// Begin event loop. Generate event.
-	for (int iEvent = 0; iEvent < NumberOfEvents; ++iEvent)
+	for (unsigned long iEvent = 0; iEvent < NumberOfEvents; ++iEvent)
 	{
-		if(iEvent%1000==0) Log::Info()<<"Event: "<<iEvent<<"\t("<<(iEvent*100)/NumberOfEvents<<"%)"<<endl;
+		if(iEvent%1000==0) Log::Info()<<"Event: "<<iEvent<<"\t("<<iEvent*(100./NumberOfEvents)<<"%)"<<endl;
 		if(!pythia.next()) continue;
 
 		HepMC::GenEvent * HepMCEvt = new HepMC::GenEvent();

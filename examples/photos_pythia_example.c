@@ -25,7 +25,7 @@ using namespace std;
 using namespace Pythia8;
 
 bool ShowersOn=true;
-int NumberOfEvents = 10000;
+unsigned long NumberOfEvents = 10000;
 
 // Finds X Y -> 6 -6 decay and converts it to 100 -> 6 -6, where 100 = X + Y
 void fixForMctester(HepMC::GenEvent *evt)
@@ -75,7 +75,7 @@ int main(int argc,char **argv)
 		zeeDecays = (atoi(argv[4])==2);
 		zmuDecays = (atoi(argv[4])==3);
 	}
-	if(argc>3) NumberOfEvents=atoi(argv[3]);
+	if(argc>3) NumberOfEvents=atol(argv[3]);
 	if(argc>2) ShowersOn=atoi(argv[2]);
 
 	if(!ShowersOn)
@@ -116,9 +116,9 @@ int main(int argc,char **argv)
 	Log::SummaryAtExit();
 
 	// Begin event loop
-	for(int iEvent = 0; iEvent < NumberOfEvents; ++iEvent)
+	for(unsigned long iEvent = 0; iEvent < NumberOfEvents; ++iEvent)
 	{
-		if(iEvent%1000==0) Log::Info()<<"Event: "<<iEvent<<"\t("<<(iEvent*100)/NumberOfEvents<<"%)"<<endl;
+		if(iEvent%1000==0) Log::Info()<<"Event: "<<iEvent<<"\t("<<iEvent*(100./NumberOfEvents)<<"%)"<<endl;
 		if (!pythia.next()) continue;
 
 		HepMC::GenEvent * HepMCEvt = new HepMC::GenEvent();
