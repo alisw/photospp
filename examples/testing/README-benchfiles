@@ -1,0 +1,311 @@
+Htautau/mc-tester.benchmark.Htautau.root
+----------------------------------------
+
+PROCESS:
+  collision:	e+e-@500GeV
+  generator:	pythia, HiggsSM:ffbar2H, using "25:m0=120"
+     tauola:	decay mode: 4 (tau => pi pi nu_tau)
+     events:	10M
+
+PHOTOS:
+      first:	no
+     second:	no
+        exp:	yes
+     cutoff:	0.01/200
+
+MCTESTER:
+   particle:	25 (higgs)
+ mass power:	1
+ mass scale:	on
+ histograms:	60 bins; [0 , 1.1]
+
+   analysis:	RhoRhoPHOTOSUserTreeAnalysis.C
+     E_test:	-
+
+--------------------------------------------------------------------------------
+
+ttbar/mc-tester.root-ttbar-10M
+------------------------------
+
+PROCESS:
+  collision:	pp@1.4TeV
+  generator:	pythia, Top:ffbar2ttbar(s:gmZ) + Top:gg2ttbar
+     events:	10M
+
+PHOTOS:
+      first:	no
+     second:	no
+        exp:	yes
+     cutoff:	0.001/200
+ max weight:	3.0
+
+MCTESTER:
+   particle:	100 (special/artificial particle)
+ mass power:	1
+ mass scale:	on
+ histograms:	120 bins; [0 , 1.1]
+
+   analysis:	UserTreeAnalysis
+     E_test:	0.001, max 2 photons
+
+
+--------------------------------------------------------------------------------
+
+Wenu/mc-tester.root-Wenu-photos-100M-sym-10MeV
+----------------------------------------------
+
+PROCESS:
+  collision:	-
+  generator:	custom BORN, CMSene=80.403, symmetric photons
+     events:	100M
+
+PHOTOS:
+      first:	no
+     second:	no
+        exp:	yes
+     cutoff:	10e-7 (default)
+
+MCTESTER:
+   particle:	24 (W+)
+ mass power:	1
+ mass scale:	on
+ histograms:	120 bins; [0 , 1.1]
+
+   analysis:	UserTreeAnalysis
+     E_test:	0.01/80.403 (10MeV), max 2 photons
+
+--------------------------------------------------------------------------------
+
+Wmunu/mc-tester.root-Wmunu-photos-100M-sym-10MeV
+----------------------------------------------
+
+PROCESS:
+  collision:	-
+  generator:	custom BORN, CMSene=80.403, symmetric photons
+     events:	100M
+
+PHOTOS:
+      first:	no
+     second:	no
+        exp:	yes
+     cutoff:	10e-7 (default)
+
+MCTESTER:
+   particle:	24 (W+)
+ mass power:	1
+ mass scale:	on
+ histograms:	120 bins; [0 , 1.1]
+
+   analysis:	UserTreeAnalysis
+     E_test:	0.01/80.403 (10MeV), max 2 photons
+
+--------------------------------------------------------------------------------
+
+Zee/mc-tester.root-Zee-10M-nosym-10MeV
+--------------------------------------
+
+PROCESS:
+  collision:	pp@1.4TeV
+  generator:	pythia, WeakSingleBoson:ffbar2gmZ
+     events:	10M
+
+PHOTOS:
+      first:	no
+     second:	no
+        exp:	yes
+     cutoff:	0.001/200
+ max weight:	3.0
+
+MCTESTER:
+   particle:	23 (Z0)
+ mass power:	1
+ mass scale:	on
+ histograms:	120 bins; [0 , 1.1]
+
+   analysis:	ZeeAnalysis
+     E_test:	0.01/91.187 (10MeV), max 2 photons
+
+Zee/mc-tester.root-Zee-kkmc-sym-1GeV
+------------------------------------
+
+PROCESS:
+  collision:	-
+  generator:	KKMC, CMSene=91.187, symmetric photons
+     events:	6.5M (6442925)
+
+MCTESTER:
+   particle:	23 (Z0)
+ mass power:	1
+ mass scale:	on
+ histograms:	120 bins; [0 , 1.1]
+
+   analysis:	F77 code equivalent to ZeeAnalysis used
+     E_test:	1./91.187 (1GeV), max 2 photons
+
+Zee/mc-tester.root-Zee-photos-100M-sym-10MeV
+--------------------------------------------
+
+PROCESS:
+  collision:	-
+  generator:	custom BORN, CMSene=91.187, symmetric photons
+     events:	100M
+
+PHOTOS:
+      first:	no
+     second:	no
+        exp:	yes
+     cutoff:	10e-7 (default)
+
+MCTESTER:
+   particle:	23 (Z0)
+ mass power:	1
+ mass scale:	on
+ histograms:	120 bins; [0 , 1.1]
+
+   analysis:	F77 code equivalent to ZeeAnalysis used
+     E_test:	0.01/91.187 (10MeV), max 2 photons
+
+--------------------------------------------------------------------------------
+
+Zmumu/mc-tester.root-Zmumu-CEEX1-100M-nosym-1GeV
+------------------------------------------------
+
+PROCESS:
+  collision:	e+e-@91.177GeV
+  generator:	KKMC-CEEX1
+     events:	100M
+
+MCTESTER:
+   particle:	23 (Z0)
+ mass power:	1
+ mass scale:	on
+ histograms:	120 bins; [0 , 1.1]
+
+   analysis:	UserTreeAnalysis
+     E_test:	1./91.177 (1GeV), max 2 photons
+
+Zmumu/mc-tester.root-Zmumu-CEEX2-100M-nosym-1GeV
+------------------------------------------------
+
+PROCESS:
+  collision:	e+e-@91.177GeV
+  generator:	KKMC-CEEX2
+     events:	100M
+
+MCTESTER:
+   particle:	23 (Z0)
+ mass power:	1
+ mass scale:	on
+ histograms:	120 bins; [0 , 1.1]
+
+   analysis:	UserTreeAnalysis
+     E_test:	1./91.177 (1GeV), max 2 photons
+
+Zmumu/mc-tester.root-Zmumu-kkmc-F77-100M-sym-1GeV
+-------------------------------------------------
+
+PROCESS:
+  collision:	e+e-@91.177GeV
+  generator:	KKMC, symmetric photons
+     events:	10M
+
+MCTESTER:
+   particle:	23 (Z0)
+ mass power:	1
+ mass scale:	on
+ histograms:	120 bins; [0 , 1.1]
+
+   analysis:	F77 code equivalent to UserTreeAnalysis used
+     E_test:	1./91.177 (1GeV), max 2 photons
+
+Zmumu/mc-tester.root-Zmumu-photos-F77-100M-sym-10MeV
+----------------------------------------------------
+
+PROCESS:
+  collision:	e+e-@91.187
+  generator:	BORN, symmetric photons
+     events:	100M
+
+PHOTOS:
+      first:	no
+     second:	no
+        exp:	yes
+     cutoff:	10e-7 (default)
+
+MCTESTER:
+   particle:	23 (Z0)
+ mass power:	1
+ mass scale:	on
+ histograms:	120 bins; [0 , 1.1]
+
+   analysis:	F77 code equivalent to ZeeAnalysis used
+     E_test:	0.01/91.187 (10MeV), max 2 photons
+
+--------------------------------------------------------------------------------
+
+Ztautau/mc-tester.root-pispectr-RCall
+-------------------------------------
+
+PROCESS:
+  collision:	ee@91.17GeV
+  generator:	pythia, WeakSingleBoson:ffbar2gmZ
+     tauola:	decay mode: 3 (tau => pi nu_tau)
+     events:	10M
+
+PHOTOS:
+      first:	no
+     second:	no
+        exp:	yes
+     cutoff:	0.01/200
+
+MCTESTER:
+   particle:	23 (Z0)
+ mass power:	2
+ mass scale:	on
+ histograms:	120 bins; [0 , 1.1]
+
+   analysis:	ZtautauAnalysis.C
+     E_test:	0.01/91.187 (10MeV), max 2 photons
+
+Ztautau/mc-tester.root-pispectr-RCno
+------------------------------------
+
+PROCESS:
+  collision:	ee@91.17GeV
+  generator:	pythia, WeakSingleBoson:ffbar2gmZ
+     tauola:	decay mode: 3 (tau => pi nu_tau)
+     events:	10M
+
+MCTESTER:
+   particle:	23 (Z0)
+ mass power:	2
+ mass scale:	on
+ histograms:	120 bins; [0 , 1.1]
+
+   analysis:	-
+     E_test:	-
+
+Ztautau/mc-tester.root-pispectr-RCtau
+-------------------------------------
+
+PROCESS:
+  collision:	ee@91.17GeV
+  generator:	pythia, WeakSingleBoson:ffbar2gmZ
+     tauola:	decay mode: 3 (tau => pi nu_tau)
+     events:	10M
+
+PHOTOS:
+      first:	no
+     second:	no
+        exp:	yes
+     cutoff:	0.01/200
+                radiative corrections in tau decays only
+
+MCTESTER:
+   particle:	23 (Z0)
+ mass power:	2
+ mass scale:	on
+ histograms:	120 bins; [0 , 1.1]
+
+   analysis:	ZtautauAnalysis.C
+     E_test:	0.01/91.187 (10MeV), max 2 photons
