@@ -76,11 +76,22 @@ will be provided already now.
 
 
 
-Our paper is organized as follows ...
-
+Our paper is organized as follows. Section \ref{sec:requrements} is devoted
+to description of physics information which must be available in event
+record for the algorithm to function. Later particular requirements for the 
+information stored in {\tt HepMC} are given. Section \ref{sec:design} describes
+program structure. In Section  \ref{sec:extensibility} methods prepared for the
+future extensions improving physics precision of the generator are explained.
+Section \ref{sec:tests} presents program tests and benchmarks. 
+Summary, section \ref{sec:summary}, closes the paper.
+There are 3 appendices \ref{Interface to PHOTOS}, 
+\ref{sec:User Guide}, \ref{sec:User Configuration} attached to the paper.
+Respectively they describe interface to old {\tt FORTRAN } part of the code,
+provide user guide and explain program configuration methods and parameters. 
 
 
 \section{Requirements of the {\tt PHOTOS} Interface}
+\label{sec:requrements}
 The algorithm of {\tt PHOTOS} Monte Carlo can be divided into two parts.
 An internal one, operates on elementary decays. Thanks to carefully 
 studied properties of the 
@@ -145,7 +156,7 @@ more information. Spin state of the decaying particle has to be passed to the co
 information on particles or fields resulting in creation of
 our particle under consideration that is mother for the decay vertex.
 It is then convenient to transform all particles to the rest frame of the Mother
-and orient Mothers mother along z axis before passing the information from HepMC to {\tt PHOTOS} internal data structure. Let us call resulting Lorentz transformation $L$. Once PHOTOS internal algorithm complete
+and orient Mothers mother along z axis before passing the information from HepMC to {\tt PHOTOS} internal data structure. Let us call resulting Lorentz transformation $L$. Once {\tt PHOTOS} internal algorithm complete
 its action all four momenta have to be transformed back by $L^{-1}$ and 
 modification of remaining part of the event record (replacement of momenta
 add of new photons to HepMC and modification of all descendants of 
@@ -244,7 +255,7 @@ interface should  be able to interpret correctly.
 
 \begin{itemize}
   \item \textbf{4-momentum conservation} is assumed for all vertices in the event record where {\tt PHOTOS} is expected to act.
-  \item \textbf{Status codes:} only information whether given particle is incoming, outgoing or intermediate will be used. We assume the codes used will be 0,1 or 2 like in HEPEVT. All other codes will be treated as
+  \item \textbf{Status codes:} only information whether given particle is incoming, outgoing or intermediate will be used. We assume the codes used will be 0, 1 or 2 like in HEPEVT. All other codes will be treated as
 equivalent to  the status 2.
   \item \textbf{Pointers at a vertex} are assumed to be bi-directional. That is, it is possible to traverse the record structure from mother to daughter and from daughter to mother along the same path.
 \end{itemize}
@@ -301,7 +312,7 @@ reasonable choice from the point of view of program users.
 \label{sect:F77fill}
 
 In principle it would be rather simple to re-write the whole of {\tt PHOTOS} into
-C++. However to profit from numerical tests, for the time being the numerical core of PHOTOS
+C++. However to profit from numerical tests, for the time being the numerical core of {\tt PHOTOS}
 is still left in {\tt FORTRAN}. The C++ part of the code searches the whole event for
 suitable HepMC vertices for the generation of bremsstrahlung. Once such
 a vertex is found it is copied to an internal event record  which is 
@@ -320,7 +331,7 @@ For details on the interface to {\tt FORTRAN} see appendix \ref{Interface to PHO
 
 
 \section{Design}
-
+\label{sec:design}
 \subsection{Classes and Responsibilities}
 
 The choice of splitting the source code into three main modules
@@ -459,7 +470,7 @@ needs to be examined by {\tt PHOTOS}. For details see Appendix~\ref{PHOTOSgun}.
 The underlying HepMC::GenEvent is hence modified with the  insertion of photons.
 
 \section{Extensibility}
-
+\label{sec:extensibility}
  The purpose of the present version of the C++ interface to {\tt PHOTOS} is to enable 
 all the functionality of its {\tt FORTRAN} predecessor to be available for the HepMC data
 structure. Some methods for improved initialization are already introduced in this version. New program 
@@ -549,7 +560,7 @@ the need to redo many of the {\tt FORTRAN} era benchmarks.
 
 
 \section{Testing}
-
+\label{sec:tests} 
 One of the most important parts of the {\tt PHOTOS} project are its physics oriented tests.
 Several domains
 of physics tests should be mentioned. For users interested in precision 
@@ -628,7 +639,9 @@ Here we have collected numerical results in the directory
 {\tt examples/testing} and its subdirectories; respectively  
 {\tt Htautau, ttbar, Wenu, Wmunu, Zee, Zmumu}. Each of those include
 an appropriate initialization files for the particular run of {\tt PYTHIA}. Numerical results from long runs of {\tt MC-TESTER} based tests
-are stored for reference. Our choice of tests, at present is oriented toward 
+are stored for reference\footnote{Details on the initialization for the 
+runs used in construction of these reference runs is given in file
+{\tt README-benchfiles}.}. Our choice of tests, at present is oriented toward 
 LHC user and radiative corrections in decay of W's, Z's and Higgs particles.
 Most of the users of low energy experiments are using {\tt FORTRAN} version 
 of the code, that is why our tests and examples for C++ version are not geared toward 
@@ -830,7 +843,7 @@ See  {\tt examples/testing/README-plots} for technical details. Reference
 
 The numerical results collected here provide part of the program benchmarks. 
 They are however of  some physics interest as well.
- Photos provides only one step in the simulation chain: 
+ {\tt PHOTOS} provides only one step in the simulation chain: 
 bremsstrahlung in decays or final state bremsstrahlung. One can ask 
 the question of whether such a specialized unit is of interest and whether it is not better 
 to provide the complete chain for ``truth physics simulation'' as a single simulation package. Obviously this will
@@ -842,8 +855,8 @@ One should bear in mind that final state bremsstrahlung
 needs to be disentangled from detector acceptance dependencies and is not of 
 interest in itself. This must bed done e.g. to measure the properties of weak bosons.
 Then genuine weak corrections have to be taken into account.
-This can be done if together with the PHOTOS Interface
-these genuine weak corrections are provided with TAUOLA Interface.
+This can be done if together with the {\tt PHOTOS Interface}
+these genuine weak corrections are provided with {\tt TAUOLA Interface}.
 Finally, sizeable initial state QED corrections are usually embodied in  units 
 simulating parton showers. This may need some experimental analysis as well. 
 Recently experimental data from LEP1 times are revisited \cite{Abdallah:2010tk} 
@@ -853,11 +866,13 @@ at the LHC will need to be reinvestigated with the help of LHC data as well.
 It might be useful to keep initial state QED, final state QED and their interference corrections in the separate modules.
 
 \section{Summary and outlook}
-We have presented a new version  of {\tt PHOTOS} Monte Carlo. The part of PHOTOS which operates on 
+\label{sec:summary}
+We have presented a new version  of {\tt PHOTOS} Monte Carlo. The part of 
+{\tt PHOTOS} which operates on 
 event records is rewritten now into C++ and takes the HepMC event record 
 format for input. The physics performance of the algorithm is the same  as that of 
 the {\tt FORTRAN/HEPEVT} version. Steps toward future improvements are prepared. 
-When an elementary decay is to be modified by PHOTOS, it is first tranformed to the rest frame of the
+When an elementary decay is to be modified by {\tt PHOTOS}, it is first tranformed to the rest frame of the
 decaying particle, with the $z$-axis orientated along decaying particle mother, as seen in this frame.
 Thanks to this extension the installation of process dependent kernels
 featuring the complete first order matrix element will be possible.
@@ -1170,7 +1185,7 @@ which matches the flavour of an incoming particle.
 
 Some exceptions to the default behaviour may be necessary. For example
 in cascade decays, the vertex $\rho \to \rho \pi$ may require the
-PHOTOS algorithm to be activated.
+{\tt PHOTOS} algorithm to be activated.
 %nd-for my own interest: What is special about rho -> rho pi? isn't this unphysical as well?
 % zbw: it is unphysical, but because rho width is larger than pion mass such things happen in currents used for tau decays and for some models.
 % rho is good example because there is so many of such events in Belle data.
@@ -1199,19 +1214,20 @@ For user's convenience the following configuration methods are provided:
        All branchings will be suppressed except those that are forced using the methods
 	   described in the next section.
  \item \textbf{Example:} \hfill \\
-{\tt Photos::suppressBremForDecay(4, 15, 16, -211, -211, 211); } \\
+{\tt Photos::suppressBremForDecay(3, 15, 16, 11, -12); } \\
 {\tt Photos::suppressBremForDecay(2, -15, -16, 211); } \\
-{\tt Photos::suppressBremForDecay(0, 211); } \\
-\emph{If the decays $\tau^- \rightarrow \nu_\tau \pi^- \pi^- \pi^+$ or
+{\tt Photos::suppressBremForDecay(0, 111); } \\
+\emph{If the decays $\tau^- \rightarrow \nu_\tau e^- \bar \nu_e$ or
       $\tau^+ \rightarrow \bar \nu_\tau \pi^+$ are found, they will be skipped by {\tt PHOTOS}.
-	  In addition, all decays of particle $\pi^+$ will also be skipped. Note, that the minimum
+	  In addition, all decays of $\pi^0$ will also be skipped. Note, that the minimum
 	  number of parameters that must be provided is two - the number of daughters
 	  (which can be zero) and the mother PDGID.} \\ \\
-{\tt Photos::suppressBremForBranch(2, 15, 16, -211); } \\
-\emph{When a decay $\tau^- \rightarrow \nu_\tau \pi^-$ is found, it will be skipped by
-      {\tt PHOTOS} along with the decays of particles $\nu_\tau$ and $\pi^-$ and all
+{\tt Photos::suppressBremForBranch(2, 15, 16, -213); } \\
+\emph{When a decay $\tau^- \rightarrow \nu_\tau \rho^-$ is found, it will be skipped by
+      {\tt PHOTOS} along with the decays of   $\rho^-$ 
+(also $\nu_\tau$) and all
 	  their daughters. In the end, the whole decay tree starting with
-	  $\tau^- \rightarrow \nu_\tau \pi^-$ will be skipped.}
+	  $\tau^- \rightarrow \nu_\tau \rho^-$ will be skipped.}
 \end{itemize}
 
 In future, an option of suppressing combination of consecutive branches may be introduced.
@@ -1227,7 +1243,7 @@ the intermediate Z is created internally for {\tt PHOTOS}.
 \subsection{Force {\tt PHOTOS} processing }
 \label{section:force}
 
-Forcing PHOTOS to process a branch can be used in combination with
+Forcing {\tt PHOTOS} to process a branch can be used in combination with
 suppressing all branches i.e. to allow selection of only particular
 procesess for bremstrahlung generator.
 
@@ -1254,10 +1270,10 @@ suppressed.
 {\tt Photos::suppressAll(); } \\
 {\tt Photos::forceBremForDecay(4, 15, 16, -211, -211, 211); } \\
 {\tt Photos::forceBremForDecay(2, -15, -16, 211); } \\
-{\tt Photos::forceBremForBranch(0, 211); } \\
+{\tt Photos::forceBremForBranch(0, 111); } \\
 \emph{Since suppression of all processess is used, only the listed decays will be processed,
       these are $\tau^- \rightarrow \nu_\tau \pi^- \pi^- \pi^+$, $\tau^+ \rightarrow \bar \nu_\tau \pi^+$
-      and all instances of the decay of $\pi^+$ and its descendants.}
+      and all instances of the decay of $\pi^0$ and its descendants.}
 \end{itemize}
 
 \subsection{Use of the {\tt processParticle} and {\tt processBranch} methods}

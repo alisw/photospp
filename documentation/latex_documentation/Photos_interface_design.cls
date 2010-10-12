@@ -106,13 +106,20 @@ Jagellonian University, Reymonta 4, 30-059 Cracow, Poland.}
 
 \end{center}
 
-{ In this paper we document the first version of PHOTOS Monte Carlo for
+{ The first version of {\tt PHOTOS} Monte Carlo for
 bremsstrahlung in the decay of particles and resonances
-written in C++ with an interface to the HepMC event record.
-The current functionality is as good as that of its FORTRAN predecessor. 
-Better steering options are prepared for the user's convenience. An algorithm is 
-prepared for the installation of process dependent weights to implement complete effects
-of first order matrix elements. A multitude of tests are collected.}
+ with  interface to the HepMC event record written in C++ is now available.
+The current functionality is already as good as that of its FORTRAN 
+predecessor. 
+Better steering options are introduced. An algorithm for event record interface
+is adopted 
+to the forthcoming installation of process dependent weights 
+necessary to implement complete first order matrix element effects.
+A multitude of tests is collected. Brief presentation 
+of physics assumptions is also given. In particular, it is briefly presented
+how the program exploits properties of first and second order matrix elements 
+and why the phase space parametrization used is exact. The main purpose of the 
+paper is to present technical aspects of the {\tt PHOTOS} Monte Carlo use. }
 
 \centerline{\normalsize \today}
 
