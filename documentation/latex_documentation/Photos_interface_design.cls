@@ -109,17 +109,32 @@ Jagellonian University, Reymonta 4, 30-059 Cracow, Poland.}
 { The first version of {\tt PHOTOS} Monte Carlo for
 bremsstrahlung in the decay of particles and resonances
  with  interface to the HepMC event record written in C++ is now available.
-The current functionality is already as good as that of its FORTRAN 
-predecessor. 
-Better steering options are introduced. An algorithm for event record interface
-is adopted 
-to the forthcoming installation of process dependent weights 
-necessary to implement complete first order matrix element effects.
-A multitude of tests is collected. Brief presentation 
-of physics assumptions is also given. In particular, it is briefly presented
-how the program exploits properties of first and second order matrix elements 
-and why the phase space parametrization used is exact. The main purpose of the 
-paper is to present technical aspects of the {\tt PHOTOS} Monte Carlo use. }
+The main purpose of the present
+paper is to document technical aspects of the {\tt PHOTOS} Monte Carlo 
+installation and its use. A multitude of test results and examples are  
+distributed together 
+with the program code.
+
+The
+{\tt PHOTOS} C++ physics precision is  now as good as that of its FORTRAN 
+predecessor. However
+better steering options are available. 
+An algorithm of the event record interface
+is prepared
+for the  installation of process dependent variants of the 
+photon emission kernel.
+Weights, featuring complete first order matrix elements can be installed 
+for the general use. In FORTRAN version of  {\tt PHOTOS} they were 
+available only for decays of particles   at rest and with spin 
+ set along the $z$ axis.
+
+Physics assumptions used in the program and properties of the
+solution it offers are revieved. 
+In particular, it is  mentioned
+that the  second order matrix elements was used in design and 
+validation of program iteration procedure. Also it is explained
+that the phase space parametrization used in the program is exact. 
+ }
 
 \centerline{\normalsize \today}
 

@@ -22,24 +22,30 @@
 \newpage
 
 \section{Introduction}
-For a long time, {\tt PHOTOS} Monte Carlo \cite{Barberio:1990ms,Barberio:1993qi} has been used for the generation of bremmstrahlung in the decay of particles and resonances. Over the years the program has acquired
-popularity and discussion of its systematic error have pushed it to high 
-precision \cite{Golonka:2006tw}. Multiphoton radiation was introduced \cite{Golonka:2005pn}, phase space treatment was shown to be exact \cite{Nanava:2006vv} and for several processes \cite{Golonka:2006tw,Nanava:2006vv,Nanava:2009vg}
-an exact matrix element was introduced with the help of optional weights.
+For a long time, {\tt PHOTOS} Monte Carlo \cite{Barberio:1990ms,Barberio:1993qi} 
+has been used for the generation of bremmstrahlung in the decay of particles and resonances.
+Over the years the program has acquired
+popularity and it evolved to high 
+precision tool \cite{Golonka:2006tw}. Multiphoton radiation was 
+introduced \cite{Golonka:2005pn}, phase space treatment was shown to be 
+exact \cite{Nanava:2006vv} and for several 
+processes \cite{Golonka:2006tw,Nanava:2006vv,Nanava:2009vg}
+an exact matrix element was studied with the help of optional weights.
 Benchmarks distributions, including comparisons with  
 other simulation programs, were collected on the program web page \cite{Photos_tests}. 
 
  Such high precision applications require good control of the event record content on which {\tt PHOTOS} operates. On one side it 
 requests skills and experience of the user and on the other it provides 
 the flexibility necessary for the study of effects like systematic errors for 
-measurements of anomalous couplings or W mass for example. Methods of 
+measurements of anomalous couplings or W cross section for example. Methods of 
 correlated samples  can be applied\footnote{To exploit such methods in 
-the high precision regime, good control of matrix element properties is necessary
-\cite{Kleiss:1990jv}} 
+the high precision regime, good control of matrix element properties is necessary.
+As it was shown in \cite{Kleiss:1990jv} complications for such methods arise at the second order matrix element only, thus at the precision level of 
+$(\frac{\alpha_{QED}}{\pi})^2 \simeq 10^{-5}$.}. 
 
-Until recently {\tt HEPEVT} was used as the structure for 
+Until recently {\tt HEPEVT} \cite{Altarelli:1989wu} was used as the structure for 
 communication between physics Monte Carlo programs and detector/reconstruction 
-packages. Experimental physicists used HEPEVT 
+packages. Experimental physicists used {\tt HEPEVT} 
 for their own applications  as well.
 
 Recently, to gain  flexibility, {\tt FORTRAN} is begin replaced by C++ and 
@@ -49,14 +55,9 @@ moving {\tt PHOTOS} to an environment based on  {\tt HepMC}
 and to rewrite the whole (begining with the event record interface)
 of {\tt PHOTOS}\footnote{An up-to-date version of the code described in this paper is
 available from the web page of our project~\cite{photosC++}. 
-As we are still in the phase of refining
-we change the program (and update this note) on a regular basis. 
-This can be a problem if bug fixing is necessary and the user has invested time 
-in a temporary version. To overcome this difficulty, 
-together with the code, information of the code version in 
-SVN is available.  }
-
- to C++. In fact implementation of the algorithm is clearer and easier to
+  }
+ to C++. In fact implementation of the algorithm in that language 
+is clearer and easier to
  maintain. Because of its design the {\tt PHOTOS} algorithm benefit from the object 
 oriented features of C++. It is our third program, after {\tt MC-TESTER} \cite{Davidson:2008ma}
 and the {\tt TAUOLA} interface \cite{Davidson:2010rw} previously ported to {\tt HepMC} and C++.
@@ -72,13 +73,13 @@ in special
 kinematical configurations. With the help of new event record interface they will become
 available for general use.
 For that purpose, better access to information necessary to orient spin state of the decaying particles
-will be provided already now.
+is now provided.
 
 
 
 Our paper is organized as follows. Section \ref{sec:requrements} is devoted
 to description of physics information which must be available in event
-record for the algorithm to function. Later particular requirements for the 
+record for the algorithm to function. Later, particular requirements for the 
 information stored in {\tt HepMC} are given. Section \ref{sec:design} describes
 program structure. In Section  \ref{sec:extensibility} methods prepared for the
 future extensions improving physics precision of the generator are explained.
@@ -86,8 +87,8 @@ Section \ref{sec:tests} presents program tests and benchmarks.
 Summary, section \ref{sec:summary}, closes the paper.
 There are 3 appendices \ref{Interface to PHOTOS}, 
 \ref{sec:User Guide}, \ref{sec:User Configuration} attached to the paper.
-Respectively they describe interface to old {\tt FORTRAN } part of the code,
-provide user guide and explain program configuration methods and parameters. 
+Respectively, they describe interface to old {\tt FORTRAN } part of the code,
+provide user guide and, explain program configuration methods and parameters. 
 
 
 \section{Requirements of the {\tt PHOTOS} Interface}
@@ -742,7 +743,8 @@ the help of the {\tt TAUOLA} interface \cite{Davidson:2010rw}.
 
 Let us present next the LHC oriented plot of Bare electron pair (that means electrons are not combined with accompanying them collinear photons) from $Z$
 ($W$) decay at the LHC with and without {\tt PHOTOS}, see fig. \ref{fig:lineshape}. It is similar to
-the plots shown for Horace or Winhac see refs \cite{Horace,Winhac}.
+the plots shown for Horace or Winhac see Refs.~\cite{CarloniCalame:2003ux,Winhac} and related
+studies.
 One should bear in mind that this is a technical test with little application directly to physics.
 \begin{figure}[h!]
 \centering
@@ -869,19 +871,24 @@ It might be useful to keep initial state QED, final state QED and their interfer
 \label{sec:summary}
 We have presented a new version  of {\tt PHOTOS} Monte Carlo. The part of 
 {\tt PHOTOS} which operates on 
-event records is rewritten now into C++ and takes the HepMC event record 
-format for input. The physics performance of the algorithm is the same  as that of 
-the {\tt FORTRAN/HEPEVT} version. Steps toward future improvements are prepared. 
-When an elementary decay is to be modified by {\tt PHOTOS}, it is first tranformed to the rest frame of the
-decaying particle, with the $z$-axis orientated along decaying particle mother, as seen in this frame.
-Thanks to this extension the installation of process dependent kernels
-featuring the complete first order matrix element will be possible.
-If of numerical interest the appropriate corrections are explained in
-refs.~\cite{Golonka:2006tw,Nanava:2006vv,Nanava:2009vg}. The necessary
-input is now prepared by {\tt PHOTOS}.
-At present parts of the algorithm are left in {\tt FORTRAN}. This part of the code 
-will be rather easy to change to C++. No obstacles are expected. However as this part of the code does not require any special data structures the expected gains,
-apart from homogenity of the code, are rather minimal.  
+event records is rewritten now into C++ and use the HepMC event record 
+format for input and output. The physics performance of the program is the
+same as that of 
+the {\tt FORTRAN/HEPEVT} version, but better steering options are introduced. 
+Also, when an elementary decay is to be modified by {\tt PHOTOS}, 
+it is first tranformed to its rest frame. The $z$-axis is orientated along decaying particle mother, as seen in this rest  frame. Such modification is 
+necessary to calculate process dependent kernels
+featuring the complete first order matrix element. If the interest will arise,
+the appropriate kernels explained in
+refs.~\cite{Golonka:2006tw,Nanava:2006vv,Nanava:2009vg} can be installed
+into  C++ version of {\tt PHOTOS}. The necessary information is extracted
+from event record and can be used.
+At present some parts of the algorithm are left in {\tt FORTRAN}.
+ This remaining {\tt FORTRAN} part of the code 
+can be recoded to C++ rather easily, but the necessary numerical tests 
+are time consuming. That is why we have left these changes for the later 
+releases. 
+
 
 \vskip 2 mm
 
@@ -902,8 +909,8 @@ also acknowledged.
 \newpage
 
 \bibliography{Photos_interface_design}{}
-\bibliographystyle{plain}
-
+% \bibliographystyle{plain}
+\bibliographystyle{utphys_spires}
 
 
 
