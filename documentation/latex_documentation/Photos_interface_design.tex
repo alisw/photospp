@@ -26,8 +26,11 @@ For a long time, {\tt PHOTOS} Monte Carlo \cite{Barberio:1990ms,Barberio:1993qi}
 has been used for the generation of bremmstrahlung in the decay of particles and resonances.
 Over the years the program has acquired
 popularity and it evolved to high 
-precision tool \cite{Golonka:2006tw}. Multiphoton radiation was 
-introduced \cite{Golonka:2005pn}, phase space treatment was shown to be 
+precision tool \cite{Golonka:2006tw}. Since version 2.15 of the program become 
+public in year 2005 and multiphoton radiation was 
+introduced \cite{Golonka:2005pn}, there were no further public upgrades 
+of the program. However the effort on documentation and tests was going on;
+ phase space treatment was shown to be 
 exact \cite{Nanava:2006vv} and for several 
 processes \cite{Golonka:2006tw,Nanava:2006vv,Nanava:2009vg}
 an exact matrix element was studied with the help of optional weights.
@@ -167,7 +170,7 @@ daughters would be performed as in more standard case explained above.
 \subsection{C++ and HepMC Specific Requirements}
 
 The C++ version of the {\tt PHOTOS} interface implements all functionalities
-of its predecessor, the {\tt PHOTOS} coded in {\tt FORTRAN}.
+of its predecessor, the {\tt PHOTOS} version 2.15 \cite{Golonka:2005pn} coded in {\tt FORTRAN}.
 It can be attached to any Monte-Carlo program,
 provided its output is available through a {\tt HepMC} \cite{Dobbs:2001ck} event record.
 
@@ -896,13 +899,15 @@ releases.
 
 
 Useful discussions with P. Golonka during the early stage of project development and discussions 
-with members of the ATLAS and CMS collaborations, and the LCG group are acknowledged.
-We are especially indebted to the pilot users of the interface, in particular to:
+with members of the ATLAS and CMS collaborations, and the LCG/Genser team 
+are acknowledged.
+We are especially indebted to the pilot users of the interface.
+%, in particular to:
 %nd-fix
 ...
 
 Partial support of Polish-French collaboration
-no. 06-124 within IN2P3 through LAPP Annecy and 
+no. xx-xxx within IN2P3 through LAPP Annecy and 
 during final completion of this work is
 also acknowledged.
 
@@ -944,7 +949,7 @@ from C++.
 \begin{description}
 \item[PHOKEY] keys and parameters controlling the algorithm options.
     \begin{description}
-	\item[FSEC]   \textit{double} internal variable for algorithm options, default is FSEC-1..
+	\item[FSEC]   \textit{double} internal variable for algorithm options, default is FSEC=1.0\; .
 	\item[FINT]   \textit{double} maximum interference weight.
 	\item[EXPEPS] \textit{double} technical parameter, blocks crude level high photon multiplicity from configurations less probable than EXPEPS, default is $10^{-4}$.
 	\item[INTERF] \textit{bool} key for interference, matrix element weight.
@@ -1016,7 +1021,7 @@ In the following let us list routines which are called from the interface.
   Return type: \textit{void} \\
   Parameters:
   \begin{enumerate}
-    \item \textit {int modcor} type of correction. See {\tt FORTRAN} documentation for details.
+    \item \textit {int modcor} type of correction. See \cite{Golonka:2005pn}  for details.
   \end{enumerate}
 \end{description}
 
@@ -1025,6 +1030,7 @@ In the following let us list routines which are called from the interface.
 
 \subsection{Installation}
 \label{sec:Installation}
+ 
 The main interface library requires that {\tt HepMC} \cite{Dobbs:2001ck} (version 2.04 or later)  has been installed
 and its location has been provided during the configuration step. This is sufficient to compile the interface and to run the simple, standalone example.
 
@@ -1070,17 +1076,26 @@ In order to compile the examples, compile the {\tt PHOTOS} C++ interface and ent
   \item execute {\tt make}
 \end{itemize}
 
-If neither {\tt Pythia8} nor {\tt MC-TESTER} are present, only the simple example will be provided. The {\tt /examples} directory will contain the compiled example files.
+If neither {\tt Pythia8} nor {\tt MC-TESTER} are accessible,  the most basic
+ example will be nonetheless provided. The {\tt /examples} directory will 
+contain the executable files for all examples which could be compiled and 
+linked.
+
+We have used the expertise and advice 
+of LCG/Genser team  in organization of our configuration scripts 
+ \cite{Kirsanov:2008zz}.  Thanks to this choices, we hope, our solutions
+ will be compatible with the ones in general use.
 
 \subsection{Elementary Tests}
 \label{sect:elem}
 
 The most basic test which should be performed, for our custom examples but also for  user own generation chain, 
- is verification that the interface is installed correctly, that 
-photons are indeed added by the program and that energy momentum conservation is preserved\footnote{
+ is verification if the interface is installed correctly, 
+photons are indeed added by the program and that energy momentum 
+conservation is preserved\footnote{
 We have  performed such  tests for all choices of the {\tt HepMC} event record obtained 
 from  {\tt PYTHIA 8.1} and {\tt PYTHIA 8.135} processes and 
-listed later in the paper as our examples. Further  options for initializations 
+listed in the paper. Further  options for initializations 
 (parton shower hadronization or QED bremsstrahlung on/off etc.) were also studied.
 This was a necessary step of our program development.}.
 
@@ -1089,14 +1104,14 @@ process and after any new installation. This is to ensure that
 information is passed from the event record to the interface 
 correctly and that physics information is filled into {\tt HepMC} 
 in the expected manner. Misinterpretation of the event record content may result in 
-faulty generation by {\tt PHOTOS}.
+faulty {\tt PHOTOS} operation.
 
 
 \subsection{Executing Examples}
 
 Once elementary tests are completed one can turn to the more advanced ones.
-The purpose is not only to validate the installation but to demonstrate how the
-interface can be used.
+The purpose is not only to validate the installation but to demonstrate the
+interface use.
 
 The examples can be run by executing the appropriate {\tt .exe} file in the {\tt /examples} directory.
 In order to run some more specific tests for the following processes:
@@ -1108,33 +1123,42 @@ In all cases the following actions have to be performed:
 
 \begin{itemize}
   \item Compile the {\tt PHOTOS } C++ Interface as well as the examples. 
- \item  Check that the appropriate system variables are set: normally set by the script \\
-{\tt /configure.paths.sh} (the configuration step mentions this script).
+ \item  Check that the appropriate system variables are set: execution of  the script \\
+{\tt /configure.paths.sh} usually can perform the task; the configuration step 
+anounce  this script.
   \item Enter the {\tt /examples/testing} directory. Modify test.inc if needed.
-  \item Enter the chosen directory and execute {\tt make}.
+  \item Enter the sub-directory for the particular process of inerest
+and execute {\tt make}.
 \end{itemize}
 
 The appropriate .root files as well as .pdf files generated by {\tt MC-TESTER}
 will be created inside the chosen directory. One can execute 'make clobber' to
 clean the directory. One can also execute 'make' inside the {\tt /examples/testing}
-directory to run all available tests one after another. New source
-code changes can easily be validated in this way.
-Most of the tests are run using {\tt examples/photos\_pythia\_example.exe};
-only $H \rightarrow \tau^+ \tau^-$ and $Z \rightarrow \tau^+ \tau^-$ require
-{\tt examples/tauola\_photos\_pythia\_example.exe} to be compiled as well.
-After generation booklets will be produced with comparisons to the benchmark files.
-Note that $W \rightarrow e \nu_e$, $W \rightarrow \mu \nu_\mu$ and $Z \rightarrow \mu \mu$
-examples  show differences higher than statistical error. This is because  photon symmetrization
-was used in the benchmark files generated with {\tt KKMC}, and not in the one generated with {\tt PHOTOS}.
-In the case of {\tt KKMC} the generated photons are strictly ordered in energy. In the case of {\tt PHOTOS}
-they are not. Nonetheless, on average the second photon has a smaller energy than the one written as the first
+directory to run all available tests one after another. Changes in source
+code  can  be partly validated in this way.
+Most of the tests are run using the executable {\tt examples/photos\_pythia\_example.exe}. The 
+ $H \rightarrow \tau^+ \tau^-$ and $Z \rightarrow \tau^+ \tau^-$ examples 
+require
+{\tt examples/tauola\_photos\_pythia\_example.exe} to be run.
+After generation, {\tt MC-TESTER} booklets will be produced,
+ comparisons to the benchmark files will be shown.
+A set of benchmark {\tt MC-TESTER} root files are packed with the interface
+distribution in the subdirectories of {\tt examples/testing/}.
+Note that for $W \rightarrow e \nu_e$, 
+$W \rightarrow \mu \nu_\mu$ and $Z \rightarrow \mu \mu$
+examples   differences higher than statistical error will show. 
+This is because  photon symmetrization
+was used in the benchmark files generated with {\tt KKMC}, and not in the one 
+generated with {\tt PHOTOS}.
+In the case of {\tt KKMC} the generated photons are strictly ordered in energy. 
+In the case of {\tt PHOTOS} they are not. Nonetheless, on average, 
+the second photon has a smaller energy than the one written as the first
 in the event record.
 
 
-A set of benchmark {\tt MC-TESTER} root files are packed with the interface
-distribution in the subdirectories of {\tt examples/testing/}. They can be used
-as examples to start new work or simply to construct comparison
-plots to validate new versions or new installations of the {\tt PHOTOS} interface.
+They ccomparison booklets can be useful 
+to start new work or simply to 
+validate new versions or new installations of the {\tt PHOTOS} interface.
 
 In Appendix \ref{sec:User Configuration} possible modifications to the  
 example's settings are discussed. This may be interesting as an initial step for user's 
@@ -1142,9 +1166,10 @@ physics studies.  The numerical results of some of these tests are collected in 
 and can be thus reproduced by the user.
 
 \subsection{How to run {\tt PHOTOS} with other generators}
-If a user is building a large simulation system they may want to avoid our 
-infrastructure and load only the libraries. For that purpose our stand-alone 
-example is a good starting point.
+If a user is building a large simulation system she or he may want to avoid our 
+configuration infrastructure and load  the libraries only. 
+For that purpose our stand-alone 
+example {\bf ZBW: localized in ...} is a good starting point.
 
 In order to link the libraries to the user's project, both the static libraries and shared objects are
 constructed. To use the {\tt PHOTOS} interface in an external project, additional 
@@ -1197,7 +1222,7 @@ in cascade decays, the vertex $\rho \to \rho \pi$ may require the
 % zbw: it is unphysical, but because rho width is larger than pion mass such things happen in currents used for tau decays and for some models.
 % rho is good example because there is so many of such events in Belle data.
 Methods to reenable these previously prevented cases, or to prevent generation in special
-branches have been introduced and are presented in the next section. \\ \\ 
+branches have been introduced and are presented in the Appendix. \\ \\ 
 
 
 For user's convenience the following configuration methods are provided:
@@ -1207,10 +1232,10 @@ For user's convenience the following configuration methods are provided:
 	   PDGID of the mother and the list of PDGIDs of daughters must be provided.
 	   There's no upper limit to the number of daughters.
 	   If a decay with the matching pattern is found, {\tt PHOTOS} will skip the decay.
- \item {\tt Photos::suppressBrem(0, motherID)} \hfill \\
+ \item {\tt Photos::suppressBrem(0, motherID)} {\bf ZBW: ForDecay ??} \hfill \\
        When only the PDGID of the mother is provided, {\tt PHOTOS} will skip all decay channels
-	   of this particle. Note, that the number of daughters must still be provided,
-	   which in this case is zero.
+	   of this particle. Note, that the number of daughters is to be provided,
+	   but  set for  this case to zero.
  \item {\tt Photos::suppressBremForBranch(daughterCount, motherID, d1ID, d2ID, ...)} \hfill \\
        {\tt Photos::suppressBremForBranch(0, motherID)} \hfill \\
        The usage of these methods is similar to the above function. The difference is
@@ -1228,7 +1253,7 @@ For user's convenience the following configuration methods are provided:
       $\tau^+ \rightarrow \bar \nu_\tau \pi^+$ are found, they will be skipped by {\tt PHOTOS}.
 	  In addition, all decays of $\pi^0$ will also be skipped. Note, that the minimum
 	  number of parameters that must be provided is two - the number of daughters
-	  (which can be zero) and the mother PDGID.} \\ \\
+	  (which can be zero if no restriction is requested {\bf ZBW: ??}) and the mother PDGID.} \\ \\
 {\tt Photos::suppressBremForBranch(2, 15, 16, -213); } \\
 \emph{When a decay $\tau^- \rightarrow \nu_\tau \rho^-$ is found, it will be skipped by
       {\tt PHOTOS} along with the decays of   $\rho^-$ 
@@ -1239,9 +1264,9 @@ For user's convenience the following configuration methods are provided:
 
 In future, an option of suppressing combination of consecutive branches may be introduced.
 For example if bremsstrahlung in leptonic $\tau$ decay is generated by
-programs prior to {\tt PHOTOS}, and the decay is constructed in HepMC as the cascade
+programs prior to {\tt PHOTOS}, and the decay is stored in HepMC as the cascade
 $\tau^\pm \to W^\pm \nu$, $W^\pm \to l^\pm \nu$, {\tt PHOTOS} must
-be prevented to act on both verticies.
+be prevented to act on both verticies, but only in case when they are present one after another.
 One can also think for another {\tt PHOTOS} extension of the following type of special case: if a vertex $q
 \bar q \to l^\pm l^\mp$ is found then it should not be ignored but
 passed for generation as $q \bar q \to Z \to l^\pm l^\mp$ where
@@ -1337,7 +1362,7 @@ functions can be used from within the user program after including the
         Parameters of this routine specify the range of debug codes for the {\tt phlupa\_} routine.
 \end{itemize}
 
-At present only the debug codes listed below are used:
+At present only the debug codes listed below are used: {\bf ZBW: need better explanation, out of context.}
 \begin{itemize}
   \item Debug(1) - Selection between regular case or case without intermediate particle
   \item Debug(700) - Suppressing / Forcing filter execution for branching
@@ -1348,9 +1373,9 @@ At present only the debug codes listed below are used:
   \item Debug(1000) - Number of particles sent and returned to {\tt PHOTOS FORTRAN}
 \end{itemize}
  
-Additionally, the option {\tt Log::SetWarningLimit(int limit)} is available, allowing
-only the first {\tt `limit'} warnings to be displayed. The default for {\tt limit} is 100. 
-If {\tt limit}=0 is set then there are no limits on the number of warnings to be display.
+The option {\tt Log::SetWarningLimit(int limit)} results that
+only the first {\tt `limit'} warnings will be  displayed. The default for {\tt limit} is 100. 
+If {\tt limit}=0 is set, then there are no limits on the number of warnings to be displayed.
 
 The memory leak tracking function allows checking of whether all memory allocated within {\tt PHOTOS Interface}
  is properly released. However, using the debug option significantly increases the amount of time needed for 
@@ -1369,7 +1394,7 @@ To make the macro work within a user's program, ensure that {\tt Log.h} is the l
 included in the main program.
 It is enough to  compile the program with the {\tt -D"\_LOG\_DEBUG\_MODE\_" } directive added,
 or {\tt \#define \_LOG\_DEBUG\_MODE\_ } placed within the program before inclusion of
-of the {\tt Log.h} file
+ the {\tt Log.h} file
 \footnote{Note that {\tt Log.h } does not need to be included within
 the user program  for the memory leak tracking tool to be used only for the {\tt PHOTOS} interface.
 }.
@@ -1416,7 +1441,8 @@ example of how custom analysis can be performed and how new plots can be
 added to the project with the help of {\tt MC-Tester}.
 
 The basic {\tt MC-Tester} analysis contains methods used by pre-set examples
-in the {\tt examples/testing} directory to limit the number of soft photons generated
+in the {\tt examples/testing} directory to focus on at most one or two 
+sufficiently hard photons from allgenerated
 by {\tt PHOTOS}. Its description and usage have already been documented in \cite{Davidson:2008ma}.
 The content of {\tt ZeeAnalysis.C} is identical to the default {\tt UserTreeAnalysis}
 of {\tt MC-Tester} with the only addition being a simple method to create
@@ -1427,7 +1453,8 @@ Since {\tt MC-Tester} is not designed to analyze processes involving
 multiple incoming particles, we've used a simple method similar to that previously
 used in the {\tt FORTRAN} examples {\tt LC\_Analysis} mentioned in \cite{Golonka:2002rz}, Section 6.1.
 This routine, {\tt fixForMctester}, transforms the $X Y \rightarrow t \bar t$
-process to the $100 \rightarrow Y t \bar t$ process, where the momentum of the
+process to the $100 \rightarrow Y t \bar t$ process, {\bf ZBW: is it still true that Y is among decay products?}
+where the momentum of the
 special particle $100$ is $X + 2*Y$ so that momentum remains conserved
 within the vertex. With this modification, {\tt MC-Tester} can be set
 up to analyze the particle $100$ in order to get a desirable results.
