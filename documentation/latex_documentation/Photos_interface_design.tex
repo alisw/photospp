@@ -1169,7 +1169,7 @@ and can be thus reproduced by the user.
 If a user is building a large simulation system she or he may want to avoid our 
 configuration infrastructure and load  the libraries only. 
 For that purpose our stand-alone 
-example {\bf ZBW: localized in ...} is a good starting point.
+example {\bf examples/photos\_standalone\_example.exe} is a good starting point.
 
 In order to link the libraries to the user's project, both the static libraries and shared objects are
 constructed. To use the {\tt PHOTOS} interface in an external project, additional 
@@ -1222,7 +1222,7 @@ in cascade decays, the vertex $\rho \to \rho \pi$ may require the
 % zbw: it is unphysical, but because rho width is larger than pion mass such things happen in currents used for tau decays and for some models.
 % rho is good example because there is so many of such events in Belle data.
 Methods to reenable these previously prevented cases, or to prevent generation in special
-branches have been introduced and are presented in the Appendix. \\ \\ 
+branches have been introduced and are presented below. \\ \\ 
 
 
 For user's convenience the following configuration methods are provided:
@@ -1232,7 +1232,7 @@ For user's convenience the following configuration methods are provided:
 	   PDGID of the mother and the list of PDGIDs of daughters must be provided.
 	   There's no upper limit to the number of daughters.
 	   If a decay with the matching pattern is found, {\tt PHOTOS} will skip the decay.
- \item {\tt Photos::suppressBrem(0, motherID)} {\bf ZBW: ForDecay ??} \hfill \\
+ \item {\tt Photos::suppressBremForDecay(0, motherID)} \hfill \\
        When only the PDGID of the mother is provided, {\tt PHOTOS} will skip all decay channels
 	   of this particle. Note, that the number of daughters is to be provided,
 	   but  set for  this case to zero.
@@ -1253,7 +1253,8 @@ For user's convenience the following configuration methods are provided:
       $\tau^+ \rightarrow \bar \nu_\tau \pi^+$ are found, they will be skipped by {\tt PHOTOS}.
 	  In addition, all decays of $\pi^0$ will also be skipped. Note, that the minimum
 	  number of parameters that must be provided is two - the number of daughters
-	  (which can be zero if no restriction is requested {\bf ZBW: ??}) and the mother PDGID.} \\ \\
+	  (which should be zero if suppression for all decay channels of the particle is chosen) 
+	  and the mother PDGID.} \\ \\
 {\tt Photos::suppressBremForBranch(2, 15, 16, -213); } \\
 \emph{When a decay $\tau^- \rightarrow \nu_\tau \rho^-$ is found, it will be skipped by
       {\tt PHOTOS} along with the decays of   $\rho^-$ 
@@ -1362,15 +1363,16 @@ functions can be used from within the user program after including the
         Parameters of this routine specify the range of debug codes for the {\tt phlupa\_} routine.
 \end{itemize}
 
-At present only the debug codes listed below are used: {\bf ZBW: need better explanation, out of context.}
+At present only the following debug messages can be printed:
 \begin{itemize}
-  \item Debug(1) - Selection between regular case or case without intermediate particle
-  \item Debug(700) - Suppressing / Forcing filter execution for branching
-  \item Debug(701) - List of forced branchings
-  \item Debug(702) - List of suppressed branchings
-  \item Debug(703) - List of processed branchings (branchings that passed the filter)
-  \item Debug(2) - End of the barnching filter
-  \item Debug(1000) - Number of particles sent and returned to {\tt PHOTOS FORTRAN}
+  \item Debug(1)    - which type of branching was found in {\tt HepMC}
+                     (regular or a case without intermediate particle, for details see {\tt PhotosBranch.cxx})
+  \item Debug(700)  - execution of branching filter has started
+  \item Debug(701)  - branching is forced
+  \item Debug(702)  - branching is suppressed
+  \item Debug(703)  - branching is processed (i.e. passed the filter)
+  \item Debug(2)    - execution of branching filter was completed
+  \item Debug(1000) - number of particles sent to and retrieved from {\tt PHOTOS FORTRAN}
 \end{itemize}
  
 The option {\tt Log::SetWarningLimit(int limit)} results that
@@ -1442,7 +1444,7 @@ added to the project with the help of {\tt MC-Tester}.
 
 The basic {\tt MC-Tester} analysis contains methods used by pre-set examples
 in the {\tt examples/testing} directory to focus on at most one or two 
-sufficiently hard photons from allgenerated
+sufficiently hard photons from all generated
 by {\tt PHOTOS}. Its description and usage have already been documented in \cite{Davidson:2008ma}.
 The content of {\tt ZeeAnalysis.C} is identical to the default {\tt UserTreeAnalysis}
 of {\tt MC-Tester} with the only addition being a simple method to create
@@ -1453,10 +1455,9 @@ Since {\tt MC-Tester} is not designed to analyze processes involving
 multiple incoming particles, we've used a simple method similar to that previously
 used in the {\tt FORTRAN} examples {\tt LC\_Analysis} mentioned in \cite{Golonka:2002rz}, Section 6.1.
 This routine, {\tt fixForMctester}, transforms the $X Y \rightarrow t \bar t$
-process to the $100 \rightarrow Y t \bar t$ process, {\bf ZBW: is it still true that Y is among decay products?}
+process to the $100 \rightarrow t \bar t$ process,
 where the momentum of the
-special particle $100$ is $X + 2*Y$ so that momentum remains conserved
-within the vertex. With this modification, {\tt MC-Tester} can be set
+special particle $100$ is $X + Y$. With this modification, {\tt MC-Tester} can be set
 up to analyze the particle $100$ in order to get a desirable results.
 
 For more details regarding the plots created for this documentation, see
