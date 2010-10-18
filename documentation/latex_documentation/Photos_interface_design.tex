@@ -407,11 +407,12 @@ event record.
     \item { \bf photos\_make.f } - contains extra {\tt FORTRAN} routines which should ultimately be migrated to C++.
     \end{itemize}
 
-\item {\bf src/utilities/ } - source code for utilities that help with debugging.\\
+\item {\bf src/utilities/ } - source code for utilities.\\
   Classes:
   \begin{itemize}
   \item { \bf Log} - general purpose logging class that allows filtering out output messages 
       of {\tt PHOTOS C++ Interface} and tracks statistics for each run.
+  \item { \bf PhotosRandom} - random number generator rewritten from {\tt PHOTOS FORTRAN} to C++.
   \end{itemize}   
 
   \item {\bf examples/ } - examples of different {\tt PHOTOS} C++ Interface uses.
@@ -1365,6 +1366,7 @@ functions can be used from within the user program after including the
 
 At present only the following debug messages can be printed:
 \begin{itemize}
+  \item Debug(0)    - seed used by random number generator
   \item Debug(1)    - which type of branching was found in {\tt HepMC}
                      (regular or a case without intermediate particle, for details see {\tt PhotosBranch.cxx})
   \item Debug(700)  - execution of branching filter has started
@@ -1409,7 +1411,7 @@ or are introduced for backward compatibility.
 
 \begin{itemize}
   \item {\tt Photos::setSeed(int iseed1, int iseed2)} \\
-        Set the internal {\tt FORTRAN} RANMAR random generation seed values.
+        Set the internal RANMAR random generation seed values.
   \item {\tt Photos::maxWtInterference(double interference)} \\
         Set the maximum interference weight. The default is 2.
   \item {\tt Photos::setInfraredCutOff(double cut\_off)} \\
@@ -1421,10 +1423,12 @@ or are introduced for backward compatibility.
         Switch for the interference, matrix element weight.
   \item {\tt Photos::setDoubleBrem(bool doub)} \\
         Set the double bremsstrahlung generation.
-  \item {\tt Photos::setHigherBrem(bool higherBrem)} \\
+  \item {\tt Photos::setQuatroBrem(bool quatroBrem)} \\
         Set bremsstrahlung generation up to multiplicity of 4.
   \item {\tt Photos::setExponentiation(bool expo)} \\
         Set exponentiation mode.
+  \item {\tt Photos::setCorrectionWtForW(bool corr)} \\
+        Switch for effects of initial state charge (in leptonic W decays)
   \item {\tt Photos::initializeKinematicCorrections(int flag)} \\
         Initialize kinematic corrections.
 \end{itemize}
