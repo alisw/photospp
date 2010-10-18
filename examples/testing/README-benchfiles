@@ -4,7 +4,7 @@ Htautau/mc-tester.benchmark.Htautau.root
 PROCESS:
   collision:	e+e-@500GeV
   generator:	pythia, HiggsSM:ffbar2H, using "25:m0=120"
-     tauola:	decay mode: 4 (tau => pi pi nu_tau)
+            	tauola, decay mode: 4 (tau => pi pi nu_tau)
      events:	10M
 
 PHOTOS:
@@ -249,7 +249,7 @@ Ztautau/mc-tester.root-pispectr-RCall
 PROCESS:
   collision:	ee@91.17GeV
   generator:	pythia, WeakSingleBoson:ffbar2gmZ
-     tauola:	decay mode: 3 (tau => pi nu_tau)
+            	tauola, decay mode: 3 (tau => pi nu_tau)
      events:	10M
 
 PHOTOS:
@@ -273,7 +273,7 @@ Ztautau/mc-tester.root-pispectr-RCno
 PROCESS:
   collision:	ee@91.17GeV
   generator:	pythia, WeakSingleBoson:ffbar2gmZ
-     tauola:	decay mode: 3 (tau => pi nu_tau)
+            	tauola, decay mode: 3 (tau => pi nu_tau)
      events:	10M
 
 MCTESTER:
@@ -291,7 +291,7 @@ Ztautau/mc-tester.root-pispectr-RCtau
 PROCESS:
   collision:	ee@91.17GeV
   generator:	pythia, WeakSingleBoson:ffbar2gmZ
-     tauola:	decay mode: 3 (tau => pi nu_tau)
+            	tauola, decay mode: 3 (tau => pi nu_tau)
      events:	10M
 
 PHOTOS:
