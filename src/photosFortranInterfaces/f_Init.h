@@ -20,18 +20,8 @@ extern "C"
 		int itre;
 		int iexp;
 		int iftop;
+		int ifw;
 	} phokey_;
-
-	extern struct
-	{
-		int iseed[2];
-		int i97;
-		int j97;
-		double uran[97];
-		double cran;
-		double cdran;
-		double cmran;
-	} phseed_;
 
 	//debug mode on if ipoin <  1 and ipoinm > 1
 	extern struct
@@ -41,12 +31,37 @@ extern "C"
 	} phlupy_;
 
 	/** Initialize kinematic corrections */
-	extern void phcork_(int * modcor);
+	void phcork_(int * modcor);
 
-	/** PHOTOS initialization */
-	extern void phoini_();
 	/** Single branch processing */
-	extern void photos_make_c_(int * id);
+	void photos_make_c_(int * id);
+
+	/* PHOINI subroutines */
+	int  iphqrk_(int *i);
+	int  iphekl_(int *i);
+	void phocin_();
+	void phoinf_();
+	void phorin_();
+
+	/* Printout of error messages */
+	void phoerr_(int *imes,char *text,double *data);
+
+	extern struct
+	{
+		int phlun;
+	} pholun_;
+
+	extern struct
+	{
+		int status[10];
+	} phosta_;
+
+	extern struct
+	{
+		double pi;
+		double twopi;
+	} phpico_;
+
 }
 
 #endif

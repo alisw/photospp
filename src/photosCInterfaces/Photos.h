@@ -15,6 +15,7 @@
 #include <stdarg.h>
 #include <vector>
 #include "PhotosParticle.h"
+#include "PhotosRandom.h"
 #include "f_Init.h"
 using std::vector;
 
@@ -22,6 +23,9 @@ class PhotosParticle;
 
 class Photos
 {
+public:
+	static const int VER_MAJOR=3, VER_MINOR=0;
+	static const int DAT_DAY  =12,DAT_MONTH=8,DAT_YEAR=10;
 public:
 	/** Logging and memory leak tracking class */
 	class Log;
@@ -51,7 +55,7 @@ public:
 
 public:
 	/** Seed for RANMAR used by fortran part of the Photos */
-	static void setSeed(int iseed1, int iseed2)    { phseed_.iseed[0]=iseed1; phseed_.iseed[1]=iseed2; }
+	static void setSeed(int iseed1, int iseed2)    { PhotosRandom::setSeed(iseed1,iseed2); }
 
 	/** Maximum interference weight */
 	static void maxWtInterference(double interference) { phokey_.fint=interference; }
@@ -69,7 +73,10 @@ public:
 	static void setDoubleBrem(bool doub)           { phokey_.isec=(int)doub; }
 
 	/** Set bremsstrahlung generation up to multiplicity of 4 */
-	static void setHigherBrem(bool higherBrem)     { phokey_.itre=(int)higherBrem; }
+	static void setQuatroBrem(bool quatroBrem)     { phokey_.itre=(int)quatroBrem; }
+
+	/* Key for effects of initial state charge (in leptonic W decays) */
+	static void setCorrectionWtForW(bool corr) { phokey_.ifw=(int)corr; }
 
 	/** Set exponentiation mode */
 	static void setExponentiation(bool expo)
@@ -78,7 +85,7 @@ public:
 		if(expo)
 		{
 			setDoubleBrem(false);
-			setHigherBrem(false);
+			setQuatroBrem(false);
 			setInfraredCutOff(0.0000001);
 			initializeKinematicCorrections(5);
 			phokey_.expeps=0.0001;
@@ -100,6 +107,18 @@ public:
 
 	/** List of forced decays */
 	static vector<vector<int>* >    *forceBremList;
+
+public:
+	/** Get instance of Photos */
+	Photos& getInstance() { return _instance; }
+private:
+	/* Singleton: only one instance allowed.
+	   Constructor sets default values of PHOTOS parameters */
+	 Photos();
+	~Photos() {}
+	Photos(const Photos&);
+	Photos& operator=(const Photos&);
+	static Photos _instance;
 };
 
 #endif

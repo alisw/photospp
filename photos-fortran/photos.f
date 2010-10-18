@@ -27,11 +27,7 @@ C. =========================================================
 C.    General Structure Information:                       =
 C. =========================================================
 C:   ROUTINES:
-C.             1) INITIALIZATION:
-C.                                      PHOCDE
-C.                                      PHOINI
-C.                                      PHOCIN
-C.                                      PHOINF
+C.             1) INITIALIZATION (all in C++ now)
 C.             2) GENERAL INTERFACE:
 C.                                      PHOBOS
 C.                                      PHOIN
@@ -56,8 +52,6 @@ C.                                      PHOAN2
 C.                                      PHOBO3
 C.                                      PHORO2
 C.                                      PHORO3
-C.                                      PHORIN
-C.                                      PHORAN
 C.                                      PHOCHA
 C.                                      PHOSPI
 C.                                      PHOERR
@@ -72,7 +66,6 @@ C.   PHOQED   1) 2)            3      Flags whether emisson to be gen.
 C.   PHOLUN   1) 4)            6      Output device number
 C.   PHOCOP   1) 3)            4      photon coupling & min energy
 C.   PHPICO   1) 3) 4)         5      PI & 2*PI
-C.   PHSEED   1) 4)            3      RN seed 
 C.   PHOSTA   1) 4)            3      Status information
 C.   PHOKEY   1) 2) 3)         7      Keys for nonstandard application
 C.   PHOVER   1)               1      Version info for outside
@@ -86,294 +79,6 @@ C.   PHOPRO   3)               4      var. for photon rep. (in branch)
 C.   PHOCMS   2)               3      parameters of boost to branch CMS
 C.   PHNUM    4)               1      event number from outside         
 C.----------------------------------------------------------------------
-      SUBROUTINE PHOINI
-C.----------------------------------------------------------------------
-C.
-C.    PHOTOS:   PHOton radiation in decays INItialisation
-C.
-C.    Purpose:  Initialisation  routine  for  the  PHOTOS  QED radiation
-C.              package.  Should be called  at least once  before a call
-C.              to the steering program 'PHOTOS' is made.
-C.
-C.    Input Parameters:   None
-C.
-C.    Output Parameters:  None
-C.
-C.    Author(s):  Z. Was, B. van Eijk             Created at:  26/11/89
-C.                                                Last Update: 12/04/90
-C.
-C.----------------------------------------------------------------------
-      IMPLICIT NONE
-      INTEGER INIT,IDUM,IPHQRK,IPHEKL
-      SAVE INIT
-      DATA INIT/ 0/
-C--
-C--   Return if already initialized...
-      IF (INIT.NE.0) RETURN
-      INIT=1
-C--
-C--   all the following parameter setters can be called after PHOINI.   
-C--   Initialization of kinematic correction against rounding errors.
-C--   The set values will be used later if called wit zero.
-C--   Default parameter is 1 (no correction) optionally 2, 3, 4
-C--   In case of exponentiation new version 5 is needed in most cases.
-C--   Definition given here will be thus overwritten in such a case
-C--   below in routine   PHOCIN
-      CALL PHCORK(1)
-C--   blocks emission from quarks if parameter is 1 (enables if 2), 
-C--   physical treatment
-C--   will be 3, option 2 is not realistic and for tests only, 
-      IDUM= IPHQRK(1)   ! default is 1
-C--   blocks emission in  pi0 to gamma e+ e- if parameter is gt.1 
-C--   (enables otherwise)
-      IDUM= IPHEKL(2)   ! default is 1 
-C--
-C--   Preset parameters in PHOTOS commons
-      CALL PHOCIN
-C--
-C--   Print info
-      CALL PHOINF
-
-C--
-C--   Initialize Marsaglia and Zaman random number generator
-      CALL PHORIN
-      RETURN
-      END
-      SUBROUTINE PHOCIN
-C.----------------------------------------------------------------------
-C.
-C.    PHOTOS:   PHOton Common INitialisation
-C.
-C.    Purpose:  Initialisation of parameters in common blocks.
-C.
-C.    Input Parameters:   None
-C.
-C.    Output Parameters:  Commons /PHOLUN/, /PHOPHO/, /PHOCOP/, /PHPICO/
-C.                                and /PHSEED/.
-C.
-C.    Author(s):  B. van Eijk                     Created at:  26/11/89
-C.                Z. Was                          Last Update: 29/01/05
-C.
-C.----------------------------------------------------------------------
-      IMPLICIT NONE
-      INTEGER d_h_NMXHEP
-      PARAMETER (d_h_NMXHEP=10000)
-      LOGICAL QEDRAD
-      COMMON/PHOQED/QEDRAD(d_h_NMXHEP)
-      INTEGER PHLUN
-      COMMON/PHOLUN/PHLUN
-      REAL*8 ALPHA,XPHCUT
-      COMMON/PHOCOP/ALPHA,XPHCUT
-      REAL*8 PI,TWOPI
-      COMMON/PHPICO/PI,TWOPI
-      INTEGER ISEED,I97,J97
-      REAL*8 URAN,CRAN,CDRAN,CMRAN
-      COMMON/PHSEED/ISEED(2),I97,J97,URAN(97),CRAN,CDRAN,CMRAN
-      INTEGER PHOMES
-      PARAMETER (PHOMES=10)
-      INTEGER STATUS
-      COMMON/PHOSTA/STATUS(PHOMES)
-      LOGICAL INTERF,ISEC,ITRE,IEXP,IFTOP,IFW
-      REAL*8 FINT,FSEC,EXPEPS
-      COMMON /PHOKEY/ FSEC,FINT,EXPEPS,INTERF,ISEC,ITRE,IEXP,IFTOP,IFW
-      INTEGER INIT,I
-      SAVE INIT
-      DATA INIT/ 0/
-C--
-C--   Return if already initialized...
-      IF (INIT.NE.0) RETURN
-      INIT=1
-C--
-C--   Preset switch  for  photon emission to 'TRUE' for each particle in
-C--   /PH_HEPEVT/, this interface is needed for KORALB and KORALZ...
-      DO 10 I=1,d_h_NMXHEP
-   10 QEDRAD(I)=.TRUE.
-C--
-C--   Logical output unit for printing of PHOTOS error messages
-      PHLUN=6
-C--
-C--   Set cut parameter for photon radiation
-      XPHCUT=0.01 D0 ! 0.0001D0! to go to low valuex (IEXP excepted) 
-C--                            ! switch to - VARIANT B
-C--
-C--   Define some constants
-      ALPHA=0.00729735039D0
-      PI=3.14159265358979324D0
-      TWOPI=6.28318530717958648D0
-C--
-C--   Default seeds Marsaglia and Zaman random number generator
-      ISEED(1)=1802
-      ISEED(2)=9373
-C--
-C--   Iitialization for extra options
-C--   (1)
-C--   Interference weight now universal. 
-      INTERF=.TRUE.
-C--   (2)
-C--   Second order - double photon switch
-      ISEC=.TRUE.
-C--   Third/fourth order - triple (or quatric) photon switch, 
-C--                        see dipswitch ifour
-      ITRE=.FALSE.
-C--   Exponentiation on:
-      IEXP=.FALSE. !.TRUE.
-      IF (IEXP) THEN
-      ISEC=.FALSE.
-      ITRE=.FALSE.
-      CALL PHCORK(5)  ! in case of exponentiation correction of ph space
-                      ! is a default mandatory
-      XPHCUT=0.000 000 1 
-      EXPEPS=1D-4
-      ENDIF
-C--   (3)
-C--   Emision in the hard process g g (q qbar) --> t tbar 
-C--                                 t          --> W b
-      IFTOP=.TRUE.
-C--
-C--   further initialization done automatically
-C--   see places with - VARIANT A - VARIANT B - all over
-C--   to switch between options.     
-C ----------- SLOWER VARIANT A, but stable ------------------
-C --- it is limiting choice for small XPHCUT in fixed orer
-C --- modes of operation
-      IF (INTERF) THEN
-C--   best choice is if FINT=2**N where N+1 is maximal number 
-C--   of charged daughters
-C--   see report on overweihted events
-        FINT=2.0D0
-      ELSE
-        FINT=1.0D0
-      ENDIF
-C ----------- FASTER VARIANT B  ------------------
-C -- it is good for tests of fixed order and small XPHCUT
-C -- but is less promising for more complex cases of interference
-C -- sometimes fails because of that
-C 
-C      IF (INTERF) THEN
-C       FINT=1.80D0
-C      ELSE
-C        FINT=0.0D0
-C      ENDIF
-C----------END VARIANTS A B -----------------------	
-
-C--   Effects of initial state charge (in leptonic W decays)
-C--   
-      IFW=.TRUE.
-C--   Initialise status counter for warning messages
-      DO 20 I=1,PHOMES
-   20 STATUS(I)=0
-      RETURN
-      END
-      SUBROUTINE PHOINF
-C.----------------------------------------------------------------------
-C.
-C.    PHOTOS:   PHOton radiation in decays general INFo
-C.
-C.    Purpose:  Print PHOTOS info
-C.
-C.    Input Parameters:   PHOLUN
-C.
-C.    Output Parameters:  PHOVN1, PHOVN2
-C.
-C.    Author(s):  B. van Eijk                     Created at:  12/04/90
-C.                                                Last Update: 27/06/04
-C.
-C.----------------------------------------------------------------------
-      IMPLICIT NONE
-      INTEGER IV1,IV2,IV3
-      INTEGER PHOVN1,PHOVN2
-      COMMON/PHOVER/PHOVN1,PHOVN2
-      INTEGER PHLUN
-      COMMON/PHOLUN/PHLUN
-      LOGICAL INTERF,ISEC,ITRE,IEXP,IFTOP,IFW
-      REAL*8 FINT,FSEC,EXPEPS
-      COMMON /PHOKEY/ FSEC,FINT,EXPEPS,INTERF,ISEC,ITRE,IEXP,IFTOP,IFW
-      REAL*8 ALPHA,XPHCUT
-      COMMON/PHOCOP/ALPHA,XPHCUT
-C--
-C--   PHOTOS version number and release date
-      PHOVN1=300
-      PHOVN2=120810
-C--
-C--   Print info
-      WRITE(PHLUN,9000)
-      WRITE(PHLUN,9020)
-      WRITE(PHLUN,9010)
-      WRITE(PHLUN,9030)
-      IV1=PHOVN1/100
-      IV2=PHOVN1-IV1*100
-      WRITE(PHLUN,9040) IV1,IV2
-      IV1=PHOVN2/10000
-      IV2=(PHOVN2-IV1*10000)/100
-      IV3=PHOVN2-IV1*10000-IV2*100
-      WRITE(PHLUN,9050) IV1,IV2,IV3
-      WRITE(PHLUN,9030)
-      WRITE(PHLUN,9010)
-      WRITE(PHLUN,9060) 
-      WRITE(PHLUN,9010)
-      WRITE(PHLUN,9070)
-      WRITE(PHLUN,9010)
-      WRITE(PHLUN,9020)
-      WRITE(PHLUN,9010)
-      WRITE(PHLUN,9064) INTERF,ISEC,ITRE,IEXP,IFTOP,IFW,ALPHA,XPHCUT
-      WRITE(PHLUN,9010)
-      IF (INTERF) WRITE(PHLUN,9061)
-      IF (ISEC)   WRITE(PHLUN,9062)
-      IF (ITRE)   WRITE(PHLUN,9066)
-      IF (IEXP)   WRITE(PHLUN,9067) EXPEPS
-      IF (IFTOP)  WRITE(PHLUN,9063)
-      IF (IFW)    WRITE(PHLUN,9065)
-      WRITE(PHLUN,9080)
-      WRITE(PHLUN,9010)
-      WRITE(PHLUN,9020)
-      RETURN
- 9000 FORMAT(1H1)
- 9010 FORMAT(1H ,'*',T81,'*')
- 9020 FORMAT(1H ,80('*'))
- 9030 FORMAT(1H ,'*',26X,26('='),T81,'*')
- 9040 FORMAT(1H ,'*',28X,'PHOTOS, Version: ',I2,'.',I2,T81,'*')
- 9050 FORMAT(1H ,'*',28X,'Released at:  ',I2,'/',I2,'/',I2,T81,'*')
- 9060 FORMAT(1H ,'*',18X,'PHOTOS QED Corrections in Particle Decays',
-     &T81,'*')
- 9061 FORMAT(1H ,'*',18X,'option with interference is active       ',
-     &T81,'*')
- 9062 FORMAT(1H ,'*',18X,'option with double photons is active     ',
-     &T81,'*')
- 9066 FORMAT(1H ,'*',18X,'option with triple/quatric photons is active',
-     &T81,'*')
- 9067 FORMAT(1H ,'*',18X,'option with exponentiation is active EPSEXP=',
-     &E10.4,T81,'*')
- 9063 FORMAT(1H ,'*',18X,'emision in t tbar production is active   ',
-     &T81,'*')
- 9064 FORMAT(1H ,'*',18X,'Internal input parameters:',T81,'*'
-     &,/,    1H ,'*',T81,'*'
-     &,/,    1H ,'*',18X,'INTERF=',L2,'  ISEC=',L2,'  ITRE=',L2,
-     &                   '  IEXP=',L2,'  IFTOP=',L2,
-     &                   '   IFW=',L2,T81,'*'
-     &,/,    1H ,'*',18X,'ALPHA_QED=',F8.5,'   XPHCUT=',E8.3,T81,'*')
- 9065 FORMAT(1H ,'*',18X,'correction wt in decay of W is active    ',
-     &T81,'*')
- 9070 FORMAT(1H ,'*',9X,
-     &'Monte Carlo Program - by E. Barberio, B. van Eijk and Z. Was',
-     & T81,'*',/,
-     & 1H ,'*',9X,'Version 2.09  - by P. Golonka and Z.W.',T81,'*')
- 9080 FORMAT( 1H ,'*',9X,' ',T81,'*',/,
-     &  1H ,'*',9X,
-     & ' WARNING (1): /HEPEVT/ is not anymore the standard common block'
-     & ,T81,'*',/,
-     &  1H ,'*',9X,' ',T81,'*',/,
-     &  1H ,'*',9X,
-     & ' PHOTOS expects /HEPEVT/ to have REAL*8 variables. To change to'
-     & ,T81,'*',/,  1H ,'*',9X,
-     & ' REAL*4 modify its declaration in subr. PHOTOS_GET PHOTOS_SET:'
-     & ,T81,'*',/,  1H ,'*',9X,
-     & '      REAL*8  d_h_phep,  d_h_vhep'
-     & ,T81,'*',/,  1H ,'*',9X,
-     & ' WARNING (2): check dims. of /hepevt/ /phoqed/ /ph_hepevt/.'
-     & ,T81,'*',/,  1H ,'*',9X,
-     & ' HERE:                     d_h_nmxhep=10000 and  NMXHEP=10000'
-     & ,T81,'*')
-      END
       SUBROUTINE PHOBOS(IP,PBOOS1,PBOOS2,FIRST,LAST)
 C.----------------------------------------------------------------------
 C.
@@ -876,7 +581,7 @@ C.----------------------------------------------------------------------
 
       INTEGER ID,NHEP0
       LOGICAL IPAIR
-      REAL*8 RN,PHORAN,SUM
+      REAL*8 RN,PHORANC,SUM
       INTEGER WTDUM
       LOGICAL IFOUR
 C--
@@ -900,7 +605,7 @@ C--
          CALL PHOMAK(ID,NHEP0)! Initialization/crude formfactors into 
                                                    ! PRO(NCHAN)
          EXPINI=.FALSE.
-         RN=PHORAN(WTDUM)
+         RN=PHORANC(WTDUM)
          PRSUM=0
          DO K=1,NX
           PRSUM=PRSUM+PRO(K)
@@ -922,7 +627,7 @@ C--
       ELSEIF(IFOUR) THEN
 C-- quatro photon emission
         FSEC=1.0D0
-        RN=PHORAN(WTDUM)
+        RN=PHORANC(WTDUM)
         IF (RN.GE.23.D0/24D0) THEN
           CALL PHOMAK(ID,NHEP0)
           CALL PHOMAK(ID,NHEP0)
@@ -937,7 +642,7 @@ C-- quatro photon emission
       ELSEIF(ITRE) THEN
 C-- triple photon emission
         FSEC=1.0D0
-        RN=PHORAN(WTDUM)
+        RN=PHORANC(WTDUM)
         IF (RN.GE.5.D0/6D0) THEN
           CALL PHOMAK(ID,NHEP0)
           CALL PHOMAK(ID,NHEP0)
@@ -948,7 +653,7 @@ C-- triple photon emission
       ELSEIF(ISEC) THEN
 C-- double photon emission
         FSEC=1.0D0
-        RN=PHORAN(WTDUM)
+        RN=PHORANC(WTDUM)
         IF (RN.GE.0.5D0) THEN
           CALL PHOMAK(ID,NHEP0)
           CALL PHOMAK(ID,NHEP0)
@@ -984,7 +689,7 @@ C.
 C.----------------------------------------------------------------------
       IMPLICIT NONE
       DOUBLE PRECISION DATA
-      REAL*8 PHORAN
+      REAL*8 PHORANC
       INTEGER IP,IPPAR,NCHARG
       INTEGER WTDUM,IDUM,NHEP0
       INTEGER NCHARB,NEUDAU
@@ -1010,8 +715,8 @@ C--
         CALL PHOPRE(1,WT,NEUDAU,NCHARB)
 
         IF (WT.EQ.0.0D0) RETURN
-        RN=PHORAN(WTDUM)
-C PHODO is caling PHORAN, thus change of series if it is moved before if
+        RN=PHORANC(WTDUM)
+C PHODO is caling PHORANC, thus change of series if it is moved before if
         CALL PHODO(1,NCHARB,NEUDAU)
 C we eliminate /FINT in variant B.
         IF (INTERF) WT=WT*PHINT(IDUM)  /FINT ! FINT must be in variant A
@@ -1223,7 +928,7 @@ C.----------------------------------------------------------------------
       IMPLICIT NONE
       DOUBLE PRECISION MINMAS,MPASQR,MCHREN
       DOUBLE PRECISION BETA,EPS,DEL1,DEL2,DATA,BIGLOG
-      REAL*8 PHOCHA,PHOSPI,PHORAN,PHOCOR,MASSUM
+      REAL*8 PHOCHA,PHOSPI,PHORANC,PHOCOR,MASSUM
       INTEGER IP,IPARR,IPPAR,I,J,ME,NCHARG,NEUPOI,NLAST,THEDUM
       INTEGER IDABS,IDUM
       INTEGER NCHARB,NEUDAU
@@ -1340,17 +1045,17 @@ C--   PNEUTR, distribution is taken in the infrared limit...
             EPS=MCHREN/(1.D0+BETA)
 C--
 C--   Calculate sin(theta) and cos(theta) from interval variables
-            DEL1=(2.D0-EPS)*(EPS/(2.D0-EPS))**PHORAN(THEDUM)
+            DEL1=(2.D0-EPS)*(EPS/(2.D0-EPS))**PHORANC(THEDUM)
             DEL2=2.D0-DEL1
 
 C ----------- VARIANT B ------------------
 CC corrections for more efiicient interference correction,
 CC instead of doubling crude distribution, we add flat parallel channel
-C           IF (PHORAN(THEDUM).LT.BIGLOG/BETA/(BIGLOG/BETA+2*FINT)) THEN
+C           IF (PHORANC(THEDUM).LT.BIGLOG/BETA/(BIGLOG/BETA+2*FINT)) THEN
 C              COSTHG=(1.D0-DEL1)/BETA
 C              SINTHG=SQRT(DEL1*DEL2-MCHREN)/BETA
 C           ELSE
-C             COSTHG=-1D0+2*PHORAN(THEDUM)
+C             COSTHG=-1D0+2*PHORANC(THEDUM)
 C             SINTHG= SQRT(1D0-COSTHG**2)
 C           ENDIF
 C
@@ -1477,7 +1182,7 @@ C.----------------------------------------------------------------------
       IMPLICIT NONE
       DOUBLE PRECISION MPASQR,MCHREN,BIGLOG,BETA,DATA
       INTEGER IWT1,IRN,IWT2
-      REAL*8 PRSOFT,PRHARD,PHORAN,PHOFAC
+      REAL*8 PRSOFT,PRHARD,PHORANC,PHOFAC
       DOUBLE PRECISION MCHSQR,MNESQR
       REAL*8 PNEUTR
       INTEGER IDENT
@@ -1571,7 +1276,7 @@ C--   Check on kinematical bounds
        ENDIF
       ENDIF
 
-      RRR=PHORAN(IWT1)
+      RRR=PHORANC(IWT1)
       IF (RRR.LT.PRSOFT) THEN
 C--
 C--   No photon... (ie. photon too soft)
@@ -1581,9 +1286,9 @@ C--   No photon... (ie. photon too soft)
 C--
 C--   Hard  photon... (ie.  photon  hard enough).
 C--   Calculate  Altarelli-Parisi Kernel
-   10   XPHOTO=EXP(PHORAN(IRN)*LOG(XPHCUT/XPHMAX))
+   10   XPHOTO=EXP(PHORANC(IRN)*LOG(XPHCUT/XPHMAX))
         XPHOTO=XPHOTO*XPHMAX
-        IF (PHORAN(IWT2).GT.((1.D0+(1.D0-XPHOTO/XPHMAX)**2)/2.D0)) 
+        IF (PHORANC(IWT2).GT.((1.D0+(1.D0-XPHOTO/XPHMAX)**2)/2.D0)) 
      &                            GOTO 10
       ENDIF
 C--
@@ -1815,7 +1520,7 @@ C.----------------------------------------------------------------------
       INTEGER IP,FI3DUM,I,J,NEUDAU,FIRST,LAST
       INTEGER NCHARB
       REAL*8 EPHOTO,PMAVIR,PHOTRI
-      REAL*8 GNEUT,PHORAN,CCOSTH,SSINTH,PVEC(4)
+      REAL*8 GNEUT,PHORANC,CCOSTH,SSINTH,PVEC(4)
       INTEGER NMXPHO
       PARAMETER (NMXPHO=10000)
       INTEGER IDPHO,ISTPHO,JDAPHO,JMOPHO,NEVPHO,NPHO
@@ -1877,7 +1582,7 @@ C--   ...and photon momenta
       CCOSTH=-COSTHG
       SSINTH=SINTHG
       TH3=PHOAN2(CCOSTH,SSINTH)
-      FI3=TWOPI*PHORAN(FI3DUM)
+      FI3=TWOPI*PHORANC(FI3DUM)
       PPHO(1,NPHO)=PPHO(4,NPHO)*SINTHG*COS(FI3)
       PPHO(2,NPHO)=PPHO(4,NPHO)*SINTHG*SIN(FI3)
 C--
@@ -2125,106 +1830,6 @@ C.----------------------------------------------------------------------
       SN=SIN(ANGLE)*PVEC(1)+COS(ANGLE)*PVEC(2)
       PVEC(1)=CS
       PVEC(2)=SN
-      RETURN
-      END
-      SUBROUTINE PHORIN
-C.----------------------------------------------------------------------
-C.
-C.    PHOTOS:   PHOton radiation  in decays RANdom number generator init
-C.
-C.    Purpose:  Initialse PHORAN  with  the user  specified seeds in the
-C.              array ISEED.  For details  see also:  F. James  CERN DD-
-C.              Report November 1988.
-C.
-C.    Input Parameters:   ISEED(*)
-C.
-C.    Output Parameters:  URAN, CRAN, CDRAN, CMRAN, I97, J97
-C.
-C.    Author(s):  B. van Eijk and F. James        Created at:  27/09/89
-C.                                                Last Update: 22/02/90
-C.
-C.----------------------------------------------------------------------
-      IMPLICIT NONE
-      DOUBLE PRECISION DATA
-      REAL*8 S,T
-      INTEGER I,IS1,IS2,IS3,IS4,IS5,J
-      INTEGER ISEED,I97,J97
-      REAL*8 URAN,CRAN,CDRAN,CMRAN
-      COMMON/PHSEED/ISEED(2),I97,J97,URAN(97),CRAN,CDRAN,CMRAN
-C--
-C--   Check value range of seeds
-      IF ((ISEED(1).LT.0).OR.(ISEED(1).GE.31328)) THEN
-        DATA=ISEED(1)
-        CALL PHOERR(8,'PHORIN',DATA)
-      ENDIF
-      IF ((ISEED(2).LT.0).OR.(ISEED(2).GE.30081)) THEN
-        DATA=ISEED(2)
-        CALL PHOERR(9,'PHORIN',DATA)
-      ENDIF
-C--
-C--   Calculate Marsaglia and Zaman seeds (by F. James)
-      IS1=MOD(ISEED(1)/177,177)+2
-      IS2=MOD(ISEED(1),177)+2
-      IS3=MOD(ISEED(2)/169,178)+1
-      IS4=MOD(ISEED(2),169)
-      DO 20 I=1,97
-        S=0.D0
-        T=0.5D0
-        DO 10 J=1,24
-          IS5=MOD (MOD(IS1*IS2,179)*IS3,179)
-          IS1=IS2
-          IS2=IS3
-          IS3=IS5
-          IS4=MOD(53*IS4+1,169)
-          IF (MOD(IS4*IS5,64).GE.32) S=S+T
-   10   T=0.5D0*T
-   20 URAN(I)=S
-      CRAN=362436.D0/16777216.D0
-      CDRAN=7654321.D0/16777216.D0
-      CMRAN=16777213.D0/16777216.D0
-      I97=97
-      J97=33
-      RETURN
-      END
-      FUNCTION PHORAN(IDUM)
-C.----------------------------------------------------------------------
-C.
-C.    PHOTOS:   PHOton radiation in decays RANdom number generator based
-C.              on Marsaglia Algorithm
-C.
-C.    Purpose:  Generate  uniformly  distributed  random numbers between
-C.              0 and 1.  Super long period:  2**144.  See also:
-C.              G. Marsaglia and A. Zaman,  FSU-SCR-87-50,  for seed mo-
-C.              difications  to  this version  see:  F. James DD-Report,
-C.              November 1988.  The generator  has  to be initialized by
-C.              a call to PHORIN.
-C.
-C.    Input Parameters:   IDUM (integer dummy)
-C.
-C.    Output Parameters:  Function value
-C.
-C.    Author(s):  B. van Eijk, G. Marsaglia and   Created at:  27/09/89
-C.                A. Zaman                        Last Update: 27/09/89
-C.
-C.----------------------------------------------------------------------
-      IMPLICIT NONE
-      REAL*8 PHORAN
-      INTEGER IDUM
-      INTEGER ISEED,I97,J97
-      REAL*8 URAN,CRAN,CDRAN,CMRAN
-      COMMON/PHSEED/ISEED(2),I97,J97,URAN(97),CRAN,CDRAN,CMRAN
-   10 PHORAN=URAN(I97)-URAN(J97)
-      IF (PHORAN.LT.0.D0) PHORAN=PHORAN+1.D0
-      URAN(I97)=PHORAN
-      I97=I97-1
-      IF (I97.EQ.0) I97=97
-      J97=J97-1
-      IF (J97.EQ.0) J97=97
-      CRAN=CRAN-CDRAN
-      IF (CRAN.LT.0.D0) CRAN=CRAN+CMRAN
-      PHORAN=PHORAN-CRAN
-      IF (PHORAN.LT.0.D0) PHORAN=PHORAN+1.D0
-      IF (PHORAN.LE.0.D0) GOTO 10
       RETURN
       END
       FUNCTION PHOCHA(IDHEP)
