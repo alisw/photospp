@@ -106,37 +106,40 @@ but from the point of view of data structures the algorithm is simple.
 That is why, the gain from re-writing this part of the program to C++ is rather
 limited and will be postponed to a later step of the project development.
 On the other hand, there are not many obstacles for such a transformation to be
-performed. In fact such a transformation was performed already
-previously \cite{photosplus}, but the resulting program was developed too early 
-and did not attracted users.
+performed. In fact, such a transformation was 
+previously prepared \cite{photosplus}, but the resulting program was developed too early 
+and did not attracted users because of lack of C++ standard for event record format at that time.
 
 The typical result of high energy process simulation are events of complex structure
 they include for example initial state parton showers, hard scattering parts,
 hadronization and finally chains of cascade decays of resonances. 
-A structure similar to a tree is created, but properties of such tree type data structures
+A structure similar to a tree is created, but tree properties of such data structures
 are sometimes violated.
 For its action {\tt PHOTOS} needs to scan an event record (tree) 
 and localize branchings where
 it is supposed to act. The decaying particle (mother) and its primary decay products
 (daughters) have to be passed into the internal event structure of {\tt PHOTOS}. 
 Finally for each daughter a list of all its subsequent decay products has to be 
-formed. It is needed as kinematical modifications need to be performed on each 
-member of the list according to the change introduced to the primary daughter.
+formed. Kinematical modifications need to be performed on all descendants of the modified daughter.
 
-In the new C++ version of this part of the algorithm additional functionality
-is provided.
-First mother of the decaying particle will be localized and passed together with  
+In the new, C++ version of this event tree part of the algorithm, additional functionality
+is added.
+Decaying particle first mother will be localized and passed together with  
 elementary branching to internal part of the program. 
-
 Prior to activation of the algorithm for  photon(s) generation and kinemaic construction
 whole decay branching 
 (supplemented with its mother(s))
 will be boosted into the decaying particle's rest frame and the first mother
-will be oriented along the z axis. At present the part of the code responsable for photon(s) generation and kinematic 
-construction is left in  {\tt FORTRAN}.
+will be oriented along the z axis. 
+In many cases spin state of the decaying particle  can be calculated from kinematics of its production process.
+Later it can be  passed to the code calculating matrix element for our branching.
 
-We can summarize that the following operations must be implemented
-in our event record interface:
+
+At present, the part of the code responsable for photon(s) generation and kinematic 
+construction is left in  {\tt FORTRAN}. It does not feature the presented yet options.
+
+
+Before actual description of the program, let us list the tasks the event record interface must be able to perform:
 \begin{enumerate}
 \item a method to search for elementary decays over entire tree of the event.
 \item a method to form lists of all subsequent decay products originating from each elementary decay product.
@@ -146,33 +149,16 @@ in our event record interface:
 \item a method to add or modify particles of the event tree.
 \end{enumerate}
 
-TXT\footnote{ {\bf remnant text to be removed. Parts may be moved to other places.}  
-
-{\tt PHOTOS} act on such vertex and modifies four momenta of residing there daughters 
-and eventually adds new ones that is photons. 
-Such procedure is exact from the point of view of phase space; for details see eg.  approximation in on flight constructed matrix elements are based
-on factorization properties of QED. 
-
-In case one is interested to go beyond that precision level, one has to  provide
-more information. Spin state of the decaying particle has to be passed to the code calculating matrix element. For that it is enough to store into event record
-information on particles or fields resulting in creation of
-our particle under consideration that is mother for the decay vertex.
-It is then convenient to transform all particles to the rest frame of the Mother
-and orient Mothers mother along z axis before passing the information from HepMC to {\tt PHOTOS} internal data structure. Let us call resulting Lorentz transformation $L$. Once {\tt PHOTOS} internal algorithm complete
-its action all four momenta have to be transformed back by $L^{-1}$ and 
-modification of remaining part of the event record (replacement of momenta
-add of new photons to HepMC and modification of all descendants of 
-daughters would be performed as in more standard case explained above.
-}
 
 \subsection{C++ and HepMC Specific Requirements}
 
 The C++ version of the {\tt PHOTOS} interface implements all functionalities
 of its predecessor, the {\tt PHOTOS} version 2.15 \cite{Golonka:2005pn} coded in {\tt FORTRAN}.
-It can be attached to any Monte-Carlo program,
+Program is prepared for installation of process dependent correcting weights of refs 
+\cite{Golonka:2006tw,Nanava:2009vg} into its public available version. 
+Program can be attached to any Monte-Carlo program,
 provided its output is available through a {\tt HepMC} \cite{Dobbs:2001ck} event record.
-
-This condition is not very restrictive, is seems that {\tt HepMC} will
+It seems that {\tt HepMC} will
 remain a generally accepted standard for the near future. However,
 already now several different options for how {\tt HepMC} is used are
 widespread. Possibility of the flexible  adaptation of our event record 
@@ -181,8 +167,8 @@ options has been considered in the design,  drawing experience
 from {\tt MC-TESTER} \cite{Golonka:2002rz,Davidson:2008ma}.
 We have also
 envisaged the possibility that {\tt HepMC} may one day be replaced by another
-standard of event record, and we have provided an easy way to extend
-the interface to a possible new event record standard.
+standard of event record, and we have provided a way to extend
+the interface to a possible new event record standard as well.
 
 \subsection{Object Oriented Event Records  -- The Case of {\tt HepMC}}
 % nd-the next paragraph repeats information that's already stated in other places.
@@ -192,7 +178,7 @@ the difference between the {\tt HEPEVT} event record used in the {\tt
   FORTRAN} version of the {\tt PHOTOS} interface and {\tt HepMC} event
 record which is used for the C++ based interface has to be taken into
 account.  In the first case 
-common block containing a list of particles with their properties and
+{\tt common block} of {\tt FORTRAN} containing a list of particles with their properties and
 with integer variables denoting pointers to their origins and
 descendants is used.  The {\tt HepMC} event structure is built from vertices,
 each of them having pointers to their origins and descendants. Links
@@ -223,12 +209,13 @@ the code to the new versions.
 {\tt HepMC} version 2.05 is used as a default for our distribution and tests. 
 In the case of version 2.03 restrictions on methods for 
 units
-conversion have to be taken into account, for details see Appendix B.5
-of ref. \cite{Davidson:2010rw}. At present we have not yet introduced such 
-backward compatibility downgrade for {\tt PHOTOS}. It is probably not necessary.
-However,
-one should keep in mind that future adaptations to {\tt HepMC} changes may restrain
-backward compatibility.
+conversion have to be taken into account. For details see Appendix B.5
+of ref. \cite{Davidson:2010rw}. At present, we have not introduced such 
+backward compatibility downgrade for {\tt PHOTOS}. 
+%It is probably not necessary.
+%However,
+%one should keep in mind that future adaptations to {\tt HepMC} changes may restrain
+%backward compatibility.
 
 Evolution of the {\tt HepMC} format itself is not a crucial problem.
 In contrast, conventions on how physics information is  filled into {\tt HepMC}
@@ -266,9 +253,12 @@ equivalent to  the status 2.
 \textbf{ Extensions/Exceptions} to this specifications  are handled in some cases. We will call them
 options for conventions of event record filling.
   \begin{itemize} 
-    \item  Vertices like $\tau^\pm \rightarrow \tau^\pm$ and $\tau^\mp \rightarrow \tau^\mp \gamma$ 
-           where 4-momentum conservation is not preserved. Due to 4-momentum non-conservation,
-           {\tt PHOTOS} will not be invoked.
+    \item  For example for vertices like $\tau^\pm \rightarrow \tau^\pm$ and $\tau^\mp \rightarrow \tau^\mp \gamma$ 
+           where decayin particle flavour is among its decay products will prevent  {\tt PHOTOS} invoke.
+
+    \item  If there is  4-momentum non-conservation in the vertex,
+           {\tt PHOTOS} will not be invoked too.
+
     \item
            As in the {\tt FORTRAN} cases, we expect that  new  types of 
            conventions for filling the event record
@@ -277,14 +267,11 @@ options for conventions of event record filling.
            an algebraically closed structure.  
            Host program specific patches  may need to be defined for the 
            {\tt TAUOLA interface}. 
-           Debugging it could be time consuming, and would need to be repeated for every new
+           Debugging can be then  time consuming, and will need to be repeated for every new
            case.
    \end{itemize}
 
 
-Detailed
-conventions for the actual filling of physics information into {\tt HepMC} format
-is defined by the authors of each Monte Carlo program.
  In the future,  an important special case of event records filling with
 information extracted from experimentally observed event (eg. $Z\to \mu^+\mu^-$
  modified later to $Z\to \tau^+\tau^-$) should be allowed.
@@ -294,21 +281,21 @@ A good example is the evolution of {\tt PYTHIA}. While in version 8.108 status c
 our example processes were  taking values 0, 1, or 2  only (in the part of the record 
 important for {\tt PHOTOS}), other values were already present in
 version 8.135. As a consequence status code for 
-otherwise nicely decaying particles were not anymore 2 only. We have introduced 
+otherwise nicely decaying particles were not anymore  always 2. We have introduced 
 a change  in the file PhotosEvent.cxx to adjust. After  the change
-program should work for all previous cases as before, however this is difficult to validate.
-Further tests are necessary. We should also investigate 
-if instead of changes on the side of  {\tt PHOTOS} adjustment in input of {\tt PYTHIA} would not 
+program should work for all previous cases as before, 
+changes like this one are usually difficult to validate
+and complicated  tests are necessary. In the cases like this one, one should  investigate 
+if instead of changes on the side of  {\tt PHOTOS} algorithm, different choice of  input for {\tt PYTHIA} would not 
 be more appropriate 
-solution for us and at this moment.
+solution.
 
 We need to decide on bar code conventions. Our programs, {\tt TAUOLA} and
  {\tt PHOTOS} supplement the event record with new particle entries carrying bar codes 
 increased by 10000 with respect to the value which would be given if such 
 particles were generated by the main generator program. 
 That is the choice resulting from our use 
-of {\tt HepMC} methods and defaults.  It is not clear to us if it is 
-reasonable choice from the point of view of program users.
+of {\tt HepMC} methods and defaults.  
 
 \subsection{Interface to event record of {\tt FORTRAN}}
 \label{sect:F77fill}
@@ -326,10 +313,10 @@ supplemented with mothers of decaying particle are passed only. Information
 on mothers will be useful in future for the calculation of process dependent 
 kernels. Another data structure of   {\tt HEPEVT} type, {\tt PHOEVT}, is also 
 used in {\tt PHOTOS}. It is used to store the decay vertex only.  
-The two structures are only temporary.
 
 
-For details on the interface to {\tt FORTRAN} see appendix \ref{Interface to PHOTOS}.
+Description of interface to remaining {\tt FORTRAN} parts of the code is
+given in  Appendix \ref{Interface to PHOTOS}.
 
 
 \section{Design}
@@ -875,7 +862,7 @@ We have presented a new version  of {\tt PHOTOS} Monte Carlo. The part of
 {\tt PHOTOS} which operates on 
 event records is now rewritten into C++ and use the HepMC event record 
 format for input and output. The physics performance of the program is the
-same as that of the {\tt FORTRAN/HEPEVT} version. 
+same as that of the {\tt FORTRAN/HEPEVT} version, but better steering options are introduced. 
 Also, when an elementary decay is to be modified by {\tt PHOTOS}, 
 it is first tranformed to its rest frame. The $z$-axis is orientated along decaying particle mother, as seen in this rest  frame. Such modification is 
 necessary to calculate process dependent kernels
@@ -955,7 +942,7 @@ from C++.
 	\item[ITRE]   \textit{bool} switch for bremsstrahlung generation up to multiplicity 4.
 	\item[IEXP]   \textit{bool} switch for exponentiation mode.
 	\item[IFTOP]  \textit{bool} switch for photon emission in top pair production in quark (gluon) pair annihilation.
-	\item[IFW]    \textit{bool} switch for effects of initial state charge (in leptonic W decays).
+	\item[IFW]    \textit{bool} switch for leading effects of matrix element in leptonic W decays.
     \end{description}
 \end{description}
 
@@ -1245,7 +1232,7 @@ For user's convenience the following configuration methods are provided:
 	   but  set for  this case to zero.
  \item {\tt Photos::suppressBremForBranch(daughterCount, motherID, d1ID, d2ID, ...)} \hfill \\
        {\tt Photos::suppressBremForBranch(0, motherID)} \hfill \\
-       The usage of these methods is similar to the above function. The difference is
+       The usage of these methods is similar to the previous function. The difference is
 	   that {\tt PHOTOS} will skip not only the corresponding channel,
 	   but also all consecutive decays of its daughters, making {\tt PHOTOS} skip the entire branch
 	   of decays instead of just one listed decay.
@@ -1419,7 +1406,7 @@ or are introduced for backward compatibility.
 
 \begin{itemize}
   \item {\tt Photos::setSeed(int iseed1, int iseed2)} \\
-        Set the internal RANMAR random generation seed values.
+        Set the  seed values for our copy of random number geneator {\tt RANMAR} \cite{RANMAR}.
   \item {\tt Photos::maxWtInterference(double interference)} \\
         Set the maximum interference weight. The default is 2.
   \item {\tt Photos::setInfraredCutOff(double cut\_off)} \\
@@ -1513,3 +1500,21 @@ for the project).
 
 
 \end{document}
+TXT\footnote{ {\bf remnant text to be removed. Parts may be moved to other places.}  
+
+{\tt PHOTOS} act on such vertex and modifies four momenta of residing there daughters 
+and eventually adds new ones that is photons. 
+Such procedure is exact from the point of view of phase space; for details see eg.  approximation in on flight constructed matrix elements are based
+on factorization properties of QED. 
+
+In case one is interested to go beyond that precision level, one has to  provide
+more information. Spin state of the decaying particle has to be passed to the code calculating matrix element. For that it is enough to store into event record
+information on particles or fields resulting in creation of
+our particle under consideration that is mother for the decay vertex.
+It is then convenient to transform all particles to the rest frame of the Mother
+and orient Mothers mother along z axis before passing the information from HepMC to {\tt PHOTOS} internal data structure. Let us call resulting Lorentz transformation $L$. Once {\tt PHOTOS} internal algorithm complete
+its action all four momenta have to be transformed back by $L^{-1}$ and 
+modification of remaining part of the event record (replacement of momenta
+add of new photons to HepMC and modification of all descendants of 
+daughters would be performed as in more standard case explained above.
+}
