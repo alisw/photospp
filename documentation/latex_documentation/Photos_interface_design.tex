@@ -353,7 +353,7 @@ event record.
        All particles used by the interface are located in the event in the form of
        a list of {\tt PhotosParticle} objects.
        The last class located here, {\tt PhotosBranch}, contains information regarding
-	 a  single branch to be processed by {\tt PHOTOS}.
+	 elementary branching to be processed by {\tt PHOTOS}.
   \item {\bf Event Record Interface} \\
        This contains the event record implementation classes. All classes stored here represent
        the implementation of specific event record interfaces and are responsible for reading,
@@ -361,7 +361,7 @@ event record.
        Only the {\tt PhotosEvent} and {\tt PhotosParticle} classes must be implemented.
        The {\tt HepMC} event record interface is implemented
        through {\tt PhotosHepMCEvent} and {\tt PhotosHepMCParticle}. These classes are similar to the
-       analogous TAUOLA event record classes.
+       analogous TAUOLA \cite{Davidson:2010rw} event record classes.
 \end{itemize}
 
 \subsection{Directory Structure}
@@ -381,7 +381,7 @@ event record.
   \item { \bf PhotosEvent } - abstract base class for event information.
   \item { \bf PhotosParticle } - abstract base class for particles in the event.
   \item { \bf PhotosBranch } - contains one {\tt PhotosParticle}, and  pointers to its mothers and daughters.
-  Filtering branches sent to {\tt PHOTOS} is done here.
+  Filtering branchings to be tried by {\tt PHOTOS} for photons emission is done here.
   \end{itemize}
 
 \item {\bf src/photosFortranInterfaces/ } -  interface to {\tt PHOTOS FORTRAN} routines and common blocks. \\
@@ -389,7 +389,7 @@ event record.
     \begin{itemize}
     \item { \bf f\_Init } - contains a wrapper for the {\tt PHOTOS FORTRAN} routines for initialization.
     \item { \bf PH\_HEPEVT\_interface } - contains a wrapper for accessing PH\_HEPEVT common block.
-    \item { \bf photos\_make.f } - contains extra {\tt FORTRAN} routines which should ultimately be migrated to C++.
+    \item { \bf photos\_make.f } - contains  {\tt FORTRAN} routines to be  migrated to C++ rather soon.
     \end{itemize}
 
 \item {\bf src/utilities/ } - source code for utilities.\\
@@ -397,7 +397,7 @@ event record.
   \begin{itemize}
   \item { \bf Log} - general purpose logging class that allows filtering out output messages 
       of {\tt PHOTOS C++ Interface} and tracks statistics for each run.
-  \item { \bf PhotosRandom} - random number generator rewritten from {\tt PHOTOS FORTRAN} to C++.
+  \item { \bf PhotosRandom} - random number generator taken from {\tt PHOTOS FORTRAN} and rewritten to C++.
   \end{itemize}   
 
   \item {\bf examples/ } - examples of different {\tt PHOTOS} C++ Interface uses.
@@ -406,7 +406,7 @@ event record.
 	      events stored in a file in {\tt HepMC} format which are then processed by {\tt PHOTOS}.
 	\item {\bf single\_photos\_gun\_example} - an example of using the {\tt processOne} method
 	      to process only selected particles within the event record.
-    \item {\bf photos\_pythia\_example} - a simple $e^+e^- \rightarrow Z \rightarrow e^+e^-$ event in
+    \item {\bf photos\_pythia\_example} - a simple $e^+e^- \rightarrow Z \rightarrow \mu^+\mu^-$ event in
 	{\tt HepMC} format which is then processed by {\tt PHOTOS}.
     \item {\bf tauola\_photos\_pythia\_example } - an example of  {\tt TAUOLA} linked with {\tt PYTHIA 8.1},
 	the decay chain processed by {\tt PHOTOS} and analysed with  {\tt MC-TESTER}.
@@ -426,32 +426,32 @@ is stored in the {\tt HepMC} event record structure.
 
 The first step is creation of a {\tt PhotosHepMCEvent} object from
 a {\tt HepMC::GenEvent} event record. After that, the {\tt process()} method should
-be executed by the user's code\footnote{Prior to this step
+be executed by the user's code\footnote{Instead of  this step
 the user may want to execute {\tt Photos::processParticle(...)} or {\tt Photos::processBranch(...)}
-for branches, where {\tt PHOTOS} is expected not to work properly or if only one branch
-needs to be examined by {\tt PHOTOS}. For details see Appendix~\ref{PHOTOSgun}.
+for branching or branch, where {\tt PHOTOS} is expected perform its tasks.
+For details see Appendix~\ref{PHOTOSgun}.
 }, invoking the following process:
 
 \begin{enumerate}
 \item The {\tt HepMC} event record is traversed and a list of all decaying
       particles is created.
-\item Each particle is checked and if it's a self-decay\footnote{History entry in event record, like
-      $Z\to Z$ or $\tau \to \tau$}, the particle is filtered out.
-\item For each remaining particle a branch containing the particle's mothers and daughters
-      is created. Special cases mothers and daughters but no intermediate particle are handled and the
-	  list of branches is created.
-\item Branches are filtered out depending on the user's choice of processes
-      to be skipped by {\tt PHOTOS}.
-\item Each branch is processed by {\tt PHOTOS} separately:
+\item Each particle is checked and if resulting branching is a self-decay\footnote{History entry in event record, like
+      $Z\to Z$ or $\tau \to \tau$} it is skippeed.
+\item For each remaining particle a branching  including the particle's mothers and daughters
+      is created. Special cases consisting of mothers and daughters but without  intermediate particle 
+to be decayed are also added to the 
+	  list of branchings.
+\item Branchings are filtered out again, this time with  the user's choice of processes
+      to be skipped by {\tt PHOTOS} photons adding algorithm.
+\item Each branching  is processed by {\tt PHOTOS} separately:
 
 	\begin{enumerate}
   
-	\item The branch is written to PH\_HEPEVT
-	\item {\tt PHOTOS} is invoked with the index of the particle from which the branch
-	      has been created
- 	\item The resulting branch is taken back from PH\_HEPEVT and any changes made by {\tt PHOTOS} are 
-           integrated into the event record. New particles are created and the old ones are modified
-		  accordingly.
+	\item The branchin  is written to {\tt PH\_HEPEVT}
+	\item {\tt PHOTOS} photon adding algorithm is invoked 
+ 	\item The resulting branching is taken back from {\tt PH\_HEPEVT} and any changes made by {\tt PHOTOS} are 
+           integrated into the event record. New particles are created and previously existing  ones are modified
+		  accordingly (not only branching but the whole consecutive branch must be modified).
 
 	\end{enumerate}
 
