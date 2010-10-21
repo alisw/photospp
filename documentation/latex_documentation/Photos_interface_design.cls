@@ -95,10 +95,10 @@
 \textsf{\Large{\em $^a$ Institute of Nuclear Physics, 
 Polish Academy of Sciences,\\
          ul. Radzikowskiego 152, 31-342 Cracow, Poland}\\
-{\em $^b$ University of Melbourne, Department of Physics \\ Australia.  }\\
+{\em $^b$ University of Melbourne, Department of Physics \\ Australia  }\\
 {\em $^c $ The Faculty of Physics, Astronomy and Applied Computer
 Science,\\
-Jagellonian University, Reymonta 4, 30-059 Cracow, Poland.}
+Jagellonian University, Reymonta 4, 30-059 Cracow, Poland}
  }\\[0.5cm]
 
 %\includegraphics[height=3cm]{logo.eps}\\[1cm]
@@ -116,15 +116,15 @@ distributed together
 with the program code.
 
 The
-{\tt PHOTOS} C++ physics precision is  now as good as that of its FORTRAN 
+{\tt PHOTOS} C++ physics precision is  now as good as that of its {\tt FORTRAN}
 predecessor. However
 better steering options are available. 
 An algorithm of the event record interface
 is prepared
 for the  installation of process dependent variants of the 
 photon emission kernel.
-Weights, featuring complete first order matrix elements can be installed 
-for the general use. In FORTRAN version of  {\tt PHOTOS} they were 
+Weights, featuring complete first order matrix elements, can be installed 
+for the general use. In {\tt FORTRAN} version of  {\tt PHOTOS} they were 
 available only for decays of particles   at rest and with spin 
  set along the $z$ axis.
 

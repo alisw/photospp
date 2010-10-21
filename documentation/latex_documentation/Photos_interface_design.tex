@@ -34,13 +34,13 @@ of the program. However the effort on documentation and tests was going on;
 exact \cite{Nanava:2006vv} and for several 
 processes \cite{Golonka:2006tw,Nanava:2006vv,Nanava:2009vg}
 an exact matrix element was studied with the help of optional weights.
-Benchmarks distributions, including comparisons with  
+Benchmark distributions, including comparisons with  
 other simulation programs, were collected on the program web page \cite{Photos_tests}. 
 
  Such high precision applications require good control of the event record content on which {\tt PHOTOS} operates. On one side it 
 requests skills and experience of the user and on the other it provides 
-the flexibility necessary for the study of effects like systematic errors for 
-measurements of anomalous couplings or W cross section for example. Methods of 
+the flexibility necessary for the study of effects like, for example, systematic errors for 
+measurements of anomalous couplings or W cross section. Methods of 
 correlated samples  can be applied\footnote{To exploit such methods in 
 the high precision regime, good control of matrix element properties is necessary.
 As it was shown in \cite{Kleiss:1990jv} complications for such methods arise at the second order matrix element only, thus at the precision level of 
@@ -49,9 +49,7 @@ $(\frac{\alpha_{QED}}{\pi})^2 \simeq 10^{-5}$.}.
 Until recently {\tt HEPEVT} \cite{Altarelli:1989wu} was used as the structure for 
 communication between physics Monte Carlo programs and detector/reconstruction 
 packages. Experimental physicists used {\tt HEPEVT} 
-for their own applications  as well.
-
-Recently, to gain  flexibility, {\tt FORTRAN} is begin replaced by C++ and 
+for their own applications  as well. Recently, to gain  flexibility, {\tt FORTRAN} is being replaced by C++ and 
 instead of {\tt HEPEVT}, the C++ event structure called {\tt HepMC} \cite{Dobbs:2001ck}
 is used. Nothing prevents 
 moving {\tt PHOTOS} to an environment based on  {\tt HepMC}
@@ -63,7 +61,7 @@ available from the web page of our project~\cite{photosC++}.
 is clearer and easier to
  maintain. Because of its design the {\tt PHOTOS} algorithm benefit from the object 
 oriented features of C++. It is our third program, after {\tt MC-TESTER} \cite{Davidson:2008ma}
-and the {\tt TAUOLA} interface \cite{Davidson:2010rw} previously ported to {\tt HepMC} and C++.
+and the {\tt TAUOLA} interface \cite{Davidson:2010rw}, previously ported to {\tt HepMC} and C++.
 This completes the main step of migration of these 3 programs to the new style.
 
 Such migration is convenient for the users too,  they can now work
@@ -875,10 +873,9 @@ It might be useful to keep initial state QED, final state QED and their interfer
 \label{sec:summary}
 We have presented a new version  of {\tt PHOTOS} Monte Carlo. The part of 
 {\tt PHOTOS} which operates on 
-event records is rewritten now into C++ and use the HepMC event record 
+event records is now rewritten into C++ and use the HepMC event record 
 format for input and output. The physics performance of the program is the
-same as that of 
-the {\tt FORTRAN/HEPEVT} version, but better steering options are introduced. 
+same as that of the {\tt FORTRAN/HEPEVT} version. 
 Also, when an elementary decay is to be modified by {\tt PHOTOS}, 
 it is first tranformed to its rest frame. The $z$-axis is orientated along decaying particle mother, as seen in this rest  frame. Such modification is 
 necessary to calculate process dependent kernels
@@ -900,7 +897,7 @@ releases.
 
 
 Useful discussions with P. Golonka during the early stage of project development and discussions 
-with members of the ATLAS and CMS collaborations, and the LCG/Genser team 
+with members of the ATLAS and CMS collaborations and the LCG/Genser team 
 are acknowledged.
 We are especially indebted to the pilot users of the interface.
 %, in particular to:
@@ -958,19 +955,7 @@ from C++.
 	\item[ITRE]   \textit{bool} switch for bremsstrahlung generation up to multiplicity 4.
 	\item[IEXP]   \textit{bool} switch for exponentiation mode.
 	\item[IFTOP]  \textit{bool} switch for photon emission in top pair production in quark (gluon) pair annihilation.
-    \end{description}
-\end{description}
-
-\begin{description}
-\item[PHSEED] common block for a copy of the Marsaglia and Zaman random number generator used in the {\tt FORTRAN} part of {\tt PHOTOS}.
-    \begin{description}
-	\item[ISEED[ 2]]  \textit{int} seed values, default is  ISEED[ 1]=1802, ISEED[ 2]=9373
-	\item[I97]        \textit{int} internal variable of the random number generator.
-	\item[J97]        \textit{int} internal variable of the random number generator.
-	\item[URAN[ 97]]  \textit{double} internal variable of the random number generator.
-	\item[CRAN]       \textit{double} internal variable of the random number generator.
-	\item[CDRAN]      \textit{double} internal variable of the random number generator.
-	\item[CMRAN]      \textit{double} internal variable of the random number generator.
+	\item[IFW]    \textit{bool} switch for effects of initial state charge (in leptonic W decays).
     \end{description}
 \end{description}
 
@@ -992,15 +977,25 @@ from some particles.
     \end{description}
 \end{description}
 
+\begin{description}
+\item[PHOSTA] Status information.
+    \begin{description}
+    \item[STATUS[ 10]]  \textit{int} Status codes of last 10 errors/warnings
+    that occured.
+    \end{description}
+\end{description}
+
+\begin{description}
+\item[PHPICO] $\pi$ value definition.
+    \begin{description}
+    \item[PI]  \textit{double} $\pi$.
+	\item[TWOPI]  \textit{double} $2*\pi$.
+    \end{description}
+\end{description}
+
 \subsection{Routines}
 
 In the following let us list routines which are called from the interface.
-
-\begin{description}
-\item[PHOINI] initialize the generator, use as input the content of common blocks. \\
-  Return type: \textit{void} \\
-  Parameters: none
-\end{description}
 
 \begin{description}
 \item[PHODMP] prints out the content of HEPEVT. \\
@@ -1024,6 +1019,18 @@ In the following let us list routines which are called from the interface.
   \begin{enumerate}
     \item \textit {int modcor} type of correction. See \cite{Golonka:2005pn}  for details.
   \end{enumerate}
+\end{description}
+
+\begin{description}
+\item[IPHQRK] enables/blocks emision from quarks. \\
+  Return type: \textit{int} \\
+  Parameters: \textit{int}
+\end{description}
+
+\begin{description}
+\item[IPHEKL] enables/blocks emision in: pi0 to gamma e+ e-. \\
+  Return type: \textit{int} \\
+  Parameters: \textit{int}
 \end{description}
 
 \section{Appendix: User Guide}
@@ -1157,7 +1164,7 @@ the second photon has a smaller energy than the one written as the first
 in the event record.
 
 
-They ccomparison booklets can be useful 
+The comparison booklets can be useful 
 to start new work or simply to 
 validate new versions or new installations of the {\tt PHOTOS} interface.
 
@@ -1167,8 +1174,8 @@ physics studies.  The numerical results of some of these tests are collected in 
 and can be thus reproduced by the user.
 
 \subsection{How to run {\tt PHOTOS} with other generators}
-If a user is building a large simulation system she or he may want to avoid our 
-configuration infrastructure and load  the libraries only. 
+If a user is building a large simulation system she or he may want to avoid
+integrating into it our configuration infrastructure and load the libraries only. 
 For that purpose our stand-alone 
 example {\bf examples/photos\_standalone\_example.exe} is a good starting point.
 
@@ -1177,8 +1184,7 @@ constructed. To use the {\tt PHOTOS} interface in an external project, additiona
 compilation directives are required. For the static libraries:
 \begin{itemize}
   \item add {\tt -I<PhotosLocation>/include } at the compilation step,
-  \item add {\tt <PhotosLocation>/lib/libPhotosCxxInterface.a } and\\
-        {\tt <PhotosLocation>/lib/libPhotosFortran.a } at the linking step.
+  \item add {\tt <PhotosLocation>/lib/libPhotosCxxInterface.a } at the linking step.
 \end{itemize}
 For the shared objects:
 \begin{itemize}
@@ -1189,7 +1195,7 @@ For the shared objects:
 \end{itemize}
 {\tt <PhotosLocation>} denotes the path to the {\tt PHOTOS} installation directory.
 In most cases it should be enough to include {\tt Photos.h} and {\tt PhotosEvent.h}
-within a user's program and use the {\tt PHOTOS} class for configuration and {\tt PhotosEvent}
+within user's program and use the {\tt PHOTOS} class for configuration and {\tt PhotosEvent}
 for event processing.
 
 \section{Appendix: User Configuration}
@@ -1235,7 +1241,7 @@ For user's convenience the following configuration methods are provided:
 	   If a decay with the matching pattern is found, {\tt PHOTOS} will skip the decay.
  \item {\tt Photos::suppressBremForDecay(0, motherID)} \hfill \\
        When only the PDGID of the mother is provided, {\tt PHOTOS} will skip all decay channels
-	   of this particle. Note, that the number of daughters is to be provided,
+	   of this particle. Note that the number of daughters is to be provided,
 	   but  set for  this case to zero.
  \item {\tt Photos::suppressBremForBranch(daughterCount, motherID, d1ID, d2ID, ...)} \hfill \\
        {\tt Photos::suppressBremForBranch(0, motherID)} \hfill \\
@@ -1321,11 +1327,13 @@ independent of the entire event, another simple method is provided.
 \begin{itemize}
   \item {\tt Photos::processParticle(PhotosParticle *p) } \hfill \\
 		The main method for processing a single particle. A pointer to a particle must
-		be provided. From this particle a branch containing its mothers and daughters
+		be provided. Pointers to mothers and daughters of this particle should be
+		accessible through this particle or its event record.
+		From this particle a branch containing its mothers and daughters
 		will be created and processed by {\tt PHOTOS}.
   \item {\tt Photos::processBranch(PhotosParticle *p) } \hfill \\
- 		When a pointer to particle is provided, {\tt PHOTOS} will process the whole decay
-		branch starting from the particle provided.
+		The usage is similar to above function. When a pointer to particle is provided,
+		{\tt PHOTOS} will process the whole decay branch starting from the particle provided.
 \end{itemize}
 
 An example, {\tt single\_photos\_gun\_example.c}, is provided in the directory {\tt /examples}
@@ -1398,7 +1406,7 @@ To make the macro work within a user's program, ensure that {\tt Log.h} is the l
 included in the main program.
 It is enough to  compile the program with the {\tt -D"\_LOG\_DEBUG\_MODE\_" } directive added,
 or {\tt \#define \_LOG\_DEBUG\_MODE\_ } placed within the program before inclusion of
- the {\tt Log.h} file
+ the {\tt Log.h} file%
 \footnote{Note that {\tt Log.h } does not need to be included within
 the user program  for the memory leak tracking tool to be used only for the {\tt PHOTOS} interface.
 }.
