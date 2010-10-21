@@ -470,34 +470,35 @@ for the implementation of channel dependent matrix elements. This work, scattere
  over special corrections to the {\tt FORTRAN} version applicable one at a time can  
 be simply integrated all together into C++ version. This is not urgent.
  We are  not convinced if such complication is worth 
-the complication for the user as it requests more strict control of the event 
+the inconvenience for the user as it requests more strict control of the event 
 record content. Gain of precision is 
 not that important because the precision is quite good already now. 
-This is why we have not completed the migration of these aspects to C++.
+This is why we have not incorporated  these auxiliary upgrades to C++ already now.
 Instead, as an intermediate step, we developed validation techniques
 for the program. These are required prior to a re-write of the
 numerically sensitive part of the program (which is algorithm-wise
-rather simple).
+rather simple) anyway.
 
 \item
 Methods deviced to check the content of HepMC as used by {\tt PHOTOS} were already 
 described in Appendix \ref{App:Logging}. 
 They need to be used whenever {\tt PHOTOS} 
 processes events from a new generator eg. upgraded versions of  {\tt PYTHIA},
-which may fill the event record is unexpected ways.
+which may fill the event record in unexpected way.
 Experince over many years of developing and maintaining the algorithm
-have shown that this is the most demanding task; the necessity to
+have shown, that this is the most demanding task; the necessity to
 adapt to varying physics and technical input of the event record pose
 a multitude of problems. The nature of these difficulties can not be
 predicted in advance. 
 
 \item
-For the sake of debugging we have introduced control methods which activate
+For the sake of debugging we have introduced new control methods 
+and the one which activate
 internal printouts of the {\tt FORTRAN} part of the code.
-The routine PHLUPA \cite{Barberio:1993qi} can be activated  to verify 
+The routine {\tt PHLUPA} \cite{Barberio:1993qi} can be activated  to verify 
 how an event is constructed/modified, and to investigate energy 
-momentum conservation or other inconsistencies.
-This is quite convenient for tracing inconsistencies in the
+momentum (non-) conservation or other inconsistencies.
+This is quite convenient for tracing problems in the
 information passed to {\tt PHOTOS} for example.
 
 
@@ -509,30 +510,32 @@ rounding errors.  However, due to intermediate particles with
 {\tt PHOTOS} may be adapted to such varying conditions, but it requires
 good interaction with users. Protection reversing some 
 inconsistencies in the event record may be the source of unexpected difficulties
-for other cases. 
-At present such methods are left to the {\tt FORTRAN} part of the algorithm, 
+for the other cases. 
+At present, such methods are left to the {\tt FORTRAN} part of the algorithm, 
 which
-will be gradually reviewed and  migrated to C++
+will be gradually reviewed and  migrated to C++.
 \end{itemize}
 
  
 \subsection{Event Record Interface}
 In the times of {\tt FORTRAN}, the {\tt PHOTOS} interface used an internal event structure which was
-based on HEPEVT,
+based on {\tt HEPEVT},
 adding to it (understood as a data type) an extra variable defining 
 the status of particles with respect to QED Bremsstrahlung. In some cases, like
 $\tau \to l \nu_l \nu_\tau$, bremsstrahlung was already generated earlier
-At present, instead of such an arrangement, a set of initialization methods are 
-prepared and described in section \ref{section:suppress}. 
+by other generator, and {\tt PHOTOS} should not be activated on such a decay.
+At present, instead, a set of initialization methods is 
+prepared as described in Appendix \ref{section:suppress}. 
 
 There is definite room for 
 improvement. For example if the vertex $q \bar q \to l^\pm l^\mp g$ is encountered,
 the interface could `on the fly' add an intermediate $Z$ into the record and enable {\tt PHOTOS}
-on the temporarily constructed decay branch $Z \to l^\pm l^\mp $. 
+on the temporarily constructed decay branching  $Z \to l^\pm l^\mp $. 
 
 Internally in the {\tt FORTRAN} part of {\tt PHOTOS}, the data
-structures based on HEPEVT: PH\_HEPEVT and PHOEVT, are used, but they
-store a single elementary decay only. At this step in the program
+structures based on {\tt HEPEVT}: {\tt PH\_HEPEVT} and {\tt PHOEVT}, 
+are used, but they store only a single elementary decay. 
+At this step in the program
 evolution it might not be the most elegant solution, but it prevents
 the need to redo many of the {\tt FORTRAN} era benchmarks.
 
@@ -545,28 +548,51 @@ the need to redo many of the {\tt FORTRAN} era benchmarks.
 \label{sec:tests} 
 One of the most important parts of the {\tt PHOTOS} project are its physics oriented tests.
 Several domains
-of physics tests should be mentioned. For users interested in precision 
-simulations of Z or W decay the most interesting will be the papers \cite{Nanava:2009vg,Golonka:2006tw}. There, careful comparison with the first order matrix element 
-and confirmation that the algorithm scheme  is compatible with exclusive 
-exponentiation was the prime target. Compatibility of the solution
-with a second order matrix element are less important. 
-It is important to know that missing in the first order EEX or CEEX \cite{koralz4:1994,kkcpc:1999} 
-scheme terms
-lead to effects which are typically of the order of 0.2 \% but are at the level 
-or 30 \% or more in the double hard photon region of the phase space. That is 
-why it may lead to effects which are more important when complex experimental 
-cuts are applied\footnote{We thank Andy Buckley for checking numerically
- that this limitation is present in many presently used monte Carlo programs,
-in particular Sherpa and Herwig++.  } 
-for the measurements of $W$'s or $Z$'s.
+of physics tests should be mentioned. Users interested in precision 
+simulations of Z or W decay  will 
+find  the papers \cite{Nanava:2009vg,Golonka:2006tw,Golonka:2005pn}
+most interesting. There, careful comparison with the first order matrix element 
+and confirmation of the agreement is concluded first.
+For $Z$ decays comparisons  with Monte Carlo program based on exclusive 
+exponentiation with up to second order matrix element
+is possible and was performed on some benchmark distributions.
+Inclusion of correcting weight was found to be numerically less important
+than absence of second order matrix element in YFS exponentiation scheme. 
+In these comparisons Monte Carlo programs of LEP times 
+\cite{koralz4:1994,kkcpc:1999} were used. In numerical tests {\tt MC-TESTER} \cite{Davidson:2008ma}
+was used. The advantage of the method is that C++ and {\tt FORTRAN} program
+results can be easily compared\footnote{We thank Andy Buckley for checking numerically
+ that our conclusions on first order exact YFS exponentiation resluts extend
+to presently used at LHC programs such as  
+Sherpa and Herwig++.  }.
+ 
+For inclusive calculations FSR radiative corrections are at one permille level.
+For semi-inclusive cross sections such as total rate of Z decay for events
+of hardest photon energy not exceeding 1 GeV in Z rest frame differences
+between results from {\tt PHOTOS}, {\tt PHOTOS} with matrix element correcting weight
+and YFS based generators of the first or second order were also 
+at 0.2 \% level. 
+On the other hand, for observalbes were two hard photons were requested
+ the level of differences was exceeding 
+ 30 \%. In these region of phase space {\tt PHOTOS} even without correcting
+weight performs better
+than programs based on first order matrix element and exponentiation.
+This conclusion need to be investigated if   
+realistic experimental 
+cuts are applied. Fortunately necessary programs are available for Z decay.
+In case of $W$ second order Monte Carlo generators supplemented with 
+exponentiation are not available at this moment.
+ 
 For users interested in the simulation of
 background for Higgs searches at the LHC and for any other applications where 
 two hard photon configurations are important, studies based on the comparison with 
 double photon matrix element are of 
-interest \cite{Barberio:1993qi,RichterWas:1994ep,RichterWas:1993ta}.
+interest. For {\tt PHOTOS} Monte Carlo such tests were initiated 
+in refs.~\cite{Barberio:1993qi,RichterWas:1994ep,RichterWas:1993ta}.
 Finally users interested in low energy processes where the underlying physics model 
-for photon emission can not be controlled in full by theory; scalar QED may 
-be considered only as the starting point, will profit 
+for photon emission can not be controlled by theory sufficiently well
+(scalar QED may 
+be considered only as the starting point), will profit 
 from \cite{Nanava:2009vg,Nanava:2006vv}. In all cases it is important that
 the  program generation cover the full phase space and that there are no 
 approximation in phase-space. As in {\tt FORTRAN} version the code 
@@ -576,13 +602,13 @@ kernel is available but is not installed in the public version
 because the resulting approximation is 
 numerically unimportant and requires control of the spin state for the decaying 
 particle. This requires better control of the event record than what was available 
-in {\tt FORTRAN}. At present such an option is prepared, see section \ref{sect:F77fill} but not exploited. 
+in {\tt FORTRAN}. At present such an option is prepared, see section \ref{sect:F77fill} but necessary weights are not installed yet. 
 
 The main purpose of the present paper is program documentation. This is why
 we concentrate on the program tests required to guarrantee its proper installation.
 The physics tests discussed above 
-do not guarrantee that the program will perform well on a particular platform and installation. Tests and debugging
-is necessary.  If the content of the event record is non-standard or rounding errors are large, the performance of {\tt PHOTOS} will deteriorate.
+do not guarrantee that the program will perform well on a particular platform and installation. Tests and debugging of installation
+is necessary too.  If the content of the event record is non-standard or rounding errors are large, the performance of {\tt PHOTOS} will deteriorate.
 
 
 The first check after installation of {\tt PHOTOS} is whether some energy momentum non 
@@ -591,16 +617,16 @@ before {\tt PHOTOS}  and after {\tt PHOTOS} is run to modify them.
 If it is impossible to understand why inconsistencies for energy momentum non 
 conservation were created by {\tt PHOTOS}, the authors should be contacted. Sometimes
 monitoring of how an event is constructed inside the {\tt FORTRAN} part of the code
-may be useful. For that purpose its steering parameters\footnote{See section \ref{App:Logging}
+may be useful. For that purpose  steering of monitoring\footnote{See section \ref{App:Logging}
 command {\tt Log::LogPhlupa(int from, int to)}}
- are
-available form C++ part of the code. In practice only rather
- advanced user will profit from the printouts. However the may be sent to
-the authors to help identify  the cause of problems.
+ is
+available form C++ part of the code. In practice, only rather
+ advanced user will profit from the printouts. However, it may be sent to
+the authors and help to identify faster the cause of the problems.
 
 
 The next step in benchmarking relies on comparisons with benchmark distributions. 
-At present we store these tests with the help of ROOT \cite{Antcheva:2009zz} and our {\tt MC-TESTER} tool.
+At present, we store these tests with the help of ROOT \cite{Antcheva:2009zz} and our {\tt MC-TESTER} \cite{Davidson:2008ma}.
 
 
 
@@ -614,15 +640,16 @@ a quite restrictive but easy to implement test.
 Finding  relative fraction of events for each distinct final state 
  was complementing that test implemented now in the public version of {\tt MC-TESTER} 
 We have applied this method 
-for {\tt PHOTOS} too. In this case however some soft final state particles have to be ignored because we are bound to  work with  samples which would otherwise
-exhibit properties of unphysical infrared regulators. See section 6.1 of 
-ref \cite{Davidson:2008ma} for more details. For standard decay modes the benchmarks are collected on our project web page \cite{Photos_tests}.
-Here we have collected numerical results in the directory
+for {\tt PHOTOS} too. In this case, some soft final state particles have to be ignored because we are bound to  work with  samples which otherwise would
+exhibit properties of unphysical infrared regulators (ee section 6.1 of 
+ref \cite{Davidson:2008ma} for more details). For the most popular 
+decays the benchmarks are collected on our project web page \cite{Photos_tests}.
+In our distribution, we have collected numerical results in the directory
 {\tt examples/testing} and its subdirectories; respectively  
 {\tt Htautau, ttbar, Wenu, Wmunu, Zee, Zmumu}. Each of those include
 an appropriate initialization files for the particular run of {\tt PYTHIA}. Numerical results from long runs of {\tt MC-TESTER} based tests
 are stored for reference\footnote{Details on the initialization for the 
-runs used in construction of these reference runs is given in file
+runs are given in 
 {\tt README-benchfiles}.}. Our choice of tests, at present is oriented toward 
 LHC user and radiative corrections in decay of W's, Z's and Higgs particles.
 Most of the users of low energy experiments are using {\tt FORTRAN} version 
