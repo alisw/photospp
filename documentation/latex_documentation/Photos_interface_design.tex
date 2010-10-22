@@ -660,16 +660,19 @@ low energy applications.
 \subsection{Results}
 \label{sec:results}
 In principle, for the algorithm of single photon construction, the C++ interface of
-{\tt PHOTOS} introduces nothing new with respect to the standard
+{\tt PHOTOS} introduces nothing new with respect to the 
 version of {\tt PHOTOS} as available in {\tt FORTRAN}.
-That is why the standard tests which are collected in \cite{Photos_tests} are not
+That is why the  tests which are collected in \cite{Photos_tests} are not
 recalled here, they were only reproduced and found consistent with the ones for
 old {\tt FORTRAN PHOTOS}.
-However an algorithm for combining vertex with added photon(s) and the rest of the whole event tree was rewritten.
+However an algorithm for combining modified branching including added 
+photon(s) and the rest of the event tree was rewritten.
 Examples of spin dependent observables are of more interest because they test this new part of the code.
-In  fig~\ref{fig:KKMC}, the $\pi$ energy spectrum in the decaying
-Z boson rest-frame is shown. The $\pi^\pm$ originates from $\tau^\pm \to \pi^\pm \nu $ decay as was shown already a long time ago \cite{Boillot:1988re}. The net
-bremsstrahlung  effect is similar to the one of eg. Z polarization.
+The $\pi$ energy spectrum in the decaying
+Z boson rest-frame is the first example. 
+The $\pi^\pm$ originates from $\tau^\pm \to \pi^\pm \nu $ decay and 
+as was shown already a long time ago \cite{Boillot:1988re} its energy spectrum is modified by bremsstrahlung both in $\tau$ and $Z$ decays. The net
+bremsstrahlung  effect is similar to the one of eg. Z polarization. In  fig~\ref{fig:KKMC} this result is reproduced.
 
 Let us now turn to tests using observables which are sensitive to
 transverse spin effects.  For that purpose we study the decay chain:
@@ -678,14 +681,13 @@ $H\to \tau^+\tau^-$, $\tau^\pm \to \rho^\pm \nu_\tau$, $\rho^\pm \to
 listed above. Inappropriate action of the C++ part of {\tt PHOTOS}
 could result in faulty kinematics, manifesting itself in a failure of
 energy-momentum conservation checks of the event record or faulty spin
-correlations. However, as we can see from fig.~\ref{fig:acoplanarity}
-that the distributions remain nearly identical to the ones given in
-\cite{tauolaC++}; as they should be. The emission of soft and/or
-collinear photons to the $\tau^+$ or $\tau^-$ does not change the
-effects of spin correlations, as would be the case up to terms of
-order $\frac{\alpha_{QED}}{\pi}$ which are not enhanced by
-logarithms. The kinematical effects of harder photons are localized
-around acoplanarities close to $0$, $\pi$ and $2\pi$.
+correlation sensitive distributions. However, as we can see from fig.~\ref{fig:acoplanarity}
+ the distributions (as they should be) remain nearly identical to the ones given in
+\cite{tauolaC++}. The emission of soft and/or
+collinear to the $\tau^+$ or $\tau^-$  photons does not change the
+effects of spin correlations,  The kinematical effects of hard,
+non collinear  photons are responsable  for bumps in 
+acoplanarity distributions at $0$, $\pi$ and $2\pi$.
 
 \begin{figure}[h!]
 \centering
@@ -699,13 +701,13 @@ around acoplanarities close to $0$, $\pi$ and $2\pi$.
 for the cascade decay: $Z \to \tau^+ \tau^-$, $\tau^+ \to \pi^+ \nu$,  $\tau^\pm \to \pi^\pm\nu$.
 $\pi^+$ energy spectrum in the Z rest-frame  is shown. The red line is for 
 bremsstrahlung switched off
-and green for when its effect is included. 
-In the left plot, bremsstrahlung is only applied to $\tau^+ $ decay.
-In the right plot, bremsstrahlung from $Z$ and  $\tau^-$ decays are
- also taken into account.
-These plots has been created using a custom {\tt UserTreeAnalysis} of {\tt MC-TESTER}.
-They can be recreated with the test located in the {\tt examples/testing/Ztautau} directory, see  {\tt examples/testing/README-plots} for technical details. Results are 
-consistent with Fig.~5 of ref.\cite{Eberhard:1989ve}.
+and green (ligt grey) when its effect is included. 
+In the left plot, bremsstrahlung is in $\tau^+ $ decay only.
+In the right plot, bremsstrahlung from $Z$ and  $\tau^-$ decays is
+taken into account.
+These plots have been prepared using a custom {\tt UserTreeAnalysis} of {\tt MC-TESTER}.
+They  can be recreated with the test located in the {\tt examples/testing/Ztautau} directory, see  {\tt examples/testing/README-plots} for technical details. Results are 
+consistent with Fig.~5 of ref.~\cite{Eberhard:1989ve}.
 \label{fig:KKMC}
 }
 \end{figure}
@@ -717,24 +719,23 @@ consistent with Fig.~5 of ref.\cite{Eberhard:1989ve}.
 \subfigure[selection D]{
 \includegraphics[scale=0.35]{coplanarity-angle-D-photon-over-1-GeV.eps}
 }
-\caption{Bremsstrahlung effects for transverse spin observable: In
-  this plot the distribution of the acoplanarity angle between
-  the $\pi^+\rho^+$ and $\pi^-\rho^-$ planes in the rest frame of the
+\caption{Bremsstrahlung effects for transverse spin observable: 
+  The distribution of the acoplanarity angle of oriented planes spanned respectively on 
+  the $\pi^+\rho^+$ and $\pi^-\rho^-$ momenta is shown.  
+Distribution is defined in the rest frame of the
   $\rho+ \rho^-$ pair for the scalar higgs decay chain $H\to
   \tau^+\tau^-$, $\tau^\pm \to \rho^\pm \nu_\tau$, $\rho^\pm \to
   \pi^\pm \pi^0$ is given. {\tt PHOTOS} is used to generate
   bremsstrahlung.  The red curve indicates the distribution when
-  bremsstrahlung effects are ignored and the green curve shows events
-  where bremsstrahlung produces photons with energy larger than 1 GeV
-  in the $H$ rest frame. Note that in comparison with fig \textbf{nd-figure no.?} from
-  ref~\cite{tauolaC++} the kinematical effects of hard photon emission are
-  limited to a depletion/increase in the content of bins for an acoplanarity
-  angle close to $0$, $\pi$ and $2\pi$. For the definition of selections C
-  and D see.~\cite{Bower:2002zx}.  These plots has been created using
+  bremsstrahlung effects are ignored and for the green curve (ligt grey) 
+only events
+  with bremsstrahlung  photons of energy larger than 1 GeV
+  in the $H$ rest frameare taken.  For the definition of selections C
+  and D see.~\cite{Bower:2002zx,Desch:2003rw}.  These plots have been created using
   a custom {\tt UserTreeAnalysis} of {\tt MC-TESTER}.  They can be
-  recreated by performing the test located in the {\tt
+  recreated by  the test located in the {\tt
     examples/testing/Htautau} directory, see {\tt
-    examples/testing/README-plots} for technical details.
+    examples/testing/README-plots} for technical details. Production process is generated with {\tt PYTHIA} 8.1.
 \label{fig:acoplanarity}
 }
 \end{figure}
@@ -746,29 +747,33 @@ reproduced that plot using {\tt PYTHIA 8.1} and {\tt PHOTOS}. Qualitatively the 
 of FSR QWD bremsstrahlung is in the two cases quite similar. A discussion
 of complete electroweak corrections, as shown in fig 1a of  \cite{Adam:2008ge},
 is not the purpose of our document. Let us point out however that electroweak 
-non-QED corrections can be installed into the {\tt PYTHIA 8.1} - {\tt PHOTOS} simulation with 
-the help of the {\tt TAUOLA} interface \cite{Davidson:2010rw}.
+non-QED corrections can be in priciple installed into the {\tt PYTHIA 8.1} - {\tt PHOTOS} simulation with 
+the help of the e.g. {\tt TAUOLA} interface \cite{Davidson:2010rw}.
+But such solution to be precise require further work \cite{Bardin-private}.
 
-Let us present next the LHC oriented plot of Bare electron pair (that means electrons are not combined with accompanying them collinear photons) from $Z$
-($W$) decay at the LHC with and without {\tt PHOTOS}, see fig. \ref{fig:lineshape}. It is similar to
+In  Fig. \ref{fig:lineshape} we present  plot of Bare electron pair 
+(that means electrons are not combined with accompanying them collinear photons) from $Z$
+ decay with and without {\tt PHOTOS}. It is similar to
 the plots shown for Horace or Winhac see Refs.~\cite{CarloniCalame:2003ux,Winhac} and related
 studies.
-One should bear in mind that this is a technical test with little application directly to physics.
+One should bear in mind that this is again a technical test with little 
+direct application to physics. As explained in the caption the LHC production process was used.
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.85]{lineshape.eps}
-\caption{Distribution of bare $e^+e^-$ invariant mass. The green curve represents results when final state 
+\caption{Distribution of bare $e^+e^-$ invariant mass. The green curve 
+(light grey) represents results when final state 
 bremsstrahlung is generated (with the help of {\tt PHOTOS} Monte Carlo). For the red curve FSR 
 bremsstrahlung is absent. The event sample is generated with the help of {\tt PYTHIA 8.1}.
 The simulation of pp collisions at 14 TeV center-of-mass energy is performed.
 The $Z/\gamma$ mediated hard process is used.
-These plots have been created using a custom {\tt UserTreeAnalysis} of {\tt MC-TESTER}.
-They can be recreated by performing the test located in the {\tt examples/testing/Zee} directory, see  {\tt examples/testing/README-plots} for technical details.
+The plots have been created using a custom {\tt UserTreeAnalysis} of {\tt MC-TESTER}.
+They can be recreated by  test located in the {\tt examples/testing/Zee} directory, see  {\tt examples/testing/README-plots} for technical details.
 \label{fig:lineshape}
 }
 \end{figure}
 
-We have also checked that {\tt PHOTOS} works for $t \bar t$ events.
+We have also checked that {\tt PHOTOS} works for $t \bar t$ events and simulations explained in \cite{RichterWas:1993ta} can be repeated.
 For this purpose we have produced $t \bar t$ pairs in $pp$ collisions at 
 14 TeV center-of-mass energy. We have produced rates for events with zero, one or
 at least two photons of energy above 0.001 of the $t \bar t$ pair mass
@@ -792,14 +797,15 @@ Final state &  Branching Ratio  $\pm$ Statistical Errors \\
 }  
 \end{center} 
 
-10 million events were generated and a slightly modified {\tt LC-analysis} of Ref.~\cite{Golonka:2002rz}
+10 million events were generated and a slightly modified 
+{\tt MC-TESTER}'s {\tt LC-analysis} of Ref.~\cite{Golonka:2002rz}
 was used for calculation of the event rates\footnote{  We do not supplement the list of 
-final state particles with the second mother, in contrary to choice of {\tt LC-analysis} from  Ref.~\cite{Golonka:2002rz} } Root files for 
+final state particles with the second mother, in contrary to choice of {\tt LC-analysis} of  Ref.~\cite{Golonka:2002rz} } Root files for 
 differential distributions are 
-collected in the directory {\tt exaples/testing/ttbar}. 
+collected in the directory {\tt examples/testing/ttbar}. 
 
 Let us now turn to an example of the test for the two photon final state configuration.
-We compare (i) KKMC \cite{kkcpc:1999} with exponentiation and second order matrix element, (ii) KKMC with exponentiation and first order matrix element
+We compare (i) KKMC \cite{kkcpc:1999} with exponentiation and second order matrix element (CEEX2), (ii) KKMC with exponentiation and first order matrix element (CEEX1)
 and finally (iii) the results of {\tt PHOTOS} with exponentiation activated. As one can see from the table below, the rates for the event configurations 
 where zero, one or at least two photons of energy above 1 GeV are present, coincide up to two
 permille for the three cases and $Z\to \mu^+\mu^-$ decay. 
@@ -843,7 +849,7 @@ the simulation of Higgs boson backgrounds. In the case of solutions based on YFS
 exponentiation the second order matrix element must be taken into account. Plot \ref{plot:b} was obtained
 from our example {\tt examples/testing/Zmumu } after adaptation of the center-of-mass energy 
 (91.17 GeV) and test
-energy threshold (1 GeV). Samples of 100 million events are used. 
+energy threshold (1 GeV). Samples of 100 million events were used. 
 See  {\tt examples/testing/README-plots} for technical details. Reference 
 {\tt mc-tester.root} files for KKMC CEEX samples are however created outside of the distribution.
   \label{fig:gamgam}
@@ -852,28 +858,27 @@ See  {\tt examples/testing/README-plots} for technical details. Reference
 
 
 The numerical results collected here provide part of the program benchmarks. 
-They are however of  some physics interest as well.
+They areof limited but noneteless  of  some physics interest as well.
  {\tt PHOTOS} provides only one step in the simulation chain: 
 bremsstrahlung in decays or final state bremsstrahlung. One can ask 
 the question of whether such a specialized unit is of interest and whether it is not better 
-to provide the complete chain for ``truth physics simulation'' as a single simulation package. Obviously this will
-depend on particular needs. Final state QED corrections are 
-well separated from the remaining genuine electroweak corrections and 
-in particular the initial state QED bremsstrahlung for quarks. For example, for
-Drell Yan process this breakes only at $\alpha^{n+2}\log^{n}{S/m_l^{2}}$ level.
-One should bear in mind that final state bremsstrahlung 
+to provide the complete chain for ``truth physics simulation'' as a single simulation package. Obviously, this will
+depend on particular needs. Final state QED corrections can be 
+ separated from the remaining genuine electroweak corrections and 
+in particular the initial state QED bremsstrahlung from quarks. 
+One should bear in mind, that final state bremsstrahlung 
 needs to be disentangled from detector acceptance dependencies and is not of 
-interest in itself. This must bed done e.g. to measure the properties of weak bosons.
-Then genuine weak corrections have to be taken into account.
-This can be done if together with the {\tt PHOTOS Interface}
-these genuine weak corrections are provided with {\tt TAUOLA Interface}.
+interest in itself. This must be done e.g. to measure the properties of weak bosons.
+Then genuine weak corrections have to be taken into account separately.
+Such solution may be possible,  if together with the {\tt PHOTOS Interface}
+genuine weak corrections are provided for example with the help of  {\tt TAUOLA Interface}.
 Finally, sizeable initial state QED corrections are usually embodied in  units 
 simulating parton showers. This may need some experimental analysis as well. 
 Recently experimental data from LEP1 times are revisited \cite{Abdallah:2010tk} 
 by the DELPHI collaboration. Tension between data and the theoretical description is 
 mentioned. This may mean that the description of initial state QED bremsstrahlung 
 at the LHC will need to be reinvestigated with the help of LHC data as well.
-It might be useful to keep initial state QED, final state QED and their interference corrections in the separate modules.
+That is also why it  might be useful to keep initial state QED, final state QED and their interference corrections in the separate modules.
 
 \section{Summary and outlook}
 \label{sec:summary}
