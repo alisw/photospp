@@ -95,7 +95,8 @@ void Photos::initialize()
 	cout<<"                     Photos QED corrections in Particle Decays"<<endl<<endl;
 
 	cout<<"           Monte Carlo Program - by E. Barberio, B. van Eijk and Z. Was"<<endl;
-	cout<<"           Version 2.09 - by P. Golonka and Z. W."<<endl<<endl;
+	cout<<"           From version 2.09   - by P. Golonka and Z. Was"<<endl;
+	cout<<"           From version 3.00   - by N. Davidson, T. Przedzinski and Z. Was"<<endl;
 
 	cout<<"********************************************************************************"<<endl<<endl;
 
@@ -111,6 +112,8 @@ void Photos::initialize()
 	if(phokey_.iftop)  cout<<"                    Emision in t tbar production is active"<<endl;
 	if(phokey_.ifw)    cout<<"                    Correction wt in decay of W is active"<<endl;
 
+	cout<<endl<<"          WARNING:  /HEPEVT/ is not anymore used."<<endl<<endl;
+/*
 	cout<<endl<<"            WARNING (1): /HEPEVT/ is not anymore the standard common block"<<endl<<endl;
 
 	cout<<"            PHOTOS expects /HEPEVT/ to have REAL*8 variables. To change to"<<endl;
@@ -118,7 +121,7 @@ void Photos::initialize()
 	cout<<"                 REAL*8  d_h_phep,  d_h_vhep"<<endl;
 	cout<<"            WARNING (2): check dims. of /hepevt/ /phoqed/ /ph_hepevt/."<<endl;
 	cout<<"            HERE:                     d_h_nmxhep=10000 and  NMXHEP=10000"<<endl<<endl;
-
+*/
 	cout<<"********************************************************************************"<<endl;
 	cout.precision(coutPrec);
 
