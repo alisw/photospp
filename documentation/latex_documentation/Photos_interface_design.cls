@@ -89,7 +89,7 @@
 
 \begin{center}
 \title{PHOTOS Interface in C++\\[0.5cm]{} 
-\textbf{\small Draft of Technical and Physics Documentation\\[0.8cm]\rule{4cm}{1pt}\\[0.5cm]}}
+\textbf{\small Technical and Physics Documentation (complete draft) \\[0.8cm]\rule{4cm}{1pt}\\[0.5cm]}}
 
 \author{\LARGE N. Davidson$^{a,b}$, T. Przedzinski$^c$, Z. Was$^a$}\\[0.5cm]
 \textsf{\Large{\em $^a$ Institute of Nuclear Physics, 

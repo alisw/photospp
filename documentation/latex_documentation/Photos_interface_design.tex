@@ -742,21 +742,18 @@ only events
 }
 \end{figure}
 
-In ref \cite{Adam:2008ge} a discussion of the systematic errors for the measurement of the Z cross 
+
+In Ref.~ \cite{Adam:2008ge} a discussion of the systematic errors for the measurement of the Z cross 
 section at the LHC is presented. One of the technical tests of our software is to obtain
 Fig. 1b of that paper. In our Fig.~\ref{fig:lineshape} we have 
 reproduced that plot using {\tt PYTHIA 8.1} and {\tt PHOTOS}. Qualitatively, the effect
-of FSR QWD bremsstrahlung is in the two cases quite similar. A discussion
-of complete electroweak corrections, as shown in Fig. 1a of  \cite{Adam:2008ge},
-is not the purpose of our document. Let us point out however that electroweak 
-non-QED corrections can be in principle installed into the {\tt PYTHIA 8.1} + {\tt PHOTOS} simulation with 
-the help of the e.g. {\tt TAUOLA} interface \cite{Davidson:2010rw}.
-But for such solution to be precise, further work is needed \cite{Bardin-private}.
+of FSR QED bremsstrahlung is in the two cases quite similar. 
+
 
 In  Fig.~\ref{fig:lineshape} we present  plot of bare electron pair 
 (that means electrons are not combined with accompanying them collinear photons) from $Z$
  decay with and without {\tt PHOTOS}. It is similar to
-the plots shown for Horace or Winhac; see refs.~\cite{CarloniCalame:2003ux,Winhac} and related
+the plots shown for {\tt Horace} or {\tt Winhac}; see Refs.~\cite{CarloniCalame:2003ux,Winhac} and related
 studies.
 One should bear in mind that this is again a technical test with little 
 direct application to physics. As explained in the figure caption, the LHC production process was used.
@@ -774,6 +771,8 @@ It can be recreated by  test located in the {\tt examples/testing/Zee} directory
 \label{fig:lineshape}
 }
 \end{figure}
+
+
 
 We have also checked that {\tt PHOTOS} works for $t \bar t$ events and simulations explained in \cite{RichterWas:1993ta} can be repeated.
 For this purpose we have produced $t \bar t$ pairs in $pp$ collisions at 
@@ -805,6 +804,9 @@ was used for calculation of the event rates\footnote{  We do not supplement the 
 final state particles with the second mother, in contrary to choice of {\tt LC-analysis} of  ref.~\cite{Golonka:2002rz} }
 {\tt ROOT} files for differential distributions are 
 collected in the directory {\tt examples/testing/ttbar}. 
+
+\subsection{Tests relevant for physics precision}
+
 
 Let us now turn to an example of the test for the two photon final state configuration.
 We compare (i) KKMC \cite{kkcpc:1999} with exponentiation and second order matrix element (CEEX2), (ii) KKMC with exponentiation and first order matrix element (CEEX1)
@@ -872,16 +874,47 @@ One should bear in mind, that final state bremsstrahlung
 needs to be disentangled from detector acceptance dependencies and is not of 
 interest in itself. This must be done e.g. to measure the properties of weak bosons.
 
-Then, genuine weak corrections have to be taken into account separately.
+One should bear in mind, that even for QED FSR alone, discussion of physics 
+precision of simulation result requires further checks. In case of 
+$Z$ decays references \cite{Golonka:2005pn,Golonka:2006tw}  may not be enough.
+With increasing precision, estimation of uncertainty become dependent on 
+particular choice of details for experimental cuts. Comparisons of different
+calculations become important too. Good example of such work in conext of 
+other measurements can be found in Ref.~\cite{Jadach:1995pd,Arbuzov:1996eq}, 
+for the simulation of 
+FSR QED corrections Monte Carlo programs collected for {\tt PHOTOS} generator 
+tests are probably enough. 
+Discussion of QED initial final state interferece may follow strategy presented
+in \cite{Jadach:1999gz}. There, question of experimental cuts must be included 
+as well. Once these steps completed, discussion 
+of complete electroweak corrections in context of realistic observables should 
+be simplified.
+
+
+
+Genuine weak corrections have to be taken into account separately.
 Such solution may be possible,  if together with the {\tt PHOTOS Interface}
-genuine weak corrections are provided for example with the help of  {\tt TAUOLA Interface}.
-Finally, sizeable initial state QED corrections are usually embodied in  units 
+ weak corrections are provided for example with the help of  {\tt TAUOLA Interface}.
+A discussion
+of complete electroweak corrections, as shown in Fig. 1a of  \cite{Adam:2008ge},
+is not the purpose of our document. Let us point out however that electroweak 
+non-QED corrections can be in principle installed into the {\tt PYTHIA 8.1} + {\tt PHOTOS} simulation with 
+the help of the e.g. {\tt TAUOLA} interface \cite{Davidson:2010rw}.
+But for such solution to be precise, further work is needed \cite{Bardin-private}.
+
+Sizeable initial state QED corrections are usually embodied in  units 
 simulating parton showers. This may need some experimental analysis as well. 
 Recently experimental data from LEP1 times are revisited by the DELPHI collaboration \cite{Abdallah:2010tk}.
 Tension between data and the theoretical description is 
 mentioned. This may mean that the description of initial state QED bremsstrahlung 
 at the LHC will need to be reinvestigated with the help of LHC data as well.
-That is also why it  might be useful to keep initial state QED, final state QED and their interference corrections in the separate modules.
+That is also why it  might be useful to keep initial state QED, final state QED and their interference corrections in the separate modules. 
+
+We leave such estimation sof theoretical uncertainty, for $Z$ and $W$ 
+production at LHC, 
+to the forthcoming research, where realistic choice of experimental conditions and
+observables details 
+will become an integrated part. 
 
 \section{Summary and outlook}
 \label{sec:summary}
@@ -1450,7 +1483,11 @@ or are introduced for backward compatibility.
   \item {\tt Photos::setExponentiation(bool expo)} \\
         Set exponentiation mode.
   \item {\tt Photos::setCorrectionWtForW(bool corr)} \\
-        Switch for effects of initial state charge (in leptonic W decays)
+         Switch for leading effects of matrix element (in leptonic W decays)
+  \item {\tt Photos::setMeCorrectionWtForW(bool corr)} \\
+         Switch for complete effects of matrix element (in leptonic W decays) {\it not installed in {\tt PHOTOS 3.0} }
+  \item {\tt Photos::setMeCorrectionWtForZ(bool corr)} \\
+         Switch for complete effects of matrix element (in leptonic Z decays) {\it not installed {\tt PHOTOS 3.0} }
   \item {\tt Photos::initializeKinematicCorrections(int flag)} \\
         Initialize kinematic corrections.
 \end{itemize}
@@ -1520,8 +1557,8 @@ for the project).
 
 \subsection*{Usability}
 \begin{itemize}
-  \item[\ding{111}]{\bf 1} - paper cleaning
-  \item[\ding{111}]{\bf 1} - READMES
+  \item[\ding{111}]{\bf 2} - paper cleaning
+  \item[\ding{111}]{\bf 2} - READMES
   \item[\ding{111}]{\bf 2} - User interaction and resulting fixes
 \end{itemize}
 
