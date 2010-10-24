@@ -92,6 +92,12 @@ public:
 		}
 	};
 
+	/** Switch for complete effects of matrix element (in leptonic W decays) */
+	static void setMeCorrectionWtForW(bool corr);
+
+	/** Switch for complete effects of matrix element (in leptonic Z decays) */
+	static void setMeCorrectionWtForZ(bool corr);
+
 	/** Set photon emission in top pair production in quark (gluon) pair annihilation */
 	static void setTopProcessRadiation(bool top)         { phokey_.iftop=(int)top; }
 

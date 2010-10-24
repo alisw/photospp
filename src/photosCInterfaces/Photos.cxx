@@ -205,3 +205,14 @@ void Photos::forceBremForBranch(int count, int motherID, ... )
 	if(!forceBremList) forceBremList = new vector< vector<int>* >();
 	forceBremList->push_back(v);
 }
+
+void Photos::setMeCorrectionWtForW(bool corr)
+{
+	Log::Info()<<"Photos::setMeCorrectionWtForW: option not implemented in PHOTOS 3.0"<<endl;
+}
+
+void Photos::setMeCorrectionWtForZ(bool corr)
+{
+	Log::Info()<<"Photos::setMeCorrectionWtForZ: option not implemented in PHOTOS 3.0"<<endl;
+}
+
