@@ -9,6 +9,11 @@
 
   will be given here
 
+Note that LCG/Genser
+<a href="http://lcgapp.cern.ch/project/simu/generator/">Generator 
+Services Subproject </a> distributes compiled, platform adopted  
+tar balls of our programs.
+
  @section developement Developement version
 
  The source code and documentation are updated daily from the repository. The following files are provided for download of developement version:
