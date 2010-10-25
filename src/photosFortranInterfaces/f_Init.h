@@ -23,6 +23,22 @@ extern "C"
 		int ifw;
 	} phokey_;
 
+	extern struct
+	{
+		int status[10];
+	} phosta_;
+
+	extern struct
+	{
+		double pi;
+		double twopi;
+	} phpico_;
+
+	extern struct
+	{
+		int phlun;
+	} pholun_;
+
 	//debug mode on if ipoin <  1 and ipoinm > 1
 	extern struct
 	{
@@ -39,28 +55,9 @@ extern "C"
 	/* PHOINI subroutines */
 	int  iphqrk_(int *i);
 	int  iphekl_(int *i);
-	void phocin_();
-	void phoinf_();
-	void phorin_();
 
 	/* Printout of error messages */
 	void phoerr_(int *imes,char *text,double *data);
-
-	extern struct
-	{
-		int phlun;
-	} pholun_;
-
-	extern struct
-	{
-		int status[10];
-	} phosta_;
-
-	extern struct
-	{
-		double pi;
-		double twopi;
-	} phpico_;
 
 }
 

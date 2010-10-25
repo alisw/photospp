@@ -99,7 +99,7 @@ int main(int argc,char **argv)
 	{
 		pythia.readString("WeakSingleBoson:ffbar2gmZ = on");
 		pythia.readString("23:onMode = off");
-		pythia.readString("23:onIfAny = 11");
+		pythia.readString("23:onIfAny = 13");
 		pythia.init( 11, -11, 91.17);                           //e+ e- collisions
 	}
 
