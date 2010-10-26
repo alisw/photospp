@@ -75,7 +75,7 @@ public:
 	/** Set bremsstrahlung generation up to multiplicity of 4 */
 	static void setQuatroBrem(bool quatroBrem)     { phokey_.itre=(int)quatroBrem; }
 
-	/* Key for effects of initial state charge (in leptonic W decays) */
+	/* Key for partial effects of  matrix element (in leptonic W decays) */
 	static void setCorrectionWtForW(bool corr) { phokey_.ifw=(int)corr; }
 
 	/** Set exponentiation mode */
