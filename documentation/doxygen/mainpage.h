@@ -18,17 +18,14 @@ tar balls of our programs.
 
  The source code and documentation are updated daily from the repository. The following files are provided for download of developement version:
  - <a href="../Photos_interface_design.pdf">Photos_interface_design.pdf</a>  full software documentation.
- - <a href="../PHOTOS.daily_temp.tar.gz">PHOTOS.daily_temp.tar.gz</a> tarball and its <a href="../svn_info_photos.txt">revision info</a> SVN tag, tarball creation date/time, etc.   The tar file contain the c++ interface along with 
+ - <a href="../PHOTOS.daily_temp.tar.gz">PHOTOS.daily_temp.tar.gz</a> tarball and its <a href="../svn_info_photos.txt">revision info</a> SVN tag, tarball creation date/time, etc.   The tar file contain the c++ interface along with parts of
  the source code for PHOTOS (see <a href="http://wasm.web.cern.ch/wasm/goodies.html">here
  </a>, version from Oct 11 2005).
 
  @section intro Introduction/Status
- At present (Jul 16) tar ball 
+ Tar ball 
  has functionality  of FORTRAN predecessor for all cases.
- Program is under tests and extension (main work direction for July).
-The purpose is to
-introduce better control of options and finally get better user
-controllable steering. Documentation  requires  work going beyond cleaning.
+ Program is under final tests and documentation cleaning for the first release.
  
  @section setup Requirements
 
@@ -80,8 +77,6 @@ and MC-TESTER must be installed. In some cases TAUOLA C++ will be needed too.
 
 
  <hr>
- Last update 3 August 2010.
- Expect more information to be added at a later date (here in the doxygen 
-web page and in software documentation, draft of the documentation includes necessary data now, but it is not in orderly form).
+ Last update 26 October 2010.
 
 */
