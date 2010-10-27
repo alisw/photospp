@@ -408,7 +408,16 @@ event record.
   \item {\bf include/} - directory for the header files.
   \item {\bf lib/ } - directory for the compiled  libraries. 
   \item {\bf documentation/ } - contains doxygen documentation and this latex file.
-  \item {\bf photos-fortran/ } - the  standard {\tt PHOTOS FORTRAN} distribution
+  \item {\bf photos-fortran/ } - the  standard {\tt PHOTOS FORTRAN} 
+        distribution\footnote{Parts of the {\tt PHOTOS FORTRAN} are already 
+        rewritten to C++. The resulting modules are interchangeable and program
+will function properly even if {\tt PHOTOS FORTRAN} library is loaded from other
+part of the user system (as a shared object). 
+In such a case its random number generator will 
+be used, and its initialization will be not controlled from C++ interface.
+Remaining  initialization of {\tt PHOTOS} options can be executed from 
+{\tt FORTRAN} or C++; later initialized options
+will take a precedence.}.
 \end{itemize}
 
 \subsection{Algorithm Outline}
