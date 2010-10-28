@@ -95,7 +95,7 @@
 \textsf{\Large{\em $^a$ Institute of Nuclear Physics, 
 Polish Academy of Sciences,\\
          ul. Radzikowskiego 152, 31-342 Cracow, Poland}\\
-{\em $^b$ University of Melbourne, Department of Physics \\ Australia  }\\
+{\em $^b$ The University of Melbourne, Scahool of Physics \\ Australia  }\\
 {\em $^c $ The Faculty of Physics, Astronomy and Applied Computer
 Science,\\
 Jagellonian University, Reymonta 4, 30-059 Cracow, Poland}
@@ -108,7 +108,7 @@ Jagellonian University, Reymonta 4, 30-059 Cracow, Poland}
 
 { The first version of {\tt PHOTOS} Monte Carlo for
 bremsstrahlung in the decay of particles and resonances
- with  interface to the HepMC event record written in C++ is now available.
+ with an interface to the HepMC event record written in C++ is now available.
 The main purpose of the present
 paper is to document technical aspects of the {\tt PHOTOS} Monte Carlo 
 installation and its use. A multitude of test results and examples are  
@@ -124,15 +124,15 @@ is prepared
 for the  installation of process dependent variants of the 
 photon emission kernel.
 Weights, featuring complete first order matrix elements, can be installed 
-for the general use. In {\tt FORTRAN} version of  {\tt PHOTOS} they were 
+for general use. In the {\tt FORTRAN} version of  {\tt PHOTOS} they were 
 available only for decays of particles   at rest and with spin 
  set along the $z$ axis.
 
 Physics assumptions used in the program and properties of the
 solution it offers are revieved. 
 In particular, it is  mentioned
-that the  second order matrix elements was used in design and 
-validation of program iteration procedure. Also it is explained
+that the  second order matrix elements were used in design and 
+validation of the program iteration procedure. Also it is explained
 that the phase space parametrization used in the program is exact. 
  }
 
