@@ -1499,6 +1499,13 @@ or are introduced for backward compatibility.
          Switch for complete effects of matrix element (in leptonic Z decays) {\it not installed {\tt PHOTOS 3.0} }
   \item {\tt Photos::initializeKinematicCorrections(int flag)} \\
         Initialize kinematic corrections.
+  \item {\tt Photos::forceMassFrom4Vector(bool flag)} \\
+        By default, for all particles used by {\tt PHOTOS}, 
+        mass is re-calculated and $\sqrt{E^2-p^2}$ is used. 
+        If {\tt flag=false}, the particle mass from event record processed by 
+        {\tt PHOTOS} is taking precedence. The choice may be important for control 
+        of numerical stability.
+		
 \end{itemize}
 
 \subsection{Creating advanced plots and custom analysis}

@@ -104,10 +104,19 @@ public:
 	/** Initialize kinematic corrections */
 	static void initializeKinematicCorrections(int flag) { phcork_(&flag); }
 
+	/** Force mass value to be sqrt(e^2-p^2) for all particle momenta
+	    taken from event record. May be important for numerical stability.
+		May lead to faulty results due to rounding errors for
+		hiper-relativistic electron, for example. */
+	static void forceMassFrom4Vector(bool flag) { massFrom4Vector=flag; }
+	
 public:
 	/** Is in suppressed mode */
 	static bool isSuppressed;
 
+	/** Is mass from 4-vector or from event record */
+	static bool massFrom4Vector;
+	
 	/** List of suppressed decays */
 	static vector<vector<int>* >    *supBremList;
 

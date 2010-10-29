@@ -194,7 +194,7 @@ void PhotosParticle::rotateDaughters(int axis,double theta, int second_axis)
 	//checkMomentumConservation();
 }
 
-double PhotosParticle::getMass()
+double PhotosParticle::getVirtuality()
 {
 	double e_sq=getE()*getE();
 	double p_sq=getP()*getP();

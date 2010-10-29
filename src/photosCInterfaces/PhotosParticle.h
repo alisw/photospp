@@ -179,8 +179,8 @@ public:
 	/** Set momentum component in the direction of "axis" (x,y,z) */
 	void  setP(int axis, double p_component);
 
-	/** Get the invariant mass from the four momentum*/
-	double getMass();
+	/** Get sqrt(e^2-p^2) */
+	virtual double getVirtuality();
 
 public:
 	/** Is particle in rest frame or lab frame
@@ -203,6 +203,9 @@ public:
 
 	/** Returns the energy component of the four vector */
 	virtual double getE()=0;
+	
+	/** Get the invariant mass from the event record*/
+	virtual double getMass() = 0;
 
 	/** Set the px component of the four vector */
 	virtual void setPx( double px )=0;

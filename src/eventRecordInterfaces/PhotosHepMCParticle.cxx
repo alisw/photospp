@@ -279,3 +279,8 @@ void PhotosHepMCParticle::setE(double e){
   momentum.setE(e);
   m_particle->set_momentum(momentum);
 }
+
+double PhotosHepMCParticle::getMass()
+{
+	return m_particle->generated_mass();
+}

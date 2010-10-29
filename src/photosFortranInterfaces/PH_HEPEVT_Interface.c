@@ -66,7 +66,11 @@ void PH_HEPEVT_Interface::add_particle(int i,PhotosParticle * particle,
   ph_hepevt_.phep[i][1]=particle->getPy();
   ph_hepevt_.phep[i][2]=particle->getPz();
   ph_hepevt_.phep[i][3]=particle->getE();
-  ph_hepevt_.phep[i][4]=particle->getMass();
+  
+  // if massFrom4Vector=true (default) - get sqrt(e^2-p^2)
+  // otherwise - get mass from event record
+  if(!Photos::massFrom4Vector) ph_hepevt_.phep[i][4]=particle->getMass();
+  else                         ph_hepevt_.phep[i][4]=particle->getVirtuality();
 
   ph_hepevt_.vhep[i][0]=0;
   ph_hepevt_.vhep[i][1]=0;

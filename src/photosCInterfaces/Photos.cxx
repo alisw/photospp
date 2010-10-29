@@ -8,14 +8,15 @@
 using std::vector;
 using std::cout;
 using std::endl;
+using std::ios_base;
 typedef Photos::Log Log;
 
 Photos Photos::_instance;
 
 vector<vector<int>* >    *Photos::supBremList    = 0;
 vector<vector<int>* >    *Photos::forceBremList  = 0;
-
 bool Photos::isSuppressed=false;
+bool Photos::massFrom4Vector=true;
 
 Photos::Photos()
 {
@@ -82,8 +83,13 @@ void Photos::initialize()
 	else               maxWtInterference(0.0);
 ------------END VARIANTS A B -----------------------
 */
+
+
 //------------------------------------------------------------------------------
-	int coutPrec=cout.precision(2);
+// Print PHOTOS header
+//------------------------------------------------------------------------------
+	int                coutPrec = cout.precision(2);
+	ios_base::fmtflags flags    = cout.setf(ios_base::fixed);
 	cout<<endl;
 	cout<<"********************************************************************************"<<endl<<endl;
 
@@ -123,7 +129,9 @@ void Photos::initialize()
 	cout<<"            HERE:                     d_h_nmxhep=10000 and  NMXHEP=10000"<<endl<<endl;
 */
 	cout<<"********************************************************************************"<<endl;
+	// Revert output stream flags and precision
 	cout.precision(coutPrec);
+	cout.flags    (flags);
 
 // Initialize Marsaglia and Zaman random number generator
 	PhotosRandom::initialize();

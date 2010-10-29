@@ -104,6 +104,9 @@ class PhotosHepMCParticle: public PhotosParticle{
   /** Returns the energy component of the four vector */
   double getE();
 
+  /** Returns the mass taken from event record */
+  double getMass();
+
   /** Set the px component of the four vector */
   void setPx( double px );
 
@@ -115,7 +118,6 @@ class PhotosHepMCParticle: public PhotosParticle{
 
   /** Set the energy component of the four vector */
   void setE( double e );
-
 
  private:
   /** Internal function used to clear particles from the vector */
