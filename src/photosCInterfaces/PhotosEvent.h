@@ -23,7 +23,7 @@ using std::vector;
 class PhotosEvent
 {
 public:
-	~PhotosEvent();
+	virtual ~PhotosEvent();
 
 	/** Get an unfiltered list of particles from the event record */
 	virtual vector<PhotosParticle*> getParticleList() = 0;
