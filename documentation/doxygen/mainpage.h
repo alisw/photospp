@@ -9,6 +9,10 @@
 
   will be given here
 
+The source code and documentation for the release 3.0. The following files are provided for download:
+ - <a href="http://arxiv.org/abs/?????">arXiv:????</a> full software documentation.
+ - <a href="../PHOTOS.3.0.tar.gz">PHOTOS 3.0 source code PHOTOS.3.0.tar.gz  </a> tarball.
+
 Note that LCG/Genser
 <a href="http://lcgapp.cern.ch/project/simu/generator/">Generator 
 Services Subproject </a> distributes compiled, platform adopted  
@@ -20,7 +24,7 @@ tar balls of our programs.
  - <a href="../Photos_interface_design.pdf">Photos_interface_design.pdf</a>  full software documentation.
  - <a href="../PHOTOS.daily_temp.tar.gz">PHOTOS.daily_temp.tar.gz</a> tarball and its <a href="../svn_info_photos.txt">revision info</a> SVN tag, tarball creation date/time, etc.   The tar file contain the c++ interface along with parts of
  the source code for PHOTOS (see <a href="http://wasm.web.cern.ch/wasm/goodies.html">here
- </a>, version from Oct 11 2005).
+ </a>, version from Oct 11 2005). For updates  with respect to release 3.0 see <a href="../changelog.3.0.txt">changelog.txt</a>.
 
  @section intro Introduction/Status
  Tar ball 
@@ -77,6 +81,6 @@ and MC-TESTER must be installed. In some cases TAUOLA C++ will be needed too.
 
 
  <hr>
- Last update 26 October 2010.
+ Last update 30 October 2010.
 
 */
