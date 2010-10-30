@@ -3,6 +3,7 @@
 #include "Log.h"
 typedef Photos::Log Log;
 
+bool         PhotosRandom::init    = false;
 int          PhotosRandom::iseed[2]= { 1802, 9373 };
 int          PhotosRandom::i97     = 96;
 int          PhotosRandom::j97     = 32;
@@ -64,6 +65,7 @@ void PhotosRandom::initialize()
 		}
 		uran[i]=S;
 	}
+	init=true;
 	Log::Debug(0)<<"PhotosRandom::inititalize(): seed: "<<iseed[0]<<", "<<iseed[1]<<std::endl;
 }
 
@@ -85,7 +87,7 @@ void PhotosRandom::initialize()
 *******************************************************************************/
 double PhotosRandom::randomReal()
 {
-	if(uran[0]==0.0) Log::Fatal("PhotosRandom::randomReal(): generator not initialized",1);
+	if(!init) Log::Fatal("PhotosRandom::randomReal(): generator not initialized",1);
 	double ret=0.0;
 	while(true)
 	{

@@ -29,6 +29,7 @@ public:
 	static double randomReal();
 
 protected:
+	static bool init;
 	static int iseed[2];
 	static int i97;
 	static int j97;
