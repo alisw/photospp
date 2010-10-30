@@ -51,7 +51,6 @@ int main(int argc,char **argv)
 		if(!pythia.next()) continue;
 
 		HepMC::GenEvent * HepMCEvt = new HepMC::GenEvent();
-		HepMCEvt->use_units(HepMC::Units::GEV,HepMC::Units::MM);
 		ToHepMC.fill_next_event(event, HepMCEvt);
 
 		// Find tau

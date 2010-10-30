@@ -34,7 +34,6 @@ int main()
 		file.fill_next_event(HepMCEvt);
 		if(file.rdstate()) break;
 		evtCount++;
-		HepMCEvt->use_units(HepMC::Units::GEV,HepMC::Units::MM);
 		int buf = -HepMCEvt->particles_size();
 
 		//cout << "BEFORE:"<<endl;

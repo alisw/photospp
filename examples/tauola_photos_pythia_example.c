@@ -95,6 +95,7 @@ int main(int argc,char **argv)
 	//Photos::setExponentiation(false);
 
 	Log::SummaryAtExit();
+	cout.setf(ios::fixed);
 	//Log::LogInfo(false) //To turn printing of last five events and pythia statistics off
 
 	// Example setup - suppress processing of whole Z0 decay,
@@ -112,7 +113,6 @@ int main(int argc,char **argv)
 		if(!pythia.next()) continue;
 
 		HepMC::GenEvent * HepMCEvt = new HepMC::GenEvent();
-		HepMCEvt->use_units(HepMC::Units::GEV,HepMC::Units::MM);
 		ToHepMC.fill_next_event(event, HepMCEvt);
 
 		TauolaHepMCEvent * t_event = new TauolaHepMCEvent(HepMCEvt);
