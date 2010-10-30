@@ -3,7 +3,7 @@ include ../test.inc
 
 NAME_BENCHMARK=mc-tester.root-Zmumu-photos-F77-100M-sym-10MeV
 # Or use other benchmark reference files:
-# NAME_BENCHMARK=mc-tester.root-Zmumu-kkmc-F77-100M-sym-1GeV
+# NAME_BENCHMARK=mc-tester.root-Zmumu-kkmc-F77-10M-sym-1GeV
 # NAME_BENCHMARK=mc-tester.root-Zmumu-CEEX1-100M-nosym-1GeV
 # NAME_BENCHAMRK=mc-tester.root-Zmumu-CEEX2-100M-nosym-1GeV
 
