@@ -127,10 +127,11 @@ vector<PhotosBranch *> PhotosBranch::createBranches(vector<PhotosParticle *> par
 					}
 				}
 			}
+			else delete branch;
 		}
 	}
 	// Quit if we're suppressing everything
-	else if(Photos::isSuppressed) return branches;
+	if(Photos::isSuppressed) return branches;
 	// Now - check if remaining decays are suppressed
 	while(!list.empty())
 	{
