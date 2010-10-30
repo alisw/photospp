@@ -1729,10 +1729,10 @@ CPPFLAGS="-I$with_HepMC/include $CPPFLAGS"
 
 if test "$AFS_PATHS" == "yes"; then
 	with_HepMC=$HEPMCLOCATION
-	with_Tauola=$TAUOLALOCATION
-	with_MC_Tester=$MCTESTERLOCATION
-	with_Pythia8=$PYTHIALOCATION
-	pythia8data=$PYTHIA8DATA
+	with_Tauola=$tauolalocation
+	with_MC_Tester=$mctesterlocation
+	with_Pythia8=$pythialocation
+	pythia8data=$pythia8data
 fi
 
 if test -z $HEPMCLOCATION; then
