@@ -1,0 +1,37 @@
+Photos C++ Interface
+--------------------
+Web page  http://www.ph.unimelb.edu.au/~ndavidson/photos/doxygen/
+
+Documentation in documentation/latex_documentation, type "make" there
+
+To compile interface:
+- Execute "./configure" (if path to HepMC is not set with
+                        HEPMCLOCATION, use "./configure --with-HepMC=<path>")
+- Execute "make"
+
+To run  examples, "cd exmaples". There "./configure" and "make" as well.
+For some of  examples to work, pythia8.1 and MC-Tester will be needed.
+The most basic example does not need them.
+
+NOTE:
+On CERN platforms (lxplus, lxplus4, lxplus5...) software located 
+in /afs/cern.ch/sw/lcg/ directory can be used. for that purpose execute:
+
+source platform/afs.paths.sh (or source platform/afs.paths.csh)
+
+prior to  "./configure" executed without any parameters. Same paths will
+be used by examples there;  "./configure" in examples direcotry after
+compiling the interface as well. 
+
+Paths defined in platform/afs.paths.sh:
+
+export HEPMCLOCATION=/afs/cern.ch/sw/lcg/external/HepMC/2.03.11/slc4_amd64_gcc34
+export PYTHIALOCATION=/afs/cern.ch/sw/lcg/external/MCGenerators/pythia8/135/slc4_amd64_gcc34
+export TAUOLALOCATION=/afs/cern.ch/sw/lcg/external/MCGenerators/tauola++/1.0.2a/slc4_amd64_gcc34
+export MCTESTERLOCATION=/afs/cern.ch/sw/lcg/external/MCGenerators/mctester/1.24/slc4_amd64_gcc34
+
+export PATH=/afs/cern.ch/sw/lcg/app/releases/ROOT/5.22.00/slc4_amd64_gcc34/root/bin:$PATH
+
+can be modified.
+
+Last Modified: T. Przedzinski, 30 Oct. 2010
