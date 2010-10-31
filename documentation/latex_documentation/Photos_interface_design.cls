@@ -95,7 +95,7 @@
 \textsf{\Large{\em $^a$ Institute of Nuclear Physics, 
 Polish Academy of Sciences,\\
          ul. Radzikowskiego 152, 31-342 Cracow, Poland}\\
-{\em $^b$ The University of Melbourne, Scahool of Physics \\ Australia  }\\
+{\em $^b$ The University of Melbourne, School of Physics \\ Australia  }\\
 {\em $^c $ The Faculty of Physics, Astronomy and Applied Computer
 Science,\\
 Jagellonian University, Reymonta 4, 30-059 Cracow, Poland}
