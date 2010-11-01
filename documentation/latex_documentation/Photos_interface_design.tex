@@ -475,12 +475,11 @@ That is, a version which is compatible with the one implemented in {\tt FORTRAN}
 
 \begin{itemize}
 
-%nd-I don't understand the sentence below which begins ``This work,
-%scattered over special...''
+
 \item
 As can be seen from the text presented, we have prepared the structure 
-for the implementation of channel dependent matrix elements. This work, scattered
- over special corrections to the {\tt FORTRAN} version applicable one at a time can  
+for the implementation of channel dependent matrix elements. This work, requiring
+special modifications to the {\tt FORTRAN} code and  applicable one at a time only can  
 be simply integrated all together into the C++ version. This is not urgent.
  We are  not convinced if such complication is worth 
 the inconvenience for the user as it requests more strict control of the event 
@@ -581,16 +580,21 @@ to the programs presently used at the LHC such as
 Sherpa and Herwig++.  }.
  
 For inclusive calculations, FSR radiative corrections are at the one permille level.
-For semi-inclusive cross sections, such as the total rate of Z decay for events
-where the hardest photon energy does not exceeding 1 GeV in the Z rest frame, differences
-between results from {\tt PHOTOS}, {\tt PHOTOS} with the matrix element correcting weight
+For semi-inclusive cross sections, such as the total rates of Z decay for events
+where the hardest photon energy (or two hardes photon energy)   exceed 1 GeV in the Z rest frame, differences
+between results from {\tt PHOTOS} ({\tt PHOTOS}  without the matrix element correcting weight)
 and YFS based generators of the first or second order were also 
 at the 0.2 \% level. 
-On the other hand, for observables where two hard photons were requested
+On the other hand, if two  hard photons were requested and invariant masses constructed from leptons
+and hard photons were monitoreed,
  the level of differences exceeded 
- 30 \%. In this region of phase space {\tt PHOTOS}, even without the correcting
-weight, performs better
-than programs based on the first order matrix element and exponentiation.
+ 30 \%. However, even in this region of phase space {\tt PHOTOS},  without the correcting
+weight, performs better\footnote{In 
+  phase space region were only one hard photon is tagged this conclusion seem to depend
+  on variant of exponentiation in use \cite{koralz4:1994} or \cite{kkcpc:1999}.
+                                }
+than programs based on exponentiation and the first order matrix element only. 
+
 This conclusion needs to be investigated if   
 realistic experimental 
 cuts are applied. Fortunately the necessary programs are available for Z decay.
@@ -794,14 +798,12 @@ at least two photons of energy above 0.001 of the $t \bar t$ pair mass
 Results are given in the following table which is constructed from  
 $gg \to t \bar t$ events only:
 
-%nd-I've put the % in the table headers because I think otherwise it's
-%ambigous if the statistical error we quote is absolute or relative.
 
 \vspace{0.3cm} 
 \begin{center}
 { \begin{tabular}{c c} 
 \toprule 
-Final state &  Branching Ratio  $\pm$ Statistical Errors (\%) \\  
+Final state &  Branching Ratio (\%) $\pm$ Statistical Errors (\%) \\  
 \midrule
 {$ \widetilde{t} t \; \;\; \;$}  &  {99.0601 $\pm$ 0.0315}  \\ 
 %\hline 
@@ -952,7 +954,7 @@ can be recoded to C++ rather easily, but the necessary numerical tests
 are time consuming. That is why we have left these changes for later 
 releases. 
 
-
+\newpage
 \vskip 2 mm
 
 \centerline{\large\bf Acknowledgements}
@@ -961,17 +963,17 @@ releases.
 Useful discussions with P. Golonka during the early stage of project development and discussions 
 with members of the ATLAS and CMS collaborations and the LCG/Genser team 
 are acknowledged.
-We are especially indebted to the pilot users of the interface.
+%We are especially indebted to the pilot users of the interface.
 %, in particular to:
 %nd-fix
-%...
+
 
 Partial support by the Polish-French collaboration
-no. 01-138 within IN2P3 through LAPP Annecy and 
+no. 10-138 within IN2P3 through LAPP Annecy and 
 during the final completion of this work is
 also acknowledged.
 
-\newpage
+
 
 \bibliography{Photos_interface_design}{}
 % \bibliographystyle{plain}
@@ -1083,16 +1085,15 @@ In the following let us list routines which are called from the interface.
   \end{enumerate}
 \end{description}
 
-%nd-the two routines below have no description of the return and input parameters
 
 \begin{description}
-\item[IPHQRK] enables/blocks emission from quarks. \\
+\item[IPHQRK] enables/blocks (1/0) emission from quarks. \\
   Return type: \textit{int} \\
   Parameters: \textit{int}
 \end{description}
 
 \begin{description}
-\item[IPHEKL] enables/blocks emission in: $\pi^0 \rightarrow \gamma e^+ e^-$. \\
+\item[IPHEKL] enables/blocks (1/0) emission in: $\pi^0 \rightarrow \gamma e^+ e^-$. \\
   Return type: \textit{int} \\
   Parameters: \textit{int}
 \end{description}
@@ -1555,10 +1556,12 @@ For more details regarding the plots created for this documentation, see
 %don't know how to do it.
 
 %------------------------------------------------------------------------------
+
+\end{document}
+
 \newpage
 
-%nd-the task list should be removed at some point.
-% We know it.
+
 \section*{Task List}
 In this section we provide a check-list of incomplete tasks.
 This could be used as a guide for project planning and is foreseen
@@ -1579,19 +1582,19 @@ for the project).
 
 \subsection*{Testing}
 \begin{itemize}
-  \item[\ding{111}]{\bf 2} - event record options
+  \item[\ding{111}]{\bf 3} - event record options
   \item[\ding{111}]{\bf 3} - further plots of some interest
 \end{itemize}
 
 \subsection*{Usability}
 \begin{itemize}
-  \item[\ding{111}]{\bf 2} - paper cleaning
-  \item[\ding{111}]{\bf 2} - READMES
+  \item[\ding{111}]{\bf 3} - paper cleaning
+  \item[\ding{111}]{\bf 3} - READMES
   \item[\ding{111}]{\bf 2} - User interaction and resulting fixes
 \end{itemize}
 
 
-\end{document}
+
 TXT\footnote{ {\bf remnant text to be removed. Parts may be moved to other places.}  
 
 {\tt PHOTOS} act on such vertex and modifies four momenta of residing there daughters 
