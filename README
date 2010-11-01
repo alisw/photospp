@@ -2,25 +2,25 @@ Photos C++ Interface
 --------------------
 Web page  http://www.ph.unimelb.edu.au/~ndavidson/photos/doxygen/
 
-Documentation in documentation/latex_documentation, type "make" there
+Documentation is in documentation/latex_documentation, type "make" there
 
-To compile interface:
-- Execute "./configure" (if path to HepMC is not set with
+To compile the interface:
+- Execute "./configure" (if the path to HepMC is not set with
                         HEPMCLOCATION, use "./configure --with-HepMC=<path>")
 - Execute "make"
 
-To run  examples, "cd exmaples". There "./configure" and "make" as well.
-For some of  examples to work, pythia8.1 and MC-Tester will be needed.
+To run the examples, "cd examples". There "./configure" and "make" as well.
+For some of the examples to work, pythia8.1 and MC-Tester will be needed.
 The most basic example does not need them.
 
 NOTE:
-On CERN platforms (lxplus, lxplus4, lxplus5...) software located 
-in /afs/cern.ch/sw/lcg/ directory can be used. for that purpose execute:
+On CERN platforms (lxplus, lxplus4, lxplus5...) the software located 
+in the /afs/cern.ch/sw/lcg/ directory can be used. For that purpose execute:
 
 source platform/afs.paths.sh (or source platform/afs.paths.csh)
 
-prior to  "./configure" executed without any parameters. Same paths will
-be used by examples there;  "./configure" in examples direcotry after
+prior to  "./configure" executed without any parameters. The same paths will
+be used by examples there;  "./configure" in the examples direcotry after
 compiling the interface as well. 
 
 Paths defined in platform/afs.paths.sh:

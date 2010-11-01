@@ -7,17 +7,17 @@ To compile:
 -  "make"
 
 2)
-Examples require more software than interface itself:
+The examples require more software than the interface itself:
 
 ./configure --with-Tauola=<path>         - provides path for Tauola
 ./configure --with-Pythia8=<path>        - provides path for Pythia8
 ./configure --with-MC-Tester=<path>      - provides path for MC-Tester
 
 To use MC-Tester, ROOT must be installed and
-its path provided via PATH variable.
+its path provided via the PATH variable.
 
 3)
-If afs paths was used during interface compilation,
+If afs paths were used during interface compilation,
 all these paths are set alredy and 
 can not be changed.
 
