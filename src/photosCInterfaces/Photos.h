@@ -110,6 +110,9 @@ public:
 		hiper-relativistic electron, for example. */
 	static void forceMassFrom4Vector(bool flag) { massFrom4Vector=flag; }
 	
+	/** set energy momentum conservation threshold */
+	static void setMomentumConservationThreshold(double threshold){momentum_conservation_threshold=threshold; }
+
 public:
 	/** Is in suppressed mode */
 	static bool isSuppressed;
@@ -123,6 +126,9 @@ public:
 	/** List of forced decays */
 	static vector<vector<int>* >    *forceBremList;
 
+ 	/** Threshold for momentum conservation check */
+	static double momentum_conservation_threshold;
+       
 public:
 	/** Get instance of Photos */
 	Photos& getInstance() { return _instance; }

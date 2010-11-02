@@ -249,9 +249,10 @@ options for conventions of event record filling.
     \item  Vertices like $\tau^\pm \rightarrow \tau^\pm$ and $\tau^\mp \rightarrow \tau^\mp \gamma$ 
            where the decaying particle flavor is among its decay products will prevent  {\tt PHOTOS} being invoked.
 
-    \item  If there is  4-momentum non-conservation in the vertex,
+    \item  If there is  4-momentum non-conservation\footnote{For details see 
+           Appendix~\ref{subsection:other_methods} for details.} in the vertex,
            {\tt PHOTOS} will not be invoked too.  Special kinematic correcting
-           method to remove rounding errors is however available.
+           method to remove smaller inconsistencies resulting e.g. from rounding errors is available too.
 
     \item
            As in the {\tt FORTRAN} cases, we expect that  new  types of 
@@ -955,7 +956,6 @@ can be recoded to C++ rather easily, but the necessary numerical tests
 are time consuming. That is why we have left these changes for later 
 releases. 
 
-\newpage
 \vskip 2 mm
 
 \centerline{\large\bf Acknowledgements}
@@ -1518,6 +1518,11 @@ or are introduced for backward compatibility.
         If {\tt flag=false}, the particle mass from the event record processed by 
         {\tt PHOTOS} takes precedence. The choice may be important for the control 
         of numerical stability.
+  \item {\tt Photos::setMomentumConservationThreshold(double momentum\_{}conservation\_{}threshold)} \\
+        Default is 0.1 (of {\tt HepMC} energy unit). If larger energy-momentum non conservation
+        is found then in  the vertex, photon generation  is skipped. 
+        At present, for evaluation of non conservation  standard method of {\tt HepMC}
+        is used.
 		
 \end{itemize}
 
