@@ -1519,7 +1519,8 @@ or are introduced for backward compatibility.
         {\tt PHOTOS} takes precedence. The choice may be important for the control 
         of numerical stability.
   \item {\tt Photos::setMomentumConservationThreshold(double momentum\_{}conservation\_{}threshold)} \\
-        Default is 0.1 (of {\tt HepMC} energy unit). If larger energy-momentum non conservation
+        Default is 0.1 (in {\tt MEV/GEV}, depending
+on units used by {\tt HepMC}). If larger energy-momentum non conservation
         is found then in  the vertex, photon generation  is skipped. 
         At present, for evaluation of non conservation  standard method of {\tt HepMC}
         is used.
