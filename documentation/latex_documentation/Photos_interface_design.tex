@@ -71,7 +71,7 @@ from {\tt FORTRAN} to C++  brings some benefits as well.
 The channel dependent, complete first order matrix elements of {\tt PHOTOS}, in {\tt FORTRAN},
  are available only 
 in special
-kinematical configurations. With the help of new the event record interface they will become
+kinematical configurations. With the help of the new  event record interface they will become
 available for general use.
 For that purpose, better access to the information necessary to orient the spin state of decaying particles
 is now provided.
@@ -101,7 +101,7 @@ QED (scalar QED) algorithm, with certain probability,
 it replaces the kinematical configuration of the Born level decay with a new one, 
 where a bremsstrahlung photon or photons
 are added and other particle momenta are modified. This part of the program is sophisticated from the physics 
-point of view \cite{Nanava:2006vv,Golonka:2006tw},
+point of view \cite{Golonka:2006tw,Nanava:2006vv},
 but from the point of view of data structures the algorithm is simple.
 That is why the gain from re-writing this part of the program to C++ is rather
 limited and will be postponed to a later step of the project development.
@@ -136,7 +136,8 @@ Later it can be passed on to the code which calculates the matrix element for ou
 
 
 At present, the part of the code responsible for photon(s) generation and kinematic 
-construction is left in  {\tt FORTRAN}. It does not feature the presented options yet.
+construction is left in  {\tt FORTRAN}. It does not feature the presented 
+above options yet.
 
 
 Before an actual description of the program, let us list the tasks the event record interface must be able to perform:
@@ -164,7 +165,7 @@ already now several different options for how {\tt HepMC} is used are
 widespread. The possibility of the flexible  adaptation of our event record 
 interface to different
 options has been considered in the design,  drawing experience
-from {\tt MC-TESTER} \cite{Golonka:2002rz,Davidson:2008ma}.
+from {\tt MC-TESTER} \cite{Davidson:2008ma,Golonka:2002rz}.
 We have also
 envisaged the possibility that {\tt HepMC} may one day be replaced by another
 standard of event record, and we have provided a way to extend
@@ -249,7 +250,8 @@ options for conventions of event record filling.
            where the decaying particle flavor is among its decay products will prevent  {\tt PHOTOS} being invoked.
 
     \item  If there is  4-momentum non-conservation in the vertex,
-           {\tt PHOTOS} will not be invoked too.
+           {\tt PHOTOS} will not be invoked too.  Special kinematic correcting
+           method to remove rounding errors is however available.
 
     \item
            As in the {\tt FORTRAN} cases, we expect that  new  types of 
@@ -277,10 +279,10 @@ otherwise nicely decaying particles was not always 2 anymore. We have introduced
 a change  in the file PhotosEvent.cxx to adjust. After  the change
 the program should work for all previous cases as before, 
 changes like this one are usually difficult to validate
-and complicated  tests are necessary. In cases like this one, one should  investigate 
+and complicated  tests are necessary. One could  investigate 
 if instead of changes on the side of the {\tt PHOTOS} algorithm a different choice of  input for {\tt PYTHIA} would not 
 be a more appropriate 
-solution.
+solution, but in this case we choose to adopt our algorithm.
 
 We have yet to decide on bar code conventions. Our programs, {\tt TAUOLA} and
  {\tt PHOTOS}, supplement the event record with new particle entries carrying bar codes 
@@ -380,7 +382,8 @@ event record.
   Files:
     \begin{itemize}
     \item { \bf f\_Init } - contains a wrapper for the {\tt PHOTOS FORTRAN} routines for initialization.
-    \item { \bf PH\_HEPEVT\_interface } - contains a wrapper for accessing PH\_HEPEVT common block.
+    \item { \bf PH\_HEPEVT\_interface } - contains a wrapper for accessing
+      {\tt  PH\_HEPEVT} common block.
     \item { \bf photos\_make.f } - contains  {\tt FORTRAN} routines to be  migrated to C++ rather soon.
     \end{itemize}
 
@@ -437,7 +440,7 @@ For details see Appendix~\ref{PHOTOSgun}.
 \item The {\tt HepMC} event record is traversed and a list of all decaying
       particles is created.
 \item Each particle is checked and if the resulting branching is a self-decay\footnote{A history entry in the event record, like
-      $Z\to Z$ or $\tau \to \tau$} it is skipped.
+      $Z\to Z$ or $\tau \to \tau$.} it is skipped.
 \item For each remaining particle a branching  including the particle's mothers and daughters
       is created. Special cases consisting of mothers and daughters but without  intermediate particle 
 to be decayed are also added to the 
@@ -609,7 +612,7 @@ Finally, users interested in low energy processes where the underlying physics m
 for photon emission cannot be controlled by theory sufficiently well
 (scalar QED may 
 be considered only as the starting point), will profit 
-from \cite{Nanava:2009vg,Nanava:2006vv}. In all cases it is important that
+from \cite{Nanava:2006vv,Nanava:2009vg}. In all cases it is important that
 the  program generation cover the full phase-space and that there are no 
 approximations in phase-space. As in the {\tt FORTRAN} version, the code 
 features approximation in the kernel. In some cases the process dependent 
@@ -675,7 +678,7 @@ low energy applications.
 
 \subsection{Results}
 \label{sec:results}
-In principle, for the algorithm of a single photon construction, the C++ interface of
+In principle, for the algorithm of  photon(s) construction, the C++ interface of
 {\tt PHOTOS} introduces nothing new with respect to the 
 version of {\tt PHOTOS} as available in {\tt FORTRAN}.
 That is why the  tests which are collected in \cite{Photos_tests} are not
@@ -816,7 +819,7 @@ Final state &  Branching Ratio (\%) $\pm$ Statistical Errors (\%) \\
 10 million events were generated and a slightly modified 
 version of {\tt MC-TESTER}'s {\tt LC-analysis} from Ref.~\cite{Golonka:2002rz}
 was used for calculation of the event rates\footnote{  We do not supplement the list of 
-final state particles with the second mother, in contrast to the choice used in {\tt LC-analysis} from  Ref.~\cite{Golonka:2002rz} }.
+final state particles with the second mother, in contrast to the choice used in {\tt LC-analysis} from  Ref.~\cite{Golonka:2002rz}. }.
 {\tt ROOT} files for differential distributions are 
 collected in the directory {\tt examples/testing/ttbar}. 
 
@@ -929,7 +932,7 @@ We leave such estimations of the theoretical uncertainty for $Z$ and $W$
 production at the LHC 
 to the forthcoming research, where a realistic choice of experimental conditions and
 observables 
-will become an integrated part. 
+will become an integrated part. \vskip -2 mm
 
 \section{Summary and outlook}
 \label{sec:summary}
@@ -1002,7 +1005,7 @@ from C++.
 \item[PHOCOP] coupling constant and related parameters.
     \begin{description}
 	\item[ALPHA]  \textit{double} coupling constant $\alpha_{QED}$.
-	\item[XPHCUT] \textit{double} minimal energy (in units of the decaying particle's mass) for photons to be explicitly generated.
+	\item[XPHCUT] \textit{double} minimal energy (in units of half of the decaying particle's mass) for photons to be explicitly generated.
     \end{description}
 \end{description}
 
@@ -1102,7 +1105,7 @@ In the following let us list routines which are called from the interface.
 \subsection{Installation}
 \label{sec:Installation}
  
-The main interface library requires that {\tt HepMC} \cite{Dobbs:2001ck} (version 2.04 or later)  has been installed
+The main interface library requires that {\tt HepMC} \cite{Dobbs:2001ck} (version 2.03 or later)  has been installed
 and its location has been provided during the configuration step. This is sufficient to compile the interface and to run the simple, stand-alone example.
 
 However, in order to run the more advanced examples located in the {\tt /examples} directory, it is required to also install:
@@ -1252,7 +1255,7 @@ constructed. To use the {\tt PHOTOS} interface in an external project, additiona
 compilation directives are required. For the static libraries:
 \begin{itemize}
   \item add {\tt -I<PhotosLocation>/include} at the compilation step,
-  \item add {\tt <PhotosLocation>/lib/libPhotosCxxInterface.a} at the linking step.
+  \item add {\tt <PhotosLocation>/lib/libPhotosCxxInterface.a} at the linking step of your project.
 \end{itemize}
 For the shared objects:
 \begin{itemize}
@@ -1331,7 +1334,7 @@ For the user's convenience the following configuration methods are provided:
 {\tt Photos::suppressBremForBranch(2, 15, 16, -213); } \\
 \emph{When the decay $\tau^- \rightarrow \nu_\tau \rho^-$ is found, it will be skipped by
       {\tt PHOTOS} along with the decays of   $\rho^-$ 
-(also $\nu_\tau$) and all
+(in principle also $\nu_\tau$) and all
 	  their daughters. In the end, the whole decay tree starting with
 	  $\tau^- \rightarrow \nu_\tau \rho^-$ will be skipped.}
 \end{itemize}
