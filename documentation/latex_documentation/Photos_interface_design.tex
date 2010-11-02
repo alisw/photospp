@@ -27,7 +27,7 @@ has been used for the generation of bremsstrahlung in the decay of particles and
 Over the years the program has acquired
 popularity and it evolved into a high 
 precision tool \cite{Golonka:2006tw}. Since version 2.15 of the program become 
-public in year 2005 and multi-photon radiation was 
+public in the year 2005 and multi-photon radiation was 
 introduced \cite{Golonka:2005pn}, there were no further public upgrades 
 of the program. However the effort on documentation and tests was going on;
  phase space treatment was shown to be 
@@ -136,8 +136,7 @@ Later it can be passed on to the code which calculates the matrix element for ou
 
 
 At present, the part of the code responsible for photon(s) generation and kinematic 
-construction is left in  {\tt FORTRAN}. It does not feature the presented 
-above options yet.
+construction is left in  {\tt FORTRAN}. It does not feature the options presented above yet.
 
 
 Before an actual description of the program, let us list the tasks the event record interface must be able to perform:
@@ -207,7 +206,7 @@ ways.
 The {\tt HepMC} event record format is  evolving with time, making it necessary
  to adapt
 the code to new versions. The
-{\tt HepMC} versions 2.06, 2.05  and 2.03 were used  in final tests of our 
+{\tt HepMC} versions 2.06, 2.05  and 2.03 were used  in the final tests of our 
 distribution. 
 
 Evolution of the {\tt HepMC} format itself is not a crucial problem.
@@ -251,7 +250,7 @@ options for conventions of event record filling.
 
     \item  If there is  4-momentum non-conservation\footnote{For details see 
            Appendix~\ref{subsection:other_methods} for details.} in the vertex,
-           {\tt PHOTOS} will not be invoked too.  Special kinematic correcting
+           {\tt PHOTOS} will not be invoked too.  A special kinematic correcting
            method to remove smaller inconsistencies resulting e.g. from rounding errors is available too.
 
     \item
@@ -383,7 +382,7 @@ event record.
   Files:
     \begin{itemize}
     \item { \bf f\_Init } - contains a wrapper for the {\tt PHOTOS FORTRAN} routines for initialization.
-    \item { \bf PH\_HEPEVT\_interface } - contains a wrapper for accessing
+    \item { \bf PH\_HEPEVT\_interface } - contains a wrapper for accessing the
       {\tt  PH\_HEPEVT} common block.
     \item { \bf photos\_make.f } - contains  {\tt FORTRAN} routines to be  migrated to C++ rather soon.
     \end{itemize}
@@ -1519,10 +1518,10 @@ or are introduced for backward compatibility.
         {\tt PHOTOS} takes precedence. The choice may be important for the control 
         of numerical stability.
   \item {\tt Photos::setMomentumConservationThreshold(double momentum\_{}conservation\_{}threshold)} \\
-        Default is 0.1 (in {\tt MEV/GEV}, depending
-on units used by {\tt HepMC}). If larger energy-momentum non conservation
+        The default value is 0.1 (in {\tt MEV/GEV}, depending
+on the units used by {\tt HepMC}). If larger energy-momentum non conservation
         is found then in  the vertex, photon generation  is skipped. 
-        At present, for evaluation of non conservation  standard method of {\tt HepMC}
+        At present, for the evaluation of non conservation  the standard method of {\tt HepMC}
         is used.
 		
 \end{itemize}
