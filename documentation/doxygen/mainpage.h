@@ -29,8 +29,7 @@ tar balls of our programs.
  @section intro Introduction/Status
  The tar-ball 
  has the functionality  of its FORTRAN predecessor for all cases.
- Documentation cleaning for the first release is in its final steps.
- 
+  
  @section setup Requirements
 
  For compilation, and to run the simple example, the interface requires:
