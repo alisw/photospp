@@ -129,11 +129,11 @@ available only for decays of particles   at rest and with spin
  set along the $z$ axis.
 
 Physics assumptions used in the program and properties of the
-solution it offers are revieved. 
+solution it offers are reviewed. 
 In particular, it is  mentioned
 that the  second order matrix elements were used in design and 
 validation of the program iteration procedure. Also it is explained
-that the phase space parametrization used in the program is exact. 
+that the phase space parameterization used in the program is exact. 
  }
 
 %\centerline{\normalsize \today}

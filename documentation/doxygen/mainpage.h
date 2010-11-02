@@ -29,7 +29,7 @@ tar balls of our programs.
  @section intro Introduction/Status
  The tar-ball 
  has the functionality  of its FORTRAN predecessor for all cases.
- The program is under final tests and documentation cleaning for the first release.
+ Documentation cleaning for the first release is in its final steps.
  
  @section setup Requirements
 

@@ -27,7 +27,7 @@ has been used for the generation of bremsstrahlung in the decay of particles and
 Over the years the program has acquired
 popularity and it evolved into a high 
 precision tool \cite{Golonka:2006tw}. Since version 2.15 of the program become 
-public in year 2005 and multiphoton radiation was 
+public in year 2005 and multi-photon radiation was 
 introduced \cite{Golonka:2005pn}, there were no further public upgrades 
 of the program. However the effort on documentation and tests was going on;
  phase space treatment was shown to be 
@@ -65,7 +65,7 @@ and the {\tt TAUOLA} interface \cite{Davidson:2010rw}, previously ported to {\tt
 This completes the main step of migration of these three programs to the new style.
 
 Such migration is convenient for the users too; they can now work
-with  homogenous C++ software. From the physics point of view, transformation 
+with  homogeneous C++ software. From the physics point of view, transformation 
 of {\tt PHOTOS} 
 from {\tt FORTRAN} to C++  brings some benefits as well.
 The channel dependent, complete first order matrix elements of {\tt PHOTOS}, in {\tt FORTRAN},
@@ -246,7 +246,7 @@ equivalent to  the status 2.
 options for conventions of event record filling.
   \begin{itemize} 
     \item  Vertices like $\tau^\pm \rightarrow \tau^\pm$ and $\tau^\mp \rightarrow \tau^\mp \gamma$ 
-           where the decaying particle flavour is among its decay products will prevent  {\tt PHOTOS} being invoked.
+           where the decaying particle flavor is among its decay products will prevent  {\tt PHOTOS} being invoked.
 
     \item  If there is  4-momentum non-conservation in the vertex,
            {\tt PHOTOS} will not be invoked too.
@@ -575,7 +575,7 @@ was used. The advantage of the method is that C++ and {\tt FORTRAN} program
 results can be easily compared\footnote{We thank Andy Buckley for checking numerically
  that our conclusions on the first order exact YFS exponentiation results extend
 to the programs presently used at the LHC such as  
-SHERPA and Herwig++.  }.
+SHERPA and HERWIG++.  }.
  
 For inclusive calculations, FSR radiative corrections are at the one permille level.
 For semi-inclusive cross sections, such as the total rates of Z decay for events
@@ -584,7 +584,7 @@ between results from {\tt PHOTOS} ({\tt PHOTOS}  without the matrix element corr
 and YFS based generators of the first or second order were also 
 at the 0.2 \% level. 
 On the other hand, if two  hard photons were requested and invariant masses constructed from leptons
-and hard photons were monitoreed,
+and hard photons were monitored,
  the level of differences exceeded 
  30 \%. However, even in this region of phase space {\tt PHOTOS},  without the correcting
 weight, performs better\footnote{In 
@@ -739,7 +739,7 @@ consistent with Fig.~5 of Ref.~\cite{Eberhard:1989ve}.
   The distribution of the acoplanarity angle of oriented planes spanned respectively on 
   the $\pi^+\rho^+$ and $\pi^-\rho^-$ momenta is shown.  
 The distribution is defined in the rest frame of the
-  $\rho^+ \rho^-$ pair for the scalar higgs decay chain $H\to
+  $\rho^+ \rho^-$ pair for the scalar Higgs decay chain $H\to
   \tau^+\tau^-$, $\tau^\pm \to \rho^\pm \nu_\tau$, $\rho^\pm \to
   \pi^\pm \pi^0$. {\tt PHOTOS} is used to generate
   bremsstrahlung.  The red curve indicates the distribution when
@@ -899,7 +899,7 @@ other measurements can be found in Refs.~\cite{Jadach:1995pd,Arbuzov:1996eq};
 for the simulation of 
 FSR QED corrections, the Monte Carlo programs collected for {\tt PHOTOS} generator 
 tests are probably enough. 
-A discussion of QED initial final state interferece may follow the strategy presented
+A discussion of QED initial final state interference may follow the strategy presented
 in \cite{Jadach:1999gz}. There, the question of experimental cuts must be included 
 as well. Once these steps are completed, discussion 
 of complete electroweak corrections in the context of realistic observables should 
@@ -922,7 +922,7 @@ simulating parton showers. This may need some experimental analysis as well.
 Recently experimental data from LEP1 times were revisited by the DELPHI collaboration \cite{Abdallah:2010tk}.
 Tension between data and the theoretical description is 
 mentioned. This may mean that the description of initial state QED bremsstrahlung 
-at the LHC will need to be reinvestigated with the help of LHC data as well.
+at the LHC will need to be re-investigated with the help of LHC data as well.
 That is also why it  might be useful to keep initial state QED, final state QED and their interference corrections in separate modules. 
 
 We leave such estimations of the theoretical uncertainty for $Z$ and $W$ 
@@ -1103,7 +1103,7 @@ In the following let us list routines which are called from the interface.
 \label{sec:Installation}
  
 The main interface library requires that {\tt HepMC} \cite{Dobbs:2001ck} (version 2.04 or later)  has been installed
-and its location has been provided during the configuration step. This is sufficient to compile the interface and to run the simple, standalone example.
+and its location has been provided during the configuration step. This is sufficient to compile the interface and to run the simple, stand-alone example.
 
 However, in order to run the more advanced examples located in the {\tt /examples} directory, it is required to also install:
 
@@ -1286,11 +1286,11 @@ parton shower features a vertex with $l^\pm \to l^\pm \gamma$ with the
 virtuality of the incoming $l^\pm$ matching the invariant mass of the
 outgoing pair then the action of {\tt PHOTOS} at this vertex will
 introduce an error.  This is prevented by forbidding bremsstrahlung
-generation at vertices where one of the decay products has a flavour
-which matches the flavour of an incoming particle.
+generation at vertices where one of the decay products has a flavor
+which matches the flavor of an incoming particle.
 
 
-Some exceptions to the default behaviour may be necessary. For example
+Some exceptions to the default behavior may be necessary. For example
 in cascade decays, the vertex $\rho \to \rho \pi$ may require the
 {\tt PHOTOS} algorithm to be activated.
 
