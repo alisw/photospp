@@ -17,12 +17,13 @@ vector<vector<int>* >    *Photos::supBremList    = 0;
 vector<vector<int>* >    *Photos::forceBremList  = 0;
 bool Photos::isSuppressed=false;
 bool Photos::massFrom4Vector=true;
+double Photos::momentum_conservation_threshold   = 0.1;
+
 
 Photos::Photos()
 {
 	setAlphaQED           (0.00729735039);
 	setInfraredCutOff     (0.01);
-	setMomentumConservationThreshold(0.1);
 	setInterference       (true);
 	setDoubleBrem         (true);
 	setQuatroBrem         (false);
