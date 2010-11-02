@@ -205,8 +205,9 @@ ways.
 
 The {\tt HepMC} event record format is  evolving with time, making it necessary
  to adapt
-the code to new versions.
-{\tt HepMC} version 2.05 (2.06) is used as a default for our distribution and tests. 
+the code to new versions. The
+{\tt HepMC} versions 2.06, 2.05  and 2.03 were used  in final tests of our 
+distribution. 
 
 Evolution of the {\tt HepMC} format itself is not a crucial problem.
 In contrast, conventions on how physics information is  filled into {\tt HepMC}
@@ -217,10 +218,10 @@ This is quite similar to the previous
 
 \subsubsection{Event Record Structure Scenarios}
 
-{\bf PYTHIA,HERWIG,MC@NLO etc. }
+
 
 While many Monte-Carlo generators (e.g. {\tt PYTHIA 8.1} \cite{Sjostrand:2007gs}, 
-HERWIG++ \cite{Bahr:2008pv})
+HERWIG++ \cite{Bahr:2008pv}), SHERPA \cite{Gleisberg:2008ta} can 
 store events in {\tt HepMC} format, the  representations of
 these events are not subject to strict standards,  which can therefore
 vary between Monte-Carlo generators or even physics processes. Some examples
@@ -574,7 +575,7 @@ was used. The advantage of the method is that C++ and {\tt FORTRAN} program
 results can be easily compared\footnote{We thank Andy Buckley for checking numerically
  that our conclusions on the first order exact YFS exponentiation results extend
 to the programs presently used at the LHC such as  
-Sherpa and Herwig++.  }.
+SHERPA and Herwig++.  }.
  
 For inclusive calculations, FSR radiative corrections are at the one permille level.
 For semi-inclusive cross sections, such as the total rates of Z decay for events
