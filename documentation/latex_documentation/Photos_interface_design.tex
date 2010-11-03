@@ -1460,8 +1460,8 @@ If {\tt limit}=0 is set, then there are no limits on the number of warnings to b
 The memory leak tracking function allows checking of whether all memory allocated within {\tt PHOTOS Interface}
  is properly released. However, using the debug option significantly increases the amount of time needed for 
 each run. Its  use is therefore recommended  for debugging purposes only. In order to use this option
- modify {\tt make.inc} in the main directory by adding the line: \\
-\\ {\tt DEBUG = -D"\_LOG\_DEBUG\_MODE\_" } \\ \\
+ modify {\tt make.inc} in the main directory by adding the line: \\ 
+ {\tt DEBUG = -D"\_LOG\_DEBUG\_MODE\_" } \\ 
 Recompile the interface.
 Now, whenever the program is executed a table will be printed at the end of the run,
 listing all the pointers that were not freed, along with the memory they consumed.

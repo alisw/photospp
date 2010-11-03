@@ -89,17 +89,18 @@
 
 \begin{center}
 \title{PHOTOS Interface in C++\\[0.5cm]{} 
-\textbf{\small Technical and Physics Documentation  \\[0.8cm]\rule{4cm}{1pt}\\[0.5cm]}}
+\textbf{\small Technical and Physics Documentation  \\[0.4cm]\rule{4cm}{1pt}\\[0.4cm]}}
 
-\author{\LARGE N. Davidson$^{a,b}$, T. Przedzinski$^c$, Z. Was$^a$}\\[0.5cm]
+\author{\LARGE N. Davidson$^{a,b}$, T. Przedzinski$^c$, Z. Was$^{a,d}$}\\[0.3cm]
 \textsf{\Large{\em $^a$ Institute of Nuclear Physics, 
 Polish Academy of Sciences,\\
          ul. Radzikowskiego 152, 31-342 Cracow, Poland}\\
 {\em $^b$ The University of Melbourne, School of Physics \\ Australia  }\\
 {\em $^c $ The Faculty of Physics, Astronomy and Applied Computer
 Science,\\
-Jagellonian University, Reymonta 4, 30-059 Cracow, Poland}
- }\\[0.5cm]
+Jagellonian University, Reymonta 4, 30-059 Cracow, Poland}\\
+{\em $^d $ Theory Group, Physics Department, CERN, CH-1211, Geneva 23, Switzerland}
+ }\\[0.3cm]
 
 %\includegraphics[height=3cm]{logo.eps}\\[1cm]
 {\bf \Large Abstract} \vskip 2 mm 
@@ -145,7 +146,6 @@ that the phase space parameterization used in the program is exact.
 {\footnotesize
 \begin{itemize}
 \item[${\dag}$]
-
 This work is partially supported by  EU Marie Curie Research Training Network 
 grant under the contract No. MRTN-CT-2006-0355505 and by  
 Polish Government grant N202 06434 (2008-2011). 
