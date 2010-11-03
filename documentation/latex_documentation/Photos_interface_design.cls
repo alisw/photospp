@@ -83,9 +83,11 @@
 \let\footnotesize\small \let\footnoterule\relax \setcounter{page}{0}
 \null
 \vfil
-\hskip 11.2 cm IFJPAN-IV-2010-6
-
-\hskip 12 cm November 2010
+\begin{flushright}
+{\bf  CERN-PH-TH/2010-261 \\
+  IFJPAN-IV-2010-6  \\
+  November 2010}
+\end{flushright}
 
 \begin{center}
 \title{PHOTOS Interface in C++\\[0.5cm]{} 
