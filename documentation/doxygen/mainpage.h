@@ -7,10 +7,10 @@
 
  @section download  release
 
-  will be given here
+
 
 The source code and documentation for release 3.0. The following files are provided for download:
- - <a href="http://arxiv.org/abs/?????">arXiv:????</a> full software documentation.
+ - <a href="http://arxiv.org/abs/1011.0937">arXiv:1011.0937</a> full software documentation.
  - <a href="../PHOTOS.3.0.tar.gz">PHOTOS 3.0 source code </a> tarball.
 
 Note that LCG/Genser
