@@ -1,2 +1,6 @@
-Oct 30 2010
-At present this file is empty
+Changelog for changes with respect to version 1.0
+-------------------------------------------------
+
+Nov 8 2010
+- Fixed small typo in configuration help printout
+
