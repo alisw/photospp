@@ -1272,7 +1272,7 @@ Optional Packages:
   --with-MC-Tester        Path to MC-TESTER 1.23 or later (used by examples
                           only)
   --with-Pythia8          Path to Pythia 8.1 or later (used by examples only)
-  --with-Pythia8          Path to Tauola C++ interface (used by examples only)
+  --with-Tauola           Path to Tauola C++ interface (used by examples only)
 
 Some influential environment variables:
   CC          C compiler command

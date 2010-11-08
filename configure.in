@@ -53,7 +53,7 @@ AC_ARG_WITH(
 AC_MSG_CHECKING([if Tauola location defined])
 AC_ARG_WITH(
   [Tauola],
-    [AS_HELP_STRING([--with-Pythia8], [Path to Tauola C++ interface (used by examples only)] )],
+    [AS_HELP_STRING([--with-Tauola], [Path to Tauola C++ interface (used by examples only)] )],
   [AC_MSG_RESULT([$with_Tauola])],
   [AC_MSG_RESULT([no])]
 )

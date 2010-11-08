@@ -25,7 +25,7 @@ class Photos
 {
 public:
 	static const int VER_MAJOR=3, VER_MINOR=0;
-	static const int DAT_DAY  =30,DAT_MONTH=10,DAT_YEAR=10;
+	static const int DAT_DAY  =8,DAT_MONTH=11,DAT_YEAR=10;
 public:
 	/** Logging and memory leak tracking class */
 	class Log;
