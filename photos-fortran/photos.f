@@ -257,8 +257,20 @@ C special case of t tbar production process
         IF(IFTOP) CALL PHOTWO(0)
         BOOST=.FALSE.
 C--   Check whether parent is in its rest frame...
+C ZBW ND  27.07.2009:
+C bug reported by Vladimir Savinov localized and fixed.
+C protection against rounding error was back-firing if soft
+C momentum of mother was physical. Consequence was that PHCORK was
+C messing up masses of final state particles in vertex of the decay.
+C Only configurations with previously generated photons of energy fraction
+C smaller than 0.0001 were affected. Effect was numerically insignificant. 
+
+C      IF (     (ABS(PPHO(4,1)-PPHO(5,1)).GT.PPHO(5,1)*1.D-8)
+C     $    .AND.(PPHO(5,1).NE.0))                            THEN
+
       IF ((ABS(PPHO(1,1)+ABS(PPHO(2,1))+ABS(PPHO(3,1))).GT.
      $    PPHO(5,1)*1.D-8).AND.(PPHO(5,1).NE.0))    THEN
+
         BOOST=.TRUE.
 
 C--
