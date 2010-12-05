@@ -128,7 +128,12 @@ public:
 
  	/** Threshold for momentum conservation check */
 	static double momentum_conservation_threshold;
-       
+
+	/** Flag for complete effects of matrix element (in leptonic Z decays) */
+	static bool meCorrectionWtForZ;
+	
+	/** Flag for complete effects of matrix element (in leptonic W decays) */
+	static bool meCorrectionWtForW;
 public:
 	/** Get instance of Photos */
 	Photos& getInstance() { return _instance; }

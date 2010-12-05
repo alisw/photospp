@@ -59,7 +59,9 @@ void PhotosBranch::process()
 	for(int i=0;i<(int)get.size();i++) cout<<"ID: "<<get.at(i)->getPdgID()<<" ("<<get.at(i)->getBarcode()<<"), "; cout<<endl;
 	*/
 	int index = PH_HEPEVT_Interface::set(this);
+	PH_HEPEVT_Interface::prepare();
 	photos_make_c_(&index);
+	PH_HEPEVT_Interface::complete();
 	PH_HEPEVT_Interface::get();
 	checkMomentumConservation();
 }

@@ -38,10 +38,26 @@ class PH_HEPEVT_Interface
 public:
 	/** Convert PhotosBranch to HEPEVT */
 	static int  set(PhotosBranch* branch);
+
 	/** Update event record with data from HEPEVT */
 	static void get();
+
+	/** Prepare particles for processing */
+	static void prepare();
+
+	/** Check channel for complete matrix element calculation */
+	static void check_ME_channel();
+
+	/** Finalize processing */
+	static void complete();
+
 	/** Clear HEPEVT */
 	static void clear();
+public:
+	/** Index of decaying particle*/
+	static int decay_idx;
+	/** Number of channel to be used - flag for fortran routines */
+	static int ME_channel;
 private:
 	/** Add single particle to HEPEVT */
 	static void add_particle(int i, PhotosParticle * particle,

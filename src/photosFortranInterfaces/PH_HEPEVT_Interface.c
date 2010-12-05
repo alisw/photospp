@@ -7,6 +7,8 @@ using namespace std;
 typedef Photos::Log Log;
 
 vector<PhotosParticle*> PH_HEPEVT_Interface::m_particle_list;
+int PH_HEPEVT_Interface::ME_channel=0;
+int PH_HEPEVT_Interface::decay_idx=0;
 
 void PH_HEPEVT_Interface::clear(){
 
@@ -91,7 +93,7 @@ int PH_HEPEVT_Interface::set(PhotosBranch *branch)
 	int nmothers=mothers.size();
 
 	//check if mid-particle exist
-	int decay_idx=0;
+	decay_idx=0;
 	PhotosParticle *decay_particle = branch->getDecayingParticle();
 	if(decay_particle) decay_idx=nmothers+1;
 
@@ -199,4 +201,125 @@ void PH_HEPEVT_Interface::get(){
     
   }
   
+}
+
+void PH_HEPEVT_Interface::prepare()
+{
+	check_ME_channel();
+}
+
+void PH_HEPEVT_Interface::complete()
+{
+
+}
+
+void PH_HEPEVT_Interface::check_ME_channel()
+{
+	ME_channel=0;
+
+// Check mothers:
+
+	if(decay_idx==2)                              return; // Only one mother present
+	if(ph_hepevt_.idhep[0]*ph_hepevt_.idhep[1]>0) return; // Mothers have same sign
+
+	Log::Debug(900)<<"ME_channel: Mothers PDG:  "<<ph_hepevt_.idhep[0]<<" "<<ph_hepevt_.idhep[1]<<endl;
+	if(decay_idx)
+		Log::Debug(900,false)<<"            Intermediate: "<<ph_hepevt_.idhep[decay_idx-1]<<endl;
+
+	int              firstDaughter=3;
+	if(decay_idx==0) firstDaughter=2; // if no intermediate particle - daughters start at idx 2
+
+	// Are mothers in range +/- 1-6; +/- 11-16?
+	int mother1 = abs(ph_hepevt_.idhep[0]);
+	int mother2 = abs(ph_hepevt_.idhep[1]);
+	if( mother1<1 || (mother1>6 && mother1<11) || mother1>16 ) return;
+	if( mother2<1 || (mother2>6 && mother2<11) || mother2>16 ) return;
+
+//Check daughters
+
+	// Z: check for pairs 11 -11 ; 13 -13 ; 15 -15
+	// -------------------------------------------
+	int firstPDG =0;
+	int secondPDG=0;
+	for(int i=firstDaughter; i<ph_hepevt_.nhep;i++)
+	{
+		int pdg = abs(ph_hepevt_.idhep[i]);
+		if(pdg==11 || pdg==13 || pdg==15)
+		{
+			if(firstPDG==0) firstPDG=ph_hepevt_.idhep[i];
+			else
+			{
+				secondPDG=ph_hepevt_.idhep[i];
+				// Just in case two pairs are genereted - verify that we have a pair with oposite signs
+				if(firstPDG*secondPDG>0) secondPDG=0;
+				break;
+			}
+		}
+	}
+
+	if( ME_channel==0 && firstPDG!=0 && secondPDG!=0 &&
+	    firstPDG==-secondPDG ) ME_channel=1;
+
+	// W: check for pairs 11 -12; -11 12; 13 -14; -13 14; 15 -16; -15 16
+	// -----------------------------------------------------------------
+	firstPDG =0;
+	secondPDG=0;
+	for(int i=firstDaughter; i<ph_hepevt_.nhep;i++)
+	{
+		int pdg = abs(ph_hepevt_.idhep[i]);
+		if(pdg>=11 && pdg<=16)
+		{
+			if(firstPDG==0) firstPDG=ph_hepevt_.idhep[i];
+			else
+			{
+				secondPDG=ph_hepevt_.idhep[i];
+				// Just in case two pairs are genereted - verify that we have a pair with oposite signs
+				if(firstPDG*secondPDG>0) secondPDG=0;
+				break;
+			}
+		}
+	}
+
+	firstPDG =abs(firstPDG);
+	secondPDG=abs(secondPDG);
+
+	if(  ME_channel==0 && firstPDG!=0 && secondPDG!=0 &&
+	   ( ( firstPDG==11 && secondPDG==12 ) || (firstPDG == 12 && secondPDG == 11) ||
+	     ( firstPDG==13 && secondPDG==14 ) || (firstPDG == 14 && secondPDG == 13) ||
+	     ( firstPDG==15 && secondPDG==16 ) || (firstPDG == 16 && secondPDG == 15)
+	   )
+	  ) ME_channel=2;
+
+	Log::Debug(901)<<"ME_channel: Found ME_channel: "<<ME_channel<<endl;
+
+// Check intermediate particle (if exists):
+
+	// Verify that intermediate particle PDG matches ME_channel found
+	if(ME_channel>0 && decay_idx)
+	{
+		int pdg=ph_hepevt_.idhep[decay_idx-1];
+
+		if(ME_channel==1 && !(pdg==22 || pdg==23) ) ME_channel=0; //gamma/Z
+		if(ME_channel==2 && !(pdg==24 || pdg==-24)) ME_channel=0; //W+/W-
+
+		if(ME_channel==0)
+			Log::Debug(901,false)<<"            but set to 0: wrong intermediate particle: "<<pdg<<endl;
+	}
+
+// Check flags
+
+	switch(ME_channel)
+	{
+		case  0: break; // Ok - no channel found
+		case  1: if(!Photos::meCorrectionWtForZ) ME_channel=0; break;
+		case  2: if(!Photos::meCorrectionWtForW) ME_channel=0; break;
+		default: Log::Error()<<"Unimplemented ME channel: "<<ME_channel<<endl; break;
+	}
+	Log::Debug(902)<<"ME_channel: Finally, after flag check, ME_channel is: "<<ME_channel<<endl;
+}
+
+// Call from fortran: 'CALL ME_CHANNEL(X)'
+extern "C" void me_channel_(int *x)
+{
+	*x=PH_HEPEVT_Interface::ME_channel;
 }

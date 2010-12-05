@@ -1,5 +1,9 @@
-Changelog for changes with respect to version 1.0
+Changelog for changes with respect to version 3.0
 -------------------------------------------------
+
+Dec 5 2010
+- Added option for complete matrix element calculation (currently for Z only)
+  WARNING: Current version of the code may produce unstable results.
 
 Nov 8 2010
 - Fixed small typo in configuration help printout

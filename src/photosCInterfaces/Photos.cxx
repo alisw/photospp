@@ -18,7 +18,8 @@ vector<vector<int>* >    *Photos::forceBremList  = 0;
 bool Photos::isSuppressed=false;
 bool Photos::massFrom4Vector=true;
 double Photos::momentum_conservation_threshold   = 0.1;
-
+bool Photos::meCorrectionWtForZ=false;
+bool Photos::meCorrectionWtForW=false;
 
 Photos::Photos()
 {
@@ -218,11 +219,11 @@ void Photos::forceBremForBranch(int count, int motherID, ... )
 
 void Photos::setMeCorrectionWtForW(bool corr)
 {
+	meCorrectionWtForZ=false; //NOT IMPLEMENTED YET! so the flag is always false
 	Log::Info()<<"Photos::setMeCorrectionWtForW: option not implemented in PHOTOS 3.0"<<endl;
 }
 
 void Photos::setMeCorrectionWtForZ(bool corr)
 {
-	Log::Info()<<"Photos::setMeCorrectionWtForZ: option not implemented in PHOTOS 3.0"<<endl;
+	meCorrectionWtForZ=corr;
 }
-
