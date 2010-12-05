@@ -2,8 +2,13 @@ Changelog for changes with respect to version 3.0
 -------------------------------------------------
 
 Dec 5 2010
-- Added option for complete matrix element calculation (currently for Z only)
-  WARNING: Current version of the code may produce unstable results.
+- Added: methods for option  complete matrix element calculation 
+  (prepared in detail for Z/gamma only)
+  WARNING: Implementation of matrix element for Z/gamma at work.
+- Numerically insignificant fix for the bug reported by Savinov. 
+   Result was that for photons of energies below .0001 of decaying particle 
+   mass final state charged particles were getting unphysical mass in event 
+   record.  
 
 Nov 8 2010
 - Fixed small typo in configuration help printout
