@@ -164,6 +164,8 @@ C.----------------------------------------------------------------------
 C--
       CALL PHLUPAB(3)
 C      NEVHEP=EVENT
+
+C      write(*,*) 'at poczatek'
 C      CALL PHODMP
       IPPAR=ABS(IPARR)
 C--   Store pointers for cascade treatement...
@@ -174,6 +176,10 @@ C--   Store pointers for cascade treatement...
 C--
 C--   Check decay multiplicity and minimum of correctness..
       IF ((JDAHEP(1,IP).EQ.0).OR.(JMOHEP(1,JDAHEP(1,IP)).NE.IP)) RETURN
+      CALL PHOtoRF
+
+C      write(*,*) 'at przygotowany'
+C      CALL PHODMP
 C--
 C-- single branch mode 
 C-- we start looking for the decay points in the cascade 
@@ -291,6 +297,113 @@ C--   Get photon production vertex position
   150       VHEP(J,POSPHO)=VHEP(J,POSPHO-1)
   160     CONTINUE
         ENDIF
+C      write(*,*) 'at po dzialaniu '
+C      CALL PHODMP
 
+      CALL PHOtoLAB
+C      write(*,*) 'at koniec'
+C      CALL PHODMP
       RETURN
       END
+      subroutine PHOtoRF
+      INTEGER NMXHEP
+      PARAMETER (NMXHEP=10000)
+      INTEGER IDHEP,ISTHEP,JDAHEP,JMOHEP,NEVHEP,NHEP
+      REAL*8 PHEP,VHEP
+      COMMON/PH_HEPEVT/NEVHEP,NHEP,ISTHEP(NMXHEP),IDHEP(NMXHEP),
+     &JMOHEP(2,NMXHEP),JDAHEP(2,NMXHEP),PHEP(5,NMXHEP),VHEP(4,NMXHEP)
+      LOGICAL QEDRAD
+      COMMON/PH_PHOQED/QEDRAD(NMXHEP)
+      REAL*8 QQ(4),XM,th1,fi1
+      COMMON /PH_TOFROM/ QQ,XM,th1,fi1
+      REAL*8 PP(4),RR(4)
+      DO K=1,4
+       QQ(k)=0
+      ENDDO
+      DO L=JDAHEP(1,JMOHEP(1,NHEP)),JDAHEP(2,JMOHEP(1,NHEP))
+       DO K=1,4
+        QQ(k)=QQ(K)+PHEP(K,L)
+       ENDDO
+      ENDDO
+      XM =QQ(4)**2-QQ(3)**2-QQ(2)**2-QQ(1)**2
+      IF (XM.GT.0D0) XM=SQRT(XM)
+      IF (XM.LE.0) RETURN
+      DO L=1,NHEP
+       DO K=1,4
+        PP(K)=phep(K,L)
+       ENDDO
+       call bostdq(1,qq,pp,rr)
+       DO K=1,4
+        phep(K,L)=RR(K)
+       ENDDO
+      ENDDO
+      FI1=PHOAN1(PHEP(1,1),PHEP(2,1))
+      TH1=PHOAN2(PHEP(3,1),SQRT(PHEP(1,1)**2+PHEP(2,1)**2))
+
+      DO L=1,NHEP
+        CALL PHORO3(-FI1,PHEP(1,L))
+        CALL PHORO2(-TH1,PHEP(1,L))
+      ENDDO
+      return
+      end
+      subroutine PHOtoLAB
+      INTEGER NMXHEP
+      PARAMETER (NMXHEP=10000)
+      INTEGER IDHEP,ISTHEP,JDAHEP,JMOHEP,NEVHEP,NHEP
+      REAL*8 PHEP,VHEP
+      COMMON/PH_HEPEVT/NEVHEP,NHEP,ISTHEP(NMXHEP),IDHEP(NMXHEP),
+     &JMOHEP(2,NMXHEP),JDAHEP(2,NMXHEP),PHEP(5,NMXHEP),VHEP(4,NMXHEP)
+      LOGICAL QEDRAD
+      COMMON/PH_PHOQED/QEDRAD(NMXHEP)
+      REAL*8 QQ(4),XM,th1,fi1
+      COMMON /PH_TOFROM/ QQ,XM,th1,fi1
+      REAL*8 PP(4),RR(4)
+      IF (XM.LE.0) RETURN
+
+      DO L=1,NHEP
+        CALL PHORO2( TH1,PHEP(1,L))
+        CALL PHORO3( FI1,PHEP(1,L))
+      ENDDO
+
+      DO L=1,NHEP
+       DO K=1,4
+        PP(K)=phep(K,L)
+       ENDDO
+       call bostdq(-1,qq,pp,rr)
+       DO K=1,4
+        phep(K,L)=RR(K)
+       ENDDO
+      ENDDO
+      return
+      end
+
+      SUBROUTINE bostdq(mode,qq,pp,r)
+*     *******************************
+* Boost along arbitrary axis (as implemented by Ronald Kleiss).
+* The method is described in book of Bjorken and Drell
+* p boosted into r  from actual frame to rest frame of q
+* forth (mode = 1) or back (mode = -1).
+* q must be a timelike, p may be arbitrary.
+      IMPLICIT DOUBLE PRECISION (a-h,o-z)
+      DIMENSION qq(4),pp(4),r(4)
+      DIMENSION q(4),p(4)
+      DO k=1,4
+         p(k)=pp(k)
+         q(k)=qq(k)
+      ENDDO
+      amq =dsqrt(q(4)**2-q(1)**2-q(2)**2-q(3)**2)
+      IF    (mode .EQ. -1) THEN
+         r(4) = (p(1)*q(1)+p(2)*q(2)+p(3)*q(3)+p(4)*q(4))/amq
+         fac  = (r(4)+p(4))/(q(4)+amq)
+      ELSEIF(mode .EQ.  1) THEN
+         r(4) =(-p(1)*q(1)-p(2)*q(2)-p(3)*q(3)+p(4)*q(4))/amq
+         fac  =-(r(4)+p(4))/(q(4)+amq)
+      ELSE
+         WRITE(*,*) ' ++++++++ wrong mode in boostdq '
+         STOP
+      ENDIF
+      r(1)=p(1)+fac*q(1)
+      r(2)=p(2)+fac*q(2)
+      r(3)=p(3)+fac*q(3)
+      END
+
