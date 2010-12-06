@@ -337,9 +337,12 @@ C      CALL PHODMP
         phep(K,L)=RR(K)
        ENDDO
       ENDDO
-      FI1=PHOAN1(PHEP(1,1),PHEP(2,1))
-      TH1=PHOAN2(PHEP(3,1),SQRT(PHEP(1,1)**2+PHEP(2,1)**2))
-
+      FI1=0.D0
+      TH1=0.d0
+      IF(ABS(PHEP(1,1))+ABS(PHEP(2,1)).GT.0D0) 
+     $  FI1=PHOAN1(PHEP(1,1),PHEP(2,1))
+      IF(ABS(PHEP(1,1))+ABS(PHEP(2,1))+ABS(PHEP(3,1)).GT.0D0) 
+     $  TH1=PHOAN2(PHEP(3,1),SQRT(PHEP(1,1)**2+PHEP(2,1)**2))
       DO L=1,NHEP
         CALL PHORO3(-FI1,PHEP(1,L))
         CALL PHORO2(-TH1,PHEP(1,L))
