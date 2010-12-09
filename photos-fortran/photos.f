@@ -702,10 +702,10 @@ C.----------------------------------------------------------------------
       IMPLICIT NONE
       DOUBLE PRECISION DATA
       REAL*8 PHORANC
-      INTEGER IP,IPPAR,NCHARG
+      INTEGER IP,IPPAR,NCHARG,IDME
       INTEGER WTDUM,IDUM,NHEP0
       INTEGER NCHARB,NEUDAU
-      REAL*8 RN,WT,PHINT
+      REAL*8 RN,WT,PHINT,XDUMM,PHwtNLO
       LOGICAL BOOST
       INTEGER NMXHEP
       PARAMETER (NMXHEP=10000)
@@ -731,8 +731,19 @@ C--
 C PHODO is caling PHORANC, thus change of series if it is moved before if
         CALL PHODO(1,NCHARB,NEUDAU)
 C we eliminate /FINT in variant B.
-        IF (INTERF) WT=WT*PHINT(IDUM)  /FINT ! FINT must be in variant A
-        IF (IFW) CALL PHOBW(WT)   ! extra weight for leptonic W decay 
+C get ID of channel dependent ME, ID=0 means no 
+        CALL ME_CHANNEL(IDME)
+!        write(*,*) 'KANALIK IDME=',IDME
+        IF (IDME.EQ.0) THEN  ! default
+         IF (INTERF) WT=WT*PHINT(IDUM)  /FINT ! FINT must be in variant A
+         IF (IFW) CALL PHOBW(WT)   ! extra weight for leptonic W decay 
+        ELSEIF (IDME.EQ.1) THEN
+         xdumm=0.5D0
+         WT=WT*PHwtnlo(xdumm)/FINT
+        ELSE
+         write(*,*) 'problem with ME_CHANNEL  IDME=',IDME
+         stop
+        ENDIF
         DATA=WT 
         IF (WT.GT.1.0D0) CALL PHOERR(3,'WT_INT',DATA)
 C weighting
@@ -1149,6 +1160,7 @@ C.----------------------------------------------------------------------
      &JMOPHO(2,NMXPHO),JDAPHO(2,NMXPHO),PPHO(5,NMXPHO),VPHO(4,NMXPHO)
       INTEGER IFIRST,ILAST,I,J,BUFPOI,POINTR(NMXPHO)
       REAL*8 BUFMAS,MASS(NMXPHO)
+      return  ! ordering makes trouble
       IF (IFIRST.EQ.ILAST) RETURN
 C--
 C--   Copy particle masses
@@ -1213,7 +1225,7 @@ C.----------------------------------------------------------------------
       LOGICAL INTERF,ISEC,ITRE,IEXP,IFTOP,IFW
       REAL*8 FINT,FSEC,EXPEPS
       COMMON /PHOKEY/ FSEC,FINT,EXPEPS,INTERF,ISEC,ITRE,IEXP,IFTOP,IFW
-      INTEGER NX,NCHAN,K
+      INTEGER NX,NCHAN,K,IDME
       PARAMETER (NX=10)
       LOGICAL EXPINI
       REAL*8 PRO,PRSUM
@@ -1244,6 +1256,17 @@ C ----------- VARIANT A ------------------
       PRHARD=ALPHA/PI*(1D0/BETA*BIGLOG)*
      &(LOG(XPHMAX/XPHCUT)-.75D0+XPHCUT/XPHMAX-.25D0*XPHCUT**2/XPHMAX**2)
       PRHARD=PRHARD*PHOCHA(IDENT)**2*FSEC*FINT
+        CALL ME_CHANNEL(IDME)
+!        write(*,*) 'KANALIK IDME=',IDME
+        IF (IDME.EQ.0) THEN  ! default
+           continue
+        ELSEIF (IDME.EQ.1) THEN
+           PRHARD=PRHARD/(1d0+0.75*ALPHA/PI) !  NLO
+        ELSE
+         write(*,*) 'problem with ME_CHANNEL  IDME=',IDME
+         stop
+        ENDIF
+
 C ----------- END OF VARIANT A ------------------
       IF (IREP.EQ.0) PROBH=0.D0
       PRKILL=0d0
@@ -1332,6 +1355,7 @@ C.----------------------------------------------------------------------
       DOUBLE PRECISION MPASQR,MCHREN,BETA,XX,YY,DATA
       INTEGER ME
       REAL*8 PHOCOR,PHOFAC,WT1,WT2,WT3
+      COMMON /PHWT/ BETA,WT1,WT2,WT3
       DOUBLE PRECISION MCHSQR,MNESQR
       REAL*8 PNEUTR
       COMMON/PHOMOM/MCHSQR,MNESQR,PNEUTR(5)
@@ -1547,6 +1571,8 @@ C.----------------------------------------------------------------------
       COMMON/PHOPHS/XPHMAX,XPHOTO,COSTHG,SINTHG
       REAL*8 PI,TWOPI
       COMMON/PHPICO/PI,TWOPI
+C fi3 orientation of photon, fi1,th1 orientation of neutral
+      COMMON /PHOREST/ FI3,fi1,th1
 C--
       EPHOTO=XPHOTO*PPHO(5,IP)/2.D0
       PMAVIR=SQRT(PPHO(5,IP)*(PPHO(5,IP)-2.D0*EPHOTO))
