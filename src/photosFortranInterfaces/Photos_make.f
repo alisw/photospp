@@ -557,9 +557,7 @@ C we calculate C and S, note that TH1 exists in MUSTRAAL as well.
         C=COS(TH1)
 C from off line application we had:
         IF(IBREM.EQ.-1) C=-C
-C now we play with
-C        IF(IBREM.EQ.1) C=-C
-C        C=-C
+C ... we need to check it. 
         s=sqrt(1D0-C**2)
 
         IF (IBREM.EQ.1) THEN
@@ -594,12 +592,8 @@ C basically irrelevant lines  ...
 
 
 
-!       XK=2*PHEP(4,nhep)/PHEP(4,1)/xphmax  ! it is not used becuse here
-                                            ! order of emissions is meaningless
-!        wagan2=2*(t**2+u**2+t1**2+u1**2)
-!     $        /(1+(1-xk)**2)/(1+c**2)/svar**2
 
-      call GETIDEIDF(IDE,IDF)
+      call GETIDEIDF(IDE,IDF)   ! we adjust to what is f-st,s-nd beam flavour 
        IF (IDE*IDHEP(3).GT.0) THEN
         BT=1+PHASYZ(SVAR)
         BU=1-PHASYZ(SVAR)
@@ -617,25 +611,24 @@ C basically irrelevant lines  ...
 
         phwtnlo=waga
 
-        IF(wagan2.gt.3.0) THEN
-!       write(*,*) 'phwtnlo= ',phwtnlo
-        write(*,*) 'idhepy= ',IDHEP(1),IDHEP(2),IDHEP(3),IDHEP(4),IDHEP(5)
-!      call GETIDEIDF(IDE,IDF)
-      write(*,*) 'IDE=',IDE,'  IDF=',IDF
-      write(*,*) 'bt,bu,bt+bu= ',bt,bu,bt+bu
+        IF(wagan2.gt.3.8) THEN
+!         write(*,*) 'phwtnlo= ',phwtnlo
+         write(*,*) 'idhepy= ',IDHEP(1),IDHEP(2),IDHEP(3),IDHEP(4),IDHEP(5)
+         write(*,*) 'IDE=',IDE,'  IDF=',IDF
+         write(*,*) 'bt,bu,bt+bu= ',bt,bu,bt+bu
          call PHODMP
-        write(*,*) ' '
-        write (*,*) IREP,IBREM, '<-- IREP,IBREM '
-        write(*,*) 'pneutr= ',pneutr
-        write(*,*) 'qp    = ',qp
-        write(*,*) 'qm    = ',qm
-        write(*,*) ' '
-        write(*,*) 'ph    = ',ph
-        write(*,*) 'p1= ',PHEP(1,1),PHEP(2,1),PHEP(3,1),PHEP(4,1)
-        write(*,*) 'p2= ',PHEP(1,2),PHEP(2,2),PHEP(3,2),PHEP(4,2)
-        write(*,*) 'p3= ',PHEP(1,3),PHEP(2,3),PHEP(3,3),PHEP(4,3)
-        write(*,*) 'p4= ',PHEP(1,4),PHEP(2,4),PHEP(3,4),PHEP(4,4)
-        write(*,*) 'p5= ',PHEP(1,5),PHEP(2,5),PHEP(3,5),PHEP(4,5)
+         write(*,*) ' '
+         write (*,*) IREP,IBREM, '<-- IREP,IBREM '
+         write(*,*) 'pneutr= ',pneutr
+         write(*,*) 'qp    = ',qp
+         write(*,*) 'qm    = ',qm
+         write(*,*) ' '
+         write(*,*) 'ph    = ',ph
+         write(*,*) 'p1= ',PHEP(1,1),PHEP(2,1),PHEP(3,1),PHEP(4,1)
+         write(*,*) 'p2= ',PHEP(1,2),PHEP(2,2),PHEP(3,2),PHEP(4,2)
+         write(*,*) 'p3= ',PHEP(1,3),PHEP(2,3),PHEP(3,3),PHEP(4,3)
+         write(*,*) 'p4= ',PHEP(1,4),PHEP(2,4),PHEP(3,4),PHEP(4,4)
+         write(*,*) 'p5= ',PHEP(1,5),PHEP(2,5),PHEP(3,5),PHEP(4,5)
 
          write (*,*) ' c= ',c,' theta= ',th1
 !         write(*,*)  'photos waga daje ... IBREM=',IBREM,' waga=',waga
@@ -662,24 +655,17 @@ C basically irrelevant lines  ...
 
          write(*,*) 'wagan2=',wagan2
          write(*,*) ' ###################  '
-        ENDIF
-!         write(*,*) '  -  '
-!         write(*,*) 'wagan2=',wagan2
-!         write(*,*) 'BT-part= ',2*(BT*t**2+BT*t1**2)
- !    $        /(1+(1-xk)**2)* 2.0/(BT*(1-c)**2)/svar**2,
- !    $ ' BU-part= ',2*(BU*u**2+BU*u1**2)
-!     $        /(1+(1-xk)**2)* 2.0/(BU*(1+c)**2)/svar**2
-!         write(*,*) 'BT-part*BU-part= ',2*(BT*t**2+BT*t1**2)
-!     $        /(1+(1-xk)**2)* 2.0/(BT*(1-c)**2)/svar**2
-!     $         *2*(BU*u**2+BU*u1**2)
-!     $        /(1+(1-xk)**2)* 2.0/(BU*(1+c)**2)/svar**2
-!         write(*,*) '  -  '
+         wagan2=3.8  ! overwrite 
+         waga=2/(1.D0+COSTHG*BETA)*wagan2  
+!     %       * SVAR/4./xkap*(1.D0-COSTHG*BETA)*sqrt(1.0-xk)
 
+        phwtnlo=waga
+
+        ENDIF
       ELSE
 C in other cases we just use default setups.
         phwtnlo= PHINT(IDUM)
       ENDIF
-!       write(*,*) 'phwtnlo= ',phwtnlo
       end
       
       FUNCTION PHASYZ(SVAR)
@@ -710,18 +696,11 @@ C.----------------------------------------------------------------------
       real*8 PHASYZ,SVAR,AFB,AFBCALC
       INTEGER IDE,IDF,IDEE,IDFF,GETIDEE
       call GETIDEIDF(IDE,IDF)
-      IDEE=GETIDEE(IDE)
-      IDFF=GETIDEE(IDF)
-C      write(*,*) 'IDE=',IDE,'  IDF=',IDF,'  SVAR=',SVAR
-C       write(*,*) 'IDEe=',IDEe,'  IDFf=',IDFf 
-      AFB=-0.37135   ! 0.152D0   ! at present it is read from histogram
-
-!      write(*,*) 'z outputu i dopasowania AFB=',AFB
-      
+      IDEE=abs(GETIDEE(IDE))
+      IDFF=abs(GETIDEE(IDF))
       AFB= -AFBCALC(SVAR,IDEE,IDFF)
-!      write(*,*) 'IDE=',IDE,'  IDF=',IDF,'  SVAR=',SVAR,'AFB=',AFB
-      
-       PHASYZ=4.D0/3.D0*AFB
+      PHASYZ=4.D0/3.D0*AFB
+C      write(*,*) 'IDE=',IDE,'  IDF=',IDF,'  SVAR=',SVAR,'AFB=',AFB
       END
 
       FUNCTION GETIDEE(IDE)

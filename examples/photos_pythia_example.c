@@ -68,6 +68,7 @@ int main(int argc,char **argv)
 	bool topDecays =false;
 	bool zeeDecays =false;
 	bool zmuDecays =false;
+	bool zNLO      =false;
 	if(argc>4)
 	{
 		// Advanced options
@@ -108,11 +109,13 @@ int main(int argc,char **argv)
 	Photos::initialize();
 	//Photos::setDoubleBrem(false);
 	//Photos::setExponentiation(false);
-
+	Photos::setMeCorrectionWtForZ(zNLO);
 	// Zee and ttbar require higher maxWtInterference
 	if(zeeDecays || topDecays) Photos::maxWtInterference(3.0);
 
 	Photos::setInfraredCutOff(0.001/200);//91.187);
+	Photos::maxWtInterference(3.0);
+	if( zNLO) Photos::maxWtInterference(4.0);
 	Log::SummaryAtExit();
 	cout.setf(ios::fixed);
 

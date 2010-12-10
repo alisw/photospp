@@ -1,5 +1,7 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Dec 10 2010
+- NLO option drafted into the code, no tests performed
 
 Dec 5 2010
 - Added: methods for option  complete matrix element calculation 
