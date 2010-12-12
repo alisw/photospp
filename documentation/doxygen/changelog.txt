@@ -1,5 +1,8 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Dec 12 2010
+- First  tests start to come out OK 
+
 Dec 10 2010
 - NLO option drafted into the code, no tests performed
 
