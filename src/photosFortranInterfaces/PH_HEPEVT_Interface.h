@@ -6,7 +6,7 @@
 #include "PhotosParticle.h"
 
 const static int NMXHEP = 10000;
-const static double NO_BOOST_THRESHOLD=10e-8;
+const static double NO_BOOST_THRESHOLD=1.0e-8;
 
 extern "C"
 {
