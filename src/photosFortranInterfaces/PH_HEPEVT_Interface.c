@@ -1,4 +1,5 @@
 #include <vector>
+#include <cmath>
 #include "PhotosBranch.h"
 #include "PhotosParticle.h"
 #include "PH_HEPEVT_Interface.h"
@@ -154,9 +155,17 @@ void PH_HEPEVT_Interface::get(){
       Log::Fatal("PH_HEPEVT_Interface::get(): Something is wrong with the PH_HEPEVT common block",5);
 
     //check to see if this particle's 4-momentum has been modified
-    if(ph_hepevt_.phep[index][0]!=particle->getPx()||
-       ph_hepevt_.phep[index][1]!=particle->getPy()||
-       ph_hepevt_.phep[index][2]!=particle->getPz()){
+    bool   update=false;
+
+    // don't update particle if difference lower than THRESHOLD * particle energy (default threshold = 10e-8)
+    double threshold = NO_BOOST_THRESHOLD*ph_hepevt_.phep[index][3];
+    if( fabs(ph_hepevt_.phep[index][0]-particle->getPx()) > threshold ||
+        fabs(ph_hepevt_.phep[index][1]-particle->getPy()) > threshold ||
+        fabs(ph_hepevt_.phep[index][2]-particle->getPz()) > threshold ||
+        fabs(ph_hepevt_.phep[index][3]-particle->getE())  > threshold    ) update=true;
+
+    if(update)
+    {
       
       //modify this particle's momentum and it's daughters momentum
       //Steps 1., 2. and 3. must be executed in order.
