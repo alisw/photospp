@@ -1,7 +1,13 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Dec 21 2010
+- First long sample tests start to come OK, demos are not prepared.
+  Note difference at 0.05 % level with respect to NLO paper from 2007.
+  Different option of matching consecutive emission is used. Point will be 
+  clarified later. 
+- First order NLO version remain unchecked.
 Dec 12 2010
-- First  tests start to come out OK 
+- First  tests of NLO installation start to come out OK 
 
 Dec 10 2010
 - NLO option drafted into the code, no tests performed
