@@ -1,5 +1,0 @@
-to run this example copy photos_pythia_example.c to ../../.
-(note that the original one will be destroyed then). Main problem is that we 
-need monochromatic Z sample.
-
-Possibly in future this directory will be merged with standard testing/Zmumu 
