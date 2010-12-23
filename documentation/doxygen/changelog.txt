@@ -1,10 +1,12 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Dec 23 2010
+- Bug resulting in NaN's on some platforms fixed
+-draft of ZmumuNLO example/testing added
 Dec 22 2010 
 - First order NLO version checked
--draft of ZmumuNLO example/testing added
 -numerical stability on other platforms must be verified
--version of reduction procedures re-checked
+-version of reduction procedures remain to be re-checked as well
 Dec 21 2010
 - First long sample tests start to come OK, demos are not prepared.
   Note difference at 0.05 % level with respect to NLO paper from 2007.
