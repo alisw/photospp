@@ -353,6 +353,7 @@ C      CALL PHODMP
       return
       end
       subroutine PHOtoLAB
+      IMPLICIT NONE
       INTEGER NMXHEP
       PARAMETER (NMXHEP=10000)
       INTEGER IDHEP,ISTHEP,JDAHEP,JMOHEP,NEVHEP,NHEP
@@ -364,6 +365,8 @@ C      CALL PHODMP
       REAL*8 QQ(4),XM,th1,fi1
       COMMON /PH_TOFROM/ QQ,XM,th1,fi1
       REAL*8 PP(4),RR(4)
+      INTEGER K,L
+  
       IF (XM.LE.0) RETURN
 
       DO L=1,NHEP
@@ -613,7 +616,6 @@ C basically irrelevant lines  ...
 !     %       * SVAR/4./xkap*(1.D0-COSTHG*BETA)*sqrt(1.0-xk)
 
         phwtnlo=waga
-
         IF(wagan2.gt.3.8) THEN
 !         write(*,*) 'phwtnlo= ',phwtnlo
          write(*,*) 'idhepy= ',IDHEP(1),IDHEP(2),IDHEP(3),IDHEP(4),IDHEP(5)
@@ -645,7 +647,7 @@ C basically irrelevant lines  ...
          write(*,*) 'sredniaki = ',svar*(1-c)/2
      $                            ,svar*(1+c)/2
 !         write(*,*) 'xk= ',xk,' c= ',c ,' COSTHG= ' ,COSTHG
-         write(*,*) 'PHASYZ(SVAR)=',PHASYZ(SVAR),' waga=',waga
+         write(*,*) 'PHASYZ(SVAR)=',PHASYZ(SVAR),' svar= ',svar,' waga=',waga
          write(*,*) '  -  '
          write(*,*) 'BT-part= ',2*(BT*t**2+BT*t1**2)
      $        /(1+(1-xk)**2)* 2.0/(BT*(1-c)**2)/svar**2,
@@ -702,6 +704,7 @@ C.----------------------------------------------------------------------
       IDEE=abs(GETIDEE(IDE))
       IDFF=abs(GETIDEE(IDF))
       AFB= -AFBCALC(SVAR,IDEE,IDFF)
+C      AFB=0
       PHASYZ=4.D0/3.D0*AFB
 C      write(*,*) 'IDE=',IDE,'  IDF=',IDF,'  SVAR=',SVAR,'AFB=',AFB
       END
@@ -778,6 +781,7 @@ C--
 
 
       SUBROUTINE GETIDEIDF(IDE,IDF)
+      IMPLICIT NONE
 c should provide flavour of first incoming beam, and first tau
       INTEGER NMXHEP
       PARAMETER (NMXHEP=10000)
@@ -787,6 +791,7 @@ c should provide flavour of first incoming beam, and first tau
      &JMOHEP(2,NMXHEP),JDAHEP(2,NMXHEP),PHEP(5,NMXHEP),VHEP(4,NMXHEP)
       LOGICAL QEDRAD
       COMMON/PH_PHOQED/QEDRAD(NMXHEP)
+      INTEGER   IDE,IDF   
 
   
       IDE=IDHEP(1)
@@ -795,6 +800,7 @@ c should provide flavour of first incoming beam, and first tau
       END
 
       SUBROUTINE GETBM1BM2(IDE,IDF)
+      IMPLICIT NONE
 c should provide flavour of first incoming beam, and first tau
       INTEGER NMXHEP
       PARAMETER (NMXHEP=10000)
@@ -804,7 +810,7 @@ c should provide flavour of first incoming beam, and first tau
      &JMOHEP(2,NMXHEP),JDAHEP(2,NMXHEP),PHEP(5,NMXHEP),VHEP(4,NMXHEP)
       LOGICAL QEDRAD
       COMMON/PH_PHOQED/QEDRAD(NMXHEP)
-
+      INTEGER   IDE,IDF   
   
       IDE=IDHEP(1)
       IDF=IDHEP(4)
