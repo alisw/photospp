@@ -54,7 +54,7 @@ void Photos::initialize()
 	buf=2;
 	iphekl_(&buf); // Blocks emission in  pi0 to gamma e+ e- if parameter is >1 (enables otherwise)
 
-// Initialise status counter for warning messages
+// Initialize status counter for warning messages
 	for(int i=0;i<10;i++) phosta_.status[i]=0;
 
 	pholun_.phlun=6; // Logical output unit for printing error messages

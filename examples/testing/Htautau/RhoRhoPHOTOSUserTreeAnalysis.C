@@ -108,7 +108,7 @@ int RhoRhoPHOTOSUserTreeAnalysis(HEPParticle *mother,HEPParticleList *stableDaug
 			cm_e+=part->GetE();
 		}
 
-		//Initialise the particle arrays
+		//Initialize the particle arrays
 		switch(part->GetPDGId())
 		{
 		case 211:

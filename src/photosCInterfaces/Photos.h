@@ -4,7 +4,7 @@
 /**
  * @class Photos
  *
- * @brief Controls the configuration and initialisation of Photos.
+ * @brief Controls the configuration and initialization of Photos.
  *
  * This is the main configuration class for Photos C++ Interface.
  * It is also used for invoking methods for processing single particle or branch.
@@ -30,7 +30,7 @@ public:
 	/** Logging and memory leak tracking class */
 	class Log;
 
-	/** Initalise Photos with the parameters previously set via the
+	/** Initalize Photos with the parameters previously set via the
 	   setter methods */
 	static void initialize();
 

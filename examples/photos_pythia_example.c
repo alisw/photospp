@@ -57,7 +57,7 @@ void fixForMctester(HepMC::GenEvent *evt)
 
 int main(int argc,char **argv)
 {
-	// Initialisation of pythia
+	// Initialization of pythia
 	HepMC::I_Pythia8 ToHepMC;
 	Pythia pythia;
 	Event& event = pythia.event;

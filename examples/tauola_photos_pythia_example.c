@@ -36,7 +36,7 @@ int main(int argc,char **argv)
 {
 	HepMC::I_Pythia8 ToHepMC;
 
-	// Initialisation of pythia
+	// Initialization of pythia
 	Pythia pythia;
 	Event& event = pythia.event;
 
