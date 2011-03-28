@@ -1,5 +1,9 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+
+Mar 28 2011
+- Added instalation scripts for LCG.
+
 Dec 23 2010
 - Bug resulting in NaN's on some platforms fixed
 -draft of ZmumuNLO example/testing added
