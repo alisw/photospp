@@ -1,6 +1,6 @@
 include ../make.inc
 
-SOURCES_F=Photos_make.f
+SOURCES_F=Photos_make.f forW-ME.f 
 OBJECTS_F=$(SOURCES_F:.f=.o)
 
 SOURCES_C=PH_HEPEVT_Interface.c
