@@ -953,7 +953,7 @@ C.----------------------------------------------------------------------
       IMPLICIT NONE
       DOUBLE PRECISION MINMAS,MPASQR,MCHREN
       DOUBLE PRECISION BETA,EPS,DEL1,DEL2,DATA,BIGLOG
-      REAL*8 PHOCHA,PHOSPI,PHORANC,PHOCOR,MASSUM
+      REAL*8 PHOCHA,PHOSPI,PHORANC,PHOCOR,PHOCORN,MASSUM
       INTEGER IP,IPARR,IPPAR,I,J,ME,NCHARG,NEUPOI,NLAST,THEDUM
       INTEGER IDABS,IDUM
       INTEGER NCHARB,NEUDAU
@@ -975,7 +975,7 @@ C.----------------------------------------------------------------------
       COMMON/PHOPHS/XPHMAX,XPHOTO,COSTHG,SINTHG
       REAL*8 ALPHA,XPHCUT
       COMMON/PHOCOP/ALPHA,XPHCUT
-      INTEGER IREP
+      INTEGER IREP,IDME
       REAL*8 PROBH,CORWT,XF
       COMMON/PHOPRO/PROBH,CORWT,XF,IREP
 C may be it is not the best place, but ...
@@ -1119,7 +1119,12 @@ C--   Pointer not found...
       NCHARB=CHAPOI(NCHARG)
       NCHARB=NCHARB-JDAPHO(1,IP)+3
       NEUDAU=NEUDAU-JDAPHO(1,IP)+3
-        WT=PHOCOR(MPASQR,MCHREN,ME)*WGT
+        CALL ME_CHANNEL(IDME)  ! Possibly not necessary distinction
+           IF(IDME.EQ.2) THEN
+            WT=PHOCORN(MPASQR,MCHREN,ME)*WGT
+           ELSE
+            WT=PHOCOR(MPASQR,MCHREN,ME)*WGT
+           ENDIF
           ENDIF
         ELSE
           DATA=PPHO(5,IP)-MASSUM
