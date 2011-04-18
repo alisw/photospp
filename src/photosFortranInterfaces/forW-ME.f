@@ -97,7 +97,7 @@ C.----------------------------------------------------------------------
       IMPLICIT NONE
       DOUBLE PRECISION MPASQR,MCHREN,BETA,BETA0,BETA1,XX,YY,DATA
       INTEGER ME
-      REAL*8 PHOCOR,PHOFAC,WT1,WT2,WT3,PHOTRI,S1
+      REAL*8 PHOCOR,PHOFAC,WT1,WT2,WT3,PHOTRI,S1,PHOCORN
       DOUBLE PRECISION MCHSQR,MNESQR
       REAL*8 PNEUTR
       COMMON/PHOMOM/MCHSQR,MNESQR,PNEUTR(5)
@@ -161,6 +161,7 @@ c       WT3=1.D0
       ENDIF
       WT2=WT2*PHOFAC(1)
       PHOCOR=WT1*WT2*WT3
+      PHOCORN=PHOCOR
       CORWT=PHOCOR
       IF (PHOCOR.GT.1.D0) THEN
         DATA=PHOCOR
@@ -168,7 +169,7 @@ c       WT3=1.D0
       ENDIF
       RETURN
       END
-      SUBROUTINE PHOBW(WT)
+      SUBROUTINE PHOBWnlo(WT)
 C.----------------------------------------------------------------------
 C.
 C.    PHOTOS:   PHOtos Boson W correction weight
@@ -212,11 +213,11 @@ C.----------------------------------------------------------------------
       EXTERNAL WDecayAmplitudeSqrKS_1ph,WDecayEikonalSqrKS_1ph,WDecayBornAmpSqrKS_1ph
 
       INTEGER  d_h_nmxhep         ! maximum number of particles
-      PARAMETER (d_h_NMXHEP=2000)
+      PARAMETER (d_h_NMXHEP=10000)
       REAL*4  d_h_phep,  d_h_vhep ! to be real*4/ *8  depending on host
       INTEGER d_h_nevhep,d_h_nhep,d_h_isthep,d_h_idhep,d_h_jmohep,
      $        d_h_jdahep
-      COMMON /hepevt/
+      COMMON /ph_hepevt/
      $      d_h_nevhep,               ! serial number
      $      d_h_nhep,                 ! number of particles
      $      d_h_isthep(d_h_nmxhep),   ! status code
