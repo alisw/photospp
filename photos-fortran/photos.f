@@ -736,7 +736,9 @@ C get ID of channel dependent ME, ID=0 means no
 !        write(*,*) 'KANALIK IDME=',IDME
         IF (IDME.EQ.0) THEN  ! default
          IF (INTERF) WT=WT*PHINT(IDUM)  /FINT ! FINT must be in variant A
-         IF (IFW) CALL PHOBW(WT)   ! extra weight for leptonic W decay 
+         IF (IDME.EQ.2.AND.IFW)  CALL PHOBWnlo(WT)   ! extra weight for leptonic W decay  NLO
+         IF (IDME.NE.2.AND.IFW)  CALL PHOBW   (WT)   ! extra weight for leptonic W decay 
+
         ELSEIF (IDME.EQ.1) THEN
          xdumm=0.5D0
          WT=WT*PHwtnlo(xdumm)/FINT
@@ -1208,6 +1210,8 @@ C ----------- VARIANT A ------------------
            continue
         ELSEIF (IDME.EQ.1) THEN
            PRHARD=PRHARD/(1d0+0.75*ALPHA/PI) !  NLO
+        ELSEIF (IDME.EQ.2) THEN
+           continue ! work on virtual crrections in W decay to be done.
         ELSE
          write(*,*) 'problem with ME_CHANNEL  IDME=',IDME
          stop
