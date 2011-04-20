@@ -982,7 +982,11 @@ C may be it is not the best place, but ...
       LOGICAL INTERF,ISEC,ITRE,IEXP,IFTOP,IFW
       REAL*8 FINT,FSEC,EXPEPS
       COMMON /PHOKEY/ FSEC,FINT,EXPEPS,INTERF,ISEC,ITRE,IEXP,IFTOP,IFW
-
+      REAL*8             WT1,WT2,WT3
+      COMMON /PHWT/ BETA,WT1,WT2,WT3
+      DOUBLE PRECISION phocorWT3,phocorWT1
+      common/phocorWT/phocorWT3,phocorWT1
+      real*8 a,b
 C--
       IPPAR=IPARR
 C--   Store pointers for cascade treatement...
@@ -1122,8 +1126,24 @@ C--   Pointer not found...
         CALL ME_CHANNEL(IDME)  ! Possibly not necessary distinction
            IF(IDME.EQ.2) THEN
             WT=PHOCORN(MPASQR,MCHREN,ME)*WGT
+            WT=WT/(1-xphoto/xphmax+0.5*(xphoto/xphmax)**2)*(1-xphoto/xphmax)
            ELSE
-            WT=PHOCOR(MPASQR,MCHREN,ME)*WGT
+            a=PHOCOR(MPASQR,MCHREN,ME)
+            b=PHOCORN(MPASQR,MCHREN,ME)
+            if ((a/b -1)**2.GT.02222.91) THEN
+            write(*,*) ' ----  ',IREP,' ----  ',xphoto
+            write(*,*) ' ----  ',(1-xphoto/xphmax+0.5*(xphoto/xphmax)**2)/(1-xphoto/xphmax)
+            write(*,*) ' ----  ',(1-xphoto+0.5*(xphoto)**2)/(1-xphoto)
+!            write(*,*) ' ----  ',1./(1-xphoto+0.5*(xphoto)**2)
+            write(*,*) ' ----  ',a/b
+!            write(*,*) 'niezgoda stary= ',a,' nowy= ',b, 'stary/nowy= ',a/b
+ !           write(*,*) '  '
+!            write(*,*) 'stare wt1,wt3,wt2 ',wt1,' ',wt3,' ',wt2  
+            write(*,*) '  '
+ !           write(*,*) 'nowe wt1,wt3,     ',phocorwt1,' ',phocorwt3  
+          
+            ENDIF
+            WT=a*WGT
            ENDIF
           ENDIF
         ELSE
