@@ -134,6 +134,7 @@ C--   Shaping (modified by ZW)...
 
         WT3= beta1**2* (1D0-COSTHG**2) * (1D0-XPHOTO)/XPHOTO**2  ! matrix element
      $       /(1D0 +MCHSQR/S1-MNESQR/S1-BETA1*COSTHG)**2/2D0 
+        WT3=WT3*(1-xphoto/xphmax+0.5*(xphoto/xphmax)**2)/(1-xphoto/xphmax)
 c       print*,"WT3=",wt3
         phocorWT3=WT3
         phocorWT1=WT1
