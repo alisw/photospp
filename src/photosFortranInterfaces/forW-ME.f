@@ -215,7 +215,7 @@ C.----------------------------------------------------------------------
 
       INTEGER  d_h_nmxhep         ! maximum number of particles
       PARAMETER (d_h_NMXHEP=10000)
-      REAL*4  d_h_phep,  d_h_vhep ! to be real*4/ *8  depending on host
+      REAL*8  d_h_phep,  d_h_vhep ! to be real*4/ *8  depending on host
       INTEGER d_h_nevhep,d_h_nhep,d_h_isthep,d_h_idhep,d_h_jmohep,
      $        d_h_jdahep
       COMMON /ph_hepevt/
@@ -235,6 +235,10 @@ C.----------------------------------------------------------------------
       DOUBLE PRECISION  pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af
       COMMON /Kleiss_Stirling/spV,bet
       COMMON /mc_parameters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN        
+!      write(*,*) 'IDPHOs=',IDPHO(1),IDPHO(2),IDPHO(3),IDPHO(4),IDPHO(5)
+!      write(*,*) 'IDPHOs=',JDAPHO(1,1),npho
+!      write(*,*) 'd_h_IDPHOs=',d_h_IDhep(1),d_h_IDhep(2),d_h_IDhep(3),d_h_IDhep(4),d_h_IDhep(5)
+
 C--
         IF (ABS(IDPHO(1)).EQ.24.AND.
      $     ABS(IDPHO(JDAPHO(1,1)  )).GE.11.AND.
@@ -327,14 +331,19 @@ c..        New weight
 !           write(*,*) '  pne=',pne
 !           write(*,*) '  pmu=',pmu
 !           write(*,*) 'pphot=',pphot
-!           write(*,*) 'cori=',AMPSQR/EIKONALFACTOR
+!           write(*,*) ' '
+!           write(*,*) '  b_pw=',B_PW
+!           write(*,*) '  b_pne=',B_PNE
+!           write(*,*) 'b_pmu=',B_PMU
+ 
+ !          write(*,*) 'cori=',AMPSQR/EIKONALFACTOR,AMPSQR,EIKONALFACTOR
            WT=WT*AMPSQR/EIKONALFACTOR
 c           
 c          WT=WT*(1-8*EMU*XPH*(1-COSTHG*BETA)*     
 c     $           (MCHREN+2*XPH*SQRT(MPASQR))/
 c     $            MPASQR**2/(1-MCHREN/MPASQR)/(4-MCHREN/MPASQR)) 
         ENDIF
-     
+!      write(*,*)   'AMPSQR/EIKONALFACTOR= ',   AMPSQR/EIKONALFACTOR
       END
 
 c$$$

@@ -734,11 +734,11 @@ C we eliminate /FINT in variant B.
 C get ID of channel dependent ME, ID=0 means no 
         CALL ME_CHANNEL(IDME)
 !        write(*,*) 'KANALIK IDME=',IDME
-        IF (IDME.EQ.0) THEN  ! default
+        IF    (IDME.EQ.0) THEN  ! default
          IF (INTERF) WT=WT*PHINT(IDUM)  /FINT ! FINT must be in variant A
-         IF (IDME.EQ.2.AND.IFW)  CALL PHOBWnlo(WT)   ! extra weight for leptonic W decay  NLO
-         IF (IDME.NE.2.AND.IFW)  CALL PHOBW   (WT)   ! extra weight for leptonic W decay 
-
+         IF (IFW) CALL PHOBW   (WT)   ! extra weight for leptonic W decay 
+        ELSEIF (IDME.EQ.2)  THEN
+           CALL PHOBWnlo(WT)   ! extra weight for leptonic W decay  NLO
         ELSEIF (IDME.EQ.1) THEN
          xdumm=0.5D0
          WT=WT*PHwtnlo(xdumm)/FINT
@@ -1124,9 +1124,10 @@ C--   Pointer not found...
       NCHARB=NCHARB-JDAPHO(1,IP)+3
       NEUDAU=NEUDAU-JDAPHO(1,IP)+3
         CALL ME_CHANNEL(IDME)  ! Possibly not necessary distinction
+!           write(*,*) 'idme=',idme,' ',(1-xphoto/xphmax+0.5*(xphoto/xphmax)**2)/(1-xphoto/xphmax)
            IF(IDME.EQ.2) THEN
             WT=PHOCORN(MPASQR,MCHREN,ME)*WGT
-            WT=WT/(1-xphoto/xphmax+0.5*(xphoto/xphmax)**2)*(1-xphoto/xphmax)
+            WT=WT/(1-xphoto/xphmax+0.5*(xphoto/xphmax)**2)*(1-xphoto/xphmax)/2   ! check fact 2!
            ELSE
             a=PHOCOR(MPASQR,MCHREN,ME)
             b=PHOCORN(MPASQR,MCHREN,ME)
