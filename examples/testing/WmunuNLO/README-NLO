@@ -1,0 +1,6 @@
+to run this example copy photos_pythia_example.c to ../../. 
+or adjust input appropriately
+(note that the original one will be destroyed then). Main problem is that we 
+need monochromatic W sample and we do not have harmonized input.
+
+Possibly in future this directory will be merged with standard testing/Wmunu 
