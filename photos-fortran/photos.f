@@ -736,9 +736,18 @@ C get ID of channel dependent ME, ID=0 means no
 !        write(*,*) 'KANALIK IDME=',IDME
         IF    (IDME.EQ.0) THEN  ! default
          IF (INTERF) WT=WT*PHINT(IDUM)  /FINT ! FINT must be in variant A
+ !          write(*,*) ' -LO-'
+!           write(*,*) 'O: wt= ',wt
          IF (IFW) CALL PHOBW   (WT)   ! extra weight for leptonic W decay 
+ !          write(*,*) 'N: wt= ',wt
         ELSEIF (IDME.EQ.2)  THEN
+  !         write(*,*) ' -NO-'
+  !         write(*,*) 'S: wt= ',wt
+           xdumm=wt
+  !         CALL PHOBW(xdumm)
            CALL PHOBWnlo(WT)   ! extra weight for leptonic W decay  NLO
+ !          write(*,*) 'O: wt= ',xdumm
+ !          write(*,*) 'N: wt= ',wt
         ELSEIF (IDME.EQ.1) THEN
          xdumm=0.5D0
          WT=WT*PHwtnlo(xdumm)/FINT
@@ -1123,15 +1132,20 @@ C--   Pointer not found...
       NCHARB=CHAPOI(NCHARG)
       NCHARB=NCHARB-JDAPHO(1,IP)+3
       NEUDAU=NEUDAU-JDAPHO(1,IP)+3
-        CALL ME_CHANNEL(IDME)  ! Possibly not necessary distinction
-!           write(*,*) 'idme=',idme,' ',(1-xphoto/xphmax+0.5*(xphoto/xphmax)**2)/(1-xphoto/xphmax)
+       CALL ME_CHANNEL(IDME)  ! Possibly not necessary distinction
+!           write(*,*) 'phsp idme   =',idme
            IF(IDME.EQ.2) THEN
-            WT=PHOCORN(MPASQR,MCHREN,ME)*WGT
+!            a=PHOCOR(MPASQR,MCHREN,ME)
+            b=PHOCORN(MPASQR,MCHREN,ME)
+
+            WT=b*WGT
             WT=WT/(1-xphoto/xphmax+0.5*(xphoto/xphmax)**2)*(1-xphoto/xphmax)/2   ! check fact 2!
            ELSE
             a=PHOCOR(MPASQR,MCHREN,ME)
-            b=PHOCORN(MPASQR,MCHREN,ME)
-            if ((a/b -1)**2.GT.02222.91) THEN
+!            b=PHOCORN(MPASQR,MCHREN,ME)
+            WT=a*WGT
+
+            if ((b/a -1)**2.GT.02222.91) THEN
             write(*,*) ' ----  ',IREP,' ----  ',xphoto
             write(*,*) ' ----  ',(1-xphoto/xphmax+0.5*(xphoto/xphmax)**2)/(1-xphoto/xphmax)
             write(*,*) ' ----  ',(1-xphoto+0.5*(xphoto)**2)/(1-xphoto)
@@ -1144,7 +1158,7 @@ C--   Pointer not found...
  !           write(*,*) 'nowe wt1,wt3,     ',phocorwt1,' ',phocorwt3  
           
             ENDIF
-            WT=a*WGT
+
            ENDIF
           ENDIF
         ELSE
