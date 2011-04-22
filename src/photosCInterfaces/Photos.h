@@ -24,8 +24,8 @@ class PhotosParticle;
 class Photos
 {
 public:
-	static const int VER_MAJOR=3, VER_MINOR=1;
-	static const int DAT_DAY  =23,DAT_MONTH=12,DAT_YEAR=10;
+	static const int VER_MAJOR=3, VER_MINOR=2;
+	static const int DAT_DAY  =22,DAT_MONTH=04,DAT_YEAR=11;
 public:
 	/** Logging and memory leak tracking class */
 	class Log;

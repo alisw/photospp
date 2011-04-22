@@ -219,8 +219,9 @@ void Photos::forceBremForBranch(int count, int motherID, ... )
 
 void Photos::setMeCorrectionWtForW(bool corr)
 {
-	meCorrectionWtForZ=false; //NOT IMPLEMENTED YET! so the flag is always false
-	Log::Info()<<"Photos::setMeCorrectionWtForW: option not implemented in PHOTOS 3.0"<<endl;
+	meCorrectionWtForW=corr;
+	//	meCorrectionWtForZ=false; //NOT IMPLEMENTED YET! so the flag is always false
+	//	Log::Info()<<"Photos::setMeCorrectionWtForW: option not implemented in PHOTOS 3.0"<<endl;
 }
 
 void Photos::setMeCorrectionWtForZ(bool corr)
