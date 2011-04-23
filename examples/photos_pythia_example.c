@@ -110,12 +110,14 @@ int main(int argc,char **argv)
 	//Photos::setDoubleBrem(false);
 	//Photos::setExponentiation(false);
 	Photos::setMeCorrectionWtForZ(zNLO);
+	//	Photos::setMeCorrectionWtForW(zNLO);
 	// Zee and ttbar require higher maxWtInterference
 	if(zeeDecays || topDecays) Photos::maxWtInterference(3.0);
 
 	Photos::setInfraredCutOff(0.001/200);//91.187);
 	Photos::maxWtInterference(3.0);
 	if( zNLO) Photos::maxWtInterference(4.0);
+	Photos::iniInfo();
 	Log::SummaryAtExit();
 	cout.setf(ios::fixed);
 
