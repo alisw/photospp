@@ -109,7 +109,7 @@ void Photos::initialize()
 
 	cout<<"********************************************************************************"<<endl<<endl;
 
-	cout<<"                    Internal input parameters: "<<endl<<endl;
+	cout<<"                  Internal (default) input parameters: "<<endl<<endl;
 	cout<<"                    INTERF= "<<phokey_.interf<<" ISEC= " <<phokey_.isec <<" ITRE= "<<phokey_.itre
 	                     <<" IEXP= "  <<phokey_.iexp  <<" IFTOP= "<<phokey_.iftop<<" IFW= " <<phokey_.ifw <<endl;
 	cout<<"                    ALPHA_QED= "<<phocop_.alpha<<" XPHCUT= "<<phocop_.xphcut<<endl<<endl;
@@ -120,7 +120,8 @@ void Photos::initialize()
 	if(phokey_.iexp)   cout<<"                    Option with exponentiation is active EPSEXP="<<phokey_.expeps<<endl;
 	if(phokey_.iftop)  cout<<"                    Emision in t tbar production is active"<<endl;
 	if(phokey_.ifw)    cout<<"                    Correction wt in decay of W is active"<<endl;
-
+	if(meCorrectionWtForZ)    cout<<"                    ME in decay of Z is active"<<endl;
+	if(meCorrectionWtForW)    cout<<"                    ME in decay of W is active"<<endl;
 	cout<<endl<<"          WARNING:  /HEPEVT/ is not anymore used."<<endl<<endl;
 /*
 	cout<<endl<<"            WARNING (1): /HEPEVT/ is not anymore the standard common block"<<endl<<endl;
@@ -138,6 +139,56 @@ void Photos::initialize()
 
 // Initialize Marsaglia and Zaman random number generator
 	PhotosRandom::initialize();
+}
+void Photos::iniInfo()
+{
+// prints infomation like Photos::initialize; may be called after reinitializations.
+
+/*******************************************************************************
+  Once  parameter setters are called after PHOINI one may want to know and write
+  into output info including all reinitializations.
+*******************************************************************************/
+
+
+//------------------------------------------------------------------------------
+// Print PHOTOS header again
+//------------------------------------------------------------------------------
+	int                coutPrec = cout.precision(2);
+	ios_base::fmtflags flags    = cout.setf(ios_base::fixed);
+	cout<<endl;
+	cout<<"********************************************************************************"<<endl<<endl;
+
+	cout<<"                            ========================="<<endl;
+	cout<<"                              PHOTOS, Version:  "<<VER_MAJOR<<"."<<VER_MINOR<<endl;
+	cout<<"                              Released at:  "<<DAT_DAY<<"/"<<DAT_MONTH<<"/"<<DAT_YEAR<<endl;
+	cout<<"                            ========================="<<endl<<endl;
+
+	cout<<"                     Photos QED corrections in Particle Decays"<<endl<<endl;
+
+	cout<<"           Monte Carlo Program - by E. Barberio, B. van Eijk and Z. Was"<<endl;
+	cout<<"           From version 2.09   - by P. Golonka and Z. Was"<<endl;
+	cout<<"           From version 3.00   - by N. Davidson, T. Przedzinski and Z. Was"<<endl;
+
+	cout<<"********************************************************************************"<<endl<<endl;
+
+	cout<<"                    Input parameters after reinitialization: "<<endl<<endl;
+	cout<<"                    INTERF= "<<phokey_.interf<<" ISEC= " <<phokey_.isec <<" ITRE= "<<phokey_.itre
+	                     <<" IEXP= "  <<phokey_.iexp  <<" IFTOP= "<<phokey_.iftop<<" IFW= " <<phokey_.ifw <<endl;
+	cout<<"                    ALPHA_QED= "<<phocop_.alpha<<" XPHCUT= "<<phocop_.xphcut<<endl<<endl;
+
+	if(phokey_.interf) cout<<"                    Option with interference is active"<<endl;
+	if(phokey_.isec)   cout<<"                    Option with double photons is active"<<endl;
+	if(phokey_.itre)   cout<<"                    Option with triple/quatric photons is active"<<endl;
+	if(phokey_.iexp)   cout<<"                    Option with exponentiation is active EPSEXP="<<phokey_.expeps<<endl;
+	if(phokey_.iftop)  cout<<"                    Emision in t tbar production is active"<<endl;
+	if(phokey_.ifw)    cout<<"                    Correction wt in decay of W is active"<<endl;
+	if(meCorrectionWtForZ)    cout<<"                    ME in decay of Z is active"<<endl;
+	if(meCorrectionWtForW)    cout<<"                    ME in decay of W is active"<<endl;
+
+	cout<<endl<<"          WARNING:  /HEPEVT/ is not anymore used."<<endl<<endl;
+	// Revert output stream flags and precision
+	cout.precision(coutPrec);
+	cout.flags    (flags);
 }
 
 void Photos::processParticle(PhotosParticle *p)
