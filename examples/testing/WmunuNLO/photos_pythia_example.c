@@ -135,6 +135,7 @@ int main(int argc,char **argv)
 	Photos::setInfraredCutOff(0.01); //1.0/91.187);
 	Photos::maxWtInterference(2.0);
 	if( zNLO) Photos::maxWtInterference(2.0);
+	Photos::iniInfo();
 	Log::SummaryAtExit();
 	cout.setf(ios::fixed);
 
