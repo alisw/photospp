@@ -995,8 +995,8 @@ C may be it is not the best place, but ...
       COMMON /PHOKEY/ FSEC,FINT,EXPEPS,INTERF,ISEC,ITRE,IEXP,IFTOP,IFW
       REAL*8             WT1,WT2,WT3
       COMMON /PHWT/ BETA,WT1,WT2,WT3
-      DOUBLE PRECISION phocorWT3,phocorWT1
-      common/phocorWT/phocorWT3,phocorWT1
+      DOUBLE PRECISION phocorWT3,phocorWT2,phocorWT1
+      common/phocorWT/phocorWT3,phocorWT2,phocorWT1
       real*8 a,b
 C--
       IPPAR=IPARR
@@ -1143,10 +1143,20 @@ C--   Pointer not found...
       IF(IDME.EQ.2) THEN
         b=PHOCORN(MPASQR,MCHREN,ME)
         WT=b*WGT
-        WT=WT/(1-xphoto/xphmax+0.5*(xphoto/xphmax)**2)*(1-xphoto/xphmax)/2   
+        WT=WT/(1-xphoto/xphmax+0.5*(xphoto/xphmax)**2)*(1-xphoto/xphmax)/2 ! factor to go to WnloWT
+      ELSEIF(IDME.EQ.1) THEN
+
+        a=PHOCOR(MPASQR,MCHREN,ME)
+        b=PHOCORN(MPASQR,MCHREN,ME)
+        WT=b*WGT 
+        WT=WT*wt1*wt2*wt3/phocorwt1/phocorwt2/phocorwt3 ! factor to go to ZnloWT
+!        write(*,*) ' -----------'
+!        write(*,*)   wt1,' ',wt2,' ',wt3
+!        write(*,*)   phocorwt1,' ',phocorwt2,' ',phocorwt3
       ELSE
         a=PHOCOR(MPASQR,MCHREN,ME)
         WT=a*WGT
+!        WT=b*WGT!/(1-xphoto/xphmax+0.5*(xphoto/xphmax)**2)*(1-xphoto/xphmax)/2
       ENDIF
 
 
