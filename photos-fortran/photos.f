@@ -732,29 +732,31 @@ C PHODO is caling PHORANC, thus change of series if it is moved before if
         CALL PHODO(1,NCHARB,NEUDAU)
 C we eliminate /FINT in variant B.
 C get ID of channel dependent ME, ID=0 means no 
-        CALL ME_CHANNEL(IDME)
-!        write(*,*) 'KANALIK IDME=',IDME
-        IF    (IDME.EQ.0) THEN  ! default
-         IF (INTERF) WT=WT*PHINT(IDUM)  /FINT ! FINT must be in variant A
- !          write(*,*) ' -LO-'
-!           write(*,*) 'O: wt= ',wt
-         IF (IFW) CALL PHOBW   (WT)   ! extra weight for leptonic W decay 
- !          write(*,*) 'N: wt= ',wt
-        ELSEIF (IDME.EQ.2)  THEN
-  !         write(*,*) ' -NO-'
-  !         write(*,*) 'S: wt= ',wt
-           xdumm=wt
-  !         CALL PHOBW(xdumm)
-           CALL PHOBWnlo(WT)   ! extra weight for leptonic W decay  NLO
- !          write(*,*) 'O: wt= ',xdumm
- !          write(*,*) 'N: wt= ',wt
-        ELSEIF (IDME.EQ.1) THEN
+
+        CALL ME_CHANNEL(IDME)                 ! corrections for matrix elements
+                                              ! controlled by IDME
+                                              ! write(*,*) 'KANALIK IDME=',IDME
+
+        IF(     IDME.EQ.0) THEN               ! default 
+
+          IF (INTERF) WT=WT*PHINT(IDUM)/FINT  ! FINT must be in variant A
+          IF (IFW) CALL PHOBW   (WT)          ! extra weight for leptonic W decay 
+
+        ELSEIF (IDME.EQ.2) THEN               ! ME weight for leptonic W decay
+
+          CALL PHOBWnlo(WT)
+
+        ELSEIF (IDME.EQ.1) THEN               ! ME weight for leptonic Z decay
+
          xdumm=0.5D0
          WT=WT*PHwtnlo(xdumm)/FINT
+
         ELSE
          write(*,*) 'problem with ME_CHANNEL  IDME=',IDME
          stop
         ENDIF
+
+
         DATA=WT 
         IF (WT.GT.1.0D0) CALL PHOERR(3,'WT_INT',DATA)
 C weighting
@@ -1132,34 +1134,22 @@ C--   Pointer not found...
       NCHARB=CHAPOI(NCHARG)
       NCHARB=NCHARB-JDAPHO(1,IP)+3
       NEUDAU=NEUDAU-JDAPHO(1,IP)+3
-       CALL ME_CHANNEL(IDME)  ! Possibly not necessary distinction
-!           write(*,*) 'phsp idme   =',idme
-           IF(IDME.EQ.2) THEN
-!            a=PHOCOR(MPASQR,MCHREN,ME)
-            b=PHOCORN(MPASQR,MCHREN,ME)
 
-            WT=b*WGT
-            WT=WT/(1-xphoto/xphmax+0.5*(xphoto/xphmax)**2)*(1-xphoto/xphmax)/2   ! check fact 2!
-           ELSE
-            a=PHOCOR(MPASQR,MCHREN,ME)
-!            b=PHOCORN(MPASQR,MCHREN,ME)
-            WT=a*WGT
+      CALL ME_CHANNEL(IDME)  !  two options introduced temporarily. 
+                             !  In future always PHOCOR-->PHOCORN
+                             !  Tests and adjustment of wts for Znlo needed.
+                             !  otherwise simple change. PHOCORN implements
+                             !  exact ME for scalar to 2 scalar decays.
+      IF(IDME.EQ.2) THEN
+        b=PHOCORN(MPASQR,MCHREN,ME)
+        WT=b*WGT
+        WT=WT/(1-xphoto/xphmax+0.5*(xphoto/xphmax)**2)*(1-xphoto/xphmax)/2   
+      ELSE
+        a=PHOCOR(MPASQR,MCHREN,ME)
+        WT=a*WGT
+      ENDIF
 
-            if ((b/a -1)**2.GT.02222.91) THEN
-            write(*,*) ' ----  ',IREP,' ----  ',xphoto
-            write(*,*) ' ----  ',(1-xphoto/xphmax+0.5*(xphoto/xphmax)**2)/(1-xphoto/xphmax)
-            write(*,*) ' ----  ',(1-xphoto+0.5*(xphoto)**2)/(1-xphoto)
-!            write(*,*) ' ----  ',1./(1-xphoto+0.5*(xphoto)**2)
-            write(*,*) ' ----  ',a/b
-!            write(*,*) 'niezgoda stary= ',a,' nowy= ',b, 'stary/nowy= ',a/b
- !           write(*,*) '  '
-!            write(*,*) 'stare wt1,wt3,wt2 ',wt1,' ',wt3,' ',wt2  
-            write(*,*) '  '
- !           write(*,*) 'nowe wt1,wt3,     ',phocorwt1,' ',phocorwt3  
-          
-            ENDIF
 
-           ENDIF
           ENDIF
         ELSE
           DATA=PPHO(5,IP)-MASSUM
