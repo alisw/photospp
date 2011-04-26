@@ -617,11 +617,11 @@ the  program generation cover the full phase-space and that there are no
 approximations in phase-space. As in the {\tt FORTRAN} version, the code 
 features approximation in the kernel. In some cases the process dependent 
 complete first order 
-kernel is available but is not installed in the public version,  
+kernel is available but it is not always installed in the public version,  
 because the resulting approximation is 
 numerically unimportant and requires control of the spin state for the decaying 
 particle. This requires better control of the event record than what was available 
-in {\tt FORTRAN}. At present such an option is prepared (see Section \ref{sect:F77fill}) but the necessary weights are not installed yet. 
+in {\tt FORTRAN}. At present such an option is prepared (see Section \ref{sect:F77fill}) for $W$ and $Z$ decays. 
 
 The main purpose of the present paper is program documentation. That is why
 we also need to cover the program tests required to guarantee its proper installation.
@@ -1524,9 +1524,9 @@ or are introduced for backward compatibility.
   \item {\tt Photos::setCorrectionWtForW(bool corr)} \\
          A switch for leading effects of the matrix element (in leptonic W decays)
   \item {\tt Photos::setMeCorrectionWtForW(bool corr)} \\
-         A switch for complete effects of the matrix element (in leptonic W decays) {\it not installed in {\tt PHOTOS 3.0} }
+         A switch for complete effects of the matrix element (in leptonic W decays) {\it  installed in {\tt PHOTOS 3.2} }
   \item {\tt Photos::setMeCorrectionWtForZ(bool corr)} \\
-         A switch for complete effects of the matrix element (in leptonic Z decays) {\it not installed in {\tt PHOTOS 3.0} }
+         A switch for complete effects of the matrix element (in leptonic Z decays) {\it  installed in {\tt PHOTOS 3.1} }
   \item {\tt Photos::initializeKinematicCorrections(int flag)} \\
         Initialize kinematic corrections.
   \item {\tt Photos::forceMassFrom4Vector(bool flag)} \\
@@ -1541,6 +1541,12 @@ on the units used by {\tt HepMC}). If larger energy-momentum non conservation
         is found then in  the vertex, photon generation  is skipped. 
         At present, for the evaluation of non conservation  the standard method of {\tt HepMC}
         is used.
+  \item {\tt Photos::iniInfo()} \\
+        The printout performed with  {\tt Photos::initialize()}  will exhibit 
+        outdated information
+        once the methods listed above are applied. The reinitialized data can be printed with 
+        the help of  {\tt Photos::iniInfo()} method.
+        The format as in {\tt Photos::initialize()}  will be used.
 		
 \end{itemize}
 
