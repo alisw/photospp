@@ -1,5 +1,8 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Apr 26 2011
+ - NLO for W decay installed, some tests went OK, but need continuation
+ - NLO in scalar to two saclars not active, but code is already in.
 
 Mar 28 2011
 - Added instalation scripts for LCG.
