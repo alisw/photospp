@@ -1380,7 +1380,14 @@ C--   Shaping (modified by ZW)...
       WT2=(1.D0-XX/YY/(1.D0-BETA**2*COSTHG**2))*(1.D0+COSTHG*BETA)/2.D0
       WT2=WT2*PHOFAC(1)
       PHOCOR=WT1*WT2*WT3
-      PHOCORN=PHOCOR
+
+!      IF (ME.EQ.1) THEN  ! this will switch NLO in scalar decays. Need tests
+!        PHOCOR=PHOCORN(MPASQR,MCHREN,ME)
+!        wt1=1.0
+!        wt2=1.0
+!        wt3=PHOCO
+!      ENDIF
+
       CORWT=PHOCOR
       IF (PHOCOR.GT.1.D0) THEN
         DATA=PHOCOR
