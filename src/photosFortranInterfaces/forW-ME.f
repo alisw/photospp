@@ -101,10 +101,10 @@ C.----------------------------------------------------------------------
       DOUBLE PRECISION MCHSQR,MNESQR
       REAL*8 PNEUTR
       COMMON/PHOMOM/MCHSQR,MNESQR,PNEUTR(5)
-      DOUBLE PRECISION COSTHG,SINTHG,phocorWT3,phocorWT1
+      DOUBLE PRECISION COSTHG,SINTHG,phocorWT3,phocorWT2,phocorWT1
       REAL*8 XPHMAX,XPHOTO
       COMMON/PHOPHS/XPHMAX,XPHOTO,COSTHG,SINTHG
-      common/phocorWT/phocorWT3,phocorWT1
+      common/phocorWT/phocorWT3,phocorWT2,phocorWT1
       INTEGER IREP
       REAL*8 PROBH,CORWT,XF
       COMMON/PHOPRO/PROBH,CORWT,XF,IREP
@@ -137,6 +137,7 @@ C--   Shaping (modified by ZW)...
         WT3=WT3*(1-xphoto/xphmax+0.5*(xphoto/xphmax)**2)/(1-xphoto/xphmax)
 c       print*,"WT3=",wt3
         phocorWT3=WT3
+        phocorWT2=WT2
         phocorWT1=WT1
 
 c       YY=0.5D0*(1.D0-XPHOTO/XPHMAX+1.D0/(1.D0-XPHOTO/XPHMAX))
