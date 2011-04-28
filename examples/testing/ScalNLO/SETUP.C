@@ -7,10 +7,10 @@
   // Setup histograms
   int n_bins=120;
   double default_min_bin=0.0;
-  double default_max_bin=1.1;
+  double default_max_bin=4000000.0;
   Setup::SetHistogramDefaults(n_bins,default_min_bin,default_max_bin);
 
-  Setup::mass_scale_on=true;
+  //  Setup::mass_scale_on=true;
   Setup::mass_power=2;
 
   // Description
@@ -20,7 +20,8 @@
 
   //Filter photons
   // Setup::UserTreeAnalysis = "ZtautauAnalysis";
-  Setup::UTA_params[0]=0.0001/1.777; //10 MeV
+    Setup::UserTreeAnalysis = "UserTreeAnalysis";
+  Setup::UTA_params[0]=0.01/0.49; //10 MeV
   // p_t threshold as fraction of particle energy in
   // mothers frame 
   Setup::UTA_params[1]=2;
