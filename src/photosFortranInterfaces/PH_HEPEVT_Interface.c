@@ -332,3 +332,9 @@ extern "C" void me_channel_(int *x)
 {
 	*x=PH_HEPEVT_Interface::ME_channel;
 }
+// Call from fortran: 'CALL ME_SCALAR(X)'
+// transmits flag if NLO correction for scalar is on/off
+extern "C" void me_scalar_(int *x)
+{
+  *x=(int) Photos::meCorrectionWtForScalar;
+}

@@ -20,6 +20,7 @@ bool Photos::massFrom4Vector=true;
 double Photos::momentum_conservation_threshold   = 0.1;
 bool Photos::meCorrectionWtForZ=false;
 bool Photos::meCorrectionWtForW=false;
+bool Photos::meCorrectionWtForScalar=false;
 
 Photos::Photos()
 {
@@ -184,6 +185,7 @@ void Photos::iniInfo()
 	if(phokey_.ifw)    cout<<"                    Correction wt in decay of W is active"<<endl;
 	if(meCorrectionWtForZ)    cout<<"                    ME in decay of Z is active"<<endl;
 	if(meCorrectionWtForW)    cout<<"                    ME in decay of W is active"<<endl;
+	if(meCorrectionWtForScalar)    cout<<"                    ME in decay of Scalar is active"<<endl;
 
 	cout<<endl<<"          WARNING:  /HEPEVT/ is not anymore used."<<endl<<endl;
 	// Revert output stream flags and precision
@@ -271,11 +273,13 @@ void Photos::forceBremForBranch(int count, int motherID, ... )
 void Photos::setMeCorrectionWtForW(bool corr)
 {
 	meCorrectionWtForW=corr;
-	//	meCorrectionWtForZ=false; //NOT IMPLEMENTED YET! so the flag is always false
-	//	Log::Info()<<"Photos::setMeCorrectionWtForW: option not implemented in PHOTOS 3.0"<<endl;
 }
 
 void Photos::setMeCorrectionWtForZ(bool corr)
 {
 	meCorrectionWtForZ=corr;
+}
+void Photos::setMeCorrectionWtForScalar(bool corr)
+{
+	meCorrectionWtForScalar=corr;
 }

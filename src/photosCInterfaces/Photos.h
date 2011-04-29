@@ -96,6 +96,9 @@ public:
 		}
 	};
 
+	/** Switch for complete effects of matrix element (in  scalar  to 2 scalars decays) */
+	static void setMeCorrectionWtForScalar(bool corr);
+
 	/** Switch for complete effects of matrix element (in leptonic W decays) */
 	static void setMeCorrectionWtForW(bool corr);
 
@@ -132,6 +135,9 @@ public:
 
  	/** Threshold for momentum conservation check */
 	static double momentum_conservation_threshold;
+
+	/** Flag for complete effects of matrix element (in scalars decays) */
+	static bool meCorrectionWtForScalar;
 
 	/** Flag for complete effects of matrix element (in leptonic Z decays) */
 	static bool meCorrectionWtForZ;

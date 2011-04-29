@@ -1355,8 +1355,7 @@ C.----------------------------------------------------------------------
       INTEGER IREP
       REAL*8 PROBH,CORWT,XF
       COMMON/PHOPRO/PROBH,CORWT,XF,IREP
-      logical IscaNLO
-      data IscaNLO /.false./
+      INTEGER IscaNLO
 C--
 C--   Shaping (modified by ZW)...
       XX=4.D0*MCHSQR/MPASQR*(1.D0-XPHOTO)/(1.D0-XPHOTO+(MCHSQR-MNESQR)/
@@ -1382,8 +1381,9 @@ C--   Shaping (modified by ZW)...
       WT2=(1.D0-XX/YY/(1.D0-BETA**2*COSTHG**2))*(1.D0+COSTHG*BETA)/2.D0
       WT2=WT2*PHOFAC(1)
       PHOCOR=WT1*WT2*WT3
-
-      IF (ME.EQ.1.AND.IscaNLO) THEN  ! this  switch NLO in scalar decays. 
+      
+      CALL ME_SCALAR(IscaNLO)
+      IF (ME.EQ.1.AND.IscaNLO.EQ.1) THEN  ! this  switch NLO in scalar decays. 
                                      ! overrules default calculation.
                                      ! Need tests including basic ones
         PHOCOR=PHOCORN(MPASQR,MCHREN,ME)
