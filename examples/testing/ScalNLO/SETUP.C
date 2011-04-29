@@ -7,10 +7,10 @@
   // Setup histograms
   int n_bins=120;
   double default_min_bin=0.0;
-  double default_max_bin=4000000.0;
+  double default_max_bin=1.1;
   Setup::SetHistogramDefaults(n_bins,default_min_bin,default_max_bin);
 
-  //  Setup::mass_scale_on=true;
+    Setup::mass_scale_on=true;
   Setup::mass_power=2;
 
   // Description
@@ -40,6 +40,6 @@
   else //Setup for analysis step
   {
     Setup::user_analysis=MCTest01;
-    //    Setup::use_log_y=true;
+        Setup::use_log_y=true;
   }
 };
