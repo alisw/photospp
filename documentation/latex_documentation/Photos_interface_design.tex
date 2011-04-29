@@ -621,7 +621,7 @@ kernel is available but it is not always installed in the public version,
 because the resulting approximation is 
 numerically unimportant and requires control of the spin state for the decaying 
 particle. This requires better control of the event record than what was available 
-in {\tt FORTRAN}. At present such an option is prepared (see Section \ref{sect:F77fill}) for $W$ and $Z$ decays. 
+in {\tt FORTRAN}. At present such an option is prepared (see Section \ref{sect:F77fill}) for $W$ and $Z$ decays. It is also available for the two body decays of scalar into scalars. Then, exact mean exact with respect to scalar QED only. 
 
 The main purpose of the present paper is program documentation. That is why
 we also need to cover the program tests required to guarantee its proper installation.
@@ -1523,6 +1523,8 @@ or are introduced for backward compatibility.
         Set the exponentiation mode.
   \item {\tt Photos::setCorrectionWtForW(bool corr)} \\
          A switch for leading effects of the matrix element (in leptonic W decays)
+  \item {\tt Photos::setMeCorrectionWtForS(bool corr)} \\
+         A switch for complete effects of the matrix element (in scalar to 2 scalar decays) {\it  to be installed in {\tt PHOTOS 3.3}. At present tests are missing. }
   \item {\tt Photos::setMeCorrectionWtForW(bool corr)} \\
          A switch for complete effects of the matrix element (in leptonic W decays) {\it  installed in {\tt PHOTOS 3.2} }
   \item {\tt Photos::setMeCorrectionWtForZ(bool corr)} \\
