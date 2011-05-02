@@ -1379,8 +1379,6 @@ C--   Shaping (modified by ZW)...
       BETA=SQRT(1.D0-XX)
       WT1=(1.D0-COSTHG*SQRT(1.D0-MCHREN))/(1.D0-COSTHG*BETA)
       WT2=(1.D0-XX/YY/(1.D0-BETA**2*COSTHG**2))*(1.D0+COSTHG*BETA)/2.D0
-      WT2=WT2*PHOFAC(1)
-      PHOCOR=WT1*WT2*WT3
       
       CALL ME_SCALAR(IscaNLO)
       IF (ME.EQ.1.AND.IscaNLO.EQ.1) THEN  ! this  switch NLO in scalar decays. 
@@ -1390,7 +1388,10 @@ C--   Shaping (modified by ZW)...
         wt1=1.0
         wt2=1.0
         wt3=PHOCOR
+      ELSE
+        WT2=WT2*PHOFAC(1)
       ENDIF
+      PHOCOR=WT1*WT2*WT3
 
       CORWT=PHOCOR
       IF (PHOCOR.GT.1.D0) THEN
