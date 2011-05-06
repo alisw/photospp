@@ -22,7 +22,7 @@ using namespace Pythia8;
 bool ShowersOn=true;
 unsigned long NumberOfEvents = 100000;
 
-// Calculates energy ratio between (l + bar_l) and (L + bar_l + X)
+// Calculates energy ratio between (l + bar_l) and (l + bar_l + X)
 double calculate_ratio(HepMC::GenEvent *evt, double *ratio_2)
 {
 	double ratio = 0.0;
