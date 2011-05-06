@@ -2,7 +2,7 @@
  * Example of use of photos C++ interface. Pythia events are
  * generated first and photos used for FSR.
  *
- * @author Nadia Davidson & Tomasz Przedzinski
+ * @author LCG & Tomasz Przedzinski
  * @date 6 May 2011
  */
 
