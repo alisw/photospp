@@ -15,6 +15,7 @@ all:
 	@make photos_standalone_example.exe
 ifneq ($(PYTHIALOCATION), )
 	@make single_photos_gun_example.exe
+	@make photosLCG_pythia_example.exe
 ifneq ($(MCTESTERLOCATION), )
 	@make photos_pythia_example.exe
 ifneq ($(TAUOLALOCATION), )
@@ -66,6 +67,16 @@ photos_pythia_example.exe: photos_pythia_example.c
 
 # Version for photos gun example - HepMC and Pythia8 required
 single_photos_gun_example.exe: single_photos_gun_example.c
+	$(CC) $(CFLAGS) -I../include -I$(PYTHIALOCATION)/include \
+	-I$(HEPMCLOCATION)/include -c $<
+	$(CC) -o $@ $(LDFLAGS) $(<:.c=.o) $(HEPMC_LIBS) $(PYTHIA_LIBS) $(PHOTOS_LIBS) \
+	-Wl,-rpath,$(PREFIX)/lib \
+	-Wl,-rpath,$(PHOTOS)/lib \
+	-Wl,-rpath,$(HEPMCLOCATION)/lib \
+	-Wl,-rpath,$(PYTHIALOCATION)/lib
+
+# Version for photos LCG example - HepMC and Pythia8 required
+photosLCG_pythia_example.exe: photosLCG_pythia_example.c
 	$(CC) $(CFLAGS) -I../include -I$(PYTHIALOCATION)/include \
 	-I$(HEPMCLOCATION)/include -c $<
 	$(CC) -o $@ $(LDFLAGS) $(<:.c=.o) $(HEPMC_LIBS) $(PYTHIA_LIBS) $(PHOTOS_LIBS) \
