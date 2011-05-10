@@ -23,4 +23,4 @@ NLO_MODE     =2 # Turn on Photos NLO corrections
 # Tauola generation modes
 PIPI_MODE    =3 # ee@91.187GeV (for Ztautau)
 RHORHO_MODE  =4 # ee@500GeV    (for Htautau)
-K0S_MODE     =7 # ee@91.187GeV (for ScalarNLO)
+K-STAR_MODE  =7 # ee@91.187GeV (for ScalarNLO)

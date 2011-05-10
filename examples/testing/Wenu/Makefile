@@ -8,7 +8,7 @@ CONF=pythia_W.conf
 NAME=Wenu
 
 PROGRAM=$(PHOTOS_ONLY)
-MODE=   $(DEFAULT_MODE)
+PYTHIA_MODE=$(DEFAULT_MODE)
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(COMPARE) $(NAME_BENCHMARK) mc-tester.$(NAME).root
@@ -16,7 +16,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) $(MODE) $(EVENTS)
+	$(PROGRAM) $(CONF) $(PYTHIA_MODE) $(EVENTS)
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:

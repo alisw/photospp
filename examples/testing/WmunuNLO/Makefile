@@ -8,7 +8,8 @@ CONF=pythia_W.conf
 NAME=WmunuNLO
 
 PROGRAM=$(PHOTOS_ONLY)
-MODE=   $(DEFAULT_MODE)
+PYTHIA_MODE=$(DEFAULT_MODE)
+SPECIAL_MODE=$(NLO_MODE)
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(COMPARE) $(NAME_BENCHMARK) mc-tester.$(NAME).root
@@ -16,7 +17,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) $(MODE) $(EVENTS) 2
+	$(PROGRAM) $(CONF) $(PYTHIA_MODE) $(EVENTS) $(SPECIAL_MODE)
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:

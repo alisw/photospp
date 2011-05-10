@@ -10,7 +10,7 @@ CONF=pythia_Z.conf
 NAME=Zee
 
 PROGRAM=$(PHOTOS_ONLY)
-MODE=   $(PP_MODE)
+PYTHIA_MODE=$(PP_MODE)
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(COMPARE) $(NAME_BENCHMARK) mc-tester.$(NAME).root
@@ -21,7 +21,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	@echo
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) $(MODE) $(EVENTS) >/dev/null
+	$(PROGRAM) $(CONF) $(PYTHIA_MODE) $(EVENTS) >/dev/null
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:
