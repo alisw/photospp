@@ -1,8 +1,7 @@
 {
   if(!Setup::stage == 0) { //generation step configurables
 
-    //  Setup::decay_particle=130;
-    Setup::decay_particle=310;
+  Setup::decay_particle=310;
   Setup::debug_mode=false; //verbose output from MC-Tester?
   // Setup histograms
   int n_bins=120;

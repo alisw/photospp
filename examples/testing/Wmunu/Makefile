@@ -16,7 +16,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) 0 $(EVENTS) $(MODE)
+	$(PROGRAM) $(CONF) $(MODE) $(EVENTS)
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:

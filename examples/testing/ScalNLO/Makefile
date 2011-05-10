@@ -11,8 +11,10 @@ CONF=pythia_Z.conf
 NAME=ScalarNLO
 
 PROGRAM=$(PHOTOS_TAUOLA)
-#MODE=   $(PIPI_MODE)
-MODE=   7
+MODE=   $(K0S_MODE)
+
+USE_ALPHA = 0
+USE_NLO   = 1
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(COMPARE) $(NAME_BENCHMARK) mc-tester.$(NAME).root
@@ -20,7 +22,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) 0 $(EVENTS) $(MODE) #2>/dev/null
+	$(PROGRAM) $(CONF) 0 $(EVENTS) $(MODE) $(USE_ALPHA) $(USE_NLO) #2>/dev/null
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:

@@ -5,7 +5,7 @@ include ../test.inc
 NAME_BENCHMARK=mc-tester.Wmunu.root-photos-1phot
 
 CONF=pythia_W.conf
-NAME=Wmunu
+NAME=WmunuNLO
 
 PROGRAM=$(PHOTOS_ONLY)
 MODE=   $(DEFAULT_MODE)
@@ -16,7 +16,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) 0 $(EVENTS) $(MODE)
+	$(PROGRAM) $(CONF) $(MODE) $(EVENTS) 2
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:

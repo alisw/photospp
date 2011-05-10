@@ -11,7 +11,7 @@ NAME_BENCHMARK=mc-tester.Zmumu.root-O1-NLO-100M
 # NAME_BENCHAMRK=mc-tester.root-Zmumu-CEEX2-100M-nosym-1GeV
 
 CONF=pythia_Z.conf
-NAME=Zmumu
+NAME=ZmumuNLO
 
 PROGRAM=$(PHOTOS_ONLY)
 MODE=   $(Z_MU_MODE)
@@ -22,7 +22,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) 0 $(EVENTS) $(MODE)
+	$(PROGRAM) $(CONF) $(MODE) $(EVENTS) 2
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:
