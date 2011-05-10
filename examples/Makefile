@@ -29,6 +29,8 @@ endif
 	echo " ./photos_standalone_example.exe"; fi
 	@if test -e single_photos_gun_example.exe; then \
 	echo " ./single_photos_gun_example.exe"; fi
+	@if test -e photosLCG_pythia_example.exe; then \
+	echo " ./photosLCG_pythia_example.exe"; fi
 	@if test -e photos_pythia_example.exe; then \
 	echo " ./photos_pythia_example.exe"; fi
 	@if test -e tauola_photos_pythia_example.exe; then \
