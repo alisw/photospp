@@ -27,34 +27,6 @@ using namespace Pythia8;
 bool ShowersOn=true;
 unsigned long NumberOfEvents = 10000;
 
-// Finds X Y -> 6 -6 decay and converts it to 100 -> 6 -6, where 100 = X + Y
-void fixForMctester(HepMC::GenEvent *evt)
-{
-	for(HepMC::GenEvent::particle_const_iterator p=evt->particles_begin();p!=evt->particles_end(); p++)
-	if((*p)->pdg_id()==6)
-	{
-		HepMC::GenParticle *pt = *p;
-		int id=(* pt->production_vertex()->particles_in_const_begin() )->pdg_id();
-		if(id!=21 && id!=11 && id>5) continue;
-
-		// Get first mother and add 2x second mother to it
-		HepMC::GenParticle *X = (* pt->production_vertex()->particles_in_const_begin());
-		HepMC::GenParticle *Y = (* ++(pt->production_vertex()->particles_in_const_begin()) );
-		HepMC::FourVector fX = X->momentum();
-		HepMC::FourVector fY = Y->momentum();
-		HepMC::FourVector fXY(fX.px()+fY.px(),fX.py()+fY.py(),fX.pz()+fY.pz(),fX.e()+fY.e());
-		X->set_momentum(fXY);
-		// Unique ID for MC-Tester to analyze
-		X->set_pdg_id(100);
-
-		// Set 2nd mother as decayed and delete it from production vertex
-		Y->set_status(1);
-		(* Y->production_vertex()->particles_in_const_begin())->set_status(1);
-		pt->production_vertex()->remove_particle(Y);
-		return;
-	}
-}
-
 int main(int argc,char **argv)
 {
 	// Initialization of pythia
@@ -63,60 +35,23 @@ int main(int argc,char **argv)
 	Event& event = pythia.event;
 	//pythia.settings.listAll();
 
-	// Console input parameters
-	// (set by examples located in 'testing' directory)
-	bool topDecays =false;
-	bool zeeDecays =false;
-	bool zmuDecays =false;
-	bool zNLO      =false;
-	if(argc>4)
-	{
-		// Advanced options
-		topDecays = (atoi(argv[4])==1);
-		zeeDecays = (atoi(argv[4])==2);
-		zmuDecays = (atoi(argv[4])==3);
-	}
-	if(argc>3) NumberOfEvents=atol(argv[3]);
-	if(argc>2) ShowersOn=atoi(argv[2]);
-
-	if(!ShowersOn)
-	{
-		//pythia.readString("HadronLevel:all = off");
-		pythia.readString("HadronLevel:Hadronize = off");
-		pythia.readString("SpaceShower:QEDshower = off");
-		pythia.readString("SpaceShower:QEDshowerByL = off");
-		pythia.readString("SpaceShower:QEDshowerByQ = off");
-	}
 	pythia.readString("PartonLevel:ISR = on");
 	pythia.readString("PartonLevel:FSR = off");
-	if(argc>1)  //pre-set configs
-	{
-		pythia.readFile(argv[1]);
-		if(zeeDecays || topDecays) pythia.init( -2212, -2212, 14000.0); //p  p  collisions
-		else if(zmuDecays)         pythia.init( 11, -11, 91.17);        //e+ e- collisions
-		else                       pythia.init( 11, -11, 200.);         //e+ e- collisions
-	}
-	else        //default config
-	{
-		pythia.readString("WeakSingleBoson:ffbar2gmZ = on");
-		pythia.readString("23:onMode = off");
-		pythia.readString("23:onIfAny = 13");
-		pythia.init( 11, -11, 91.17);                           //e+ e- collisions
-	}
+
+	pythia.readString("WeakSingleBoson:ffbar2gmZ = on");
+	pythia.readString("23:onMode = off");
+	pythia.readString("23:onIfAny = 13");
+	pythia.init( 11, -11, 91.187);                           //e+ e- collisions
 
 	MC_Initialize();
 
 	Photos::initialize();
 	//Photos::setDoubleBrem(false);
 	//Photos::setExponentiation(false);
-	Photos::setMeCorrectionWtForZ(zNLO);
-	//	Photos::setMeCorrectionWtForW(zNLO);
-	// Zee and ttbar require higher maxWtInterference
-	if(zeeDecays || topDecays) Photos::maxWtInterference(3.0);
 
-	Photos::setInfraredCutOff(0.001/200);//91.187);
+	Photos::setInfraredCutOff(0.01/91.187); // 10MeV for scale to M_Z=91.187
 	Photos::maxWtInterference(3.0);
-	if( zNLO) Photos::maxWtInterference(4.0);
+
 	Photos::iniInfo();
 	Log::SummaryAtExit();
 	cout.setf(ios::fixed);
@@ -127,27 +62,25 @@ int main(int argc,char **argv)
 		if(iEvent%1000==0) Log::Info()<<"Event: "<<iEvent<<"\t("<<iEvent*(100./NumberOfEvents)<<"%)"<<endl;
 		if (!pythia.next()) continue;
 
+		// Convert event record to HepMC
 		HepMC::GenEvent * HepMCEvt = new HepMC::GenEvent();
 		ToHepMC.fill_next_event(event, HepMCEvt);
 		//HepMCEvt->print();
 
 		//Log::LogPhlupa(1,3);
 
-		// Call photos
+		// Run PHOTOS on the event
 		PhotosHepMCEvent evt(HepMCEvt);
 		evt.process();
 
 		//HepMCEvt->print();
 
-		// We mess with the event so MC-Tester can work on it as in LC analysis case
-		if(topDecays) fixForMctester(HepMCEvt);
-		//HepMCEvt->print();
-
-		// Call MC-Tester
+		// Run MC-TESTER on the event
 		HepMCEvent temp_event(*HepMCEvt,false);
 		MC_Analyze(&temp_event);
 
-		//if(iEvent>=NumberOfEvents-5) HepMCEvt->print();
+		// Print out last 5 events
+		if(iEvent>=NumberOfEvents-5) HepMCEvt->print();
 
 		// Clean up
 		delete HepMCEvt;

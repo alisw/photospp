@@ -48,13 +48,13 @@ int main(int argc,char **argv)
 	pythia.particleData.readString("15:mayDecay = off"); //<- uncomment for pythia+tauola
 
 	//pythia.init( -2212, -2212, 14000.0);     //proton proton collisions
-	pythia.init( 11, -11, 500.);             //electron positron collisions
+	pythia.init( 11, -11, 91.187);             //electron positron collisions
 
 	// TAUOLA and PHOTOS initialization
 	Tauola::initialize();
 	Photos::initialize();
 
-	Photos::setInfraredCutOff(0.01/200);//91.187);
+	Photos::setInfraredCutOff(0.01/91.187); // 10MeV for scale to M_Z=91.187
 	//Photos::setDoubleBrem(false);
 	//Photos::setExponentiation(false);
 
