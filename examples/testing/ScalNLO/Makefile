@@ -1,13 +1,14 @@
 ############## Make tests ###########################
 include ../test.inc
 
-NAME_BENCHMARK=mc-tester.root-pispectr-RCall
+NAME_BENCHMARK=mc-tester.root-1000M-NLO-EXP
 # Or use other benchmark reference files:
-# NAME_BENCHMARK=mc-tester.root-pispectr-RCtau
-# NAME_BENCHMARK=mc-tester.root-pispectr-RCno
+#NAME_BENCHMARK=mc-tester.root-1000M-NLO-EXP
+#NAME_BENCHMARK=mc-tester.root-1000M-LO-ALPHA
+#NAME_BENCHMARK=mc-tester.root-1000M-NLO-ALPHA
 
 CONF=pythia_Z.conf
-NAME=Ztautau
+NAME=ScalarNLO
 
 PROGRAM=$(PHOTOS_TAUOLA)
 #MODE=   $(PIPI_MODE)
