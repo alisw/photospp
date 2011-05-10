@@ -113,7 +113,7 @@ int main(int argc,char **argv)
 		Photos::setDoubleBrem(false);
 		Photos::setExponentiation(false);
 
-		// Set infrared cutoff to 10MeV
+		// Set infrared cutoff to 10MeV for scale M_Z=91.187GeV or 500 GeV
 		if(atoi(argv[2])==0) Photos::setInfraredCutOff(0.01/91.187);
 		else                 Photos::setInfraredCutOff(0.01/500.);
 	}

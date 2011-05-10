@@ -27,6 +27,7 @@ using namespace Pythia8;
 unsigned long NumberOfEvents = 10000;
 
 // Finds X Y -> 6 -6 decay and converts it to 100 -> 6 -6, where 100 = X + Y
+// Method used only in test for t bar  t pair production
 void fixForMctester(HepMC::GenEvent *evt)
 {
 	for(HepMC::GenEvent::particle_const_iterator p=evt->particles_begin();p!=evt->particles_end(); p++)
