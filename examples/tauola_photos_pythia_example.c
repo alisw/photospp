@@ -29,7 +29,6 @@ typedef Photos::Log Log; //We're using Photos version of Log class
 using namespace std;
 using namespace Pythia8;
 
-bool ShowersOn=true;
 unsigned long NumberOfEvents = 10000;
 
 int main(int argc,char **argv)
@@ -40,56 +39,21 @@ int main(int argc,char **argv)
 	Pythia pythia;
 	Event& event = pythia.event;
 
-	// Console input parameters
-	// (set by examples located in 'testing' directory)
-	int tauolaDecayMode=0;
-	if(argc>4) tauolaDecayMode=atoi(argv[4]);
-	if(argc>3) NumberOfEvents=atol(argv[3]);
-	if(argc>2) ShowersOn=atoi(argv[2]);
-
-	if(!ShowersOn)
-	{
-		//pythia.readString("HadronLevel:all = off");
-		pythia.readString("HadronLevel:Hadronize = off");
-		pythia.readString("SpaceShower:QEDshower = off");
-		pythia.readString("SpaceShower:QEDshowerByL = off");
-		pythia.readString("SpaceShower:QEDshowerByQ = off");
-	}
 	pythia.readString("PartonLevel:ISR = off");
 	pythia.readString("PartonLevel:FSR = off");
-	if(argc>1)  //pre-set configs
-	{
-		pythia.readFile(argv[1]);
-		if(tauolaDecayMode==3) pythia.init( 11, -11, 91.17);
-		else pythia.init( 11, -11, 500.);
 
-		// Decay mode is set from console input parameters:
-		// tauolaDecayMode=3 (tau => pi nu_tau) for Ztautau
-		// tauolaDecayMode=4 (tau => pi pi nu_tau) for Htautau
-		Tauola::setSameParticleDecayMode(tauolaDecayMode);
-		Tauola::setOppositeParticleDecayMode(tauolaDecayMode);
-	}
-	else        //default config
-	{
-		/** pythia.readString("HiggsSM:ffbar2H = on");
-		pythia.readString("25:onMode = off");
-		pythia.readString("25:onIfAny = 15");
-		pythia.readString("25:m0 = 120"); */
+	pythia.readString("WeakSingleBoson:ffbar2gmZ = on");
+	pythia.readString("23:onMode = off");
+	pythia.readString("23:onIfAny = 15");
+	pythia.particleData.readString("15:mayDecay = off"); //<- uncomment for pythia+tauola
 
-		/** pythia.readString("WeakDoubleBoson:ffbar2WW = on");
-		pythia.readString("24:onMode = off");
-		pythia.readString("24:onIfAny = 15");**/
+	//pythia.init( -2212, -2212, 14000.0);     //proton proton collisions
+	pythia.init( 11, -11, 500.);             //electron positron collisions
 
-		pythia.readString("WeakSingleBoson:ffbar2gmZ = on");
-		pythia.readString("23:onMode = off");
-		pythia.readString("23:onIfAny = 15");
-		pythia.particleData.readString("15:mayDecay = off"); //<- uncomment for pythia+tauola
-		//pythia.init( -2212, -2212, 14000.0);     //proton proton collisions
-		pythia.init( 11, -11, 500.);             //electron positron collisions
-	}
-	Tauola::initialise();
-
+	// TAUOLA and PHOTOS initialization
+	Tauola::initialize();
 	Photos::initialize();
+
 	Photos::setInfraredCutOff(0.01/200);//91.187);
 	//Photos::setDoubleBrem(false);
 	//Photos::setExponentiation(false);
@@ -106,26 +70,36 @@ int main(int argc,char **argv)
 	//Photos::forceBremForBranch(0,15);
 
 	MC_Initialize();
-	// Begin event loop. Generate event.
+
+	// Begin event loop
 	for (unsigned long iEvent = 0; iEvent < NumberOfEvents; ++iEvent)
 	{
 		if(iEvent%1000==0) Log::Info()<<"Event: "<<iEvent<<"\t("<<iEvent*(100./NumberOfEvents)<<"%)"<<endl;
 		if(!pythia.next()) continue;
 
+		// Convert event record to HepMC
 		HepMC::GenEvent * HepMCEvt = new HepMC::GenEvent();
 		ToHepMC.fill_next_event(event, HepMCEvt);
 
+		// Run TAUOLA on the event
 		TauolaHepMCEvent * t_event = new TauolaHepMCEvent(HepMCEvt);
-		t_event->decayTaus();
 
-		//HepMCEvt->print();
+		// We may want to undecay previously decayed taus.
+		//t_event->undecayTaus();
+		t_event->decayTaus();
+		delete t_event;
+
 		//Log::LogPhlupa(2,4);
+
+		// Run PHOTOS on the event
 		PhotosHepMCEvent evt(HepMCEvt);
 		evt.process();
-		//HepMCEvt->print();
 
+		// Run MC-TESTER on the event
 		HepMCEvent temp_event(*HepMCEvt,false);
 		MC_Analyze(&temp_event);
+
+		// Print out last 5 events
 		if(iEvent>=NumberOfEvents-5)
 		{
 			Log::RedirectOutput(Log::Info());
@@ -133,12 +107,14 @@ int main(int argc,char **argv)
 			HepMCEvt->print();
 			Log::RevertOutput();
 		}
-		//clean up
+
+		// Clean up
 		delete HepMCEvt;
-		delete t_event; //<- uncomment for pythia+tauola
 	}
+
 	Log::RedirectOutput(Log::Info());
 	pythia.statistics();
 	Log::RevertOutput();
+
 	MC_Finalize();
 }
