@@ -14,7 +14,7 @@ The source code and documentation for release 3.0. The following files are provi
  - <a href="../PHOTOS.3.0.tar.gz">PHOTOS 3.0 source code </a> tarball.
 
 Note that LCG/Genser
-<a href="http://lcgapp.cern.ch/project/simu/generator/">Generator 
+<a href="http://sftweb.cern.ch/generators/">Generator 
 Services Subproject </a> distributes compiled, platform adopted  
 tar balls of our programs.
 
