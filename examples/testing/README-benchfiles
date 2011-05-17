@@ -11,7 +11,7 @@ PHOTOS:
       first:	no
      second:	no
         exp:	yes
-     cutoff:	0.01/200
+     cutoff:	1.e-6
 
 MCTESTER:
    particle:	25 (higgs)
