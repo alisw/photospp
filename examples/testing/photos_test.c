@@ -80,8 +80,11 @@ int main(int argc,char **argv)
 	pythia.readString("PartonLevel:ISR = off");
 	pythia.readString("PartonLevel:FSR = off");
 
-	// This one produces gamma in 11->11 decays
-	pythia.readString("PartonLevel:Remnants = off");
+	// This option produces gamma in 11->11 decays
+	// "on"    for ttbar only (required)
+	// "off"   for other tests (required by ZmumuNLO First Order;
+	//         reduces momentum non-conservation in Zee)
+	if( argc<=4 || atoi(argv[4])!=1) pythia.readString("PartonLevel:Remnants = off");
 
 	// Tauola is currently set to undecay taus. Otherwise, uncomment this line.
 	//pythia.particleData.readString("15:mayDecay = off");
@@ -89,7 +92,7 @@ int main(int argc,char **argv)
 	/********************************************************
 	  Read input parameters from console. List of parameters:
 	  1. Pythia configuration filename
-	  2. Pythia mode - e+e-@200GeV , e+e-@91.187GeV or pp@1.4TeV
+	  2. Pythia mode - e+e-@200GeV , e+e-@91.187GeV or pp@14TeV
 	  3. Number of events
 	  4. Special mode - default(off), ttbar, NLO
 

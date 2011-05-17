@@ -10,7 +10,7 @@ CONF=pythia_Z.conf
 NAME=Ztautau
 
 PROGRAM=$(PHOTOS_TAUOLA)
-PYTHIA_MODE=0
+PYTHIA_MODE=$(Z_MU_MODE)
 TAUOLA_MODE=$(PIPI_MODE)
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root

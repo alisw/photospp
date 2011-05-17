@@ -63,8 +63,8 @@ int main(int argc,char **argv)
 	/********************************************************
 	  Read input parameters from console. List of parameters:
 	  1. Pythia configuration filename
-	  2. Are we using e+e-@500GeV collisions?
-	     (If not - e+e-@91.187GeV collisions)
+	  2. Pythia mode - e+e-@200GeV , e+e-@91.187GeV, pp@14TeV or e+e-@500GeV
+	     (only e+e-@91.187GeV and e+e-@500GeV are used in this example)
 	  3. Number of events
 	  4. Tauola decay mode (refer to Tauola documentation)
 	  5. Photos - use alpha order on/off
@@ -72,9 +72,9 @@ int main(int argc,char **argv)
 
 	  Example where all input parameters are used:
 
-	  ./photos_tauola_test.exe pythia_H.conf 0 100000 4 0 0
+	  ./photos_tauola_test.exe pythia_H.conf 1 100000 4 0 0
 	  - use pythia_H.conf
-	  - initialize using e+ e- collisions
+	  - initialize using e+ e- @ 91.187GeV collisions
 	  - generate 100 000 events
 	  - fix TAUOLA decay to channel 4 (RHORHO_MODE)
 	  - Photos is not using alpha order (default option)
@@ -85,8 +85,14 @@ int main(int argc,char **argv)
 	if(argc>1) pythia.readFile(argv[1]);
 
 	// 2. Initialize pythia to e+e-@91.17GeV or e+e-@500GeV collisions (argv[2], from console)
-	if(atoi(argv[2])==0) pythia.init( 11, -11, 91.187); // e+ e- collisions
-	else                 pythia.init( 11, -11, 500);    // e+ e- collisions
+	if(atoi(argv[2])==1)      pythia.init( 11, -11, 91.187); // e+ e- collisions
+	else if(atoi(argv[2])==3) pythia.init( 11, -11, 500.);   // e+ e- collisions
+	else
+	{
+		cout<<"ERROR: Wrong Pythia mode ("<<atoi(argv[4])<<")"<<endl;
+		cout<<"       Only modes '1' and '3' are used by this program."<<endl;
+		return -1;
+	}
 
 	// 3. Get number of events (argv[3], from console)
 	if(argc>3) NumberOfEvents=atoi(argv[3]);
@@ -114,7 +120,7 @@ int main(int argc,char **argv)
 		Photos::setExponentiation(false);
 
 		// Set infrared cutoff to 10MeV for scale M_Z=91.187GeV or 500 GeV
-		if(atoi(argv[2])==0) Photos::setInfraredCutOff(0.01/91.187);
+		if(atoi(argv[2])==1) Photos::setInfraredCutOff(0.01/91.187);
 		else                 Photos::setInfraredCutOff(0.01/500.);
 	}
 

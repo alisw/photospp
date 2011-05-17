@@ -8,7 +8,7 @@ CONF=pythia_H.conf
 NAME=Htautau
 
 PROGRAM=$(PHOTOS_TAUOLA)
-PYTHIA_MODE=1
+PYTHIA_MODE=$(HIGGS_MODE)
 TAUOLA_MODE=$(RHORHO_MODE)
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root

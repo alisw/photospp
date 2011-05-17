@@ -21,7 +21,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	@echo
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) $(PYTHIA_MODE) $(EVENTS) >/dev/null
+	$(PROGRAM) $(CONF) $(PYTHIA_MODE) $(EVENTS) 2>/dev/null
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:
