@@ -73,29 +73,32 @@ int main(int argc,char **argv)
 	Pythia pythia;
 	Event& event = pythia.event;
 
-	//pythia.readString("HadronLevel:Hadronize = off");
-	//pythia.readString("SpaceShower:QEDshower = off");
-	//pythia.readString("SpaceShower:QEDshowerByL = off");
-	//pythia.readString("SpaceShower:QEDshowerByQ = off");
-	pythia.readString("PartonLevel:ISR = on");
+	pythia.readString("HadronLevel:Hadronize = off");
+	pythia.readString("SpaceShower:QEDshower = off");
+	pythia.readString("SpaceShower:QEDshowerByL = off");
+	pythia.readString("SpaceShower:QEDshowerByQ = off");
+	pythia.readString("PartonLevel:ISR = off");
 	pythia.readString("PartonLevel:FSR = off");
+
+	// This one produces gamma in 11->11 decays
+	pythia.readString("PartonLevel:Remnants = off");
 
 	// Tauola is currently set to undecay taus. Otherwise, uncomment this line.
 	//pythia.particleData.readString("15:mayDecay = off");
 
 	/********************************************************
-		Read input parameters from console. List of parameters:
-		1. Pythia configuration filename
-		2. Pythia mode - e+e-@200GeV , e+e-@91.187GeV or pp@1.4TeV
-		3. Number of events
+	  Read input parameters from console. List of parameters:
+	  1. Pythia configuration filename
+	  2. Pythia mode - e+e-@200GeV , e+e-@91.187GeV or pp@1.4TeV
+	  3. Number of events
 	  4. Special mode - default(off), ttbar, NLO
 
-		Example where all input parameters are used:
+	  Example where all input parameters are used:
 
-		./photos_test.exe pythia_W.conf 0 100000 4 0
-			- use pythia_W.conf
-			- initialize using e+ e- @ 200GeV collisions
-			- generate 100 000 events
+	  ./photos_test.exe pythia_W.conf 0 100000 4 0
+	    - use pythia_W.conf
+	    - initialize using e+ e- @ 200GeV collisions
+	    - generate 100 000 events
 	    - default configuration (not using any special mode)
 	*********************************************************/
 
