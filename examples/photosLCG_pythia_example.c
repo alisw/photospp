@@ -81,7 +81,7 @@ int main(int argc,char **argv)
 
 	Photos::initialize();
 
-	// Turn on NLO corrections - only for PHOTOS 3.4 or higher
+	// Turn on NLO corrections - only for PHOTOS 3.2 or higher
 
 	//Photos::setMeCorrectionWtForZ(zNLO);
 	//Photos::maxWtInterference(4.0);
