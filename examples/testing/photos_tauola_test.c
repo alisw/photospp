@@ -50,10 +50,10 @@ int main(int argc,char **argv)
 	Pythia pythia;
 	Event& event = pythia.event;
 
-	//pythia.readString("HadronLevel:Hadronize = off");
-	//pythia.readString("SpaceShower:QEDshower = off");
-	//pythia.readString("SpaceShower:QEDshowerByL = off");
-	//pythia.readString("SpaceShower:QEDshowerByQ = off");
+	pythia.readString("HadronLevel:Hadronize = off");
+	pythia.readString("SpaceShower:QEDshower = off");
+	pythia.readString("SpaceShower:QEDshowerByL = off");
+	pythia.readString("SpaceShower:QEDshowerByQ = off");
 	pythia.readString("PartonLevel:ISR = off");
 	pythia.readString("PartonLevel:FSR = off");
 
@@ -61,24 +61,24 @@ int main(int argc,char **argv)
 	//pythia.particleData.readString("15:mayDecay = off");
 
 	/********************************************************
-		Read input parameters from console. List of parameters:
-		1. Pythia configuration filename
-		2. Are we using e+e-@500GeV collisions?
+	  Read input parameters from console. List of parameters:
+	  1. Pythia configuration filename
+	  2. Are we using e+e-@500GeV collisions?
 	     (If not - e+e-@91.187GeV collisions)
-		3. Number of events
-		4. Tauola decay mode (refer to Tauola documentation)
+	  3. Number of events
+	  4. Tauola decay mode (refer to Tauola documentation)
 	  5. Photos - use alpha order on/off
-    6. Photos - use ScalarNLO mode on/off
+	  6. Photos - use ScalarNLO mode on/off
 
-		Example where all input parameters are used:
+	  Example where all input parameters are used:
 
-		./photos_tauola_test.exe pythia_H.conf 0 100000 4 0 0
-			- use pythia_H.conf
-			- initialize using e+ e- collisions
-			- generate 100 000 events
-			- fix TAUOLA decay to channel 4 (RHORHO_MODE)
-	    - Photos is not using alpha order (default option)
-	    - Photos is not in ScalarNLO mode (default option)
+	  ./photos_tauola_test.exe pythia_H.conf 0 100000 4 0 0
+	  - use pythia_H.conf
+	  - initialize using e+ e- collisions
+	  - generate 100 000 events
+	  - fix TAUOLA decay to channel 4 (RHORHO_MODE)
+	  - Photos is not using alpha order (default option)
+	  - Photos is not in ScalarNLO mode (default option)
 	*********************************************************/
 
 	// 1. Load pythia configuration file (argv[1], from console)
@@ -123,7 +123,7 @@ int main(int argc,char **argv)
 	{
 		Tauola::setEtaK0sPi(1,1,0);
 		Photos::setMeCorrectionWtForScalar(true);
-		Photos::maxWtInterference(4.0);
+		Photos::maxWtInterference(3.0);
 	}
 
 	Log::SummaryAtExit();
