@@ -122,6 +122,8 @@ int main(int argc,char **argv)
 		// Set infrared cutoff to 10MeV for scale M_Z=91.187GeV or 500 GeV
 		if(atoi(argv[2])==1) Photos::setInfraredCutOff(0.01/91.187);
 		else                 Photos::setInfraredCutOff(0.01/500.);
+
+		Photos::maxWtInterference(2.0);
 	}
 
 	// 6. Check if we're in ScalarNLO mode
@@ -129,7 +131,6 @@ int main(int argc,char **argv)
 	{
 		Tauola::setEtaK0sPi(1,1,0);
 		Photos::setMeCorrectionWtForScalar(true);
-		Photos::maxWtInterference(3.0);
 	}
 
 	Log::SummaryAtExit();
