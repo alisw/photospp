@@ -133,6 +133,9 @@ int main(int argc,char **argv)
 			Photos::setExponentiation(false);
 			Photos::setInfraredCutOff(0.001); //91.187
 
+			// WARNING!! WmunuNLO does not run with exponentiation
+			//           Requires further work and testing
+
 			Photos::setMeCorrectionWtForW(true);
 			Photos::setMeCorrectionWtForZ(true);
 			Photos::maxWtInterference(2.0);
