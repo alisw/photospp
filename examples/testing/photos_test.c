@@ -133,10 +133,6 @@ int main(int argc,char **argv)
 		// NLO mode
 		else if(atoi(argv[4])==2)
 		{
-
-			// WARNING!! WmunuNLO does not run with exponentiation
-			//           Requires further work and testing
-
 			Photos::setMeCorrectionWtForW(true);
 			Photos::setMeCorrectionWtForZ(true);
 		}
@@ -149,6 +145,9 @@ int main(int argc,char **argv)
 		Photos::setExponentiation(false);
 		Photos::setInfraredCutOff(0.001);
 		Photos::maxWtInterference(2.0);
+
+		// WARNING!! WmunuNLO does not run with exponentiation
+		//           Requires further work and testing
 	}
 
 
