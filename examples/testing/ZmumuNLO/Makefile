@@ -16,6 +16,7 @@ NAME=ZmumuNLO
 PROGRAM=$(PHOTOS_ONLY)
 PYTHIA_MODE=$(Z_MU_MODE)
 SPECIAL_MODE=$(NLO_MODE)
+ONE_PHOTON_MODE=1
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(COMPARE) $(NAME_BENCHMARK) mc-tester.$(NAME).root
@@ -23,7 +24,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) $(PYTHIA_MODE) $(EVENTS) $(SPECIAL_MODE)
+	$(PROGRAM) $(CONF) $(PYTHIA_MODE) $(EVENTS) $(SPECIAL_MODE) $(ONE_PHOTON_MODE)
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:

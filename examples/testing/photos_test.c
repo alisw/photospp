@@ -95,14 +95,16 @@ int main(int argc,char **argv)
 	  2. Pythia mode - e+e-@200GeV , e+e-@91.187GeV or pp@14TeV
 	  3. Number of events
 	  4. Special mode - default(off), ttbar, NLO
+	  5. Photos - use 1-photon mode on/off
 
 	  Example where all input parameters are used:
 
-	  ./photos_test.exe pythia_W.conf 0 100000 4 0
+	  ./photos_test.exe pythia_W.conf 0 100000 4 0 0
 	    - use pythia_W.conf
 	    - initialize using e+ e- @ 200GeV collisions
 	    - generate 100 000 events
 	    - default configuration (not using any special mode)
+	    - Photos is not using 1-photon mode (default option, except for WmunuNLO and ZmumuNLO)
 	*********************************************************/
 
 	// 1. Load pythia configuration file (argv[1], from console)
@@ -126,21 +128,29 @@ int main(int argc,char **argv)
 	// 5. Check if we're using any special mode
 	if(argc>4)
 	{
+		// Top decays
 		if(atoi(argv[4])==1)      topDecays=true;
+		// NLO mode
 		else if(atoi(argv[4])==2)
 		{
-			Photos::setDoubleBrem(false);
-			Photos::setExponentiation(false);
-			Photos::setInfraredCutOff(0.001); //91.187
 
 			// WARNING!! WmunuNLO does not run with exponentiation
 			//           Requires further work and testing
 
 			Photos::setMeCorrectionWtForW(true);
 			Photos::setMeCorrectionWtForZ(true);
-			Photos::maxWtInterference(2.0);
 		}
 	}
+
+	// 1-photon mode
+	if(argc>5 && atoi(argv[5])==1)
+	{
+		Photos::setDoubleBrem(false);
+		Photos::setExponentiation(false);
+		Photos::setInfraredCutOff(0.001);
+		Photos::maxWtInterference(2.0);
+	}
+
 
 	MC_Initialize();
 
