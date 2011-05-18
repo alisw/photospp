@@ -1,4 +1,0 @@
-test of the decay scalar --> scalar scalar 
-Events generated with the help ot Tauola interface
-and bremsstrahlung in decay of eta (K0s?)
-Tauola::setEtaK0sPi(int a, int b, int c)
