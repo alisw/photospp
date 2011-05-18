@@ -82,7 +82,7 @@ int main(int argc,char **argv)
 
 	// This option produces gamma in 11->11 decays
 	// "on"    for ttbar only (required)
-	// "off"   for other tests (required by ZmumuNLO First Order;
+	// "off"   for other tests (required by ZmumuNLO 1-photon mode;
 	//         reduces momentum non-conservation in Zee)
 	if( argc<=4 || atoi(argv[4])!=1) pythia.readString("PartonLevel:Remnants = off");
 

@@ -4,8 +4,8 @@ include ../test.inc
 NAME_BENCHMARK=mc-tester.root-1000M-NLO-EXP
 # Or use other benchmark reference files:
 #NAME_BENCHMARK=mc-tester.root-1000M-NLO-EXP
-#NAME_BENCHMARK=mc-tester.root-1000M-LO-ALPHA
-#NAME_BENCHMARK=mc-tester.root-1000M-NLO-ALPHA
+#NAME_BENCHMARK=mc-tester.root-1000M-LO-1-phot
+#NAME_BENCHMARK=mc-tester.root-1000M-NLO-1-phot
 
 CONF=pythia_Z.conf
 NAME=ScalarNLO
@@ -14,7 +14,7 @@ PROGRAM=$(PHOTOS_TAUOLA)
 PYTHIA_MODE=$(Z_MU_MODE)
 TAUOLA_MODE=$(K-STAR_MODE)
 
-USE_FIRST_ORDER= 0
+ONE_PHOTON_MODE= 0
 USE_NLO        = 1
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root
@@ -23,7 +23,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) $(PYTHIA_MODE) $(EVENTS) $(TAUOLA_MODE) $(USE_FIRST_ORDER) $(USE_NLO) #2>/dev/null
+	$(PROGRAM) $(CONF) $(PYTHIA_MODE) $(EVENTS) $(TAUOLA_MODE) $(ONE_PHOTON_MODE) $(USE_NLO)
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:

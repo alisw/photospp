@@ -1,7 +1,7 @@
 ############## Make tests ###########################
 include ../test.inc
 
-NAME_BENCHMARK=mc-tester.Zmumu.root-O1-NLO-100M
+NAME_BENCHMARK=mc-tester.Zmumu.root-1-phot-NLO-100M
 #NAME_BENCHMARK=mc-tester.Zmumu.root-NLO-100M
 #NAME_BENCHMARK=mc-tester.Zmumu.root-attempt
 #NAME_BENCHMARK=mc-tester.root-Zmumu-photos-F77-100M-sym-10MeV

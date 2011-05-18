@@ -1,8 +1,8 @@
 ############## Make tests ###########################
 include ../test.inc
 
-# NAME_BENCHMARK=mc-tester.root-Wmunu-photos-100M-sym-10MeV
-NAME_BENCHMARK=mc-tester.Wmunu.root-photos-1phot
+NAME_BENCHMARK=mc-tester.root-Wmunu-photos-100M-sym-10MeV
+#NAME_BENCHMARK=mc-tester.Wmunu.root-photos-1phot
 
 CONF=pythia_W.conf
 NAME=WmunuNLO
@@ -10,7 +10,7 @@ NAME=WmunuNLO
 PROGRAM=$(PHOTOS_ONLY)
 PYTHIA_MODE=$(DEFAULT_MODE)
 SPECIAL_MODE=$(NLO_MODE)
-ONE_PHOTON_MODE=1
+ONE_PHOTON_MODE=0
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(COMPARE) $(NAME_BENCHMARK) mc-tester.$(NAME).root

@@ -67,7 +67,7 @@ int main(int argc,char **argv)
 	     (only e+e-@91.187GeV and e+e-@500GeV are used in this example)
 	  3. Number of events
 	  4. Tauola decay mode (refer to Tauola documentation)
-	  5. Photos - use alpha order on/off
+	  5. Photos - use 1-photon mode on/off
 	  6. Photos - use ScalarNLO mode on/off
 
 	  Example where all input parameters are used:
@@ -77,7 +77,7 @@ int main(int argc,char **argv)
 	  - initialize using e+ e- @ 91.187GeV collisions
 	  - generate 100 000 events
 	  - fix TAUOLA decay to channel 4 (RHORHO_MODE)
-	  - Photos is not using alpha order (default option)
+	  - Photos is not using 1-photon mode (default option)
 	  - Photos is not in ScalarNLO mode (default option)
 	*********************************************************/
 
@@ -113,7 +113,7 @@ int main(int argc,char **argv)
 	Photos::setInfraredCutOff(1.e-6);
 	Photos::maxWtInterference(3.0);
 
-	// 5. Check if we're using alpha order
+	// 5. Check if we're using 1-photon mode
 	if( argc>5 && atoi(argv[5]) )
 	{
 		Photos::setDoubleBrem(false);
