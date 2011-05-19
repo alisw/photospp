@@ -8,21 +8,20 @@
     // Setup histograms 
     int n_bins=120;
     double default_min_bin=0.0;
-        double default_max_bin=1.1;
-	//  double default_max_bin=12000.1;
-	//  double default_max_bin=100.;
+    double default_max_bin=1.1;
+
     Setup::SetHistogramDefaults(n_bins,default_min_bin,default_max_bin);
-        Setup::mass_scale_on=true;
-    
-  
+    Setup::mass_scale_on=true;
+
+
     // Description
     Setup::gen1_desc_1=" Pythia + Photos Interface Test";
     Setup::gen1_desc_2=" $Z \\rightarrow \\mu^+ \\mu^-$. Photons filtered below 10 MeV";
-    Setup::gen1_desc_3=" No photon symmetrization";
-    
+    Setup::gen1_desc_3=" New";
+
     //Filter photons
     Setup::UserTreeAnalysis = "UserTreeAnalysis";
-    Setup::UTA_params[0]=0.01/91.187*100; //10 MeV
+    Setup::UTA_params[0]=1./91.187; //1GeV
     // p_t threshold as fraction of particle energy in 
     // mothers frame 
     Setup::UTA_params[1]=2;

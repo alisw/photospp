@@ -20,7 +20,7 @@
     
     //Filter photons
     Setup::UserTreeAnalysis = "UserTreeAnalysis";
-    Setup::UTA_params[0]=0.01/80.398; //10 MeV
+    Setup::UTA_params[0]=0.01/80.403; //10 MeV
     // p_t threshold as fraction of particle energy in 
     // mothers frame 
     Setup::UTA_params[1]=2;

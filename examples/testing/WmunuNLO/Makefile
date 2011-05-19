@@ -1,8 +1,11 @@
 ############## Make tests ###########################
 include ../test.inc
 
-NAME_BENCHMARK=mc-tester.root-Wmunu-photos-100M-sym-10MeV
-#NAME_BENCHMARK=mc-tester.Wmunu.root-photos-1phot
+NAME_BENCHMARK=mc-tester.root-Wmunu-photos-100M-1-phot-NLO
+# Or use other benchmark reference files:
+#NAME_BENCHMARK=mc-tester.root-Wmunu-photos-100M-1-phot
+#NAME_BENCHMARK=mc-tester.root-Wmunu-photos-100M-nosym-10MeV-1-phot-NLO
+#NAME_BENCHMARK=mc-tester.root-Wmunu-photos-100M-sym-10MeV
 
 CONF=pythia_W.conf
 NAME=WmunuNLO
