@@ -40,9 +40,9 @@ MC-TESTER. To do so:
 
 > For both plots; generate a file without PHOTOS processing:
   - change the generation setup:
-    - enter the 'examples' directory of PHOTOS
-    - open 'tauola_photos_pythia_example.c'
-    - uncomment the line 'Photos::suppressBremForBranch(0,23);'
+    - enter the 'examples/testing' directory of PHOTOS
+    - open 'photos_tauola_test.c'
+    - after 'Photos::initialize();' add line 'Photos::suppressBremForBranch(0,23);'
     - execute 'make' in this directory
   - enter the 'examples/testing/Ztautau' directory
   - clean any previous generation using 'make clobber'
@@ -53,7 +53,7 @@ MC-TESTER. To do so:
   23 -> 15 -15 decays only:
   - follow all of the instructions for the first file again,
     but in addition to: 'Photos::suppressBremForBranch(0,23);'
-    uncomment line      'Photos::forceBremForDecay (2,23,15,-15);'
+    add line            'Photos::forceBremForDecay (2,23,15,-15);'
     as well.
   - rename 'mc-tester.Ztautau.root' (created as described above)
     to 'Ztautau.RCtau.root'
@@ -62,11 +62,11 @@ MC-TESTER. To do so:
   23 -> 15 -15 and the tau decay branchs:
   - follow all of the instructions for the first file again,
     but in addition to: 'Photos::suppressBremForBranch(0,23);'
-    uncomment line      'Photos::forceBremForDecay (2,23,15,-15);'
+    add line            'Photos::forceBremForDecay (2,23,15,-15);'
     and line            'Photos::forceBremForBranch(0,15);'
     as well.
      -- OR --
-    revert any changes made to 'tauola_photos_pythia_example.c'
+    revert any changes made to 'photos_tauola_test.c'
     (the default setup ensures that the whole event will be processed)
   - rename 'mc-tester.Ztautau.root' (created as described above)
     to 'Ztautau.RCall.root'
@@ -76,6 +76,7 @@ MC-TESTER. To do so:
   - execute '../compare.sh Ztautau.RCno.root Ztautau.RCtau.root'
     or      '../compare.sh Ztautau.RCno.root Ztautau.RCall.root'
     for the left-hand plot and right-hand plot accordingly.
+    (remember that MCTESTERLOCATION must be set)
 
 The resulting booklet, 'tester.pdf', will include the appropriate
 plot in its USER_HISTOGRAM section.
@@ -133,8 +134,8 @@ generate samples with and without PHOTOS.
 
 > Generate the second file:
   - turn off photos:
-    - enter the 'examples' directory
-    - open 'photos_pythia_example.c'
+    - enter the 'examples/testing' directory
+    - open 'photos_test.c'
     - comment out the lines 'PhotosHepMCEvent evt(HepMCEvt);'
       and                   'evt.process();'
     - execute 'make' in this directory
