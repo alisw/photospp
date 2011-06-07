@@ -8,7 +8,6 @@ photosCInterfaces/PhotosParticle.cxx            \
 photosCInterfaces/PhotosBranch.cxx              \
 photosCInterfaces/PhotosEvent.cxx               \
 photosFortranInterfaces/PH_HEPEVT_Interface.cxx \
-photosFortranInterfaces/Photos_make.f           \
 utilities/Log.cxx                               \
 utilities/PhotosRandom.cxx
 
