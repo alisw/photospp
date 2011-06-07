@@ -29,9 +29,12 @@ Photos::Photos()
 	setInterference       (true);
 	setDoubleBrem         (true);
 	setQuatroBrem         (false);
-	setExponentiation     (true);
 	setTopProcessRadiation(true);
 	setCorrectionWtForW   (true);
+
+	// setExponentiation(true) moved to initialize() due to communication
+	// problems with Fortran under MacOS.
+	phokey_.iexp = 1;
 }
 
 void Photos::initialize()
@@ -48,6 +51,7 @@ void Photos::initialize()
   below in routine PHOCIN
 *******************************************************************************/
 	if(!phokey_.iexp) initializeKinematicCorrections(1);
+	else              setExponentiation(true);
 
 	int buf=1;
 	iphqrk_(&buf); // Blocks emission from quarks if buf=1 (default); enables if buf=2
@@ -268,6 +272,19 @@ void Photos::forceBremForBranch(int count, int motherID, ... )
 	v->push_back(1);
 	if(!forceBremList) forceBremList = new vector< vector<int>* >();
 	forceBremList->push_back(v);
+}
+
+void Photos::setExponentiation(bool expo)
+{
+	phokey_.iexp = (int) expo;
+	if(expo)
+	{
+		setDoubleBrem(false);
+		setQuatroBrem(false);
+		setInfraredCutOff(0.0000001);
+		initializeKinematicCorrections(5);
+		phokey_.expeps=0.0001;
+	}
 }
 
 void Photos::setMeCorrectionWtForW(bool corr)

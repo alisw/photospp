@@ -83,18 +83,7 @@ public:
 	static void setCorrectionWtForW(bool corr) { phokey_.ifw=(int)corr; }
 
 	/** Set exponentiation mode */
-	static void setExponentiation(bool expo)
-	{
-		phokey_.iexp = (int) expo;
-		if(expo)
-		{
-			setDoubleBrem(false);
-			setQuatroBrem(false);
-			setInfraredCutOff(0.0000001);
-			initializeKinematicCorrections(5);
-			phokey_.expeps=0.0001;
-		}
-	};
+	static void setExponentiation(bool expo);
 
 	/** Switch for complete effects of matrix element (in  scalar  to 2 scalars decays) */
 	static void setMeCorrectionWtForScalar(bool corr);
