@@ -1,14 +1,12 @@
 ############## Make tests ###########################
 include ../test.inc
 
-NAME_BENCHMARK=mc-tester.Zmumu.root-1-phot-NLO-100M
-#NAME_BENCHMARK=mc-tester.Zmumu.root-NLO-100M
-#NAME_BENCHMARK=mc-tester.Zmumu.root-attempt
-#NAME_BENCHMARK=mc-tester.root-Zmumu-photos-F77-100M-sym-10MeV
+NAME_BENCHMARK=mc-tester.root-Zmumu-NLO-100M
 # Or use other benchmark reference files:
-# NAME_BENCHMARK=mc-tester.root-Zmumu-kkmc-F77-10M-sym-1GeV
-# NAME_BENCHMARK=mc-tester.root-Zmumu-CEEX1-100M-nosym-1GeV
-# NAME_BENCHAMRK=mc-tester.root-Zmumu-CEEX2-100M-nosym-1GeV
+#NAME_BENCHMARK=mc-tester.root-Zmumu-LO-100M
+#NAME_BENCHMARK=mc-tester.root-Zmumu-1-phot-NLO-100M
+#NAME_BENCHMARK=mc-tester.root-Zmumu-1-phot-LO-100M
+#NAME_BENCHMARK=mc-tester.root-Zmumu-CEEX2-100M-nosym-1GeV
 
 CONF=pythia_Z.conf
 NAME=ZmumuNLO
@@ -16,7 +14,7 @@ NAME=ZmumuNLO
 PROGRAM=$(PHOTOS_ONLY)
 PYTHIA_MODE=$(Z_MU_MODE)
 SPECIAL_MODE=$(NLO_MODE)
-ONE_PHOTON_MODE=1
+ONE_PHOTON_MODE=0
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(COMPARE) $(NAME_BENCHMARK) mc-tester.$(NAME).root
