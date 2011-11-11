@@ -745,6 +745,7 @@ C get ID of channel dependent ME, ID=0 means no
         ELSEIF (IDME.EQ.2) THEN               ! ME weight for leptonic W decay
 
           CALL PHOBWnlo(WT)
+          WT=WT*2D0/FINT
 
         ELSEIF (IDME.EQ.1) THEN               ! ME weight for leptonic Z decay
 

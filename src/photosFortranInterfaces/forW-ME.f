@@ -302,10 +302,10 @@ c...          An auxilary K&S vectors
 
               mcLUN = PHLUN
            ENDIF 
-c...          Particle momenta at the Born level
+c...          Particle momenta before foton radiation; effective Born level
               DO JJ=1,4
                 B_PW(mod(JJ,4))=d_h_phep(JJ,3)  ! W boson
-                B_PNE(mod(JJ,4))=d_h_phep(JJ,5) ! neutrino
+                B_PNE(mod(JJ,4))=d_h_phep(JJ,3)-d_h_phep(JJ,4) ! neutrino
                 B_PMU(mod(JJ,4))=d_h_phep(JJ,4) ! muon
               ENDDO
 
