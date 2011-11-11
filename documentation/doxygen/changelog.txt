@@ -1,5 +1,14 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Nov 11 2011
+ - Long tests with SANC at sub 0.01 % level went fine
+   for single photon version of W decay at NLO, see:
+   http://annapurna.ifj.edu.pl/~wasm/photosNLOtest.html
+ - Maximum weight over-run for W decay localized and fixed.
+ - NLO in scalar to two saclars active, but demos are missing some explanations
+   and activation examples. 
+ - NLO exp W decay still missing test benchmarks.
+
 Apr 26 2011
  - NLO for W decay installed, some tests went OK, but need continuation
  - NLO in scalar to two saclars not active, but code is already in.
