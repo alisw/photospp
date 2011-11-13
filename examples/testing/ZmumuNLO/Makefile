@@ -8,6 +8,8 @@ NAME_BENCHMARK=mc-tester.root-Zmumu-NLO-100M
 #NAME_BENCHMARK=mc-tester.root-Zmumu-1-phot-LO-100M
 #NAME_BENCHMARK=mc-tester.root-Zmumu-CEEX1-100M-nosym-1GeV
 #NAME_BENCHMARK=mc-tester.root-Zmumu-CEEX2-100M-nosym-1GeV
+#NAME_BENCHMARK=mc-tester.root-Zmumu-kkmc-F77-10M-sym-1GeV
+#NAME_BENCHMARK=mc-tester.root-Zmumu-photos-F77-100M-sym-10MeV
 
 CONF=pythia_Z.conf
 NAME=ZmumuNLO
