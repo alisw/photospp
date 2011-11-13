@@ -146,8 +146,7 @@ int main(int argc,char **argv)
 		Photos::setInfraredCutOff(0.001);
 		Photos::maxWtInterference(2.0);
 
-		// WARNING!! WmunuNLO does not run with exponentiation
-		//           Requires further work and testing
+
 	}
 
 
