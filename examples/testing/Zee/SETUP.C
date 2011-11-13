@@ -15,7 +15,7 @@
     // Description
     Setup::gen1_desc_1=" Pythia + Photos Interface Test, Low virtuality Z dominate";
     Setup::gen1_desc_2=" $Z \\rightarrow e^+ e^-$. Photons filtered below 10 MeV";
-    Setup::gen1_desc_3=" New";
+    Setup::gen1_desc_3=" No photon symmetrization";
 
     //Filter photons
     Setup::UserTreeAnalysis = "ZeeAnalysis";

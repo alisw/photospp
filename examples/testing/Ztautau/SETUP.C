@@ -15,7 +15,7 @@
   // Description
   Setup::gen1_desc_1=" Pythia + Tauola + Photos Interface Test";
   Setup::gen1_desc_2=" $Z \\rightarrow \\tau^+ \\tau^-$. Photons filtered below 10 MeV";
-  Setup::gen1_desc_3=" New";
+  Setup::gen1_desc_3=" No photon symmetrization";
 
   //Filter photons
   Setup::UserTreeAnalysis = "ZtautauAnalysis";

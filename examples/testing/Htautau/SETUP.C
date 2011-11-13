@@ -17,7 +17,7 @@
     // Description
     Setup::gen1_desc_1=" Pythia + Tauola + Photos Interface Test";
     Setup::gen1_desc_2=" $H \\rightarrow 2 \\pi^0 \\pi^+ \\pi^- \\nu_{\\tau} \\bar{\\nu_{\\tau}} $";
-    Setup::gen1_desc_3=" New";
+    Setup::gen1_desc_3=" No photon symmetrization";
     
     Setup::SuppressDecay(111); // suppress pi0 decays
   }
