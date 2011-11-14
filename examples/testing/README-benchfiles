@@ -1,3 +1,6 @@
+LATER IN THE FILE WE COLLECT REFERENCES FOR PHYSIC CONEXTS
+LET US START TECHNICAL ASPECTS OF TEST ROOT FILES:
+
 Htautau/mc-tester.benchmark.Htautau.root
 ----------------------------------------
 
@@ -48,6 +51,8 @@ MCTESTER:
 
    analysis:	UserTreeAnalysis
      E_test:	0.01/0.49 (10MeV), max 2 photons
+
+Tests 
 
 --------------------------------------------------------------------------------
 
@@ -624,3 +629,67 @@ MCTESTER:
 
    analysis:	ZtautauAnalysis.C
      E_test:	0.01/91.187 (10MeV), max 2 photons
+
+#######################################################################
+PHYSICS ASPECTS OF TESTS.
+In the most documented cases  mentioned root files  are directly
+originating from software environments of listed below publications 
+or their web pages. In other 
+cases publications are less directly connected to the collected tests. 
+Sometimes it is just the question of changed input parameter or Born level 
+generatiors. Typycally in old days we had monohromatic Z or W decay samples. 
+Now it is usually combined with lineshape spread of LHC generators 
+(limited or not to M_Z+/-3 GeV).
+
+In some cases old papers are mentioned, but tests are just reproducing 
+the most significant aspects of that works only. No old benchmar distributions
+were available in an appropriate form.
+
+Let us now review the list of tests from directory PHOTOS/examples/testing
+
+#1# Zee, Zmumu, ZmumuNLO:
+Main paper: P. Golonka, Z. Was Next to Leading Logarithms and the PHOTOS Monte Carlo.
+Eur.Phys.J. C50 (2007) 53-62 e-Print: hep-ph/0604232
+http://mc-tester.web.cern.ch/MC-TESTER/PHOTOS-MCTESTER/
+
+ROOT FILES cr4eated by other programs than PHOTOS:
+mc-tester.root-Zmumu-CEEX1-100M-nosym-1GeV
+mc-tester.root-Zmumu-CEEX2-100M-nosym-1GeV
+mc-tester.root-Zee-kkmc-sym-1GeV
+powinien byc jeszcze jeden dla 1-photon-a
+
+ROOT FILES created by PHOTOS but in F77 env:
+mc-tester.root-Zee-photos-100M-sym-10MeV
+mc-tester.root-Zee-photos-10M-nosym-10MeV
+
+
+#2# Wenu, WmunuNLO, Wmunu
+G. Nanava et al. Eur.Phys.J. C70 (2010) 673-688 arXiv:0906.4052 [hep-ph]
+http://mc-tester.web.cern.ch/MC-TESTER/PHOTOS-MCTESTER/
+
+
+#3# ScalNLO
+G. Nanava, Z. Was, Scalar QED, NLO and PHOTOS Monte Carlo.
+Eur.Phys.J. C51 (2007) 569-583 hep-ph/0607019
+
+
+#4# Htautau
+A. Andonov Comparison of SANC with KORALZ and PHOTOS.
+Acta Phys.Polon. B34 (2003) 2665-2672,: hep-ph/0212209
+
+#5# Ztautau
+F. Sanchez, Z. Was Phys.Lett. B351 (1995) 562-568 
+P.H. Eberhard et al. The Tau Polarization Measurement At Lep. CERN-EP-89-129
+transverse spin effects
+
+F. Boillot, Z. Was UNCERTAINTIES IN tau POLARIZATION MEASUREMENT AT SLC/LEP 
+AND QED/ELECTROWEAK RADIATIVE CORRECTIONS. Z.Phys. C43 (1989) 109
+longitudinal spin effects.
+
+#6# ttbar
+
+E. Richter-Was Hard Bremsstrahlung photons in the t anti-t 
+production and decay: A background for the intermediate Higgs search.
+Z.Phys. C61 (1994) 323-340
+
+
