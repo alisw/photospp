@@ -7,7 +7,14 @@ NAME_BENCHMARK=mc-tester.root-Wmunu-photos-100M-1-phot-NLO
 #NAME_BENCHMARK=mc-tester.root-Wmunu-photos-100M-nosym-10MeV-1-phot-NLO
 #NAME_BENCHMARK=mc-tester.root-Wmunu-photos-100M-sym-10MeV
 
+#WARNING! Comparison with this benchmark file requires:
+#         - uncommenting few lines at the end of SETUP.C file
+#         - usage of pythia_W_resonance_peak.conf -
+#           comment out line 'CONF' below.
+#NAME_BENCHMARK=mc-tester.root-Wmunu-photos-F77-100M-1-phot-5MeV-NLO
+
 CONF=pythia_W.conf
+#CONF=pythia_W_resonance_peak.conf
 NAME=WmunuNLO
 
 PROGRAM=$(PHOTOS_ONLY)

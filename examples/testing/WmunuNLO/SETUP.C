@@ -33,6 +33,21 @@
     Setup::SuppressDecay(22);
     Setup::SuppressDecay(24);
     
+    /**************************************************************************
+                          Settings for old FORTRAN tests
+               Uncomment when generating comparison with these files
+    ***************************************************************************/
+/*
+    n_bins=120;
+    default_min_bin=0.0;
+    default_max_bin=100.0;
+    Setup::SetHistogramDefaults(n_bins,default_min_bin,default_max_bin);
+    Setup::mass_scale_on=false;
+    Setup::mass_power=1; 
+    
+    Setup::UTA_params[0]=0.005;
+*/
+    /**************************************************************************/
   }
   else{ //Setup for analysis step
     Setup::user_analysis=MCTest01;
