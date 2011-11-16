@@ -22,17 +22,11 @@ Note that examples:
 use "photos_tauola_test.c", which requires that path to Tauola C++ Interface
 is provided during configuration.
 
-The list of modes used for generation is located in the "test.inc" file.
-An appropriate mode is selected in the "Makefile" of each test directory.
-
 ---------------------------------------------------------------------------
-FOR ADVANCED USERS:
+The list of modes and options used for generation is located in the
+"test.inc" file. Most of the benchmark files can be used without
+modification or by applying small changes to Makefile or SETUP.C files
+located in each subdirectory.
 
-Each Makefile contains a list of available benchmark files that can be
-switched for comparison. However, this option requires further changes.
-In some cases its a matter of turning on NLO correction option or turning
-on/off single photon emmision in Makefile. However, to compare with an older
-benchmark files, more extensive changes are required. A full list of
-advanced benchmarks, with appropriate options that need to be set,
-is located in README-advanced-tests.
+Full list of such changes is located in:     README-comparison-options
 ---------------------------------------------------------------------------
