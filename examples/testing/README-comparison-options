@@ -2,26 +2,30 @@ This README contains list of changes required to compare against benchmark
 files located in subdirectories of "examples/testing". All tests require that
 appropriate NAME_BENCHMARK provided at the top of the Makefile is uncommented.
 
-Description of changes provided in the list below:
+Description of changes attributed to particular benchmark root files
+listed  below:
 
-1)  ONE_PHOTON_MODE
-    USE_NLO
+1)  Change to be introduced  in Makefile of testing sub-directory:
 
-    Require change of the appropriate option in Makefile
+    ONE_PHOTON_MODE = 0 (or 1)
+    USE_NLO = 1  (or 0)
 
-2)  CUTOFF
 
-    Require change in SETUP.C:
 
-    Line:            Setup::UTA_params[0]=0.01/<M>; //10 MeV
+
+2)  Require change in SETUP.C:
+
+    CUTOFF
+
+    Line:            Setup::UTA_params[0]=0.01/<M>; //10 MeV 
     Changed to:      Setup::UTA_params[0]= <NEW_VALUE> ;
 
-    ( <M> denotes either 80.403 or 91.187 depending on W or Z used in test )
-
+    ( <M>: either 80.403 or 91.187 depending if W or Z decay is monitored )
 
 ############################ Basic benchmark files ###########################
-  Require only one or more of the changes listed above. If nothing is listed
-  next to benchmark file name, then the file can be used without any changes
+  One (or more) of the changes listed above may be needed. If nothing is 
+  listed next to benchmark file name, then the file can be compared with 
+  the results of run without any initialization changes
 ##############################################################################
 
 Htautau/mc-tester.benchmark.Htautau.root
@@ -56,8 +60,8 @@ ZmumuNLO/mc-tester.root-Zmumu-CEEX2-100M-nosym-1GeV        CUTOFF = 1./91.187
 ZmumuNLO/mc-tester.root-Zmumu-kkmc-F77-10M-sym-1GeV        CUTOFF = 1./91.187
 Ztautau/mc-tester.root-pispectr-RCall
 
-########################### Custom benchmark files ###########################
-                           Require advanced changes
+########################### Further benchmark files ###########################
+                           Require more advanced changes
 ##############################################################################
 
 1)
