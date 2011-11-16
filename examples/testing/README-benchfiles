@@ -239,8 +239,8 @@ MCTESTER:
 
 --------------------------------------------------------------------------------
 
-WmumuNLO/mc-tester.root-Wmunu-photos-100M-1-phot
-WmumuNLO/mc-tester.root-Wmunu-photos-100M-1-phot-NLO
+WmunuNLO/mc-tester.root-Wmunu-photos-100M-1-phot
+WmunuNLO/mc-tester.root-Wmunu-photos-100M-1-phot-NLO
 --------------------------------------
 
 PROCESS:
@@ -266,7 +266,7 @@ MCTESTER:
 
 --------------------------------------------------------------------------------
 
-WmumuNLO/mc-tester.root-Wmunu-photos-100M-nosym-10MeV-1-phot-NLO
+WmunuNLO/mc-tester.root-Wmunu-photos-100M-nosym-10MeV-1-phot-NLO
 --------------------------------------
 
 PROCESS:
@@ -292,7 +292,7 @@ MCTESTER:
 
 --------------------------------------------------------------------------------
 
-WmumuNLO/mc-tester.root-Wmunu-photos-F77-100M-1-phot-5MeV-NLO
+WmunuNLO/mc-tester.root-Wmunu-photos-F77-100M-1-phot-5MeV-NLO
 --------------------------------------
 
 PROCESS:
