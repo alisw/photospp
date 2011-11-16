@@ -1,35 +1,38 @@
 ---------------------------------------------------------------------------
 This directory contains a number of MC-TESTER tests which can be performed
 to validate the currently installed version of PHOTOS and its interface
-against the benchmark version
+against the benchmark versions
 ---------------------------------------------------------------------------
 
+These tests use code located in "photos_test.c" and "phtost_tauola_test.c".
+These files contain hardcoded options for all of the tests and are not
+designed to be modified by user. For users willing to test or learn usage
+of different options, examples provided in "PHOTOS/examples" directory are
+of much more help.
 
-These tests use examples provided in the "examples" directory.
-Any changes to these files will also alter the tests.
+To run, type "make" in this directory. You can run a single test by typing
+"make" in the corresponding subdirectory. After the test is completed,
+ MC-TESTER booklets can be found in the subdirectories of each test.
+The number of generated events can be set in the "test.inc" file.
 
-To run, compile photos_pythia_example.c and tauola_photos_pythia_example.c,
-then type "make" in this directory. You can run a single test by typing
-"make" in the corresponding subdirectory. MC-TESTER booklets can be found
-in the subdirectories of each test. The number of generated events can be
-set in the "test.inc" file.
-
-Examples using photos_pythia_example:
-- Wenu
-- Wmunu
-- Zee
-- Zmunu
-- ttbar
-
-Examples using tauola_photos_pythia_example:
+Note that examples:
 - Htautau
 - Ztautau
 
+use "photos_tauola_test.c", which requires that path to Tauola C++ Interface
+is provided during configuration.
+
+The list of modes used for generation is located in the "test.inc" file.
+An appropriate mode is selected in the "Makefile" of each test directory.
 
 ---------------------------------------------------------------------------
-These tests use special options of examples provided with PHOTOS. The list 
-of modes used for generation is located in the "test.inc" file; an appropriate
-mode is selected in the "Makefile" of each test. In general, these files
-should not be modified; instead generation setup can be altered in the code
-of photos_pythia_example.c and tauola_photos_pythia.c.
+FOR ADVANCED USERS:
+
+Each Makefile contains a list of available benchmark files that can be
+switched for comparison. However, this option requires further changes.
+In some cases its a matter of turning on NLO correction option or turning
+on/off single photon emmision in Makefile. However, to compare with an older
+benchmark files, more extensive changes are required. A full list of
+advanced benchmarks, with appropriate options that need to be set,
+is located in README-advanced-tests.
 ---------------------------------------------------------------------------
