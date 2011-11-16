@@ -1,16 +1,16 @@
 ---------------------------------------------------------------------------
-This directory contains a number of MC-TESTER tests which can be performed
-to validate the currently installed version of PHOTOS and its interface
-against the benchmark versions
+This directory contains a number of MC-TESTER based tests which can be 
+performed to validate the currently installed version of PHOTOS and its 
+interface against benchmark results encoded in root files.
 ---------------------------------------------------------------------------
 
-These tests use code located in "photos_test.c" and "phtost_tauola_test.c".
+These tests use code located in "photos_test.c" and "photot_tauola_test.c".
 These files contain hardcoded options for all of the tests and are not
-designed to be modified by user. For users willing to test or learn usage
-of different options, examples provided in "PHOTOS/examples" directory are
-of much more help.
+designed to be manipulated by user. Appropriate options are set by makefiles.
+For users willing to investigate all options, examples provided in 
+"PHOTOS/examples" may represent better starting point.
 
-To run, type "make" in this directory. You can run a single test by typing
+To run, type "make" in directory testing. You can run a single test by 
 "make" in the corresponding subdirectory. After the test is completed,
  MC-TESTER booklets can be found in the subdirectories of each test.
 The number of generated events can be set in the "test.inc" file.
@@ -19,14 +19,14 @@ Note that examples:
 - Htautau
 - Ztautau
 
-use "photos_tauola_test.c", which requires that path to Tauola C++ Interface
-is provided during configuration.
+use "photos_tauola_test.c"; it requires that path to Tauola C++ Interface
+is defined during configuration.
 
 ---------------------------------------------------------------------------
 The list of modes and options used for generation is located in the
-"test.inc" file. Most of the benchmark files can be used without
-modification or by applying small changes to Makefile or SETUP.C files
-located in each subdirectory.
+"test.inc" file. It is used by make. 
 
-Full list of such changes is located in:     README-comparison-options
+In some cases further changes to Makefile or SETUP.C files (located 
+in  subdirectory of particular test) are needed.
+Full list of such changes resides in:     README-comparison-options
 ---------------------------------------------------------------------------
