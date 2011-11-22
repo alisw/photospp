@@ -499,6 +499,8 @@ MCTESTER:
 
 SOURCE:
      http://mc-tester.web.cern.ch/MC-TESTER/PHOTOS-MCTESTER/Results/Data/91GeV/PHOTOS-EXP-1PHOTON/ET-1.0/
+     NOTE: source file has been converted to new format.
+           Ordering of particles in decay modes has changed.
 --------------------------------------------------------------------------------
 
 
