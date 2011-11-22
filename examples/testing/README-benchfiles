@@ -237,6 +237,8 @@ MCTESTER:
    analysis:	UserTreeAnalysis
      E_test:	0.005 , max 2 photons
 
+SOURCE:
+     http://cern.ch/~wasm/public/prod1-photos-mc-tester.root
 --------------------------------------------------------------------------------
 
 WmunuNLO/mc-tester.root-Wmunu-photos-100M-1-phot
@@ -471,6 +473,34 @@ MCTESTER:
      E_test:	0.01/91.187 (10MeV), max 2 photons
 
 --------------------------------------------------------------------------------
+
+Zmumu/mc-tester.root-Zmumu-photos-F77-1-phot-EXP-1GeV
+----------------------------------------------------
+
+PROCESS:
+  collision:    e+e-@91.187
+  generator:    KK+PHOTOS
+     events:    100M
+
+PHOTOS:
+      first:    yes
+     second:    no
+        exp:    no
+     cutoff:    1./91.187
+
+MCTESTER:
+   particle:    23 (Z0)
+ mass power:    1
+ mass scale:    off
+ histograms:    1200 bins; [0 , 120]
+
+   analysis:    F77 code equivalent to UserTreeAnalysis used
+     E_test:    1./91.177 (1GeV), max 2 photons
+
+SOURCE:
+     http://mc-tester.web.cern.ch/MC-TESTER/PHOTOS-MCTESTER/Results/Data/91GeV/PHOTOS-EXP-1PHOTON/ET-1.0/
+--------------------------------------------------------------------------------
+
 
 ZmumuNLO/mc-tester.root-Zmumu-CEEX1-100M-nosym-1GeV         - COPIED FROM Zmumu
 ZmumuNLO/mc-tester.root-Zmumu-CEEX2-100M-nosym-1GeV         - COPIED FROM Zmumu
