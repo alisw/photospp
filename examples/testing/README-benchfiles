@@ -617,6 +617,54 @@ MCTESTER:
 
 --------------------------------------------------------------------------------
 
+ZmumuNLO/mc-tester.root-Zmumu-koralz-100M-1-phot-1GeV-NLO
+----------------------------------------------------
+
+PROCESS:
+  collision:    e+e-@91.187
+  generator:    KORALZ
+     events:    100M
+
+PHOTOS:
+      first:    yes
+     second:    no
+        exp:    no
+     cutoff:    1./91.187
+
+MCTESTER:
+   particle:    23 (Z0)
+ mass power:    1
+ mass scale:    off
+ histograms:    120 bins; [0 , 100]
+
+SOURCE:
+     http://mc-tester.web.cern.ch/MC-TESTER/PHOTOS-MCTESTER/AtNLO/Data/O1/mc-tester.root-koralz-O-alpha
+--------------------------------------------------------------------------------
+
+ZmumuNLO/mc-tester.root-Zmumu-koralz-100M-1-photon-1GeV-NLO
+----------------------------------------------------
+
+PROCESS:
+  collision:    e+e-@91.187
+  generator:    KK+PHOTOS
+     events:    100M
+
+PHOTOS:
+      first:    yes
+     second:    no
+        exp:    no
+     cutoff:    1./91.187
+
+MCTESTER:
+   particle:    23 (Z0)
+ mass power:    1
+ mass scale:    off
+ histograms:    120 bins; [0 , 100]
+
+SOURCE:
+     http://mc-tester.web.cern.ch/MC-TESTER/PHOTOS-MCTESTER/AtNLO/Data/O1/mc-tester.root-PHOTOS-NLO-O-alpha
+--------------------------------------------------------------------------------
+
 Ztautau/mc-tester.root-pispectr-RCall
 -------------------------------------
 
