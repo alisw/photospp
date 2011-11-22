@@ -665,6 +665,35 @@ SOURCE:
      http://mc-tester.web.cern.ch/MC-TESTER/PHOTOS-MCTESTER/AtNLO/Data/O1/mc-tester.root-PHOTOS-NLO-O-alpha
 --------------------------------------------------------------------------------
 
+ZmumuNLO/mc-tester.root-Zmumu-kkmc-100M-1GeV-nosym-NLO
+----------------------------------------------------
+
+PROCESS:
+  collision:    e+e-@91.187
+  generator:    KKMC, photons are ordered
+     events:    100M
+
+PHOTOS:
+      first:    no
+     second:    no
+        exp:    yes
+     cutoff:    10e-7 (default)
+
+MCTESTER:
+   particle:    23 (Z0)
+ mass power:    1
+ mass scale:    off
+ histograms:    1200 bins; [0 , 120]
+
+   analysis:    F77 code equivalent to UserTreeAnalysis used
+     E_test:    1./91.187 (1GeV), max 2 photons
+
+SOURCE:
+     http://mc-tester.web.cern.ch/MC-TESTER/PHOTOS-MCTESTER/AtNLO/Data/EXP-2PHOTON/mc-tester-kkmc3-2.root
+     NOTE: source file has been converted to new format.
+           Ordering of particles in decay modes has changed.
+--------------------------------------------------------------------------------
+
 Ztautau/mc-tester.root-pispectr-RCall
 -------------------------------------
 

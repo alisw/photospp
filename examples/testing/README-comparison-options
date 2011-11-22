@@ -93,6 +93,7 @@ WmunuNLO/mc-tester.root-Wmunu-photos-F77-100M-1-phot-5MeV-NLO
 Zmumu/mc-tester.root-Zmumu-photos-F77-1-phot-EXP-1GeV
 ZmumuNLO/mc-tester.root-Zmumu-koralz-100M-1-phot-1GeV-NLO
 ZmumuNLO/mc-tester.root-Zmumu-photos-F77-100M-1-phot-1GeV-NLO
+ZmumuNLO/mc-tester.root-Zmumu-kkmc-F77-100M-nosym-1GeV-NLO
 -------------------------------------------------------------
 
 In Makefile, uncomment line:
@@ -101,4 +102,12 @@ In Makefile, uncomment line:
 ONE_PHOTON_MODE = 1
 
 In SETUP.C,  uncomment block of code provided at the end of the file.
+
+ZmumuNLO/mc-tester.root-Zmumu-kkmc-F77-100M-nosym-1GeV-NLO
+-------------------------------------------------------------
+
+Same as with above examples, but ONE_PHOTON_MODE = 0
+
+Note that for this example, second set of options located
+at the end of ZmumuNLO/SETUP.C must be used
 

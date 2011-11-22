@@ -39,6 +39,9 @@
                Uncomment when generating comparison with these files
     ***************************************************************************/
 /*
+    // for benchmark files: mc-tester.root-Zmumu-koralz-100M-1-phot-1GeV-NLO
+    //                      mc-tester.root-Zmumu-photos-F77-100M-1-phot-1GeV-NLO
+
     n_bins=120;
     default_min_bin=0.0;
     default_max_bin=100.0;
@@ -46,6 +49,18 @@
     Setup::mass_scale_on=false;
     Setup::mass_power=1;
 
+    Setup::UTA_params[0]=1./91.187;
+*/
+    // for benchmark file:  mc-tester.root-Zmumu-kkmc-F77-100M-nosym-1GeV-NLO
+/*
+    n_bins=1200;
+    default_min_bin=0.0;
+    default_max_bin=120.0;
+    Setup::SetHistogramDefaults(n_bins,default_min_bin,default_max_bin);
+    Setup::mass_scale_on=false;
+    Setup::mass_power=1;
+
+    Setup::UserTreeAnalysis = "ZmumuAnalysis"; // Orders photons as in KKMC
     Setup::UTA_params[0]=1./91.187;
 */
     /**************************************************************************/
