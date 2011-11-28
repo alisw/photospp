@@ -36,7 +36,7 @@
                           Settings for old FORTRAN tests
                Uncomment when generating comparison with these files
     ***************************************************************************/
-
+/*
     n_bins=1200;
     default_min_bin=0.0;
     default_max_bin=120.0;
@@ -44,8 +44,10 @@
     Setup::mass_scale_on=false;
     Setup::mass_power=1;
 
+    Setup::UserTreeAnalysis = "UserTreeAnalysis";
     Setup::UTA_params[0]=1./91.187;
-
+    Setup::UTA_params[1]=1;
+*/
     /**************************************************************************/
    
   }
