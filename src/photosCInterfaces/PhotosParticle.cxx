@@ -3,7 +3,6 @@
 #include "PhotosParticle.h"
 #include "Log.h"
 using std::vector;
-typedef Photos::Log Log;
 
 bool PhotosParticle::hasDaughters()
 {

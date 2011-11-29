@@ -21,7 +21,7 @@ UTILITIES_DIR                = utilities
 all: photos_fortran src
 
 ##### Link objects to make library ######
-src: $(EVENT_RECORD_INTERFACE_DIR) $(FORTRAN_PHOTOS_INTERFACE_DIR) $(C_PHOTOS_INTERFACE_DIR) $(UTILITIES_DIR)
+src: include_dir $(EVENT_RECORD_INTERFACE_DIR) $(FORTRAN_PHOTOS_INTERFACE_DIR) $(C_PHOTOS_INTERFACE_DIR) $(UTILITIES_DIR)
 	ar cr lib/$(LIB_PHOTOS_CXX_INT_A) $(PHOTOS_CXX_INT_OBJECTS)
 	$(LD) $(LDFLAGS) $(SOFLAGS) -o lib/$(LIB_PHOTOS_CXX_INT_SO).$(LIB_VER) $(PHOTOS_CXX_INT_OBJECTS)
 	ln -sf $(LIB_PHOTOS_CXX_INT_SO).$(LIB_VER) lib/$(LIB_PHOTOS_CXX_INT_SO)
@@ -35,29 +35,32 @@ src: $(EVENT_RECORD_INTERFACE_DIR) $(FORTRAN_PHOTOS_INTERFACE_DIR) $(C_PHOTOS_IN
 	@echo "  installed. For details see examples/README.                     "
 	@echo "##################################################################"
 
+include_dir:
+	mkdir -p include/Photos
+
 ####### Make object files ########
 $(FORTRAN_PHOTOS_INTERFACE_DIR):
 	make -C src/$(FORTRAN_PHOTOS_INTERFACE_DIR)
-	cp src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/*.h include
+	cp src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/*.h include/Photos
 
 $(EVENT_RECORD_INTERFACE_DIR):
 	make -C src/$(EVENT_RECORD_INTERFACE_DIR)
-	cp src/$(EVENT_RECORD_INTERFACE_DIR)/*.h include
+	cp src/$(EVENT_RECORD_INTERFACE_DIR)/*.h include/Photos
 
 $(C_PHOTOS_INTERFACE_DIR):
 	make -C src/$(C_PHOTOS_INTERFACE_DIR)
-	cp src/$(C_PHOTOS_INTERFACE_DIR)/*.h include
+	cp src/$(C_PHOTOS_INTERFACE_DIR)/*.h include/Photos
 
 $(UTILITIES_DIR):
 	make -C src/$(UTILITIES_DIR)
-	cp src/$(UTILITIES_DIR)/*.h include
+	cp src/$(UTILITIES_DIR)/*.h include/Photos
 
 photos_fortran:
 	make -C photos-fortran
 
 install:
-	mkdir -p $(PREFIX)/include
-	cp include/* $(PREFIX)/include/.
+	mkdir -p $(PREFIX)/include/Photos
+	cp include/Photos/* $(PREFIX)/include/Photos/.
 	mkdir -p $(PREFIX)/lib
 	cp lib/* $(PREFIX)/lib/.
 

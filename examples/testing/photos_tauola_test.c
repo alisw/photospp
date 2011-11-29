@@ -17,15 +17,14 @@
 #include "Setup.H"
 
 //TAUOLA header files
-#include "Tauola.h"
-#include "TauolaHepMCEvent.h"
+#include "Tauola/Tauola.h"
+#include "Tauola/TauolaHepMCEvent.h"
 
 //PHOTOS header files
-#include "Photos.h"
-#include "PhotosHepMCParticle.h"
-#include "PhotosHepMCEvent.h"
-#include "Log.h"
-typedef Photos::Log Log; //We're using Photos version of Log class
+#include "Photos/Photos.h"
+#include "Photos/PhotosHepMCParticle.h"
+#include "Photos/PhotosHepMCEvent.h"
+#include "Photos/Log.h"
 
 using namespace std;
 using namespace Pythia8;

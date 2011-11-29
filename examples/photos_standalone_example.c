@@ -11,10 +11,9 @@
 #include "HepMC/IO_GenEvent.h"
 
 //PHOTOS header files
-#include "Photos.h"
-#include "PhotosHepMCEvent.h"
-#include "Log.h"
-typedef Photos::Log Log; //We're using Photos version of Log class
+#include "Photos/Photos.h"
+#include "Photos/PhotosHepMCEvent.h"
+#include "Photos/Log.h"
 
 using namespace std;
 

@@ -5,7 +5,6 @@
 #include "PH_HEPEVT_Interface.h"
 #include "Log.h"
 using namespace std;
-typedef Photos::Log Log;
 
 vector<PhotosParticle*> PH_HEPEVT_Interface::m_particle_list;
 int PH_HEPEVT_Interface::ME_channel=0;

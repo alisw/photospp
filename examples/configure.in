@@ -102,7 +102,7 @@ echo ""
 # Check for Photos
 CPPFLAGS="-I$PREFIX/include -I$PHOTOS/include $CPPFLAGS"
 
-AC_CHECK_HEADER([Photos.h], ,
+AC_CHECK_HEADER([Photos/Photos.h], ,
 [ echo "" &&
   echo "ERROR: Compile Photos C++ Interface first."
   echo ""
@@ -113,7 +113,7 @@ AC_CHECK_HEADER([Photos.h], ,
 # Check for Tauola
 CPPFLAGS="-I$with_Tauola/include $CPPFLAGS"
 
-AC_CHECK_HEADER([Tauola.h],
+AC_CHECK_HEADER([Tauola/Tauola.h],
   HAS_TAUOLA=1,
 [ HAS_TAUOLA=0 &&
   echo "" &&

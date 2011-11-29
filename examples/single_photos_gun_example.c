@@ -11,10 +11,9 @@
 #include "HepMCInterface.h"
 
 //PHOTOS header files
-#include "Photos.h"
-#include "PhotosHepMCParticle.h"
-#include "Log.h"
-typedef Photos::Log Log; //We're using Photos version of Log class
+#include "Photos/Photos.h"
+#include "Photos/PhotosHepMCParticle.h"
+#include "Photos/Log.h"
 
 using namespace std;
 using namespace Pythia8;

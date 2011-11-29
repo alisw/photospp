@@ -27,8 +27,6 @@ public:
 	static const int VER_MAJOR=3, VER_MINOR=2;
 	static const int DAT_DAY  =23,DAT_MONTH=04,DAT_YEAR=11;
 public:
-	/** Logging and memory leak tracking class */
-	class Log;
 
 	/** Initalize Photos with the parameters previously set via the
 	   setter methods */
