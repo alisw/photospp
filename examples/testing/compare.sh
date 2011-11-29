@@ -2,7 +2,13 @@
 # Written by N. Davidson (2008)
 # This bash script demonstrates how to perform the "Analysis" 
 # step from a directory outside MC-TESTER.
-
+if test -z ${MCTESTERLOCATION}; then
+	echo ""
+	echo "ERROR: \$MCTESTERLOCATION not set. Analysis cannot be performed."
+	echo "       Use: export MCTESTERLOCATION=<path_to_mc_tester>"
+	echo ""
+	exit -1
+fi
 #----------------------------------
 # Change these variables
 #----------------------------------
