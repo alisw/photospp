@@ -75,7 +75,7 @@ echo "Using HepMC location: $with_HepMC"
 AC_MSG_CHECKING([if Tauola location defined])
 AC_ARG_WITH(
   [Tauola],
-    [AS_HELP_STRING([--with-Tauola], [Path to Tauola C++] )],,
+    [AS_HELP_STRING([--with-Tauola], [Path to Tauola C++ v1.0.5 or later] )],,
   [with_Tauola=$tauolalocation]
 )
 AC_MSG_RESULT([$with_Tauola])
