@@ -13,7 +13,6 @@ AM_LDFLAGS = -R $(abs_top_srcdir)/lib -R $(HEPMC_DIR)/lib
 LDADD =                          \
 $(FLIBS)                         \
 ../lib/libPhotosCxxInterface.so  \
-../lib/libPhotosFortran.so       \
 -L$(HEPMC_DIR)/lib -lHepMC
 
 ### Photos gun example (require Pythia8) ###

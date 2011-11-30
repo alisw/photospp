@@ -6,7 +6,9 @@ Documentation is in documentation/latex_documentation, type "make" there
 
 To compile the interface:
 - Execute "./configure" (if the path to HepMC is not set with
-                        HEPMCLOCATION, use "./configure --with-HepMC=<path>")
+                        HEPMCLOCATION, use "./configure --with-hepmc=<path>"
+                        Use "./configure --without-hepmc"
+                        to compile without HepMC)
 - Execute "make"
 
 --------------------------------------
@@ -44,4 +46,4 @@ export PATH=/afs/cern.ch/sw/lcg/app/releases/ROOT/5.22.00/slc4_amd64_gcc34/root/
 
 can be modified.
 
-Last Modified: T. Przedzinski, 30 Oct. 2010
+Last Modified: T. Przedzinski, 29 Nov. 2011
