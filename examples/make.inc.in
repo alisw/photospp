@@ -1,3 +1,5 @@
+PHOTOSLOCATION=   @with_photos@
+HEPMCLOCATION=    @with_hepmc@
 TAUOLALOCATION=   @with_tauola@
 PYTHIALOCATION=   @with_pythia8@
 MCTESTERLOCATION= @with_mc_tester@

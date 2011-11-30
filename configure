@@ -312,7 +312,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS SET_MAKE LN_S CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CXX CXXFLAGS ac_ct_CXX RANLIB ac_ct_RANLIB F77 FFLAGS ac_ct_F77 CPP DIRECT_CPP CXXCPP EGREP LIBOBJS with_hepmc photos pythia8data with_tauola with_pythia8 with_mc_tester LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS SET_MAKE LN_S CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CXX CXXFLAGS ac_ct_CXX RANLIB ac_ct_RANLIB F77 FFLAGS ac_ct_F77 CPP DIRECT_CPP CXXCPP EGREP LIBOBJS with_hepmc with_photos pythia8data with_tauola with_pythia8 with_mc_tester LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -4758,7 +4758,12 @@ done
 
 
 ##############################################################################
-photos=`pwd`
+with_photos=`pwd`
+
+if test "$prefix" != "NONE"; then
+  with_photos=$prefix
+fi
+
 pythia8data=$PYTHIA8DATA
 
 if test -z "$pythia8data"; then
@@ -5434,7 +5439,7 @@ s,@CXXCPP@,$CXXCPP,;t t
 s,@EGREP@,$EGREP,;t t
 s,@LIBOBJS@,$LIBOBJS,;t t
 s,@with_hepmc@,$with_hepmc,;t t
-s,@photos@,$photos,;t t
+s,@with_photos@,$with_photos,;t t
 s,@pythia8data@,$pythia8data,;t t
 s,@with_tauola@,$with_tauola,;t t
 s,@with_pythia8@,$with_pythia8,;t t

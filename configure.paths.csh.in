@@ -1,7 +1,6 @@
 #!/bin/csh
 
-setenv PHOTOSLOCATION "@photos@"
-setenv PREFIX "@prefix@"
+setenv PHOTOSLOCATION "@with_photos@"
 setenv HEPMCLOCATION "@with_hepmc@"
 setenv TAUOLALOCATION "@with_tauola@"
 setenv PYTHIALOCATION "@with_pythia8@"

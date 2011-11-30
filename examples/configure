@@ -310,7 +310,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS CXX CXXFLAGS LDFLAGS CPPFLAGS ac_ct_CXX EXEEXT OBJEXT CXXCPP EGREP HAS_ROOT_CONFIG HAS_ROOT_EXE photos with_tauola with_hepmc pythia8data with_pythia8 with_mc_tester LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS CXX CXXFLAGS LDFLAGS CPPFLAGS ac_ct_CXX EXEEXT OBJEXT CXXCPP EGREP HAS_ROOT_CONFIG HAS_ROOT_EXE with_photos with_hepmc with_tauola pythia8data with_pythia8 with_mc_tester LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -843,9 +843,12 @@ if test -n "$ac_init_help"; then
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-photos           Path to Photos installation (needed if examples are
+                          separated from Photos source code)
   --with-tauola           Path to Tauola C++ v1.0.5 or later
   --with-mc-tester        Path to MC-TESTER 1.23 or later
   --with-pythia8          Path to Pythia 8.1 or later
+  --with-hepmc            Path to HepMC 2.xx
 
 Some influential environment variables:
   CXX         C++ compiler command
@@ -1321,57 +1324,75 @@ fi
 env_mc_tester=$MCTESTERLOCATION
 env_pythia8data=$PYTHIA8DATA
 
+hepmclocation=$HEPMCLOCATION
+photoslocation=$PHOTOSLOCATION
 tauolalocation=$TAUOLALOCATION
 mctesterlocation=$MCTESTERLOCATION
 pythialocation=$PYTHIALOCATION
 pythia8data=$PYTHIA8DATA
 
 ##############################################################################
-# Load paths and check if we want to use them
-source ../configure.paths.sh
+# Find Photos source code location and load paths
 
-photos=$PHOTOSLOCATION
-prefix=$PREFIX
-with_hepmc=$HEPMCLOCATION
-CPPFLAGS="-I$with_hepmc/include $CPPFLAGS"
+echo ""
+
+echo "$as_me:$LINENO: checking if Photos location defined" >&5
+echo $ECHO_N "checking if Photos location defined... $ECHO_C" >&6
+
+# Check whether --with-photos or --without-photos was given.
+if test "${with_photos+set}" = set; then
+  withval="$with_photos"
+  echo "$as_me:$LINENO: result: $with_photos" >&5
+echo "${ECHO_T}$with_photos" >&6
+else
+
+    with_photos=`(cd ..; pwd)`
+    echo "$as_me:$LINENO: result: $with_photos (automatic)" >&5
+echo "${ECHO_T}$with_photos (automatic)" >&6
+
+
+fi;
+
+### Load configure.paths.sh
+
+if test -e "$with_photos/configure.paths.sh"; then
+  source $with_photos/configure.paths.sh
+elif test -e "$photoslocation/configure.paths.sh"; then
+  source $photoslocation/configure.paths.sh
+  with_photos=$photoslocation
+elif test -z "$with_photos"; then
+  echo "ERROR: Cannot find Photos location."
+  echo "       Execute './configure --with-photos=<path>' "
+  exit 0
+fi
+
+##############################################################################
+### Check if other locations are defined
+
+### Prefer configure.paths.sh than environment paths
+
+if test ! -z "$HEPMCLOCATION"; then
+  hepmclocation=$HEPMCLOCATION
+fi
+
+if test ! -z "$TAUOLALOCATION"; then
+  tauolalocation=$TAUOLALOCATION
+fi
+
+if test ! -z "$MCTESTERLOCATION"; then
+  mctesterlocation=$MCTESTERLOCATION
+fi
+
+if test ! -z "$PYTHIALOCATION"; then
+  pythialocation=$PYTHIALOCATION
+fi
+
+### Force all paths if AFS_PATHS was defined
 
 if test "$AFS_PATHS" == "yes"; then
-	with_hepmc=$HEPMCLOCATION
-	with_tauola=$tauolalocation
-	with_mc_tester=$mctesterlocation
-	with_pythia8=$pythialocation
-	pythia8data=$pythia8data
-fi
-
-if test -z $HEPMCLOCATION; then
-	echo "ERROR: HEPMCLOCATION not set."
-	echo "       Execute './configure --with-hepmc=<path>' in main direcotry."
-	exit -1
-fi
-
-if test -z $tauolalocation; then
-	tauolalocation=$TAUOLALOCATION
-fi
-
-if test -z $tauolalocation; then
-	tauolalocation=no
-fi
-
-if test -z $mctesterlocation; then
-	mctesterlocation=$MCTESTERLOCATION
-fi
-
-if test -z $mctesterlocation; then
-	mctesterlocation=no
-fi
-
-if test -z $pythialocation; then
-	pythialocation=$PYTHIALOCATION
-	pythia8data=$PYTHIA8DATA
-fi
-
-if test -z $pythialocation; then
-	pythialocation=no
+  with_hepmc=$HEPMCLOCATION
+  with_mc_tester=$MCTESTERLOCATION
+  with_pythia8=$PYTHIALOCATION
 fi
 
 ##############################################################################
@@ -1422,11 +1443,25 @@ fi;
 echo "$as_me:$LINENO: result: $with_pythia8" >&5
 echo "${ECHO_T}$with_pythia8" >&6
 
-echo ""
 
+echo "$as_me:$LINENO: checking if HepMC location is defined" >&5
+echo $ECHO_N "checking if HepMC location is defined... $ECHO_C" >&6
+
+# Check whether --with-hepmc or --without-hepmc was given.
+if test "${with_hepmc+set}" = set; then
+  withval="$with_hepmc"
+
+else
+  with_hepmc=$hepmclocation
+
+fi;
+echo "$as_me:$LINENO: result: $with_hepmc" >&5
+echo "${ECHO_T}$with_hepmc" >&6
+
+echo ""
 ##############################################################################
-# Check for Photos
-CPPFLAGS="-I$PREFIX/include -I$PHOTOSLOCATION/include $CPPFLAGS"
+# Check for HepMC header files
+CPPFLAGS="-I$with_hepmc/include $CPPFLAGS"
 
 ac_ext=cc
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -2469,6 +2504,169 @@ fi
 done
 
 
+
+for ac_header in HepMC/Version.h
+do
+as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
+if eval "test \"\${$as_ac_Header+set}\" = set"; then
+  echo "$as_me:$LINENO: checking for $ac_header" >&5
+echo $ECHO_N "checking for $ac_header... $ECHO_C" >&6
+if eval "test \"\${$as_ac_Header+set}\" = set"; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+fi
+echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_Header'}'`" >&5
+echo "${ECHO_T}`eval echo '${'$as_ac_Header'}'`" >&6
+else
+  # Is the header compilable?
+echo "$as_me:$LINENO: checking $ac_header usability" >&5
+echo $ECHO_N "checking $ac_header usability... $ECHO_C" >&6
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+$ac_includes_default
+#include <$ac_header>
+_ACEOF
+rm -f conftest.$ac_objext
+if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
+  (eval $ac_compile) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest.$ac_objext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_header_compiler=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_header_compiler=no
+fi
+rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
+echo "$as_me:$LINENO: result: $ac_header_compiler" >&5
+echo "${ECHO_T}$ac_header_compiler" >&6
+
+# Is the header present?
+echo "$as_me:$LINENO: checking $ac_header presence" >&5
+echo $ECHO_N "checking $ac_header presence... $ECHO_C" >&6
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <$ac_header>
+_ACEOF
+if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
+  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } >/dev/null; then
+  if test -s conftest.err; then
+    ac_cpp_err=$ac_cxx_preproc_warn_flag
+    ac_cpp_err=$ac_cpp_err$ac_cxx_werror_flag
+  else
+    ac_cpp_err=
+  fi
+else
+  ac_cpp_err=yes
+fi
+if test -z "$ac_cpp_err"; then
+  ac_header_preproc=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+  ac_header_preproc=no
+fi
+rm -f conftest.err conftest.$ac_ext
+echo "$as_me:$LINENO: result: $ac_header_preproc" >&5
+echo "${ECHO_T}$ac_header_preproc" >&6
+
+# So?  What about this header?
+case $ac_header_compiler:$ac_header_preproc:$ac_cxx_preproc_warn_flag in
+  yes:no: )
+    { echo "$as_me:$LINENO: WARNING: $ac_header: accepted by the compiler, rejected by the preprocessor!" >&5
+echo "$as_me: WARNING: $ac_header: accepted by the compiler, rejected by the preprocessor!" >&2;}
+    { echo "$as_me:$LINENO: WARNING: $ac_header: proceeding with the compiler's result" >&5
+echo "$as_me: WARNING: $ac_header: proceeding with the compiler's result" >&2;}
+    ac_header_preproc=yes
+    ;;
+  no:yes:* )
+    { echo "$as_me:$LINENO: WARNING: $ac_header: present but cannot be compiled" >&5
+echo "$as_me: WARNING: $ac_header: present but cannot be compiled" >&2;}
+    { echo "$as_me:$LINENO: WARNING: $ac_header:     check for missing prerequisite headers?" >&5
+echo "$as_me: WARNING: $ac_header:     check for missing prerequisite headers?" >&2;}
+    { echo "$as_me:$LINENO: WARNING: $ac_header: see the Autoconf documentation" >&5
+echo "$as_me: WARNING: $ac_header: see the Autoconf documentation" >&2;}
+    { echo "$as_me:$LINENO: WARNING: $ac_header:     section \"Present But Cannot Be Compiled\"" >&5
+echo "$as_me: WARNING: $ac_header:     section \"Present But Cannot Be Compiled\"" >&2;}
+    { echo "$as_me:$LINENO: WARNING: $ac_header: proceeding with the preprocessor's result" >&5
+echo "$as_me: WARNING: $ac_header: proceeding with the preprocessor's result" >&2;}
+    { echo "$as_me:$LINENO: WARNING: $ac_header: in the future, the compiler will take precedence" >&5
+echo "$as_me: WARNING: $ac_header: in the future, the compiler will take precedence" >&2;}
+    (
+      cat <<\_ASBOX
+## -------------------------------------------- ##
+## Report this to tomasz.przedzinski@uj.edu.pl  ##
+## -------------------------------------------- ##
+_ASBOX
+    ) |
+      sed "s/^/$as_me: WARNING:     /" >&2
+    ;;
+esac
+echo "$as_me:$LINENO: checking for $ac_header" >&5
+echo $ECHO_N "checking for $ac_header... $ECHO_C" >&6
+if eval "test \"\${$as_ac_Header+set}\" = set"; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  eval "$as_ac_Header=\$ac_header_preproc"
+fi
+echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_Header'}'`" >&5
+echo "${ECHO_T}`eval echo '${'$as_ac_Header'}'`" >&6
+
+fi
+if test `eval echo '${'$as_ac_Header'}'` = yes; then
+  cat >>confdefs.h <<_ACEOF
+#define `echo "HAVE_$ac_header" | $as_tr_cpp` 1
+_ACEOF
+ HAS_HEPMC=1
+else
+   HAS_HEPMC=0 &&
+  echo "" &&
+  echo "INFO: HepMC not found. To provide location use:" &&
+  echo "      './configure --with-hepmc=<path_to_HepMC>' "
+  echo "      (Consider using 'source platform/afs.paths.sh' (or .csh) )"
+  echo ""
+
+fi
+
+done
+
+
+##############################################################################
+# Check for Photos
+CPPFLAGS="-I$with_photos/include $CPPFLAGS"
+
 if test "${ac_cv_header_Photos_Photos_h+set}" = set; then
   echo "$as_me:$LINENO: checking for Photos/Photos.h" >&5
 echo $ECHO_N "checking for Photos/Photos.h... $ECHO_C" >&6
@@ -2610,7 +2808,7 @@ if test $ac_cv_header_Photos_Photos_h = yes; then
   :
 else
    echo "" &&
-  echo "ERROR: Compile Photos C++ Interface first."
+  echo "ERROR: Compile Tauola C++ Interface first."
   echo ""
   exit 0
 
@@ -3659,6 +3857,7 @@ fi
 	fi
 fi
 
+if test $HAS_HEPMC = 0;     then unset with_hepmc;     fi
 if test $HAS_TAUOLA = 0;    then unset with_tauola;    fi
 if test $HAS_PYTHIA = 0;    then unset with_pythia8;   fi
 if test $HAS_MC_TESTER = 0; then unset with_mc_tester; fi
@@ -3670,7 +3869,16 @@ if test $HAS_MC_TESTER = 0; then unset with_mc_tester; fi
 
 
 
-                              ac_config_files="$ac_config_files make.inc ../configure.paths.sh ../configure.paths.csh"
+
+
+          ac_config_files="$ac_config_files make.inc"
+
+
+### Save paths (only if configure.paths.sh exists and is writable)
+if test -e "$with_photos/configure.paths.sh" && test -w "$with_photos/configure.paths.sh"; then
+                      ac_config_files="$ac_config_files $with_photos/configure.paths.sh $with_photos/configure.paths.csh"
+
+fi
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -4223,8 +4431,8 @@ do
   case "$ac_config_target" in
   # Handling of arguments.
   "make.inc" ) CONFIG_FILES="$CONFIG_FILES make.inc" ;;
-  "../configure.paths.sh" ) CONFIG_FILES="$CONFIG_FILES ../configure.paths.sh" ;;
-  "../configure.paths.csh" ) CONFIG_FILES="$CONFIG_FILES ../configure.paths.csh" ;;
+  "$with_photos/configure.paths.sh" ) CONFIG_FILES="$CONFIG_FILES $with_photos/configure.paths.sh" ;;
+  "$with_photos/configure.paths.csh" ) CONFIG_FILES="$CONFIG_FILES $with_photos/configure.paths.csh" ;;
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
    { (exit 1); exit 1; }; };;
@@ -4319,9 +4527,9 @@ s,@CXXCPP@,$CXXCPP,;t t
 s,@EGREP@,$EGREP,;t t
 s,@HAS_ROOT_CONFIG@,$HAS_ROOT_CONFIG,;t t
 s,@HAS_ROOT_EXE@,$HAS_ROOT_EXE,;t t
-s,@photos@,$photos,;t t
-s,@with_tauola@,$with_tauola,;t t
+s,@with_photos@,$with_photos,;t t
 s,@with_hepmc@,$with_hepmc,;t t
+s,@with_tauola@,$with_tauola,;t t
 s,@pythia8data@,$pythia8data,;t t
 s,@with_pythia8@,$with_pythia8,;t t
 s,@with_mc_tester@,$with_mc_tester,;t t
@@ -4595,9 +4803,11 @@ fi
 echo "Finished!"
 echo "---------"
 echo ""
-confloc=`cd .. && pwd`
-echo "Consider using 'source $confloc/configure.paths.sh'"
-echo "(or .csh) for setting up several paths used by examples."
+
+if test -e "$with_photos/configure.paths.sh"; then
+  echo "Consider using 'source $with_photos/configure.paths.sh'"
+  echo "(or .csh) for setting up several paths used by examples."
+fi
 
 if test $HAS_TAUOLA = 0 || test $HAS_PYTHIA = 0 || test $HAS_MC_TESTER = 0; then
 	echo ""

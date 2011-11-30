@@ -109,7 +109,12 @@ AC_CHECK_HEADERS([HepMC/Version.h], ,
 ])
 
 ##############################################################################
-photos=`pwd`
+with_photos=`pwd`
+
+if test "$prefix" != "NONE"; then
+  with_photos=$prefix
+fi
+
 pythia8data=$PYTHIA8DATA
 
 if test -z "$pythia8data"; then
@@ -118,7 +123,7 @@ fi
 
 ln -sf platform/make.inc make.inc
 
-AC_SUBST(photos)
+AC_SUBST(with_photos)
 AC_SUBST(with_hepmc)
 AC_SUBST(pythia8data)
 AC_SUBST(with_tauola)

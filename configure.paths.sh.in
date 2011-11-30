@@ -1,7 +1,6 @@
 #!/bin/sh
 
-export PHOTOSLOCATION=@photos@
-export PREFIX=@prefix@
+export PHOTOSLOCATION=@with_photos@
 export HEPMCLOCATION=@with_hepmc@
 export TAUOLALOCATION=@with_tauola@
 export PYTHIALOCATION=@with_pythia8@

@@ -21,6 +21,7 @@ if test "$ANSWER" = "yes" || test "$ANSWER" = "y"; then
 
   mv ../examples/photos_standalone_example.c ../examples/photos_standalone_example.cxx
   mv ../examples/single_photos_gun_example.c ../examples/single_photos_gun_example.cxx
+  mv ../examples/photosLCG_pythia_example.c ../examples/photosLCG_pythia_example.cxx
   mv ../examples/photos_pythia_example.c ../examples/photos_pythia_example.cxx
   mv ../examples/tauola_photos_pythia_example.c ../examples/tauola_photos_pythia_example.cxx
 
