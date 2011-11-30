@@ -310,7 +310,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS CXX CXXFLAGS LDFLAGS CPPFLAGS ac_ct_CXX EXEEXT OBJEXT CXXCPP EGREP HAS_ROOT_CONFIG HAS_ROOT_EXE photos with_Tauola with_HepMC pythia8data with_Pythia8 with_MC_Tester LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS CXX CXXFLAGS LDFLAGS CPPFLAGS ac_ct_CXX EXEEXT OBJEXT CXXCPP EGREP HAS_ROOT_CONFIG HAS_ROOT_EXE photos with_tauola with_hepmc pythia8data with_pythia8 with_mc_tester LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -843,9 +843,9 @@ if test -n "$ac_init_help"; then
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --with-Tauola           Path to Tauola C++
-  --with-MC-Tester        Path to MC-TESTER 1.23 or later
-  --with-Pythia8          Path to Pythia 8.1 or later
+  --with-tauola           Path to Tauola C++ v1.0.5 or later
+  --with-mc-tester        Path to MC-TESTER 1.23 or later
+  --with-pythia8          Path to Pythia 8.1 or later
 
 Some influential environment variables:
   CXX         C++ compiler command
@@ -1330,22 +1330,22 @@ pythia8data=$PYTHIA8DATA
 # Load paths and check if we want to use them
 source ../configure.paths.sh
 
-photos=$PHOTOS
+photos=$PHOTOSLOCATION
 prefix=$PREFIX
-with_HepMC=$HEPMCLOCATION
-CPPFLAGS="-I$with_HepMC/include $CPPFLAGS"
+with_hepmc=$HEPMCLOCATION
+CPPFLAGS="-I$with_hepmc/include $CPPFLAGS"
 
 if test "$AFS_PATHS" == "yes"; then
-	with_HepMC=$HEPMCLOCATION
-	with_Tauola=$tauolalocation
-	with_MC_Tester=$mctesterlocation
-	with_Pythia8=$pythialocation
+	with_hepmc=$HEPMCLOCATION
+	with_tauola=$tauolalocation
+	with_mc_tester=$mctesterlocation
+	with_pythia8=$pythialocation
 	pythia8data=$pythia8data
 fi
 
 if test -z $HEPMCLOCATION; then
 	echo "ERROR: HEPMCLOCATION not set."
-	echo "       Execute './configure --with-HepMC=<path>' in main direcotry."
+	echo "       Execute './configure --with-hepmc=<path>' in main direcotry."
 	exit -1
 fi
 
@@ -1378,55 +1378,55 @@ fi
 # Process command line options
 
 echo ""
-echo "Using HepMC location: $with_HepMC"
+echo "Using HepMC location: $with_hepmc"
 
 echo "$as_me:$LINENO: checking if Tauola location defined" >&5
 echo $ECHO_N "checking if Tauola location defined... $ECHO_C" >&6
 
-# Check whether --with-Tauola or --without-Tauola was given.
-if test "${with_Tauola+set}" = set; then
-  withval="$with_Tauola"
+# Check whether --with-tauola or --without-tauola was given.
+if test "${with_tauola+set}" = set; then
+  withval="$with_tauola"
 
 else
-  with_Tauola=$tauolalocation
+  with_tauola=$tauolalocation
 
 fi;
-echo "$as_me:$LINENO: result: $with_Tauola" >&5
-echo "${ECHO_T}$with_Tauola" >&6
+echo "$as_me:$LINENO: result: $with_tauola" >&5
+echo "${ECHO_T}$with_tauola" >&6
 
 echo "$as_me:$LINENO: checking if MC-TESTER location defined" >&5
 echo $ECHO_N "checking if MC-TESTER location defined... $ECHO_C" >&6
 
-# Check whether --with-MC-Tester or --without-MC-Tester was given.
-if test "${with_MC_Tester+set}" = set; then
-  withval="$with_MC_Tester"
+# Check whether --with-mc-tester or --without-mc-tester was given.
+if test "${with_mc_tester+set}" = set; then
+  withval="$with_mc_tester"
 
 else
-  with_MC_Tester=$mctesterlocation
+  with_mc_tester=$mctesterlocation
 
 fi;
-echo "$as_me:$LINENO: result: $with_MC_Tester" >&5
-echo "${ECHO_T}$with_MC_Tester" >&6
+echo "$as_me:$LINENO: result: $with_mc_tester" >&5
+echo "${ECHO_T}$with_mc_tester" >&6
 
 echo "$as_me:$LINENO: checking if Pythia 8 location defined" >&5
 echo $ECHO_N "checking if Pythia 8 location defined... $ECHO_C" >&6
 
-# Check whether --with-Pythia8 or --without-Pythia8 was given.
-if test "${with_Pythia8+set}" = set; then
-  withval="$with_Pythia8"
+# Check whether --with-pythia8 or --without-pythia8 was given.
+if test "${with_pythia8+set}" = set; then
+  withval="$with_pythia8"
 
 else
-  with_Pythia8=$pythialocation
+  with_pythia8=$pythialocation
 
 fi;
-echo "$as_me:$LINENO: result: $with_Pythia8" >&5
-echo "${ECHO_T}$with_Pythia8" >&6
+echo "$as_me:$LINENO: result: $with_pythia8" >&5
+echo "${ECHO_T}$with_pythia8" >&6
 
 echo ""
 
 ##############################################################################
 # Check for Photos
-CPPFLAGS="-I$PREFIX/include -I$PHOTOS/include $CPPFLAGS"
+CPPFLAGS="-I$PREFIX/include -I$PHOTOSLOCATION/include $CPPFLAGS"
 
 ac_ext=cc
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -2620,7 +2620,7 @@ fi
 
 ##############################################################################
 # Check for Tauola
-CPPFLAGS="-I$with_Tauola/include $CPPFLAGS"
+CPPFLAGS="-I$with_tauola/include $CPPFLAGS"
 
 if test "${ac_cv_header_Tauola_Tauola_h+set}" = set; then
   echo "$as_me:$LINENO: checking for Tauola/Tauola.h" >&5
@@ -2765,7 +2765,7 @@ else
    HAS_TAUOLA=0 &&
   echo "" &&
   echo "INFO: Tauola not found. To provide location use:" &&
-  echo "      './configure --with-Tauola=<path_to_Tauola>' "
+  echo "      './configure --with-tauola=<path_to_Tauola>' "
   echo ""
 
 fi
@@ -3025,7 +3025,7 @@ fi
 
 ##############################################################################
 # Check for MC-Tester
-CPPFLAGS="-I$with_MC_Tester/include $CPPFLAGS"
+CPPFLAGS="-I$with_mc_tester/include $CPPFLAGS"
 
 if test $HAS_ROOT = 1; then
 	if test "${ac_cv_header_Generate_h+set}" = set; then
@@ -3171,7 +3171,7 @@ else
    HAS_MC_TESTER=0 &&
 	  echo "" &&
 	  echo "INFO: MC-Tester not found. To provide location use:" &&
-	  echo "      './configure --with-MC-Tester=<path_to_MC_Tester>' "
+	  echo "      './configure --with-mc-tester=<path_to_MC_Tester>' "
 	  echo ""
 
 fi
@@ -3344,7 +3344,7 @@ fi
 
 ##############################################################################
 # Check for Pythia
-CPPFLAGS="-I$with_Pythia8/include $CPPFLAGS"
+CPPFLAGS="-I$with_pythia8/include $CPPFLAGS"
 
 if test "${ac_cv_header_Pythia_h+set}" = set; then
   echo "$as_me:$LINENO: checking for Pythia.h" >&5
@@ -3489,7 +3489,7 @@ else
    HAS_PYTHIA=0 &&
   echo "" &&
   echo "INFO: Pythia8 not found. To provide location use:" &&
-  echo "      './configure --with-Pythia8=<path_to_Pythia8>' "
+  echo "      './configure --with-pythia8=<path_to_Pythia8>' "
   echo ""
 
 fi
@@ -3648,7 +3648,7 @@ fi
 
 	echo "checking for PYTHIA8DATA: $env_pythia8data"
 	if test $HAS_PYTHIA = 1 && test -z "$env_pythia8data"; then
-		pythia8data=$with_Pythia8/xmldoc
+		pythia8data=$with_pythia8/xmldoc
 		echo ""
 		echo "WARNING: Pythia8 location is valid, however PYTHIA8DATA"
 		echo "         variable required by Pythia is not set."
@@ -3659,9 +3659,9 @@ fi
 	fi
 fi
 
-if test $HAS_TAUOLA = 0;    then unset with_Tauola;    fi
-if test $HAS_PYTHIA = 0;    then unset with_Pythia8;   fi
-if test $HAS_MC_TESTER = 0; then unset with_MC_Tester; fi
+if test $HAS_TAUOLA = 0;    then unset with_tauola;    fi
+if test $HAS_PYTHIA = 0;    then unset with_pythia8;   fi
+if test $HAS_MC_TESTER = 0; then unset with_mc_tester; fi
 
 ##############################################################################
 
@@ -4320,11 +4320,11 @@ s,@EGREP@,$EGREP,;t t
 s,@HAS_ROOT_CONFIG@,$HAS_ROOT_CONFIG,;t t
 s,@HAS_ROOT_EXE@,$HAS_ROOT_EXE,;t t
 s,@photos@,$photos,;t t
-s,@with_Tauola@,$with_Tauola,;t t
-s,@with_HepMC@,$with_HepMC,;t t
+s,@with_tauola@,$with_tauola,;t t
+s,@with_hepmc@,$with_hepmc,;t t
 s,@pythia8data@,$pythia8data,;t t
-s,@with_Pythia8@,$with_Pythia8,;t t
-s,@with_MC_Tester@,$with_MC_Tester,;t t
+s,@with_pythia8@,$with_pythia8,;t t
+s,@with_mc_tester@,$with_mc_tester,;t t
 s,@LIBOBJS@,$LIBOBJS,;t t
 s,@LTLIBOBJS@,$LTLIBOBJS,;t t
 CEOF
@@ -4605,16 +4605,16 @@ if test $HAS_TAUOLA = 0 || test $HAS_PYTHIA = 0 || test $HAS_MC_TESTER = 0; then
 fi
 
 if test $HAS_TAUOLA = 0; then
-	echo "Consider './configure --with-Tauola=<path_to_Tauola>' "
+	echo "Consider './configure --with-tauola=<path_to_Tauola>' "
 fi
 
 if test $HAS_PYTHIA = 0; then
-	echo "Consider './configure --with-Pythia8=<path_to_Pythia8>' "
+	echo "Consider './configure --with-pythia8=<path_to_Pythia8>' "
 fi
 
 if test $HAS_MC_TESTER = 0; then
-	unset with_MC_Tester
-	echo "Consider './configure --with-MC-Tester=<path_to_MC_Tester>' "
+	unset with_mc_tester
+	echo "Consider './configure --with-mc-tester=<path_to_MC_Tester>' "
 fi
 
 echo ""

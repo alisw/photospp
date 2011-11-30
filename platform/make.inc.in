@@ -1,5 +1,5 @@
 PREFIX        = @prefix@
-HEPMCLOCATION = @with_HepMC@
+HEPMCLOCATION = @with_hepmc@
 
 F77      = @F77@
 F77FLAGS = @FFLAGS@ -fPIC -fno-automatic -fno-backslash -ffixed-line-length-132

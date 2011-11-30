@@ -1,4 +1,4 @@
-TAUOLALOCATION=   @with_Tauola@
-PYTHIALOCATION=   @with_Pythia8@
-MCTESTERLOCATION= @with_MC_Tester@
+TAUOLALOCATION=   @with_tauola@
+PYTHIALOCATION=   @with_pythia8@
+MCTESTERLOCATION= @with_mc_tester@
 

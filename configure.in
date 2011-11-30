@@ -12,10 +12,10 @@ AC_CONFIG_SRCDIR([src/photosCInterfaces/Photos.cxx])
 # Process command line options
 
 if test "$AFS_PATHS" == "yes"; then
-	with_HepMC=$HEPMCLOCATION
-	with_Tauola=$TAUOLALOCATION
-	with_MC_Tester=$MCTESTERLOCATION
-	with_Pythia8=$PYTHIALOCATION
+	with_hepmc=$HEPMCLOCATION
+	with_tauola=$TAUOLALOCATION
+	with_mc_tester=$MCTESTERLOCATION
+	with_pythia8=$PYTHIALOCATION
 	pythia8data=$PYTHIA8DATA
 fi
 
@@ -23,38 +23,38 @@ echo ""
 
 AC_MSG_CHECKING([if HepMC location defined])
 AC_ARG_WITH(
-  [HepMC],
-  [AS_HELP_STRING([--with-HepMC], [Path to HepMC 2.xx] )],
-  [AC_MSG_RESULT([$with_HepMC])],
+  [hepmc],
+  [AS_HELP_STRING([--with-hepmc], [Path to HepMC 2.xx] )],
+  [AC_MSG_RESULT([$with_hepmc])],
   [ AC_MSG_RESULT([no]) ;
     echo "ERROR: HepMC location not specified" ;
     echo "       to define location run configure with parameter" ;
-    echo "         --with-HepMC=/path/to/HepMC" ;
+    echo "         --with-hepmc=/path/to/HepMC" ;
     exit 1
   ]
 )
 
 AC_MSG_CHECKING([if MC-TESTER location defined])
 AC_ARG_WITH(
-  [MC-Tester],
-    [AS_HELP_STRING([--with-MC-Tester], [Path to MC-TESTER 1.23 or later (used by examples only)] )],
-  [AC_MSG_RESULT([$with_MC_Tester])],
+  [mc-tester],
+    [AS_HELP_STRING([--with-mc-tester], [Path to MC-TESTER 1.23 or later (used by examples only)] )],
+  [AC_MSG_RESULT([$with_mc_tester])],
   [AC_MSG_RESULT([no])]
 )
 
 AC_MSG_CHECKING([if Pythia 8 location defined])
 AC_ARG_WITH(
-  [Pythia8],
-    [AS_HELP_STRING([--with-Pythia8], [Path to Pythia 8.1 or later (used by examples only)] )],
-  [AC_MSG_RESULT([$with_Pythia8])],
+  [pythia8],
+    [AS_HELP_STRING([--with-pythia8], [Path to Pythia 8.1 or later (used by examples only)] )],
+  [AC_MSG_RESULT([$with_pythia8])],
   [AC_MSG_RESULT([no])]
 )
 
 AC_MSG_CHECKING([if Tauola location defined])
 AC_ARG_WITH(
-  [Tauola],
-    [AS_HELP_STRING([--with-Tauola], [Path to Tauola C++ interface v1.0.5 or later (used by examples only)] )],
-  [AC_MSG_RESULT([$with_Tauola])],
+  [tauola],
+    [AS_HELP_STRING([--with-tauola], [Path to Tauola C++ interface v1.0.5 or later (used by examples only)] )],
+  [AC_MSG_RESULT([$with_tauola])],
   [AC_MSG_RESULT([no])]
 )
 
@@ -96,13 +96,13 @@ AC_CHECK_FUNCS([atexit getcwd pow sqrt], ,
 
 ##############################################################################
 # Check for HepMC header files
-AC_SUBST(with_HepMC)
-CPPFLAGS="-I$with_HepMC/include $CPPFLAGS"
+AC_SUBST(with_hepmc)
+CPPFLAGS="-I$with_hepmc/include $CPPFLAGS"
 
 AC_CHECK_HEADERS([HepMC/Version.h], ,
 [ echo "" &&
   echo "ERROR: HepMC not found. To provide location use:" &&
-  echo "       './configure --with-HepMC=<path_to_HepMC>' "
+  echo "       './configure --with-hepmc=<path_to_HepMC>' "
   echo "       (Consider using 'source platform/afs.paths.sh' (or .csh) )"
   echo ""
   exit -1
@@ -113,17 +113,17 @@ photos=`pwd`
 pythia8data=$PYTHIA8DATA
 
 if test -z "$pythia8data"; then
-	pythia8data=$with_Pythia8/xmldoc
+	pythia8data=$with_pythia8/xmldoc
 fi
 
 ln -sf platform/make.inc make.inc
 
 AC_SUBST(photos)
-AC_SUBST(with_HepMC)
+AC_SUBST(with_hepmc)
 AC_SUBST(pythia8data)
-AC_SUBST(with_Tauola)
-AC_SUBST(with_Pythia8)
-AC_SUBST(with_MC_Tester)
+AC_SUBST(with_tauola)
+AC_SUBST(with_pythia8)
+AC_SUBST(with_mc_tester)
 AC_CONFIG_FILES([platform/make.inc configure.paths.sh configure.paths.csh])
 AC_OUTPUT
 

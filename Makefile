@@ -75,7 +75,7 @@ clean: clean_src
 	rm -f *~
 
 Clean: clean
-	rm -f lib/* include/*
+	rm -f lib/* include/Photos/*
 	rm -rf config.log config.status autom4te.cache 
 	rm -rf configure.paths.sh configure.paths.csh
 	rm -f platform/make.inc make.inc
