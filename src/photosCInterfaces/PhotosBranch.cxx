@@ -8,6 +8,7 @@
 using std::vector;
 using std::list;
 using std::endl;
+typedef Photos::Log Log;
 
 PhotosBranch::PhotosBranch(PhotosParticle* p)
 {

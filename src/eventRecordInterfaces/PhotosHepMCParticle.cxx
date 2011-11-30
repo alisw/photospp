@@ -2,6 +2,7 @@
 #include "PhotosHepMCParticle.h"
 #include "Log.h"
 #include "Photos.h"
+typedef Photos::Log Log;
 
 PhotosHepMCParticle::PhotosHepMCParticle(){
   m_particle = new HepMC::GenParticle();

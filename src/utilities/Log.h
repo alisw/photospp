@@ -1,5 +1,5 @@
-#ifndef __LOG_CLASS_HEADER__
-#define __LOG_CLASS_HEADER__
+#ifndef __PHOTOS_LOG_CLASS_HEADER__
+#define __PHOTOS_LOG_CLASS_HEADER__
 
 /**
  * This file contains class for logging and filtering output.
@@ -15,7 +15,7 @@
 #include <sstream>
 #include <stdlib.h>
 #include <list>
-
+#include "Photos.h"
 // TEMPORARY
 #include "f_Init.h"
 
@@ -27,7 +27,7 @@ using std::list;
 using std::cout;
 using std::endl;
 
-class Log
+class Photos::Log
 {
 public:
 	/** Shows the summary of all messages. */

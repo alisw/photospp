@@ -1,6 +1,7 @@
 #include <iostream>
 #include "PhotosRandom.h"
 #include "Log.h"
+typedef Photos::Log Log;
 
 bool         PhotosRandom::init    = false;
 int          PhotosRandom::iseed[2]= { 1802, 9373 };

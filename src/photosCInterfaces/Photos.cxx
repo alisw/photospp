@@ -9,6 +9,7 @@ using std::vector;
 using std::cout;
 using std::endl;
 using std::ios_base;
+typedef Photos::Log Log;
 
 Photos Photos::_instance;
 
