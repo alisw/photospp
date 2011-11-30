@@ -14,6 +14,7 @@
 #include "Photos/Photos.h"
 #include "Photos/PhotosHepMCParticle.h"
 #include "Photos/Log.h"
+typedef Photos::Log Log; //We're using Photos version of Log class
 
 using namespace std;
 using namespace Pythia8;
