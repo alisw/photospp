@@ -11,6 +11,7 @@ HEPMC_LIBS     = -L$(HEPMCLOCATION)/lib -lHepMC
 PHOTOS_LIBS    = -L$(PHOTOSLOCATION)/lib -lPhotosCxxInterface
 
 all:
+	@make photos_hepevt_example.exe
 	@make photos_standalone_example.exe
 ifneq ($(PYTHIALOCATION), )
 	@make single_photos_gun_example.exe
@@ -93,6 +94,13 @@ photos_standalone_example.exe: photos_standalone_example.c
 	-Wl,-rpath,$(PREFIX)/lib \
 	-Wl,-rpath,$(PHOTOSLOCATION)/lib \
 	-Wl,-rpath,$(HEPMCLOCATION)/lib
+
+# Version for photos HEPEVT example - no other libraries are required
+photos_hepevt_example.exe: photos_hepevt_example.c
+	$(CC) $(CFLAGS) -I$(PHOTOSLOCATION)/include -c $<
+	$(CC) -o $@ $(LDFLAGS) $(<:.c=.o) $(HEPMC_LIBS) $(PHOTOS_LIBS) \
+	-Wl,-rpath,$(PREFIX)/lib \
+	-Wl,-rpath,$(PHOTOSLOCATION)/lib
 
 clean:
 	rm -f *.o *.a *~ *.exe

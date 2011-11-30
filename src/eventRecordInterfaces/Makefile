@@ -1,6 +1,11 @@
 include ../make.inc
 
-SOURCES_CC=PhotosHepMCParticle.cxx PhotosHepMCEvent.cxx
+SOURCES_CC = PhotosHEPEVTEvent.cxx PhotosHEPEVTParticle.cxx
+
+ifneq ($(HEPMCLOCATION), )
+  SOURCES_CC += PhotosHepMCParticle.cxx PhotosHepMCEvent.cxx
+endif
+
 OBJECTS_CC=$(SOURCES_CC:.cxx=.o)
 
 %.o: %.cxx
