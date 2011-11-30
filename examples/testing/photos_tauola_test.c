@@ -25,6 +25,7 @@
 #include "Photos/PhotosHepMCParticle.h"
 #include "Photos/PhotosHepMCEvent.h"
 #include "Photos/Log.h"
+typedef Photos::Log Log;
 
 using namespace std;
 using namespace Pythia8;

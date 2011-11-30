@@ -107,7 +107,7 @@ make.inc:
 	@echo ""
 	@false
 
-../make.inc:
+$(PHOTOSLOCATION)/make.inc:
 	@echo ""
 	@echo "Please compile the interface first!"
 	@echo ""

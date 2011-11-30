@@ -1,8 +1,4 @@
 include ../make.inc
-# add this path to ../make.inc!!
-#PHOTOSLOCATION=/home/przedzinski/PHOTOS
-PHOTOSLOCATION=../..
-
 include $(PHOTOSLOCATION)/make.inc
 
 ROOTLIB      := $(shell root-config --glibs)
