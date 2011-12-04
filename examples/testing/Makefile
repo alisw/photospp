@@ -38,7 +38,7 @@ endif
 	@echo "   For single test: cd to chosen sub-directory and 'make' "
 	@echo "##################################################################"
 
-photos_test.exe: photos_test.c
+photos_test.exe: photos_test.cxx
 	$(CC) $(CFLAGS) -I$(PHOTOSLOCATION)/include -I$(PYTHIALOCATION)/include -I$(MCTESTERLOCATION)/include -I$(HEPMCLOCATION)/include \
 	$(ROOTINC) $< -o $@ \
 	$(LDFLAGS) $(ROOTLIB) $(PYTHIA_LIBS) $(MC_TESTER_LIBS) $(HEPMC_LIBS) $(PHOTOS_LIBS) \
@@ -48,7 +48,7 @@ photos_test.exe: photos_test.c
 	-Wl,-rpath,$(PYTHIALOCATION)/lib \
 	-Wl,-rpath,$(MCTESTERLOCATION)/lib
 
-photos_tauola_test.exe: photos_tauola_test.c
+photos_tauola_test.exe: photos_tauola_test.cxx
 	$(CC) $(CFLAGS) -I$(PHOTOSLOCATION)/include -I$(TAUOLALOCATION)/include -I$(PYTHIALOCATION)/include -I$(MCTESTERLOCATION)/include \
 	-I$(HEPMCLOCATION)/include $(ROOTINC) $< -o $@ \
 	$(LDFLAGS) $(ROOTLIB) $(PYTHIA_LIBS) $(MC_TESTER_LIBS) $(HEPMC_LIBS) $(TAUOLA_LIBS) $(PHOTOS_LIBS) \
