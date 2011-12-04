@@ -17,7 +17,6 @@
 
 #include <iostream>
 #include <vector>
-#include <cmath>
 
 #include "Photos.h"
 #include "PhotosParticle.h"
@@ -34,9 +33,9 @@ class PhotosHEPEVTParticle: public PhotosParticle {
   /** Default constructor */
   PhotosHEPEVTParticle(int pdgid, int status, double px, double py, double pz, double e, double m, int ms, int me, int ds, int de);
 
-	/** Add a new daughter to this particle */
-	void addDaughter(PhotosParticle* daughter);
-  
+  /** Add a new daughter to this particle */
+  void addDaughter(PhotosParticle* daughter);
+
   /** Set the mothers of this particle via a vector of PhotosParticle*/
   void setMothers(std::vector<PhotosParticle*> mothers);
 
@@ -52,9 +51,9 @@ class PhotosHEPEVTParticle: public PhotosParticle {
   /** Check that the 4 momentum in conserved in the decay of this particle */
   bool checkMomentumConservation();
 
-  /** Create a new particle of type PhotosHEPEVTParticle, with the given
-      properties. The new particle bares no relations to this
-      particle, but it provides a way of creating an instance of
+  /** Creates a new particle of type PhotosHEPEVTParticle, with the given
+      properties. The new particle bares no relations to this 
+      particle, but `this particle' provides only a way of creating an instance of
       this derived class. eg. createNewParticle() is used inside
       filhep_() so that a PhotosHEPEVTParticle can be created without
       the method having explicit knowledge of the PhotosHEPEVTParticle
@@ -69,7 +68,7 @@ class PhotosHEPEVTParticle: public PhotosParticle {
   /** Check if particle 'p' is mother of this particle */
   bool isMotherOf  (PhotosHEPEVTParticle *p);
 
-  /** Print some information about this particle to standard output */
+  /** Print information on this particle into standard output */
   void print();
 
   /** Set the PDG ID code of this particle */
@@ -87,7 +86,7 @@ class PhotosHEPEVTParticle: public PhotosParticle {
   /** Get the status of this particle */
   int getStatus();
 
-  /** Get the mass stored at generation step */
+  /** Get the mass stored (i.e. not calculated from four vector) at generation step */
   double getMass();
 
   /** Returns the px component of the four vector*/
@@ -114,10 +113,10 @@ class PhotosHEPEVTParticle: public PhotosParticle {
   /** Set the energy component of the four vector */
   void setE( double e );
 
-  /** Get the barcode of this particle */
+  /** Get the barcode (position in list) of this particle */
   int getBarcode();
 
-  /** Set barcode of this particle */
+  /** Set barcode (position in  list) of this particle */
   void setBarcode(int barcode);
 
   /** Set event of this particle */
@@ -126,14 +125,14 @@ class PhotosHEPEVTParticle: public PhotosParticle {
   /** Get index of first mother */
   int getFirstMotherIndex();
   
-  /** Get index of last mother */
-  int getLastMotherIndex();
+  /** Get index of second mother */
+  int getSecondMotherIndex();
 
   /** Get index of first daughter */
-  int getFirstDaughterIndex();
+  int getDaughterRangeStart();
 
   /** Get index of last daughter */
-  int getLastDaughterIndex();  
+  int getDaughterRangeEnd();  
 
 private:
 
@@ -143,11 +142,11 @@ private:
   /** Position in the event record */
   int m_barcode;
 
-  /** Range of indexes of mothers (-1 if do not have mothers) */
-  int m_mother_start  ,m_mother_end;
+  /** Indexes of mothers (-1 if do not have mothers) */
+  int m_first_mother, m_second_mother;
 
   /** Range of indexes of daughters (-1 if do not have daughters) */
-  int m_daughter_start,m_daughter_end;
+  int m_daughter_start, m_daughter_end;
 
   /** PDG ID */
   int m_pdgid;

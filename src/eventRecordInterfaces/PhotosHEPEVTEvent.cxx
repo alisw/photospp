@@ -23,13 +23,6 @@ PhotosHEPEVTParticle *PhotosHEPEVTEvent::getParticle(int i)
   return particle_list[i];
 }
 
-void PhotosHEPEVTEvent::removeParticle(int i)
-{
-  if( i<0 || i>=(int)particle_list.size() ) return;
-  delete particle_list[i];
-  particle_list[i] = NULL;
-}
-
 int PhotosHEPEVTEvent::getParticleCount()
 {
   return particle_list.size();
@@ -58,7 +51,7 @@ void PhotosHEPEVTEvent::clear()
 
 #ifdef USE_HEPEVT_INTERFACE
 
-void PhotosHEPEVTEvent::fill_event_from_HEPEVT(PhotosHEPEVTEvent *evt)
+void PhotosHEPEVTEvent::read_event_from_HEPEVT(PhotosHEPEVTEvent *evt)
 {
   if(evt==NULL) return;
   
@@ -100,9 +93,9 @@ void PhotosHEPEVTEvent::write_event_to_HEPEVT(PhotosHEPEVTEvent *evt)
     hepevt_.phep  [i][3]=p->getE();
     hepevt_.phep  [i][4]=p->getMass();
     hepevt_.jmohep[i][0]=p->getFirstMotherIndex()  +1;
-    hepevt_.jmohep[i][1]=p->getLastMotherIndex()   +1;
-    hepevt_.jdahep[i][0]=p->getFirstDaughterIndex()+1;
-    hepevt_.jdahep[i][1]=p->getLastDaughterIndex() +1;
+    hepevt_.jmohep[i][1]=p->getSecondMotherIndex() +1;
+    hepevt_.jdahep[i][0]=p->getDaughterRangeStart()+1;
+    hepevt_.jdahep[i][1]=p->getDaughterRangeEnd()  +1;
     hepevt_.vhep  [i][0]=0.0;
     hepevt_.vhep  [i][1]=0.0;
     hepevt_.vhep  [i][2]=0.0;

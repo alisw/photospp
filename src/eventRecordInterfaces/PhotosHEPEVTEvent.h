@@ -21,6 +21,8 @@
 #include "PhotosHEPEVTParticle.h"
 
 // Uncomment this line to use interface to common block HEPEVT
+// But first be sure about suitable for you value of NMXHEP
+// and whether phep, vhep should be declared float or double
 //#define USE_HEPEVT_INTERFACE
 
 #ifdef USE_HEPEVT_INTERFACE
@@ -29,14 +31,14 @@
 const int NMXHEP = 10000;
 
 extern "C" struct {
-  int   nevhep;            // serial number
-  int   nhep;              // number of particles
-  int   isthep[NMXHEP];    // status code
-  int   idhep [NMXHEP];    // particle PDG ID
-  int   jmohep[NMXHEP][2]; // parent particles
-  int   jdahep[NMXHEP][2]; // childreen particles
-  float phep  [NMXHEP][5]; // four-momentum, mass [GeV]
-  float vhep  [NMXHEP][4]; // vertex [mm]
+  int    nevhep;            // serial number
+  int    nhep;              // number of particles
+  int    isthep[NMXHEP];    // status code
+  int    idhep [NMXHEP];    // particle PDG ID
+  int    jmohep[NMXHEP][2]; // parent particles
+  int    jdahep[NMXHEP][2]; // childreen particles
+  double phep  [NMXHEP][5]; // four-momentum, mass [GeV]
+  double vhep  [NMXHEP][4]; // vertex [mm]
 } hepevt_;
 
 #endif
@@ -59,19 +61,11 @@ class PhotosHEPEVTEvent : public PhotosEvent {
   /** Get particle at index 'i' */
   PhotosHEPEVTParticle *getParticle(int i);
 
-  /** Remove particle.
-
-      Simplest implementation. This function does not change
-      indexes of any particles and does not change position
-      of the particles but instead creates empty space
-      at index 'i' */
-  void removeParticle(int i);
-
-  /** Get higher-most index of the particles in event */
+  /** Get higher-most index of the particles in event (nhep) */
   int getParticleCount();
 
-	/** Get an unfiltered list of particles from the event record */
-	virtual vector<PhotosParticle*> getParticleList();
+  /** Get an unfiltered list of particles from the event record */
+  std::vector<PhotosParticle*> getParticleList();
 
   /** Print out list of particles in the event */
   void print();
@@ -81,7 +75,7 @@ class PhotosHEPEVTEvent : public PhotosEvent {
 
 #ifdef USE_HEPEVT_INTERFACE
   /** Fill PhotosHEPEVTEvent from HEPEVT common block */
-  static void fill_event_from_HEPEVT(PhotosHEPEVTEvent *evt);
+  static void read_event_from_HEPEVT(PhotosHEPEVTEvent *evt);
   
   /** Write to HEPEVT common block content of PhotosHEPEVTEvent */
   static void write_event_to_HEPEVT(PhotosHEPEVTEvent *evt);
