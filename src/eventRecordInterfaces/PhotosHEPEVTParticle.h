@@ -17,6 +17,7 @@
 
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 #include "Photos.h"
 #include "PhotosParticle.h"

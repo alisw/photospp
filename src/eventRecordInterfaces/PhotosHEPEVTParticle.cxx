@@ -34,7 +34,23 @@ PhotosHEPEVTParticle::PhotosHEPEVTParticle(int pdgid, int status, double px, dou
 /** Add a new daughter to this particle */
 void PhotosHEPEVTParticle::addDaughter(PhotosParticle* daughter)
 {
-  Log::Info()<<"Ha, Haaaaa... not happening!"<<endl;
+  if(!m_event) Log::Fatal("PhotosHEPEVTParticle::addDaughter - particle not in event record");
+
+  std::vector<PhotosParticle*> mothers = daughter->getMothers();
+  
+  mothers.push_back( (PhotosParticle*)this );
+
+  daughter->setMothers(mothers);
+  
+  int bc = daughter->getBarcode();
+
+  if(m_daughter_end < 0)
+  {
+    m_daughter_start = bc;
+    m_daughter_end   = bc;
+  }
+  else if(m_daughter_end != bc-1) Log::Fatal("PhotosHEPEVTParticle::addDaughter - this method can be used only to add daughter at the end of the event record");
+  else m_daughter_end = bc;
 }
 
 void PhotosHEPEVTParticle::setMothers(vector<PhotosParticle*> mothers){
@@ -138,10 +154,10 @@ std::vector<PhotosParticle*> PhotosHEPEVTParticle::getDaughters(){
   return daughters;
 }
 
-void PhotosHEPEVTParticle::checkMomentumConservation(){
+bool PhotosHEPEVTParticle::checkMomentumConservation(){
 
-  if(!m_event)           return;
-  if(m_daughter_end < 0) return;
+  if(!m_event)           return true;
+  if(m_daughter_end < 0) return true;
 
   PhotosHEPEVTParticle *buf = m_event->getParticle(m_daughter_start);
 
@@ -190,7 +206,10 @@ void PhotosHEPEVTParticle::checkMomentumConservation(){
     if(second_mother_idx>=0) m_event->getParticle(second_mother_idx)->print();
     for(int i=m_daughter_start;i<=m_daughter_end;i++) m_event->getParticle(i)->print();
     Log::RevertOutput();
+    return false;
   }
+  
+  return true;
 }
 
 PhotosHEPEVTParticle * PhotosHEPEVTParticle::createNewParticle(
