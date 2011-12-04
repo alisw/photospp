@@ -19,19 +19,19 @@ AC_CONFIG_SRCDIR([src/photosCInterfaces/Photos.cxx])
 AC_MSG_CHECKING([if HepMC location defined])
 AC_ARG_WITH(
   [hepmc],
-  [AS_HELP_STRING([--with-hepmc], [Path to HepMC 2.xx] )],
+  [AS_HELP_STRING([--with-hepmc], [Path to HepMC 2.xx (use --without-hepmc to compile without HepMC)] )],
   [
     AC_MSG_RESULT([$with_hepmc]) ;
     AC_SUBST(HEPMC_DIR,[$with_hepmc])
   ],
-  [
-    AC_MSG_RESULT([no]) ;
-    echo "ERROR: HepMC location not specified" ;
-    echo "       to define location run configure with parameter" ;
-    echo "         --with-hepmc=/path/to/HepMC" ;
-    exit 1
-  ]
+  [AC_MSG_RESULT([no])]
 )
+
+# autoconf 2.59 requires at least one check to be preformed unconditionally
+#               before other conditional checks can be done
+AC_CHECK_HEADERS([stdio.h],,)
+
+if ! test "$with_hepmc" == "no"; then
 
 CPPFLAGS="-I$with_hepmc/include $CPPFLAGS"
 
@@ -39,10 +39,16 @@ AC_CHECK_HEADERS([HepMC/Version.h], ,
 [ echo "" &&
   echo "ERROR: HepMC not found. To provide location use:" &&
   echo "       './configure --with-hepmc=<path_to_HepMC>' "
+  echo "       or use:"
+  echo "       './configure --without-hepmc"
   echo "       (Consider using 'source platform/afs.paths.sh' (or .csh) )"
   echo ""
   exit -1
 ])
+
+else
+  with_hepmc=""
+fi
 
 ##############################################################################
 # Check for programs
@@ -156,6 +162,7 @@ AC_ARG_WITH(
   ]
 )
 
+AM_CONDITIONAL([HAS_HEPMC],    [test "x$with_hepmc"     != "x"])
 AM_CONDITIONAL([HAS_PYTHIA8],  [test "x$with_pythia8"   != "x"])
 AM_CONDITIONAL([HAS_MCTESTER], [test "x$with_mc_tester" != "x"])
 AM_CONDITIONAL([HAS_TAUOLA],   [test "x$with_tauola"    != "x"])

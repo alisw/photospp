@@ -5,29 +5,26 @@ example_PROGRAMS = photos_hepevt_example.exe
 
 photos_hepevt_example_exe_SOURCES      = photos_hepevt_example.cxx
 
-example_PROGRAMS += photos_standalone_example.exe
+INCLUDES = -I$(prefix)/include
 
-photos_standalone_example_exe_SOURCES  = photos_standalone_example.cxx
-
-INCLUDES = -I$(prefix)/include   \
-           -I$(HEPMC_DIR)/include
-
-AM_LDFLAGS = -R $(prefix)/lib -R $(HEPMC_DIR)/lib
+AM_LDFLAGS = -R $(prefix)/lib
 
 LDADD =                          \
 $(FLIBS)                         \
-../lib/libPhotosCxxInterface.so  \
--L$(HEPMC_DIR)/lib -lHepMC
+$(prefix)/lib/libPhotosCxxInterface.so \
+$(prefix)/lib/libPhotosFortran.so
 
+### All other examples require HepMC ###
 if HAS_HEPMC
+
+AM_LDFLAGS += -R $(HEPMC_DIR)/lib
+
+INCLUDES += -I$(HEPMC_DIR)/include
+LDADD    += -L$(HEPMC_DIR)/lib -lHepMC
 
 example_PROGRAMS += photos_standalone_example.exe
 
 photos_standalone_example_exe_SOURCES  = photos_standalone_example.cxx
-
-..................................
-..................................
-..................................
 
 ### Photos gun example (require Pythia8) ###
 if HAS_PYTHIA8

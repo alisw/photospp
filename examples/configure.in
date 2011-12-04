@@ -72,7 +72,6 @@ fi
 # Process command line options
 
 echo ""
-echo "Using HepMC location: $with_hepmc"
 
 AC_MSG_CHECKING([if Tauola location defined])
 AC_ARG_WITH(

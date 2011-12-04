@@ -3,8 +3,8 @@ includedir=$(prefix)/include/Photos
 lib_LTLIBRARIES = libPhotosCxxInterface.la
 
 libPhotosCxxInterface_la_SOURCES =              \
-eventRecordInterfaces/PhotosHepMCEvent.cxx      \
-eventRecordInterfaces/PhotosHepMCParticle.cxx   \
+eventRecordInterfaces/PhotosHEPEVTEvent.cxx     \
+eventRecordInterfaces/PhotosHEPEVTParticle.cxx  \
 photosCInterfaces/Photos.cxx                    \
 photosCInterfaces/PhotosParticle.cxx            \
 photosCInterfaces/PhotosBranch.cxx              \
@@ -14,8 +14,8 @@ utilities/Log.cxx                               \
 utilities/PhotosRandom.cxx
 
 include_HEADERS =                             \
-eventRecordInterfaces/PhotosHepMCParticle.h   \
-eventRecordInterfaces/PhotosHepMCEvent.h      \
+eventRecordInterfaces/PhotosHEPEVTParticle.h  \
+eventRecordInterfaces/PhotosHEPEVTEvent.h     \
 photosCInterfaces/Photos.h                    \
 photosCInterfaces/PhotosParticle.h            \
 photosCInterfaces/PhotosBranch.h              \
@@ -24,6 +24,16 @@ photosFortranInterfaces/PH_HEPEVT_Interface.h \
 photosFortranInterfaces/f_Init.h              \
 utilities/Log.h                               \
 utilities/PhotosRandom.h
+
+if HAS_HEPMC
+  libPhotosCxxInterface_la_SOURCES += \
+  eventRecordInterfaces/PhotosHepMCEvent.cxx    \
+  eventRecordInterfaces/PhotosHepMCParticle.cxx
+
+  include_HEADERS += \
+  eventRecordInterfaces/PhotosHepMCParticle.h  \
+  eventRecordInterfaces/PhotosHepMCEvent.h
+endif
 
 INCLUDES = -I$(top_srcdir)/src/photosFortranInterfaces \
            -I$(top_srcdir)/src/photosCInterfaces \

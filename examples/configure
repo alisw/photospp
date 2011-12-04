@@ -1315,10 +1315,6 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
-if test ! -e ../configure.paths.sh; then
-	echo "ERROR: Exeucte './configure' in main directory first."
-	exit 0
-fi
 ##############################################################################
 # This must be done before we load paths from configure.paths.sh!
 env_mc_tester=$MCTESTERLOCATION
@@ -1329,8 +1325,6 @@ photoslocation=$PHOTOSLOCATION
 tauolalocation=$TAUOLALOCATION
 mctesterlocation=$MCTESTERLOCATION
 pythialocation=$PYTHIALOCATION
-pythia8data=$PYTHIA8DATA
-
 ##############################################################################
 # Find Photos source code location and load paths
 
@@ -1360,10 +1354,6 @@ if test -e "$with_photos/configure.paths.sh"; then
 elif test -e "$photoslocation/configure.paths.sh"; then
   source $photoslocation/configure.paths.sh
   with_photos=$photoslocation
-elif test -z "$with_photos"; then
-  echo "ERROR: Cannot find Photos location."
-  echo "       Execute './configure --with-photos=<path>' "
-  exit 0
 fi
 
 ##############################################################################
@@ -2808,7 +2798,8 @@ if test $ac_cv_header_Photos_Photos_h = yes; then
   :
 else
    echo "" &&
-  echo "ERROR: Compile Tauola C++ Interface first."
+  echo "ERROR: Photos not found. To provide location use:" &&
+  echo "       './configure --with-photos=<path_to_Photos>' "
   echo ""
   exit 0
 
@@ -3533,7 +3524,7 @@ fi
 		echo "         variable required by MC-Tester scripts is not set."
 		echo "         Without it, examples will compile and execute correctly,"
 		echo "         but scripts in examples/testing/* won't work. "
-		echo "         Use 'source ../configure.paths.sh' (or .csh) to set this variable."
+		echo "         Use 'source $with_photos/configure.paths.sh' (or .csh) to set this variable."
 		echo ""
 	fi
 else
@@ -3852,7 +3843,7 @@ fi
 		echo "         variable required by Pythia is not set."
 		echo "         Without it, examples will compile, but Pythia cannot"
 		echo "         work properly. Refer to Pythia documentation."
-		echo "         Use 'source ../configure.paths.sh' (or .csh) to set this variable."
+		echo "         Use 'source $with_photos/configure.paths.sh' (or .csh) to set this variable."
 		echo ""
 	fi
 fi

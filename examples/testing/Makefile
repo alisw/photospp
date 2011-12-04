@@ -11,11 +11,13 @@ TAUOLA_LIBS    = -L$(TAUOLALOCATION)/lib -lTauolaCxxInterface -lTauolaFortran
 PHOTOS_LIBS    = -L$(PHOTOSLOCATION)/lib -lPhotosCxxInterface
 
 all:
+ifneq ($(HEPMCLOCATION), )
 ifneq ($(PYTHIALOCATION), )
 ifneq ($(MCTESTERLOCATION), )
 	@make photos_test.exe
 ifneq ($(TAUOLALOCATION), )
 	@make photos_tauola_test.exe
+endif
 endif
 endif
 endif
@@ -25,13 +27,13 @@ endif
 	  echo " ./photos_test.exe"; else \
 	  echo ""; \
 	  echo " WARNING: Main program used for tests - 'photos_test.exe' "; \
-	  echo "          requires Pythia8 and MC-TESTER."; \
+	  echo "          requires HepMC, Pythia8 and MC-TESTER."; \
 	fi
 	@if test -e photos_tauola_test.exe; then \
 	  echo " ./photos_tauola_test.exe"; else \
 	  echo ""; \
 	  echo " WARNING: Second program used for tests - 'photos_tauola_test.exe' "; \
-	  echo "          requires Tauola++, Pythia8 and MC-TESTER."; \
+	  echo "          requires HepMC, Tauola++, Pythia8 and MC-TESTER."; \
 	fi
 	@echo ""
 	@echo "   To execute all available tests: 'make run',"

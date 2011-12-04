@@ -24,14 +24,9 @@ echo ""
 AC_MSG_CHECKING([if HepMC location defined])
 AC_ARG_WITH(
   [hepmc],
-  [AS_HELP_STRING([--with-hepmc], [Path to HepMC 2.xx] )],
+  [AS_HELP_STRING([--with-hepmc], [Path to HepMC 2.xx (use --without-hepmc to compile without HepMC)] )],
   [AC_MSG_RESULT([$with_hepmc])],
-  [ AC_MSG_RESULT([no]) ;
-    echo "ERROR: HepMC location not specified" ;
-    echo "       to define location run configure with parameter" ;
-    echo "         --with-hepmc=/path/to/HepMC" ;
-    exit 1
-  ]
+  [AC_MSG_RESULT([no])]
 )
 
 AC_MSG_CHECKING([if MC-TESTER location defined])
@@ -96,17 +91,28 @@ AC_CHECK_FUNCS([atexit getcwd pow sqrt], ,
 
 ##############################################################################
 # Check for HepMC header files
+
+# If user specified --without-hepmc, skip hepmc check
+if ! test "$with_hepmc" == "no"; then
+
 AC_SUBST(with_hepmc)
 CPPFLAGS="-I$with_hepmc/include $CPPFLAGS"
 
 AC_CHECK_HEADERS([HepMC/Version.h], ,
 [ echo "" &&
   echo "ERROR: HepMC not found. To provide location use:" &&
-  echo "       './configure --with-hepmc=<path_to_HepMC>' "
+  echo "         --with-hepmc=/path/to/HepMC" ;
+  echo "       or use";
+  echo "         --without-hepmc";
   echo "       (Consider using 'source platform/afs.paths.sh' (or .csh) )"
   echo ""
   exit -1
 ])
+
+else
+  with_hepmc=""
+  AC_SUBST(with_hepmc)
+fi
 
 ##############################################################################
 with_photos=`pwd`
