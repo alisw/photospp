@@ -1,7 +1,11 @@
 exampledir = $(top_srcdir)/examples
 
 ### Standalone example ###
-example_PROGRAMS = photos_standalone_example.exe
+example_PROGRAMS = photos_hepevt_example.exe
+
+photos_hepevt_example_exe_SOURCES      = photos_hepevt_example.cxx
+
+example_PROGRAMS += photos_standalone_example.exe
 
 photos_standalone_example_exe_SOURCES  = photos_standalone_example.cxx
 
@@ -14,6 +18,16 @@ LDADD =                          \
 $(FLIBS)                         \
 ../lib/libPhotosCxxInterface.so  \
 -L$(HEPMC_DIR)/lib -lHepMC
+
+if HAS_HEPMC
+
+example_PROGRAMS += photos_standalone_example.exe
+
+photos_standalone_example_exe_SOURCES  = photos_standalone_example.cxx
+
+..................................
+..................................
+..................................
 
 ### Photos gun example (require Pythia8) ###
 if HAS_PYTHIA8
@@ -56,3 +70,5 @@ endif # TAUOLA
 endif # MC-TESTER
 
 endif # PYTHIA8
+
+endif # HEPMC

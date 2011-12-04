@@ -18,7 +18,7 @@ ANSWER=`echo $ANSWER | tr "[:upper:]" "[:lower:]"`
 if test "$ANSWER" = "yes" || test "$ANSWER" = "y"; then
   echo "Renaming .c files"
   mv ../src/photosFortranInterfaces/PH_HEPEVT_Interface.c ../src/photosFortranInterfaces/PH_HEPEVT_Interface.cxx
-
+  mv ../examples/photos_hepevt_example.c ../examples/photos_hepevt_example.cxx
   mv ../examples/photos_standalone_example.c ../examples/photos_standalone_example.cxx
   mv ../examples/single_photos_gun_example.c ../examples/single_photos_gun_example.cxx
   mv ../examples/photosLCG_pythia_example.c ../examples/photosLCG_pythia_example.cxx

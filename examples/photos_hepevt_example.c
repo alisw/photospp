@@ -66,7 +66,7 @@ PhotosHEPEVTEvent* make_simple_tau_event(){
 /** Example of using Photos to process event stored in HEPEVT event record */
 int main(void){
 
-  int NumberOfEvents = 10000000;
+  int NumberOfEvents = 100000;
 
   Photos::initialize();
 
@@ -105,7 +105,7 @@ int main(void){
 	cout.precision(3);
 	cout.setf(ios::fixed);
 	cout<<endl;
-	cout<<"Summary (whole event processing):"<<endl;
+	cout<<"Summary of processing simple events:    e+ e- -> Z -> tau+ tau-"<<endl;
 	cout<<evtCount   <<"\tevents processed"<<endl;
 	cout<<photonAdded<<"\ttimes one photon added to the event           \t("<<(photonAdded*100./evtCount)<<"%)"<<endl;
 	cout<<twoAdded   <<"\ttimes two photons added to the event          \t("<<(twoAdded*100./evtCount)<<"%)"<<endl;

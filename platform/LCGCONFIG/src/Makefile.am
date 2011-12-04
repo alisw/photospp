@@ -1,3 +1,5 @@
+includedir=$(prefix)/include/Photos
+
 lib_LTLIBRARIES = libPhotosCxxInterface.la
 
 libPhotosCxxInterface_la_SOURCES =              \

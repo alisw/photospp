@@ -100,7 +100,8 @@ photos_hepevt_example.exe: photos_hepevt_example.c
 	$(CC) $(CFLAGS) -I$(PHOTOSLOCATION)/include -c $<
 	$(CC) -o $@ $(LDFLAGS) $(<:.c=.o) $(HEPMC_LIBS) $(PHOTOS_LIBS) \
 	-Wl,-rpath,$(PREFIX)/lib \
-	-Wl,-rpath,$(PHOTOSLOCATION)/lib
+	-Wl,-rpath,$(PHOTOSLOCATION)/lib \
+	-Wl,-rpath,$(HEPMCLOCATION)/lib
 
 clean:
 	rm -f *.o *.a *~ *.exe
