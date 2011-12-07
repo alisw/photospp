@@ -1,6 +1,15 @@
 includedir=$(prefix)/include/Photos
 
-lib_LTLIBRARIES = libPhotosCxxInterface.la
+lib_LTLIBRARIES = libPhotosCxxInterface.la libPhotosFortran.la
+
+libPhotosFortran_la_SOURCES = photos-fortran/photos.f \
+photosFortranInterfaces/Photos_make.f                 \
+photosFortranInterfaces/forW-ME.f                     \
+photosFortranInterfaces/forZ-ME.f
+
+libPhotosFortran_la_FFLAGS = -fno-automatic -fno-backslash -ffixed-line-length-132
+
+################################################################################
 
 libPhotosCxxInterface_la_SOURCES =              \
 eventRecordInterfaces/PhotosHEPEVTEvent.cxx     \

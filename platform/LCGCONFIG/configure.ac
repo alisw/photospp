@@ -167,5 +167,5 @@ AM_CONDITIONAL([HAS_PYTHIA8],  [test "x$with_pythia8"   != "x"])
 AM_CONDITIONAL([HAS_MCTESTER], [test "x$with_mc_tester" != "x"])
 AM_CONDITIONAL([HAS_TAUOLA],   [test "x$with_tauola"    != "x"])
 
-AC_CONFIG_FILES([Makefile src/Makefile photos-fortran/Makefile examples/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile examples/Makefile])
 AC_OUTPUT

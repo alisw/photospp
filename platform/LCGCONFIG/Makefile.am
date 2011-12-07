@@ -1,2 +1,2 @@
-SUBDIRS = photos-fortran src
+SUBDIRS = src
 

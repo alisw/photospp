@@ -13,7 +13,7 @@ PHOTOS_CXX_INT_OBJECTS = src/$(EVENT_RECORD_INTERFACE_DIR)/*.o \
                          src/$(UTILITIES_DIR)/*.o \
                          src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/PH_HEPEVT_Interface.o
 
-PHOTOS_FORTRAN_OBJECTS = photos-fortran/photos.o \
+PHOTOS_FORTRAN_OBJECTS = src/$(PHOTOS_FORTRAN_DIR)/photos.o \
                          src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/forW-ME.o \
                          src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/forZ-ME.o \
                          src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/Photos_make.o
@@ -22,12 +22,11 @@ PHOTOS_FORTRAN_OBJECTS = photos-fortran/photos.o \
 EVENT_RECORD_INTERFACE_DIR   = eventRecordInterfaces
 FORTRAN_PHOTOS_INTERFACE_DIR = photosFortranInterfaces
 C_PHOTOS_INTERFACE_DIR       = photosCInterfaces
+PHOTOS_FORTRAN_DIR           = photos-fortran
 UTILITIES_DIR                = utilities
 
-all: photos_fortran src
-
 ##### Link objects to make library ######
-src: include_dir $(EVENT_RECORD_INTERFACE_DIR) $(FORTRAN_PHOTOS_INTERFACE_DIR) $(C_PHOTOS_INTERFACE_DIR) $(UTILITIES_DIR)
+all: include_dir $(EVENT_RECORD_INTERFACE_DIR) $(FORTRAN_PHOTOS_INTERFACE_DIR) $(C_PHOTOS_INTERFACE_DIR) $(PHOTOS_FORTRAN_DIR) $(UTILITIES_DIR)
 	ar cr lib/$(LIB_PHOTOS_CXX_INT_A) $(PHOTOS_CXX_INT_OBJECTS)
 	$(LD) $(LDFLAGS) $(SOFLAGS) -o lib/$(LIB_PHOTOS_CXX_INT_SO).$(LIB_VER) $(PHOTOS_CXX_INT_OBJECTS)
 	ar cr lib/$(LIB_PHOTOS_FORTRAN_A) $(PHOTOS_FORTRAN_OBJECTS)
@@ -64,8 +63,8 @@ $(UTILITIES_DIR):
 	make -C src/$(UTILITIES_DIR)
 	cp src/$(UTILITIES_DIR)/*.h include/Photos
 
-photos_fortran:
-	make -C photos-fortran
+$(PHOTOS_FORTRAN_DIR):
+	make -C src/$(PHOTOS_FORTRAN_DIR)
 
 install:
 	mkdir -p $(PREFIX)/include/Photos
@@ -73,14 +72,12 @@ install:
 	mkdir -p $(PREFIX)/lib
 	cp lib/* $(PREFIX)/lib/.
 
-clean_src:
+clean:
 	make clean -C src/$(EVENT_RECORD_INTERFACE_DIR)
 	make clean -C src/$(FORTRAN_PHOTOS_INTERFACE_DIR)
 	make clean -C src/$(C_PHOTOS_INTERFACE_DIR)
+	make clean -C src/$(PHOTOS_FORTRAN_DIR)
 	make clean -C src/$(UTILITIES_DIR)
-
-clean: clean_src
-	make clean -C photos-fortran
 	rm -f *~
 
 Clean: clean
