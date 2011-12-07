@@ -9,10 +9,9 @@ To compile:
 2)
 The examples require more software than the interface itself:
 
-./configure --with-photos=<path>         - provides path for Photos++
-./configure --with-tauola=<path>         - provides path for Tauola++
+./configure --with-tauola=<path>         - provides path for Tauola
 ./configure --with-pythia8=<path>        - provides path for Pythia8
-./configure --with-mc-Tester=<path>      - provides path for MC-Tester
+./configure --with-mc-tester=<path>      - provides path for MC-Tester
 
 To use MC-Tester, ROOT must be installed and
 its path provided via the PATH variable.
@@ -24,12 +23,13 @@ can not be changed.
 
 4)
 Examples require:
-photos_hepevt_example.exe        - does not require any other libraries
+photos_hepevt_example.exe        - does not require any new libraries
 photos_standalone_example.exe    - require HepMC
-single_photos_gun_example.exe    - require Pythia8
-photos_pythia_example.exe        - require Pythia8, ROOT and MC-Tester
-tauola_photos_pythia_example.exe - require Pythia8, Tauola, ROOT and MC-Tester
+single_photos_gun_example.exe    - require HepMC, Pythia8
+photosLCG_pythia_example.exe     - require HepMC, Pythia8
+photos_pythia_example.exe        - require HepMC, Pythia8, ROOT and MC-Tester
+tauola_photos_pythia_example.exe - require HepMC, Pythia8, Tauola, ROOT and MC-Tester
 
 
 
-Last Modified: T. Przedzinski, 30 Oct. 2010
+Last Modified: T. Przedzinski, 07 Dec. 2011

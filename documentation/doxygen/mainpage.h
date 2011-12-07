@@ -46,7 +46,7 @@ generate physics events stored in HepMC and to monitor such events:
 
  In order to compile the PHOTOS C++ interface:
  - Execute './configure' with additional command line options:
-   - '--with-HepMC=\<path\> ' provides the path to the HepMC installation directory. One can set the HEPMCLOCATION variable instead of using this directive. This path is required for the interface to compile.
+   - '--with-hepm=\<path\> ' provides the path to the HepMC installation directory. One can set the HEPMCLOCATION variable instead of using this directive. This path is required for the interface to compile. To compile without HepMC use '--without-hepmc'.
    - '--prefix=\<path\>' provides the installation path. The 'include' and 'lib' directories will be copied there if 'make install' is executed later. If none has been provided, the default directory for installation is '/usr/local'.
  - Execute 'make'
  - Optionally, execute 'make install' to copy files to the directory provided during configuration.
@@ -55,9 +55,9 @@ generate physics events stored in HepMC and to monitor such events:
 
  In order to compile the examples, enter 'examples' directory, and:
  - execute './configure' to determine which examples can be compiled. Additional paths can be provided as command line options:
-   - '--with-Pythia8=\<path\>' provides the path to the Pythia8 installation directory. One can set the PYTHIALOCATION variable instead of using this directive. This path is required for all examples and tests.
-   - '--with-MC-Tester=\<path\>' provides the path to the MC-Tester installation directory (the libHepMCEvent must be compiled as well, check the MC-Tester documentation for more details). One can set the MCTESTERLOCATION variable instead of using this directive. This path is required for all additional examples and tests. It is assumed that using this option also implies that ROOT has already been installed (since it's required by MC-TESTER). The location of its binaries should be listed in the PATH variable.
-   - '--with-Tauola=\<path\>'  provides the path to the TAUOLA C++ interface installation directory. One can set the TAUOLALOCATION variable instead of using this directive. This path is required for additional examples.
+   - '--with-pythia8=\<path\>' provides the path to the Pythia8 installation directory. One can set the PYTHIALOCATION variable instead of using this directive. This path is required for all examples and tests.
+   - '--with-mc-tester=\<path\>' provides the path to the MC-Tester installation directory (the libHepMCEvent must be compiled as well, check the MC-Tester documentation for more details). One can set the MCTESTERLOCATION variable instead of using this directive. This path is required for all additional examples and tests. It is assumed that using this option also implies that ROOT has already been installed (since it's required by MC-TESTER). The location of its binaries should be listed in the PATH variable.
+   - '--with-tauola=\<path\>'  provides the path to the TAUOLA C++ interface installation directory. One can set the TAUOLALOCATION variable instead of using this directive. This path is required for additional examples.
  - execute 'make'
 
  Note that for examples working with PYTHIA 8.1, the PYTHIA8DATA global variable must be set (refer to the instructions provided during configuration).
@@ -80,6 +80,6 @@ and MC-TESTER must be installed. In some cases TAUOLA C++ will be needed too.
 
 
  <hr>
- Last update 30 October 2010.
+ Last update 07 December 2011.
 
 */
