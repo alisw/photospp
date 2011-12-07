@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT( [Photos C++ Interface], [3.1], [tomasz.przedzinski@cern.ch] )
+AC_INIT( [Photos C++ Interface], [3.3], [tomasz.przedzinski@cern.ch] )
 
 AC_CONFIG_AUX_DIR([config])
 

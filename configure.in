@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT( [Photos C++ Interface], [1.0.0], [tomasz.przedzinski@uj.edu.pl] )
+AC_INIT( [Photos C++ Interface], [3.3], [tomasz.przedzinski@uj.edu.pl] )
 AC_LANG_CPLUSPLUS
 
 AC_PREFIX_DEFAULT([`pwd`])
