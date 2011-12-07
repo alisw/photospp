@@ -8,7 +8,7 @@ PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib/archive -lpythia8 -llhapdfdummy -lhepmc
 MC_TESTER_LIBS = -L$(MCTESTERLOCATION)/lib -lHEPEvent -lHepMCEvent -lMCTester
 HEPMC_LIBS     = -L$(HEPMCLOCATION)/lib -lHepMC
 TAUOLA_LIBS    = -L$(TAUOLALOCATION)/lib -lTauolaCxxInterface -lTauolaFortran
-PHOTOS_LIBS    = -L$(PHOTOSLOCATION)/lib -lPhotosCxxInterface
+PHOTOS_LIBS    = -L$(PHOTOSLOCATION)/lib -lPhotosCxxInterface -lPhotosFortran
 
 all:
 ifneq ($(HEPMCLOCATION), )
