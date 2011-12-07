@@ -10,7 +10,7 @@ ROOTLIBPATH   :=  $(shell root-config --libdir)
 TAUOLA_LIBS    = -L$(TAUOLALOCATION)/lib -lTauolaCxxInterface -lTauolaFortran
 PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib/archive -lpythia8 -llhapdfdummy -lhepmcinterface
 MC_TESTER_LIBS = -L$(MCTESTERLOCATION)/lib -lHEPEvent -lHepMCEvent -lMCTester
-PHOTOS_LIBS    = -L$(PHOTOSLOCATION)/lib -lPhotosCxxInterface
+PHOTOS_LIBS    = -L$(PHOTOSLOCATION)/lib -lPhotosCxxInterface -lPhotosFortran
 HEPMC_LIBS     =
 
 ifneq ($(HEPMCLOCATION), )

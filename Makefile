@@ -5,12 +5,18 @@ LIB_VER = 1.0.0
 #Name of libraries to create
 LIB_PHOTOS_CXX_INT_SO = libPhotosCxxInterface.so
 LIB_PHOTOS_CXX_INT_A  = libPhotosCxxInterface.a
+LIB_PHOTOS_FORTRAN_SO = libPhotosFortran.so
+LIB_PHOTOS_FORTRAN_A  = libPhotosFortran.a
 
-PHOTOS_CXX_INT_OBJECTS = src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/*.o \
-                         src/$(EVENT_RECORD_INTERFACE_DIR)/*.o \
+PHOTOS_CXX_INT_OBJECTS = src/$(EVENT_RECORD_INTERFACE_DIR)/*.o \
                          src/$(C_PHOTOS_INTERFACE_DIR)/*.o \
                          src/$(UTILITIES_DIR)/*.o \
-                         photos-fortran/*.o 
+                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/PH_HEPEVT_Interface.o
+
+PHOTOS_FORTRAN_OBJECTS = photos-fortran/photos.o \
+                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/forW-ME.o \
+                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/forZ-ME.o \
+                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/Photos_make.o
 
 #directories containing source code
 EVENT_RECORD_INTERFACE_DIR   = eventRecordInterfaces
@@ -24,7 +30,10 @@ all: photos_fortran src
 src: include_dir $(EVENT_RECORD_INTERFACE_DIR) $(FORTRAN_PHOTOS_INTERFACE_DIR) $(C_PHOTOS_INTERFACE_DIR) $(UTILITIES_DIR)
 	ar cr lib/$(LIB_PHOTOS_CXX_INT_A) $(PHOTOS_CXX_INT_OBJECTS)
 	$(LD) $(LDFLAGS) $(SOFLAGS) -o lib/$(LIB_PHOTOS_CXX_INT_SO).$(LIB_VER) $(PHOTOS_CXX_INT_OBJECTS)
+	ar cr lib/$(LIB_PHOTOS_FORTRAN_A) $(PHOTOS_FORTRAN_OBJECTS)
+	$(LD) $(LDFLAGS) $(SOFLAGS) -o lib/$(LIB_PHOTOS_FORTRAN_SO).$(LIB_VER) $(PHOTOS_FORTRAN_OBJECTS)
 	ln -sf $(LIB_PHOTOS_CXX_INT_SO).$(LIB_VER) lib/$(LIB_PHOTOS_CXX_INT_SO)
+	ln -sf $(LIB_PHOTOS_FORTRAN_SO).$(LIB_VER) lib/$(LIB_PHOTOS_FORTRAN_SO)
 	@echo "##################################################################"	
 	@echo " Photos C++ Interface library created and moved to lib/ directory "
 	@echo "##################################################################"
