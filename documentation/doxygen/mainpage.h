@@ -10,7 +10,7 @@
  @section download1 New release
 
  The source code and documentation for release 3.3. The following files are provided for download:
- - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/Photos_interface_design.3.3.pdf">Photos_interface_design.pdf</a> full software documentation (has not been updated since version 3.0).
+ - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/Photos_interface_design.3.3.pdf">Photos_interface_design.pdf</a> full software documentation (not yet fully updated to version 3.3).
  - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/PHOTOS.3.3.tar.gz">PHOTOS 3.3 source code </a> tarball
    and its <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/svn_info_photos.3.3.txt">revision info</a> SVN tag, tarball creation date/time, etc.
    For updates with respect to release 3.0 see <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/changelog.3.3.txt">changelog.txt</a>
@@ -22,6 +22,7 @@
  - <a href="../PHOTOS.daily_temp.tar.gz">PHOTOS.daily_temp.tar.gz</a> tarball and its <a href="../svn_info_photos.txt">revision info</a> SVN tag, tarball creation date/time, etc.   The tar file contains the c++ interface along with parts of
  the source code for PHOTOS (see <a href="http://wasm.web.cern.ch/wasm/goodies.html">here
  </a>, version from Oct 11 2005). For updates  with respect to release 3.0 see <a href="../changelog.txt">changelog.txt</a>.
+ - NEW: NLO in decays of Z, W and B (K) --> 2 scalar, <a href="http://annapurna.ifj.edu.pl/~wasm/phNLO.htm">photos NLO tests</a>.
 
  @section download Older releases
 
@@ -36,7 +37,7 @@
 
  @section intro Introduction/Status
  The tar-ball has the functionality of its FORTRAN predecessor for all cases.
- An extensive number of tests performed in X.2011 and XI.2011 has been collected on the webpage of<a href="http://annapurna.ifj.edu.pl/~wasm/photosNLO.htm">photos NLO tests</a>.
+ An extensive number of tests performed in X.2011 and XI.2011 has been collected on the webpage of <a href="http://annapurna.ifj.edu.pl/~wasm/phNLO.htm">photos NLO tests</a>.
  In particular, tests with SANC went at sub 0.01\% level
   
  @section setup Requirements

@@ -2,15 +2,17 @@ Changelog for changes with respect to version 3.0
 -------------------------------------------------
 
 Dec 10 2011
-- Throughought cleaning of the configuration scripts and LCG scripts
-- All tests reproduced with positive results. The description of all
-  benchmark files and options used to compare against them has been updated
-- Added several older benchmark files for NLO tests
-  and a set of more advanced options to compare against them.
-  They has been described in 'examples/testing/README-comparison-options'
+- Release 3.3 (sent to LCG for installation).
+- NLO installed in all options and demos: for Z W and scalars decays.
+- Cleaning of the configuration scripts and LCG scripts completed
+- All tests passed. Up-to-date READMES, headers of all root benchmark files, 
+  options in test programs.
+- Several older benchmark files for NLO tests added for reference. Available
+  for comparisons with  advanced options of test programs; options
+  described in 'examples/testing/README-comparison-options'
 
-- Added example of using interface without HepMC
-- Now interface can be compiled without HepMC by using:
+- Example using interface without HepMC added
+- To  compile without HepMC use:
   ./configure --without-hepmc
 
 Nov 11 2011
