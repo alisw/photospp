@@ -10,9 +10,9 @@
  @section download1 New release
 
  The source code and documentation for release 3.3. The following files are provided for download:
- - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/Photos_interface_design.pdf">Photos_interface_design.pdf</a> full software documentation (has not been updated since version 3.0).
+ - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/Photos_interface_design.3.3.pdf">Photos_interface_design.pdf</a> full software documentation (has not been updated since version 3.0).
  - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/PHOTOS.3.3.tar.gz">PHOTOS 3.3 source code </a> tarball
-   and its <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/svn_info_tauola.3.3.txt">revision info</a> SVN tag, tarball creation date/time, etc.
+   and its <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/svn_info_photos.3.3.txt">revision info</a> SVN tag, tarball creation date/time, etc.
    For updates with respect to release 3.0 see <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/changelog.3.3.txt">changelog.txt</a>
 
  @section developement Developement version
