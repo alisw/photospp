@@ -80,19 +80,6 @@ int main(int argc,char **argv)
 	pythia.readString("PartonLevel:ISR = off");
 	pythia.readString("PartonLevel:FSR = off");
 
-	// This option produces gamma in 11->11 decays
-	// "on"    for ttbar only (required)
-	// "off"   for other tests (required by ZmumuNLO 1-photon mode;
-	//         reduces momentum non-conservation in Zee)
-	if( argc<=4 || atoi(argv[4])!=1) pythia.readString("PartonLevel:Remnants = off");
-
-	/* WARNING! Code needs few changes for Zee: with pythia8135 does not work when
-	            above line is uncommented. Also, with maxInterferenceWeight(3.0) WT>1
-	            after 23MEvents. Also, cutoff for WmunuNLO 1-phot seems to be wrong.
-
-	            Will be fixed in next version.
-	*/
-
 	// Tauola is currently set to undecay taus. Otherwise, uncomment this line.
 	//pythia.particleData.readString("15:mayDecay = off");
 
@@ -151,7 +138,7 @@ int main(int argc,char **argv)
 	{
 		Photos::setDoubleBrem(false);
 		Photos::setExponentiation(false);
-		Photos::setInfraredCutOff(0.001);    // 0.01 for WmunuNLO 1-photon (?)
+		Photos::setInfraredCutOff(0.001);
 		Photos::maxWtInterference(2.0);
 
 
@@ -168,7 +155,7 @@ int main(int argc,char **argv)
 	for(unsigned long iEvent = 0; iEvent < NumberOfEvents; ++iEvent)
 	{
 		if(iEvent%1000==0) Log::Info()<<"Event: "<<iEvent<<"\t("<<iEvent*(100./NumberOfEvents)<<"%)"<<endl;
-		if (!pythia.next()) { iEvent--; continue; }
+		if (!pythia.next()) continue;
 
 		HepMC::GenEvent * HepMCEvt = new HepMC::GenEvent();
 		ToHepMC.fill_next_event(event, HepMCEvt);

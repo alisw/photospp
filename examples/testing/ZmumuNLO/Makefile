@@ -15,8 +15,8 @@ NAME_BENCHMARK=mc-tester.root-Zmumu-NLO-100M
 #         - uncommenting few lines at the end of SETUP.C file
 #         - usage of pythia_Z_resonance_peak.conf -
 #           comment out line 'CONF' below.
-#NAME_BENCHMARK=mc-tester.root-Zmumu-photos-F77-100M-1-photon-1GeV-NLO
-#NAME_BENCHMARK=mc-tester.root-Zmumu-koralz-100M-1-photon-1GeV-NLO
+#NAME_BENCHMARK=mc-tester.root-Zmumu-photos-F77-100M-1-phot-1GeV-NLO
+#NAME_BENCHMARK=mc-tester.root-Zmumu-koralz-100M-1-phot-1GeV-NLO
 #NAME_BENCHMARK=mc-tester.root-Zmumu-kkmc-F77-100M-nosym-1GeV-NLO
 
 CONF=pythia_Z.conf

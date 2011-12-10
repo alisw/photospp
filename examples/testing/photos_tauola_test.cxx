@@ -127,10 +127,12 @@ int main(int argc,char **argv)
 	}
 
 	// 6. Check if we're in ScalarNLO mode
-	if( argc>6 && atoi(argv[6]) )
+	if( argc>6 )
 	{
 		Tauola::setEtaK0sPi(1,1,0);
-		Photos::setMeCorrectionWtForScalar(true);
+    
+		// Check if we are using NLO
+		if(atoi(argv[6])) Photos::setMeCorrectionWtForScalar(true);
 	}
 
 	Log::SummaryAtExit();

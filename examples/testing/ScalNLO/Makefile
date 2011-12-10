@@ -3,7 +3,7 @@ include ../test.inc
 
 NAME_BENCHMARK=mc-tester.root-1000M-NLO-EXP
 # Or use other benchmark reference files:
-#NAME_BENCHMARK=mc-tester.root-1000M-NLO-EXP
+#NAME_BENCHMARK=mc-tester.root-1000M-LO-EXP
 #NAME_BENCHMARK=mc-tester.root-1000M-LO-1-phot
 #NAME_BENCHMARK=mc-tester.root-1000M-NLO-1-phot
 

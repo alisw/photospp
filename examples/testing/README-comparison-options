@@ -39,9 +39,9 @@ Wenu/mc-tester.root-Wenu-photos-100M-sym-10MeV
 Wmunu/mc-tester.root-Wmunu-photos-100M-sym-10MeV
 WmunuNLO/mc-tester.root-Wmunu-photos-100M-nosym-10MeV-1-phot-NLO
 WmunuNLO/mc-tester.root-Wmunu-photos-100M-sym-10MeV        SPECIAL_MODE    = 0
-WmunuNLO/mc-tester.root-Wmunu-photos-100M-1-phot-NLO       CUTOFF = 0.01
-WmunuNLO/mc-tester.root-Wmunu-photos-100M-1-phot           CUTOFF = 0.01
                                                            ONE_PHOTON_MODE = 0
+WmunuNLO/mc-tester.root-Wmunu-photos-100M-1-phot-NLO       CUTOFF = 0.005
+WmunuNLO/mc-tester.root-Wmunu-photos-100M-1-phot           CUTOFF = 0.005
 Zee/mc-tester.root-Zee-10M-nosym-10MeV
 Zee/mc-tester.root-Zee-photos-100M-sym-10MeV
 Zee/mc-tester.root-Zee-kkmc-sym-1GeV                       CUTOFF = 1./91.187

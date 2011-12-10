@@ -254,7 +254,7 @@ PHOTOS:
       first:	yes
      second:	no
         exp:	no
-     cutoff:	0.01
+     cutoff:	0.005
         NLO:	yes
 
 MCTESTER:
