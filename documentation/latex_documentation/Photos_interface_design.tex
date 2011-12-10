@@ -355,6 +355,13 @@ event record.
        The {\tt HepMC} event record interface is implemented
        through {\tt PhotosHepMCEvent} and {\tt PhotosHepMCParticle}. These classes are similar to the
        analogous {\tt TAUOLA} \cite{Davidson:2010rw} event record classes.
+       An example of a minimalistic interface to an event record has been provided
+       through the classes {\tt PhotosHEPEVTEvent} and {\tt PhotosHEPEVTParticle}.
+       %TP: we have to write something regarding the limitations of the HEPEVT interface
+       They can be used as a template for a new interface to any other event record%
+       \footnote{Thanks to the polymorphism, abstract part of the algorithm
+       is well separated from the specific event record implementations.
+       It even allows simultaneous use of several distinct event record implementations.}.
 \end{itemize}
 
 \subsection{Directory Structure}
@@ -366,6 +373,8 @@ event record.
   \begin{itemize}
   \item { \bf PhotosHepMCEvent} - interface to HepMC::GenEvent objects. 
   \item { \bf PhotosHepMCParticle} - interface to HepMC::GenParticle objects. 
+  \item { \bf PhotosHEPEVTEvent} - interface to the event structure of the {\tt HEPEVT} format. 
+  \item { \bf PhotosHEPEVTParticle} - interface to a single particle from the {\tt HEPEVT} event record.
   \end{itemize}   
 
 \item {\bf src/photosCInterfaces/ } - source code for the general {\tt PHOTOS} interface.  \\
@@ -396,9 +405,22 @@ event record.
       of {\tt PHOTOS C++ Interface} and tracks statistics for each run.
   \item { \bf PhotosRandom} - random number generator taken from {\tt PHOTOS FORTRAN} and rewritten to C++.
   \end{itemize}   
+\item {\bf src/photos-fortran/ } - the  standard {\tt PHOTOS FORTRAN} 
+        distribution\footnote{Parts of {\tt PHOTOS FORTRAN} are already 
+        rewritten to C++. The resulting modules are interchangeable and the program
+will function properly even if the {\tt PHOTOS FORTRAN} library is loaded from another
+part of the user's system (as a shared object). 
+In such cases its random number generator will 
+be used, and its initialization will not be controlled from the C++ interface.
+The remaining  initialization of {\tt PHOTOS} options can be executed from 
+{\tt FORTRAN} or C++; the later initialized options
+will take precedence.}.
 
   \item {\bf examples/ } - examples of different {\tt PHOTOS} C++ Interface uses.
     \begin{itemize}
+        \item {\bf photos\_hepevt\_example} - stand alone example with a simple 
+        $e^+e^- \rightarrow \tau^+\tau^-$ event written in {\tt HEPEVT} format
+         and then processed by {\tt PHOTOS}.
 	\item {\bf photos\_standalone\_example} - the most basic example which loads pre-generated 
 	      events stored in a file in {\tt HepMC} format which are then processed by {\tt PHOTOS}.
 	\item {\bf single\_photos\_gun\_example} - an example of using the {\tt processOne} method
@@ -411,16 +433,6 @@ event record.
   \item {\bf include/} - directory for the header files.
   \item {\bf lib/ } - directory for the compiled  libraries. 
   \item {\bf documentation/ } - contains doxygen documentation and this latex file.
-  \item {\bf photos-fortran/ } - the  standard {\tt PHOTOS FORTRAN} 
-        distribution\footnote{Parts of {\tt PHOTOS FORTRAN} are already 
-        rewritten to C++. The resulting modules are interchangeable and the program
-will function properly even if the {\tt PHOTOS FORTRAN} library is loaded from another
-part of the user's system (as a shared object). 
-In such cases its random number generator will 
-be used, and its initialization will not be controlled from the C++ interface.
-The remaining  initialization of {\tt PHOTOS} options can be executed from 
-{\tt FORTRAN} or C++; the later initialized options
-will take precedence.}.
 \end{itemize}
 
 \subsection{Algorithm Outline}
@@ -1111,10 +1123,10 @@ Currently only the Linux and Mac OS\footnote{For this case LCG configuration
 scripts explained in Appendix \ref{sec:autotools} have to be used.} operating systems are supported: other systems may be
 supported in the future if sufficient interest is found.
 
-The main interface library requires that {\tt HepMC} \cite{Dobbs:2001ck} (version 2.03 or later)  has been installed
-and its location has been provided during the configuration step. This is sufficient to compile the interface and to run the simple, stand-alone example.
+The main interface library uses {\tt HepMC} \cite{Dobbs:2001ck} (version 2.03 or later) and requires that either
+its location has been provided or option of compilation without {\tt HepMC} has been chosen during the configuration step. This is sufficient to compile the interface and to run the simple, stand-alone example.
 
-However, in order to run the more advanced examples located in the {\tt /examples} directory, it is required to also install:
+However, in order to run the more advanced examples located in the {\tt /examples} directory, {\tt HepMC} is required. It is also required to install:
 
 \begin{itemize}
   \item {\tt ROOT} \cite{root-install-www} version 5.18 or later
@@ -1122,13 +1134,13 @@ However, in order to run the more advanced examples located in the {\tt /example
         so that the {\tt PYTHIA} library {\tt hepmcinterface} exists.
   \item {\tt MC-TESTER} \cite{Golonka:2002rz,Davidson:2008ma} version 1.24 or later.
         Do not forget to type {\tt make libHepMCEvent} after compilation of {\tt MC-TESTER} is done.
-  \item {\tt TAUOLA} \cite{Davidson:2010rw} version 1.02 or later.
+  \item {\tt TAUOLA} \cite{Davidson:2010rw} version 1.0.5 or later. {\tt TAUOLA} must be compiled with {\tt HepMC}.
 \end{itemize}
 
 In order to compile the {\tt PHOTOS} C++ Interface:
 \begin{itemize}
  \item Execute {\tt ./configure} with the additional command line options:
-   \subitem {\tt --with-HepMC=$<$path$>$} provides the path to the {\tt HepMC} installation directory. One can also set the {\tt HEPMCLOCATION} variable instead of using this directive. This path is required for the interface to compile.
+   \subitem {\tt --with-hepmc=$<$path$>$} provides the path to the {\tt HepMC} installation directory. One can also set the {\tt HEPMCLOCATION} variable instead of using this directive. To compile the interface without {\tt HepMC} use {\tt --without-hepmc}
    \subitem {\tt --prefix=$<$path$>$} provides the installation path. The {\tt include} and {\tt lib} directories will be copied there if {\tt make install} is executed later. If none has been provided, the default directory for installation is {\tt /usr/local}.
  \item Execute {\tt make}
  \item Optionally, execute {\tt make install} to copy files to the directory provided during configuration.
@@ -1136,27 +1148,27 @@ In order to compile the {\tt PHOTOS} C++ Interface:
 
 The {\tt PHOTOS} C++ interface will be compiled and the {\tt /lib} and {\tt /include} directories will contain the appropriate libraries and include files.
 
-In order to compile the examples, compile the {\tt PHOTOS} C++ interface and enter the {\tt /examples} directory and:
+In order to compile the examples, compile the {\tt PHOTOS} C++ interface, enter the {\tt /examples} directory and:
 \begin{itemize}
   \item Execute {\tt ./configure} to determine which examples can be compiled.
         Additional paths can be provided as command line options:
-   \subitem {\tt --with-Pythia8=$<$path$>$} provides the path to the {\tt Pythia8} installation
+   \subitem {\tt --with-pythia8=$<$path$>$} provides the path to the {\tt Pythia8} installation
             directory. One can set the {\tt PYTHIALOCATION} variable instead of using this directive.
             This path is required for all examples and tests.
-   \subitem {\tt --with-MC-Tester=$<$path$>$} provides the path to the {\tt MC-TESTER} installation
+   \subitem {\tt --with-mc-tester=$<$path$>$} provides the path to the {\tt MC-TESTER} installation
             directory (the {\tt libHepMCEvent} must be compiled as well, see Ref.~\cite{Davidson:2008ma}
 			for more details). One can set the {\tt MCTESTERLOCATION} variable instead of using this
 			directive. This path is required for all additional examples and tests.  This option
 			implies that {\tt ROOT} has already been installed (since it is required by {\tt MC-TESTER}).
 			The {\tt ROOT} directory {\tt bin} should be listed in the variable {\tt PATH} and the {\tt ROOT}
 			libraries in {\tt LD\_LIBRARY\_PATH}.
-   \subitem {\tt --with-Tauola=$<$path$>$} provides the path to the {\tt TAUOLA} installation directory.
+   \subitem {\tt --with-tauola=$<$path$>$} provides the path to the {\tt TAUOLA} installation directory.
             One can set the {\tt TAUOLALOCATION} variable instead of using this directive.
 			This path is required for additional examples only.
   \item Execute {\tt make}
 \end{itemize}
 
-If neither {\tt Pythia8} nor {\tt MC-TESTER} are accessible,  the most basic
+If neither {\tt HepMC}, {\tt Pythia8} nor {\tt MC-TESTER} are accessible,  the most basic
  example will be nonetheless provided. The {\tt /examples} directory will 
 contain the executable files for all examples which can be compiled and 
 linked.
@@ -1216,28 +1228,29 @@ In order to run some more specific tests for the following processes:
 $H \rightarrow \tau^+ \tau^-$, $ e^+ e^- \rightarrow t \bar t$,
 $W \rightarrow e \nu_e$, $W \rightarrow \mu \nu_\mu$,
 $Z \rightarrow e^+ e^-$, $Z \rightarrow \mu \mu$ or $Z \rightarrow \tau^+ \tau^-$,
+$K_{0}^{S} \rightarrow \pi \pi$,
 the main programs residing in the subdirectories of {\tt /examples/testing} should be executed.
 In all cases the following actions have to be performed:
 
 \begin{itemize}
-  \item Compile the {\tt PHOTOS } C++ Interface as well as the examples. 
+  \item Compile the {\tt PHOTOS } C++ Interface. 
  \item  Check that the appropriate system variables are set. Execution of  the script \\
 {\tt /configure.paths.sh} usually can perform this task; the configuration step 
 announces this script.
-  \item Enter the {\tt /examples/testing} directory. Modify test.inc if needed.
+  \item Enter the {\tt /examples/testing} directory. Execute {\tt make}. Modify test.inc if needed.
   \item Enter the sub-directory for the particular process of interest
 and execute {\tt make}.
 \end{itemize}
 
 The appropriate {\tt .root} files as well as {\tt .pdf} files generated by {\tt MC-TESTER}
 will be created inside the chosen directory. One can execute 'make clobber' to
-clean the directory. One can also execute 'make' inside the {\tt /examples/testing}
+clean the directory. One can also execute 'make run' inside the {\tt /examples/testing}
 directory to run all available tests one after another. Changes in source
 code  can  be partly validated in this way.
-Most of the tests are run using the executable {\tt examples/photos\_pythia\_example.exe}. The 
- $H \rightarrow \tau^+ \tau^-$ and $Z \rightarrow \tau^+ \tau^-$ examples 
+Most of the tests are run using the executable {\tt examples/testing/photos\_test.exe}. The 
+ $K_{0}^{S} \rightarrow \pi \pi$, $H \rightarrow \tau^+ \tau^-$ and $Z \rightarrow \tau^+ \tau^-$ examples 
 require
-{\tt examples/tauola\_photos\_pythia\_example.exe} to be run.
+{\tt examples/testing/photos\_tauola\_test.exe} to be run.
 After generation, {\tt MC-TESTER} booklets will be produced,
  comparisons to the benchmark files will be shown.
 A set of benchmark {\tt MC-TESTER} root files have been included with the interface
@@ -1274,18 +1287,17 @@ constructed. To use the {\tt PHOTOS} interface in an external project, additiona
 compilation directives are required. For the static libraries:
 \begin{itemize}
   \item add {\tt -I<PhotosLocation>/include} at the compilation step,
-  \item add {\tt <PhotosLocation>/lib/libPhotosCxxInterface.a} at the linking step of your project.
+  \item add {\tt <PhotosLocation>/lib/libPhotosCxxInterface.a <PhotosLocation>/lib/libPhotosFortran.a} at the linking step of your project.
 \end{itemize}
 For the shared objects:
 \begin{itemize}
   \item add {\tt -I<PhotosLocation>/include} at the compilation step,
-  \item add {\tt -L<PhotosLocation>/lib} along with {\tt -lPhotosCxxInterface} at the linking step.
-        This library contains {\tt FORTRAN} routines as well.
+  \item add {\tt -L<PhotosLocation>/lib} along with {\tt -lPhotosCxxInterface -lPhotosFortran} at the linking step.
   \item  {\tt PHOTOS} libraries must be provided for the executable; e.g. with the help of {\tt LD\_LIBRARY\_PATH}.
 \end{itemize}
 {\tt <PhotosLocation>} denotes the path to the {\tt PHOTOS} installation directory.
-In most cases it should be enough to include {\tt Photos.h} and {\tt PhotosEvent.h}
-within a user's program and use the {\tt PHOTOS} class for configuration and {\tt PhotosEvent}
+In most cases it should be enough to include within a users's program {\tt Photos.h} and {\tt PhotosHepMCEvent.h} (or any other header file for the class implementing abstract class {\tt PhotosEvent})
+With that, {\tt Photos} class can be used for configuration and {\tt PhotosHepMCEvent}
 for event processing.
 
 \section{Appendix: User Configuration}
@@ -1525,7 +1537,7 @@ or are introduced for backward compatibility.
         Set the exponentiation mode.
   \item {\tt Photos::setCorrectionWtForW(bool corr)} \\
          A switch for leading effects of the matrix element (in leptonic W decays)
-  \item {\tt Photos::setMeCorrectionWtForS(bool corr)} \\
+  \item {\tt Photos::setMeCorrectionWtForScalar(bool corr)} \\
          A switch for complete effects of the matrix element (in scalar to 2 scalar decays) {\it  to be installed in {\tt PHOTOS 3.3}. At present tests are missing. }
   \item {\tt Photos::setMeCorrectionWtForW(bool corr)} \\
          A switch for complete effects of the matrix element (in leptonic W decays) {\it  installed in {\tt PHOTOS 3.2} }
@@ -1559,20 +1571,20 @@ on the units used by {\tt HepMC}). If larger energy-momentum non conservation
 
 In Section \ref{sec:results}, we have presented results of a non-standard
 analysis performed by {\tt MC-TESTER}. Figure \ref{fig:lineshape} has been
-obtained using a custom {\tt UserTreeAnalysis} located in the file {\tt ZeeAnalysis.C}
+obtained using a custom {\tt UserTreeAnalysis} located in the {\tt ZeeAnalysis.C} file
 residing in the {\tt examples/testing/Zee} directory. This file serves as an
 example of how custom analysis can be performed and how new plots can be
 added to the project with the help of {\tt MC-TESTER}.
 
 The basic {\tt MC-TESTER} analysis contains methods used by pre-set examples
-in the {\tt examples/testing} directory to focus on at most one or two 
+in the subdirectories of {\tt examples/testing} directory to focus on at most one or two 
 sufficiently hard photons from all the photons generated
 by {\tt PHOTOS}. Its description and usage have already been documented in \cite{Davidson:2008ma}.
 The content of {\tt ZeeAnalysis.C} is identical to the default {\tt UserTreeAnalysis}
 of {\tt MC-TESTER} with the only addition being a method to create
 the previously mentioned plot.
 
-In order to create the $t \bar t$ example, an additional routine had to be added to {\tt photos\_pythia\_example.c}.
+In order to create the $t \bar t$ example, an additional routine had to be added to {\tt photos\_test.c}.
 Since {\tt MC-TESTER} is not designed to analyze processes involving
 multiple incoming particles, we have used a method similar to that previously
 used in the {\tt FORTRAN} examples {\tt LC\_Analysis} mentioned in \cite{Golonka:2002rz}, Section 6.1.
@@ -1584,10 +1596,6 @@ up to analyze the particle $100$ in order to get a desirable result.
 
 For more details regarding the plots created for this documentation, see
 {\tt README-plots} located in {\tt examples/testing/} directory.
-
-%nd-some of the {\tt} words are going over the edge of the line (have
-%a look a this page in the pdf file).  This should be fixed, but I
-%don't know how to do it.
 
 %------------------------------------------------------------------------------
 
