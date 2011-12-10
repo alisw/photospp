@@ -1,5 +1,18 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+
+Dec 10 2011
+- Throughought cleaning of the configuration scripts and LCG scripts
+- All tests reproduced with positive results. The description of all
+  benchmark files and options used to compare against them has been updated
+- Added several older benchmark files for NLO tests
+  and a set of more advanced options to compare against them.
+  They has been described in 'examples/testing/README-comparison-options'
+
+- Added example of using interface without HepMC
+- Now interface can be compiled without HepMC by using:
+  ./configure --without-hepmc
+
 Nov 11 2011
  - Long tests with SANC at sub 0.01 % level went fine
    for single photon version of W decay at NLO, see:
