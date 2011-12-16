@@ -1389,7 +1389,6 @@ fi
 # Process command line options
 
 echo ""
-echo "Using HepMC location: $with_hepmc"
 
 echo "$as_me:$LINENO: checking if Tauola location defined" >&5
 echo $ECHO_N "checking if Tauola location defined... $ECHO_C" >&6
