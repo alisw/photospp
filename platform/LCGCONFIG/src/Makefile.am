@@ -22,6 +22,8 @@ photosFortranInterfaces/PH_HEPEVT_Interface.cxx \
 utilities/Log.cxx                               \
 utilities/PhotosRandom.cxx
 
+libPhotosCxxInterface_la_LIBADD = libPhotosFortran.la
+
 include_HEADERS =                             \
 eventRecordInterfaces/PhotosHEPEVTParticle.h  \
 eventRecordInterfaces/PhotosHEPEVTEvent.h     \
