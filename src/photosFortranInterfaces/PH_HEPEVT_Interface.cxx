@@ -147,7 +147,9 @@ void PH_HEPEVT_Interface::get(){
 
   //otherwise loop over particles which are already in the
   //event record and modify their 4 momentum
-  for(; index < ph_hepevt_.nhep && index < (int) m_particle_list.size(); index++){
+  //4.03.2012: Fix to prevent kinematical trap in vertex of simultaneous:
+  //           z-collinear and non-conservation pf E,p for dauthters of grandmothers
+  for(ph_hepevt_.jmohep[ph_hepevt_.nhep-1][0]; index < ph_hepevt_.nhep && index < (int) m_particle_list.size(); index++){
 
     PhotosParticle * particle = m_particle_list.at(index);
 
