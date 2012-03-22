@@ -261,7 +261,7 @@ void PhotosHepMCParticle::createHistoryEntry(){
 
   if(!m_particle->production_vertex())
   {
-    Log::Warning()<<"PhotosHepMCParticle::createHistoryEntry: particle without production vertex.";
+    Log::Warning()<<"PhotosHepMCParticle::createHistoryEntry(): particle without production vertex."<<endl;
     return;
   }
   
