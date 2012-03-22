@@ -63,6 +63,9 @@ class PhotosHEPEVTParticle: public PhotosParticle {
                                           double px, double py,
                                           double pz, double e);
 
+  /** Creating history entries not implemented in HEPEVT */
+  void createHistoryEntry();
+
   /** Check if particle 'p' is daughter of this particle */
   bool isDaughterOf(PhotosHEPEVTParticle *p);
 

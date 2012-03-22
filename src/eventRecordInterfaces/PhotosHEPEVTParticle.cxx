@@ -223,6 +223,11 @@ PhotosHEPEVTParticle * PhotosHEPEVTParticle::createNewParticle(
   return cache.back();
 }
 
+void PhotosHEPEVTParticle::createHistoryEntry()
+{
+  Log::Warning()<<"PhotosParticle::createHistoryEntry() not implemented for HEPEVT."<<endl;
+}
+
 bool PhotosHEPEVTParticle::isDaughterOf(PhotosHEPEVTParticle *p)
 {
   int bc = p->getBarcode();
