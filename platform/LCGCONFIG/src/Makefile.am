@@ -1,6 +1,6 @@
 includedir=$(prefix)/include/Photos
 
-lib_LTLIBRARIES = libPhotosCxxInterface.la libPhotosFortran.la
+lib_LTLIBRARIES = libPhotosFortran.la libPhotosCxxInterface.la
 
 libPhotosFortran_la_SOURCES = photos-fortran/photos.f \
 photosFortranInterfaces/Photos_make.f                 \
@@ -21,8 +21,6 @@ photosCInterfaces/PhotosEvent.cxx               \
 photosFortranInterfaces/PH_HEPEVT_Interface.cxx \
 utilities/Log.cxx                               \
 utilities/PhotosRandom.cxx
-
-libPhotosCxxInterface_la_LIBADD = libPhotosFortran.la
 
 include_HEADERS =                             \
 eventRecordInterfaces/PhotosHEPEVTParticle.h  \
@@ -52,3 +50,5 @@ INCLUDES = -I$(top_srcdir)/src/photosFortranInterfaces \
            -I$(HEPMC_DIR)/include
 
 libPhotosCxxInterface_la_FFLAGS = -fno-automatic -fno-backslash -ffixed-line-length-132
+
+libPhotosCxxInterface_la_LIBADD = libPhotosFortran.la
