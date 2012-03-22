@@ -158,8 +158,8 @@ void Photos::iniInfo()
 //------------------------------------------------------------------------------
 // Print PHOTOS header again
 //------------------------------------------------------------------------------
-	int                coutPrec = cout.precision(2);
-	ios_base::fmtflags flags    = cout.setf(ios_base::fixed);
+	int                coutPrec = cout.precision(6);
+	ios_base::fmtflags flags    = cout.setf(ios_base::floatfield);
 	cout<<endl;
 	cout<<"********************************************************************************"<<endl<<endl;
 
