@@ -178,14 +178,41 @@ std::vector<PhotosParticle*> PhotosHepMCParticle::getDaughters(){
 }
 
 bool PhotosHepMCParticle::checkMomentumConservation(){
-  if(m_particle->end_vertex()&&
-     m_particle->end_vertex()->check_momentum_conservation()>Photos::momentum_conservation_threshold){
+
+  if(!m_particle->end_vertex()) return true;
+  
+  // HepMC version of check_momentum_conservation
+  // Ommitting history entries (status == 3)
+
+  double sumpx = 0, sumpy = 0, sumpz = 0;
+  for( HepMC::GenVertex::particles_in_const_iterator part1 = m_particle->end_vertex()->particles_in_const_begin();
+       part1 != m_particle->end_vertex()->particles_in_const_end(); part1++ ){
+
+    if( (*part1)->status()==3 ) continue;
+
+    sumpx += (*part1)->momentum().px();
+    sumpy += (*part1)->momentum().py();
+    sumpz += (*part1)->momentum().pz();
+  }
+  
+  for( HepMC::GenVertex::particles_out_const_iterator part2 = m_particle->end_vertex()->particles_out_const_begin();
+       part2 != m_particle->end_vertex()->particles_out_const_end(); part2++ ){
+
+    if( (*part2)->status()==3 ) continue;
+
+    sumpx -= (*part2)->momentum().px();
+    sumpy -= (*part2)->momentum().py();
+    sumpz -= (*part2)->momentum().pz();
+  }
+
+  if( sqrt( sumpx*sumpx + sumpy*sumpy + sumpz*sumpz ) > Photos::momentum_conservation_threshold ) {
     Log::Warning()<<"Momentum not conserved in the vertex:"<<endl;
     Log::RedirectOutput(Log::Warning(false));
     m_particle->end_vertex()->print();
     Log::RevertOutput();
     return false;
   }
+  
   return true;
 }
 
@@ -228,6 +255,19 @@ PhotosHepMCParticle * PhotosHepMCParticle::createNewParticle(
 
   m_created_particles.push_back(new_particle);
   return new_particle;
+}
+
+void PhotosHepMCParticle::createHistoryEntry(){
+
+  if(!m_particle->production_vertex())
+  {
+    Log::Warning()<<"PhotosHepMCParticle::createHistoryEntry: particle without production vertex.";
+    return;
+  }
+  
+  HepMC::GenParticle *part = new HepMC::GenParticle(*m_particle);
+  part->set_status(3);
+  m_particle->production_vertex()->add_particle_out(part);
 }
 
 void PhotosHepMCParticle::print(){

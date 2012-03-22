@@ -89,6 +89,10 @@ class PhotosHepMCParticle: public PhotosParticle{
 				       double px, double py,
 				       double pz, double e);
 
+  /** Create history entry for HepMC event record.
+      Creates copy of this particle with status = 3 */
+  void createHistoryEntry();
+  
   /** Print some information about this particle to standard output */
   void print();
 

@@ -57,6 +57,9 @@ public:
 	/** Force processing of a whole decay branch */
 	static void forceBremForBranch(int count, int motherID, ... );
 
+  /** If event record allows it, create history entries of particles
+      before Photos processing */
+  static void createHistoryEntries(bool flag);
 public:
 	/** Seed for RANMAR used by fortran part of the Photos */
 	static void setSeed(int iseed1, int iseed2)    { PhotosRandom::setSeed(iseed1,iseed2); }
@@ -133,6 +136,9 @@ public:
 	
 	/** Flag for complete effects of matrix element (in leptonic W decays) */
 	static bool meCorrectionWtForW;
+  
+  /** Flag for creating historic entries */
+  static bool isCreateHistoryEntries;
 public:
 	/** Get instance of Photos */
 	Photos& getInstance() { return _instance; }

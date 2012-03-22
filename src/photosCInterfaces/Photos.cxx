@@ -21,6 +21,7 @@ double Photos::momentum_conservation_threshold   = 0.1;
 bool Photos::meCorrectionWtForZ=false;
 bool Photos::meCorrectionWtForW=false;
 bool Photos::meCorrectionWtForScalar=false;
+bool Photos::isCreateHistoryEntries=false;
 
 Photos::Photos()
 {
@@ -272,6 +273,11 @@ void Photos::forceBremForBranch(int count, int motherID, ... )
 	v->push_back(1);
 	if(!forceBremList) forceBremList = new vector< vector<int>* >();
 	forceBremList->push_back(v);
+}
+
+void Photos::createHistoryEntries(bool flag)
+{
+  isCreateHistoryEntries = flag;
 }
 
 void Photos::setExponentiation(bool expo)

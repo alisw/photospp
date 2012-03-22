@@ -145,6 +145,8 @@ void PH_HEPEVT_Interface::get(){
 
   //phodmp_();
 
+  int photons = ph_hepevt_.nhep - m_particle_list.size();
+ 
   //otherwise loop over particles which are already in the
   //event record and modify their 4 momentum
   //4.03.2012: Fix to prevent kinematical trap in vertex of simultaneous:
@@ -156,6 +158,12 @@ void PH_HEPEVT_Interface::get(){
     if(ph_hepevt_.idhep[index]!=particle->getPdgID())
       Log::Fatal("PH_HEPEVT_Interface::get(): Something is wrong with the PH_HEPEVT common block",5);
 
+    // If photons were added - for each daughter create a history entry
+    if(photons>0 && Photos::isCreateHistoryEntries)
+    {
+      particle->createHistoryEntry();
+    }
+    
     //check to see if this particle's 4-momentum has been modified
     bool   update=false;
 
@@ -189,7 +197,6 @@ void PH_HEPEVT_Interface::get(){
 
 
   //Now add extra photons
-  int photons = ph_hepevt_.nhep - m_particle_list.size();
   for(;photons>0; photons--, index++){
     
     if(ph_hepevt_.idhep[index]!=PhotosParticle::GAMMA)

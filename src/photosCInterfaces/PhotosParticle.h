@@ -264,6 +264,11 @@ public:
 	                                           double py, double pz,
 	                                           double e)=0;
 
+  /** Create history entry of this particle before modifications
+      of PHOTOS. Implementation of this method depends strongly
+      on the event record. */
+  virtual void createHistoryEntry()=0;
+  
 	/** Print some information about this particle to standard output */
 	virtual void print()=0;
 };
