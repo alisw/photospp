@@ -145,13 +145,41 @@ void PH_HEPEVT_Interface::get(){
 
   //phodmp_();
 
-  int photons = ph_hepevt_.nhep - m_particle_list.size();
- 
+  int  particle_count  = m_particle_list.size();
+  int  daughters_start = ph_hepevt_.jmohep[ph_hepevt_.nhep-1][0];
+  int  photons         = ph_hepevt_.nhep - m_particle_list.size();
+  bool isPhotonCreated = (photons>0);
+
+  index = particle_count;
+
+  // Add extra photons
+  for(;photons>0; photons--, index++){
+    
+    if(ph_hepevt_.idhep[index]!=PhotosParticle::GAMMA)
+      Log::Fatal("PH_HEPEVT_Interface::get(): Extra particle added to the PH_HEPEVT common block in not a photon!",6);
+    
+    //create a new particle
+    PhotosParticle * new_photon;
+    new_photon = m_particle_list.at(0)->createNewParticle(ph_hepevt_.idhep[index],
+							  ph_hepevt_.isthep[index],
+							  ph_hepevt_.phep[index][4],
+							  ph_hepevt_.phep[index][0],
+							  ph_hepevt_.phep[index][1],
+							  ph_hepevt_.phep[index][2],
+							  ph_hepevt_.phep[index][3]);
+    
+    //add into the event record
+    //get mother particle of photon
+    PhotosParticle * mother =  m_particle_list.at(ph_hepevt_.jmohep[index][0]-1);
+    mother->addDaughter(new_photon);
+    
+  }
+
   //otherwise loop over particles which are already in the
   //event record and modify their 4 momentum
   //4.03.2012: Fix to prevent kinematical trap in vertex of simultaneous:
   //           z-collinear and non-conservation pf E,p for dauthters of grandmothers
-  for(index=ph_hepevt_.jmohep[ph_hepevt_.nhep-1][0]; index < ph_hepevt_.nhep && index < (int) m_particle_list.size(); index++){
+  for(index=daughters_start; index < particle_count && index < (int) m_particle_list.size(); index++){
 
     PhotosParticle * particle = m_particle_list.at(index);
 
@@ -159,7 +187,7 @@ void PH_HEPEVT_Interface::get(){
       Log::Fatal("PH_HEPEVT_Interface::get(): Something is wrong with the PH_HEPEVT common block",5);
 
     // If photons were added - for each daughter create a history entry
-    if(photons>0 && Photos::isCreateHistoryEntries)
+    if(isPhotonCreated && Photos::isCreateHistoryEntries)
     {
       particle->createHistoryEntry();
     }
@@ -193,30 +221,6 @@ void PH_HEPEVT_Interface::get(){
       particle->boostDaughtersFromRestFrame(particle);
     }
 
-  }
-
-
-  //Now add extra photons
-  for(;photons>0; photons--, index++){
-    
-    if(ph_hepevt_.idhep[index]!=PhotosParticle::GAMMA)
-      Log::Fatal("PH_HEPEVT_Interface::get(): Extra particle added to the PH_HEPEVT common block in not a photon!",6);
-    
-    //create a new particle
-    PhotosParticle * new_photon;
-    new_photon = m_particle_list.at(0)->createNewParticle(ph_hepevt_.idhep[index],
-							  ph_hepevt_.isthep[index],
-							  ph_hepevt_.phep[index][4],
-							  ph_hepevt_.phep[index][0],
-							  ph_hepevt_.phep[index][1],
-							  ph_hepevt_.phep[index][2],
-							  ph_hepevt_.phep[index][3]);
-    
-    //add into the event record
-    //get mother particle of photon
-    PhotosParticle * mother =  m_particle_list.at(ph_hepevt_.jmohep[index][0]-1);
-    mother->addDaughter(new_photon);
-    
   }
   
 }
