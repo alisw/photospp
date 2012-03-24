@@ -68,6 +68,13 @@ int main(int argc,char **argv)
 	//Photos::forceBremForDecay (2,23,15,-15);
 	//Photos::forceBremForBranch(0,15);
 
+	// Force mass of electron and positron to be 0.000511
+	//Photos::forceMass(11,0.000511);
+
+	// Force mass of electron and positron to be taken
+	// from event record instead of being calculated from 4-vector
+	//Photos::forceMassFromEventRecord(11);
+
 	MC_Initialize();
 
 	// Begin event loop

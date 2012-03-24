@@ -73,7 +73,34 @@ void PH_HEPEVT_Interface::add_particle(int i,PhotosParticle * particle,
   // if massFrom4Vector=true (default) - get sqrt(e^2-p^2)
   // otherwise - get mass from event record
   if(!Photos::massFrom4Vector) ph_hepevt_.phep[i][4]=particle->getMass();
-  else                         ph_hepevt_.phep[i][4]=particle->getVirtuality();
+  else
+  {
+    double mass  = 0.0;
+    int    pdgid = abs(particle->getPdgID());
+
+    // if 'forceMass' for this PDGID was used - overwrite mass
+    if(Photos::forceMassList)
+    {
+      for(unsigned int i=0;i<Photos::forceMassList->size();i++)
+      {
+        if(pdgid == Photos::forceMassList->at(i)->first)
+        {
+          mass = Photos::forceMassList->at(i)->second;
+          
+          // when 'forceMassFromEventRecord' is used mass is -1.0
+          // in this case - get mass from event record
+          if(mass<0.0) mass = particle->getMass();
+
+          break;
+        }
+      }
+    }
+
+    // if PDGID was not found on the list - calculate from 4-vector
+    if(mass==0.0) mass = particle->getVirtuality();
+
+    ph_hepevt_.phep[i][4] = mass;
+  }
 
   ph_hepevt_.vhep[i][0]=0;
   ph_hepevt_.vhep[i][1]=0;

@@ -18,6 +18,7 @@
 #include "PhotosRandom.h"
 #include "f_Init.h"
 using std::vector;
+using std::pair;
 
 class PhotosParticle;
 
@@ -109,6 +110,22 @@ public:
 		hiper-relativistic electron, for example. */
 	static void forceMassFrom4Vector(bool flag) { massFrom4Vector=flag; }
 	
+  /** When particles with PDGID and -PDGID will be processed by Photos,
+      their mass value will be taken from event record instead of being
+      calculated from 4-vector.
+
+      This works only if 'forceMassFrom4Vector' is set to 'true' (default)      
+      This routine may be executed several times with different PDGID values. */
+  static void forceMassFromEventRecord(int pdgid);
+
+  /** When particles with PDGID and -PDGID will be processed by Photos,
+      their mass value will be given by user instead of being calculated
+      from 4-vector.
+
+      This works only if 'forceMassFrom4Vector' is set to 'true' (default)
+      This routine may be executed several times with different PDGID values. */  
+  static void forceMass(int pdgid, double mass);
+
 	/** set energy momentum conservation threshold */
 	static void setMomentumConservationThreshold(double threshold){momentum_conservation_threshold=threshold; }
 
@@ -124,6 +141,9 @@ public:
 
 	/** List of forced decays */
 	static vector<vector<int>* >    *forceBremList;
+
+	/** List of forced mass values */
+	static vector<pair<int,double>* > *forceMassList;
 
  	/** Threshold for momentum conservation check */
 	static double momentum_conservation_threshold;

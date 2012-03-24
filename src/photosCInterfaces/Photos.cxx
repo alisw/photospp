@@ -15,6 +15,7 @@ Photos Photos::_instance;
 
 vector<vector<int>* >    *Photos::supBremList    = 0;
 vector<vector<int>* >    *Photos::forceBremList  = 0;
+vector<pair<int,double>* > *Photos::forceMassList = 0;
 bool Photos::isSuppressed=false;
 bool Photos::massFrom4Vector=true;
 double Photos::momentum_conservation_threshold   = 0.1;
@@ -295,4 +296,22 @@ void Photos::setMeCorrectionWtForZ(bool corr)
 void Photos::setMeCorrectionWtForScalar(bool corr)
 {
 	meCorrectionWtForScalar=corr;
+}
+
+void Photos::forceMassFromEventRecord(int pdgid)
+{
+  if(!forceMassList) forceMassList = new vector<pair<int,double>* >();
+  forceMassList->push_back( new pair<int,double>(pdgid, -1.0) );
+}
+
+void Photos::forceMass(int pdgid, double mass)
+{
+  if(mass<0.0)
+  {
+    Log::Warning()<<"Photos::forceMass: Mass must be > 0.0"<<endl;
+    return;
+  }
+  
+  if(!forceMassList) forceMassList = new vector<pair<int,double>* >();
+  forceMassList->push_back( new pair<int,double>(pdgid, mass) );
 }
