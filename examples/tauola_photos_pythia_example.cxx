@@ -75,6 +75,11 @@ int main(int argc,char **argv)
 	// from event record instead of being calculated from 4-vector
 	//Photos::forceMassFromEventRecord(11);
 
+	// Force writing history decay products for  vertices
+	// modified i.e. with added photons.
+	//Photos::createHistoryEntries(true);
+
+
 	MC_Initialize();
 
 	// Begin event loop
