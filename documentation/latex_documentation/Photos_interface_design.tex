@@ -1538,32 +1538,33 @@ or are introduced for backward compatibility.
   \item {\tt Photos::setCorrectionWtForW(bool corr)} \\
          A switch for leading effects of the matrix element (in leptonic W decays)
   \item {\tt Photos::setMeCorrectionWtForScalar(bool corr)} \\
-         A switch for complete effects of the matrix element (in scalar to 2 scalar decays) {\it  to be installed in {\tt PHOTOS 3.3}. At present tests are missing. }
+         A switch for complete effects of the matrix element (in scalar to 2 scalar decays) {\it  installed in {\tt PHOTOS 3.3}. At present tests are missing. }
   \item {\tt Photos::setMeCorrectionWtForW(bool corr)} \\
          A switch for complete effects of the matrix element (in leptonic W decays) {\it  installed in {\tt PHOTOS 3.2} }
   \item {\tt Photos::setMeCorrectionWtForZ(bool corr)} \\
          A switch for complete effects of the matrix element (in leptonic Z decays) {\it  installed in {\tt PHOTOS 3.1} }
   \item {\tt Photos::initializeKinematicCorrections(int flag)} \\
         Initialize kinematic corrections.
-  \item {\tt Photos::forceMassFrom4Vector(bool flag)} \\
+  \item {\tt Photos::forceMassFrom4Vector(bool flag)}  \\
         By default, for all particles used by {\tt PHOTOS}, 
         mass is re-calculated and $\sqrt{E^2-p^2}$ is used. 
-        If {\tt flag=false}, the particle mass from the event record processed by 
-        {\tt PHOTOS} takes precedence. The choice may be important for the control 
-        of numerical stability.
-  \item {\tt Photos::forceMass(int pdgid, double mass)} \\
-        When particles with PDGID and -PDGID will be processed by Photos,
-        their mass value will be given by user instead of being calculated
+        If {\tt flag=false}, the particle mass stored in the  event record 
+        is used. The choice may be important for the control 
+        of numerical stability in case ov very light stable particles, but may be incorrect for decay products 
+        themselves of non-negligible width.
+  \item {\tt Photos::forceMass(int pdgid, double mass)} {\it  installed in {\tt PHOTOS 3.4}} \\
+        For particles of PDGID (or -PDGID)  to be processed by {\tt PHOTOS},
+        mass value attributed  by user will be used instead of the one calculated
         from 4-vector.
-        Only used if {\tt forceMassFrom4Vector = true} (default).
-  \item {\tt Photos::forceMassFromEventRecord(int pdgid)} \\
-        When particles with PDGID and -PDGID will be processed by Photos,
-        their mass value will be taken from event record instead of being
+        Option active if {\tt forceMassFrom4Vector = true} (default).
+  \item {\tt Photos::forceMassFromEventRecord(int pdgid)} {\it  installed in {\tt PHOTOS 3.4} \\
+        For particles of PDGID (or -PDGID} to be  processed by {\tt PHOTOS},
+        mass value taken from the event record will be used instead of the one
         calculated from 4-vector.
-        Only used if {\tt forceMassFrom4Vector = true} (default).
-  \item {\tt Photos::createHistoryEntries(bool flag)} \\
-        When flag is set to {\tt true}, if event record allows it,
-        {\tt Photos} will create history entries of particles
+        Option active if {\tt forceMassFrom4Vector = true} (default).
+  \item {\tt Photos::createHistoryEntries(bool flag)} {\it  installed in {\tt PHOTOS 3.4}} \\
+        If set to {\tt true}, and if event record format allows,
+        {\tt Photos} will store history entries consisting of particles
         before processing\footnote{In case of {\tt HepMC}, creates copies
         of all particles on the list of outgoing particles in vertices where
         photon was added. History entries have {\tt status = 3} and are added
