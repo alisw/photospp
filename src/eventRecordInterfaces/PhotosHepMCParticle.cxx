@@ -184,7 +184,7 @@ bool PhotosHepMCParticle::checkMomentumConservation(){
   // HepMC version of check_momentum_conservation
   // Ommitting history entries (status == 3)
 
-  double sumpx = 0, sumpy = 0, sumpz = 0;
+  double sumpx = 0, sumpy = 0, sumpz = 0, sume = 0;
   for( HepMC::GenVertex::particles_in_const_iterator part1 = m_particle->end_vertex()->particles_in_const_begin();
        part1 != m_particle->end_vertex()->particles_in_const_end(); part1++ ){
 
@@ -193,6 +193,7 @@ bool PhotosHepMCParticle::checkMomentumConservation(){
     sumpx += (*part1)->momentum().px();
     sumpy += (*part1)->momentum().py();
     sumpz += (*part1)->momentum().pz();
+    sume  += (*part1)->momentum().e();
   }
   
   for( HepMC::GenVertex::particles_out_const_iterator part2 = m_particle->end_vertex()->particles_out_const_begin();
@@ -203,9 +204,10 @@ bool PhotosHepMCParticle::checkMomentumConservation(){
     sumpx -= (*part2)->momentum().px();
     sumpy -= (*part2)->momentum().py();
     sumpz -= (*part2)->momentum().pz();
+    sume  -= (*part2)->momentum().e();
   }
 
-  if( sqrt( sumpx*sumpx + sumpy*sumpy + sumpz*sumpz ) > Photos::momentum_conservation_threshold ) {
+  if( sqrt( sumpx*sumpx + sumpy*sumpy + sumpz*sumpz + sume*sume) > Photos::momentum_conservation_threshold ) {
     Log::Warning()<<"Momentum not conserved in the vertex:"<<endl;
     Log::RedirectOutput(Log::Warning(false));
     m_particle->end_vertex()->print();
