@@ -1,12 +1,19 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Apr 1 2012
+  Inherited from HepMC method of momentum conservation check supplemented
+  with missing so far energy. This is of importance for control of history
+  entries.
 
 Mar 24 2012
-- New options:
+- Release 3.4
+- New options useful for correcting event record Photos is supposed to act,
+  resulting from interactions with users:
   forceMass
   forceMassFromEventRecord
   createHistoryEntries
 - small bugfixes
+
 
 Dec 10 2011
 - Release 3.3 (sent to LCG for installation).

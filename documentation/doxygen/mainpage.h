@@ -9,13 +9,14 @@
  
  @section download1 New release
 
- The source code and documentation for release 3.3. The following files are provided for download:
- - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/Photos_interface_design.3.3.pdf">Photos_interface_design.pdf</a> full software documentation.
- - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/PHOTOS.3.3.tar.gz">PHOTOS 3.3 source code </a> tarball
-   ( <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3-LHC.tar.gz"> version for LHC/LCG</a>  installation)
-   and its <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/svn_info_photos.3.3.txt">revision info</a> SVN tag, tarball creation date/time, etc.
+ The source code and documentation for release 3.4. The following files are provided for download:
+ - <a href="../Photos_interface_design.pdf">Photos_interface_design.pdf</a> full software documentation.
+ - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/PHOTOS.3.3.tar.gz">Link to be provided </a> tarball
+   ( <a href="http://annapurna.ifj.edu.pl/~wasm/PHOTOS.3.4-LHC.tar.gz"> version for LHC/LCG</a>  installation)
+   and its <a href="http://annapurna.ifj.edu.pl/~wasm/svn_info_photos.3.4.txt">missing</a> SVN tag, tarball creation date/time, etc.
    For updates with respect to release 3.0 see <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/changelog.3.3.txt">changelog.txt</a>
- - NEW: NLO in decays of Z, W and B (K) --> 2 scalar, <a href="http://annapurna.ifj.edu.pl/~wasm/phNLO.htm">photos NLO tests</a>.
+ - NEW: methods to correct content of event record: mass and history entries to be added.
+ - also: NLO in decays of Z, W and B (K) --> 2 scalar, <a href="http://annapurna.ifj.edu.pl/~wasm/phNLO.htm">photos NLO tests</a>.
 
  @section developement Developement version
 
@@ -26,6 +27,16 @@
  </a>, version from Oct 11 2005). For updates  with respect to release 3.0 see <a href="../changelog.txt">changelog.txt</a>.
 
  @section download Older releases
+
+
+ The source code and documentation for release 3.3. The following files are provided for download:
+ - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/Photos_interface_design.3.3.pdf">Photos_interface_design.pdf</a> full software documentation.
+ - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/PHOTOS.3.3.tar.gz">PHOTOS 3.3 source code </a> tarball
+   ( <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3-LHC.tar.gz"> version for LHC/LCG</a>  installation)
+   and its <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/svn_info_photos.3.3.txt">revision info</a> SVN tag, tarball creation date/time, etc.
+   For updates with respect to release 3.0 see <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/changelog.3.3.txt">changelog.txt</a>
+ - NEW: NLO in decays of Z, W and B (K) --> 2 scalar, <a href="http://annapurna.ifj.edu.pl/~wasm/phNLO.htm">photos NLO tests</a>.
+
 
  The source code and documentation for release 3.0. The following files are provided for download:
  - <a href="http://arxiv.org/abs/1011.0937">arXiv:1011.0937</a> full software documentation.
