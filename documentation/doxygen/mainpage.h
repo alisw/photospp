@@ -13,7 +13,7 @@
  - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/Photos_interface_design.3.4.pdf">Photos_interface_design.pdf</a> full software documentation.
  - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/PHOTOS.3.4.tar.gz">PHOTOS 3.4 source code </a> tarball
    ( <a href="http://annapurna.ifj.edu.pl/~wasm/PHOTOS.3.4-LHC.tar.gz"> version for LHC/LCG</a>  installation)
-   and its <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/svn_info_photos.3.4.txt">revision info</a> SVN tag, tarball creation date/time, etc.
+   and its <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/svn_info_photos.3.4.txt">revision info</a> SVN tag, tarball creation date/time, etc.
    For updates with respect to release 3.0 see <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/changelog.3.4.txt">changelog.txt</a>
  - NEW: methods to correct content of event record: mass and history entries to be added.
  - also: NLO in decays of Z, W and B (K) --> 2 scalar, <a href="http://annapurna.ifj.edu.pl/~wasm/phNLO.htm">photos NLO tests</a>.
