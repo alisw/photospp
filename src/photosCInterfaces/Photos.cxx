@@ -16,6 +16,7 @@ Photos Photos::_instance;
 vector<vector<int>* >    *Photos::supBremList    = 0;
 vector<vector<int>* >    *Photos::forceBremList  = 0;
 vector<pair<int,double>* > *Photos::forceMassList = 0;
+vector<int>              *Photos::ignoreStatusCodeList = 0;
 bool Photos::isSuppressed=false;
 bool Photos::massFrom4Vector=true;
 double Photos::momentum_conservation_threshold   = 0.1;
@@ -23,6 +24,7 @@ bool Photos::meCorrectionWtForZ=false;
 bool Photos::meCorrectionWtForW=false;
 bool Photos::meCorrectionWtForScalar=false;
 bool Photos::isCreateHistoryEntries=false;
+int  Photos::historyEntriesStatus = 3;
 
 Photos::Photos()
 {
@@ -266,9 +268,58 @@ void Photos::forceBremForBranch(int count, int motherID, ... )
 	forceBremList->push_back(v);
 }
 
-void Photos::createHistoryEntries(bool flag)
+void Photos::createHistoryEntries(bool flag, int status)
 {
+  if(status<3)
+  {
+    Log::Warning()<<"Photos::createHistoryEntries: status must be >=3";
+    return;
+  }
+
   isCreateHistoryEntries = flag;
+  historyEntriesStatus   = status;
+  ignoreParticlesOfStatus(status);
+}
+
+void Photos::ignoreParticlesOfStatus(int status)
+{
+  if(status<3)
+  {
+    Log::Warning()<<"Photos::ignoreParticlesOfStatus: status must be >=3";
+    return;
+  }
+  
+  if(!ignoreStatusCodeList) ignoreStatusCodeList = new vector<int>();
+
+  // Do not add duplicate entries to the list
+  for(unsigned int i=0;i<ignoreStatusCodeList->size();i++)
+    if( status==ignoreStatusCodeList->at(i) ) return;
+  
+  ignoreStatusCodeList->push_back(status);
+}
+
+void Photos::deIgnoreParticlesOfStatus(int status)
+{
+  if(!ignoreStatusCodeList) return;
+
+  for(unsigned int i=0;i<ignoreStatusCodeList->size();i++)
+  {
+    if( status==ignoreStatusCodeList->at(i) )
+    {
+      ignoreStatusCodeList->erase(ignoreStatusCodeList->begin()+i);
+      return;
+    }
+  }
+}
+
+bool Photos::isStatusCodeIgnored(int status)
+{
+  if(!ignoreStatusCodeList) return false;
+
+  for(unsigned int i=0;i<ignoreStatusCodeList->size();i++)
+    if( status==ignoreStatusCodeList->at(i) ) return true;
+
+  return false;
 }
 
 void Photos::setExponentiation(bool expo)

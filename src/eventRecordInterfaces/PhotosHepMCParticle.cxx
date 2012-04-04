@@ -170,6 +170,10 @@ std::vector<PhotosParticle*> PhotosHepMCParticle::getDaughters(){
     pcle_itr_end=m_particle->end_vertex()->particles_out_const_end();
     
     for(;pcle_itr != pcle_itr_end; pcle_itr++){
+
+      // ommit particles if their status code is ignored by Photos
+      if( Photos::isStatusCodeIgnored( (*pcle_itr)->status() ) ) continue;
+
       m_daughters.push_back(new PhotosHepMCParticle(*pcle_itr));
     }
   }
@@ -188,7 +192,7 @@ bool PhotosHepMCParticle::checkMomentumConservation(){
   for( HepMC::GenVertex::particles_in_const_iterator part1 = m_particle->end_vertex()->particles_in_const_begin();
        part1 != m_particle->end_vertex()->particles_in_const_end(); part1++ ){
 
-    if( (*part1)->status()==3 ) continue;
+    if( Photos::isStatusCodeIgnored((*part1)->status()) ) continue;
 
     sumpx += (*part1)->momentum().px();
     sumpy += (*part1)->momentum().py();
@@ -199,7 +203,7 @@ bool PhotosHepMCParticle::checkMomentumConservation(){
   for( HepMC::GenVertex::particles_out_const_iterator part2 = m_particle->end_vertex()->particles_out_const_begin();
        part2 != m_particle->end_vertex()->particles_out_const_end(); part2++ ){
 
-    if( (*part2)->status()==3 ) continue;
+    if( Photos::isStatusCodeIgnored((*part2)->status()) ) continue;
 
     sumpx -= (*part2)->momentum().px();
     sumpy -= (*part2)->momentum().py();
@@ -268,7 +272,7 @@ void PhotosHepMCParticle::createHistoryEntry(){
   }
   
   HepMC::GenParticle *part = new HepMC::GenParticle(*m_particle);
-  part->set_status(3);
+  part->set_status(Photos::historyEntriesStatus);
   m_particle->production_vertex()->add_particle_out(part);
 }
 

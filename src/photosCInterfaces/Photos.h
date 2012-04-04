@@ -25,8 +25,8 @@ class PhotosParticle;
 class Photos
 {
 public:
-	static const int VER_MAJOR=3, VER_MINOR=4;
-	static const int DAT_DAY  =27,DAT_MONTH=3,DAT_YEAR=12;
+	static const int VER_MAJOR=3, VER_MINOR=41;
+	static const int DAT_DAY  =5,DAT_MONTH=4,DAT_YEAR=12;
 public:
 	/** Logging and memory leak tracking class */
 	class Log;
@@ -60,7 +60,16 @@ public:
 
   /** If event record allows it, create history entries of particles
       before Photos processing */
-  static void createHistoryEntries(bool flag);
+  static void createHistoryEntries(bool flag, int status);
+
+  /** Ignore particles with given status code */
+  static void ignoreParticlesOfStatus(int status);
+
+  /** Remove 'status' from the list of ignored status codes */
+  static void deIgnoreParticlesOfStatus(int status);
+  
+  /** Returns 'true' if status code is ignored */
+  static bool isStatusCodeIgnored(int status);
 public:
 	/** Seed for RANMAR used by fortran part of the Photos */
 	static void setSeed(int iseed1, int iseed2)    { PhotosRandom::setSeed(iseed1,iseed2); }
@@ -144,6 +153,9 @@ public:
 
 	/** List of forced mass values */
 	static vector<pair<int,double>* > *forceMassList;
+  
+  /** List of ignored status codes */
+	static vector<int >             *ignoreStatusCodeList;
 
  	/** Threshold for momentum conservation check */
 	static double momentum_conservation_threshold;
@@ -159,6 +171,9 @@ public:
   
   /** Flag for creating historic entries */
   static bool isCreateHistoryEntries;
+
+  /** Status of history entries */
+  static int  historyEntriesStatus;
 public:
 	/** Get instance of Photos */
 	Photos& getInstance() { return _instance; }

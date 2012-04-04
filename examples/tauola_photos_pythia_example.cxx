@@ -75,10 +75,18 @@ int main(int argc,char **argv)
 	// from event record instead of being calculated from 4-vector
 	//Photos::forceMassFromEventRecord(11);
 
-	// Force writing history decay products for  vertices
-	// modified i.e. with added photons.
-	//Photos::createHistoryEntries(true);
+	// Exclude particles with given status code from being processed
+	// or taken into account during momentum conservation calculation
+	//Photos::ignoreParticlesWithStatus(3);
 
+	// Remove status code from the list of ignored status codes
+	//Photos::DeIgnoreParticlesWithStatus(3);
+
+	// Force writing history decay products for vertices
+	// modified i.e. with added photons. These particles will
+	// have the provided status code. Photos will ignore
+	// all particles with this status code.
+	//Photos::createHistoryEntries(true,3);
 
 	MC_Initialize();
 
