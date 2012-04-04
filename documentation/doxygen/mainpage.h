@@ -12,20 +12,18 @@
  The source code and documentation for release 3.4. The following files are provided for download:
  - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/Photos_interface_design.3.4.pdf">Photos_interface_design.pdf</a> full software documentation.
  - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/PHOTOS.3.4.tar.gz">PHOTOS 3.4 source code </a> tarball
-   ( <a href="http://annapurna.ifj.edu.pl/~wasm/PHOTOS.3.4-LHC.tar.gz"> version for LHC/LCG</a>  installation)
+   ( <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/PHOTOS.3.4-LHC.tar.gz"> version for LHC/LCG</a>  installation)
    and its <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/svn_info_photos.3.4.txt">revision info</a> SVN tag, tarball creation date/time, etc.
    For updates with respect to release 3.0 see <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/changelog.3.4.txt">changelog.txt</a>
  - NEW: methods to correct content of event record: (i) mass (ii) add history entries  (iii) program is still not ready to work
    for cases when in vertex some daughters are history and some other are not.
- - also: NLO in decays of Z, W and B (K) --> 2 scalar, <a href="http://annapurna.ifj.edu.pl/~wasm/phNLO.htm">photos NLO tests</a>.
 
  @section developement Developement version
 
  The source code and documentation are updated daily from the repository. The following files are provided for download of the developement version:
  - <a href="../Photos_interface_design.pdf">Photos_interface_design.pdf</a>  full software documentation.
- - <a href="../PHOTOS.daily_temp.tar.gz">PHOTOS.daily_temp.tar.gz</a> tarball and its <a href="../svn_info_photos.txt">revision info</a> SVN tag, tarball creation date/time, etc.   The tar file contains the c++ interface along with parts of
- the source code for PHOTOS (see <a href="http://wasm.web.cern.ch/wasm/goodies.html">here
- </a>, version from Oct 11 2005). For updates  with respect to release 3.0 see <a href="../changelog.txt">changelog.txt</a>.
+ - <a href="../PHOTOS.daily_temp.tar.gz">PHOTOS.daily_temp.tar.gz</a> tarball and its <a href="../svn_info_photos.txt">revision info</a> SVN tag, tarball creation date/time, etc.
+   For updates  with respect to release 3.0 see <a href="../changelog.txt">changelog.txt</a>.
 
  @section download Older releases
 
@@ -49,10 +47,14 @@
  tar balls of our programs.
 
  @section intro Introduction/Status
+ 
+ The tar file contains the C++ interface along with parts of
+ the source code for PHOTOS (see <a href="http://wasm.web.cern.ch/wasm/goodies.html">here</a>, version from Oct 11 2005).
+ 
  The tar-ball has the functionality at least of its FORTRAN predecessor for all cases.
  An extensive number of tests performed in X.2011 and XI.2011 has been collected on the webpage of <a href="http://annapurna.ifj.edu.pl/~wasm/phNLO.htm">photos NLO tests</a>.
  In particular, tests with SANC went at sub 0.01\% level
-  
+ 
  @section setup Requirements
 
  For compilation, and to run the simple example, the interface requires:
