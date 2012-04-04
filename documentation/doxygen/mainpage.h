@@ -15,7 +15,8 @@
    ( <a href="http://annapurna.ifj.edu.pl/~wasm/PHOTOS.3.4-LHC.tar.gz"> version for LHC/LCG</a>  installation)
    and its <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/svn_info_photos.3.4.txt">revision info</a> SVN tag, tarball creation date/time, etc.
    For updates with respect to release 3.0 see <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/changelog.3.4.txt">changelog.txt</a>
- - NEW: methods to correct content of event record: mass and history entries to be added.
+ - NEW: methods to correct content of event record: (i) mass (ii) add history entries  (iii) program is still not ready to work
+   for cases when in vertex some daughters are history and some other are not.
  - also: NLO in decays of Z, W and B (K) --> 2 scalar, <a href="http://annapurna.ifj.edu.pl/~wasm/phNLO.htm">photos NLO tests</a>.
 
  @section developement Developement version
