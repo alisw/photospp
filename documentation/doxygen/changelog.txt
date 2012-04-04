@@ -1,5 +1,12 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Apr 5 2012
+- New methods for ignoring status codes:
+  ignoreParticlesOfStatus
+  deIgnoreParticlesOfStatus
+  isStatusCodeIgnored
+
+
 Apr 1 2012
   Inherited from HepMC method of momentum conservation check supplemented
   with missing so far energy. This is of importance for control of history

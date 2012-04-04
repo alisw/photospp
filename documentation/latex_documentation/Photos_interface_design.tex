@@ -1562,16 +1562,21 @@ or are introduced for backward compatibility.
         mass value taken from the event record will be used instead of the one
         calculated from 4-vector.
         Option active if {\tt forceMassFrom4Vector = true} (default).
-  \item {\tt Photos::createHistoryEntries(bool flag %int Status
-         )} {\it  installed in {\tt PHOTOS 3.4}} \\
+  \item {\tt Photos::createHistoryEntries(bool flag, int status)} {\it  installed in {\tt PHOTOS 3.4}} \\
         If set to {\tt true}, and if event record format allows,
         {\tt Photos} will store history entries consisting of particles
-        before processing\footnote{In case of {\tt HepMC}, creates copies
+        before processing. History entries will have status code equal {\tt status}.
+        The value of {\tt status} will also be added to the list of status
+        codes ignored by {\tt Photos} (see {\tt Photos::ignoreParticlesOfStatus})\footnote{In case of {\tt HepMC}, creates copies
         of all particles on the list of outgoing particles in vertices where
-        photon was added. History entries have {\tt status = 3} and are added
-        at the end of the list.}.
-  \item {\tt Photos::IgnoreParticlesOfStatus(int Status)} {\bf To be prepared soon} decay products of {\tt Status} will be ignored
-        in check of momentum conservation and will not be passed to algorithm generating bremsstrahlung.\\
+        photon was added and will be added at the end of the list.}.
+  \item {\tt Photos::ignoreParticlesOfStatus(int status)} Decay products with the status code
+        {\tt status} will be ignored in check of momentum conservation and will not be passed
+        to algorithm generating bremsstrahlung.
+  \item {\tt Photos::deIgnoreParticlesOfStatus(int status)} Removes {\tt status} from
+        the list of status codes created with {\tt Photos::ignoreParticlesOfStatus}).
+  \item {\tt bool Photos::isStatusCodeIgnored(int status)} Returns {\tt true} if {\tt status}
+        is on the list of ignored status codes.
   \item {\tt Photos::setMomentumConservationThreshold(double momentum\_{}conservation\_{}threshold)} \\
         The default value is 0.1 (in {\tt MEV/GEV}, depending
 on the units used by {\tt HepMC}). If larger energy-momentum non conservation
