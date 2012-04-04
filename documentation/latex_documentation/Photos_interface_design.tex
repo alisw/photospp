@@ -356,7 +356,7 @@ event record.
        through {\tt PhotosHepMCEvent} and {\tt PhotosHepMCParticle}. These classes are similar to the
        analogous {\tt TAUOLA} \cite{Davidson:2010rw} event record classes.
        An example of a minimalistic interface to an event record has been provided
-       through the classes {\tt PhotosHEPEVTEvent} and {\tt PhotosHEPEVTParticle}.
+       through the classes {\tt PhotosHEPEVTEvent} and {\tt PhotosHEPEVTParticle}\footnote{This interface is the only way of implementing NLO corrections in programs based on {\tt HEPEVT} event record}.
        %TP: we have to write something regarding the limitations of the HEPEVT interface
        They can be used as a template for a new interface to any other event record%
        \footnote{Thanks to the polymorphism, abstract part of the algorithm
