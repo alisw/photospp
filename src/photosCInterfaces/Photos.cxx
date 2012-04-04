@@ -272,7 +272,7 @@ void Photos::createHistoryEntries(bool flag, int status)
 {
   if(status<3)
   {
-    Log::Warning()<<"Photos::createHistoryEntries: status must be >=3";
+    Log::Warning()<<"Photos::createHistoryEntries: status must be >=3"<<endl;
     return;
   }
 
@@ -285,7 +285,7 @@ void Photos::ignoreParticlesOfStatus(int status)
 {
   if(status<3)
   {
-    Log::Warning()<<"Photos::ignoreParticlesOfStatus: status must be >=3";
+    Log::Warning()<<"Photos::ignoreParticlesOfStatus: status must be >=3"<<endl;
     return;
   }
   
