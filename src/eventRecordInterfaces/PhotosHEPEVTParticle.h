@@ -140,6 +140,10 @@ class PhotosHEPEVTParticle: public PhotosParticle {
 
 private:
 
+  /** Returns true if this particle has daughters
+      and is the first mother of its daughters. False otherwise */
+  bool isFirstMotherOfHerDaughters();
+
   /** Event from which this particle is taken */
   PhotosHEPEVTEvent *m_event;
 

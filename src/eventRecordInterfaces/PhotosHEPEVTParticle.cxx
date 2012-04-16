@@ -340,3 +340,13 @@ int PhotosHEPEVTParticle::getDaughterRangeEnd(){
   return m_daughter_end;
 }
 
+bool PhotosHEPEVTParticle::isFirstMotherOfHerDaughters()
+{
+  if(m_daughter_start<0) return false;
+
+  int first_mother = m_event->getParticle(m_daughter_start)->getFirstMotherIndex();
+
+  if(first_mother==m_barcode) return true;
+
+  return false;
+}

@@ -127,6 +127,10 @@ class PhotosHepMCParticle: public PhotosParticle{
   /** Internal function used to clear particles from the vector */
   void clear(std::vector<PhotosParticle*> v);
 
+  /** Returns true if this particle has daughters
+      and is the first mother of its daughters. False otherwise */
+  bool isFirstMotherOfHerDaughters();
+
   /** A pointer to the HepMC::GenParticle particle */
   HepMC::GenParticle * m_particle;
 

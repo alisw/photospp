@@ -331,3 +331,13 @@ double PhotosHepMCParticle::getMass()
 {
 	return m_particle->generated_mass();
 }
+
+bool PhotosHepMCParticle::isFirstMotherOfHerDaughters()
+{
+  HepMC::GenVertex *v = m_particle->end_vertex();
+  if(!v) return false;
+  
+  if( *(v->particles_in_const_begin()) == m_particle) return true;
+  
+  return false;
+}

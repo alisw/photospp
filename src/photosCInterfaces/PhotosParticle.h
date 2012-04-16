@@ -271,6 +271,13 @@ public:
   
 	/** Print some information about this particle to standard output */
 	virtual void print()=0;
+
+private:
+
+  /** Returns true if this particle has daughters
+      and is the first mother of its daughters. False otherwise */
+  virtual bool isFirstMotherOfHerDaughters()=0;
+
 };
 
 #endif
