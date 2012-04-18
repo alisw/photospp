@@ -26,11 +26,12 @@ using namespace Pythia8;
 
 bool ShowersOn=true;
 unsigned long NumberOfEvents = 10000;
+int EventsToCheck=20;
 
 // elementary test of HepMC typically executed before
 // detector simulation based on http://home.fnal.gov/~mrenna/HCPSS/HCPSShepmc.html
 // similar test was performed in Fortran
-// we perform it before and after Photos (for the first 20 events)
+// we perform it before and after Photos (for the first several events)
 void checkMomentumConservationInEvent(HepMC::GenEvent *evt)
 {
 	cout<<"List of stable particles: "<<endl;
@@ -95,9 +96,10 @@ int main(int argc,char **argv)
 		ToHepMC.fill_next_event(event, HepMCEvt);
 		//HepMCEvt->print();
 
-		if(iEvent<20)
+		if(iEvent<EventsToCheck)
 		{
-			cout<<"Momentum conservation chceck BEFORE Photos"<<endl;
+			cout<<"                                          "<<endl;
+			cout<<"Momentum conservation chceck BEFORE/AFTER Photos"<<endl;
 			checkMomentumConservationInEvent(HepMCEvt);
 		}
 
@@ -107,13 +109,13 @@ int main(int argc,char **argv)
 		PhotosHepMCEvent evt(HepMCEvt);
 		evt.process();
 
-		//HepMCEvt->print();
 
-		if(iEvent<20)
+		if(iEvent<EventsToCheck)
 		{
-			cout<<"Momentum conservation chceck AFTER Photos"<<endl;
 			checkMomentumConservationInEvent(HepMCEvt);
 		}
+
+		//HepMCEvt->print();
 
 		// Run MC-TESTER on the event
 		HepMCEvent temp_event(*HepMCEvt,false);
