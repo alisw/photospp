@@ -19,6 +19,36 @@ typedef Photos::Log Log; //We're using Photos version of Log class
 using namespace std;
 using namespace Pythia8;
 
+int EventsToCheck=20;
+
+// elementary test of HepMC typically executed before
+// detector simulation based on http://home.fnal.gov/~mrenna/HCPSS/HCPSShepmc.html
+// similar test was performed in Fortran
+// we perform it before and after Photos (for the first several events)
+void checkMomentumConservationInEvent(HepMC::GenEvent *evt)
+{
+	//cout<<"List of stable particles: "<<endl;
+
+	double px=0.0,py=0.0,pz=0.0,e=0.0;
+	
+	for ( HepMC::GenEvent::particle_const_iterator p = evt->particles_begin();
+	      p != evt->particles_end(); ++p )
+	{
+		if( (*p)->status() == 1 )
+		{
+			HepMC::FourVector m = (*p)->momentum();
+			px+=m.px();
+			py+=m.py();
+			pz+=m.pz();
+			e +=m.e();
+			//(*p)->print();
+		}
+	}
+  cout.precision(6);
+  cout.setf(ios_base::floatfield);
+	cout<<endl<<"Vector Sum: "<<px<<" "<<py<<" "<<pz<<" "<<e<<endl;
+}
+
 int main(int argc,char **argv)
 {
 	// Initialization of pythia
@@ -53,6 +83,13 @@ int main(int argc,char **argv)
 		HepMC::GenEvent * HepMCEvt = new HepMC::GenEvent();
 		ToHepMC.fill_next_event(event, HepMCEvt);
 
+		if(iEvent<EventsToCheck)
+		{
+			cout<<"                                          "<<endl;
+			cout<<"Momentum conservation chceck BEFORE/AFTER Photos"<<endl;
+			checkMomentumConservationInEvent(HepMCEvt);
+		}
+
 		// Find tau
 		HepMC::GenParticle *tau=0;
 		for(HepMC::GenEvent::vertex_const_iterator i = HepMCEvt->vertices_begin();i!=HepMCEvt->vertices_end();i++)
@@ -76,6 +113,11 @@ int main(int argc,char **argv)
 			if(buf==1)      photonAdded++;
 			else if(buf==2) twoAdded++;
 			else if(buf>2)  moreAdded++;
+		}
+
+		if(iEvent<EventsToCheck)
+		{
+			checkMomentumConservationInEvent(HepMCEvt);
 		}
 
 		//clean up
