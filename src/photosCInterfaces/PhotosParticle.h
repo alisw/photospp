@@ -234,6 +234,10 @@ public:
 	/** Returns the daughters of this particle via a vector of PhotosParticle */
 	virtual std::vector<PhotosParticle*> getDaughters()=0;
 
+	/** Returns all particles in the decay tree of this particle
+	    via a vector of PhotosParticle */
+	virtual std::vector<PhotosParticle*> getAllDecayProducts()=0;
+
 	/** Set the PDG ID code of this particle */
 	virtual void setPdgID(int pdg_id)=0;
 
@@ -271,13 +275,6 @@ public:
   
 	/** Print some information about this particle to standard output */
 	virtual void print()=0;
-
-private:
-
-  /** Returns true if this particle has daughters
-      and is the first mother of its daughters. False otherwise */
-  virtual bool isFirstMotherOfHerDaughters()=0;
-
 };
 
 #endif

@@ -154,6 +154,12 @@ std::vector<PhotosParticle*> PhotosHEPEVTParticle::getDaughters(){
   return daughters;
 }
 
+std::vector<PhotosParticle*> PhotosHEPEVTParticle::getAllDecayProducts()
+{
+  cout<<"PhotosHEPEVTParticle::getAllDecayProducts() will be implemented soon."<<endl;
+  exit(-1);
+}
+
 bool PhotosHEPEVTParticle::checkMomentumConservation(){
 
   if(!m_event)           return true;
@@ -340,13 +346,3 @@ int PhotosHEPEVTParticle::getDaughterRangeEnd(){
   return m_daughter_end;
 }
 
-bool PhotosHEPEVTParticle::isFirstMotherOfHerDaughters()
-{
-  if(m_daughter_start<0) return false;
-
-  int first_mother = m_event->getParticle(m_daughter_start)->getFirstMotherIndex();
-
-  if(first_mother==m_barcode) return true;
-
-  return false;
-}

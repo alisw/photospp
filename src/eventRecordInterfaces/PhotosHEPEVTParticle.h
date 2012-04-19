@@ -49,6 +49,10 @@ class PhotosHEPEVTParticle: public PhotosParticle {
   /** Returns the daughters of this particle via a vector of PhotosParticle */
   std::vector<PhotosParticle*> getDaughters();
 
+  /** Returns all particles in the decay tree of this particle
+      via a vector of PhotosParticle */
+  std::vector<PhotosParticle*> getAllDecayProducts();
+
   /** Check that the 4 momentum in conserved in the decay of this particle */
   bool checkMomentumConservation();
 
@@ -139,10 +143,6 @@ class PhotosHEPEVTParticle: public PhotosParticle {
   int getDaughterRangeEnd();  
 
 private:
-
-  /** Returns true if this particle has daughters
-      and is the first mother of its daughters. False otherwise */
-  bool isFirstMotherOfHerDaughters();
 
   /** Event from which this particle is taken */
   PhotosHEPEVTEvent *m_event;

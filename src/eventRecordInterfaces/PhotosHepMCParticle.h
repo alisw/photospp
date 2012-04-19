@@ -56,6 +56,10 @@ class PhotosHepMCParticle: public PhotosParticle{
   /** Returns the daughters of this particle via a vector of PhotosParticle */
   std::vector<PhotosParticle*> getDaughters();
 
+  /** Returns all particles in the decay tree of this particle
+      via a vector of PhotosParticle */
+  std::vector<PhotosParticle*> getAllDecayProducts();
+
   /** Set the PDG ID code of this particle */
   void setPdgID(int pdg_id);
 
@@ -127,10 +131,6 @@ class PhotosHepMCParticle: public PhotosParticle{
   /** Internal function used to clear particles from the vector */
   void clear(std::vector<PhotosParticle*> v);
 
-  /** Returns true if this particle has daughters
-      and is the first mother of its daughters. False otherwise */
-  bool isFirstMotherOfHerDaughters();
-
   /** A pointer to the HepMC::GenParticle particle */
   HepMC::GenParticle * m_particle;
 
@@ -139,6 +139,9 @@ class PhotosHepMCParticle: public PhotosParticle{
 
   /** A vector of this particles daughters */
   std::vector<PhotosParticle*> m_daughters;
+
+  /** A vector of all decay products of this particle */
+  std::vector<PhotosParticle*> m_decay_products;
 
   /** list to keep track of new particles which have been
       created from this one, so we can call their destructor later */

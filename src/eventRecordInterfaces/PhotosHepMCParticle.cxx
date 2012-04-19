@@ -181,6 +181,46 @@ std::vector<PhotosParticle*> PhotosHepMCParticle::getDaughters(){
 
 }
 
+std::vector<PhotosParticle*> PhotosHepMCParticle::getAllDecayProducts(){
+
+  m_decay_products.clear();
+
+  if(!hasDaughters()) // if this particle has no daughters
+    return m_decay_products;
+
+  std::vector<PhotosParticle*> daughters = getDaughters();
+  
+  // copy daughters to list of all decay products
+  m_decay_products.insert(m_decay_products.end(),daughters.begin(),daughters.end());
+  
+  // Now, get all daughters recursively, without duplicates.
+  // That is, for each daughter:
+  // 1)  get list of her daughters
+  // 2)  for each particle on this list:
+  //  a) check if it is already on the list
+  //  b) if it's not, add her to the end of the list
+  for(unsigned int i=0;i<m_decay_products.size();i++)
+  {
+    std::vector<PhotosParticle*> daughters2 = m_decay_products[i]->getDaughters();
+
+    if(!m_decay_products[i]->hasDaughters()) continue;
+    for(unsigned int j=0;j<daughters2.size();j++)
+    {
+      bool add=true;
+      for(unsigned int k=0;k<m_decay_products.size();k++)
+        if( daughters2[j]->getBarcode() == m_decay_products[k]->getBarcode() )
+        {
+          add=false;
+          break;
+        }
+
+      if(add) m_decay_products.push_back(daughters2[j]);
+    }
+  }
+
+  return m_decay_products;
+}
+
 bool PhotosHepMCParticle::checkMomentumConservation(){
 
   if(!m_particle->end_vertex()) return true;
@@ -330,14 +370,4 @@ void PhotosHepMCParticle::setE(double e){
 double PhotosHepMCParticle::getMass()
 {
 	return m_particle->generated_mass();
-}
-
-bool PhotosHepMCParticle::isFirstMotherOfHerDaughters()
-{
-  HepMC::GenVertex *v = m_particle->end_vertex();
-  if(!v) return false;
-  
-  if( *(v->particles_in_const_begin()) == m_particle) return true;
-  
-  return false;
 }

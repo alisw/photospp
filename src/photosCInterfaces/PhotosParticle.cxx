@@ -63,18 +63,15 @@ void PhotosParticle::boostDaughtersFromRestFrame(PhotosParticle * tau_momentum)
 	if(!hasDaughters()) //if there are no daughters
 	return;
 
-  if(!isFirstMotherOfHerDaughters()) //if this particle is not the first mother of its daughters
-  return;
+	// get all daughters, granddaughters, etc. then rotate and boost them
+	vector<PhotosParticle*> list = getAllDecayProducts();
+	vector<PhotosParticle*>::iterator pcl_itr = list.begin();
 
-	vector<PhotosParticle*> daughters = getDaughters();
-	vector<PhotosParticle*>::iterator pcl_itr = daughters.begin();
-
-	//get all daughters then rotate and boost them.
-	for(;pcl_itr != daughters.end();pcl_itr++)
+	for(;pcl_itr != list.end();pcl_itr++)
 	{
 		(*pcl_itr)->boostFromRestFrame(tau_momentum);
-		(*pcl_itr)->boostDaughtersFromRestFrame(tau_momentum);
 	}
+
 	//checkMomentumConservation();
 }
 
@@ -83,18 +80,15 @@ void PhotosParticle::boostDaughtersToRestFrame(PhotosParticle * tau_momentum)
 	if(!hasDaughters()) //if there are no daughters
 	return;
 
-  if(!isFirstMotherOfHerDaughters()) //if this particle is not the first mother of its daughters
-  return;
+	// get all daughters, granddaughters, etc. then rotate and boost them
+	vector<PhotosParticle*> list = getAllDecayProducts();
+	vector<PhotosParticle*>::iterator pcl_itr = list.begin();
 
-	vector<PhotosParticle*> daughters = getDaughters();
-	vector<PhotosParticle*>::iterator pcl_itr = daughters.begin();
-
-	//get all daughters then rotate and boost them.
-	for(;pcl_itr != daughters.end();pcl_itr++)
+	for(;pcl_itr != list.end();pcl_itr++)
 	{
 		(*pcl_itr)->boostToRestFrame(tau_momentum);
-		(*pcl_itr)->boostDaughtersToRestFrame(tau_momentum);
 	}
+
 	//checkMomentumConservation();
 }
 
