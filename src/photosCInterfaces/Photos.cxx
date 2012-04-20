@@ -9,7 +9,9 @@ using std::vector;
 using std::cout;
 using std::endl;
 using std::ios_base;
-typedef Photos::Log Log;
+
+namespace Photospp
+{
 
 Photos Photos::_instance;
 
@@ -366,3 +368,5 @@ void Photos::forceMass(int pdgid, double mass)
   if(!forceMassList) forceMassList = new vector<pair<int,double>* >();
   forceMassList->push_back( new pair<int,double>(pdgid, mass) );
 }
+
+} // namespace Photospp

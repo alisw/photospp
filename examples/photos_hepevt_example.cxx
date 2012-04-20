@@ -11,6 +11,7 @@
 #include "Photos/PhotosHEPEVTParticle.h"
 #include "Photos/PhotosHEPEVTEvent.h"
 using namespace std;
+using namespace Photospp;
 
 /** Create a simple e+ + e- -> Z -> tau+ tau- HEPEVT event **/
 PhotosHEPEVTEvent* make_simple_tau_event(){

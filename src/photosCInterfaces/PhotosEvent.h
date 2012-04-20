@@ -20,6 +20,9 @@
 #include "PhotosParticle.h"
 using std::vector;
 
+namespace Photospp
+{
+
 class PhotosEvent
 {
 public:
@@ -41,4 +44,5 @@ private:
 	vector<PhotosBranch *> m_branch_points;
 };
 
+} // namespace Photospp
 #endif

@@ -8,7 +8,9 @@
 using std::vector;
 using std::list;
 using std::endl;
-typedef Photos::Log Log;
+
+namespace Photospp
+{
 
 PhotosBranch::PhotosBranch(PhotosParticle* p)
 {
@@ -244,3 +246,5 @@ int PhotosBranch::checkList(bool forceOrSuppress)
 	}
 	return 0;
 }
+
+} // namespace Photospp

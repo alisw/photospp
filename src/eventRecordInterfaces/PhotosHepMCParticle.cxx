@@ -2,7 +2,9 @@
 #include "PhotosHepMCParticle.h"
 #include "Log.h"
 #include "Photos.h"
-typedef Photos::Log Log;
+
+namespace Photospp
+{
 
 PhotosHepMCParticle::PhotosHepMCParticle(){
   m_particle = new HepMC::GenParticle();
@@ -371,3 +373,5 @@ double PhotosHepMCParticle::getMass()
 {
 	return m_particle->generated_mass();
 }
+
+} // namespace Photospp

@@ -1,6 +1,8 @@
 #include "PhotosHEPEVTEvent.h"
 #include "Log.h"
-typedef Photos::Log Log;
+
+namespace Photospp
+{
 
 PhotosHEPEVTEvent::~PhotosHEPEVTEvent()
 {
@@ -102,5 +104,7 @@ void PhotosHEPEVTEvent::write_event_to_HEPEVT(PhotosHEPEVTEvent *evt)
     hepevt_.vhep  [i][3]=0.0;
   }
 }
+
 #endif
 
+} // namespace Photospp

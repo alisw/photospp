@@ -1,6 +1,8 @@
 #include "PhotosHEPEVTParticle.h"
 #include "Log.h"
-typedef Photos::Log Log;
+
+namespace Photospp
+{
 
 PhotosHEPEVTParticle::~PhotosHEPEVTParticle()
 {
@@ -346,3 +348,4 @@ int PhotosHEPEVTParticle::getDaughterRangeEnd(){
   return m_daughter_end;
 }
 
+} // namespace Photospp

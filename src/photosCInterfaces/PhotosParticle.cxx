@@ -3,7 +3,9 @@
 #include "PhotosParticle.h"
 #include "Log.h"
 using std::vector;
-typedef Photos::Log Log;
+
+namespace Photospp
+{
 
 bool PhotosParticle::hasDaughters()
 {
@@ -222,3 +224,5 @@ void PhotosParticle::setP(int axis, double p_component)
 	if(axis==Y_AXIS) setPy(p_component);
 	if(axis==Z_AXIS) setPz(p_component);
 }
+
+} // namespace Photospp

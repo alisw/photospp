@@ -23,6 +23,9 @@
 #include "PhotosParticle.h"
 #include "PhotosHEPEVTEvent.h"
 
+namespace Photospp
+{
+
 class PhotosHEPEVTEvent;
 
 class PhotosHEPEVTParticle: public PhotosParticle {
@@ -173,5 +176,6 @@ private:
   vector<PhotosHEPEVTParticle*> cache;
 };
 
+} // namespace Photospp
 #endif
 

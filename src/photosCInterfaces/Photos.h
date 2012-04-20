@@ -20,6 +20,9 @@
 using std::vector;
 using std::pair;
 
+namespace Photospp
+{
+
 class PhotosParticle;
 
 class Photos
@@ -28,8 +31,6 @@ public:
 	static const int VER_MAJOR=3, VER_MINOR=41;
 	static const int DAT_DAY  =5,DAT_MONTH=4,DAT_YEAR=12;
 public:
-	/** Logging and memory leak tracking class */
-	class Log;
 
 	/** Initalize Photos with the parameters previously set via the
 	   setter methods */
@@ -187,5 +188,6 @@ private:
 	static Photos _instance;
 };
 
+} // namespace Photospp
 #endif
 

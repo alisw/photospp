@@ -20,6 +20,9 @@
 #include "PhotosParticle.h"
 #include "PhotosHEPEVTParticle.h"
 
+namespace Photospp
+{
+
 // Uncomment this line to use interface to common block HEPEVT
 // But first be sure about suitable for you value of NMXHEP
 // and whether phep, vhep should be declared float or double
@@ -87,5 +90,6 @@ class PhotosHEPEVTEvent : public PhotosEvent {
   std::vector<PhotosHEPEVTParticle*> particle_list;
 };
 
+} // namespace Photospp
 #endif
 

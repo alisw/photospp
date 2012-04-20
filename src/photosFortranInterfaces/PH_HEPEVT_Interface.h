@@ -5,6 +5,9 @@
 #include "PhotosBranch.h"
 #include "PhotosParticle.h"
 
+namespace Photospp
+{
+
 const static int NMXHEP = 10000;
 const static double NO_BOOST_THRESHOLD=1.0e-8;
 
@@ -69,4 +72,5 @@ private:
 	static std::vector<PhotosParticle*> m_particle_list;
 };
 
+} // namespace Photospp
 #endif

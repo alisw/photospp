@@ -14,9 +14,9 @@
 #include "Photos/Photos.h"
 #include "Photos/PhotosHepMCEvent.h"
 #include "Photos/Log.h"
-typedef Photos::Log Log; //We're using Photos version of Log class
 
 using namespace std;
+using namespace Photospp;
 
 int EventsToCheck=20;
 

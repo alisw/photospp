@@ -20,6 +20,9 @@
 #include "PhotosEvent.h"
 #include "PhotosParticle.h"
 
+namespace Photospp
+{
+
 class PhotosHepMCEvent : public PhotosEvent
 {
 public:
@@ -43,4 +46,5 @@ private:
 	std::vector<PhotosParticle *> particles;
 };
 
+} // namespace Photospp
 #endif  

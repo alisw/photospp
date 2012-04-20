@@ -4,7 +4,9 @@
 #include "PhotosEvent.h"
 #include "Log.h"
 using std::vector;
-typedef Photos::Log Log;
+
+namespace Photospp
+{
 
 PhotosEvent::~PhotosEvent()
 {
@@ -50,3 +52,5 @@ vector<PhotosParticle *> PhotosEvent::filterParticles(vector<PhotosParticle *> p
 	}
 	return filtered;
 }
+
+} // namespace Photospp

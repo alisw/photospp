@@ -14,6 +14,9 @@
  * @date 18th October 2010
  */
 
+namespace Photospp
+{
+
 class PhotosRandom
 {
 public:
@@ -39,4 +42,5 @@ protected:
 	static const double cmran;
 };
 
+} // namespace Photospp
 #endif

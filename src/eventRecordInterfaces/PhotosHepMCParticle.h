@@ -22,6 +22,9 @@
 
 using namespace std;
 
+namespace Photospp
+{
+
 class PhotosHepMCParticle: public PhotosParticle{
 
  public:
@@ -149,5 +152,6 @@ class PhotosHepMCParticle: public PhotosParticle{
 
 };
 
+} // namespace Photospp
 #endif  
 

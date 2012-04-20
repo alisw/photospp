@@ -1,7 +1,9 @@
 #include <iostream>
 #include "PhotosRandom.h"
 #include "Log.h"
-typedef Photos::Log Log;
+
+namespace Photospp
+{
 
 bool         PhotosRandom::init    = false;
 int          PhotosRandom::iseed[2]= { 1802, 9373 };
@@ -106,3 +108,6 @@ double PhotosRandom::randomReal()
 	}
 	return ret;
 }
+
+} // namespace Photospp
+

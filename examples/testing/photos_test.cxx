@@ -19,10 +19,10 @@
 #include "Photos/Photos.h"
 #include "Photos/PhotosHepMCEvent.h"
 #include "Photos/Log.h"
-typedef Photos::Log Log;
 
 using namespace std;
 using namespace Pythia8;
+using namespace Photospp;
 
 unsigned long NumberOfEvents = 10000;
 unsigned int EventsToCheck=20;

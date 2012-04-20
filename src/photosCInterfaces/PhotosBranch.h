@@ -17,6 +17,9 @@
 #include "PhotosParticle.h"
 using std::vector;
 
+namespace Photospp
+{
+
 class PhotosBranch
 {
 public:
@@ -72,4 +75,5 @@ private:
 	vector<PhotosParticle *> daughters;
 };
 
+} // namespace Photospp
 #endif

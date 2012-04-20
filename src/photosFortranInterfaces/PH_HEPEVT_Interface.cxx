@@ -5,7 +5,9 @@
 #include "PH_HEPEVT_Interface.h"
 #include "Log.h"
 using namespace std;
-typedef Photos::Log Log;
+
+namespace Photospp
+{
 
 vector<PhotosParticle*> PH_HEPEVT_Interface::m_particle_list;
 int PH_HEPEVT_Interface::ME_channel=0;
@@ -378,3 +380,5 @@ extern "C" void me_scalar_(int *x)
 {
   *x=(int) Photos::meCorrectionWtForScalar;
 }
+
+} // namespace Photospp

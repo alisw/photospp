@@ -4,6 +4,9 @@
 #include "Log.h"
 using namespace std;
 
+namespace Photospp
+{
+
 PhotosHepMCEvent::PhotosHepMCEvent(HepMC::GenEvent * event)
 {
 	m_event=event;
@@ -40,3 +43,5 @@ vector<PhotosParticle*> PhotosHepMCEvent::getParticleList()
 {
 	return particles;
 }
+
+} // namespace Photospp

@@ -6,8 +6,9 @@ using std::ostream;
 using std::cout;
 using std::cerr;
 using std::endl;
-typedef Photos::Log Log;
 
+namespace Photospp
+{
 
 list<Log::Pointer*> *Log::PointerList = NULL;
 
@@ -133,3 +134,5 @@ void Log::Summary()
 	if(decays[0]) cout<<" Decayed using Tauola gun:             "<<decays[0]<<endl;
 	*out<<"------------------------------------------------------------------------------"<<endl;
 }
+
+} // namespace Photospp

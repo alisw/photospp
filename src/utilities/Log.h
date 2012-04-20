@@ -27,7 +27,10 @@ using std::list;
 using std::cout;
 using std::endl;
 
-class Photos::Log
+namespace Photospp
+{
+
+class Log
 {
 public:
 	/** Shows the summary of all messages. */
@@ -229,4 +232,5 @@ inline void  operator delete(void *p)
 
 #endif //_LOG_DEBUG_MODE_
 
+} // namespace Photospp
 #endif

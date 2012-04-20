@@ -19,6 +19,9 @@
 #include <vector>
 #include "Photos.h"
 
+namespace Photospp
+{
+
 class PhotosParticle
 {
 public:
@@ -277,4 +280,5 @@ public:
 	virtual void print()=0;
 };
 
+} // namespace Photospp
 #endif
