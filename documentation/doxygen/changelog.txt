@@ -1,5 +1,11 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Apr 22 2012
+- Fixed problem with momentum non-conservation when there are
+  cascade decays with more than one mother.
+- Momentum conservation check for all stable particles in the event
+  added to the examples.
+
 Apr 5 2012
 - New methods for ignoring status codes:
   ignoreParticlesOfStatus
