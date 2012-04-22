@@ -158,8 +158,42 @@ std::vector<PhotosParticle*> PhotosHEPEVTParticle::getDaughters(){
 
 std::vector<PhotosParticle*> PhotosHEPEVTParticle::getAllDecayProducts()
 {
-  cout<<"PhotosHEPEVTParticle::getAllDecayProducts() will be implemented soon."<<endl;
-  exit(-1);
+  std::vector<PhotosParticle*> list;
+
+  if(!hasDaughters()) // if this particle has no daughters
+    return list;
+
+  std::vector<PhotosParticle*> daughters = getDaughters();
+  
+  // copy daughters to list of all decay products
+  list.insert(list.end(),daughters.begin(),daughters.end());
+  
+  // Now, get all daughters recursively, without duplicates.
+  // That is, for each daughter:
+  // 1)  get list of her daughters
+  // 2)  for each particle on this list:
+  //  a) check if it is already on the list
+  //  b) if it's not, add her to the end of the list
+  for(unsigned int i=0;i<list.size();i++)
+  {
+    std::vector<PhotosParticle*> daughters2 = list[i]->getDaughters();
+
+    if(!list[i]->hasDaughters()) continue;
+    for(unsigned int j=0;j<daughters2.size();j++)
+    {
+      bool add=true;
+      for(unsigned int k=0;k<list.size();k++)
+        if( daughters2[j]->getBarcode() == list[k]->getBarcode() )
+        {
+          add=false;
+          break;
+        }
+
+      if(add) list.push_back(daughters2[j]);
+    }
+  }
+
+  return list;
 }
 
 bool PhotosHEPEVTParticle::checkMomentumConservation(){
