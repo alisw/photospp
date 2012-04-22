@@ -56,6 +56,92 @@ void checkMomentumConservationInEvent(HepMC::GenEvent *evt)
 	cout<<endl<<"Vector Sum: "<<px<<" "<<py<<" "<<pz<<" "<<e<<endl;
 }
 
+/* Switch Status of History Entries
+
+   If Photos::createHistoryEntries(true,3) was called, this function changes the 
+   status code of photons added by Photos and particles modified by Photos
+   to 3, switching the status of history entries to 1.
+   
+   This results leaves all modifications performed by Photos as history entries,
+   while the regular entries represent original, unmodified event.
+   
+   This is an example of how such operation can be performed in user analysis.
+   By default, this function is not used. The example of its use is commented
+   out in main event loop.
+   
+   NOTE: The algorithm works only on stable particles and assumes that
+         there were no modifications to the order of the particles in
+         which they were written to HepMC by Photos. */
+void switch_history_entries_status(HepMC::GenEvent *evt)
+{
+  for ( HepMC::GenEvent::particle_const_iterator p = evt->particles_begin();
+	      p != evt->particles_end(); ++p )
+	{
+    if((*p)->status()==3)
+    {
+      if((*p)->pdg_id()==22) continue;
+
+      int barcode = (*p)->barcode();
+
+      HepMC::GenVertex *v = (*p)->production_vertex();
+      
+      // History entries are added after photons, so we check what is the
+      // position of current particle relative to photons.
+      int position = 0;
+      int last_photon_position = -1;
+      
+      for(HepMC::GenVertex::particles_out_const_iterator p2 = v->particles_out_const_begin();
+          p2 != v->particles_out_const_end(); ++p2)
+      {
+        position++;
+
+        if((*p2)->barcode()==barcode) break;
+
+        if((*p2)->pdg_id()==22) { last_photon_position=position; }
+      }
+      
+      // If particle is found prior to photons - it was already processed, so skip it
+      if(last_photon_position<0) continue;
+      
+      position -= last_photon_position;
+      HepMC::GenParticle *part = NULL;
+      
+      // Now, find the particle that corresponds to this history entry
+      for(HepMC::GenVertex::particles_out_const_iterator p2 = v->particles_out_const_begin();
+          p2 != v->particles_out_const_end(); ++p2)
+      {
+        --position;
+        
+        if     (position >  0) continue;
+        else if(position == 0) part = *p2;
+        else
+        {
+          // Give all remaining photons status 3
+          if((*p2)->pdg_id()==22 ) (*p2)->set_status(3);
+
+          // Finish if there are no more photons
+          else break;
+        }
+      }
+
+      // Check if this is the particle we are looking for
+      if( part->pdg_id() != (*p)->pdg_id())
+      {
+        cout<<"switch_history_entries_status: mismatch in pdg_id of history entry"<<endl;
+        cout<<"and its corresponding particle. The algorithm does not work correctly."<<endl;
+        exit(-1);
+      }
+
+      // Skip this particle if its status is not 1
+      if(part->status()!=1) continue;
+      
+      // Switch status codes of these particles
+      part->set_status(3);
+      (*p)->set_status(1);
+    }
+  }
+}
+
 int main(int argc,char **argv)
 {
 	// Initialization of pythia
@@ -80,6 +166,7 @@ int main(int argc,char **argv)
 
 	Photos::setInfraredCutOff(0.01/91.187); // 10MeV for scale to M_Z=91.187
 	Photos::maxWtInterference(3.0);
+  //Photos::createHistoryEntries(true,3);
 
 	Photos::iniInfo();
 	Log::SummaryAtExit();
@@ -109,6 +196,9 @@ int main(int argc,char **argv)
 		PhotosHepMCEvent evt(HepMCEvt);
 		evt.process();
 
+    // Uncomment to turn on switching of the status code of history entries
+    // with the regular entries for stable particles
+    //switch_history_entries_status(HepMCEvt);
 
 		if(iEvent<EventsToCheck)
 		{
