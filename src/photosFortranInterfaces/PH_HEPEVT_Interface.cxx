@@ -233,7 +233,17 @@ void PH_HEPEVT_Interface::get(){
 
     if(update)
     {
-      
+
+      /*
+      PhotosParticle *mother = NULL;
+      if(particle->getMothers().size()>0) mother = getMothers().at(0);
+
+      if( mother && mother->allDaughtersSelfDecay() )
+      {
+        ...
+      }
+      */
+
       //modify this particle's momentum and it's daughters momentum
       //Steps 1., 2. and 3. must be executed in order.
 

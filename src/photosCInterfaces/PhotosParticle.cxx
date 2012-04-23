@@ -196,6 +196,38 @@ void PhotosParticle::rotateDaughters(int axis,double theta, int second_axis)
 	//checkMomentumConservation();
 }
 
+bool PhotosParticle::allDaughtersSelfDecay()
+{
+	std::vector<PhotosParticle*> daughters = getDaughters();
+  
+	// check if this particle has at least one unstable daughter
+	bool haveUnstableDaughters = false;
+  
+	// check if all daughters self-decay
+	bool allHaveSelfDecay = true;
+  
+	for(unsigned int i=0;i<daughters.size();i++)
+	{
+		// if photon or stable particle - continue
+		if(daughters[i]->getPdgID()==22) continue;
+		if(daughters[i]->getStatus()==1) continue;
+    
+		haveUnstableDaughters = true;
+    
+		std::vector<PhotosParticle*> daughters2 = daughters[i]->getDaughters();
+    
+		if(daughters2.size()!=1 || daughters2[0]->getPdgID()!=daughters[i]->getPdgID())
+		{
+			allHaveSelfDecay = false;
+			break;
+		}
+	}
+
+	if(!haveUnstableDaughters) return false;
+
+	return allHaveSelfDecay;
+}
+
 double PhotosParticle::getVirtuality()
 {
 	double e_sq=getE()*getE();

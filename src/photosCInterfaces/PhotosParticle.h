@@ -173,6 +173,10 @@ public:
 	    boostAlongZ(). */
 	double getRotationAngle(int axis, int second_axis=Z_AXIS);
 
+	/** Check if all daughters of this particle (except photons)
+	    have a self-decay vertex. */
+	bool allDaughtersSelfDecay();
+
 	/** Get scalar momentum */
 	double getP();
 
