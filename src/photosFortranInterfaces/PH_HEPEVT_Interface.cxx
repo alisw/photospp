@@ -207,6 +207,7 @@ void PH_HEPEVT_Interface::get(){
   // Before we update particles, we check for special cases
   // At this step, particles are yet unmodified
   // but photons are already in the event record
+  bool special=false;
   if( isPhotonCreated )
   {
     // particle at 'daughters_start' is the mother of particles
@@ -217,7 +218,7 @@ void PH_HEPEVT_Interface::get(){
     {
       double px1=0.0, py1=0.0, pz1=0.0, e1=0.0;
       double px2=0.0, py2=0.0, pz2=0.0, e2=0.0;
-
+      special=true;
       std::vector<PhotosParticle*> daughters = mother->getDaughters();
 
       // get sum of 4-momenta of unmodified particles
@@ -283,6 +284,7 @@ void PH_HEPEVT_Interface::get(){
 
     if(update)
     {
+      if(special){
 
       //modify this particle's momentum and it's daughters momentum
       //Steps 1., 2. and 3. must be executed in order.
@@ -298,8 +300,26 @@ void PH_HEPEVT_Interface::get(){
 
       //3. boost the particles daughters back into the lab frame
       particle->boostDaughtersFromRestFrame(particle);
-    }
+      }
+      else
+      {
 
+      //modify this particle's momentum and it's daughters momentum
+      //Steps 1., 2. and 3. must be executed in order.
+
+      //1. boost the particles daughters into it's (old) rest frame
+      particle->boostDaughtersToRestFrame(particle);
+
+      //2. change this particles 4 momentum
+      particle->setPx(ph_hepevt_.phep[index][0]);
+      particle->setPy(ph_hepevt_.phep[index][1]);
+      particle->setPz(ph_hepevt_.phep[index][2]);
+      particle->setE(ph_hepevt_.phep[index][3]);
+
+      //3. boost the particles daughters back into the lab frame
+      particle->boostDaughtersFromRestFrame(particle);
+      }
+    }
   }
   
 }
