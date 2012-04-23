@@ -208,6 +208,10 @@ void PH_HEPEVT_Interface::get(){
   // At this step, particles are yet unmodified
   // but photons are already in the event record
   bool special=false;
+  PhotosParticle *p1 = NULL;
+  PhotosParticle *p2 = NULL;
+  
+  if (false) // CURRENTLY - ALGORITHM TURNED OFF!
   if( isPhotonCreated )
   {
     // particle at 'daughters_start' is the mother of particles
@@ -249,7 +253,19 @@ void PH_HEPEVT_Interface::get(){
 
       //cout<<"ORIG: "<<px1<<" "<<py1<<" "<<pz1<<" "<<e1<<endl;
       //cout<<"SELF: "<<px2<<" "<<py2<<" "<<pz2<<" "<<e2<<endl;
+      
+      p1 = m_particle_list.at(0)->createNewParticle(0,-1,0.0,px1,py1,pz1,e1);
+      p2 = m_particle_list.at(0)->createNewParticle(0,-2,0.0,px2,py2,pz2,e2);
 
+      // Finaly, boost photons to appropriate frame
+      for(unsigned int i=0;i<daughters.size();i++)
+      {
+        if(daughters[i]->getPdgID()!=22) continue;
+
+        daughters[i]->boostToRestFrame(p1);
+        daughters[i]->boostFromRestFrame(p2);
+      }
+      
       Log::Warning()<<"Hidden interaction, all daughters self decay."
           <<"Photos does not know how to resolve, minor energy-momentum non conservation may appear"<<endl;
     }
@@ -285,13 +301,12 @@ void PH_HEPEVT_Interface::get(){
     if(update)
     {
       if(special){
-	//
 
       //modify this particle's momentum and it's daughters momentum
       //Steps 1., 2. and 3. must be executed in order.
-     //1. boost the particles daughters into it's (old) rest frame
-      particle->boostDaughtersToRestFrame(particle);
 
+      //1. boost the particles daughters into it's (old) rest frame
+      particle->boostDaughtersToRestFrame(particle);
 
       //2. change this particles 4 momentum
       particle->setPx(ph_hepevt_.phep[index][0]);
@@ -299,23 +314,33 @@ void PH_HEPEVT_Interface::get(){
       particle->setPz(ph_hepevt_.phep[index][2]);
       particle->setE(ph_hepevt_.phep[index][3]);
       
-         // a.
-       remove self  daughter particled from the list of daughters
-	 // b.
-       particled->boostDaughtersToRestFrame(particled);
- 	 // c.
-       copy four momentum of particle into four momentun of  its self-daughter particled
-        // d.
-       boost self daughter to rest-frame of <e1>
-       boost self daughter from rest-frame of <e2>
-         // e. boost the particles daughters back into the lab frame
-       particled->boostDaughtersFromRestFrame(particled);
+      // Algorithm for special case:
+      // a. get self-daughter of 'particle'
+      PhotosParticle *particled = particle->getDaughters().at(0);
 
-	 // f. 
-       put back self  daughter to the list of daughters
+      // b. boost 'particled' daughters to rest frame
+      particled->boostDaughtersToRestFrame(particled);
+
+      // c. copy four momentum of 'particle' into four momentum of
+      //    its self-daughter 'particled'
+
+      particled->setPx( particle->getPx() );
+      particled->setPy( particle->getPy() );
+      particled->setPz( particle->getPz() );
+      particled->setE ( particle->getE()  );
+
+      // d. boost self daughter to rest-frame of <e1>
+      //    boost self daughter from rest-frame of <e2>
+
+      particled->boostToRestFrame(p1);
+      particled->boostFromRestFrame(p2);
+
+      // e. boost the 'particled' daughters back into the lab frame
+      particled->boostDaughtersFromRestFrame(particled);
+
       //3. boost the particles daughters back into the lab frame
       particle->boostDaughtersFromRestFrame(particle);
- 
+
       }
       else
       {
