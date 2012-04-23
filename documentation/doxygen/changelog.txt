@@ -1,10 +1,18 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
 Apr 22 2012
-- Fixed problem with momentum non-conservation when there are
-  cascade decays with more than one mother.
 - Momentum conservation check for all stable particles in the event
   added to the examples.
+
+Apr 19 2012
+  Further extension for non-standard event record trees:
+- Boosting of subsequent daughters of verices treated by photos
+  is now hardy for multimother splittings (that is loops in a tree)
+- It is not hardy (yet) for secondary intgeractions like it case of ttbar 
+  production vertex.
+- Experiments default, energy momentum conservation test (printing sum of 
+  all event's stable products 4-momenta), which is to be repated by users  
+  (see documentation Appendix B.3) is in our demo programs now.
 
 Apr 5 2012
 - New methods for ignoring status codes:
