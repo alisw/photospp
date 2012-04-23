@@ -204,6 +204,56 @@ void PH_HEPEVT_Interface::get(){
     
   }
 
+  // Before we update particles, we check for special cases
+  // At this step, particles are yet unmodified
+  // but photons are already in the event record
+  if( isPhotonCreated )
+  {
+    // particle at 'daughters_start' is the mother of particles
+    // in the vertex in which photons were added
+    PhotosParticle *mother = m_particle_list.at(daughters_start);
+
+    if( mother && mother->allDaughtersSelfDecay() )
+    {
+      double px1=0.0, py1=0.0, pz1=0.0, e1=0.0;
+      double px2=0.0, py2=0.0, pz2=0.0, e2=0.0;
+
+      std::vector<PhotosParticle*> daughters = mother->getDaughters();
+
+      // get sum of 4-momenta of unmodified particles
+      for(unsigned int i=0;i<daughters.size();i++)
+      {
+        // ignore photons
+        if(daughters[i]->getPdgID()==22) continue;
+
+        px1+=daughters[i]->getPx();
+        py1+=daughters[i]->getPy();
+        pz1+=daughters[i]->getPz();
+        e1 +=daughters[i]->getE();
+      }
+
+      // get sum of 4-momenta of particles in self-decay vertices
+      for(unsigned int i=0;i<daughters.size();i++)
+      {
+        // ignore photons
+        if(daughters[i]->getPdgID()==22) continue;
+
+        // since 'allDaughtersSelfDecay()' is true
+        // each of these particles has exactly one daughter
+        px2 += daughters[i]->getDaughters().at(0)->getPx();
+        py2 += daughters[i]->getDaughters().at(0)->getPy();
+        pz2 += daughters[i]->getDaughters().at(0)->getPz();
+        e2  += daughters[i]->getDaughters().at(0)->getE();
+      }
+
+      //cout<<"ORIG: "<<px1<<" "<<py1<<" "<<pz1<<" "<<e1<<endl;
+      //cout<<"SELF: "<<px2<<" "<<py2<<" "<<pz2<<" "<<e2<<endl;
+
+      Log::Warning()<<"Hidden interaction, all daughters self decay."
+          <<"Photos does not know how to resolve, minor energy-momentum non conservation may appear"<<endl;
+    }
+  }
+
   //otherwise loop over particles which are already in the
   //event record and modify their 4 momentum
   //4.03.2012: Fix to prevent kinematical trap in vertex of simultaneous:
@@ -233,17 +283,6 @@ void PH_HEPEVT_Interface::get(){
 
     if(update)
     {
-
-      
-      PhotosParticle *mother = NULL;
-      if(particle->getMothers().size()>0) mother = getMothers().at(0);
-
-      if( mother && mother->allDaughtersSelfDecay() )
-      {
-        Log::Warning()<<"Hidden interaction, all daughters self decay."
-	          <<"Photos does not know how to resolve, minor energy-momentum non conservation may appear"<<endl;
-      }
-      
 
       //modify this particle's momentum and it's daughters momentum
       //Steps 1., 2. and 3. must be executed in order.
