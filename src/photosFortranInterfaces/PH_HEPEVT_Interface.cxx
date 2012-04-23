@@ -285,21 +285,35 @@ void PH_HEPEVT_Interface::get(){
     if(update)
     {
       if(special){
+	//
 
       //modify this particle's momentum and it's daughters momentum
       //Steps 1., 2. and 3. must be executed in order.
-
-      //1. boost the particles daughters into it's (old) rest frame
+     //1. boost the particles daughters into it's (old) rest frame
       particle->boostDaughtersToRestFrame(particle);
+
 
       //2. change this particles 4 momentum
       particle->setPx(ph_hepevt_.phep[index][0]);
       particle->setPy(ph_hepevt_.phep[index][1]);
       particle->setPz(ph_hepevt_.phep[index][2]);
       particle->setE(ph_hepevt_.phep[index][3]);
+      
+         // a.
+       remove self  daughter from the list of daughters
+	 // b.
+       copy four momentum of particle into four momentun of  its self-daughter particled
+	 // c.
+       particled->boostDaughtersToRestFrame(particled);
+         // d.
+	 boost self daughter to rest-frame of <e1>
+	 boost self daughter from rest-frame of <e2>
+         // e. boost the particles daughters back into the lab frame
+      particled->boostDaughtersFromRestFrame(particled);
 
       //3. boost the particles daughters back into the lab frame
       particle->boostDaughtersFromRestFrame(particle);
+ 
       }
       else
       {
