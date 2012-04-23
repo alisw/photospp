@@ -300,17 +300,19 @@ void PH_HEPEVT_Interface::get(){
       particle->setE(ph_hepevt_.phep[index][3]);
       
          // a.
-       remove self  daughter from the list of daughters
+       remove self  daughter particled from the list of daughters
 	 // b.
-       copy four momentum of particle into four momentun of  its self-daughter particled
-	 // c.
        particled->boostDaughtersToRestFrame(particled);
-         // d.
-	 boost self daughter to rest-frame of <e1>
-	 boost self daughter from rest-frame of <e2>
+ 	 // c.
+       copy four momentum of particle into four momentun of  its self-daughter particled
+        // d.
+       boost self daughter to rest-frame of <e1>
+       boost self daughter from rest-frame of <e2>
          // e. boost the particles daughters back into the lab frame
-      particled->boostDaughtersFromRestFrame(particled);
+       particled->boostDaughtersFromRestFrame(particled);
 
+	 // f. 
+       put back self  daughter to the list of daughters
       //3. boost the particles daughters back into the lab frame
       particle->boostDaughtersFromRestFrame(particle);
  
