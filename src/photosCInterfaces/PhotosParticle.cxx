@@ -208,8 +208,7 @@ bool PhotosParticle::allDaughtersSelfDecay()
   
 	for(unsigned int i=0;i<daughters.size();i++)
 	{
-		// if photon or stable particle - continue
-		if(daughters[i]->getPdgID()==22) continue;
+		// if stable particle - continue
 		if(daughters[i]->getStatus()==1) continue;
     
 		haveUnstableDaughters = true;
