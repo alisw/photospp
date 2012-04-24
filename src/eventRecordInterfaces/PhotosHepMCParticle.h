@@ -99,7 +99,11 @@ class PhotosHepMCParticle: public PhotosParticle{
   /** Create history entry for HepMC event record.
       Creates copy of this particle with status = 3 */
   void createHistoryEntry();
-  
+
+  /** Create a self-decay vertex for this particle
+      with 'out' being the outgoing particle in new vertex */
+  void createSelfDecayVertex(PhotosParticle *out);
+
   /** Print some information about this particle to standard output */
   void print();
 

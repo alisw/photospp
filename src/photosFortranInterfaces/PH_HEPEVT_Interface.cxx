@@ -261,8 +261,17 @@ void PH_HEPEVT_Interface::get(){
       {
         if(daughters[i]->getPdgID()!=22) continue;
 
-        daughters[i]->boostToRestFrame(p1);
-        daughters[i]->boostFromRestFrame(p2);
+        PhotosParticle *boosted = daughters[i]->createNewParticle( 22, 1,
+                                    0.0,
+                                    daughters[i]->getPx(),
+                                    daughters[i]->getPy(),
+                                    daughters[i]->getPz(),
+                                    daughters[i]->getE()   );
+                
+        boosted->boostToRestFrame(p1);
+        boosted->boostFromRestFrame(p2);
+        
+        daughters[i]->createSelfDecayVertex(boosted);
       }
 
       Log::Warning()<<"Hidden interaction, all daughters self decay."

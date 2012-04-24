@@ -315,6 +315,36 @@ void PhotosHepMCParticle::createHistoryEntry(){
   m_particle->production_vertex()->add_particle_out(part);
 }
 
+void PhotosHepMCParticle::createSelfDecayVertex(PhotosParticle *out)
+{
+  if(m_particle->end_vertex())
+  {
+    Log::Error()<<"PhotosHepMCParticle::createSelfDecayVertex: particle already has end vertex!"<<endl;
+    return;
+  }
+
+  if(getHepMC()->parent_event()==NULL)
+  {
+    Log::Error()<<"PhotosHepMCParticle::createSelfDecayVertex: particle not in the HepMC event!"<<endl;
+    return;
+  }
+
+  // Add new vertex and new particle to HepMC
+  HepMC::GenParticle *outgoing = new HepMC::GenParticle( *(dynamic_cast<PhotosHepMCParticle*>(out)->m_particle) );
+  HepMC::GenVertex   *v        = new HepMC::GenVertex();
+  
+  // Copy vertex position from parent vertex
+  v->set_position( m_particle->production_vertex()->position() );
+  
+  v->add_particle_in (m_particle);
+  v->add_particle_out(outgoing);
+  
+  getHepMC()->parent_event()->add_vertex(v);
+  
+  // If this particle was stable, set its status to 2
+  if(getStatus()==1) setStatus(2);
+}
+
 void PhotosHepMCParticle::print(){
   m_particle->print();
 }

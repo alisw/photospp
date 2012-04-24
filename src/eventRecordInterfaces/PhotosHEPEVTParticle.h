@@ -73,6 +73,10 @@ class PhotosHEPEVTParticle: public PhotosParticle {
   /** Creating history entries not implemented in HEPEVT */
   void createHistoryEntry();
 
+  /** Create a self-decay vertex for this particle
+      with 'out' being the outgoing particle in new vertex */
+  void createSelfDecayVertex(PhotosParticle *out);
+
   /** Check if particle 'p' is daughter of this particle */
   bool isDaughterOf(PhotosHEPEVTParticle *p);
 

@@ -275,6 +275,10 @@ public:
       on the event record. */
   virtual void createHistoryEntry()=0;
   
+	/** Create a self-decay vertex for this particle
+	    with 'out' being the outgoing particle in new vertex */
+	virtual void createSelfDecayVertex(PhotosParticle *out)=0;
+
 	/** Print some information about this particle to standard output */
 	virtual void print()=0;
 };

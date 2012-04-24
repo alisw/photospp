@@ -268,6 +268,11 @@ void PhotosHEPEVTParticle::createHistoryEntry()
   Log::Warning()<<"PhotosParticle::createHistoryEntry() not implemented for HEPEVT."<<endl;
 }
 
+void PhotosHEPEVTParticle::createSelfDecayVertex(PhotosParticle *out)
+{
+  Log::Warning()<<"PhotosHEPEVTParticle::createSelfDecayVertex() not implemented for HEPEVT."<<endl;
+}
+
 bool PhotosHEPEVTParticle::isDaughterOf(PhotosHEPEVTParticle *p)
 {
   int bc = p->getBarcode();
