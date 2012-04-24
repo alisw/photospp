@@ -253,7 +253,14 @@ void PH_HEPEVT_Interface::get(){
 
       //cout<<"ORIG: "<<px1<<" "<<py1<<" "<<pz1<<" "<<e1<<endl;
       //cout<<"SELF: "<<px2<<" "<<py2<<" "<<pz2<<" "<<e2<<endl;
-      
+      bool OurEvent=false; // we have to use it to print only when needed.
+      //      
+      if(OurEvent)
+	{
+        cout<<"Starting point"<<endl;
+        cout<<"Print mothers, daughters and dauhter self daughters"<<endl;
+	}
+      //
       p1 = m_particle_list.at(0)->createNewParticle(0,-1,0.0,px1,py1,pz1,e1);
       p2 = m_particle_list.at(0)->createNewParticle(0,-2,0.0,px2,py2,pz2,e2);
 
@@ -265,6 +272,13 @@ void PH_HEPEVT_Interface::get(){
         daughters[i]->boostToRestFrame(p1);
         daughters[i]->boostFromRestFrame(p2);
       }
+      //      
+      if(OurEvent)
+	{
+        cout<<"Added photons corrected"<<endl;
+        cout<<"Print mothers, daughters and dauhter self daughters"<<endl;
+	}
+      //
       
       Log::Warning()<<"Hidden interaction, all daughters self decay."
           <<"Photos does not know how to resolve, minor energy-momentum non conservation may appear"<<endl;
@@ -307,12 +321,25 @@ void PH_HEPEVT_Interface::get(){
 
       //1. boost the particles daughters into it's (old) rest frame
       particle->boostDaughtersToRestFrame(particle);
+      //      
+      if(OurEvent)
+	{
+        cout<<"Restframe of particle"<<endl;
+        cout<<"Print mothers, daughters and dauhter self daughters"<<endl;
+	}
+      //
 
       //2. change this particles 4 momentum
       particle->setPx(ph_hepevt_.phep[index][0]);
       particle->setPy(ph_hepevt_.phep[index][1]);
       particle->setPz(ph_hepevt_.phep[index][2]);
       particle->setE(ph_hepevt_.phep[index][3]);
+
+      if(OurEvent)
+	{
+        cout<<"Particle taken from ph hepevt"<<endl;
+        cout<<"Print mothers, daughters and dauhter self daughters"<<endl;
+	}
       
       // Algorithm for special case:
       // a. get self-daughter of 'particle'
@@ -329,17 +356,38 @@ void PH_HEPEVT_Interface::get(){
       particled->setPz( particle->getPz() );
       particled->setE ( particle->getE()  );
 
+      if(OurEvent)
+	{
+        cout<<"Particled as particle"<<endl;
+        cout<<"Print mothers, daughters and dauhter self daughters"<<endl;
+	}
+
       // d. boost self daughter to rest-frame of <e1>
       //    boost self daughter from rest-frame of <e2>
 
       particled->boostToRestFrame(p1);
       particled->boostFromRestFrame(p2);
+      if(OurEvent)
+	{
+        cout<<"Particled adjusted"<<endl;
+        cout<<"Print mothers, daughters and dauhter self daughters"<<endl;
+	}
 
       // e. boost the 'particled' daughters back into the lab frame
       particled->boostDaughtersFromRestFrame(particled);
+      if(OurEvent)
+	{
+        cout<<"Particled daughters adjusted"<<endl;
+        cout<<"Print mothers, daughters and dauhter self daughters"<<endl;
+	}
 
       //3. boost the particles daughters back into the lab frame
       particle->boostDaughtersFromRestFrame(particle);
+      if(OurEvent)
+	{
+        cout<<"Event should be nice and beautiful"<<endl;
+        cout<<"Print mothers, daughters and dauhter self daughters"<<endl;
+	}
 
       }
       else
