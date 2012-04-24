@@ -210,8 +210,7 @@ void PH_HEPEVT_Interface::get(){
   bool special=false;
   PhotosParticle *p1 = NULL;
   PhotosParticle *p2 = NULL;
-  
-  if (false) // CURRENTLY - ALGORITHM TURNED OFF!
+
   if( isPhotonCreated )
   {
     // particle at 'daughters_start' is the mother of particles
@@ -253,16 +252,10 @@ void PH_HEPEVT_Interface::get(){
 
       //cout<<"ORIG: "<<px1<<" "<<py1<<" "<<pz1<<" "<<e1<<endl;
       //cout<<"SELF: "<<px2<<" "<<py2<<" "<<pz2<<" "<<e2<<endl;
-      bool OurEvent=false; // we have to use it to print only when needed.
+
       p1 = m_particle_list.at(0)->createNewParticle(0,-1,0.0,px1,py1,pz1,e1);
       p2 = m_particle_list.at(0)->createNewParticle(0,-2,0.0,px2,py2,pz2,e2);
-            //      
-      if(OurEvent)
-	{
-        cout<<"At start"<<endl;
-        cout<<"Print mothers, daughters and dauhter self daughters"<<endl;
-	}
-      //
+
       // Finaly, boost photons to appropriate frame
       for(unsigned int i=0;i<daughters.size();i++)
       {
@@ -271,13 +264,6 @@ void PH_HEPEVT_Interface::get(){
         daughters[i]->boostToRestFrame(p1);
         daughters[i]->boostFromRestFrame(p2);
       }
-            //      
-      if(OurEvent)
-	{
-        cout<<"After modified photons"<<endl;
-        cout<<"Print mothers, daughters and dauhter self daughters"<<endl;
-	}
-      //
 
       Log::Warning()<<"Hidden interaction, all daughters self decay."
           <<"Photos does not know how to resolve, minor energy-momentum non conservation may appear"<<endl;
@@ -313,13 +299,6 @@ void PH_HEPEVT_Interface::get(){
 
     if(update)
     {
-      //      
-      if(OurEvent)
-	{
-        cout<<"Before update"<<endl;
-        cout<<"Print mothers, daughters and dauhter self daughters"<<endl;
-	}
-      //
 
       //modify this particle's momentum and it's daughters momentum
       //Steps 1., 2. and 3. must be executed in order.
@@ -336,15 +315,8 @@ void PH_HEPEVT_Interface::get(){
       //3. boost the particles daughters back into the lab frame
       particle->boostDaughtersFromRestFrame(particle);
 
-      //      
-      if(OurEvent)
-	{
-        cout<<"Before special treatment"<<endl;
-        cout<<"Print mothers, daughters and dauhter self daughters"<<endl;
-	}
-      //
-
       if(special){
+
       // Algorithm for special case:
       // a. get self-daughter of 'particle'
       PhotosParticle *particled = particle->getDaughters().at(0);
@@ -365,17 +337,11 @@ void PH_HEPEVT_Interface::get(){
 
       particled->boostToRestFrame(p1);
       particled->boostFromRestFrame(p2);
+
       // e. boost the 'particled' daughters back into the lab frame
       particled->boostDaughtersFromRestFrame(particled);
-
       }
-      //      
-      if(OurEvent)
-	{
-        cout<<"After special treatment"<<endl;
-        cout<<"Print mothers, daughters and dauhter self daughters"<<endl;
-	}
-      //
+
     }
   }
   
