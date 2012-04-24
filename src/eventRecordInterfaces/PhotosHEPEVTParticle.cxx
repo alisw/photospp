@@ -29,8 +29,6 @@ PhotosHEPEVTParticle::PhotosHEPEVTParticle(int pdgid, int status, double px, dou
 
   m_barcode = -1;
   m_event = NULL;
-  
-  isInRestFrame = false;
 }
 
 /** Add a new daughter to this particle */

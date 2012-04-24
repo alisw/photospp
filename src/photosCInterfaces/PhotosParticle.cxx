@@ -97,9 +97,6 @@ void PhotosParticle::boostDaughtersToRestFrame(PhotosParticle * tau_momentum)
 
 void PhotosParticle::boostToRestFrame(PhotosParticle * tau_momentum)
 {
-	if(isInRestFrame) return; //skip boosting if already in rest frame
-	isInRestFrame = true;
-
 	double theta = tau_momentum->getRotationAngle(Y_AXIS);
 	tau_momentum->rotate(Y_AXIS,theta);
 
@@ -118,9 +115,6 @@ void PhotosParticle::boostFromRestFrame(PhotosParticle * tau_momentum)
 {
 	//get the rotation angles
 	//and boost z
-
-	if(!isInRestFrame) return; //skip boosting if already in lab frame
-	isInRestFrame = false;
 
 	double theta = tau_momentum->getRotationAngle(Y_AXIS);
 	tau_momentum->rotate(Y_AXIS,theta);

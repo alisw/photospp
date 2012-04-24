@@ -8,7 +8,6 @@ namespace Photospp
 
 PhotosHepMCParticle::PhotosHepMCParticle(){
   m_particle = new HepMC::GenParticle();
-  isInRestFrame=false;
 }
 
 PhotosHepMCParticle::PhotosHepMCParticle(int pdg_id, int status, int mass){
@@ -16,12 +15,10 @@ PhotosHepMCParticle::PhotosHepMCParticle(int pdg_id, int status, int mass){
   m_particle->set_pdg_id(pdg_id);
   m_particle->set_status(status);
   m_particle->set_generated_mass(mass);
-  isInRestFrame=false;
 }
 
 PhotosHepMCParticle::PhotosHepMCParticle(HepMC::GenParticle * particle){
   m_particle = particle;
-  isInRestFrame=false;
 }
 
 PhotosHepMCParticle::~PhotosHepMCParticle(){

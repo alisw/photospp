@@ -190,11 +190,6 @@ public:
 	virtual double getVirtuality();
 
 public:
-	/** Is particle in rest frame or lab frame
-	    WARNING: this variable must be initialized when new particle is created */
-	bool isInRestFrame;
-
-public:
 	/** check that the 4 momentum in conserved at the vertices producing
 	    and ending this particle */
 	virtual bool checkMomentumConservation()=0;
