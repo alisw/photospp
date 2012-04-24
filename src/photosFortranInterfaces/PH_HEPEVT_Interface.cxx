@@ -275,7 +275,7 @@ void PH_HEPEVT_Interface::get(){
       }
 
       Log::Warning()<<"Hidden interaction, all daughters self decay."
-          <<"Photos does not know how to resolve, minor energy-momentum non conservation may appear"<<endl;
+          <<"Potentially over simplified solution applied."<<endl;
     }
   }
 
