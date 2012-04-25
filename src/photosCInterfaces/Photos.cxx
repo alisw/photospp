@@ -67,6 +67,8 @@ void Photos::initialize()
 
 // Initialize status counter for warning messages
 	for(int i=0;i<10;i++) phosta_.status[i]=0;
+// elementary security level, should remain 1 but we may want to have a method to change.
+	phosta_.ifstop=1; 
 
 	pholun_.phlun=6; // Logical output unit for printing error messages
 

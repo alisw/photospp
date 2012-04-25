@@ -2002,14 +2002,14 @@ C.----------------------------------------------------------------------
       INTEGER PHOMES
       PARAMETER (PHOMES=10)
       INTEGER STATUS
-      COMMON/PHOSTA/STATUS(PHOMES)
+      LOGICAL       IFSTOP
+      COMMON/PHOSTA/STATUS(PHOMES),IFSTOP
+
       CHARACTER TEXT*(*)
       SAVE IERROR
 C--   security STOP switch  
-      LOGICAL ISEC
-      SAVE ISEC
-      DATA ISEC /.TRUE./
       DATA IERROR/ 0/
+C--      IFSTOP=.TRUE.
       IF (IMES.LE.PHOMES) STATUS(IMES)=STATUS(IMES)+1
 C--
 C--   Count number of non-fatal errors...
@@ -2045,7 +2045,7 @@ C--   Count number of non-fatal errors...
       WRITE(PHLUN,9140)
       WRITE(PHLUN,9120)
       WRITE(PHLUN,9000)
-      IF (ISEC) THEN 
+      IF (IFSTOP) THEN 
         STOP
       ELSE
         GOTO 130
@@ -2055,7 +2055,7 @@ C--   Count number of non-fatal errors...
         WRITE(PHLUN,9150)
         WRITE(PHLUN,9120)
         WRITE(PHLUN,9000)
-        IF (ISEC) THEN 
+        IF (IFSTOP) THEN 
           STOP
         ELSE
           GOTO 130
@@ -2115,7 +2115,8 @@ C.----------------------------------------------------------------------
       INTEGER PHOMES
       PARAMETER (PHOMES=10)
       INTEGER STATUS
-      COMMON/PHOSTA/STATUS(PHOMES)
+      LOGICAL IFSTOP
+      COMMON/PHOSTA/STATUS(PHOMES),IFSTOP
       INTEGER I
       LOGICAL ERROR
       ERROR=.FALSE.

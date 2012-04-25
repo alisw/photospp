@@ -26,6 +26,7 @@ extern "C"
 	extern struct
 	{
 		int status[10];
+	        int ifstop;
 	} phosta_;
 
 	extern struct
