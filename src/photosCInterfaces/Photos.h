@@ -111,6 +111,11 @@ public:
 	/** Set photon emission in top pair production in quark (gluon) pair annihilation */
 	static void setTopProcessRadiation(bool top)         { phokey_.iftop=(int)top; }
 
+	/* Set if PHOTOS should stop at critical error. True by default.
+	   WARNING: These stops are an essential source of debugging information
+	            Turn off only after extensive tests of the installation. */
+	static void setStopAtCriticalError(bool stop)        { phosta_.ifstop=(int)stop; }
+
 	/** Initialize kinematic corrections */
 	static void initializeKinematicCorrections(int flag) { phcork_(&flag); }
 
