@@ -30,7 +30,7 @@ void Log::AddDecay(int type)
 ostream& Log::Debug(unsigned short int code, bool count)
 {
 	if(count) ++dCount;
-	if(code>=dRangeS && code<=dRangeE ) return *out<<"DEBUG("<<code<<"):\t";
+	if(code>=dRangeS && code<=dRangeE ) return *out<<"DEBUG("<<code<<") from PHOTOS:"<<endl;
 	return buf.seekp(0);
 }
 
@@ -38,7 +38,7 @@ ostream& Log::Debug(unsigned short int code, bool count)
 ostream& Log::Info(bool count)
 {
 	if(count) ++iCount;
-	if(iAction) return *out<<"INFO:   \t";
+	if(iAction) return *out<<"INFO from PHOTOS:"<<endl;
 	return buf.seekp(0);
 }
 
@@ -50,12 +50,13 @@ ostream& Log::Warning(bool count)
 	{
 		if(wAction)
 		{
-			*out<<"WARNING:\tLimit reached ("<<warnLimit<<"). Warnings suppressed."<<endl;
+			*out<<"WARNING from PHOTOS:"<<endl<<"Limit reached ("<<warnLimit<<"). Warnings suppressed."<<endl;
 			wAction=false;
 		}
 		return buf.seekp(0);
 	}
-	if(wAction) return *out<<"WARNING:\t";
+	if(wAction && count) return *out<<"WARNING from PHOTOS:"<<endl;
+	if(wAction)          return *out;
 	return buf.seekp(0);
 }
 
@@ -63,7 +64,7 @@ ostream& Log::Warning(bool count)
 ostream& Log::Error(bool count)
 {
 	if(count) ++eCount;
-	if(eAction) return *out<<"ERROR:  \t";
+	if(eAction) return *out<<"ERROR from PHOTOS:"<<endl;
 	buf.seekp(0);
 	return buf;
 }
@@ -73,16 +74,16 @@ void Log::Assert(bool check, char *text)
 	++asCount;
 	if(check) return;
 	++asFailedCount;
-	if(text==NULL)	*out<<"ASSERT:\t\tAssertion failed. "<<endl;
-	else *out<<"ASSERT:\t\tAssertion failed: "<<text<<endl;
+	if(text==NULL)	*out<<"ASSERT from PHOTOS:"<<endl<<"Assertion failed. "<<endl;
+	else *out<<"ASSERT from PHOTOS:"<<endl<<"Assertion failed: "<<text<<endl;
 	if(asAction) exit(-1);
 }
 
 void Log::Fatal(string text,unsigned short code)
 {
 	++faCount;
-	if(text.size()==0) *out<<"TERM:\t\tTerminated by a call to Log::Exit();"<<endl;
-	else *out<<"TERM:\t\t"<<text<<endl;
+	if(text.size()==0) *out<<"FATAL ERROR from PHOTOS:"<<endl<<"Terminated by a call to Log::Exit();"<<endl;
+	else *out<<"FATAL ERROR from PHOTOS: "<<endl<<text<<endl;
 	if(code<faRangeS || code>faRangeE) exit(-1);
 }
 
@@ -108,7 +109,7 @@ void Log::RedirectOutput(ostream& where)
 
 void Log::Summary()
 {
-	*out<<"-------------------------------- Log Summary ---------------------------------"<<endl;
+	*out<<"---------------------------- Photos Log Summary ------------------------------"<<endl;
 	*out<<" Debug:   \t";
 	if(dRangeS>dRangeE) *out<<"(OFF)";
 	*out<<"\t\t"<<dCount<<"\t";
