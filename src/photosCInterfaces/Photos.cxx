@@ -358,9 +358,9 @@ void Photos::setStopAtCriticalError(bool stop)
 	phosta_.ifstop=(int)stop;
 	if(!stop)
 	{
-		cout<<"PHOTOS production mode. Elementary test of data flow from event record disabled. "<<endl;
-		cout<<"Prior checks of the complete configuration "<<endl;
-		cout<<"(for the particular set of input parameters) must have been done! "<<endl;
+		Log::Info()<<"PHOTOS production mode. Elementary test of data flow from event record disabled. "<<endl
+		           <<"Prior checks of the complete configuration "<<endl
+		           <<"(for the particular set of input parameters) must have been done! "<<endl;
 	}
 }
 
