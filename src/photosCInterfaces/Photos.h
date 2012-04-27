@@ -112,8 +112,10 @@ public:
 	static void setTopProcessRadiation(bool top)         { phokey_.iftop=(int)top; }
 
 	/* Set if PHOTOS should stop at critical error. True by default.
-	   WARNING: These stops are an essential source of debugging information
-	            Turn off only after extensive tests of the installation. */
+	   WARNING: These stops are an essential source of debugging information flow
+                    from event record to PHOTOS algorithm. Never switch it off! The only exception:
+	            you have checked your set-up including particular physics initialization
+                    with the substantially large sample and you submit large production. */
 	static void setStopAtCriticalError(bool stop)        { phosta_.ifstop=(int)stop; }
 
 	/** Initialize kinematic corrections */
