@@ -116,7 +116,11 @@ public:
                     from event record to PHOTOS algorithm. Never switch it off! The only exception:
 	            you have checked your set-up including particular physics initialization
                     with the substantially large sample and you submit large production. */
-	static void setStopAtCriticalError(bool stop)        { phosta_.ifstop=(int)stop; }
+	static void setStopAtCriticalError(bool stop)        { phosta_.ifstop=(int)stop; 
+if(!stop) cout<<"PHOTOS production mode. Elementary test of data flow from event record disabled. "<<endl;
+if(!stop) cout<<"Prior checks of the complete configuration "<<endl;
+if(!stop) cout<<"(for the particular set of input parameters) must have been done! "<<endl;
+}
 
 	/** Initialize kinematic corrections */
 	static void initializeKinematicCorrections(int flag) { phcork_(&flag); }
