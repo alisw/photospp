@@ -353,6 +353,18 @@ void Photos::setMeCorrectionWtForScalar(bool corr)
 	meCorrectionWtForScalar=corr;
 }
 
+void Photos::setStopAtCriticalError(bool stop)
+{
+	phosta_.ifstop=(int)stop;
+	if(!stop)
+	{
+		cout<<"PHOTOS production mode. Elementary test of data flow from event record disabled. "<<endl;
+		cout<<"Prior checks of the complete configuration "<<endl;
+		cout<<"(for the particular set of input parameters) must have been done! "<<endl;
+	}
+}
+
+
 void Photos::forceMassFromEventRecord(int pdgid)
 {
   if(!forceMassList) forceMassList = new vector<pair<int,double>* >();
