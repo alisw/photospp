@@ -54,10 +54,6 @@ PhotosHEPEVTEvent* make_simple_tau_event(){
   second_tau->setPx(-1*(1.0/sqrt(2.0))*sqrt(tau_energy*tau_energy-tau_mass_sq));
   second_tau->setPy(-1*(1.0/sqrt(2.0))*sqrt(tau_energy*tau_energy-tau_mass_sq));
 
-  // Boost particles from rest frame
-  first_tau ->isInRestFrame = true;
-  second_tau->isInRestFrame = true;
-
   first_tau ->boostFromRestFrame(intermediate);
   second_tau->boostFromRestFrame(intermediate);
 
