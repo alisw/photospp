@@ -5,18 +5,14 @@
 
  @authors Nadia Davidson, Tomasz Przedzinski, Zbigniew Was
 
- 
- 
  @section download1 New release
 
- The source code and documentation for release 3.4. The following files are provided for download:
- - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/Photos_interface_design.3.4.pdf">Photos_interface_design.pdf</a> full software documentation.
- - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/PHOTOS.3.4.tar.gz">PHOTOS 3.4 source code </a> tarball
-   ( <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/PHOTOS.3.4-LHC.tar.gz"> version for LHC/LCG</a>  installation)
-   and its <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/svn_info_photos.3.4.txt">revision info</a> SVN tag, tarball creation date/time, etc.
-   For updates with respect to release 3.0 see <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/changelog.3.4.txt">changelog.txt</a>
- - NEW: methods to correct content of event record: (i) mass (ii) add history entries  (iii) program is still not ready to work
-   for cases when in vertex some daughters are history and some other are not.
+ The source code and documentation for release 3.5. The following files are provided for download:
+ - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.5/Photos_interface_design.3.5.pdf">Photos_interface_design.pdf</a> full software documentation.
+ - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.5/PHOTOS.3.5.tar.gz">PHOTOS 3.5 source code </a> tarball
+   ( <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.5/PHOTOS.3.5-LHC.tar.gz"> version for LHC/LCG</a>  installation)
+   and its <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.5/svn_info_photos.3.5.txt">revision info</a> SVN tag, tarball creation date/time, etc.
+   For updates with respect to release 3.0 see <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.5/changelog.3.5.txt">changelog.txt</a>
 
  @section developement Developement version
 
@@ -27,6 +23,14 @@
 
  @section download Older releases
 
+ The source code and documentation for release 3.4. The following files are provided for download:
+ - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/Photos_interface_design.3.4.pdf">Photos_interface_design.pdf</a> full software documentation.
+ - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/PHOTOS.3.4.tar.gz">PHOTOS 3.4 source code </a> tarball
+   ( <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/PHOTOS.3.4-LHC.tar.gz"> version for LHC/LCG</a>  installation)
+   and its <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/svn_info_photos.3.4.txt">revision info</a> SVN tag, tarball creation date/time, etc.
+   For updates with respect to release 3.0 see <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/changelog.3.4.txt">changelog.txt</a>
+ - NEW: methods to correct content of event record: (i) mass (ii) add history entries  (iii) program is still not ready to work
+   for cases when in vertex some daughters are history and some other are not.
 
  The source code and documentation for release 3.3. The following files are provided for download:
  - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/Photos_interface_design.3.3.pdf">Photos_interface_design.pdf</a> full software documentation.
