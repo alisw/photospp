@@ -324,7 +324,7 @@ void PH_HEPEVT_Interface::get(){
       //3. boost the particles daughters back into the lab frame
       particle->boostDaughtersFromRestFrame(particle);
 
-      if(special){
+      if(special && particle->getDaughters().size()>0){
 
       // Algorithm for special case:
       // a. get self-daughter of 'particle'
