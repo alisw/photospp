@@ -193,17 +193,24 @@ void PhotosParticle::rotateDaughters(int axis,double theta, int second_axis)
 bool PhotosParticle::allDaughtersSelfDecay()
 {
 	std::vector<PhotosParticle*> daughters = getDaughters();
-  
+
+	// check if this particle has at least one stable daughter
+	bool haveStableDaughters = false;
+
 	// check if this particle has at least one unstable daughter
 	bool haveUnstableDaughters = false;
   
-	// check if all daughters self-decay
-	bool allHaveSelfDecay = true;
+	// check if all unstable daughters self-decay
+	bool allUnstableHaveSelfDecay = true;
   
 	for(unsigned int i=0;i<daughters.size();i++)
 	{
 		// if stable particle - continue
-		if(daughters[i]->getStatus()==1) continue;
+		if(daughters[i]->getStatus()==1)
+		{
+			haveStableDaughters = true;
+			continue;
+		}
     
 		haveUnstableDaughters = true;
     
@@ -211,14 +218,23 @@ bool PhotosParticle::allDaughtersSelfDecay()
     
 		if(daughters2.size()!=1 || daughters2[0]->getPdgID()!=daughters[i]->getPdgID())
 		{
-			allHaveSelfDecay = false;
+			allUnstableHaveSelfDecay = false;
 			break;
 		}
 	}
 
 	if(!haveUnstableDaughters) return false;
 
-	return allHaveSelfDecay;
+	// NOTE: At least one daughter with self decay and at least and one
+	//       stable daughter. This case may need special treatment
+	if(haveStableDaughters && allUnstableHaveSelfDecay)
+	{
+		Log::Warning()<<"PhotosParticle::allDaughtersSelfDecay: "
+		              <<"Stable daughters mixed with daughters with self-decay vertex. This case may not be handled by PHOTOS correctly."<<endl;
+		return false;
+	}
+
+	return allUnstableHaveSelfDecay;
 }
 
 double PhotosParticle::getVirtuality()
