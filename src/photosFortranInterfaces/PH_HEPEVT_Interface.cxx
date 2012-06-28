@@ -178,7 +178,15 @@ void PH_HEPEVT_Interface::get(){
   int  daughters_start = ph_hepevt_.jmohep[ph_hepevt_.nhep-1][0];
   int  photons         = ph_hepevt_.nhep - m_particle_list.size();
   bool isPhotonCreated = (photons>0);
+  
+  std::vector<PhotosParticle*> photon_list;
 
+  // Update daughters_start if there are two mothers
+  // NOTE: daughters_start is index for C++ arrays, while ph_hepevt_.jmohep
+  //       contains indices for Fortran arrays.
+  if(ph_hepevt_.jmohep[ph_hepevt_.nhep-1][1]>0)
+    daughters_start = ph_hepevt_.jmohep[ph_hepevt_.nhep-1][1];
+  
   index = particle_count;
 
   // Add extra photons
@@ -202,6 +210,8 @@ void PH_HEPEVT_Interface::get(){
     PhotosParticle * mother =  m_particle_list.at(ph_hepevt_.jmohep[index][0]-1);
     mother->addDaughter(new_photon);
     
+    //add to list of photons
+    photon_list.push_back(new_photon);
   }
 
   // Before we update particles, we check for special cases
@@ -213,16 +223,47 @@ void PH_HEPEVT_Interface::get(){
 
   if( isPhotonCreated )
   {
-    // particle at 'daughters_start' is the mother of particles
-    // in the vertex in which photons were added
-    PhotosParticle *mother = m_particle_list.at(daughters_start);
+    std::vector<PhotosParticle*> daughters;
 
-    if( mother && mother->allDaughtersSelfDecay() )
+    for(int i=daughters_start;i<particle_count;i++)
+    {
+      PhotosParticle *p = m_particle_list.at(i);
+
+      daughters.push_back(p);
+    }
+
+    // Check if this is a special case
+    special = true;
+    
+    if(daughters.size()==0) special = false;
+    
+    // special = false if there is a stable particle on the list
+    //                 or there is a particle without self-decay
+    for(unsigned int i=0;i<daughters.size();i++)
+    {
+      if(daughters[i]->getStatus()==1)
+      {
+        special = false;
+        break;
+      }
+      
+      // NOTE: We can use 'getDaughters' here, because vertices
+      //       of daughters are not being modified by Photos right now
+      //       (so there will be no caching)
+      std::vector<PhotosParticle*> daughters2 = daughters[i]->getDaughters();
+      
+      if(daughters2.size()!=1 || 
+         daughters2[0]->getPdgID() != daughters[i]->getPdgID() )
+      {
+        special = false;
+        break;
+      }
+    }
+
+    if( special )
     {
       double px1=0.0, py1=0.0, pz1=0.0, e1=0.0;
       double px2=0.0, py2=0.0, pz2=0.0, e2=0.0;
-      special=true;
-      std::vector<PhotosParticle*> daughters = mother->getDaughters();
 
       // get sum of 4-momenta of unmodified particles
       for(unsigned int i=0;i<daughters.size();i++)
@@ -257,21 +298,19 @@ void PH_HEPEVT_Interface::get(){
       p2 = m_particle_list.at(0)->createNewParticle(0,-2,0.0,px2,py2,pz2,e2);
 
       // Finaly, boost photons to appropriate frame
-      for(unsigned int i=0;i<daughters.size();i++)
+      for(unsigned int i=0;i<photon_list.size();i++)
       {
-        if(daughters[i]->getPdgID()!=22) continue;
-
-        PhotosParticle *boosted = daughters[i]->createNewParticle( 22, 1,
+        PhotosParticle *boosted = photon_list[i]->createNewParticle( 22, 1,
                                     0.0,
-                                    daughters[i]->getPx(),
-                                    daughters[i]->getPy(),
-                                    daughters[i]->getPz(),
-                                    daughters[i]->getE()   );
+                                    photon_list[i]->getPx(),
+                                    photon_list[i]->getPy(),
+                                    photon_list[i]->getPz(),
+                                    photon_list[i]->getE()   );
                 
         boosted->boostToRestFrame(p1);
         boosted->boostFromRestFrame(p2);
         
-        daughters[i]->createSelfDecayVertex(boosted);
+        photon_list[i]->createSelfDecayVertex(boosted);
       }
 
       Log::Warning()<<"Hidden interaction, all daughters self decay."

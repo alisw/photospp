@@ -56,7 +56,9 @@ class PhotosHepMCParticle: public PhotosParticle{
   /** Returns the mothers of this particle via a vector of PhotosParticle */
   std::vector<PhotosParticle*> getMothers();
 
-  /** Returns the daughters of this particle via a vector of PhotosParticle */
+  /** Returns the daughters of this particle via a vector of PhotosParticle
+      IMPORTANT: this method will remeber list from the first call. Particles
+      (e.g. photons) added later will be ignored */
   std::vector<PhotosParticle*> getDaughters();
 
   /** Returns all particles in the decay tree of this particle
