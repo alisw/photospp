@@ -179,8 +179,14 @@ void PH_HEPEVT_Interface::get(){
   int  photons         = ph_hepevt_.nhep - m_particle_list.size();
   bool isPhotonCreated = (photons>0);
   
-  std::vector<PhotosParticle*> photon_list;
+  std::vector<PhotosParticle*> photon_list; // list of added photons
+                                            // which need kinematical treatment
+                                            // in special case
 
+  // we decipher daughters_start from  last entry 
+  // that is last daughter in  ph_hepevt_
+  // another option of this functionality may be 
+  // ph_hepevt_.jdahep[ ph_hepevt_.jmohep[ph_hepevt_.nhep-1][0]-1][0];
   // Update daughters_start if there are two mothers
   // NOTE: daughters_start is index for C++ arrays, while ph_hepevt_.jmohep
   //       contains indices for Fortran arrays.
@@ -224,6 +230,12 @@ void PH_HEPEVT_Interface::get(){
   if( isPhotonCreated )
   {
     std::vector<PhotosParticle*> daughters;
+
+    // in the following we create list of   daughters,
+    // later  we calculate bool special which is true only if all
+    // daughters self-decay
+    // at peresent warning for  mixed self-decay and not self decay 
+    // daughters is not printed.
 
     for(int i=daughters_start;i<particle_count;i++)
     {
