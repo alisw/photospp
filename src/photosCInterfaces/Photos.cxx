@@ -150,6 +150,18 @@ void Photos::initialize()
 	cout.precision(coutPrec);
 	cout.flags    (flags);
 
+	// Add reggeon, pomeron and its diffractive states to the list
+	// of decays where bremsstrahlung is suppressed
+	Photos::suppressBremForDecay(0,110);
+	Photos::suppressBremForDecay(0,990);
+	Photos::suppressBremForDecay(0,9902110);
+	Photos::suppressBremForDecay(0,9902210);
+	Photos::suppressBremForDecay(0,9900110);
+	Photos::suppressBremForDecay(0,9900210);
+	Photos::suppressBremForDecay(0,9900220);
+	Photos::suppressBremForDecay(0,9900330);
+	Photos::suppressBremForDecay(0,9900440);
+
 // Initialize Marsaglia and Zaman random number generator
 	PhotosRandom::initialize();
 }
