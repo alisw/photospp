@@ -1,6 +1,6 @@
 include ../make.inc
 
-SOURCES_CC=Log.cxx PhotosRandom.cxx
+SOURCES_CC=Log.cxx PhotosRandom.cxx PhotosDebugRandom.cxx
 OBJECTS_CC=$(SOURCES_CC:.cxx=.o)
 
 %.o: %.cxx
