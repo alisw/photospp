@@ -17,8 +17,14 @@ PhotosBranch::PhotosBranch(PhotosParticle* p)
 	daughters = p->getDaughters();
 
 	//Suppress if somehow got stable particle
-	if(daughters.size()==0) suppression=1;
-
+	if(daughters.size()==0)
+	{
+		Log::Debug(1)<<"Stable particle."<<endl;
+		suppression = 1;
+		forcing     = 0;
+		particle    = NULL;
+		return;
+	}
 	else if(daughters.at(0)->getMothers().size()==1)
 	{
 		// Regular case - one mother
