@@ -13,6 +13,9 @@
  *
  * @author Nadia Davidson
  * @date 17 June 2008
+ *
+ * This code is licensed under GNU General Public Licence.
+ * For more informations, see: http://www.gnu.org/licenses/
  */
 
 #include <vector>

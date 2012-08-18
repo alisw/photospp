@@ -13,6 +13,9 @@
  *
  * @author Nadia Davidson
  * @date 17 June 2008
+ *
+ * This code is licensed under GNU General Public Licence.
+ * For more informations, see: http://www.gnu.org/licenses/
  */
 
 #include <vector>
@@ -36,7 +39,7 @@ class PhotosHepMCParticle: public PhotosParticle{
 
   /** Constructor which creates a new HepMC::GenParticle and
        sets the properties pdg_id, statu and mass. */
-  PhotosHepMCParticle(int pdg_id, int status, int mass);
+  PhotosHepMCParticle(int pdg_id, int status, double mass);
 
   /** Destructor */
   ~PhotosHepMCParticle();

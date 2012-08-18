@@ -10,7 +10,7 @@ PhotosHepMCParticle::PhotosHepMCParticle(){
   m_particle = new HepMC::GenParticle();
 }
 
-PhotosHepMCParticle::PhotosHepMCParticle(int pdg_id, int status, int mass){
+PhotosHepMCParticle::PhotosHepMCParticle(int pdg_id, int status, double mass){
   m_particle = new HepMC::GenParticle();
   m_particle->set_pdg_id(pdg_id);
   m_particle->set_status(status);
