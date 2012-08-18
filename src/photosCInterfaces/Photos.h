@@ -28,7 +28,7 @@ class PhotosParticle;
 class Photos
 {
 public:
-	static const int VER_MAJOR=3, VER_MINOR=5;
+	static const int VER_MAJOR=3, VER_MINOR=51;
 	static const int DAT_DAY  =27,DAT_MONTH=4,DAT_YEAR=12;
 public:
 
