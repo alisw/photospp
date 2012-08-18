@@ -67,7 +67,7 @@
  For a multitude of examples, one needs to install the libraries necessary to
 generate physics events stored in HepMC and to monitor such events:
  - <a href="http://home.thep.lu.se/~torbjorn/Pythia.html">PYTHIA 8.1</a> or later. PYTHIA must be compiled with HepMC 2 so that the PYTHIA library hepmcinterface exists.
- - <a href="http://www.ph.unimelb.edu.au/~ndavidson/tauola/doxygen/index.html">TAUOLA C++ Interface v1.0.7</a> or later.
+ - <a href="http://www.ph.unimelb.edu.au/~ndavidson/tauola/doxygen/index.html">TAUOLA C++ Interface v1.0.7</a> or later (we expect Tauolapp namespace to be  defined).
  - <a href="http://mc-tester.web.cern.ch/MC-TESTER/">MC-TESTER v1.24</a> or later. Do not forget to compile the additional HepMC library libHepMCEvent as well.
  - <a href="http://root.cern.ch/drupal/">ROOT v5.18</a> or later
 
