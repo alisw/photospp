@@ -1,10 +1,11 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
 Aug 14 2012
-- Fixed bug where Photos could act on Pomerons and its diffractive states
-  which caused NaNs to appear in the event
-- Fixed bug in algorithm for kinematic adjustment introduced in previous
-  update
+- Photos will not act on Pomerons and its diffractive states. This was
+  physically incorrect and even could cause NaNs to appear in the event.  
+  This protection was not necessary in the past.
+- Fixed bug in algorithm for kinematic adjustment introduced in 
+  update of Apr 24
 - Fixed bug which in rare cases caused segmentation fault on 32-bit platform
   with gcc 4.1
 
