@@ -34,11 +34,16 @@ Full list of such changes resides in:     README-comparison-options
 ------------------
     DEBUGGING
 ------------------
-An additional directory can be obtained from the repository,
-if sufficient privileges are obtained, by executing:
+An additional directory is stored in our repository,
+for those with privileged it can be obtained with:
 
 svn export file:///home/theory/svnroot/camtoph/PHOTOS/branches/debug
 
-It contains number of tests for specific bugs found in previous versions
-of Photos++. It is used for verification of new changes.
+It contains number of tests; in particular unusual events stored in HepMC
+data files. Thanks to .... and others  for  some of those files.
+In the past, we have  used those events to localize  bugs  in previous versions
+of Photos++ event interface (or to understand necesity for new extensions of 
+its event record algorithm). From now on we use those events 
+for validation  of new changes. The files are large and that is why
+we do no not include them in the distribution tar-ball. 
 
