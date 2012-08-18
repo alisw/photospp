@@ -40,6 +40,12 @@ endif
 	@echo "   For single test: cd to chosen sub-directory and 'make' "
 	@echo "##################################################################"
 
+%.exe: %.cxx
+	$(CC) $(CFLAGS) -I$(PHOTOSLOCATION)/include -I$(HEPMCLOCATION)/include \
+        $(LDFLAGS) $(HEPMC_LIBS) $(PHOTOS_LIBS) $< -o $@ \
+        -Wl,-rpath,$(PHOTOSLOCATION)/lib \
+        -Wl,-rpath,$(HEPMCLOCATION)/lib
+
 photos_test.exe: photos_test.cxx
 	$(CC) $(CFLAGS) -I$(PHOTOSLOCATION)/include -I$(PYTHIALOCATION)/include -I$(MCTESTERLOCATION)/include -I$(HEPMCLOCATION)/include \
 	$(ROOTINC) $< -o $@ \

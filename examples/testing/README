@@ -30,3 +30,15 @@ In some cases further changes to Makefile or SETUP.C files (located
 in  subdirectory of particular test) are needed.
 Full list of such changes resides in:     README-comparison-options
 ---------------------------------------------------------------------------
+
+------------------
+    DEBUGGING
+------------------
+An additional directory can be obtained from the repository,
+if sufficient privileges are obtained, by executing:
+
+svn export file:///home/theory/svnroot/camtoph/PHOTOS/branches/debug
+
+It contains number of tests for specific bugs found in previous versions
+of Photos++. It is used for verification of new changes.
+
