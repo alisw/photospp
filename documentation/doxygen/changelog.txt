@@ -8,6 +8,7 @@ Aug 14 2012
   update of Apr 24
 - Fixed bug which in rare cases caused segmentation fault on 32-bit platform
   with gcc 4.1
+- Examples updated for compatibility with Tauola v1.0.7
 
 Apr 24 2012
 - kinematic adjustment for vertex where all outgoing dauhters self-decay

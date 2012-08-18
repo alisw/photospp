@@ -67,7 +67,7 @@
  For a multitude of examples, one needs to install the libraries necessary to
 generate physics events stored in HepMC and to monitor such events:
  - <a href="http://home.thep.lu.se/~torbjorn/Pythia.html">PYTHIA 8.1</a> or later. PYTHIA must be compiled with HepMC 2 so that the PYTHIA library hepmcinterface exists.
- - <a href="http://www.ph.unimelb.edu.au/~ndavidson/tauola/doxygen/index.html">TAUOLA C++ Interface v1.0</a> or later.
+ - <a href="http://www.ph.unimelb.edu.au/~ndavidson/tauola/doxygen/index.html">TAUOLA C++ Interface v1.0.7</a> or later.
  - <a href="http://mc-tester.web.cern.ch/MC-TESTER/">MC-TESTER v1.24</a> or later. Do not forget to compile the additional HepMC library libHepMCEvent as well.
  - <a href="http://root.cern.ch/drupal/">ROOT v5.18</a> or later
 
@@ -75,7 +75,7 @@ generate physics events stored in HepMC and to monitor such events:
 
  In order to compile the PHOTOS C++ interface:
  - Execute './configure' with additional command line options:
-   - '--with-hepm=\<path\> ' provides the path to the HepMC installation directory. One can set the HEPMCLOCATION variable instead of using this directive. This path is required for the interface to compile. To compile without HepMC use '--without-hepmc'.
+   - '--with-hepmc=\<path\> ' provides the path to the HepMC installation directory. One can set the HEPMCLOCATION variable instead of using this directive. This path is required for the interface to compile. To compile without HepMC use '--without-hepmc'.
    - '--prefix=\<path\>' provides the installation path. The 'include' and 'lib' directories will be copied there if 'make install' is executed later. If none has been provided, the default directory for installation is '/usr/local'.
  - Execute 'make'
  - Optionally, execute 'make install' to copy files to the directory provided during configuration.
