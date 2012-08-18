@@ -9,6 +9,9 @@
  * state and print current state. This class extends PhotosRandom class.
  * PhotosRandom is a static class, therefore this extension works
  * automatically for FORTRAN code without any changes.
+ * Our random generator is the C++ follow-up of FORTRAN generator by 
+ * F. James DD-Report, November 1988. and  G. Marsaglia and A. Zaman,  
+ * FSU-SCR-87-50,
  *
  * @author Tomasz Przedzinski
  * @date 28th June 2012
