@@ -151,6 +151,12 @@ class PhotosHEPEVTParticle: public PhotosParticle {
 
 private:
 
+  /** Set index of first daughter */
+  void setDaughterRangeStart(int i) { m_daughter_start=i; }
+  
+  /** Set index of last daughter */
+  void setDaughterRangeEnd(int i)   { m_daughter_end  =i; }
+
   /** Event from which this particle is taken */
   PhotosHEPEVTEvent *m_event;
 

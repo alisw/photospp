@@ -13,57 +13,64 @@
 using namespace std;
 using namespace Photospp;
 
+int NumberOfEvents = 1000;
+int EventsToCheck  = 1000;
+
+void checkMomentumConservationInEvent(PhotosHEPEVTEvent *evt)
+{
+  int n = evt->getParticleCount();
+  double px=0.0,py=0.0,pz=0.0,e=0.0;
+
+  for(int i=0;i<n;i++)
+  {
+    PhotosHEPEVTParticle *p = evt->getParticle(i);
+    if(p->getStatus() != 1) continue;
+
+    px += p->getPx();
+    py += p->getPy();
+    pz += p->getPz();
+    e  += p->getE();
+  }
+
+  cout.precision(6);
+  cout.setf(ios_base::floatfield);
+  cout<<endl<<"Vector Sum: "<<px<<" "<<py<<" "<<pz<<" "<<e<<endl;
+}
+
 /** Create a simple e+ + e- -> Z -> tau+ tau- HEPEVT event **/
 PhotosHEPEVTEvent* make_simple_tau_event(){
 
   PhotosHEPEVTEvent * evt = new PhotosHEPEVTEvent();
 
   const double amell = 0.0005111;
-  const double amtau = 1.777;
-
-  // Create some four vectors for the electrons
-  double e_mass_sq   = amell*amell;
-  double tau_mass_sq = amtau*amtau;
-
-  double e1_pz = -2.0; //change these
-  double e2_pz =  3.5; //as needed
-  double e1_e  = sqrt(e1_pz*e1_pz + e_mass_sq);
-  double e2_e  = sqrt(e2_pz*e2_pz + e_mass_sq);
 
   // Make PhotosParticles for boosting
-  PhotosHEPEVTParticle *first_e      = new PhotosHEPEVTParticle(-11, 3, 0., 0., e1_pz,      e1_e,     amell, -1, -1,  2,  2);
-  PhotosHEPEVTParticle *second_e     = new PhotosHEPEVTParticle( 11, 3, 0., 0., e2_pz,      e2_e,     amell, -1, -1,  2,  2);
-  PhotosHEPEVTParticle *intermediate = new PhotosHEPEVTParticle( 23, 3, 0., 0., e1_pz+e2_pz,e1_e+e2_e,0.,     0,  1,  3,  4);
-  PhotosHEPEVTParticle *first_tau    = new PhotosHEPEVTParticle(-15, 1, 0., 0., 0.,         0.,       amtau,  2, -1, -1, -1);
-  PhotosHEPEVTParticle *second_tau   = new PhotosHEPEVTParticle( 15, 1, 0., 0., 0.,         0.,       amtau,  2, -1, -1, -1);
-
+  PhotosHEPEVTParticle *first_e      = new PhotosHEPEVTParticle(  11, 6,  1.7763568394002505e-15, -3.5565894425761324e-15,  4.5521681043409913e+01, 4.5521681043409934e+01,     amell,              -1, -1,  2,  2);
+  PhotosHEPEVTParticle *second_e     = new PhotosHEPEVTParticle( -11, 6, -1.7763568394002505e-15,  3.5488352204797800e-15, -4.5584999071936601e+01, 4.5584999071936622e+01,     amell,              -1, -1,  2,  2);
+  PhotosHEPEVTParticle *intermediate = new PhotosHEPEVTParticle(  23, 5,  0,                       0,                      -6.3318028526687442e-02, 9.1106680115346506e+01, 9.1106658112716090e+01,  0,  1,  3,  4);
+  PhotosHEPEVTParticle *first_tau    = new PhotosHEPEVTParticle(  15, 2, -2.3191595992562256e+01, -2.6310500920665142e+01, -2.9046412466624929e+01, 4.5573504956498098e+01, 1.7769900000002097e+00,  2, -1,  5,  6);
+  PhotosHEPEVTParticle *second_tau   = new PhotosHEPEVTParticle( -15, 2,  2.3191595992562256e+01,  2.6310500920665142e+01,  2.8983094438098242e+01, 4.5533175158848429e+01, 1.7769900000000818e+00,  2, -1,  7,  8);
+  PhotosHEPEVTParticle *t1d1         = new PhotosHEPEVTParticle(  16, 1, -1.2566536214715378e+00, -1.7970251138317268e+00, -1.3801323581022720e+00, 2.5910119010468553e+00, 9.9872238934040070e-03,  3, -1, -1, -1);
+  PhotosHEPEVTParticle *t1d2         = new PhotosHEPEVTParticle(-211, 1, -2.1935073012334062e+01, -2.4513624017269400e+01, -2.7666443730700312e+01, 4.2982749776866747e+01, 1.3956783711910248e-01,  3, -1, -1, -1);
+  PhotosHEPEVTParticle *t2d1         = new PhotosHEPEVTParticle( -16, 1,  8.4364531743909055e+00,  8.3202830831667836e+00,  9.6202800273055971e+00, 1.5262723881157640e+01, 9.9829332903027534e-03,  4, -1, -1, -1);
+  PhotosHEPEVTParticle *t2d2         = new PhotosHEPEVTParticle( 211, 1,  1.4755273459419701e+01,  1.7990366047940022e+01,  1.9362977676297948e+01, 3.0270707771933196e+01, 1.3956753909587860e-01,  4, -1, -1, -1);
+      
   // Order matters!
   evt->addParticle(first_e     );
   evt->addParticle(second_e    );
   evt->addParticle(intermediate);
   evt->addParticle(first_tau   );
   evt->addParticle(second_tau  );
-
-  double tau_energy = 0.5*sqrt( (e1_e+e2_e)*(e1_e+e2_e) - (e1_pz+e2_pz)*(e1_pz+e2_pz) );
-
-  first_tau->setE  (tau_energy);
-  first_tau->setPx ((1.0/sqrt(2.0))*sqrt(tau_energy*tau_energy-tau_mass_sq));
-  first_tau->setPy ((1.0/sqrt(2.0))*sqrt(tau_energy*tau_energy-tau_mass_sq));
-
-  second_tau->setE (tau_energy);
-  second_tau->setPx(-1*(1.0/sqrt(2.0))*sqrt(tau_energy*tau_energy-tau_mass_sq));
-  second_tau->setPy(-1*(1.0/sqrt(2.0))*sqrt(tau_energy*tau_energy-tau_mass_sq));
-
-  first_tau ->boostFromRestFrame(intermediate);
-  second_tau->boostFromRestFrame(intermediate);
+  evt->addParticle(t1d1        );
+  evt->addParticle(t1d2        );
+  evt->addParticle(t2d1        );
+  evt->addParticle(t2d2        );
 
   return evt;
 }
 
 /** Example of using Photos to process event stored in HEPEVT event record */
 int main(void){
-
-  int NumberOfEvents = 100000;
 
   Photos::initialize();
 
@@ -82,6 +89,13 @@ int main(void){
     //cout << "BEFORE:"<<endl;
     //event->print();
 
+    if(iEvent<EventsToCheck)
+    {
+      cout<<"                                          "<<endl;
+      cout<<"Momentum conservation chceck BEFORE/AFTER Photos"<<endl;
+      checkMomentumConservationInEvent(event);
+    }
+    
     event->process();
 
     buf += event->getParticleCount();
@@ -89,6 +103,11 @@ int main(void){
 		else if(buf==2) twoAdded++;
 		else if(buf>2)  moreAdded++;
 
+    if(iEvent<EventsToCheck)
+    {
+      checkMomentumConservationInEvent(event);
+    }
+    
     //cout << "AFTER:"<<endl;
     //event->print();
 

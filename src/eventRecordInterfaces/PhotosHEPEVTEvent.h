@@ -64,6 +64,9 @@ class PhotosHEPEVTEvent : public PhotosEvent {
   /** Get particle at index 'i' */
   PhotosHEPEVTParticle *getParticle(int i);
 
+  /** Set particle at index 'i' */
+  void setParticle(int i, PhotosHEPEVTParticle *p);
+
   /** Get higher-most index of the particles in event (nhep) */
   int getParticleCount();
 

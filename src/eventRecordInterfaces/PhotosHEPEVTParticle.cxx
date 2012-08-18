@@ -49,7 +49,35 @@ void PhotosHEPEVTParticle::addDaughter(PhotosParticle* daughter)
     m_daughter_start = bc;
     m_daughter_end   = bc;
   }
-  else if(m_daughter_end != bc-1) Log::Fatal("PhotosHEPEVTParticle::addDaughter - this method can be used only to add daughter at the end of the event record");
+  // if it's in the middle of the event record
+  else if(m_daughter_end != bc-1)
+  {
+    PhotosHEPEVTParticle *newPart = m_event->getParticle(bc);
+    
+    // Move all particles one spot down the list, to make place for new particle
+    for(int i=bc-1;i>m_daughter_end;i--)
+    {
+      PhotosHEPEVTParticle *move = m_event->getParticle(i);
+      move->setBarcode(i+1);
+      m_event->setParticle(i+1,move);
+    }
+
+    m_daughter_end++;
+    newPart->setBarcode(m_daughter_end);
+    m_event->setParticle(m_daughter_end,newPart);
+    
+    // Now: correct all pointers before new particle
+    for(int i=0;i<m_daughter_end;i++)
+    {
+      PhotosHEPEVTParticle *check = m_event->getParticle(i);
+      int m = check->getDaughterRangeEnd();
+      if(m!=-1 && m>m_daughter_end)
+      {
+        check->setDaughterRangeEnd(m+1);
+        check->setDaughterRangeStart(check->getDaughterRangeStart()+1);
+      }
+    }
+  }
   else m_daughter_end = bc;
 }
 

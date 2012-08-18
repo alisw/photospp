@@ -25,6 +25,12 @@ PhotosHEPEVTParticle *PhotosHEPEVTEvent::getParticle(int i)
   return particle_list[i];
 }
 
+void PhotosHEPEVTEvent::setParticle(int i, PhotosHEPEVTParticle *p)
+{
+  if( i<0 || i>=(int)particle_list.size() ) return;
+  particle_list[i] = p;
+}
+
 int PhotosHEPEVTEvent::getParticleCount()
 {
   return particle_list.size();
