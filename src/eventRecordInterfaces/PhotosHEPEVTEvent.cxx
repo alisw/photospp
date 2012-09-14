@@ -47,7 +47,7 @@ std::vector<PhotosParticle*> PhotosHEPEVTEvent::getParticleList()
 
 void PhotosHEPEVTEvent::print()
 {
-  printf("PhotosHEPEVTEvent\n-----------------\n");
+  Log::Info()<<"PhotosHEPEVTEvent"<<endl<<"-----------------"<<endl;
   for(unsigned int i=0;i<particle_list.size();i++) particle_list[i]->print();
 }
 
