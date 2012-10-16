@@ -42,10 +42,10 @@ vector<PhotosParticle *> PhotosEvent::filterParticles(vector<PhotosParticle *> p
 
 		//check for self decays
 		vector<PhotosParticle *> daughters = p->getDaughters();
-		int i=0;
-		for(i=0;i<(int)daughters.size();i++)
-			if(daughters.at(i)->getPdgID()==p->getPdgID()) break;
-		if(i!=(int)daughters.size()) continue;
+		int j=0;
+		for(j=0;j<(int)daughters.size();j++)
+			if(daughters.at(j)->getPdgID()==p->getPdgID()) break;
+		if(j!=(int)daughters.size()) continue;
 
 		Log::Debug(2)<<"Passed particle filter"<<endl;
 		filtered.push_back(p);
