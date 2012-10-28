@@ -1,4 +1,4 @@
-\documentclass[]{Photos_interface_design}
+hot\documentclass[]{Photos_interface_design}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{eurosym}
@@ -1542,6 +1542,9 @@ or are introduced for backward compatibility.
          A switch for complete effects of the matrix element (in scalar to 2 scalar decays) {\it  installed in {\tt PHOTOS 3.3}. At present tests are missing. }
   \item {\tt Photos::setMeCorrectionWtForW(bool corr)} \\
          A switch for complete effects of the matrix element (in leptonic W decays) {\it  installed in {\tt PHOTOS 3.2} }
+        Because of lack of reinitialization in a particular decay channel this option can be used for the fixed 
+        decay channel, and either for  W+ or for W-, also for fixed (not strongly varying) wirtuality. 
+        This option will be elaborated further.
   \item {\tt Photos::setMeCorrectionWtForZ(bool corr)} \\
          A switch for complete effects of the matrix element (in leptonic Z decays) {\it  installed in {\tt PHOTOS 3.1} }
   \item {\tt Photos::initializeKinematicCorrections(int flag)} \\
