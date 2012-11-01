@@ -72,7 +72,7 @@ c$$$
 
       FUNCTION PHOCORN(MPASQR,MCHREN,ME)
 c ###### 
-c  replace with, but check !!!
+c  replace with, 
 c ######
 
 C.----------------------------------------------------------------------
@@ -91,7 +91,7 @@ C.
 C.    Output Parameter:  Function value.
 C.
 C.    Author(s):  Z. Was, B. van Eijk, G. Nanava  Created at:  26/11/89
-C.                                                Last Update: 22/07/08
+C.                                                Last Update: 01/11/12
 C.
 C.----------------------------------------------------------------------
       IMPLICIT NONE
@@ -191,7 +191,7 @@ C.
 C.    Output Parameters: wt
 C.
 C.    Author(s):  G. Nanava, Z. Was               Created at:  13/03/03
-C.                                                Last Update: 22/07/08
+C.                                                Last Update: 01/11/12
 C.
 C.----------------------------------------------------------------------
       IMPLICIT NONE
@@ -206,7 +206,7 @@ C.----------------------------------------------------------------------
       COMMON/PHOCOP/ALPHA,XPHCUT
       COMMON/PHOEVT/NEVPHO,NPHO,ISTPHO(NMXPHO),IDPHO(NMXPHO),JMOPHO(2,NMXPHO),
      &              JDAPHO(2,NMXPHO),PPHO(5,NMXPHO),VPHO(4,NMXPHO)
-      INTEGER I,JJ,II
+      INTEGER I,JJ,II,I3,I4
       DOUBLE PRECISION EMU,MCHREN,BETA,COSTHG,MPASQR,XPH,
      &                 PW(0:3),PMU(0:3),PPHOT(0:3),PNE(0:3),
      &                 B_PW(0:3),B_PNE(0:3),B_PMU(0:3),AMPSQR,SANC_MC_INIT
@@ -274,14 +274,8 @@ c...       decay Matrix Element parameters
               SANC_MC_INIT=1D0
 
               PI=4*datan(1d0)
-              MB=PPHO(4,1)                      ! W boson mass
-              IF (d_h_idhep(3).EQ.-24) QB=-1D0  ! W boson charge
-              IF (d_h_idhep(3).EQ.+24) QB=+1D0    
               QF1=0d0                           ! neutrino charge
               MF1=1d-10                         ! newutrino mass
-              IF (d_h_idhep(4).GT.0d0) QF2=-1D0 ! muon charge
-              IF (d_h_idhep(4).LT.0d0) QF2=+1D0
-              MF2=dsqrt(MCHREN)                 ! muon mass
               VF=1d0                            ! V&A couplings
               AF=1d0
               alphaI=1d0/ALPHA
@@ -302,11 +296,35 @@ c...          An auxilary K&S vectors
 
               mcLUN = PHLUN
            ENDIF 
+
+
+           MB=PPHO(4,1)                      ! W boson mass
+           MF2=dsqrt(MCHREN)                 ! muon mass
+
+           DO IJ=1,d_h_nhep
+            IF(ABS(d_h_idhep(IJ)).EQ.24) I3=IJ ! position of W 
+           ENDDO
+           IF(
+     $      ABS(d_h_idhep(d_h_jdahep(1,I3)  )).EQ.11.OR.
+     $      ABS(d_h_idhep(d_h_jdahep(1,I3)  )).EQ.13.OR.
+     $      ABS(d_h_idhep(d_h_jdahep(1,I3)  )).EQ.15    ) THEN 
+              I4=d_h_jdahep(1,I3)              ! position of lepton
+           ELSE
+              I4=d_h_jdahep(1,I3)+1            ! position of lepton
+           ENDIF
+
+
+              IF (d_h_idhep(I3).EQ.-24) QB=-1D0  ! W boson charge
+              IF (d_h_idhep(I3).EQ.+24) QB=+1D0    
+              IF (d_h_idhep(I4).GT.0d0) QF2=-1D0 ! lepton charge
+              IF (d_h_idhep(I4).LT.0d0) QF2=+1D0
+
+
 c...          Particle momenta before foton radiation; effective Born level
               DO JJ=1,4
-                B_PW(mod(JJ,4))=d_h_phep(JJ,3)  ! W boson
-                B_PNE(mod(JJ,4))=d_h_phep(JJ,3)-d_h_phep(JJ,4) ! neutrino
-                B_PMU(mod(JJ,4))=d_h_phep(JJ,4) ! muon
+                B_PW(mod(JJ,4))=d_h_phep(JJ,I3)  ! W boson
+                B_PNE(mod(JJ,4))=d_h_phep(JJ,I3)-d_h_phep(JJ,I4) ! neutrino
+                B_PMU(mod(JJ,4))=d_h_phep(JJ,I4) ! muon
               ENDDO
 
 c..        Particle monenta after photon radiation
