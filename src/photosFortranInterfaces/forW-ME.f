@@ -206,7 +206,7 @@ C.----------------------------------------------------------------------
       COMMON/PHOCOP/ALPHA,XPHCUT
       COMMON/PHOEVT/NEVPHO,NPHO,ISTPHO(NMXPHO),IDPHO(NMXPHO),JMOPHO(2,NMXPHO),
      &              JDAPHO(2,NMXPHO),PPHO(5,NMXPHO),VPHO(4,NMXPHO)
-      INTEGER I,JJ,II,I3,I4
+      INTEGER I,JJ,II,I3,I4,IJ
       DOUBLE PRECISION EMU,MCHREN,BETA,COSTHG,MPASQR,XPH,
      &                 PW(0:3),PMU(0:3),PPHOT(0:3),PNE(0:3),
      &                 B_PW(0:3),B_PNE(0:3),B_PMU(0:3),AMPSQR,SANC_MC_INIT
@@ -334,7 +334,9 @@ c..        Particle monenta after photon radiation
              PPHOT(mod(JJ,4))=PPHO(JJ,NPHO)
              PNE(mod(JJ,4))=PPHO(JJ,1)-PPHO(JJ,I)-PPHO(JJ,NPHO)
            ENDDO
-
+C two options of calculating neutrino (spectator) mass
+           MF1=SQRT(ABS(B_PNE(0)**2-B_PNE(1)**2-B_PNE(2)**2-B_PNE(3)**2))
+           MF1=SQRT(ABS(  PNE(0)**2-  PNE(1)**2-  PNE(2)**2-  PNE(3)**2))
 c..        Exact amplitude square      
            AMPSQR=WDecayAmplitudeSqrKS_1ph(PW,PNE,PMU,PPHOT)
 
