@@ -411,6 +411,8 @@ C--   ...boost photon, or whatever else has shown up
           PPHO(4,NN)=GAM*PPHO(4,NN)+PB
         ENDDO
       ENDIF
+        CALL PHCORK(0)   ! we have to use it because it clears input 
+                         ! for grandaughters modified in C++
         FIRST=JDAHEP(1,IP)
         LAST =JDAHEP(2,IP)
 C let-s take in original daughters

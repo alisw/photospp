@@ -1,5 +1,11 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Nov 02 2012
+- ME correction for W fixed; it can work for multichannel samples as well
+- Boosting os grandaughters for ultrarelativistic mothers fixed with the help
+  of PHCORK(0) added to PHOOUT routine. Resulting from there 4-vectors 
+  are used in kinematic modifications of C++
+- fixes must be checked against other options.
 Oct 28 2012
 - Info, that until now ME in W decay can be used only for single channel,
   that means only one decay channel of either W+ or W- for the particular
