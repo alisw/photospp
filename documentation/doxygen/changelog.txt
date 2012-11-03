@@ -6,6 +6,8 @@ Nov 02 2012
   of PHCORK(0) added to PHOOUT routine. Resulting from there 4-vectors 
   are used in kinematic modifications of C++
 - fixes must be checked against other options.
+- Photos::forceMass and Photos::forceMassFromEventRecord now work regardless
+  of  whether Photos::forceMassFrom4Vector is true or false.
 Oct 28 2012
 - Info, that until now ME in W decay can be used only for single channel,
   that means only one decay channel of either W+ or W- for the particular

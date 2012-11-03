@@ -1559,13 +1559,18 @@ or are introduced for backward compatibility.
   \item {\tt Photos::forceMass(int pdgid, double mass)} {\it  installed in {\tt PHOTOS 3.4}} \\
         For particles of PDGID (or -PDGID)  to be processed by {\tt PHOTOS},
         mass value attributed  by user will be used instead of the one calculated
-        from 4-vector.
-        Option active if {\tt forceMassFrom4Vector = true} (default).
+        from 4-vector. Note that if both {\tt forceMass} and {\tt forceMassFromEventRecord} is
+        used for the same PDGID, the last executed function will take effect.
+        Up to version 3.51, option active if {\tt forceMassFrom4Vector = true} (default).
+        From version 3.52, option works regardless of setting of {\tt forceMassFrom4Vector}.
   \item {\tt Photos::forceMassFromEventRecord(int pdgid)} {\it  installed in {\tt PHOTOS 3.4} \\
         For particles of PDGID (or -PDGID} to be  processed by {\tt PHOTOS},
         mass value taken from the event record will be used instead of the one
-        calculated from 4-vector.
-        Option active if {\tt forceMassFrom4Vector = true} (default).
+        calculated from 4-vector. Note that if both {\tt forceMass} and {\tt forceMassFromEventRecord} is
+        used for the same PDGID, the last executed function will take effect.
+
+        Up to version 3.51 option active if {\tt forceMassFrom4Vector = true} (default).
+        From version 3.52, option works regardless of setting of {\tt forceMassFrom4Vector}.
   \item {\tt Photos::createHistoryEntries(bool flag, int status)} {\it  installed in {\tt PHOTOS 3.4}} \\
         If set to {\tt true}, and if event record format allows,
         {\tt Photos} will store history entries consisting of particles
