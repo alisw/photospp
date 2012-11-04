@@ -1,5 +1,6 @@
 #include <iostream>
 #include "PhotosRandom.h"
+#include "Photos.h"
 #include "Log.h"
 
 namespace Photospp
@@ -18,7 +19,7 @@ const double PhotosRandom::cmran   = 16777213.0/16777216.0;
    Thanks to this function, this generator can be used by PHOTOS FORTRAN */
 extern "C" double phoranc_(int *idum)
 {
-	return PhotosRandom::randomReal();
+	return Photos::randomDouble();
 }
 
 void PhotosRandom::setSeed(int s1,int s2)

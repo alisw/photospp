@@ -72,6 +72,9 @@ public:
   /** Returns 'true' if status code is ignored */
   static bool isStatusCodeIgnored(int status);
 public:
+  /** Substitute build-in generator with external one */
+  static void setRandomGenerator( double (*gen)() );
+
 	/** Seed for RANMAR used by fortran part of the Photos */
 	static void setSeed(int iseed1, int iseed2)    { PhotosRandom::setSeed(iseed1,iseed2); }
 
@@ -182,6 +185,9 @@ public:
 
   /** Status of history entries */
   static int  historyEntriesStatus;
+
+  /** Pointer to random generator function */
+  static double (*randomDouble)();
 public:
 	/** Get instance of Photos */
 	Photos& getInstance() { return _instance; }

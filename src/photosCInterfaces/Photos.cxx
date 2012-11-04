@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 
+#include "PhotosRandom.h"
 #include "PhotosEvent.h"
 #include "Photos.h"
 #include "Log.h"
@@ -27,6 +28,7 @@ bool Photos::meCorrectionWtForW=false;
 bool Photos::meCorrectionWtForScalar=false;
 bool Photos::isCreateHistoryEntries=false;
 int  Photos::historyEntriesStatus = 3;
+double (*Photos::randomDouble)() = PhotosRandom::randomReal;
 
 Photos::Photos()
 {
@@ -336,6 +338,12 @@ bool Photos::isStatusCodeIgnored(int status)
     if( status==ignoreStatusCodeList->at(i) ) return true;
 
   return false;
+}
+
+void Photos::setRandomGenerator( double (*gen)() )
+{
+  if(gen==NULL) randomDouble = PhotosRandom::randomReal;
+  else          randomDouble = gen;
 }
 
 void Photos::setExponentiation(bool expo)
