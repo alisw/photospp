@@ -1,4 +1,4 @@
-hot\documentclass[]{Photos_interface_design}
+\documentclass[]{Photos_interface_design}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{eurosym}
@@ -1519,6 +1519,11 @@ The following auxiliary methods are prepared. They are useful for initialization
 or are introduced for backward compatibility.
 
 \begin{itemize}
+  \item {\tt Photos::setRandomGenerator(double (*gen)()) } {\it  installed in {\tt PHOTOS 3.52}}\\
+        Recplace random number generator used by {\tt Photos}.
+        The generator provided by user must return a {\tt double} between 0 and 1. 
+        {\tt Photos::setRandomGenerator(NULL)} will reset the program back to  
+        the default generator, which is a copy of {\tt RANMAR}\cite{James:1988vf,marsaglia:1987}.
   \item {\tt Photos::setSeed(int iseed1, int iseed2)} \\
         Set the  seed values for our copy of the random number generator {\tt RANMAR} \cite{James:1988vf,marsaglia:1987}.
   \item {\tt Photos::maxWtInterference(double interference)} \\
