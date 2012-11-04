@@ -92,7 +92,6 @@ void PH_HEPEVT_Interface::add_particle(int i,PhotosParticle * particle,
         // when 'forceMassFromEventRecord' is used mass is -1.0
         // in this case - get mass from event record
         if(mass<0.0) mass = particle->getMass();
-        printf("SUBS: %i  %8.6f  %8.6f | %8.6f -> %8.6f\n",particle->getPdgID(),particle->getMass(),particle->getVirtuality(),ph_hepevt_.phep[i][4],mass);
         ph_hepevt_.phep[i][4] = mass;
       }
     }
