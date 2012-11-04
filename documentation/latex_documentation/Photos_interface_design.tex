@@ -1520,8 +1520,8 @@ or are introduced for backward compatibility.
 
 \begin{itemize}
   \item {\tt Photos::setRandomGenerator(double (*gen)()) } {\it  installed in {\tt PHOTOS 3.52}}\\
-        Recplace random number generator used by {\tt Photos}.
-        The generator provided by user must return a {\tt double} between 0 and 1. 
+        Replace random number generator used by {\tt Photos}.
+        The user provided generator   must return a {\tt double} between 0 and 1. 
         {\tt Photos::setRandomGenerator(NULL)} will reset the program back to  
         the default generator, which is a copy of {\tt RANMAR}\cite{James:1988vf,marsaglia:1987}.
   \item {\tt Photos::setSeed(int iseed1, int iseed2)} \\

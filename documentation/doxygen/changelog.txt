@@ -1,7 +1,8 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
 Nov 04 2012
-- Added Photos::setRandomGenerator() to substitute internal random generator
+- Photos::setRandomGenerator() added, it can substitute native random 
+  number generator with the user provided one.
 Nov 02 2012
 - ME correction for W fixed; it can work for multichannel samples as well
 - Boosting os grandaughters for ultrarelativistic mothers fixed with the help
