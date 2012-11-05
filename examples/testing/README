@@ -34,7 +34,7 @@ Full list of such changes resides in:     README-comparison-options
 ------------------
     DEBUGGING
 ------------------
-An additional directory is stored in our repository,
+An additional directory is stored in our repository on kasztan.ifj.edu.pl,
 for those with privileges it can be obtained with:
 
 svn export file:///home/theory/svnroot/camtoph/PHOTOS/branches/debug
