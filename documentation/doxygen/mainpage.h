@@ -7,43 +7,57 @@
 
  @section download1 New release
 
- The source code and documentation for release 3.5. The following files are provided for download:
- - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.5/Photos_interface_design.3.5.pdf">Photos_interface_design.pdf</a> full software documentation.
- - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.5/PHOTOS.3.5.tar.gz">PHOTOS 3.5 source code </a> tarball
-   ( <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.5/PHOTOS.3.5-LHC.tar.gz"> version for LHC/LCG</a>  installation)
-   and its <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.5/svn_info_photos.3.5.txt">revision info</a> SVN tag, tarball creation date/time, etc.
-   For updates with respect to release 3.0 see <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.5/changelog.3.5.txt">changelog.txt</a>
+ The source code and documentation for release 3.52. The following files are provided for download:
+ - <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.52/Photos_interface_design.3.52.pdf">Photos_interface_design.pdf</a> full software documentation.
+ - <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.52/PHOTOS.3.52.tar.gz">PHOTOS 3.52 source code </a> tarball
+   ( <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.52/PHOTOS.3.52-LHC.tar.gz"> version for LHC/LCG</a>  installation)
+   and its <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.52/svn_info_photos.3.52.txt">revision info</a> SVN tag, tarball creation date/time, etc.
+   For updates with respect to release 3.0 see <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.52/changelog.3.52.txt">changelog.txt</a>
 
  @section developement Developement version
 
  The source code and documentation are updated daily from the repository. The following files are provided for download of the developement version:
- - <a href="../Photos_interface_design.pdf">Photos_interface_design.pdf</a>  full software documentation.
- - <a href="../PHOTOS.daily_temp.tar.gz">PHOTOS.daily_temp.tar.gz</a> tarball and its <a href="../svn_info_photos.txt">revision info</a> SVN tag, tarball creation date/time, etc.
-   For updates  with respect to release 3.0 see <a href="../changelog.txt">changelog.txt</a>.
+ - <a href="http://www.ph.unimelb.edu.au/~ndavidson/photos/Photos_interface_design.pdf">Photos_interface_design.pdf</a>  full software documentation.
+ - <a href="http://www.ph.unimelb.edu.au/~ndavidson/photos/PHOTOS.daily_temp.tar.gz">PHOTOS.daily_temp.tar.gz</a> tarball and its <a href="http://www.ph.unimelb.edu.au/~ndavidson/photos/svn_info_photos.txt">revision info</a> SVN tag, tarball creation date/time, etc.
+   For updates  with respect to release 3.0 see <a href="http://www.ph.unimelb.edu.au/~ndavidson/photos/changelog.txt">changelog.txt</a>.
 
  @section download Older releases
 
+ The source code and documentation for release 3.51. The following files are provided for download:
+ - <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.51/Photos_interface_design.3.51.pdf">Photos_interface_design.pdf</a> full software documentation.
+ - <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.51/PHOTOS.3.51.tar.gz">PHOTOS 3.51 source code </a> tarball
+   ( <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.51/PHOTOS.3.51-LHC.tar.gz"> version for LHC/LCG</a>  installation)
+   and its <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.51/svn_info_photos.3.51.txt">revision info</a> SVN tag, tarball creation date/time, etc.
+   For updates with respect to release 3.0 see <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.51/changelog.3.51.txt">changelog.txt</a>
+
+ The source code and documentation for release 3.5. The following files are provided for download:
+ - <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.5/Photos_interface_design.3.5.pdf">Photos_interface_design.pdf</a> full software documentation.
+ - <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.5/PHOTOS.3.5.tar.gz">PHOTOS 3.5 source code </a> tarball
+   ( <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.5/PHOTOS.3.5-LHC.tar.gz"> version for LHC/LCG</a>  installation)
+   and its <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.5/svn_info_photos.3.5.txt">revision info</a> SVN tag, tarball creation date/time, etc.
+   For updates with respect to release 3.0 see <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.5/changelog.3.5.txt">changelog.txt</a>
+ 
  The source code and documentation for release 3.4. The following files are provided for download:
- - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/Photos_interface_design.3.4.pdf">Photos_interface_design.pdf</a> full software documentation.
- - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/PHOTOS.3.4.tar.gz">PHOTOS 3.4 source code </a> tarball
-   ( <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/PHOTOS.3.4-LHC.tar.gz"> version for LHC/LCG</a>  installation)
-   and its <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/svn_info_photos.3.4.txt">revision info</a> SVN tag, tarball creation date/time, etc.
-   For updates with respect to release 3.0 see <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.4/changelog.3.4.txt">changelog.txt</a>
+ - <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.4/Photos_interface_design.3.4.pdf">Photos_interface_design.pdf</a> full software documentation.
+ - <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.4/PHOTOS.3.4.tar.gz">PHOTOS 3.4 source code </a> tarball
+   ( <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.4/PHOTOS.3.4-LHC.tar.gz"> version for LHC/LCG</a>  installation)
+   and its <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.4/svn_info_photos.3.4.txt">revision info</a> SVN tag, tarball creation date/time, etc.
+   For updates with respect to release 3.0 see <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.4/changelog.3.4.txt">changelog.txt</a>
  - NEW: methods to correct content of event record: (i) mass (ii) add history entries  (iii) program is still not ready to work
    for cases when in vertex some daughters are history and some other are not.
 
  The source code and documentation for release 3.3. The following files are provided for download:
- - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/Photos_interface_design.3.3.pdf">Photos_interface_design.pdf</a> full software documentation.
- - <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/PHOTOS.3.3.tar.gz">PHOTOS 3.3 source code </a> tarball
-   ( <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3-LHC.tar.gz"> version for LHC/LCG</a>  installation)
-   and its <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/svn_info_photos.3.3.txt">revision info</a> SVN tag, tarball creation date/time, etc.
-   For updates with respect to release 3.0 see <a href="http://hibiscus.if.uj.edu.pl/~przedzinski/PHOTOS.3.3/changelog.3.3.txt">changelog.txt</a>
+ - <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.3/Photos_interface_design.3.3.pdf">Photos_interface_design.pdf</a> full software documentation.
+ - <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.3/PHOTOS.3.3.tar.gz">PHOTOS 3.3 source code </a> tarball
+   ( <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.3/PHOTOS.3.3-LHC.tar.gz"> version for LHC/LCG</a>  installation)
+   and its <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.3/svn_info_photos.3.3.txt">revision info</a> SVN tag, tarball creation date/time, etc.
+   For updates with respect to release 3.0 see <a href="http://annapurna.ifj.edu.pl/~tprzedzinski/resources/PHOTOS.3.3/changelog.3.3.txt">changelog.txt</a>
  - NEW: NLO in decays of Z, W and B (K) --> 2 scalar, <a href="http://annapurna.ifj.edu.pl/~wasm/phNLO.htm">photos NLO tests</a>.
 
 
  The source code and documentation for release 3.0. The following files are provided for download:
  - <a href="http://arxiv.org/abs/1011.0937">arXiv:1011.0937</a> full software documentation.
- - <a href="../PHOTOS.3.0.tar.gz">PHOTOS 3.0 source code </a> tarball.
+ - <a href="http://www.ph.unimelb.edu.au/~ndavidson/photos/PHOTOS.3.0.tar.gz">PHOTOS 3.0 source code </a> tarball.
 
  Note that LCG/Genser
  <a href="http://sftweb.cern.ch/generators/">Generator 
@@ -109,6 +123,6 @@ and MC-TESTER must be installed. In some cases TAUOLA C++ will be needed too.
 
 
  <hr>
- Last update 07 December 2011.
+ Last update 05 November 2012.
 
 */
