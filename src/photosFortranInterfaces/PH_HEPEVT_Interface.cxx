@@ -316,6 +316,8 @@ void PH_HEPEVT_Interface::get(){
         boosted->boostFromRestFrame(p2);
         
         photon_list[i]->createSelfDecayVertex(boosted);
+        
+        delete boosted;
       }
 
       Log::Warning()<<"Hidden interaction, all daughters self decay."
@@ -398,6 +400,9 @@ void PH_HEPEVT_Interface::get(){
     }
   }
   
+  // cleanup
+  if(p1) delete p1;
+  if(p2) delete p2;
 }
 
 void PH_HEPEVT_Interface::prepare()
