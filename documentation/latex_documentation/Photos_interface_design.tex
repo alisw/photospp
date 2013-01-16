@@ -968,7 +968,10 @@ At present some parts of the algorithm are left in {\tt FORTRAN}.
 can be recoded to C++ rather easily, but the necessary numerical tests 
 are time consuming. That is why we have left these changes for later 
 releases. 
-{\bf On-going work, in particular on interference correction and pair emission ... (ref: http://annapurna.ifj.edu.pl/~wasm/pairs.pdf and http://annapurna.ifj.edu.pl/~wasm/ifi.pdf). The precision level described in this work goes down from 0.5\% to 0.2\% for LHC applications and $Z$, $W$ decays. }
+
+{Finally let us point to ref.~\cite{Arbuzov:2012dx}. Thanks to this work, for LHC applications in $Z$, $W$ decays.
+{\tt PHOTOS} Monte Carlo was established at  0.3\% or even   0.2\% for thecase of matrix element correction activated
+and for all of final state radiative corrections and not only photonic bremsstrahlung.}
 
 \vskip 2 mm
 
@@ -1527,7 +1530,12 @@ or are introduced for backward compatibility.
   \item {\tt Photos::setSeed(int iseed1, int iseed2)} \\
         Set the  seed values for our copy of the random number generator {\tt RANMAR} \cite{James:1988vf,marsaglia:1987}.
   \item {\tt Photos::maxWtInterference(double interference)} \\
-        Set the maximum interference weight. The default is 2.
+        Set the maximum interference weight. The default 2 is adopted to decays when at most two charged decay products
+        are present\footnote{For 
+        the decays like $J/\psi \to 5\pi^+ 5\pi^-$ higher value, corresponding to number of charged 
+        products must be set. This will slow the algorithm linearly with the maximum interference weight only,  all 
+        simulation results will remain unchanged.   
+        }.
   \item {\tt Photos::setInfraredCutOff(double cut\_off)} \\
         Set the minimal energy (in units of decaying particle mass)
         for photons to be explicitly generated.
