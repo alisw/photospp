@@ -14,6 +14,24 @@ AC_PREFIX_DEFAULT([`pwd`])
 AC_CONFIG_HEADERS([config/config.h])
 AC_CONFIG_SRCDIR([src/photosCInterfaces/Photos.cxx])
 ##############################################################################
+# Check for debug flags
+
+AC_MSG_CHECKING([if debug flags are enabled])
+AC_ARG_ENABLE(
+  [debug],
+  [AS_HELP_STRING([--enable-debug],[Enable debug flags])],
+  [
+    AC_MSG_RESULT([$enable_debug]) ;
+    FFLAGS="-g3 -O0" ;
+    CXXFLAGS="-g3 -O0"
+  ],
+  [
+    AC_MSG_RESULT([no]) ;
+    FFLAGS="-O2" ;
+    CXXFLAGS="-O2"
+  ]
+)
+
 # Check for HepMC
 
 AC_MSG_CHECKING([if HepMC location defined])
