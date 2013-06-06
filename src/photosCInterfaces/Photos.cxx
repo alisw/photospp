@@ -166,8 +166,13 @@ void Photos::initialize()
 	Photos::suppressBremForDecay(0,9900440);
 
   // Set suppression of all pi0 decays and K_L -> gamma e+ e- ...
-  // Previously set in Fortran PHOCHK routine
+  // Previously initialization in Fortran IPHEKL(i) routine and used in PHOCHK 
+  // i=1 was emission allowed, i=2 was blocked 0 was when the option was used.
+  // now in setPi0KLnoEmmisionMode we have only 0 to allow emissions 
+  // and 1 to block.
   // Can be overriden by using 'Photos::setPi0KLnoEmmisionMode(0)'
+  // method several times use Photos::forceBremForDecay() and can be 
+  // over-ruled in part. 
   Photos::setPi0KLnoEmissionMode(1);
 
 // Initialize Marsaglia and Zaman random number generator
@@ -292,6 +297,8 @@ void Photos::forceBremForBranch(int count, int motherID, ... )
 	forceBremList->push_back(v);
 }
 
+  // Previously this functionality was encoded in FORTRAN routine
+  // PHOCHK which was having some other functionality as well
 void Photos::setPi0KLnoEmissionMode(int m)
 {
   if(m==0)
