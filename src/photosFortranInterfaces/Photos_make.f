@@ -224,16 +224,17 @@ C--
         CALL PHTYPE(ISTACK(KK))
 
 C--
-C--  Correct energy/momentum of cascade daughters
-        IF(NHEP.GT.NA) THEN 
-        DO II=1,LAST-FIRST+1
-          IPP=FIRST+II-1
-          FIRSTA=JDAHEP(1,IPP)
-          LASTA=JDAHEP(2,IPP)
-          IF(JMOHEP(1,IPP).EQ.ISTACK(KK))
-     $      CALL PHOBOS(IPP,PORIG(1,II),PHEP(1,IPP),FIRSTA,LASTA) 
-        ENDDO
-        ENDIF
+C--  Correct energy/momentum of cascade daughters 
+C    not neede kept for a while for tests. 
+C        IF(NHEP.GT.NA) THEN 
+C        DO II=1,LAST-FIRST+1
+C          IPP=FIRST+II-1
+C          FIRSTA=JDAHEP(1,IPP)
+C          LASTA=JDAHEP(2,IPP)
+C          IF(JMOHEP(1,IPP).EQ.ISTACK(KK))
+C     $      CALL PHOBOS(IPP,PORIG(1,II),PHEP(1,IPP),FIRSTA,LASTA) 
+C        ENDDO
+C        ENDIF
  25   CONTINUE
 C--
 C--   rearrange  /PH_HEPEVT/  to get correct order..
