@@ -501,6 +501,13 @@ C                         ! and Kl --> ee gamma
      $           (IDPHO(5).EQ.11))     )
 
         IFNPI0=(IFNPI0.AND.(.NOT.IFKL))
+        IF (.NOT.IFNPI0)  THEN
+          WRITE(*,*) 'STOP FROM PHOCHK ', 
+     $               'This should be screened out by C++ interf.'
+C no vertex 111 --> anything allowed
+C no vertex 130 --> 22,11,xx allowed 
+          STOP
+        ENDIF
       ENDIF
       DO 10 I=IPPAR,NLAST
       IDABS    = ABS(IDPHO(I))

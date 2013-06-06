@@ -65,7 +65,8 @@ void Photos::initialize()
 	iphqrk_(&buf); // Blocks emission from quarks if buf=1 (default); enables if buf=2
 	               // Physical treatment will be 3, option 2 is not realistic and for tests only
 	buf=2;
-	iphekl_(&buf); // Blocks emission in  pi0 to gamma e+ e- if parameter is >1 (enables otherwise)
+	iphekl_(&buf); // Blocks emission in  pi0  and in Kl to gamma e+ e- if parameter is >1 (enables otherwise)
+                       // This functionality should be moved to C++ interface
 
 // Initialize status counter for warning messages
 	for(int i=0;i<10;i++) phosta_.status[i]=0;
