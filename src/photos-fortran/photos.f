@@ -504,8 +504,8 @@ C                         ! and Kl --> ee gamma
         IF (.NOT.IFNPI0)  THEN
           WRITE(*,*) 'STOP FROM PHOCHK ', 
      $               'This should be screened out by C++ interf.'
-C no vertex 111 --> anything allowed
-C no vertex 130 --> 22,11,xx allowed 
+C no vertex 111 --> anything allowed for emissions
+C no vertex 130 --> 22,11,xx allowed for emissions
           STOP
         ENDIF
       ENDIF
@@ -515,7 +515,7 @@ C possibly call on PHZODE is a dead (to be omitted) code.
       CHKIF(I)= F(IDABS)       .AND.F(ABS(IDPHO(1)))
      &  .AND.   (IDPHO(2).EQ.0)
       IF(I.GT.2) CHKIF(I)=CHKIF(I).AND.QEDRAD(JFIRST+I-IPPAR-2)
-     &                            .AND.IFNPI0
+C     &                            .AND.IFNPI0
  10   CONTINUE
 C--
 C now we go to special cases, where CHKIF(I) will be overwritten
