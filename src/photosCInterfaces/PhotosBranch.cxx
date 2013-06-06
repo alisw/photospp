@@ -41,18 +41,19 @@ PhotosBranch::PhotosBranch(PhotosParticle* p)
 	}
 
   //----------------------------------------
-  // Check for advanced suppression options
+  // Check for  suppression options prevously in FORTRAN:
+  // routine PHOCHK
   //----------------------------------------
 
   // 1. All pi0 decays
   //    K_S -> 22 11 -11 ...
-  if(particle && Photos::pi0KsProcessingMode>1)
+  if(particle && Photos::pi0KLnoEmissionMode>0)
   {
     // pi0
     if(particle->getPdgID()==111) suppression = 3;
 
     // K_S -> 22 11 -11 ...
-    if(abs(particle->getPdgID())==310 && daughters.size()==3)
+    if(abs(particle->getPdgID())==130  )
     {
       bool hasPhoton  =false;
       bool hasElectron=false;

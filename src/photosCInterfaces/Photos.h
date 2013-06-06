@@ -59,10 +59,10 @@ public:
 	/** Force processing of a whole decay branch */
 	static void forceBremForBranch(int count, int motherID, ... );
 
-  /** Set mode of processing pi0 and K_S
-      0           = full processing
-      2 (default) = suppressed processing of K_S -> gamma e+ e- and all pi0 decays */
-  static void setPi0KsProcessingMode(int m) { pi0KsProcessingMode=m; }
+  /** Block emissions id decays pi0 and K_L -> gamma e+ e- 
+      0           = no suppression
+      1 (default) = suppressed emissions in K_L -> gamma e+ e- ... and all pi0 decays */
+  static void setPi0KsProcessingMode(int m) { pi0KLnoEmissionMode=m; }
 
   /** If event record allows it, create history entries of particles
       before Photos processing */
@@ -191,8 +191,8 @@ public:
   /** Status of history entries */
   static int  historyEntriesStatus;
 
-  /** Processing mode for pi0 and K_S decays */
-  static int pi0KsProcessingMode;
+  /** Flag to prevent emissions in  pi0 and some K_L decays */
+  static int pi0KLnoEmissionMode;
 
   /** Pointer to random generator function */
   static double (*randomDouble)();
