@@ -62,7 +62,7 @@ public:
   /** Block emissions id decays pi0 and K_L -> gamma e+ e- 
       0           = no suppression
       1 (default) = suppressed emissions in K_L -> gamma e+ e- ... and all pi0 decays */
-  static void setPi0KsProcessingMode(int m) { pi0KLnoEmissionMode=m; }
+  static void setPi0KLnoEmissionMode(int m);
 
   /** If event record allows it, create history entries of particles
       before Photos processing */
@@ -190,9 +190,6 @@ public:
 
   /** Status of history entries */
   static int  historyEntriesStatus;
-
-  /** Flag to prevent emissions in  pi0 and some K_L decays */
-  static int pi0KLnoEmissionMode;
 
   /** Pointer to random generator function */
   static double (*randomDouble)();

@@ -28,7 +28,6 @@ bool Photos::meCorrectionWtForW=false;
 bool Photos::meCorrectionWtForScalar=false;
 bool Photos::isCreateHistoryEntries=false;
 int  Photos::historyEntriesStatus = 3;
-int  Photos::pi0KLnoEmissionMode  = 1;
 double (*Photos::randomDouble)() = PhotosRandom::randomReal;
 
 Photos::Photos()
@@ -166,6 +165,11 @@ void Photos::initialize()
 	Photos::suppressBremForDecay(0,9900330);
 	Photos::suppressBremForDecay(0,9900440);
 
+  // Set suppression of all pi0 decays and K_L -> gamma e+ e- ...
+  // Previously set in Fortran PHOCHK routine
+  // Can be overriden by using 'Photos::setPi0KLnoEmmisionMode(0)'
+  Photos::setPi0KLnoEmissionMode(1);
+
 // Initialize Marsaglia and Zaman random number generator
 	PhotosRandom::initialize();
 }
@@ -286,6 +290,22 @@ void Photos::forceBremForBranch(int count, int motherID, ... )
 	v->push_back(1);
 	if(!forceBremList) forceBremList = new vector< vector<int>* >();
 	forceBremList->push_back(v);
+}
+
+void Photos::setPi0KLnoEmissionMode(int m)
+{
+  if(m==0)
+  {
+    Photos::forceBremForDecay(0,111);
+    Photos::forceBremForDecay(3, 130,22,11,-11);
+    Photos::forceBremForDecay(3,-130,22,11,-11);
+  }
+  else if(m==1)
+  {
+    Photos::suppressBremForDecay(0,111);
+    Photos::suppressBremForDecay(3, 130,22,11,-11);
+    Photos::suppressBremForDecay(3,-130,22,11,-11);
+  }
 }
 
 void Photos::createHistoryEntries(bool flag, int status)
