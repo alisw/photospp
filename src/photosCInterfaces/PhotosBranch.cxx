@@ -39,6 +39,41 @@ PhotosBranch::PhotosBranch(PhotosParticle* p)
 		particle  = NULL;
 		mothers   = daughters.at(0)->getMothers();
 	}
+
+  //----------------------------------------
+  // Check for advanced suppression options
+  //----------------------------------------
+
+  // 1. All pi0 decays
+  //    K_S -> 22 11 -11 ...
+  if(particle && Photos::pi0KsProcessingMode>1)
+  {
+    // pi0
+    if(particle->getPdgID()==111) suppression = 3;
+
+    // K_S -> 22 11 -11 ...
+    if(abs(particle->getPdgID())==310 && daughters.size()==3)
+    {
+      bool hasPhoton  =false;
+      bool hasElectron=false;
+      bool hasPositron=false;
+      for(unsigned int i=0;i<daughters.size();i++)
+      {
+        if     (daughters[i]->getPdgID()== 22) hasPhoton   = true;
+        else if(daughters[i]->getPdgID()== 11) hasElectron = true;
+        else if(daughters[i]->getPdgID()==-11) hasPositron = true;
+      }
+
+      if(hasPhoton && hasElectron && hasPositron) suppression = 3;
+    }
+  }
+
+  //--------------------------------------------------
+  // Finalize suppression/forcing checks
+  // NOTE: if user forces decay of specific particle,
+  //       this overrides any suppresion
+  //--------------------------------------------------
+
 	forcing = checkForcingLevel();
 	if(!forcing) suppression = checkSuppressionLevel();
 	else         suppression = 0;

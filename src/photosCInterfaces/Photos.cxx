@@ -28,6 +28,7 @@ bool Photos::meCorrectionWtForW=false;
 bool Photos::meCorrectionWtForScalar=false;
 bool Photos::isCreateHistoryEntries=false;
 int  Photos::historyEntriesStatus = 3;
+int  Photos::pi0KsProcessingMode  = 2;
 double (*Photos::randomDouble)() = PhotosRandom::randomReal;
 
 Photos::Photos()
