@@ -168,13 +168,13 @@ void Photos::initialize()
   // Set suppression of all pi0 decays and K_L -> gamma e+ e- ...
   // Previously initialization in Fortran IPHEKL(i) routine and used in PHOCHK 
   // i=1 was emission allowed, i=2 was blocked 0 was when the option was used.
-  // now in setPi0KLnoEmmisionMode we have only 0 to allow emissions 
-  // and 1 to block.
-  // Can be overriden by using 'Photos::setPi0KLnoEmmisionMode(0)'
+  // now in IPHEKL_setPi0KLnoEmmision we have only 1 to allow emissions 
+  // and 2 to block.
+  // Can be overriden by using 'Photos::IPHEKL_setPi0KLnoEmmision(0)'
   // method several times use Photos::forceBremForDecay() and can be 
   // over-ruled in part. 
-  Photos::setPi0KLnoEmissionMode(1);
-
+  Photos::IPHEKL_setPi0KLnoEmission(2);
+  Photos::IPHQRK_setQarknoEmission(2);
 // Initialize Marsaglia and Zaman random number generator
 	PhotosRandom::initialize();
 }
@@ -299,20 +299,54 @@ void Photos::forceBremForBranch(int count, int motherID, ... )
 
   // Previously this functionality was encoded in FORTRAN routine
   // PHOCHK which was having some other functionality as well
-void Photos::setPi0KLnoEmissionMode(int m)
+void Photos::IPHEKL_setPi0KLnoEmission(int m)
 {
-  if(m==0)
+  if(m==1)
   {
+    cout << "MODOP=1 -- enables emission in pi0 to gamma e+e- : TEST " << endl ;
+    cout << "MODOP=1 -- enables emission in Kl  to gamma e+e- : TEST " << endl ;
     Photos::forceBremForDecay(0,111);
     Photos::forceBremForDecay(3, 130,22,11,-11);
     Photos::forceBremForDecay(3,-130,22,11,-11);
   }
-  else if(m==1)
+  else if(m!=1)
   {
+    cout << "MODOP=2 -- blocks emission in Kl  to gamma e+e-: DEFAULT" << endl ;
+    cout << "MODOP=2 -- blocks emission in pi0 to gamma e+e-: DEFAULT" << endl ;
     Photos::suppressBremForDecay(0,111);
     Photos::suppressBremForDecay(3, 130,22,11,-11);
     Photos::suppressBremForDecay(3,-130,22,11,-11);
   }
+}
+
+  // Previously this functionality was encoded in FORTRAN routine
+  // PHOCHK which was having some other functionality as well
+  bool Photos::IPHQRK_setQarknoEmission(int m,int i)
+{
+  int m0=-1;
+  if(m0==-1 && m==0}{
+    cout << "stop from IPHQRK_setQarknoEmission lack of initialization" << endl ;
+    exit(0);
+                  }
+  else if (m != 0){
+    m0=m;
+    if{m ==1} cout << " IPHQRK_setQarknoEmission MODOP=1 -- blocks emission from light quarks:  DEFAULT" << endl ;
+    if{m !=1} cout << " IPHQRK_setQarknoEmission MODOP=2 -- emission from light quarks allowed: TEST   " << endl ;
+             }
+
+  else if(m0 !=1) return true;
+  else if return i>9;
+}
+// Logical function used deep inside algorithm to check if emitted
+// particles are to emit. For mother it blocks the vertex, 
+// but for daughters individually: bad sisters will not prevent electron to emit.
+// top quark has further exception method.
+  bool Photos::F(int m,int i)
+  { return IPHQRK_setQarknoEmission(0,i) && (i<= 41 || i>100)
+     && i != 21 
+     && i != 2101 && i !=3101 && i !=3201 
+     && i != 1103 && i !=2103 && i !=2203 
+     && i != 3103 && i !=3203 && i !=3303     
 }
 
 void Photos::createHistoryEntries(bool flag, int status)

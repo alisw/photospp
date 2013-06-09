@@ -397,46 +397,25 @@ C     ********************
       LOGICAL IFRAD
       INTEGER IDENT,K,IQRK,IPHQRK,IEKL,IPHEKL
 C these are OK .... if you do not like somebody else, add here.
-      F(IDABS)=
-     &     ( ((IDABS.GT.9.OR.IQRK.NE.1).AND.(IDABS.LE.40)) 
-     & .OR.(IDABS.GT.100) )
-     & .AND.(IDABS.NE.21)
-     $ .AND.(IDABS.NE.2101).AND.(IDABS.NE.3101).AND.(IDABS.NE.3201)
-     & .AND.(IDABS.NE.1103).AND.(IDABS.NE.2103).AND.(IDABS.NE.2203)
-     & .AND.(IDABS.NE.3103).AND.(IDABS.NE.3203).AND.(IDABS.NE.3303)
+C      F(IDABS)=
+C     &     ( ((IDABS.GT.9.OR.IQRK.NE.1).AND.(IDABS.LE.40)) 
+C     & .OR.(IDABS.GT.100) )
+C     & .AND.(IDABS.NE.21)
+C     $ .AND.(IDABS.NE.2101).AND.(IDABS.NE.3101).AND.(IDABS.NE.3201)
+C     & .AND.(IDABS.NE.1103).AND.(IDABS.NE.2103).AND.(IDABS.NE.2203)
+C     & .AND.(IDABS.NE.3103).AND.(IDABS.NE.3203).AND.(IDABS.NE.3303)
 C
-      IQRK=IPHQRK(0) ! switch for emission from quark
-      IEKL=IPHEKL(0)
+C      IQRK=IPHQRK(0) ! switch for emission from quark
       NLAST = NPHO
 C
       IPPAR=1
-C checking for good particles
-      IFNPI0=.TRUE.
-      IF (IEKL.GT.1) THEN ! exclude radiative corr in decay of pi0 
-C                         ! and Kl --> ee gamma
-        IFNPI0= (IDPHO(1).NE.111) ! pi0
-        IFKL  = ((IDPHO(1).EQ.130).AND.  ! Kl --> ee gamma
-     $          ((IDPHO(3).EQ.22).OR.(IDPHO(4).EQ.22).OR.
-     $           (IDPHO(5).EQ.22)).AND.
-     $          ((IDPHO(3).EQ.11).OR.(IDPHO(4).EQ.11).OR.
-     $           (IDPHO(5).EQ.11))     )
 
-        IFNPI0=(IFNPI0.AND.(.NOT.IFKL))
-        IF (.NOT.IFNPI0)  THEN
-          WRITE(*,*) 'STOP FROM PHOCHK ', 
-     $               'This should be screened out by C++ interf.'
-C no vertex 111 --> anything allowed for emissions
-C no vertex 130 --> 22,11,xx allowed for emissions
-          STOP
-        ENDIF
-      ENDIF
       DO 10 I=IPPAR,NLAST
       IDABS    = ABS(IDPHO(I))
 C possibly call on PHZODE is a dead (to be omitted) code. 
       CHKIF(I)= F(IDABS)       .AND.F(ABS(IDPHO(1)))
      &  .AND.   (IDPHO(2).EQ.0)
       IF(I.GT.2) CHKIF(I)=CHKIF(I).AND.QEDRAD(JFIRST+I-IPPAR-2)
-C     &                            .AND.IFNPI0
  10   CONTINUE
 C--
 C now we go to special cases, where CHKIF(I) will be overwritten
