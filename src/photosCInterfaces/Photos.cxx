@@ -61,13 +61,6 @@ void Photos::initialize()
 	if(!phokey_.iexp) initializeKinematicCorrections(1);
 	else              setExponentiation(true);
 
-	int buf=1;
-	iphqrk_(&buf); // Blocks emission from quarks if buf=1 (default); enables if buf=2
-	               // Physical treatment will be 3, option 2 is not realistic and for tests only
-	buf=2;
-	iphekl_(&buf); // Blocks emission in  pi0  and in Kl to gamma e+ e- if parameter is >1 (enables otherwise)
-                       // This functionality should be moved to C++ interface
-
 // Initialize status counter for warning messages
 	for(int i=0;i<10;i++) phosta_.status[i]=0;
 // elementary security level, should remain 1 but we may want to have a method to change.
@@ -173,8 +166,11 @@ void Photos::initialize()
   // Can be overriden by using 'Photos::IPHEKL_setPi0KLnoEmmision(0)'
   // method several times use Photos::forceBremForDecay() and can be 
   // over-ruled in part. 
-  Photos::IPHEKL_setPi0KLnoEmission(2);
-  Photos::IPHQRK_setQarknoEmission (1,0);
+
+  Photos::IPHEKL_setPi0KLnoEmission(2); // Blocks emission in  pi0  and in Kl to gamma e+ e- if parameter is !1 (enables otherwise)
+  Photos::IPHQRK_setQarknoEmission (1,0);// Blocks emission from quarks if buf=1 (default); enables if buf=2
+	                                 //  option 2 is not realistic and for tests only
+
 // Initialize Marsaglia and Zaman random number generator
 	PhotosRandom::initialize();
 }

@@ -396,16 +396,6 @@ C     ********************
       COMMON /PHOKEY/ FSEC,FINT,EXPEPS,INTERF,ISEC,ITRE,IEXP,IFTOP,IFW
       LOGICAL IFRAD
       INTEGER IDENT,K,IQRK,IPHQRK,IEKL,IPHEKL
-C these are OK .... if you do not like somebody else, add here.
-C      F(IDABS)=
-C     &     ( ((IDABS.GT.9.OR.IQRK.NE.1).AND.(IDABS.LE.40)) 
-C     & .OR.(IDABS.GT.100) )
-C     & .AND.(IDABS.NE.21)
-C     $ .AND.(IDABS.NE.2101).AND.(IDABS.NE.3101).AND.(IDABS.NE.3201)
-C     & .AND.(IDABS.NE.1103).AND.(IDABS.NE.2103).AND.(IDABS.NE.2203)
-C     & .AND.(IDABS.NE.3103).AND.(IDABS.NE.3203).AND.(IDABS.NE.3303)
-C
-C      IQRK=IPHQRK(0) ! switch for emission from quark
       NLAST = NPHO
 C
       IPPAR=1
@@ -2130,111 +2120,6 @@ C.----------------------------------------------------------------------
       ENDIF
       END
 
-
-
-      FUNCTION IPHQRK(MODCOR)
-      implicit none
-C.----------------------------------------------------------------------
-C.
-C.    IPHQRK: enables blocks emision from quarks
-C.            
-C
-C.    Input Parameters:   MODCOR
-C.                        MODCOR >0 type of action
-C.                               =1 blocks
-C.                               =2 enables
-C.                               =0 execution mode (retrns stored value)
-C.
-C.
-C.    Author(s):  Z. Was                          Created at:  11/12/00
-C.						  Modified  :  
-C.----------------------------------------------------------------------
-      INTEGER IPHQRK,MODCOR,MODOP
-      INTEGER PHLUN
-      COMMON/PHOLUN/PHLUN
-
-      SAVE MODOP
-      DATA MODOP  /0/
-      IF (MODCOR.NE.0) THEN 
-C       INITIALIZATION
-        MODOP=MODCOR
-
-        WRITE(PHLUN,*) 
-     $  'Message from PHOTOS: IPHQRK(MODCOR):: (re)initialization'
-        IF     (MODOP.EQ.1) THEN
-          WRITE(PHLUN,*) 
-     $    'MODOP=1 -- blocks emission from light quarks: DEFAULT' 
-        ELSEIF (MODOP.EQ.2) THEN
-          WRITE(PHLUN,*) 
-     $    'MODOP=2 -- enables emission from light quarks: TEST '
-        ELSE
-          WRITE(PHLUN,*) 'IPHQRK wrong MODCOR=',MODCOR
-          STOP
-        ENDIF
-        RETURN
-      ENDIF
-
-      IF (MODOP.EQ.0.AND.MODCOR.EQ.0) THEN
-        WRITE(PHLUN,*) 'IPHQRK lack of initialization'
-        STOP
-      ENDIF
-      IPHQRK=MODOP
-      END
-
-
-      FUNCTION IPHEKL(MODCOR)
-      implicit none
-C.----------------------------------------------------------------------
-C.
-C.    IPHEKL: enables/blocks emision in: pi0 to gamma e+ e-
-C.            
-C
-C.    Input Parameters:   MODCOR
-C.                        MODCOR >0 type of action
-C.                               =1 blocks
-C.                               =2 enables
-C.                               =0 execution mode (retrns stored value)
-C.
-C.
-C.    Author(s):  Z. Was                          Created at:  11/12/00
-C.						  Modified  :  
-C.----------------------------------------------------------------------
-      INTEGER IPHEKL,MODCOR,MODOP
-      INTEGER PHLUN
-      COMMON/PHOLUN/PHLUN
-
-      SAVE MODOP
-      DATA MODOP  /0/
-
-      IF (MODCOR.NE.0) THEN 
-C       INITIALIZATION
-        MODOP=MODCOR
-
-        WRITE(PHLUN,*) 
-     $  'Message from PHOTOS: IPHEKL(MODCOR):: (re)initialization'
-        IF     (MODOP.EQ.2) THEN
-          WRITE(PHLUN,*) 
-     $    'MODOP=2 -- blocks emission in pi0 to gamma e+e-: DEFAULT' 
-          WRITE(PHLUN,*) 
-     $    'MODOP=2 -- blocks emission in Kl  to gamma e+e-: DEFAULT' 
-        ELSEIF (MODOP.EQ.1) THEN
-          WRITE(PHLUN,*) 
-     $    'MODOP=1 -- enables emission in pi0 to gamma e+e- : TEST '
-          WRITE(PHLUN,*) 
-     $    'MODOP=1 -- enables emission in Kl  to gamma e+e- : TEST '
-        ELSE
-          WRITE(PHLUN,*) 'IPHEKL wrong MODCOR=',MODCOR
-          STOP
-        ENDIF
-        RETURN
-      ENDIF
-
-      IF (MODOP.EQ.0.AND.MODCOR.EQ.0) THEN
-        WRITE(PHLUN,*) 'IPHELK lack of initialization'
-        STOP
-      ENDIF
-      IPHEKL=MODOP
-      END
 
       SUBROUTINE PHCORK(MODCOR)
       implicit none
