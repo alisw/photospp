@@ -11,7 +11,9 @@ LIB_PHOTOS_FORTRAN_A  = libPhotosFortran.a
 PHOTOS_CXX_INT_OBJECTS = src/$(EVENT_RECORD_INTERFACE_DIR)/*.o \
                          src/$(C_PHOTOS_INTERFACE_DIR)/*.o \
                          src/$(UTILITIES_DIR)/*.o \
-                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/PH_HEPEVT_Interface.o
+                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/PH_HEPEVT_Interface.o \
+                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/wrappers.o \
+                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/photosC.o
 
 PHOTOS_FORTRAN_OBJECTS = src/$(PHOTOS_FORTRAN_DIR)/photos.o \
                          src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/forW-ME.o \

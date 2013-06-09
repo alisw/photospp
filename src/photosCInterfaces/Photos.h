@@ -60,10 +60,12 @@ public:
 	static void forceBremForBranch(int count, int motherID, ... );
 
   /** Block emissions id decays pi0 and K_L -> gamma e+ e- 
-      0           = no suppression
-      1 (default) = suppressed emissions in K_L -> gamma e+ e- ... and all pi0 decays */
-  static void setPi0KLnoEmissionMode(int m);
+      1           = no suppression
+      2 (default) = suppressed emissions in K_L -> gamma e+ e- ... and all pi0 decays */
+  static void IPHEKL_setPi0KLnoEmission(int m);
 
+  static bool IPHQRK_setQarknoEmission(int MODCOR, int PDGID);
+  
   /** If event record allows it, create history entries of particles
       before Photos processing */
   static void createHistoryEntries(bool flag, int status);

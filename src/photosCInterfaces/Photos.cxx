@@ -174,7 +174,7 @@ void Photos::initialize()
   // method several times use Photos::forceBremForDecay() and can be 
   // over-ruled in part. 
   Photos::IPHEKL_setPi0KLnoEmission(2);
-  Photos::IPHQRK_setQarknoEmission(2);
+  Photos::IPHQRK_setQarknoEmission (1,0);
 // Initialize Marsaglia and Zaman random number generator
 	PhotosRandom::initialize();
 }
@@ -321,32 +321,21 @@ void Photos::IPHEKL_setPi0KLnoEmission(int m)
 
   // Previously this functionality was encoded in FORTRAN routine
   // PHOCHK which was having some other functionality as well
-  bool Photos::IPHQRK_setQarknoEmission(int m,int i)
+bool Photos::IPHQRK_setQarknoEmission(int MODCOR, int PDGID)
 {
-  int m0=-1;
-  if(m0==-1 && m==0}{
+  static int IPHQRK_MODOP=-1;
+  if(IPHQRK_MODOP==-1 && MODCOR==0){
     cout << "stop from IPHQRK_setQarknoEmission lack of initialization" << endl ;
     exit(0);
-                  }
-  else if (m != 0){
-    m0=m;
-    if{m ==1} cout << " IPHQRK_setQarknoEmission MODOP=1 -- blocks emission from light quarks:  DEFAULT" << endl ;
-    if{m !=1} cout << " IPHQRK_setQarknoEmission MODOP=2 -- emission from light quarks allowed: TEST   " << endl ;
-             }
-
-  else if(m0 !=1) return true;
-  else if return i>9;
-}
-// Logical function used deep inside algorithm to check if emitted
-// particles are to emit. For mother it blocks the vertex, 
-// but for daughters individually: bad sisters will not prevent electron to emit.
-// top quark has further exception method.
-  bool Photos::F(int m,int i)
-  { return IPHQRK_setQarknoEmission(0,i) && (i<= 41 || i>100)
-     && i != 21 
-     && i != 2101 && i !=3101 && i !=3201 
-     && i != 1103 && i !=2103 && i !=2203 
-     && i != 3103 && i !=3203 && i !=3303     
+  }
+  else if (MODCOR != 0){
+    IPHQRK_MODOP = MODCOR;
+    if(MODCOR ==1) cout << " IPHQRK_setQarknoEmission MODOP=1 -- blocks emission from light quarks:  DEFAULT" << endl ;
+    if(MODCOR !=1) cout << " IPHQRK_setQarknoEmission MODOP=2 -- emission from light quarks allowed: TEST   " << endl ;
+  }
+  if(IPHQRK_MODOP!=1) return true;
+  
+  return PDGID>9;
 }
 
 void Photos::createHistoryEntries(bool flag, int status)
