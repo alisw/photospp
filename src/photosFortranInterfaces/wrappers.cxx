@@ -14,3 +14,10 @@ extern "C" void phoeps_(double VEC1[4], double VEC2[4], double EPS[4])
 {
   PHOEPS(VEC1,VEC2,EPS);
 }
+
+extern double PHOSPI(int idabs);
+
+extern "C" double phospi_(int *IDABS)
+{
+  return PHOSPI(*IDABS);
+}

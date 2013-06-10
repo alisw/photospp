@@ -29,7 +29,7 @@ class Photos
 {
 public:
 	static const int VER_MAJOR=3, VER_MINOR=53;
-	static const int DAT_DAY  =9,DAT_MONTH=6,DAT_YEAR=13;
+	static const int DAT_DAY  =10,DAT_MONTH=6,DAT_YEAR=13;
 public:
 
 	/** Initalize Photos with the parameters previously set via the

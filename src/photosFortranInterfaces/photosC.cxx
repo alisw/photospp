@@ -49,3 +49,64 @@ void PHOEPS(double vec1[4], double vec2[4], double eps[4]){
   eps[3-j]=eps[3-j]/xn;
 
 }
+
+
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOton radiation  in decays function for SPIn determina-
+//              tion
+//
+//    Purpose:  Calculate  the spin  of particle  with  code IDHEP.  The
+//              code  of the particle  is  defined  by the Particle Data
+//              Group in Phys. Lett. B204 (1988) 1.
+//
+//    Input Parameter:   IDHEP
+//
+//    Output Parameter:  Funtion  value = spin  of  particle  with  code
+//                       IDHEP
+//
+//    Author(s):  E. Barberio and B. van Eijk     Created at:  29/11/89
+//                                                Last update: 10/06/13
+//
+//----------------------------------------------------------------------
+double PHOSPI(int idhep){
+  double static SPIN[100];
+  int static j=0;  
+  //--
+  //--   Array 'SPIN' contains the spin  of  the first 100 particles accor-
+  //--   ding to the PDG particle code...
+
+  if(j==0) // initialization
+    {   
+      int j=1;
+      fill_val(0 ,  8, SPIN, 0.5);
+      fill_val(8 ,  9, SPIN, 1.0);
+      fill_val(9 , 10, SPIN, 0.0);
+      fill_val(10, 18, SPIN, 0.5);
+      fill_val(18, 20, SPIN, 0.0);
+      fill_val(20, 24, SPIN, 1.0);
+      fill_val(24,100, SPIN, 0.0);
+    }
+
+  int idabs=abs(idhep);
+  //--
+  //--   Spin of quark, lepton, boson etc....
+  if (idabs-1<100) return SPIN[idabs-1];
+
+  //--   ...other particles, however...
+  double xx=((idabs % 10)-1.0)/2.0;
+  //--
+  //--   ...K_short and K_long are special !!
+  xx=max(xx,0.0);
+  return xx;
+}
+
+
+
+
+void fill_val(int beg, int end, double* array, double value) 
+{
+  for (int i = beg; i < end; i++)
+    array[i] = value;
+}
+
