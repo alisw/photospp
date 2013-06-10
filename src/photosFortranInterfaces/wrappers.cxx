@@ -10,7 +10,7 @@ extern "C" bool f_(int *IDABS)
 
 extern void PHOEPS(double vec1[4], double vec2[4], double eps[4]);
 
-extern "C" void phoeps_(double *VEC1[4], double *VEC2[4], double *EPS[4])
+extern "C" void phoeps_(double VEC1[4], double VEC2[4], double EPS[4])
 {
-  return PHOEPS(*VEC1,*VEC2,*EPS);
+  PHOEPS(VEC1,VEC2,EPS);
 }

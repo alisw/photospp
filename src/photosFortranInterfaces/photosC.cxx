@@ -1,4 +1,5 @@
 #include "Photos.h"
+#include <cmath>
 using namespace Photospp;
 
 /** Logical function used deep inside algorithm to check if emitted
@@ -39,9 +40,9 @@ void PHOEPS(double vec1[4], double vec2[4], double eps[4]){
   eps[1-j]=vec1[2-j]*vec2[3-j] - vec1[3-j]*vec2[2-j];
   eps[2-j]=vec1[3-j]*vec2[1-j] - vec1[1-j]*vec2[3-j];      
   eps[3-j]=vec1[1-j]*vec2[2-j] - vec1[2-j]*vec2[1-j];
-  eps[4-j]=0D0;
+  eps[4-j]=0.0;
       
-  xn=SQRT( eps[1-j]**2 +eps[2-j]**2 +eps[3-j]**2);
+  xn=sqrt( eps[1-j]*eps[1-j] + eps[2-j]*eps[2-j] + eps[3-j]*eps[3-j]);
       
   eps[1-j]=eps[1-j]/xn;
   eps[2-j]=eps[2-j]/xn;

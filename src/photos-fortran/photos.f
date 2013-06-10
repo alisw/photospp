@@ -2434,41 +2434,6 @@ C accumulate the currents
 
       END
 
-
-      SUBROUTINE PHOEPS (VEC1, VEC2, EPS)
-C.----------------------------------------------------------------------
-C.
-C.    PHOEPS:   PHOeps vector product (normalized to unity)
-C.
-C.    Purpose:  calculates vector product, then normalizes its length.
-C               used to generate orthogonal vectors, i.e. to
-C               generate polarimetric vectors for photons.
-C.
-C.    Input Parameters:  VEC1,VEC2 - input 4-vectors
-C.                                          
-C.    Output Parameters: EPS - normalized 4-vector, orthogonal to
-C                              VEC1 and VEC2
-C.
-C.    Author(s):  Z. Was, P.Golonka               Created at:  19/01/05
-C.                                                Last Update: 25/01/05
-C.
-C.----------------------------------------------------------------------
-      
-      DOUBLE PRECISION VEC1(4), VEC2(4), EPS(4),XN
-      
-      EPS(1)=VEC1(2)*VEC2(3) - VEC1(3)*VEC2(2)
-      EPS(2)=VEC1(3)*VEC2(1) - VEC1(1)*VEC2(3)      
-      EPS(3)=VEC1(1)*VEC2(2) - VEC1(2)*VEC2(1)
-      EPS(4)=0D0
-      
-      XN=SQRT( EPS(1)**2 +EPS(2)**2 +EPS(3)**2)
-      
-      EPS(1)=EPS(1)/XN
-      EPS(2)=EPS(2)/XN
-      EPS(3)=EPS(3)/XN
-      
-      
-      END
       SUBROUTINE PHODMP
 C.----------------------------------------------------------------------
 C.
