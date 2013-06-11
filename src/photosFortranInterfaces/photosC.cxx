@@ -159,7 +159,7 @@ double PHOCHA(int idhep){
 
   //--
   //--   Charge of quark, lepton, boson etc....
-  if (idabs<=100) phoch=CHARGE(idabs);
+  if (idabs<=100) phoch=CHARGE[idabs];
   else {
     int Q3= idabs/1000 % 10;
     int Q2= idabs/100  % 10;
@@ -167,18 +167,18 @@ double PHOCHA(int idhep){
     if (Q3==0){
       //--
       //-- ...meson...
-      if(Q2 % 2==0) phoch=CHARGE(Q2)-CHARGE(Q1);
-      else        phoch=CHARGE(Q1)-CHARGE(Q2);
+      if(Q2 % 2==0) phoch=CHARGE[Q2]-CHARGE[Q1];
+      else          phoch=CHARGE[Q1]-CHARGE[Q2];
     }
     else{
       //--
       //--   ...diquarks or baryon.
-      phoch=CHARGE(Q1)+CHARGE(Q2)+CHARGE(Q3);
+      phoch=CHARGE[Q1]+CHARGE[Q2]+CHARGE[Q3];
     }
   }
   //--
   //--   Find the sign of the charge...
-  if (IDHEP<0.0) phoch=-phoch;
+  if (idhep<0.0) phoch=-phoch;
   if (phoch*phoch<0.000001) phoch=0.0;
   
   return phoch;
