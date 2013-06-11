@@ -103,6 +103,87 @@ double PHOSPI(int idhep){
   return xx;
 }
 
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOton radiation in decays CHArge determination
+//
+//    Purpose:  Calculate the charge  of particle  with code IDHEP.  The
+//              code  of the  particle  is  defined by the Particle Data
+//              Group in Phys. Lett. B204 (1988) 1.
+//
+//    Input Parameter:   IDHEP
+//
+//    Output Parameter:  Funtion value = charge  of  particle  with code
+//                       IDHEP
+//
+//    Author(s):  E. Barberio and B. van Eijk     Created at:  29/11/89
+//                                                Last update: 11/06/13
+//
+//----------------------------------------------------------------------
+double PHOCHA(int idhep){
+  static double CHARGE[101] = { 0 };
+  static int j=0;  
+  //--
+  //--   Array 'SPIN' contains the spin  of  the first 100 particles accor-
+  //--   ding to the PDG particle code...
+
+  if(j==0) // initialization
+    {   
+      j=1;
+      fill_val(0 ,  1, CHARGE, 0.0         );
+      fill_val(1 ,  2, CHARGE,-0.3333333333);
+      fill_val(2 ,  3, CHARGE, 0.6666666667);
+      fill_val(3 ,  4, CHARGE,-0.3333333333);
+      fill_val(4 ,  5, CHARGE, 0.6666666667);
+      fill_val(5 ,  6, CHARGE,-0.3333333333);
+      fill_val(6 ,  7, CHARGE, 0.6666666667);
+      fill_val(7 ,  8, CHARGE,-0.3333333333);
+      fill_val(8 ,  9, CHARGE, 0.6666666667);
+      fill_val(9 , 11, CHARGE, 0.0         );
+      fill_val(11 ,12, CHARGE,-1.0         );
+      fill_val(12 ,13, CHARGE, 0.0         );
+      fill_val(13 ,14, CHARGE,-1.0         );
+      fill_val(14, 15, CHARGE, 0.0         );
+      fill_val(15 ,16, CHARGE,-1.0         );
+      fill_val(16, 17, CHARGE, 0.0         );
+      fill_val(17 ,18, CHARGE,-1.0         );
+      fill_val(18, 24, CHARGE, 0.0         );
+      fill_val(24, 25, CHARGE, 1.0         );
+      fill_val(25, 37, CHARGE, 0.0         );
+      fill_val(37, 38, CHARGE, 1.0         );
+      fill_val(38,101, CHARGE, 0.0         );
+    }
+
+  int idabs=abs(idhep);
+  double phoch=0.0;
+
+  //--
+  //--   Charge of quark, lepton, boson etc....
+  if (idabs<=100) phoch=CHARGE(idabs);
+  else {
+    int Q3= idabs/1000 % 10;
+    int Q2= idabs/100  % 10;
+    int Q1= idabs/10   % 10;
+    if (Q3==0){
+      //--
+      //-- ...meson...
+      if(Q2 % 2==0) phoch=CHARGE(Q2)-CHARGE(Q1);
+      else        phoch=CHARGE(Q1)-CHARGE(Q2);
+    }
+    else{
+      //--
+      //--   ...diquarks or baryon.
+      phoch=CHARGE(Q1)+CHARGE(Q2)+CHARGE(Q3);
+    }
+  }
+  //--
+  //--   Find the sign of the charge...
+  if (IDHEP<0.0) phoch=-phoch;
+  if (phoch*phoch<0.000001) phoch=0.0;
+  
+  return phoch;
+}
+
 
 
 

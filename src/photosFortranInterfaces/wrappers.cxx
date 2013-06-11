@@ -21,3 +21,9 @@ extern "C" double phospi_(int *IDABS)
 {
   return PHOSPI(*IDABS);
 }
+extern double PHOCHA(int idhep);
+
+extern "C" double phocha_(int *IDHEP)
+{
+  return PHOCHA(*IDHEP);
+}
