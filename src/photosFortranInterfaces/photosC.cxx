@@ -1,5 +1,6 @@
 #include "Photos.h"
 #include <cmath>
+using std::max;
 using namespace Photospp;
 
 /** Logical function used deep inside algorithm to check if emitted
@@ -50,6 +51,7 @@ void PHOEPS(double vec1[4], double vec2[4], double eps[4]){
 
 }
 
+void fill_val(int beg, int end, double* array, double value); // Forward declaration
 
 //----------------------------------------------------------------------
 //
@@ -70,15 +72,15 @@ void PHOEPS(double vec1[4], double vec2[4], double eps[4]){
 //
 //----------------------------------------------------------------------
 double PHOSPI(int idhep){
-  double static SPIN[100];
-  int static j=0;  
+  static double SPIN[100] = { 0 };
+  static int j=0;  
   //--
   //--   Array 'SPIN' contains the spin  of  the first 100 particles accor-
   //--   ding to the PDG particle code...
 
   if(j==0) // initialization
     {   
-      int j=1;
+      j=1;
       fill_val(0 ,  8, SPIN, 0.5);
       fill_val(8 ,  9, SPIN, 1.0);
       fill_val(9 , 10, SPIN, 0.0);
