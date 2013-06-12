@@ -21,9 +21,52 @@ extern "C" double phospi_(int *IDABS)
 {
   return PHOSPI(*IDABS);
 }
+
 extern double PHOCHA(int idhep);
 
 extern "C" double phocha_(int *IDHEP)
 {
   return PHOCHA(*IDHEP);
+}
+
+extern double PHOTRI(double A,double B,double C);
+
+extern "C" double photri_(double *A,double *B,double *C)
+{
+  return PHOTRI(*A,*B,*C);
+}
+
+extern double PHOAN1(double X,double Y);
+
+extern "C" double phoan1_(double *X,double *Y)
+{
+  return PHOAN1(*X,*Y);
+}
+
+extern double PHOAN2(double X,double Y);
+
+extern "C" double phoan2_(double *X,double *Y)
+{
+  return PHOAN2(*X,*Y);
+}
+
+extern double PHOBO3(double ANGLE,double PVEC[4]);
+
+extern "C" double phobo3_(double *ANGLE,double PVEC[4])
+{
+  return PHOBO3(*ANGLE,PVEC);
+}
+
+extern double PHORO3(double ANGLE,double PVEC[4]);
+
+extern "C" double phoro3_(double *ANGLE,double PVEC[4])
+{
+  return PHORO3(*ANGLE,PVEC);
+}
+
+extern double PHORO2(double ANGLE,double PVEC[4]);
+
+extern "C" double phoro2_(double *ANGLE,double PVEC[4])
+{
+  return PHORO2(*ANGLE,PVEC);
 }

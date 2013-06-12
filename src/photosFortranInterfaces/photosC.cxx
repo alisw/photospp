@@ -51,7 +51,13 @@ void PHOEPS(double vec1[4], double vec2[4], double eps[4]){
 
 }
 
-void fill_val(int beg, int end, double* array, double value); // Forward declaration
+//void fill_val(int beg, int end, double* array, double value); // Forward declaration
+
+void fill_val(int beg, int end, double* array, double value) 
+{
+  for (int i = beg; i < end; i++)
+    array[i] = value;
+}
 
 //----------------------------------------------------------------------
 //
@@ -187,9 +193,156 @@ double PHOCHA(int idhep){
 
 
 
-void fill_val(int beg, int end, double* array, double value) 
-{
-  for (int i = beg; i < end; i++)
-    array[i] = value;
+
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOton radiation in decays calculation of TRIangle fie
+//
+//    Purpose:  Calculation of triangle function for phase space.
+//
+//    Input Parameters:  A, B, C (Virtual) particle masses.
+//
+//    Output Parameter:  Function value =
+//                       SQRT(LAMBDA(A**2,B**2,C**2))/(2*A)
+//
+//    Author(s):  B. van Eijk                     Created at:  15/11/89
+//                                                Last Update: 12/06/13
+//
+//----------------------------------------------------------------------
+double PHOTRI(double A,double B,double C){
+  double DA,DB,DC,DAPB,DAMB,DTRIAN;
+  double A,B,C;
+  DA=A;
+  DB=B;
+  DC=C;
+  DAPB=DA+DB;
+  DAMB=DA-DB;
+  DTRIAN=sqrt((DAMB-DC)*(DAPB+DC)*(DAMB+DC)*(DAPB-DC));
+  return DTRIAN/(DA+DA);
+}
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOton radiation in decays calculation of ANgle '1'
+//
+//    Purpose:  Calculate angle from X and Y
+//
+//    Input Parameters:  X, Y
+//
+//    Output Parameter:  Function value
+//
+//    Author(s):  S. Jadach                       Created at:  01/01/89
+//                B. van Eijk                     Last Update: 12/06/13
+//
+//----------------------------------------------------------------------
+double PHOAN1(double X,double Y){
+
+  // we may want to use phpico_.pi phpico_.twopi defined in Photos::initialize()
+  static double PI==3.14159265358979324, TWOPI=6.28318530717958648;
+ 
+  if (abs(Y)<abs(X)){
+    PHOAN1=atan(abs(Y/X));
+    if (X<0.0) PHOAN1=PI-PHOAN1;
+  }
+  else PHOAN1=acos(X/sqrt(X*X+Y*Y));
+  //
+  if (Y<0.0) PHOAN1=TWOPI-PHOAN1;
+	return PHOAN1;
+ 
 }
 
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOton radiation in decays calculation of ANgle '2'
+//
+//    Purpose:  Calculate angle from X and Y
+//
+//    Input Parameters:  X, Y
+//
+//    Output Parameter:  Function value
+//
+//    Author(s):  S. Jadach                       Created at:  01/01/89
+//                B. van Eijk                     Last Update: 12/06/13
+//
+//----------------------------------------------------------------------
+double PHOAN2(double X,double Y){
+  // we may want to use phpico_.pi phpico_.twopi defined in Photos::initialize()
+  static double PI==3.14159265358979324, TWOPI=6.28318530717958648;
+
+  if (abs(Y)<abs(X)){
+    PHOAN2=atan(abs(Y/X));
+    if (X<0.0) PHOAN2=PI-PHOAN2;
+  }
+  else PHOAN2=acos(X/sqrt(X*X+Y*Y));
+}
+
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOton radiation in decays BOost routine '3'
+//
+//    Purpose:  Boost  vector PVEC  along z-axis where ANGLE = EXP(ETA),
+//              ETA is the hyperbolic velocity.
+//
+//    Input Parameters:  ANGLE, PVEC
+//
+//    Output Parameter:  PVEC
+//
+//    Author(s):  S. Jadach                       Created at:  01/01/89
+//                B. van Eijk                     Last Update: 12/06/13
+//
+//----------------------------------------------------------------------
+void PHOBO3(double ANGLE,double PVEC[4]){
+  int j=1;  // convention of indices of Riemann space must be preserved.
+  double QPL,QMI;
+  QPL=(PVEC[4-j]+PVEC[3-j])*ANGLE;
+  QMI=(PVEC[4-j]-PVEC[3-j])/ANGLE;
+  PVEC[3-j]=(QPL-QMI)/2.D0;
+  PVEC[4-j]=(QPL+QMI)/2.D0;
+	}
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOton radiation in decays ROtation routine '2'
+//
+//    Purpose:  Rotate  x and z components  of vector PVEC  around angle
+//              'ANGLE'.
+//
+//    Input Parameters:  ANGLE, PVEC
+//
+//    Output Parameter:  PVEC
+//
+//    Author(s):  S. Jadach                       Created at:  01/01/89
+//                B. van Eijk                     Last Update: 12/06/13
+//
+//----------------------------------------------------------------------
+void PHORO2(double ANGLE,double PVEC[4]){
+  int j=1;  // convention of indices of Riemann space must be preserved.
+
+  double CS,SN;
+  CS= cos(ANGLE)*PVEC[1-j]+sin(ANGLE)*PVEC[3-j];
+  SN=-sin(ANGLE)*PVEC[1-j]+cos(ANGLE)*PVEC[3-j];
+  PVEC[1-j]=CS;
+  PVEC[3-j]=SN;
+}
+
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOton radiation in decays ROtation routine '3'
+//
+//    Purpose:  Rotate  x and y components  of vector PVEC  around angle
+//              'ANGLE'.
+//
+//    Input Parameters:  ANGLE, PVEC
+//
+//    Output Parameter:  PVEC
+//
+//    Author(s):  S. Jadach                       Created at:  01/01/89
+//                B. van Eijk                     Last Update: 12/06/13
+//
+//----------------------------------------------------------------------
+void PHORO3(double ANGLE,double PVEC[4]){
+  int j=1;  // convention of indices of Riemann space must be preserved.
+  double CS,SN;
+  CS=cos(ANGLE)*PVEC[1-j]-sin(ANGLE)*PVEC[2-j];
+  SN=sin(ANGLE)*PVEC[1-j]+cos(ANGLE)*PVEC[2-j];
+  PVEC[1-j]=CS;
+  PVEC[2-j]=SN;
+}
