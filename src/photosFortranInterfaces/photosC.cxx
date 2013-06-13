@@ -351,3 +351,45 @@ void PHORO3(double ANGLE,double PVEC[4]){
   PVEC[1-j]=CS;
   PVEC[2-j]=SN;
 }
+
+//----------------------------------------------------------------------
+//
+//
+//    PHOB:     PHotosBoost
+//
+//    Purpose:  Boosts VEC to (MODE=1)  rest frame of PBOOS1;  
+//              or back (MODE=1)
+//
+//    Input Parameters:   MODE,PBOOS1,VEC
+//
+//    Output Parameters:  VEC
+//
+//    Author(s):                                  Created at:  08/12/05
+//                Z. Was                          Last Update: 13/06/13
+//
+//----------------------------------------------------------------------
+
+void PHOB(int MODE,double PBOOS1[4],double VEC[4]){
+  double BET1[3],GAM1,PB;
+  static int j0=1;
+  int I,J;
+
+
+  PB=sqrt(PBOOS1[4-j0]*PBOOS1[4-j0]-PBOOS1[3-j0]*PBOOS1[3-j0]-PBOOS1[2-j0]*PBOOS1[2-j0]-PBOOS1[1-j0]*-PBOOS1[1-j0]);
+  for( J=1; J<4,J++){
+    if (MODE==1) BET1[J-j0]=-PBOOS1[J-j0]/PB;
+    else BET1[J-j0]= PBOOS1[J-j0]/PB;
+  }
+
+  GAM1=PBOOS1[4-j0]/PB;
+
+  //--
+  //--   Boost vector 
+
+  PB=BET1[1-j0]*vec[1-j0]]+BET1[2-j0]*vec[2-j0]+BET1[3-j0]*vec[3-j0];
+        
+  for( J=1; J<4,J++) vec[J-j0]=vec[J-j0]+BET1[J-j0]*(vec[4]+PB/(GAM1+1.D0));
+  vec[4-j0]=GAM1*vec[4-j0]+PB;
+  //--
+}
+

@@ -70,3 +70,10 @@ extern "C" double phoro2_(double *ANGLE,double PVEC[4])
 {
   return PHORO2(*ANGLE,PVEC);
 }
+
+extern double PHOB(int MODE,double PBOOS1[4],double VEC[4]);
+
+extern "C" double phob_(int *MODE, double PBOOS1[4], double VEC[4])
+{
+  return PHOB(*MODE,PBOOS1,VEC);
+}
