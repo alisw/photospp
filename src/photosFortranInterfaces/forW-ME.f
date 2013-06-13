@@ -489,45 +489,6 @@ c========================================================
        END   
               
 
-       FUNCTION WDecayEikonalKS_1ph(p3,p1,p2,k,s)
-c======================================================================                 
-c     
-c Eikonal factor of decay W->l_1+l_2+\gamma in terms of K&S objects !
-c 
-c   EikFactor = q1*eps.p1/k.p1 + q2*eps.p2/k.p2 - q3*eps.p3/k.p3
-c
-c   indices 1,2 are for charged decay products
-c   index 3 is for W
-c   
-c   q - charge
-c    
-c======================================================================
-         IMPLICIT NONE    
-         INTEGER          s
-         DOUBLE PRECISION k(0:3),p1(0:3),p2(0:3),p3(0:3)
-         DOUBLE PRECISION scalProd1,scalProd2,scalProd3
-         DOUBLE COMPLEX   WDecayEikonalKS_1ph,BsFactor,BSoft1,BSoft2  
-         EXTERNAL         BsFactor
-         INTEGER           mcLUN
-         DOUBLE PRECISION  spV(0:3),bet(0:3)
-         DOUBLE PRECISION  pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af
-         COMMON /Kleiss_Stirling/spV,bet
-         COMMON /mc_parameters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN    
-
-         scalProd1 = p1(0)*k(0)-p1(1)*k(1)-p1(2)*k(2)-p1(3)*k(3)
-         scalProd2 = p2(0)*k(0)-p2(1)*k(1)-p2(2)*k(2)-p2(3)*k(3)
-         scalProd3 = p3(0)*k(0)-p3(1)*k(1)-p3(2)*k(2)-p3(3)*k(3)
-
-         BSoft1  = BsFactor(s,k,p1,mf1)
-         BSoft2  = BsFactor(s,k,p2,mf2)
- 
-        WDecayEikonalKS_1ph = 
-     &       sqrt(pi/alphaI)*(-(qf1/scalProd1+qb/scalProd3)*BSoft1   
-     &                        +(qf2/scalProd2-qb/scalProd3)*BSoft2)
-
-       RETURN
-       END
-
        FUNCTION WDecayBornAmpKS_1ph(p3,l3,p1,l1,p2,l2)
 c======================================================================                 
 c                                                                     =
