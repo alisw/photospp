@@ -314,54 +314,6 @@ C      write(*,*) 'IDE=',IDE,'  IDF=',IDF,'  SVAR=',SVAR,'AFB=',AFB
       getidee=idee
       END
 
-      SUBROUTINE PHOB(MODE,PBOOS1,VEC)
-C.----------------------------------------------------------------------
-C.
-C.
-C.    PHOB:     PHotosBoost
-C.
-C.    Purpose:  Boosts VEC to (MODE=1)  rest frame of PBOOS1;  
-C.              or back (MODE=1)
-C.
-C.    Input Parameters:   MODE,PBOOS1,VEC
-C.
-C.    Output Parameters:  VEC
-C.
-C.    Author(s):                                  Created at:  08/12/05
-C.                Z. Was                          Last Update: 
-C.
-C.----------------------------------------------------------------------
-      IMPLICIT NONE
-      DOUBLE PRECISION BET1(3),GAM1,PB
-      INTEGER I,J,MODE
-      REAL*8 PBOOS1(4),vec(4)
-
-      PB=sqrt(PBOOS1(4)**2-PBOOS1(3)**2-PBOOS1(2)**2-PBOOS1(1)**2)
-      DO 10 J=1,3
-        IF (MODE.EQ.1) THEN
-          BET1(J)=-PBOOS1(J)/PB
-        ELSE
-          BET1(J)= PBOOS1(J)/PB
-        ENDIF 
-  10  CONTINUE
-      GAM1=PBOOS1(4)/PB
-
-C--
-C--   Boost vector 
-
-        PB=BET1(1)*vec(1)+BET1(2)*vec(2)+BET1(3)*vec(3)
-        
-         DO 30 J=1,3
-   30    vec(J)=vec(J)+BET1(J)*(vec(4)+PB/(GAM1+1.D0))
-         vec(4)=GAM1*vec(4)+PB
-
-C--
-
-      RETURN
-      END
-
-
-
       SUBROUTINE GETIDEIDF(IDE,IDF)
       IMPLICIT NONE
 c should provide flavour of first incoming beam, and first tau
@@ -414,37 +366,6 @@ C
       B=PHBORNM(svar,-0.5D0,T3e,qe,T3f,qf,KOLOR*KOLOR1)
       AFBCALC= (A-B)/(A+B)*5.0/2.0 *3.0/8.0
       END
-      SUBROUTINE GIVIZO(IDFERM,IHELIC,SIZO3,CHARGE,KOLOR)
-C ----------------------------------------------------------------------
-C PROVIDES ELECTRIC CHARGE AND WEAK IZOSPIN OF A FAMILY FERMION
-C IDFERM=1,2,3,4 DENOTES NEUTRINO, LEPTON, UP AND DOWN QUARK
-C NEGATIVE IDFERM=-1,-2,-3,-4, DENOTES ANTIPARTICLE
-C IHELIC=+1,-1 DENOTES RIGHT AND LEFT HANDEDNES ( CHIRALITY)
-C SIZO3 IS THIRD PROJECTION OF WEAK IZOSPIN (PLUS MINUS HALF)
-C AND CHARGE IS ELECTRIC CHARGE IN UNITS OF ELECTRON CHARGE
-C KOLOR IS A QCD COLOUR, 1 FOR LEPTON, 3 FOR QUARKS
-C
-C     called by : EVENTE, EVENTM, FUNTIH, .....
-C ----------------------------------------------------------------------
-      IMPLICIT REAL*8(A-H,O-Z)
-C
-      IF(IDFERM.EQ.0.OR.IABS(IDFERM).GT.4) GOTO 901
-      IF(IABS(IHELIC).NE.1)                GOTO 901
-      IH  =IHELIC
-      IDTYPE =IABS(IDFERM)
-      IC  =IDFERM/IDTYPE
-      LEPQUA=INT(IDTYPE*0.4999999D0)
-      IUPDOW=IDTYPE-2*LEPQUA-1
-      CHARGE  =(-IUPDOW+2D0/3D0*LEPQUA)*IC
-      SIZO3   =0.25D0*(IC-IH)*(1-2*IUPDOW)
-      KOLOR=1+2*LEPQUA
-C** NOTE THAT CONVENTIONALY Z0 COUPLING IS
-C** XOUPZ=(SIZO3-CHARGE*SWSQ)/SQRT(SWSQ*(1-SWSQ))
-      RETURN
- 901    PRINT *,' STOP IN GIVIZO: WRONG PARAMS.'
-      STOP
-      END
- 
 
       DOUBLE PRECISION FUNCTION PHBORNM(svar,costhe,T3e,qe,T3f,qf,Ncf)
 *///////////////////////////////////////////////////////////////////////////
