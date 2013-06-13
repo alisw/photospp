@@ -211,7 +211,6 @@ double PHOCHA(int idhep){
 //----------------------------------------------------------------------
 double PHOTRI(double A,double B,double C){
   double DA,DB,DC,DAPB,DAMB,DTRIAN;
-  double A,B,C;
   DA=A;
   DB=B;
   DC=C;
@@ -236,17 +235,19 @@ double PHOTRI(double A,double B,double C){
 //----------------------------------------------------------------------
 double PHOAN1(double X,double Y){
 
+  double phoan1 = 0.0;
+  
   // we may want to use phpico_.pi phpico_.twopi defined in Photos::initialize()
-  static double PI==3.14159265358979324, TWOPI=6.28318530717958648;
+  static double PI=3.14159265358979324, TWOPI=6.28318530717958648;
  
-  if (abs(Y)<abs(X)){
-    PHOAN1=atan(abs(Y/X));
-    if (X<0.0) PHOAN1=PI-PHOAN1;
+  if (fabs(Y)<fabs(X)){
+    phoan1=atan(fabs(Y/X));
+    if (X<0.0) phoan1=PI-phoan1;
   }
-  else PHOAN1=acos(X/sqrt(X*X+Y*Y));
+  else phoan1=acos(X/sqrt(X*X+Y*Y));
   //
-  if (Y<0.0) PHOAN1=TWOPI-PHOAN1;
-	return PHOAN1;
+  if (Y<0.0) phoan1=TWOPI-phoan1;
+  return phoan1;
  
 }
 
@@ -265,14 +266,18 @@ double PHOAN1(double X,double Y){
 //
 //----------------------------------------------------------------------
 double PHOAN2(double X,double Y){
-  // we may want to use phpico_.pi phpico_.twopi defined in Photos::initialize()
-  static double PI==3.14159265358979324, TWOPI=6.28318530717958648;
 
-  if (abs(Y)<abs(X)){
-    PHOAN2=atan(abs(Y/X));
-    if (X<0.0) PHOAN2=PI-PHOAN2;
+  double phoan2 = 0.0;
+
+  // we may want to use phpico_.pi phpico_.twopi defined in Photos::initialize()
+  static double PI=3.14159265358979324, TWOPI=6.28318530717958648;
+
+  if (fabs(Y)<fabs(X)){
+    phoan2=atan(fabs(Y/X));
+    if (X<0.0) phoan2=PI-phoan2;
   }
-  else PHOAN2=acos(X/sqrt(X*X+Y*Y));
+  else phoan2=acos(X/sqrt(X*X+Y*Y));
+  return phoan2;
 }
 
 //----------------------------------------------------------------------
@@ -295,8 +300,8 @@ void PHOBO3(double ANGLE,double PVEC[4]){
   double QPL,QMI;
   QPL=(PVEC[4-j]+PVEC[3-j])*ANGLE;
   QMI=(PVEC[4-j]-PVEC[3-j])/ANGLE;
-  PVEC[3-j]=(QPL-QMI)/2.D0;
-  PVEC[4-j]=(QPL+QMI)/2.D0;
+  PVEC[3-j]=(QPL-QMI)/2.0;
+  PVEC[4-j]=(QPL+QMI)/2.0;
 	}
 //----------------------------------------------------------------------
 //
