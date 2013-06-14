@@ -57,3 +57,17 @@ extern "C" complex<double> trmatrix_mass_(double p1[4],double *m1,int *l1,double
 {
   return TrMatrix_mass(p1,*m1,*l1,k,*m,*s,p2,*m2,*l2);
 }
+
+extern complex<double> WDecayBornAmpKS_1ph(double p3[4],int l3,double p1[4],int l1,double p2[4],int l2);
+
+extern "C" complex<double> wdecaybornampks_1ph_(double p3[4],int *l3,double p1[4],int *l1,double p2[4],int *l2)
+{
+  return WDecayBornAmpKS_1ph(p3,*l3,p1,*l1,p2,*l2);
+}
+
+extern complex<double> WDecayAmplitudeKS_1ph(double p3[4],int l3,double p1[4],int l1,double p2[4],int l2,double k[4],int s);
+
+extern "C" complex<double> wdecayamplitudeks_1ph_(double p3[4],int *l3,double p1[4],int *l1,double p2[4],int *l2,double k[4],int *s)
+{
+  return WDecayAmplitudeKS_1ph(p3,*l3,p1,*l1,p2,*l2,k,*s);
+}

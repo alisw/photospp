@@ -635,3 +635,136 @@ complex<double> TrMatrix_mass(double p1[4],double m1,int l1,double k[4],double m
   } 
          
 }
+
+
+              
+//======================================================================                 
+//                                                                     =
+//                            p1,mf1,l1                                =
+//                           /                                         =
+//                         \/_                                         = 
+//                         /                                           =
+//        p3,mb,l3        /                                            =
+//              \/\/\/\/\/\      ------> g_(mu,1)*(1+g5_(1))           =
+//                         \                                           =
+//                         _\/                                         = 
+//                           \                                         =
+//                            p2,mf2,l2                                =
+// INPUT : p1,m1,l1; p2,m2,l2; p3,m3,l3  -- momenta,mass and helicity  =
+//                                                                     =
+// OUTPUT: value of functions            -- decay amplitude            =
+//                                                                     =
+//======================================================================
+complex<double>WDecayBornAmpKS_1ph(double p3[4],int l3,double p1[4],int l1,double p2[4],int l2){
+  // COMMON /mc_paraneters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN 
+  // temporary solution these will be global variables of the class   
+  double pi     = mc_parameters_.pi;
+  double alphaI = mc_parameters_.alphaI;
+  double sw     = mc_parameters_.sw;
+  double mb     = mc_parameters_.mb;
+  double mf1    = mc_parameters_.mf1;
+  double mf2    = mc_parameters_.mf2;
+  // end of temporary solution
+
+  double coeff;
+ 
+
+  coeff = sqrt(pi/alphaI/2.0)/sw;      // vertex: g/2/sqrt(2)
+
+  return coeff*TrMatrix_mass(p2,mf2,l2,p3,mb,l3,p1,-mf1,-l1);
+}        
+
+
+//======================================================================                 
+//                k,0,l                                                =
+//                   \        p1,mf1,l1                                =
+//                   /       /                                         =
+//                   \     \/_                                         = 
+//                   /     /                                           =
+//        p3,mb,l3   \    /                                            =
+//              \/\/\/\/\/\      ------> g_(mu,1)*(1+g5_(1))           =
+//                         \                                           =
+//                         _\/                                         = 
+//                           \                                         =
+//                            p2,mf2,l2                                =
+//           { + }                                                     =
+//                            p1,mf1,l1                                =
+//                           /                                         = 
+//                         \/_~~~~~~~ k,0,s                            = 
+//                         /                                           =
+//        p3,mb,l3        /                                            =
+//              \/\/\/\/\/\      ------> g_(mu,1)*(1+g5_(1))           =
+//                         \                                           =
+//                         _\/                                         = 
+//                           \                                         =
+//                            p2,mf2,l2                                =
+//           { + }                                                     =
+//                            p1,mf1,l1                                =
+//                           /                                         =
+//                         \/_                                         =
+//                         /                                           =
+//        p3,mb,l3        /                                            =
+//              \/\/\/\/\/\      ------> g_(mu,1)*(1+g5_(1))           =
+//                         \                                           =
+//                         _\/ ~~~~~~~ k,0,s                           =
+//                           \                                         =
+//                             p2,mf2,l2                               =
+//                                                                     =
+//                   all momentas, exept k are incoming !!!            =
+//                                                                     =
+// This function culculates The W-ff\gamma decay amplitude into permion=
+// pair and one photon using Kleisse&Stirling method for helicity      =
+// amplitudes, which includes three above feynman diagramms..          = 
+//                                                                     =
+// INPUT : p1,m1,l1; p2,m2,l2; p3,m3,l3  -- momenta,mass and helicity  =
+//                                                                     =
+// OUTPUT: value of functions            -- decay amplitude            =
+//                                                                     =
+//======================================================================
+
+complex<double>WDecayAmplitudeKS_1ph(double p3[4],int l3,double p1[4],int l1,double p2[4],int l2,double k[4],int s){
+ 
+  int          la1;
+  double scalProd1,scalProd2,scalProd3,coeff,theta3,ph3;
+  complex<double>  bornAmp,TrMx1,TrMx2;
+  complex<double>  BSoft1,BSoft2;  
+  // COMMON /mc_paraneters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN 
+  // temporary solution these will be global variables of the class   
+  double pi     = mc_parameters_.pi;
+  double alphaI = mc_parameters_.alphaI;
+  double sw     = mc_parameters_.sw;
+  double mb     = mc_parameters_.mb;
+  double mf1    = mc_parameters_.mf1;
+  double mf2    = mc_parameters_.mf2;
+  double qb     = mc_parameters_.qb;
+  double qf1    = mc_parameters_.qf1;
+  double qf2    = mc_parameters_.qf2;
+ // end of temporary solution
+  coeff = sqrt(2.0)*pi/sw/alphaI;      // vertex: g/2/sqrt[2] * e
+
+  scalProd1 = p1[0]*k[0]-p1[1]*k[1]-p1[2]*k[2]-p1[3]*k[3];
+  scalProd2 = p2[0]*k[0]-p2[1]*k[1]-p2[2]*k[2]-p2[3]*k[3];
+  scalProd3 = p3[0]*k[0]-p3[1]*k[1]-p3[2]*k[2]-p3[3]*k[3];
+
+  BSoft1  = BsFactor(s,k,p1,mf1);
+  BSoft2  = BsFactor(s,k,p2,mf2);
+  bornAmp = TrMatrix_mass(p2,mf2,l2,p3,mb,l3,p1,-mf1,-l1);
+  TrMx1   = complex<double>(0.0,0.0);  
+  TrMx2   = complex<double>(0.0,0.0);  
+ 
+  for (int la1 = -1; la1< 3 ; la1+=2) {
+    //      DO la1=-1,1,2            
+    TrMx1 = TrMx1 + TrMatrix_zero(k,0.0,-la1,k,s,p1,-mf1,-l1)*
+	            TrMatrix_mass(p2,mf2,l2,p3,mb,l3,k,0.0,-la1);
+    TrMx2 = TrMx2 + TrMatrix_zero(p2,mf2,l2,k,s,k,0.0,la1)*
+	            TrMatrix_mass(k,0.0,la1,p3,mb,l3,p1,-mf1,-l1);
+  }
+
+    return coeff * (        
+	     + (-(qf1/scalProd1+qb/scalProd3)*BSoft1              // IR-divergent part of amplitude      
+                +(qf2/scalProd2-qb/scalProd3)*BSoft2)/2.0*bornAmp
+	     //
+	     - (qf1/scalProd1+qb/scalProd3)*TrMx1/2.0             // IR-finite part of amplitude            
+             + (qf2/scalProd2-qb/scalProd3)*TrMx2/2.0
+		    ); 
+}
