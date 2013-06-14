@@ -768,3 +768,102 @@ complex<double>WDecayAmplitudeKS_1ph(double p3[4],int l3,double p1[4],int l1,dou
              + (qf2/scalProd2-qb/scalProd3)*TrMx2/2.0
 		    ); 
 }
+
+
+
+//========================================================
+//        The squared eikonal factor for W decay         =
+//        into fermion pair and one photon               =
+//  INPUT :                                              =
+//                                                       =
+//  OUTPUT:                                              =
+//========================================================       
+
+double WDecayEikonalSqrKS_1ph(double p3[4],double p1[4],double p2[4],double k[4]){
+  int          s;
+  double spinSumAvrg;
+  complex<double>  wDecAmp;
+
+  spinSumAvrg = 0.0;
+  for (int s = -1; s< 3 ; s+=2) {
+    wDecAmp     = WDecayEikonalKS_1ph(p3,p1,p2,k,s);
+    spinSumAvrg = spinSumAvrg + real(wDecAmp*conj(wDecAmp)); 
+  }
+  return spinSumAvrg;
+}
+             
+//========================================================
+//        The squared eikonal factor for W decay         =
+//        into fermion pair and one photon               =
+//  INPUT :                                              =
+//                                                       =
+//  OUTPUT:                                              =
+//========================================================       
+
+double WDecayBornAmpSqrKS_1ph(double p3[4],double p1[4],double p2[4]){
+  double spinSumAvrg;
+  complex<double> wDecAmp;
+
+  spinSumAvrg = 0.0;
+  for (int l3 = -1; l3< 3 ; l3+=2) {
+    for (int l1 = -1; l1< 3 ; l1+=2) {
+      for (int l2 = -1; l2< 3 ; l2+=2) {
+	wDecAmp     = WDecayBornAmpKS_1ph(p3,l3,p1,l1,p2,l2);
+	spinSumAvrg = spinSumAvrg + real(wDecAmp*conj(wDecAmp)); 
+      }
+    }
+  }
+  return spinSumAvrg;
+}
+
+
+
+//========================================================
+//        The squared amplitude for W decay              =
+//        into fermion pair and one photon               =
+//  INPUT :                                              =
+//                                                       =
+//  OUTPUT:                                              =
+//========================================================       
+
+double WDecayAmplitudeSqrKS_1ph(double p3[4],double p1[4],double p2[4], double k[4]){
+
+  double spinSumAvrg;
+  complex<double> wDecAmp;
+
+  spinSumAvrg = 0.0;
+  for (int l3 = -1; l3< 3 ; l3+=2) {
+    for (int l1 = -1; l1< 3 ; l1+=2) {
+      for (int l2 = -1; l2< 3 ; l2+=2) {
+	for (int s  = -1; s < 3 ;  s+=2) {
+	  wDecAmp     = WDecayAmplitudeKS_1ph(p3,l3,p1,l1,p2,l2,k,s);
+	  spinSumAvrg = spinSumAvrg + real(wDecAmp*conj(wDecAmp)); 
+	}
+      }
+    }
+  }
+  return spinSumAvrg;
+      
+
+
+//$$$
+//$$$
+//$$$
+//$$$
+//$$$
+//$$$
+//$$$
+//$$$
+//$$$
+//$$$
+//$$$
+//$$$
+//$$$
+//$$$
+//$$$
+//$$$   WffGammaME.f  ends above: 
+//$$$
+//$$$
+//$$$
+//$$$
+}
