@@ -1,4 +1,7 @@
 #include<complex>
+#include<iostream>
+using std::cout;
+using std::endl;
 using std::complex;
 
 extern "C" struct{
@@ -30,7 +33,7 @@ complex<double> InProd_zero(double p1[4],int l1,double p2[4],int l2){
   int i; 
   double  forSqrt1,forSqrt2,sqrt1,sqrt2;
   complex<double>    Dcmplx;
-  static complex<double>    i_=(0.0,1.0);
+  static complex<double>    i_= complex<double>(0.0,1.0);
   bool           equal;
 
 
@@ -42,7 +45,7 @@ complex<double> InProd_zero(double p1[4],int l1,double p2[4],int l2){
   }               
 
 
-  if ( (l1==l2) || equal ) return (0.0,0.0);
+  if ( (l1==l2) || equal ) return complex<double>(0.0,0.0);
 
  
   else if ( (l1==+1) && (l2==-1) ){
@@ -62,8 +65,8 @@ complex<double> InProd_zero(double p1[4],int l1,double p2[4],int l2){
     sqrt1    = sqrt(forSqrt2);
     sqrt2    = sqrt(forSqrt1);
 
-    return (p2(2)-i_*p2(3))*sqrt2 -
-           (p1(2)-i_*p1(3))*sqrt1 ;
+    return (p2[2]-i_*p2[3])*sqrt2 -
+           (p1[2]-i_*p1[3])*sqrt1 ;
   }
   else{
                  
@@ -90,7 +93,7 @@ double InSqrt(double p[4],double q[4]){
 /////////////////////////////////////////////////////////////////////
   complex<double>  BsFactor(int s,double k[4],double p[4],double m){
     double forSqrt1,sqrt1;
-    complex<double>  InProd_zero,inPr1;
+    complex<double>  inPr1;
   
   // COMMON /mc_paraneters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN 
   // temporary solution these will be global variables of the class   
@@ -107,7 +110,7 @@ double InSqrt(double p[4],double q[4]){
 
     inPr1    = InProd_zero(k,+1,p,-1);
     forSqrt1 = (p[0]-p[1])/(k[0]-k[1]);
-    sqrt1    = Dsqrt(2.0*forSqrt1);  
+    sqrt1    = sqrt(2.0*forSqrt1);  
     //BsFactor = 
     return inPr1*sqrt1;
   }
@@ -116,7 +119,7 @@ double InSqrt(double p[4],double q[4]){
 
     inPr1    = InProd_zero(k,-1,p,+1);
     forSqrt1 = (p[0]-p[1])/(k[0]-k[1]);
-    sqrt1    = Dsqrt(2.0*forSqrt1); 
+    sqrt1    = sqrt(2.0*forSqrt1); 
     //BsFactor = 
     return inPr1*sqrt1;
   }
@@ -128,7 +131,7 @@ double InSqrt(double p[4],double q[4]){
     cout << " "  <<endl;           
     exit(0);
   }
-
+}
 
 
 
@@ -166,8 +169,8 @@ complex<double> WDecayEikonalKS_1ph(double p3[4],double p1[4],double p2[4],doubl
   scalProd3 = p3[0]*k[0]-p3[1]*k[1]-p3[2]*k[2]-p3[3]*k[3];
 
 
-    BSoft1  = BsFactor(&s,k,p1,mf1);
-    BSoft2  = BsFactor(&s,k,p2,mf2);
+  BSoft1  = BsFactor(s,k,p1,mf1);
+  BSoft2  = BsFactor(s,k,p2,mf2);
  
   //WDecayEikonalKS_1ph =   
    return sqrt(pi/alphaI)*(-(qf1/scalProd1+qb/scalProd3)*BSoft1   
