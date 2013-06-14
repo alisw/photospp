@@ -16,6 +16,13 @@ extern "C" double insqrt_(double p[4],double q[4])
 }
 
 
+extern double InProd_mass(double p1[4],double m1,int l1,double p2[4],double m2,int l2);
+
+extern "C" double InSqrtInProd_mass_(double p1[4],double *m1,int *l1,double p2[4],double *m2,int *l2)
+{
+  return InProd_mass(p1,*m1,*l1,p2,*m2,*l2);
+}
+
 extern complex<double> BsFactor(int s,double k[4],double p[4],double m);
 
 extern "C" complex<double> bsfactor_(int *s,double k[4],double p[4],double *m)
@@ -29,3 +36,11 @@ extern "C" complex<double> wdecayeikonalks_1ph_(double p3[4],double p1[4],double
 {
   return WDecayEikonalKS_1ph(p3,p1,p2,k,*s);
 }
+
+extern complex<double> SoftFactor(int s,double k[4],double p1[4],double m1,double p2[4],double m2,double Gmass2);
+
+extern "C" complex<double> SoftFactor_(int *s,double k[4],double p1[4],double *m1,double p2[4],double *m2,double *Gmass2)
+{
+  return SoftFactor(*s,k,p1,*m1,p2,*m2,*Gmass2);
+}
+

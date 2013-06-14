@@ -84,7 +84,42 @@ double InSqrt(double p[4],double q[4]){
   return sqrt( (p[0]-p[1]) / (q[0]-q[1]) );
 }
     
+//////////////////////////////////////////////////////////////////
+//                                                              //
+//  Inner product for massive spinors: Ub(p1,m1,l1)*U(p2,m2,l2) //
+//                                                              //
+//////////////////////////////////////////////////////////////////
 
+complex<double> InProd_mass(double p1[4],double m1,int l1,double p2[4],double m2,int l2){
+  double sqrt1,sqrt2,forSqrt1;
+
+
+  if ((l1==+1)&&(l2==+1)) {               
+    forSqrt1    = (p1[0]-p1[1])/(p2[0]-p2[1]);
+    sqrt1       = sqrt(forSqrt1);
+    sqrt2       = 1.0/sqrt1;
+    return complex<double>(m1*sqrt2+m2*sqrt1,0.0);
+  }
+  else if  ((l1==+1)&&(l2==-1))                              
+    return InProd_zero(p1,+1,p2,-1);
+
+  else if ((l1==-1)&&(l2==+1))                         
+    return  InProd_zero(p1,-1,p2,+1);               
+
+  else if ((l1==-1)&&(l2==-1)){                             
+    forSqrt1    = (p1[0]-p1[1])/(p2[0]-p2[1]);
+    sqrt1       = sqrt(forSqrt1);
+    sqrt2       = 1.0/sqrt1;
+    return complex<double>(m1*sqrt2+m2*sqrt1,0.0);
+  }
+  else {        
+    cout <<" " <<endl;            
+    cout <<" ERROR IN InProd_mass.."<<endl;
+    cout <<"       WRONG VALUES FOR l1,l2"<<endl;
+    cout <<" " <<endl;            
+    exit(0);
+  }
+}
 
 /////////////////////////////////////////////////////////////////////
 //                                                                 //
@@ -176,4 +211,26 @@ complex<double> WDecayEikonalKS_1ph(double p3[4],double p1[4],double p2[4],doubl
    return sqrt(pi/alphaI)*(-(qf1/scalProd1+qb/scalProd3)*BSoft1   
                            +(qf2/scalProd2-qb/scalProd3)*BSoft2);
 
+}
+
+//======================================================================
+//
+//       Gauge invariant soft factor for decay!!
+//       Gmass2 -- photon mass square       
+// 
+//======================================================================
+complex<double>  SoftFactor(int s,double k[4],double p1[4],double m1,double p2[4],double m2,double Gmass2){
+
+  double ScalProd1,ScalProd2;
+  complex<double>  BsFactor2,BsFactor1;
+           
+
+  ScalProd1 = k[0]*p1[0]-k[1]*p1[1]-k[2]*p1[2]-k[3]*p1[3];
+  ScalProd2 = k[0]*p2[0]-k[1]*p2[1]-k[2]*p2[2]-k[3]*p2[3];
+          
+  BsFactor1 = BsFactor(s,k,p1,m1);
+  BsFactor2 = BsFactor(s,k,p2,m2);
+
+  return + BsFactor2/2.0/(ScalProd2-Gmass2)
+	 - BsFactor1/2.0/(ScalProd1-Gmass2);
 }
