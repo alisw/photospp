@@ -44,3 +44,16 @@ extern "C" complex<double> softfactor_(int *s,double k[4],double p1[4],double *m
   return SoftFactor(*s,k,p1,*m1,p2,*m2,*Gmass2);
 }
 
+extern complex<double> TrMatrix_zero(double p1[4],double m1,int l1,double k[4],int s,double p2[4],double m2,int l2);
+
+extern "C" complex<double> trmatrix_zero_(double p1[4],double *m1,int *l1,double k[4],int *s,double p2[4],double *m2,int *l2)
+{
+  return TrMatrix_zero(p1,*m1,*l1,k,*s,p2,*m2,*l2);
+}
+
+extern complex<double> TrMatrix_mass(double p1[4],double m1,int l1,double k[4],double m,int s,double p2[4],double m2,int l2);
+
+extern "C" complex<double> trmatrix_mass_(double p1[4],double *m1,int *l1,double k[4],double *m,int *s,double p2[4],double *m2,int *l2)
+{
+  return TrMatrix_mass(p1,*m1,*l1,k,*m,*s,p2,*m2,*l2);
+}

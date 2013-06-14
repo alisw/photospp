@@ -6,7 +6,7 @@ using std::complex;
 
 extern "C" struct{
   // COMMON /Kleiss_Stirling/spV,bet
-  double spV,bet;
+  double spV[4],bet[4];
 } kleiss_stirling_;
 
 extern "C" struct{
@@ -233,4 +233,405 @@ complex<double>  SoftFactor(int s,double k[4],double p1[4],double m1,double p2[4
 
   return + BsFactor2/2.0/(ScalProd2-Gmass2)
 	 - BsFactor1/2.0/(ScalProd1-Gmass2);
+}
+
+//############################################################################# 
+//                                                                            #
+//                         \ eps(k,0,s)                                       # 
+//                         /                                                  #   
+//                        _\                                                  # 
+//                         /\                                                 #
+//                         \                                                  #
+//                         /                                                  #
+//           ---<----------\-------------<---                                 #
+//       Ub(p1,m1,l1)                  U(p2,m2,l2)                            #
+//                                                                            #
+//                                                                            #
+//             definition of arbitrary light-like vector beta!!               #
+//                                                                            #
+//              bet[0] = 1.d0                                                 #
+//              bet[1] = 1.d0                                                 #
+//              bet[2] = 0.d0      <==> bet == k0  expression becomes easy!!  #
+//              bet[3] = 0.d0                                                 #
+//#############################################################################
+
+complex<double> TrMatrix_zero(double p1[4],double m1,int l1,double k[4],int s,double p2[4],double m2,int l2){
+
+  double forSqrt1,forSqrt2;
+  double p1_1[4],p2_1[4];
+  double sqrt1,sqrt2,scalProd1,scalProd2;
+  complex<double>   inPr1,inPr2,inPr3;
+  bool          equal;
+
+  equal = true;    
+  for (int i = 0; i < 4; i++) 
+    if (p1[i] != p2[i])  equal = equal&&false;
+
+                    
+
+  if ( (m1==m2)&&(equal) ){
+    //..          
+    //..             when:  p1=p2=p <=> m1=m2 TrMatrix_zero is diagonal
+    //..               
+    if ( (l1==+1)&&(l2==+1) ){ 
+
+      inPr1    = InProd_zero(k,+s,p1,-s);
+      forSqrt1 = (p1[0]-p1[1])/(k[0]-k[1]); 
+      sqrt1    = sqrt(2.0*forSqrt1);
+
+      return sqrt1*inPr1;
+    }  
+ 
+    else if ( (l1==+1)&&(l2==-1) ){                
+
+      return complex<double>(0.0,0.0);}
+                     
+
+    else if ( (l1==-1)&&(l2==+1) ){               
+
+      return complex<double>(0.0,0.0);
+    } 
+
+    else if ( (l1==-1)&&(l2==-1) ){                
+
+      inPr1    = InProd_zero(k,+s,p1,-s);
+      forSqrt1 = (p1[0]-p1[1])/(k[0]-k[1]); 
+      sqrt1    = sqrt(2.0*forSqrt1);
+
+      return sqrt1*inPr1;
+    }  
+          
+    else{ 
+        
+      cout << ""  <<endl;           
+      cout << " ERROR IN  TrMatrix_zero: " <<endl;
+      cout << "       WRONG VALUES FOR l1,l2,s" <<endl; 
+      cout <<  "" <<endl;             
+      exit(0);
+
+    }       
+
+  }
+
+  if ( (l1==+1)&&(l2==+1)&&(s==+1) ){
+
+    inPr1    = InProd_zero(k,+1,p1,-1);
+    forSqrt1 = (p2[0]-p2[1])/(k[0]-k[1]);
+    sqrt1    = sqrt(2.0*forSqrt1);                   
+ 
+    return sqrt1*inPr1;
+  }
+  else if ( (l1==+1)&&(l2==-1)&&(s==+1) ) {
+ 
+    return complex<double>(0.0,0.0);
+  }
+
+  else if( (l1==-1)&&(l2==+1)&&(s==+1) ){
+  
+    forSqrt1 = (p1[0]-p1[1])/(p2[0]-p2[1]);             
+    forSqrt2 = 1.0/forSqrt1;
+    sqrt1    = sqrt(2.0*forSqrt1);                   
+    sqrt2    = sqrt(2.0*forSqrt2);                   
+                     
+    return complex<double>(m2*sqrt1-m1*sqrt2,0.0);
+  }
+  else if ( (l1==-1)&&(l2==-1)&&(s==+1) ){ 
+
+    inPr1    = InProd_zero(k,+1,p2,-1);
+    forSqrt1 = (p1[0]-p1[1])/(k[0]-k[1]);
+    sqrt1    = sqrt(2.0*forSqrt1);                   
+  
+    return inPr1*sqrt1;
+  }
+
+  else if ( (l1==+1)&&(l2==+1)&&(s==-1) ){
+ 
+    inPr1    = -InProd_zero(k,-1,p2,+1);
+    forSqrt1 = (p1[0]-p1[1])/(k[0]-k[1]);
+    sqrt1    = sqrt(2.0*forSqrt1);                   
+ 
+    return   -sqrt1*inPr1;
+  }
+
+  else if ( (l1==+1)&&(l2==-1)&&(s==-1) ){ 
+           
+    forSqrt1 = (p1[0]-p1[1])/(p2[0]-p2[1]);     
+    forSqrt2 = 1.0/forSqrt1;
+    sqrt1    = sqrt(2.0*forSqrt1);                   
+    sqrt2    = sqrt(2.0*forSqrt2);                   
+                     
+    return complex<double>(m2*sqrt1-m1*sqrt2,0.0);
+  }
+
+  else if ( (l1==-1)&&(l2==+1)&&(s==-1) ){ 
+
+    return complex<double>(0.0,0.0);
+  }
+
+  else if( (l1==-1)&&(l2==-1)&&(s==-1) ){ 
+
+    inPr1    = -InProd_zero(k,-1,p1,+1);
+    forSqrt1 = (p2[0]-p2[1])/(k[0]-k[1]);
+    sqrt1    = sqrt(2.0*forSqrt1);                   
+  
+    return -inPr1*sqrt1;
+  }
+  else {     
+
+    cout << "" << endl;
+    cout << " ERROR IN TrMatrix_zero: " << endl;
+    cout << "    WRONG VALUES FOR l1,l2,s" << endl;
+    cout << "" << endl;             
+    exit(0);
+  }
+
+}
+
+
+
+////////////////////////////////////////////////////////////////
+//          transition matrix for massive boson               //
+//                                                            // 
+//                                                            //
+//                         \ eps(k,m,s)                       //
+//                         /                                  // 
+//                        _\                                  //
+//                         /\ k                               // 
+//                         \                                  //
+//             <-- p1      /         <-- p2                   //                       
+//           ---<----------\----------<---                    //
+//       Ub(p1,m1,l1)                  U(p2,m2,l2)            //
+//                                                            // 
+////////////////////////////////////////////////////////////////                         
+complex<double> TrMatrix_mass(double p1[4],double m1,int l1,double k[4],double m,int s,double p2[4],double m2,int l2){
+
+
+  double forSqrt1,forSqrt2;
+  double k_1[4],k_2[4];
+  double forSqrt3,forSqrt4,sqrt3,sqrt1,sqrt2,sqrt4;
+  complex<double>   inPr1,inPr2,inPr3,inPr4;
+
+  //           double  spV[4],bet[4]
+  //           double  pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af
+  //           COMMON /Kleiss_Stirling/spV,bet
+  //           COMMON /mc_parameters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN      
+  // COMMON /mc_paraneters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN 
+  // temporary solution these will be global variables of the class   
+  double pi     = mc_parameters_.pi;
+  double alphaI = mc_parameters_.alphaI;
+  double qb     = mc_parameters_.qb;
+  double mf1    = mc_parameters_.mf1;
+  double mf2    = mc_parameters_.mf2;
+  double vf     = mc_parameters_.vf;
+  double af     = mc_parameters_.af;
+  double *spV = kleiss_stirling_.spV;
+  // end of temporary solution
+
+  for (int i = 0; i < 4; i++) {
+    k_1[i] = 1.0/2.0*(k[i] - m*spV[i]);
+    k_2[i] = 1.0/2.0*(k[i] + m*spV[i]);                                
+  }
+
+  if ( (l1==+1)&&(l2==+1)&&(s==0) ){ 
+                
+    inPr1 = InProd_zero(p1,+1,k_2,-1);
+    inPr2 = InProd_zero(p2,-1,k_2,+1);
+    inPr3 = InProd_zero(p1,+1,k_1,-1);
+    inPr4 = InProd_zero(p2,-1,k_1,+1);
+    sqrt1 = sqrt(p1[0]-p1[1]);
+    sqrt2 = sqrt(p2[0]-p2[1]);
+    sqrt3 = m1*m2/sqrt1/sqrt2;
+
+              return                 
+                            (inPr1*inPr2-inPr3*inPr4)*(vf+af)/m 
+		+ (k_1[0]-k_2[0]-k_1[1]+k_2[1])*sqrt3*(vf-af)/m; 
+  }       
+                 
+  else if ( (l1==+1)&&(l2==-1)&&(s==0) ){
+
+    inPr1 = InProd_zero(p1,+1,k_1,-1);
+    inPr2 = InProd_zero(p1,+1,k_2,-1);
+    inPr3 = InProd_zero(p2,+1,k_2,-1);
+    inPr4 = InProd_zero(p2,+1,k_1,-1);
+
+    forSqrt1 = (k_1[0]-k_1[1])/(p2[0]-p2[1]);
+    forSqrt2 = (k_2[0]-k_2[1])/(p2[0]-p2[1]);
+    forSqrt3 = (k_2[0]-k_2[1])/(p1[0]-p1[1]);
+    forSqrt4 = (k_1[0]-k_1[1])/(p1[0]-p1[1]);
+    sqrt1 = sqrt(forSqrt1);
+    sqrt2 = sqrt(forSqrt2);
+    sqrt3 = sqrt(forSqrt3);
+    sqrt4 = sqrt(forSqrt4);     
+
+              return 
+                  (inPr1*sqrt1 - inPr2*sqrt2)*(vf+af)*m2/m
+		+ (inPr3*sqrt3 - inPr4*sqrt4)*(vf-af)*m1/m;
+  }
+  else if ( (l1==-1)&&(l2==+1)&&(s==0) ){ 
+
+    inPr1 = InProd_zero(p1,-1,k_1,+1);
+    inPr2 = InProd_zero(p1,-1,k_2,+1);
+    inPr3 = InProd_zero(p2,-1,k_2,+1);
+    inPr4 = InProd_zero(p2,-1,k_1,+1);
+
+    forSqrt1 = (k_1[0]-k_1[1])/(p2[0]-p2[1]);
+    forSqrt2 = (k_2[0]-k_2[1])/(p2[0]-p2[1]);
+    forSqrt3 = (k_2[0]-k_2[1])/(p1[0]-p1[1]);
+    forSqrt4 = (k_1[0]-k_1[1])/(p1[0]-p1[1]);
+    sqrt1 = sqrt(forSqrt1);
+    sqrt2 = sqrt(forSqrt2);
+    sqrt3 = sqrt(forSqrt3);
+    sqrt4 = sqrt(forSqrt4);     
+        
+              return 
+                  (inPr1*sqrt1 - inPr2*sqrt2)*(vf-af)*m2/m
+		+ (inPr3*sqrt3 - inPr4*sqrt4)*(vf+af)*m1/m;
+  }
+  else if  ( (l1==-1)&&(l2==-1)&&(s==0) ){ 
+
+    inPr1 = InProd_zero(p2,+1,k_2,-1);
+    inPr2 = InProd_zero(p1,-1,k_2,+1);
+    inPr3 = InProd_zero(p2,+1,k_1,-1);
+    inPr4 = InProd_zero(p1,-1,k_1,+1);
+    sqrt1 = sqrt(p1[0]-p1[1]);
+    sqrt2 = sqrt(p2[0]-p2[1]);
+    sqrt3 = m1*m2/sqrt1/sqrt2;
+
+             return                    
+                         (inPr1*inPr2 - inPr3*inPr4)*(vf-af)/m  
+	       + (k_1[0]-k_2[0]-k_1[1]+k_2[1])*sqrt3*(vf+af)/m;
+  }
+  else if ( (l1==+1)&&(l2==+1)&&(s==+1) ){ 
+
+    inPr1 = InProd_zero(p1,+1,k_1,-1);
+    inPr2 = InProd_zero(k_2,-1,p2,+1);
+    inPr3 = inPr1*inPr2;
+
+    forSqrt1 = (k_1[0]-k_1[1])/(p1[0]-p1[1]);                       
+    forSqrt2 = (k_2[0]-k_2[1])/(p2[0]-p2[1]);  
+    sqrt1 = sqrt(forSqrt1);                   
+    sqrt2 = sqrt(forSqrt2);                   
+    sqrt3 = m1*m2*sqrt1*sqrt2;
+
+             return
+	       sqrt(2.0)/m*(inPr3*(vf+af)+sqrt3*(vf-af));
+  }
+
+  else if ( (l1==+1)&&(l2==-1)&&(s==+1) ){
+
+    inPr1 = InProd_zero(p1,+1,k_1,-1);
+    inPr2 = InProd_zero(p2,+1,k_1,-1); 
+
+    forSqrt1 = (k_2[0]-k_2[1])/(p2[0]-p2[1]);                      
+    forSqrt2 = (k_2[0]-k_2[1])/(p1[0]-p1[1]);                       
+    sqrt1 = m2*sqrt(forSqrt1);                   
+    sqrt2 = m1*sqrt(forSqrt2);                                     
+                     
+              return
+                      sqrt(2.0)/m*( + inPr1*sqrt1*(vf+af)
+                                    - inPr2*sqrt2*(vf-af)
+				  );
+  }
+  else if  ( (l1==-1)&&(l2==+1)&&(s==+1) ){
+
+    inPr1 = InProd_zero(k_2,-1,p2,+1);
+    inPr2 = InProd_zero(k_2,-1,p1,+1);
+
+    forSqrt1 = (k_1[0]-k_1[1])/(p1[0]-p1[1]);                       
+    forSqrt2 = (k_1[0]-k_1[1])/(p2[0]-p2[1]);                       
+    sqrt1 = m1*sqrt(forSqrt1);                   
+    sqrt2 = m2*sqrt(forSqrt2);                                     
+                     
+              return
+                      sqrt(2.0)/m*( + inPr1*sqrt1*(vf+af)
+                                    - inPr2*sqrt2*(vf-af)
+				  );
+  }
+  else if ( (l1==-1)&&(l2==-1)&&(s==+1) ){ 
+
+    inPr1 = InProd_zero(p2,+1,k_1,-1);
+    inPr2 = InProd_zero(k_2,-1,p1,+1);
+    inPr3 = inPr1*inPr2;
+
+    forSqrt1 = (k_1[0]-k_1[1])/(p1[0]-p1[1]);                       
+    forSqrt2 = (k_2[0]-k_2[1])/(p2[0]-p2[1]);  
+    sqrt1 = sqrt(forSqrt1);                  
+    sqrt2 = sqrt(forSqrt2);                   
+    sqrt3 = m1*m2*sqrt1*sqrt2;
+
+              return 
+		sqrt(2.0)/m*(inPr3*(vf-af)+sqrt3*(vf+af));
+  }
+
+  else if ( (l1==+1)&&(l2==+1)&&(s==-1) ){ 
+
+    inPr1 = InProd_zero(p2,-1,k_1,+1);
+    inPr2 = InProd_zero(k_2,+1,p1,-1);
+    inPr3 = inPr1*inPr2;
+
+    forSqrt1 = (k_1[0]-k_1[1])/(p1[0]-p1[1]);                       
+    forSqrt2 = (k_2[0]-k_2[1])/(p2[0]-p2[1]);  
+    sqrt1 = sqrt(forSqrt1);                   
+    sqrt2 = sqrt(forSqrt2);                   
+    sqrt3 = m1*m2*sqrt1*sqrt2;
+
+             return               
+	       sqrt(2.0)/m*(inPr3*(vf+af)+sqrt3*(vf-af));
+  }
+  else if ( (l1==+1)&&(l2==-1)&&(s==-1) ){ 
+
+    inPr1 = InProd_zero(k_2,+1,p2,-1);
+    inPr2 = InProd_zero(k_2,+1,p1,-1);
+
+    forSqrt1 = (k_1[0]-k_1[1])/(p1[0]-p1[1]);                       
+    forSqrt2 = (k_1[0]-k_1[1])/(p2[0]-p2[1]);                       
+    sqrt1 = m1*sqrt(forSqrt1);                   
+    sqrt2 = m2*sqrt(forSqrt2);                                     
+                     
+              return
+                      sqrt(2.0)/m*(+ inPr1*sqrt1*(vf-af)
+                                   - inPr2*sqrt2*(vf+af)
+				  );
+  }
+  else if ( (l1==-1)&&(l2==+1)&&(s==-1) ){
+
+    inPr1 = InProd_zero(p1,-1,k_1,+1);
+    inPr2 = InProd_zero(p2,-1,k_1,+1);
+
+    forSqrt1 = (k_2[0]-k_2[1])/(p2[0]-p2[1]);                       
+    forSqrt2 = (k_2[0]-k_2[1])/(p1[0]-p1[1]);                       
+    sqrt1 = m2*sqrt(forSqrt1);                   
+    sqrt2 = m1*sqrt(forSqrt2);                                     
+                     
+              return
+                      sqrt(2.0)/m*(+ inPr1*sqrt1*(vf-af)
+                                   - inPr2*sqrt2*(vf+af) 
+				  );
+  }
+  else if ( (l1==-1)&&(l2==-1)&&(s==-1) ){ 
+
+    inPr1 = InProd_zero(p1,-1,k_1,+1);
+    inPr2 = InProd_zero(k_2,+1,p2,-1);
+    inPr3 = inPr1*inPr2;
+
+    forSqrt1 = (k_1[0]-k_1[1])/(p1[0]-p1[1]);                       
+    forSqrt2 = (k_2[0]-k_2[1])/(p2[0]-p2[1]);  
+    sqrt1 = sqrt(forSqrt1);                   
+    sqrt2 = sqrt(forSqrt2);                   
+    sqrt3 = m1*m2*sqrt1*sqrt2;
+
+             return 
+	       sqrt(2.0)/m*(inPr3*(vf-af)+sqrt3*(vf+af));
+  }
+
+  else{ 
+
+    cout << " "<< endl;             
+    cout << " TrMatrix_mass: Wrong values for l1,l2,s:"<< endl;
+    cout << "          l1,l2 = -1,+1; s = -1,0,1 "<< endl;
+    cout << " "<< endl;             
+    exit(0);
+
+  } 
+         
 }
