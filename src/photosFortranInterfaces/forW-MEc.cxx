@@ -805,7 +805,7 @@ double WDecayBornAmpSqrKS_1ph(double p3[4],double p1[4],double p2[4]){
   complex<double> wDecAmp;
 
   spinSumAvrg = 0.0;
-  for (int l3 = -1; l3< 3 ; l3+=2) {
+  for (int l3 = -1; l3< 2 ; l3++) {
     for (int l1 = -1; l1< 3 ; l1+=2) {
       for (int l2 = -1; l2< 3 ; l2+=2) {
 	wDecAmp     = WDecayBornAmpKS_1ph(p3,l3,p1,l1,p2,l2);
@@ -832,7 +832,7 @@ double WDecayAmplitudeSqrKS_1ph(double p3[4],double p1[4],double p2[4], double k
   complex<double> wDecAmp;
 
   spinSumAvrg = 0.0;
-  for (int l3 = -1; l3< 3 ; l3+=2) {
+  for (int l3 = -1; l3< 2 ; l3++) {
     for (int l1 = -1; l1< 3 ; l1+=2) {
       for (int l2 = -1; l2< 3 ; l2+=2) {
 	for (int s  = -1; s < 3 ;  s+=2) {
