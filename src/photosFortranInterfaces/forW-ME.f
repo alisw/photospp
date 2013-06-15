@@ -171,6 +171,7 @@ c       WT3=1.D0
       ENDIF
       RETURN
       END
+
       SUBROUTINE PHOBWnlo(WT)
 C.----------------------------------------------------------------------
 C.
@@ -210,10 +211,9 @@ C.----------------------------------------------------------------------
       DOUBLE PRECISION EMU,MCHREN,BETA,COSTHG,MPASQR,XPH,
      &                 PW(0:3),PMU(0:3),PPHOT(0:3),PNE(0:3),
      &                 B_PW(0:3),B_PNE(0:3),B_PMU(0:3),AMPSQR,SANC_MC_INIT
-      DOUBLE PRECISION WDecayAmplitudeSqrKS_1ph,WDecayEikonalSqrKS_1ph,
-     &                 WDecayBornAmpSqrKS_1ph,EIKONALFACTOR
-      EXTERNAL WDecayAmplitudeSqrKS_1ph,WDecayEikonalSqrKS_1ph,WDecayBornAmpSqrKS_1ph
 
+      DOUBLE PRECISION SANC_WT
+      EXTERNAL SANC_WT 
       INTEGER  d_h_nmxhep         ! maximum number of particles
       PARAMETER (d_h_NMXHEP=10000)
       REAL*8  d_h_phep,  d_h_vhep ! to be real*4/ *8  depending on host
@@ -229,13 +229,10 @@ C.----------------------------------------------------------------------
      $      d_h_phep(5,d_h_nmxhep),   ! four-momentum, mass [GeV]
      $      d_h_vhep(4,d_h_nmxhep)    ! vertex [mm]
 
-      SAVE SANC_MC_INIT
-      DATA SANC_MC_INIT /-123456789D0/
-      INTEGER           mcLUN
-      DOUBLE PRECISION  spV(0:3),bet(0:3)
+
+
       DOUBLE PRECISION  pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af
-      COMMON /Kleiss_Stirling/spV,bet
-      COMMON /mc_parameters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN        
+
 !      write(*,*) 'IDPHOs=',IDPHO(1),IDPHO(2),IDPHO(3),IDPHO(4),IDPHO(5)
 !      write(*,*) 'IDPHOs=',JDAPHO(1,1),npho
 !      write(*,*) 'd_h_IDPHOs=',d_h_IDhep(1),d_h_IDhep(2),d_h_IDhep(3),d_h_IDhep(4),d_h_IDhep(5)
@@ -270,32 +267,7 @@ c..        muon mass square
 
 c...       Initialization of the W->l\nu\gamma 
 c...       decay Matrix Element parameters 
-           IF (SANC_MC_INIT.EQ.-123456789D0) THEN
-              SANC_MC_INIT=1D0
-
-              PI=4*datan(1d0)
-              QF1=0d0                           ! neutrino charge
-              MF1=1d-10                         ! newutrino mass
-              VF=1d0                            ! V&A couplings
-              AF=1d0
-              alphaI=1d0/ALPHA
-              CW=0.881731727d0                  ! Weak Weinberg angle
-              SW=0.471751166d0
-           
-
-c...          An auxilary K&S vectors
-              bet(0)= 1d0
-              bet(1)= 0.0722794881816159d0
-              bet(2)=-0.994200045099866d0
-              bet(3)= 0.0796363353729248d0 
-
-              spV(0)= 0d0 
-              spV(1)= 7.22794881816159d-002
-              spV(2)=-0.994200045099866d0     
-              spV(3)= 7.96363353729248d-002
-
-              mcLUN = PHLUN
-           ENDIF 
+           CALL SANC_INIT(ALPHA,PHLUN)
 
 
            MB=PPHO(4,1)                      ! W boson mass
@@ -337,6 +309,28 @@ c..        Particle monenta after photon radiation
 C two options of calculating neutrino (spectator) mass
            MF1=SQRT(ABS(B_PNE(0)**2-B_PNE(1)**2-B_PNE(2)**2-B_PNE(3)**2))
            MF1=SQRT(ABS(  PNE(0)**2-  PNE(1)**2-  PNE(2)**2-  PNE(3)**2))
+
+          CALL SANC_INIT1(QB,QF2,MF2,MB)
+          WT=WT*SANC_WT(PW,PNE,PMU,PPHOT,B_PW,B_PNE,B_PMU)
+        ENDIF
+!      write(*,*)   'AMPSQR/EIKONALFACTOR= ',   AMPSQR/EIKONALFACTOR
+      END
+
+
+C========================================================== ==
+C========================================================== ==
+C these will be public for PHOTOS functions of W_ME class   ==
+C========================================================== ==
+C========================================================== ==
+
+      DOUBLE PRECISION FUNCTION SANC_WT(PW,PNE,PMU,PPHOT,B_PW,B_PNE,B_PMU)
+      IMPLICIT NONE
+
+      DOUBLE PRECISION WDecayAmplitudeSqrKS_1ph,WDecayBornAmpSqrKS_1ph
+      DOUBLE PRECISION EIKONALFACTOR,WDecayEikonalSqrKS_1ph,AMPSQR,
+     &                 PW(0:3),PMU(0:3),PPHOT(0:3),PNE(0:3),
+     &                 B_PW(0:3),B_PNE(0:3),B_PMU(0:3)
+      EXTERNAL WDecayAmplitudeSqrKS_1ph,WDecayEikonalSqrKS_1ph,WDecayBornAmpSqrKS_1ph
 c..        Exact amplitude square      
            AMPSQR=WDecayAmplitudeSqrKS_1ph(PW,PNE,PMU,PPHOT)
 
@@ -358,11 +352,71 @@ c..        New weight
 !           write(*,*) 'b_pmu=',B_PMU
  
  !          write(*,*) 'cori=',AMPSQR/EIKONALFACTOR,AMPSQR,EIKONALFACTOR
-           WT=WT*AMPSQR/EIKONALFACTOR
+ 
+      SANC_WT=AMPSQR/EIKONALFACTOR
 c           
-c          WT=WT*(1-8*EMU*XPH*(1-COSTHG*BETA)*     
+c          SANC_WT=(1-8*EMU*XPH*(1-COSTHG*BETA)*     
 c     $           (MCHREN+2*XPH*SQRT(MPASQR))/
 c     $            MPASQR**2/(1-MCHREN/MPASQR)/(4-MCHREN/MPASQR)) 
-        ENDIF
-!      write(*,*)   'AMPSQR/EIKONALFACTOR= ',   AMPSQR/EIKONALFACTOR
+
+      RETURN
       END
+
+
+      subroutine SANC_INIT1(QB0,QF20,MF20,MB0)
+      IMPLICIT NONE
+      DOUBLE PRECISION QB0,QF20,MF10,MF20,MB0 
+      INTEGER           mcLUN
+      DOUBLE PRECISION  pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af
+      COMMON /mc_parameters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN
+      QB =QB0
+      QF2=QF20
+      MF2=MF20
+      MB =MB0
+      RETURN
+      END
+
+      subroutine SANC_INIT(ALPHA,PHLUN)
+      implicit none
+      DOUBLE PRECISION  ALPHA
+      DOUBLE PRECISION  spV(0:3),bet(0:3)
+      INTEGER           mcLUN
+      DOUBLE PRECISION  pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af
+      COMMON /Kleiss_Stirling/spV,bet
+      COMMON /mc_parameters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN   
+      INTEGER PHLUN
+
+      DOUBLE PRECISION SANC_MC_INIT
+      SAVE SANC_MC_INIT
+      DATA SANC_MC_INIT /-123456789D0/
+c...       Initialization of the W->l\nu\gamma 
+c...       decay Matrix Element parameters 
+           IF (SANC_MC_INIT.EQ.-123456789D0) THEN
+              SANC_MC_INIT=1D0
+
+              PI=4*datan(1d0)
+              QF1=0d0                           ! neutrino charge
+              MF1=1d-10                         ! newutrino mass
+              VF=1d0                            ! V&A couplings
+              AF=1d0
+              alphaI=1d0/ALPHA
+              CW=0.881731727d0                  ! Weak Weinberg angle
+              SW=0.471751166d0
+           
+
+c...          An auxilary K&S vectors
+              bet(0)= 1d0
+              bet(1)= 0.0722794881816159d0
+              bet(2)=-0.994200045099866d0
+              bet(3)= 0.0796363353729248d0 
+
+              spV(0)= 0d0 
+              spV(1)= 7.22794881816159d-002
+              spV(2)=-0.994200045099866d0     
+              spV(3)= 7.96363353729248d-002
+
+              mcLUN = PHLUN
+           ENDIF 
+
+      return
+      end
