@@ -911,10 +911,10 @@ double SANC_WT(double PW[4],double PNE[4],double PMU[4],double PPHOT[4],double B
 
 
 void SANC_INIT1(double QB0,double QF20,double MF20,double MB0){
-  mc_parameters_.QB& =QB0;
-  mc_parameters_.QF2&=QF20;
-  mc_parameters_.MF2&=MF20;
-  mc_parameters_.MB& =MB0;
+  mc_parameters_.qb =QB0;
+  mc_parameters_.qf2=QF20;
+  mc_parameters_.mf2=MF20;
+  mc_parameters_.mb =MB0;
 }
 
 void SANC_INIT(double ALPHA,int PHLUN){
@@ -927,14 +927,14 @@ void SANC_INIT(double ALPHA,int PHLUN){
   if (SANC_MC_INIT==-123456789){
     SANC_MC_INIT=1;
 
-    mc_parameters_.PI=4*atan(1.0);
-    mc_parameters_.QF1=0.0;                           // neutrino charge
-    mc_parameters_.MF1=1.0e-10;                       // newutrino mass
-    mc_parameters_.VF=1.0;                            // V&A couplings
-    mc_parameters_.AF=1.0;
+    mc_parameters_.pi=4*atan(1.0);
+    mc_parameters_.qf1=0.0;                           // neutrino charge
+    mc_parameters_.mf1=1.0e-10;                       // newutrino mass
+    mc_parameters_.vf=1.0;                            // V&A couplings
+    mc_parameters_.af=1.0;
     mc_parameters_.alphaI=1.0/ALPHA;
-    mc_parameters_.CW=0.881731727;                    // Weak Weinberg angle
-    mc_parameters_.SW=0.471751166;
+    mc_parameters_.cw=0.881731727;                    // Weak Weinberg angle
+    mc_parameters_.sw=0.471751166;
            
 
     //...          An auxilary K&S vectors
