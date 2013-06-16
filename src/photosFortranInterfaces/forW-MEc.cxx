@@ -867,3 +867,87 @@ double WDecayAmplitudeSqrKS_1ph(double p3[4],double p1[4],double p2[4], double k
 //$$$
 //$$$
 }
+
+
+
+//C========================================================== ==
+//C========================================================== ==
+//C these will be public for PHOTOS functions of W_ME class   ==
+//C========================================================== ==
+//C========================================================== ==
+
+double SANC_WT(double PW[4],double PNE[4],double PMU[4],double PPHOT[4],double B_PW[4],double B_PNE[4],double B_PMU[4]){
+
+
+  //..        Exact amplitude square      
+  double AMPSQR=WDecayAmplitudeSqrKS_1ph(PW,PNE,PMU,PPHOT);
+
+  double EIKONALFACTOR=WDecayBornAmpSqrKS_1ph(B_PW,B_PNE,B_PMU)
+                       *WDecayEikonalSqrKS_1ph(PW,PNE,PMU,PPHOT);
+      
+    //..        New weight
+
+    //           cout << 'B_pne=',B_PNE  << endl;
+    //           cout << 'B_PMU=',B_PMU  << endl;
+    //           cout << 'bornie=',WDecayBornAmpSqrKS_1ph(B_PW,B_PNE,B_PMU)  << endl;
+
+    //           cout << ' '  << endl;
+    //           cout << '  pne=',pne  << endl;
+    //           cout << '  pmu=',pmu  << endl;
+    //           cout << 'pphot=',pphot  << endl;
+    //           cout << ' '  << endl;
+    //           cout << '  b_pw=',B_PW  << endl;
+    //           cout << '  b_pne=',B_PNE  << endl;
+    //           cout << 'b_pmu=',B_PMU  << endl;
+ 
+    //          cout << 'cori=',AMPSQR/EIKONALFACTOR,AMPSQR,EIKONALFACTOR  << endl;
+ 
+  return AMPSQR/EIKONALFACTOR;
+    //           
+    //          return (1-8*EMU*XPH*(1-COSTHG*BETA)*     
+    //                 (MCHREN+2*XPH*SQRT(MPASQR))/
+    //                 MPASQR**2/(1-MCHREN/MPASQR)/(4-MCHREN/MPASQR)) 
+}
+
+
+void SANC_INIT1(double QB0,double QF20,double MF20,double MB0){
+  mc_parameters_.QB& =QB0;
+  mc_parameters_.QF2&=QF20;
+  mc_parameters_.MF2&=MF20;
+  mc_parameters_.MB& =MB0;
+}
+
+void SANC_INIT(double ALPHA,int PHLUN){
+
+
+  static int SANC_MC_INIT=-123456789;
+
+  //...       Initialization of the W->l\nu\gamma 
+  //...       decay Matrix Element parameters 
+  if (SANC_MC_INIT==-123456789){
+    SANC_MC_INIT=1;
+
+    mc_parameters_.PI=4*atan(1.0);
+    mc_parameters_.QF1=0.0;                           // neutrino charge
+    mc_parameters_.MF1=1.0e-10;                       // newutrino mass
+    mc_parameters_.VF=1.0;                            // V&A couplings
+    mc_parameters_.AF=1.0;
+    mc_parameters_.alphaI=1.0/ALPHA;
+    mc_parameters_.CW=0.881731727;                    // Weak Weinberg angle
+    mc_parameters_.SW=0.471751166;
+           
+
+    //...          An auxilary K&S vectors
+    kleiss_stirling_.bet[0]= 1.0;
+    kleiss_stirling_.bet[1]= 0.0722794881816159;
+    kleiss_stirling_.bet[2]=-0.994200045099866;
+    kleiss_stirling_.bet[3]= 0.0796363353729248; 
+
+    kleiss_stirling_.spV[0]= 0.0; 
+    kleiss_stirling_.spV[1]= 7.22794881816159e-2;
+    kleiss_stirling_.spV[2]=-0.994200045099866;     
+    kleiss_stirling_.spV[3]= 7.96363353729248e-2;
+
+    mc_parameters_.mcLUN = PHLUN;
+  } 
+}
