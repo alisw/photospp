@@ -37,3 +37,88 @@ void GIVIZO(int IDFERM,int IHELIC,double *SIZO3,double *CHARGE,int *KOLOR) {
   //** XOUPZ=(SIZO3-CHARGE*SWSQ)/SQRT(SWSQ*(1-SWSQ))
   return;
 }
+
+
+////////////////////////////////////////////////////////////////////////////
+///                                                                       //
+/// This routine provides unsophisticated Born differential cross section //
+/// at the crude x-section level, with Z and gamma s-chanel exchange.     //
+///////////////////////////////////////////////////////////////////////////
+double PHBORNM(double svar,double costhe,double T3e,double qe,double T3f,double qf,int NCf){
+
+  double   s,t,Sw2,MZ,MZ2,GammZ,MW,MW2,AlfInv,GFermi;
+  double   sum,deno,Ve,Ae,thresh;
+  double   xe,yf,xf,ye,ff0,ff1,amx2,amfin,Vf,Af;
+  double   ReChiZ,SqChiZ,RaZ,RaW,ReChiW,SqChiW;
+  double   Born, BornS;
+  int  KeyZet,HadMin,KFbeam;
+  int  i,ke,KFfin,kf,IsGenerated,iKF;
+  int  KeyWidFix;
+  // we may want to use phpico_.pi phpico_.twopi defined in Photos::initialize()
+  static double PI=3.14159265358979324, TWOPI=6.28318530717958648;
+ 
+  AlfInv= 137.0359895;
+  GFermi=1.16639e-5;
+
+  //--------------------------------------------------------------------
+  s = svar;
+  //------------------------------
+  //     EW paratemetrs taken from BornV
+  MZ=91.187;
+  GammZ=2.50072032;
+  Sw2=.22276773;
+  //------------------------------
+  // Z and gamma couplings to beams (electrons)
+  // Z and gamma couplings to final fermions
+  // Loop over all flavours defined in m_xpar(400+i)
+
+
+  //------ incoming fermion
+  Ve=  2*T3e -4*qe*Sw2;
+  Ae=  2*T3e;
+  //------ final fermion couplings
+  amfin = 0.000511; //  m_xpar(kf+6)
+  Vf =  2*T3f -4*qf*Sw2;
+  Af =  2*T3f;
+  if(abs(costhe) > 1.0){
+    cout << "+++++STOP in PHBORN: costhe>0 =" << costhe << endl;
+    exit(0);
+  }
+  MZ2  = MZ*MZ;
+  RaZ  = (GFermi *MZ2 *AlfInv  )/( sqrt(2.0) *8.0 *PI); //
+  RaZ  = 1/(16.0*Sw2*(1.0-Sw2));
+  KeyWidFix = 1;       // fixed width
+  KeyWidFix = 0;       // variable width
+  if( KeyWidFix == 0 ){
+    ReChiZ=(s-MZ2)*s/((s-MZ2)*(s-MZ2)+(GammZ*s/MZ)*(GammZ*s/MZ)) *RaZ;     // variable width
+    SqChiZ=      s*s/((s-MZ2)*(s-MZ2)+(GammZ*s/MZ)*(GammZ*s/MZ)) *RaZ*RaZ; // variable width
+  }
+  else{
+      ReChiZ=(s-MZ2)*s/((s-MZ2)*(s-MZ2)+(GammZ*MZ)*(GammZ*MZ)) *RaZ;     // fixed width
+      SqChiZ=      s*s/((s-MZ2)*(s-MZ2)+(GammZ*MZ)*(GammZ*MZ)) *RaZ*RaZ; // fixed width
+  }
+  xe= Ve*Ve +Ae*Ae;
+  xf= Vf*Vf +Af*Af;
+  ye= 2*Ve*Ae;
+  yf= 2*Vf*Af;
+  ff0= qe*qe*qf*qf +2*ReChiZ*qe*qf*Ve*Vf +SqChiZ*xe*xf;
+  ff1=             +2*ReChiZ*qe*qf*Ae*Af +SqChiZ*ye*yf;
+  Born    = (1.0+ costhe*costhe)*ff0 +2.0*costhe*ff1;
+  // Colour factor
+  Born = NCf*Born;
+  // Crude method of correcting threshold, cos(theta) depencence incorrect!!!
+  if(    svar <  4.0*amfin*amfin){ 
+    thresh=0.0;
+  }
+  else if(svar < 16.0*amfin*amfin){
+    amx2=4.0*amfin*amfin/svar;
+    thresh=sqrt(1.0-amx2)*(1.0+amx2/2.0);
+  }
+  else{
+    thresh=1.0;
+  }
+
+  Born= Born*thresh;
+  return Born;
+}
+
