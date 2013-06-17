@@ -133,8 +133,8 @@ double PHBORNM(double svar,double costhe,double T3e,double qe,double T3f,double 
 double AFBCALC(double SVAR,int IDEE,int IDFF){
   int KOLOR,KOLOR1;
   double T3e,qe,T3f,qf,A,B;
-  GIVIZO(IDEE,-1,T3e,qe,KOLOR);
-  GIVIZO(IDFF,-1,T3f,qf,KOLOR1);
+  GIVIZO(IDEE,-1,&T3e,&qe,&KOLOR);
+  GIVIZO(IDFF,-1,&T3f,&qf,&KOLOR1);
 
   A=PHBORNM(SVAR,0.5,T3e,qe,T3f,qf,KOLOR*KOLOR1);
   B=PHBORNM(SVAR,-0.5,T3e,qe,T3f,qf,KOLOR*KOLOR1);
