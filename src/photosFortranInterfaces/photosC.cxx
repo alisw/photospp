@@ -2,7 +2,6 @@
 #include <cmath>
 using std::max;
 using namespace Photospp;
-
 /** Logical function used deep inside algorithm to check if emitted
     particles are to emit. For mother it blocks the vertex, 
     but for daughters individually: bad sisters will not prevent electron to emit.
@@ -391,5 +390,40 @@ void PHOB(int MODE,double PBOOS1[4],double vec[4]){
   for( J=1; J<4;J++) vec[J-j0]=vec[J-j0]+BET1[J-j0]*(vec[4-j0]+PB/(GAM1+1.0));
   vec[4-j0]=GAM1*vec[4-j0]+PB;
   //--
+}
+
+
+//     *******************************
+// Boost along arbitrary axis (as implemented by Ronald Kleiss).
+// The method is described in book of Bjorken and Drell
+// p boosted into r  from actual frame to rest frame of q
+// forth (mode = 1) or back (mode = -1).
+// q must be a timelike, p may be arbitrary.
+void bostdq(int mode,double qq[4],double pp[4],double r[4]){
+  double q[4],p[4],amq,fac;
+  static int i=1;
+  int k;
+
+  for(k=0;k<4;k++){
+    p[k-i]=pp[k-i];
+    q[k-i]=qq[k-i];
+  }
+  amq =sqrt(q[4-i]*q[4-i]-q[1-i]*q[1-i]-q[2-i]*q[2-i]-q[3-i]*q[3-i]);
+
+  if    (mode == -1){
+    r[4-i] = (p[1-i]*q[1-i]+p[2-i]*q[2-i]+p[3-i]*q[3-i]+p[4-i]*q[4-i])/amq;
+    fac  = (r[4-i]+p[4-i])/(q[4-i]+amq);
+  }
+  else if(mode ==  1){
+    r[4-i] =(-p[1-i]*q[1-i]-p[2-i]*q[2-i]-p[3-i]*q[3-i]+p[4-i]*q[4-i])/amq;
+    fac  =-(r[4-i]+p[4-i])/(q[4-i]+amq);
+  }
+  else{
+    cout << " ++++++++ wrong mode in boostdq " << endl;
+    exit(0);
+  }
+  r[1-i]=p[1-i]+fac*q[1-i];
+  r[2-i]=p[2-i]+fac*q[2-i];
+  r[3-i]=p[3-i]+fac*q[3-i];
 }
 

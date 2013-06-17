@@ -71,9 +71,16 @@ extern "C" double phoro2_(double *ANGLE,double PVEC[4])
   return PHORO2(*ANGLE,PVEC);
 }
 
-extern double PHOB(int MODE,double PBOOS1[4],double VEC[4]);
+extern void PHOB(int MODE,double PBOOS1[4],double VEC[4]);
 
-extern "C" double phob_(int *MODE, double PBOOS1[4], double VEC[4])
+extern "C" void phob_(int *MODE, double PBOOS1[4], double VEC[4])
 {
   return PHOB(*MODE,PBOOS1,VEC);
+}
+
+extern void bostdq(int mode,double qq[4],double pp[4],double r[4]);
+
+extern "C" void bostdq_(int *mode,double qq[4],double pp[4],double r[4])
+{
+  return bostdq(*mode,qq,pp,r);
 }
