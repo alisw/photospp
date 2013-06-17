@@ -140,3 +140,38 @@ double AFBCALC(double SVAR,int IDEE,int IDFF){
   B=PHBORNM(SVAR,-0.5,T3e,qe,T3f,qf,KOLOR*KOLOR1);
   return (A-B)/(A+B)*5.0/2.0 *3.0/8.0;
 }
+
+
+int GETIDEE(int IDE){
+
+  int IDEE;
+  if((IDE==11)       || (IDE== 13) || (IDE== 15)){
+    IDEE=2;
+  }
+  else if((IDE==-11) || (IDE==-13) || (IDE==-15)){
+    IDEE=-2;
+  }
+  else if((IDE== 12) || (IDE== 14) || (IDE== 16)){
+    IDEE=1;
+  }
+  else if((IDE==-12) || (IDE==-14) || (IDE==-16)){
+    IDEE=-1;
+  }
+  else if((IDE==  1) || (IDE==  3) || (IDE==  5)){
+    IDEE=4;
+  }
+  else if((IDE== -1) || (IDE== -3) || (IDE== -5)){
+    IDEE=-4;
+  }
+  else if((IDE==  2) || (IDE==  4) || (IDE==  6)){
+    IDEE=3;
+  }
+  else if((IDE==- 2) || (IDE== -4) || (IDE== -6)){
+    IDEE=-3;
+  }
+
+  return IDEE;
+}
+
+
+  

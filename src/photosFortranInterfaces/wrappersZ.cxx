@@ -15,3 +15,9 @@ extern "C" double afbcalc_(double *SVAR,int *IDEE,int *IDFF)
 {
   return AFBCALC(*SVAR,*IDEE,*IDFF);
 }
+
+extern int GETIDEE(int IDE);
+extern "C" int getidee_(int *IDE)
+{
+  return GETIDEE(*IDE);
+}
