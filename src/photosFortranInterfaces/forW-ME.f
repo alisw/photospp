@@ -310,7 +310,7 @@ C two options of calculating neutrino (spectator) mass
            MF1=SQRT(ABS(B_PNE(0)**2-B_PNE(1)**2-B_PNE(2)**2-B_PNE(3)**2))
            MF1=SQRT(ABS(  PNE(0)**2-  PNE(1)**2-  PNE(2)**2-  PNE(3)**2))
 
-          CALL SANC_INIT1(QB,QF2,MF2,MB)
+          CALL SANC_INIT1(QB,QF2,MF1,MF2,MB)
           WT=WT*SANC_WT(PW,PNE,PMU,PPHOT,B_PW,B_PNE,B_PMU)
         ENDIF
 !      write(*,*)   'AMPSQR/EIKONALFACTOR= ',   AMPSQR/EIKONALFACTOR

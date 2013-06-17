@@ -35,11 +35,11 @@ extern "C" double sanc_wt_(double PW[4],double PNE[4],double PMU[4],double PPHOT
 }
 
 
-void SANC_INIT1(double QB0,double QF20,double MF20,double MB0);
+void SANC_INIT1(double QB0,double QF20,double MF10,double MF20,double MB0);
 
-extern "C" void sanc_init1_(double *QB0,double *QF20,double *MF20,double *MB0)
+extern "C" void sanc_init1_(double *QB0,double *QF20,double *MF10,double *MF20,double *MB0)
 {
-  return SANC_INIT1(*QB0,*QF20,*MF20,*MB0);
+  return SANC_INIT1(*QB0,*QF20,*MF10,*MF20,*MB0);
 }
 
 

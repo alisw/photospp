@@ -910,9 +910,10 @@ double SANC_WT(double PW[4],double PNE[4],double PMU[4],double PPHOT[4],double B
 }
 
 
-void SANC_INIT1(double QB0,double QF20,double MF20,double MB0){
+void SANC_INIT1(double QB0,double QF20,double MF10,double MF20,double MB0){
   mc_parameters_.qb =QB0;
   mc_parameters_.qf2=QF20;
+  mc_parameters_.mf1=MF10;
   mc_parameters_.mf2=MF20;
   mc_parameters_.mb =MB0;
 }
