@@ -386,34 +386,3 @@ C      CALL PHODMP
       ENDDO
       return
       end
-
-      SUBROUTINE bostdq(mode,qq,pp,r)
-*     *******************************
-* Boost along arbitrary axis (as implemented by Ronald Kleiss).
-* The method is described in book of Bjorken and Drell
-* p boosted into r  from actual frame to rest frame of q
-* forth (mode = 1) or back (mode = -1).
-* q must be a timelike, p may be arbitrary.
-      IMPLICIT DOUBLE PRECISION (a-h,o-z)
-      DIMENSION qq(4),pp(4),r(4)
-      DIMENSION q(4),p(4)
-      DO k=1,4
-         p(k)=pp(k)
-         q(k)=qq(k)
-      ENDDO
-      amq =dsqrt(q(4)**2-q(1)**2-q(2)**2-q(3)**2)
-      IF    (mode .EQ. -1) THEN
-         r(4) = (p(1)*q(1)+p(2)*q(2)+p(3)*q(3)+p(4)*q(4))/amq
-         fac  = (r(4)+p(4))/(q(4)+amq)
-      ELSEIF(mode .EQ.  1) THEN
-         r(4) =(-p(1)*q(1)-p(2)*q(2)-p(3)*q(3)+p(4)*q(4))/amq
-         fac  =-(r(4)+p(4))/(q(4)+amq)
-      ELSE
-         WRITE(*,*) ' ++++++++ wrong mode in boostdq '
-         STOP
-      ENDIF
-      r(1)=p(1)+fac*q(1)
-      r(2)=p(2)+fac*q(2)
-      r(3)=p(3)+fac*q(3)
-      END
-

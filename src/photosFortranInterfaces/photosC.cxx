@@ -1,5 +1,8 @@
 #include "Photos.h"
 #include <cmath>
+#include <iostream>
+using std::cout;
+using std::endl;
 using std::max;
 using namespace Photospp;
 /** Logical function used deep inside algorithm to check if emitted
@@ -404,7 +407,7 @@ void bostdq(int mode,double qq[4],double pp[4],double r[4]){
   static int i=1;
   int k;
 
-  for(k=0;k<4;k++){
+  for(k=1;k<=4;k++){
     p[k-i]=pp[k-i];
     q[k-i]=qq[k-i];
   }
