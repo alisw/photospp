@@ -467,88 +467,88 @@ void PHOERR(int IMES,char *TEXT,double DATA){
   bool IFSTOP=phosta_.ifstop;
   FILE *PHLUN = stdout;
   int furthA=0;
-  fprintf(PHLUN,"%s",star80);
-  fprintf(PHLUN,"*");  //9120
+  fprintf(PHLUN,"%s\n",star80);
+  fprintf(PHLUN,"*\n");  //9120
   //      GOTO (10,20,30,40,50,60,70,80,90,100),IMES
 
   switch(IMES){
   case 1:
-    fprintf(PHLUN,"* %s: Too many charged Particles, NCHARG = %6i", TEXT,(int)SDATA);   //I6
+    fprintf(PHLUN,"* %s: Too many charged Particles, NCHARG = %6i\n", TEXT,(int)SDATA);   //I6
     furthA= 110;
     break;
   case 2:
-    fprintf(PHLUN,"* %s: Too much Bremsstrahlung required, PRSOFT = %15.6f", TEXT,SDATA);//F15.6
+    fprintf(PHLUN,"* %s: Too much Bremsstrahlung required, PRSOFT = %15.6f\n", TEXT,SDATA);//F15.6
     furthA= 110;
     break;
   case 3:
-    fprintf(PHLUN,"* %s: Combined Weight is exceeding 1., Weight = %15.6f", TEXT,SDATA);   //F15.6
+    fprintf(PHLUN,"* %s: Combined Weight is exceeding 1., Weight = %15.6f\n", TEXT,SDATA);   //F15.6
     furthA= 110;
     break;
   case 4:
-    fprintf(PHLUN,"* %s: Error in Rescaling charged and neutral Vectors", TEXT);
+    fprintf(PHLUN,"* %s: Error in Rescaling charged and neutral Vectors\n", TEXT);
     furthA= 110;
     break;
   case 5:
-    fprintf(PHLUN,"* %s: Non matching charged Particle Pointer, NCHARG = %5i", TEXT,(int)SDATA);  //I5
+    fprintf(PHLUN,"* %s: Non matching charged Particle Pointer, NCHARG = %5i\n", TEXT,(int)SDATA);  //I5
     furthA= 110;
     break;
   case 6:
-    fprintf(PHLUN,"* %s: Do you really work with a Particle of Spin: %4.1f  ?", TEXT,SDATA);   //F4.1
+    fprintf(PHLUN,"* %s: Do you really work with a Particle of Spin: %4.1f\n", TEXT,SDATA);   //F4.1
     furthA= 130;
     break;
   case 7:
-    fprintf(PHLUN,"* %s: Stack Length exceeded, NSTACK = %5i", TEXT,(int)(SDATA));//I5
+    fprintf(PHLUN,"* %s: Stack Length exceeded, NSTACK = %5i\n", TEXT,(int)(SDATA));//I5
     furthA= 110;
     break;
   case 8:
-    fprintf(PHLUN,"* %s: Random Number Generator Seed(1) out of Range: %8i", TEXT,(int)SDATA);//I8
+    fprintf(PHLUN,"* %s: Random Number Generator Seed(1) out of Range: %8i\n", TEXT,(int)SDATA);//I8
     furthA= 110;
     break;
   case 9:
-    fprintf(PHLUN,"* %s: Random Number Generator Seed(2) out of Range: %8i", TEXT,(int)SDATA);//I8
+    fprintf(PHLUN,"* %s: Random Number Generator Seed(2) out of Range: %8i\n", TEXT,(int)SDATA);//I8
     furthA= 110;
     break;
   case 10:
-    fprintf(PHLUN,"* %s: Available Phase Space below Cut-off: %15.6f GeV/c^2", TEXT,SDATA);//F15.6
+    fprintf(PHLUN,"* %s: Available Phase Space below Cut-off: %15.6f GeV/c^2\n", TEXT,SDATA);//F15.6
     furthA= 130;
     break;
   default:
-    fprintf(PHLUN,"* Funny Error Message: %4i FurthA to do ?", IMES);//I4
+    fprintf(PHLUN,"* Funny Error Message: %4i ! What to do ?\n", IMES);//I4
     furthA= 120;
     break;
   }
 
  switch(furthA){
  case 110:
-   fprintf(PHLUN,"* Fatal Error Message, I stop this Run !");
-   fprintf(PHLUN,"*"); //9120
-   fprintf(PHLUN,"%s",star80);
+   fprintf(PHLUN,"* Fatal Error Message, I stop this Run !\n");
+   fprintf(PHLUN,"*\n"); //9120
+   fprintf(PHLUN,"%s\n",star80);
    if (IFSTOP){ 
      exit(0);
    }
    else{
-     fprintf(PHLUN,"*"); //9120
-     fprintf(PHLUN,"%s",star80);
+     fprintf(PHLUN,"*\n"); //9120
+     fprintf(PHLUN,"%s\n",star80);
      break;
    }      
  case 120:
    IERROR=IERROR+1;
    if (IERROR>=10){
-     fprintf(PHLUN,"* 10 Error Messages generated, I stop this Run ! T81 *");
-     fprintf(PHLUN,"*");//9120
-     fprintf(PHLUN,"%s",star80);
+     fprintf(PHLUN,"* 10 Error Messages generated, I stop this Run !\n");
+     fprintf(PHLUN,"*\n");//9120
+     fprintf(PHLUN,"%s\n",star80);
      if (IFSTOP){
        exit(0);
      }
      else{
-       fprintf(PHLUN,"*"); //9120
-       fprintf(PHLUN,"%s",star80);
+       fprintf(PHLUN,"*\n"); //9120
+       fprintf(PHLUN,"%s\n",star80);
        break;
      }
    }  
  case 130:
-  fprintf(PHLUN,"*");  //9120
-  fprintf(PHLUN,"%s",star80);
+  fprintf(PHLUN,"*\n");  //9120
+  fprintf(PHLUN,"%s\n",star80);
   break;
  }
  return;
@@ -589,28 +589,28 @@ void PHOREP(){
   char X23[24 ]= "                       ";
   char X16[17] = "                ";
   FILE *PHLUN = stdout;
-  fprintf(PHLUN," ");
-  fprintf(PHLUN,"%s",star80);
-  fprintf(PHLUN,"*");
-  fprintf(PHLUN,"* %s %s",X26,EQ25);
-  fprintf(PHLUN,"* %s PHOTOS Run Summary",X30);
-  fprintf(PHLUN,"* %s %s",X26,EQ25);
-  fprintf(PHLUN,"*");
+  fprintf(PHLUN," \n");
+  fprintf(PHLUN,"%s\n",star80);
+  fprintf(PHLUN,"*\n");
+  fprintf(PHLUN,"* %s %s\n",X26,EQ25);
+  fprintf(PHLUN,"* %s PHOTOS Run Summary\n",X30);
+  fprintf(PHLUN,"* %s %s\n",X26,EQ25);
+  fprintf(PHLUN,"*\n");
   for(I=1;I<=PHOMES;I++){
 
     if (phosta_.status[I-1] == 0) break;
     if ((I == 6)|| (I == 10)){
-      fprintf(PHLUN,"* %s Warning # %2i  occured %6i times",X22, I,phosta_.status[I-1]); // I2 I6 
+      fprintf(PHLUN,"* %s Warning # %2i  occured %6i times\n",X22, I,phosta_.status[I-1]); // I2 I6 
     }
     else{
       ERROR=true;
-      fprintf(PHLUN,"* %s Error # %2i occured %6i  times",X23, I,phosta_.status[I-1]);// I2 I6
+      fprintf(PHLUN,"* %s Error # %2i occured %6i  times\n",X23, I,phosta_.status[I-1]);// I2 I6
     }	      
   }
 
-  if (!ERROR) fprintf(PHLUN,"* %s PHOTOS Execution has successfully terminated ",X16);
-  fprintf(PHLUN,"*");
-  fprintf(PHLUN,"%s",star80);
+  if (!ERROR) fprintf(PHLUN,"* %s PHOTOS Execution has successfully terminated\n",X16);
+  fprintf(PHLUN,"*\n");
+  fprintf(PHLUN,"%s\n",star80);
   return;
 
 //      RETURN
