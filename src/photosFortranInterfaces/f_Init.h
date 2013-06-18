@@ -23,7 +23,7 @@ extern "C"
 		int ifw;
 	} phokey_;
 
-	extern struct
+	extern struct PHOSTA
 	{
 		int status[10];
 	        int ifstop;

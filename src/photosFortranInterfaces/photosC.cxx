@@ -7,6 +7,8 @@ using std::endl;
 using std::max;
 using namespace Photospp;
 
+// Declaration of 'phosta_' defined in f_Init.h
+struct PHOSTA phosta_;
 
 /** Logical function used deep inside algorithm to check if emitted
     particles are to emit. For mother it blocks the vertex, 
