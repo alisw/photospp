@@ -1,10 +1,13 @@
 #include "Photos.h"
 #include <cmath>
 #include <iostream>
+#include "f_Init.h"
 using std::cout;
 using std::endl;
 using std::max;
 using namespace Photospp;
+
+
 /** Logical function used deep inside algorithm to check if emitted
     particles are to emit. For mother it blocks the vertex, 
     but for daughters individually: bad sisters will not prevent electron to emit.
@@ -430,3 +433,184 @@ void bostdq(int mode,double qq[4],double pp[4],double r[4]){
   r[3-i]=p[3-i]+fac*q[3-i];
 }
 
+
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOton radiation in decays ERRror handling
+//
+//    Purpose:  Inform user  about (fatal) errors and warnings generated
+//              by either the user or the program.
+//
+//    Input Parameters:   IMES, TEXT, DATA
+//
+//    Output Parameters:  None
+//
+//    Author(s):  B. van Eijk                     Created at:  29/11/89
+//                                                Last Update: 18/06/13
+//
+//----------------------------------------------------------------------
+void PHOERR(int IMES,char *TEXT,double DATA){
+
+  static int IERROR=0;
+  double  SDATA;
+  static int PHOMES=10;
+
+  static int i=1;
+  if (IMES<=PHOMES) phosta_.status[IMES-i]=phosta_.status[IMES-i]+1;
+// 
+//    Count number of non-fatal errors...
+  if ((IMES ==  6) && (phosta_.status[IMES-i]>=2)) return;
+  if ((IMES == 10) && (phosta_.status[IMES-i]>=2)) return;
+  SDATA=DATA;
+  int PHLUN=(int)pholun_.phlun;
+  int what=0;
+  fprintf(PHLUN,"80('*')");  //9000
+  fprintf(PHLUN,"'*',T81,'*' ");  //9120
+  //      GOTO (10,20,30,40,50,60,70,80,90,100),IMES
+
+  switch(IMES){
+  case 1:
+    fprintf(PHLUN,"* s%: Too many charged Particles, NCHARG =i% T81 *", TEXT,(int)SDATA);   //I6
+    what= 110;
+    break;
+  case 2:
+    fprintf(PHLUN,"* s%: Too much Bremsstrahlung required, PRSOFT = f% T81 *", TEXT,SDATA);//F15.6
+    what= 110;
+    break;
+  case 3:
+    fprintf(PHLUN,"* s%: Combined Weight is exceeding 1., Weight = f% T81 *", TEXT,SDATA);   //F15.6
+    what= 110;
+    break;
+  case 4:
+    fprintf(PHLUN,"* s%: Error in Rescaling charged and neutral Vectors T81 *", TEXT);
+    what= 110;
+    break;
+  case 5:
+    fprintf(PHLUN,"* s%: Non matching charged Particle Pointer, NCHARG = i% T81 *", TEXT,(int)SDATA);  //I5
+    what= 110;
+    break;
+  case 6:
+    fprintf(PHLUN,"* s%: Do you really work with a Particle of Spin: f%  ? T81 *", TEXT,SDATA);   //F4.1
+    what= 130;
+    break;
+  case 7:
+    fprintf(PHLUN,"* s%: Stack Length exceeded, NSTACK = i% T81 *", TEXT,(int)(SDATA));//I5
+    what= 110;
+    break;
+  case 8:
+    fprintf(PHLUN,"* s%: Random Number Generator Seed(1) out of Range: i% T81 *", TEXT,(int)SDATA);//I8
+    what= 110;
+    break;
+  case 9:
+    fprintf(PHLUN,"* s%: Random Number Generator Seed(2) out of Range: i% T81 *", TEXT,(int)SDATA);//I8
+    what= 110;
+    break;
+  case 10:
+    fprintf(PHLUN,"* s%: Available Phase Space below Cut-off: f% GeV/c^2 T81 *", TEXT,SDATA);//F15.6
+    what= 130;
+    break;
+  default:
+    fprintf(PHLUN,"* Funny Error Message: %i What to do ? T81 *", IMES);//I4
+    what= 120;
+    break;
+  }
+
+ case(what){
+ case 110:
+   fprintf(PHLUN,"* Fatal Error Message, I stop this Run ! T81 *");
+   fprintf(PHLUN,"'*',T81,'*' "); //9120
+   fprintf(PHLUN,"80('*')");  //9000
+   if (IFSTOP){ 
+     exit(0);
+   }
+   else{
+     fprintf(PHLUN,"'*',T81,'*' "); //9120
+     fprintf(PHLUN,"80('*')"); //9000
+     break;
+   }      
+ case 120:
+   IERROR=IERROR+1;
+   if (IERROR>=10){
+     fprintf(PHLUN,"* 10 Error Messages generated, I stop this Run ! T81 *");
+     fprintf(PHLUN,"'*',T81,'*' ");//9120
+     fprintf(PHLUN,"80('*')")  //9000
+     if (IFSTOP){
+       exit(0);
+     }
+     else{
+       fprintf(PHLUN,"'*',T81,'*' "); //9120
+       fprintf(PHLUN,"80('*')")  //9000
+       break;
+     }
+   }  
+ case 130:
+  fprintf(PHLUN,"'*',T81,'*' ");  //9120
+  fprintf(PHLUN,"80('*')");
+  break;
+ }
+ return;
+}
+
+ //9120 FORMAT(1H ,'*',T81,'*')
+ // 9140 FORMAT(1H ,'* Fatal Error Message, I stop this Run !',T81,'*')
+ // 9150 FORMAT(1H ,'* 10 Error Messages generated, I stop this Run !',T81,
+ //     &'*')
+}
+
+
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOton radiation in decays run summary REPort
+//
+//    Purpose:  Inform user about success and/or restrictions of PHOTOS
+//              encountered during execution.
+//
+//    Input Parameters:   Common /PHOSTA/
+//
+//    Output Parameters:  None
+//
+//    Author(s):  B. van Eijk                     Created at:  10/01/92
+//                                                Last Update: 18/06/13
+//
+//----------------------------------------------------------------------
+void PHOREP(){
+  static int PHOMES=10;
+  int I;
+  bool ERROR=false;
+  int PHLUN=(int)pholun_.phlun;
+  fprintf(PHLUN," ");
+  fprintf(PHLUN,"80('*')");
+  fprintf(PHLUN,"'*',T81,'*' ");
+  fprintf(PHLUN,"'*',26X,25('='),T81,'*' ");
+  fprintf(PHLUN,",'*',30X,'PHOTOS Run Summary',T81,'*'");
+  fprintf(PHLUN,"'*',26X,25('='),T81,'*' ");
+  fprintf(PHLUN,"'*',T81,'*' ");
+  for(i=1;i<=PHOMES;i++){
+
+    if (STATUS(I) == 0) break;
+    if ((I == 6)|| (I == 10)){
+      fprintf(PHLUN,"'*',22X,'Warning # i%  occured i% times',T81,'*'", I,STATUS(I)); // I2 I6 
+    }
+    else{
+      ERROR=true;
+      fprintf(PHLUN,"'*',23X,'Error # i% occured i%  times',T81,'*'", I,STATUS(I));// I2 I6
+    }	      
+  }
+
+  if (!ERROR) fprintf(PHLUN,"'*',16X,'PHOTOS Execution has successfully terminated',T81,'*'");
+  fprintf(PHLUN,"'*',T81,'*' ");
+  fprintf(PHLUN,"80('*')");
+  return;
+
+//      RETURN
+// 9000 FORMAT(1H1)
+// 9010 FORMAT(1H ,80('*'))
+// 9020 FORMAT(1H ,'*',T81,'*')
+// 9030 FORMAT(1H ,'*',26X,25('='),T81,'*')
+// 9040 FORMAT(1H ,'*',30X,'PHOTOS Run Summary',T81,'*')
+// 9050 FORMAT(1H ,'*',22X,'Warning #',I2,' occured',I6,' times',T81,'*')
+// 9060 FORMAT(1H ,'*',23X,'Error #',I2,' occured',I6,' times',T81,'*')
+ // 9070 FORMAT(1H ,'*',16X,'PHOTOS Execution has successfully terminated',
+ //     &T81,'*')
+}
+ 

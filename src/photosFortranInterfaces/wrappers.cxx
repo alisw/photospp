@@ -84,3 +84,19 @@ extern "C" void bostdq_(int *mode,double qq[4],double pp[4],double r[4])
 {
   return bostdq(*mode,qq,pp,r);
 }
+
+
+extern void PHOERR(int IMES,char *TEXT,double DATA);
+
+extern "C" void phoerr_(int *IMES,char *TEXT,double *DATA)
+{
+  return PHOERR(*IMES,*TEXT,*DATA;
+}
+
+
+extern void PHOREP();
+
+extern "C" void phorep_()
+{
+  return PHOREP();
+}
