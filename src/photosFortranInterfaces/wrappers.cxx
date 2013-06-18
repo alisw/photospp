@@ -90,7 +90,7 @@ extern void PHOERR(int IMES,char *TEXT,double DATA);
 
 extern "C" void phoerr_(int *IMES,char *TEXT,double *DATA)
 {
-  return PHOERR(*IMES,*TEXT,*DATA;
+  return PHOERR(*IMES,TEXT,*DATA);
 }
 
 
