@@ -45,12 +45,12 @@ C fi3 orientation of photon, fi1,th1 orientation of neutral
       REAL*8  QP(4),QM(4),PH(4),QQ(4),PP(4),PM(4),QQS(4)
       REAL*8 s,c,svar,xkaM,xkaP,xk,phwtnlo,xdumm,PHINT
       REAL*8 ENE,a,t,u,t1,u1,wagan2,waga,PHASYZ,BT,BU,ENEB
-      INTEGER IBREM,K,L,IREP,IDUM
+      INTEGER IBREM,K,L,IREP,IDUM,IDHEP3
       integer icont,ide,idf
       REAL*8 delta
       REAL*8 PNEUTR,MCHSQR,MNESQR
       COMMON/PHOMOM/MCHSQR,MNESQR,PNEUTR(5)
-
+      DOUBLE PRECISION Zphwtnlo
 */////////////////////
 !        call phlupa(299 500)
 
@@ -133,16 +133,45 @@ C go back to reaction frame (QQ eliminated)
         CALL PHOB(-1,QQS,qp)
         CALL PHOB(-1,QQS,qm)
         CALL PHOB(-1,QQS,QQ)
+
+        svar=PHEP(4,1)**2
+C we calculate C  note that TH1 exists in MUSTRAAL as well. 
+
+        C=COS(TH1)
+
+        IDHEP3=IDHEP(3)
+        phwtnlo=Zphwtnlo
+     $          (IDHEP3,svar,C,xk,COSTHG,BETA,th1,IREP,IBREM,qp,qm,ph,pp,pm)
+
+      ELSE
+C in other cases we just use default setups.
+        phwtnlo= PHINT(IDUM)
+      ENDIF
+      end
+
+
+
+      DOUBLE PRECISION FUNCTION Zphwtnlo
+     $         (IDHEP3,svar,C,xk,COSTHG,BETA,th1,IREP,IBREM,qp,qm,ph,pp,pm)
+      IMPLICIT NONE
+      REAL*8  QP(4),QM(4),PH(4),PP(4),PM(4)
+      INTEGER IDHEP3,IREP,IBREM
+      INTEGER IDE,IDF
+      DOUBLE PRECISION svar,C,xk,COSTHG,BETA,th1
+      DOUBLE PRECISION s,xkaM,xkaP,t,u,t1,u1,BT,BU
+      DOUBLE PRECISION waga,wagan2
+      DOUBLE PRECISION PHASYZ
+
+
 C IBREM is spurious but it numbers branches of MUSTRAAL
 
         IBREM=1
        IF (IREP.EQ.1)  IBREM=-1
 
-        svar=PHEP(4,1)**2
-
 C we calculate C and S, note that TH1 exists in MUSTRAAL as well. 
 
-        C=COS(TH1)
+C        C=COS(TH1) ! this parameter is calculated outside of the class
+
 C from off line application we had:
         IF(IBREM.EQ.-1) C=-C
 C ... we need to check it. 
@@ -182,7 +211,7 @@ C basically irrelevant lines  ...
 
 
       call GETIDEIDF(IDE,IDF)   ! we adjust to what is f-st,s-nd beam flavour 
-       IF (IDE*IDHEP(3).GT.0) THEN
+       IF (IDE*IDHEP3.GT.0) THEN
         BT=1+PHASYZ(SVAR)
         BU=1-PHASYZ(SVAR)
        ELSE
@@ -197,25 +226,25 @@ C basically irrelevant lines  ...
         waga=2/(1.D0+COSTHG*BETA)*wagan2  
 !     %       * SVAR/4./xkap*(1.D0-COSTHG*BETA)*sqrt(1.0-xk)
 
-        phwtnlo=waga
+        Zphwtnlo=waga
         IF(wagan2.gt.3.8) THEN
 !         write(*,*) 'phwtnlo= ',phwtnlo
-         write(*,*) 'idhepy= ',IDHEP(1),IDHEP(2),IDHEP(3),IDHEP(4),IDHEP(5)
+!         write(*,*) 'idhepy= ',IDHEP(1),IDHEP(2),IDHEP(3),IDHEP(4),IDHEP(5)
          write(*,*) 'IDE=',IDE,'  IDF=',IDF
          write(*,*) 'bt,bu,bt+bu= ',bt,bu,bt+bu
          call PHODMP
          write(*,*) ' '
          write (*,*) IREP,IBREM, '<-- IREP,IBREM '
-         write(*,*) 'pneutr= ',pneutr
+ !        write(*,*) 'pneutr= ',pneutr
          write(*,*) 'qp    = ',qp
          write(*,*) 'qm    = ',qm
          write(*,*) ' '
          write(*,*) 'ph    = ',ph
-         write(*,*) 'p1= ',PHEP(1,1),PHEP(2,1),PHEP(3,1),PHEP(4,1)
-         write(*,*) 'p2= ',PHEP(1,2),PHEP(2,2),PHEP(3,2),PHEP(4,2)
-         write(*,*) 'p3= ',PHEP(1,3),PHEP(2,3),PHEP(3,3),PHEP(4,3)
-         write(*,*) 'p4= ',PHEP(1,4),PHEP(2,4),PHEP(3,4),PHEP(4,4)
-         write(*,*) 'p5= ',PHEP(1,5),PHEP(2,5),PHEP(3,5),PHEP(4,5)
+ !        write(*,*) 'p1= ',PHEP(1,1),PHEP(2,1),PHEP(3,1),PHEP(4,1)
+ !        write(*,*) 'p2= ',PHEP(1,2),PHEP(2,2),PHEP(3,2),PHEP(4,2)
+ !        write(*,*) 'p3= ',PHEP(1,3),PHEP(2,3),PHEP(3,3),PHEP(4,3)
+ !        write(*,*) 'p4= ',PHEP(1,4),PHEP(2,4),PHEP(3,4),PHEP(4,4)
+ !        write(*,*) 'p5= ',PHEP(1,5),PHEP(2,5),PHEP(3,5),PHEP(4,5)
 
          write (*,*) ' c= ',c,' theta= ',th1
 !         write(*,*)  'photos waga daje ... IBREM=',IBREM,' waga=',waga
@@ -246,11 +275,10 @@ C basically irrelevant lines  ...
          waga=2/(1.D0+COSTHG*BETA)*wagan2  
 !     %       * SVAR/4./xkap*(1.D0-COSTHG*BETA)*sqrt(1.0-xk)
 
-        phwtnlo=waga
+        Zphwtnlo=waga
 
         ENDIF
-      ELSE
-C in other cases we just use default setups.
-        phwtnlo= PHINT(IDUM)
-      ENDIF
-      end
+
+
+      RETURN
+      END
