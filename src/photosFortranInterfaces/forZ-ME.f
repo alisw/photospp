@@ -135,13 +135,10 @@ C go back to reaction frame (QQ eliminated)
         CALL PHOB(-1,QQS,QQ)
 
         svar=PHEP(4,1)**2
-C we calculate C  note that TH1 exists in MUSTRAAL as well. 
-
-        C=COS(TH1)
 
         IDHEP3=IDHEP(3)
         phwtnlo=Zphwtnlo
-     $          (IDHEP3,svar,C,xk,COSTHG,BETA,th1,IREP,IBREM,qp,qm,ph,pp,pm)
+     $        (svar,xk,IDHEP3,IREP,IBREM,qp,qm,ph,pp,pm,COSTHG,BETA,th1)
 
       ELSE
 C in other cases we just use default setups.
@@ -152,13 +149,15 @@ C in other cases we just use default setups.
 
 
       DOUBLE PRECISION FUNCTION Zphwtnlo
-     $         (IDHEP3,svar,C,xk,COSTHG,BETA,th1,IREP,IBREM,qp,qm,ph,pp,pm)
+     $       (svar,xk,IDHEP3,IREP,IBREM,qp,qm,ph,pp,pm,COSTHG,BETA,th1)
       IMPLICIT NONE
       REAL*8  QP(4),QM(4),PH(4),PP(4),PM(4)
       INTEGER IDHEP3,IREP,IBREM
       INTEGER IDE,IDF
-      DOUBLE PRECISION svar,C,xk,COSTHG,BETA,th1
-      DOUBLE PRECISION s,xkaM,xkaP,t,u,t1,u1,BT,BU
+      DOUBLE PRECISION svar,xk
+      DOUBLE PRECISION COSTHG,BETA,th1 ! variables of some common blocks
+                                       ! passed though function parameters
+      DOUBLE PRECISION C,s,xkaM,xkaP,t,u,t1,u1,BT,BU
       DOUBLE PRECISION waga,wagan2
       DOUBLE PRECISION PHASYZ
 
@@ -170,7 +169,7 @@ C IBREM is spurious but it numbers branches of MUSTRAAL
 
 C we calculate C and S, note that TH1 exists in MUSTRAAL as well. 
 
-C        C=COS(TH1) ! this parameter is calculated outside of the class
+        C=COS(TH1) ! this parameter is calculated outside of the class
 
 C from off line application we had:
         IF(IBREM.EQ.-1) C=-C
