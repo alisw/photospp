@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 #include "f_Init.h"
+#include "PH_HEPEVT_Interface.h"
 using std::cout;
 using std::endl;
 using std::max;
@@ -626,4 +627,21 @@ void PHOREP(){
 // 9070 FORMAT(1H ,'*',16X,'PHOTOS Execution has successfully terminated',
 //     &T81,'*')
 }
- 
+
+//*****************************************************************
+//*****************************************************************
+//*****************************************************************
+// beginning of the class of methods reading from  PH_HEPEVT
+//*****************************************************************
+//*****************************************************************
+//*****************************************************************
+
+
+void GETIDEIDF(int IDE,int IDF){
+  // this method provides information on particles ID-s to be used
+  // by  the Z-ME class in calculation of A_FB
+  static int i;  
+  IDE=ph_hepevt_.idhep[1-i];
+  IDF=ph_hepevt_.idhep[4-i];
+  if(abs(ph_hepevt_.idhep[4-i])==abs(ph_hepevt_.idhep[3-i])) IDF=ph_hepevt_.idhep[3-i];
+}

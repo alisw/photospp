@@ -174,4 +174,39 @@ int GETIDEE(int IDE){
 }
 
 
-  
+//----------------------------------------------------------------------
+//
+//    PHASYZ:   PHotosASYmmetry of Z
+//
+//    Purpose:  Calculates born level asymmetry for Z
+//              between distributions (1-C)**2 and (1+C)**2
+//              At present dummy, requrires effective Z and gamma 
+//              Couplings and also spin polarization states
+//              For initial and final states.
+//              To be correct this function need to be tuned
+//              to host generator. Axes orientation polarisation
+//              conventions etc etc. 
+//              Modularity of PHOTOS would break. 
+//
+//    Input Parameters:   SVAR
+//
+//    Output Parameters:  Function value
+//
+//    Author(s):  Z. Was                          Created at:  10/12/05
+//                                                Last Update: 19/06/13
+//
+//----------------------------------------------------------------------
+double PHASYZ(double SVAR){
+
+
+  double AFB;
+  int IDE,IDF,IDEE,IDFF;
+  GETIDEIDF(IDE,IDF);
+  IDEE=abs(GETIDEE(IDE));
+  IDFF=abs(GETIDEE(IDF));
+  AFB= -AFBCALC(SVAR,IDEE,IDFF);
+  //      AFB=0
+  return 4.0/3.0*AFB;
+  //      write(*,*) 'IDE=',IDE,'  IDF=',IDF,'  SVAR=',SVAR,'AFB=',AFB
+}
+

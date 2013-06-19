@@ -21,3 +21,9 @@ extern "C" int getidee_(int *IDE)
 {
   return GETIDEE(*IDE);
 }
+
+extern double PHASYZ(double SVAR);
+extern "C" double phasyz_(double *SVAR)
+{
+  return PHASYZ(*SVAR);
+}

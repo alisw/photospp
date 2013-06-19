@@ -100,3 +100,12 @@ extern "C" void phorep_()
 {
   return PHOREP();
 }
+
+
+
+extern void GETIDEIDF(int IDE, int IDF);
+
+extern "C" void getideidf_(int IDE, int IDF)
+{
+  return GETIDEIDF(IDE,IDF);
+}
