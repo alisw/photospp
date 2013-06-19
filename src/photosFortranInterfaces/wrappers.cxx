@@ -103,9 +103,9 @@ extern "C" void phorep_()
 
 
 
-extern void GETIDEIDF(int IDE, int IDF);
+extern void GETIDEIDF(int *IDE, int *IDF);
 
-extern "C" void getideidf_(int IDE, int IDF)
+extern "C" void getideidf_(int *IDE, int *IDF)
 {
   return GETIDEIDF(IDE,IDF);
 }

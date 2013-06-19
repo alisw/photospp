@@ -637,11 +637,11 @@ void PHOREP(){
 //*****************************************************************
 
 
-void GETIDEIDF(int IDE,int IDF){
+void GETIDEIDF(int *IDE,int *IDF){
   // this method provides information on particles ID-s to be used
   // by  the Z-ME class in calculation of A_FB
-  static int i;  
-  IDE=ph_hepevt_.idhep[1-i];
-  IDF=ph_hepevt_.idhep[4-i];
-  if(abs(ph_hepevt_.idhep[4-i])==abs(ph_hepevt_.idhep[3-i])) IDF=ph_hepevt_.idhep[3-i];
+  static int i=1;  
+  *IDE=ph_hepevt_.idhep[1-i];
+  *IDF=ph_hepevt_.idhep[4-i];
+  if(abs(ph_hepevt_.idhep[4-i])==abs(ph_hepevt_.idhep[3-i])) *IDF=ph_hepevt_.idhep[3-i];
 }

@@ -5,6 +5,10 @@ using std::max;
 using std::cout;
 using std::endl;
 using namespace Photospp;
+
+// from photosC.cxx
+extern void GETIDEIDF(int *IDE, int *IDF);
+
 // ----------------------------------------------------------------------
 // PROVIDES ELECTRIC CHARGE AND WEAK IZOSPIN OF A FAMILY FERMION
 // IDFERM=1,2,3,4 DENOTES NEUTRINO, LEPTON, UP AND DOWN QUARK
@@ -201,7 +205,7 @@ double PHASYZ(double SVAR){
 
   double AFB;
   int IDE,IDF,IDEE,IDFF;
-  GETIDEIDF(IDE,IDF);
+  GETIDEIDF(&IDE,&IDF);
   IDEE=abs(GETIDEE(IDE));
   IDFF=abs(GETIDEE(IDF));
   AFB= -AFBCALC(SVAR,IDEE,IDFF);
