@@ -277,7 +277,7 @@ double  Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,int IBREM,double qp[4
   // this is true only for intermediate resonances with afb=0!
   t =2*(qp[4-i]*pp[4-i]-qp[3-i]*pp[3-i]-qp[2-i]*pp[2-i]-qp[1-i]*pp[1-i]);
   u =2*(qm[4-i]*pp[4-i]-qm[3-i]*pp[3-i]-qm[2-i]*pp[2-i]-qm[1-i]*pp[1-i]);
-  u1=2*(qp[4-i]*pm[4-i]-qp[3-i]*pm[3-i]-qp[2-i]*qp[2-i]-qp[1-i]*pm[1-i]);
+  u1=2*(qp[4-i]*pm[4-i]-qp[3-i]*pm[3-i]-qp[2-i]*pm[2-i]-qp[1-i]*pm[1-i]);
   t1=2*(qm[4-i]*pm[4-i]-qm[3-i]*pm[3-i]-qm[2-i]*pm[2-i]-qm[1-i]*pm[1-i]);
 
   // basically irrelevant lines  ...
