@@ -12,6 +12,13 @@ extern "C"
 
 	extern struct
 	{
+		double iev;
+	} phnum_;
+
+
+
+	extern struct
+	{
 		double fsec;
 		double fint;
 		double expeps;

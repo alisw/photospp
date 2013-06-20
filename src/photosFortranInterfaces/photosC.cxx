@@ -736,3 +736,80 @@ void PHODMP(){
  //9060 FORMAT(1H ,I4,I7,I4,' - ',I4,2X,I4,' - ',I4,5F9.2)
   //"%4i %7i %4i  -  %4i %s %4i -   %4i %9.2f %9.2f %9.2f %9.2f %9.2f "  X2,
 }
+
+
+
+//----------------------------------------------------------------------
+//
+//    PHLUPA:   debugging tool
+//
+//    Purpose:  NONE, eventually may printout content of the 
+//              /PHOEVT/ common
+//
+//    Input Parameters:   Common /PHOEVT/ and /PHNUM/ 
+//                        latter may have number of the event. 
+//
+//    Output Parameters:  None
+//
+//    Author(s):  Z. Was                          Created at:  30/05/93
+//                                                Last Update: 20/06/13
+//
+//----------------------------------------------------------------------
+
+void PHLUPAB(int IPOINT){
+
+  int I,J;
+  int IPOIN,IPOINM;
+  static int IPOIN0=-5;
+  static int i=1;
+  int IOUT;
+  double  SUM[5];
+  FILE *PHLUN = stdout;
+
+  if (IPOIN0<0){
+    IPOIN0=400000; //  ! maximal no-print point
+    IPOIN =IPOIN0;
+    IPOINM=400001; // ! minimal no-print point
+  }
+  if (IPOINT<=IPOINM||IPOINT>=IPOIN ) return;
+  IOUT=56;
+  if ((int)phnum_.iev<1000){
+    for(I=1; I<=5;I++) SUM[I-i]=0.0;
+     
+    fprintf(PHLUN,"EVENT NR= %i WE ARE TESTING /PH_HEPEVT/ at IPOINT=%i ",(int)phnum_.iev,IPOINT);
+    fprintf(PHLUN,"  ID      p_x      p_y      p_z      E        m        ID-MO_DA1ID-MO DA2");
+    I=1;
+    fprintf(PHLUN,"%i4 %14.9f %14.9f %14.9f %14.9f %14.9f %i9 i9", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i]);
+    I=2;
+    fprintf(PHLUN,"%i4 %14.9f %14.9f %14.9f %14.9f %14.9f %i9 i9", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i]);
+    fprintf(PHLUN," ");
+    for(I=3;I<=ph_hepevt_.nhep;I++){
+      fprintf(PHLUN,"%i4 %14.9f %14.9f %14.9f %14.9f %14.9f %i9 i9", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jmohep[1-i][I-i],ph_hepevt_.jmohep[2-i][I-i]);
+      for(J=1;J<=4;J++) SUM[J-i]=SUM[J-i]+ph_hepevt_.phep[J-i][I-i];
+    }
+  
+
+    SUM[5]=sqrt(abs(SUM[4-i]*SUM[4-i]-SUM[1-i]*SUM[1-i]-SUM[2-i]*SUM[2-i]-SUM[3-i]*SUM[3-i]));
+    fprintf(PHLUN," SUM %14.9f %14.9f %14.9f %14.9f %14.9f",SUM[1-i],SUM[2-i],SUM[3-i],SUM[4-i],SUM[5-i]);
+
+  }
+
+
+	// 10   FORMAT(1X,'  ID      ','p_x      ','p_y      ','p_z      ',
+	//$                   'E        ','m        ',
+	//$                   'ID-MO_DA1','ID-MO DA2' )
+  // 20   FORMAT(1X,I4,5(F14.9),2I9)
+  //"%i4 %14.9f %14.9f %14.9f %14.9f %i9 i9"
+	// 30   FORMAT(1X,' SUM',5(F14.9))
+}
+
+
+
+
+
+
+
+
+
+
+
