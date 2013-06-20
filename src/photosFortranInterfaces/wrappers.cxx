@@ -109,3 +109,12 @@ extern "C" void getideidf_(int *IDE, int *IDF)
 {
   return GETIDEIDF(IDE,IDF);
 }
+
+
+extern void PHODMP();
+
+extern "C" void phodmp_()
+{
+  return PHODMP();
+}
+

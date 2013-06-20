@@ -645,3 +645,94 @@ void GETIDEIDF(int *IDE,int *IDF){
   *IDF=ph_hepevt_.idhep[4-i];
   if(abs(ph_hepevt_.idhep[4-i])==abs(ph_hepevt_.idhep[3-i])) *IDF=ph_hepevt_.idhep[3-i];
 }
+
+
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOton radiation in decays event DuMP routine
+//
+//    Purpose:  Print event record.
+//
+//    Input Parameters:   Common /PH_HEPEVT/
+//
+//    Output Parameters:  None
+//
+//    Author(s):  B. van Eijk                     Created at:  05/06/90
+//                                                Last Update: 20/06/13
+//
+//----------------------------------------------------------------------
+void PHODMP(){
+
+  double  SUMVEC[5];
+  int I,J;
+  static int i=1;
+  char star80[81]= "********************************************************************************";
+  char eq80[81]  = "================================================================================";
+  char X26[27] = "                          ";
+  char EQ25[26]= "=========================";
+  char X30[31] = "                              ";
+  char X29[30] = "                             ";
+  char X22[23] = "                      ";
+  char X23[24 ]= "                       ";
+  char X16[17] = "                ";
+  char X1[2] = " ";
+  char X2[3] = "  ";
+  char X3[4] = "   ";
+  char X4[5] = "    ";
+  char X5[6] = "     ";
+  char X6[7] = "      ";
+  char X7[8] = "       ";
+  char X9[10]= "         ";
+  FILE *PHLUN = stdout;
+
+  for(I=0;I<5;I++)  SUMVEC[I]=0.0;
+  //--
+  //--   Print event number...
+  fprintf(PHLUN,"%s",eq80);
+  fprintf(PHLUN,"%s Event No.: %10i",X29,ph_hepevt_.nevhep);
+  fprintf(PHLUN,"%s Particle Parameters",X6);
+  fprintf(PHLUN,"%s Nr %s Type %s Parent(s) %s Daughter(s) %s Px %s Py %s Pz %s E %s Inv. M.",X1,X3,X3,X2,X6,X7,X7,X7,X4);
+  for(I=0;I<ph_hepevt_.nhep;I++){ 
+    //--
+    //--   For 'stable particle' calculate vector momentum sum
+    if (ph_hepevt_.jdahep[1-i][I-i]==0){
+      for(J=1; J<=4;J++){
+	SUMVEC[J-i]=SUMVEC[J-i]+ph_hepevt_.phep[J-i][I-i];
+      }
+      if (ph_hepevt_.jmohep[2-i][I-i]==0){
+	fprintf(PHLUN,"%4i %7i %s  %4i %s Stable %s  %9.2f %9.2f %9.2f %9.2f %9.2f " ,  I,ph_hepevt_.idhep[I-i],X3,ph_hepevt_.jmohep[1-i][I-i],X9,X2,ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i]);
+      }
+      else{
+	fprintf(PHLUN,"%4i %7i %4i  -  %4i %s Stable %s  %9.2f %9.2f %9.2f %9.2f %9.2f ",I,ph_hepevt_.idhep[I-i],ph_hepevt_.jmohep[1-i][I-i],ph_hepevt_.jmohep[2-i][I-i], X5,X2,ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i]);
+      }
+    }
+    else{
+      if(ph_hepevt_.jmohep[2-i][I-i]==0){
+	fprintf(PHLUN,"%4i %7i %s  %4i %s %4i  -  %4i  %9.2f %9.2f %9.2f %9.2f %9.2f " ,  I,ph_hepevt_.idhep[I-i],X3,ph_hepevt_.jmohep[1-i][I-i], X6,ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i]);
+      }
+      else{
+	fprintf(PHLUN,"%4i %7i %4i  -  %4i  %4i -   %4i %9.2f %9.2f %9.2f %9.2f %9.2f ",  I,ph_hepevt_.idhep[I-i],ph_hepevt_.jmohep[1-i][I-i],ph_hepevt_.jmohep[2-i][I-i],ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i]);
+      }
+    }
+  }
+  SUMVEC[5]=sqrt(SUMVEC[4-i]*SUMVEC[4-i]-SUMVEC[1-i]*SUMVEC[1-i]-SUMVEC[2-i]*SUMVEC[2-i]-SUMVEC[3-i]*SUMVEC[3-i]);
+  fprintf(PHLUN,"%s Vector Sum: %9.2f %9.2f %9.2f %9.2f %9.2f ",X23,SUMVEC[1-i],SUMVEC[2-i],SUMVEC[3-i],SUMVEC[4-i],SUMVEC[5-i]);
+
+
+
+
+// 9030 FORMAT(1H ,I4,I7,3X,I4,9X,'Stable',2X,5F9.2)
+//"%4i %7i %s  %4i %s Stable %s  %9.2f %9.2f %9.2f %9.2f %9.2f "  X3,9X,X2
+
+  // 9050 FORMAT(1H ,I4,I7,3X,I4,6X,I4,' - ',I4,5F9.2)
+  //"%4i %7i %s  %4i %s %4i  -  %4i  %9.2f %9.2f %9.2f %9.2f %9.2f "  X3,X6
+
+ 
+
+
+  //"%4i %7i %4i  -  %4i %s Stable %s  %9.2f %9.2f %9.2f %9.2f %9.2f "  X5,X2
+
+
+ //9060 FORMAT(1H ,I4,I7,I4,' - ',I4,2X,I4,' - ',I4,5F9.2)
+  //"%4i %7i %4i  -  %4i %s %4i -   %4i %9.2f %9.2f %9.2f %9.2f %9.2f "  X2,
+}

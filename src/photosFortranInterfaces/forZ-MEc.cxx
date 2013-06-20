@@ -8,7 +8,8 @@ using namespace Photospp;
 
 // from photosC.cxx
 extern void GETIDEIDF(int *IDE, int *IDF);
-
+// from photosC.cxx
+extern void PHODMP();
 // ----------------------------------------------------------------------
 // PROVIDES ELECTRIC CHARGE AND WEAK IZOSPIN OF A FAMILY FERMION
 // IDFERM=1,2,3,4 DENOTES NEUTRINO, LEPTON, UP AND DOWN QUARK
@@ -319,7 +320,7 @@ double  Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,int IBREM,double qp[4
   //         fprintf(PHLUN,"") 'idhepy= ',IDHEP[1-i],IDHEP[2-i],IDHEP[3-i],IDHEP[4-i],IDHEP(5)
   fprintf(PHLUN," IDE= %i  IDF= %i",IDE,IDF);
   fprintf(PHLUN,"bt,bu,bt+bu= %f %f %f",BT,BU,BT+BU);
-  //  PHODMP(); we will activate this once PHODMP(); is re-written
+  PHODMP();  // we will activate this once PHODMP(); is re-written
 
   fprintf(PHLUN," "); 
   fprintf(PHLUN,"%i %i <-- IREP,IBREM", IREP,IBREM);
