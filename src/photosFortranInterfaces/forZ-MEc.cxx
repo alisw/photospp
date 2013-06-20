@@ -214,3 +214,158 @@ double PHASYZ(double SVAR){
   //      write(*,*) 'IDE=',IDE,'  IDF=',IDF,'  SVAR=',SVAR,'AFB=',AFB
 }
 
+//----------------------------------------------------------------------
+//
+//    PHWTNLO:   PHotosWTatNLO
+//
+//    Purpose:  calculates instead of interference weight
+//              complete NLO weight for vector boson decays
+//              of pure vector (or pseudovector) couplings
+//              Proper orientation of beams required.
+//              This is not standard in PHOTOS.
+//              At NLO more tuning than in standard is needed.
+//               
+//              
+//
+//    Input Parameters:   as in function declaration
+//
+//    Output Parameters:  Function value
+//
+//    Author(s):  Z. Was                          Created at:  08/12/05
+//                                                Last Update: 20/06/13
+//
+//----------------------------------------------------------------------
+double  Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,int IBREM,double qp[4],double qm[4],double ph[4],double pp[4],double pm[4],double COSTHG,double BETA,double th1){
+  int IDE,IDF;
+  double C,s,xkaM,xkaP,t,u,t1,u1,BT,BU;
+  double waga,wagan2;
+  static int i=1;
+
+
+  // IBREM is spurious but it numbers branches of MUSTRAAL
+
+  if (IREP==1)  IBREM=-1;
+
+  // we calculate C and S, note that TH1 exists in MUSTRAAL as well. 
+
+  C=cos(th1); // this parameter is calculated outside of the class
+
+  // from off line application we had:
+  if(IBREM==-1) C=-C;
+  // ... we may want to re-check it. 
+  s=sqrt(1.0-C*C);
+
+  if (IBREM==1){
+    xkaM=(qp[4-i]*ph[4-i]-qp[3-i]*ph[3-i]-qp[2-i]*ph[2-i]-qp[1-i]*ph[1-i])/xk;
+    xkaP=(qm[4-i]*ph[4-i]-qm[3-i]*ph[3-i]-qm[2-i]*ph[2-i]-qm[1-i]*ph[1-i])/xk;
+  }
+  else{
+    xkaP=(qp[4-i]*ph[4-i]-qp[3-i]*ph[3-i]-qp[2-i]*ph[2-i]-qp[1-i]*ph[1-i])/xk;
+    xkaM=(qm[4-i]*ph[4-i]-qm[3-i]*ph[3-i]-qm[2-i]*ph[2-i]-qm[1-i]*ph[1-i])/xk;
+  }   
+
+  //        XK=2*PHEP(4,nhep)/PHEP(4,1)/xphmax   ! it is not used becuse here
+  //                                             ! order of emissions is meaningless
+  //
+  //        DELTA=2*PHEP(5,4)**2/svar/(1+(1-XK)**2)*(xKAP/xKAM+xKAM/xKAP)
+  //        waga=svar/4./xkap
+  //        waga=waga*(1.D0-COSTHG*BETA) ! sprawdzone 1= svar/xKAp/4   * (1.D0-COSTHG*BETA)
+  //        waga=waga*(1-delta) /wt2 ! sprawdzone ze to jest =2/(1.D0+COSTHG*BETA)
+  //                                 ! czyli ubija de-interferencje
+ 
+
+  // this is true only for intermediate resonances with afb=0!
+  t =2*(qp[4-i]*pp[4-i]-qp[3-i]*pp[3-i]-qp[2-i]*pp[2-i]-qp[1-i]*pp[1-i]);
+  u =2*(qm[4-i]*pp[4-i]-qm[3-i]*pp[3-i]-qm[2-i]*pp[2-i]-qm[1-i]*pp[1-i]);
+  u1=2*(qp[4-i]*pm[4-i]-qp[3-i]*pm[3-i]-qp[2-i]*qp[2-i]-qp[1-i]*pm[1-i]);
+  t1=2*(qm[4-i]*pm[4-i]-qm[3-i]*pm[3-i]-qm[2-i]*pm[2-i]-qm[1-i]*pm[1-i]);
+
+  // basically irrelevant lines  ...
+  t =t - (qp[4-i]*qp[4-i]-qp[3-i]*qp[3-i]-qp[2-i]*qp[2-i]-qp[1-i]*qp[1-i]);
+  u =u - (qm[4-i]*qm[4-i]-qm[3-i]*qm[3-i]-qm[2-i]*qm[2-i]-qm[1-i]*qm[1-i]);
+  u1=u1- (qp[4-i]*qp[4-i]-qp[3-i]*qp[3-i]-qp[2-i]*qp[2-i]-qp[1-i]*qp[1-i]);
+  t1=t1- (qm[4-i]*qm[4-i]-qm[3-i]*qm[3-i]-qm[2-i]*qm[2-i]-qm[1-i]*qm[1-i]);
+
+
+
+
+  GETIDEIDF(&IDE,&IDF);   // we adjust to what is f-st,s-nd beam flavour 
+  if (IDE*IDHEP3>0){
+    BT=1.0+PHASYZ(svar);
+    BU=1.0-PHASYZ(svar);
+  }
+  else{
+    BT=1.0-PHASYZ(svar);
+    BU=1.0+PHASYZ(svar);
+  }  
+  wagan2=2*(BT*t*t+BU*u*u+BT*t1*t1+BU*u1*u1)
+    /(1+(1-xk)*(1-xk))* 2.0/(BT*(1-C)*(1-C)+BU*(1+C)*(1+C))/svar/svar;
+
+  //!        waga=waga*wagan2
+  //!        waga=waga*(1-delta) /wt2 ! sprawdzone ze to jest =2/(1.D0+COSTHG*BETA)
+  waga=2/(1.0+COSTHG*BETA)*wagan2;  
+  //!     %       * svar/4./xkap*(1.D0-COSTHG*BETA)*sqrt(1.0-xk)
+
+  if(wagan2<=3.8) return waga;
+
+  // 
+  // exceptional case  wagan2>3.8
+  // it should correspond to extremely high bremssthahlung in multiphot conf.  
+  //
+  FILE *PHLUN = stdout;
+
+
+  //         fprintf(PHLUN,"") 'phwtnlo= ',phwtnlo
+  //         fprintf(PHLUN,"") 'idhepy= ',IDHEP[1-i],IDHEP[2-i],IDHEP[3-i],IDHEP[4-i],IDHEP(5)
+  fprintf(PHLUN," IDE= %i  IDF= %i",IDE,IDF);
+  fprintf(PHLUN,"bt,bu,bt+bu= %f %f %f",BT,BU,BT+BU);
+  //  PHODMP(); we will activate this once PHODMP(); is re-written
+
+  fprintf(PHLUN," "); 
+  fprintf(PHLUN,"%i %i <-- IREP,IBREM", IREP,IBREM);
+  //!        fprintf(PHLUN,"") 'pneutr= ',pneutr
+  fprintf(PHLUN,"%f %f %f %f  qp    = ",qp[0],qp[1],qp[2],qp[3]);
+  fprintf(PHLUN,"%f %f %f %f  qm    = ",qm[0],qm[1],qm[2],qm[3]);
+  fprintf(PHLUN," ");
+  fprintf(PHLUN,"%f %f %f %f  ph    = ",ph[0],ph[1],ph[2],ph[3]);
+  //        fprintf(PHLUN,"") 'p1= ',PHEP(1,1),PHEP(2,1),PHEP(3,1),PHEP(4,1)
+  //        fprintf(PHLUN,"") 'p2= ',PHEP(1,2),PHEP(2,2),PHEP(3,2),PHEP(4,2)
+  //        fprintf(PHLUN,"") 'p3= ',PHEP(1,3),PHEP(2,3),PHEP(3,3),PHEP(4,3)
+  //        fprintf(PHLUN,"") 'p4= ',PHEP(1,4),PHEP(2,4),PHEP(3,4),PHEP(4,4)
+  //        fprintf(PHLUN,"") 'p5= ',PHEP(1,5),PHEP(2,5),PHEP(3,5),PHEP(4,5)
+
+  fprintf(PHLUN," c= %f theta= %f",C,th1);
+  //         fprintf(PHLUN,"")  'photos waga daje ... IBREM=',IBREM,' waga=',waga
+  //         fprintf(PHLUN,"") 'xk,COSTHG,c',xk,COSTHG,c
+  //         fprintf(PHLUN,"") svar/4./xkap*(1.D0-COSTHG*BETA), 
+  //     $   (1-delta) /wt2 *(1.D0+COSTHG*BETA)/2, wagan2
+  //         fprintf(PHLUN,"") ' delta, wt2,beta',  delta, wt2,beta
+  fprintf(PHLUN,"   -  ");
+  fprintf(PHLUN,"t,u       = %f %f",t,u);
+  fprintf(PHLUN,"t1,u1     = %f %f",t1,u1);
+  fprintf(PHLUN,"sredniaki = %f %f",svar*(1-C)/2,svar*(1+C)/2);
+  //	   !         fprintf(PHLUN,"") 'xk= %f c= %f COSTHG=  %f' ,xk,c,COSTHG
+  fprintf(PHLUN,"PHASYZ(svar)=',%f,' svar= %f',' waga= %f",PHASYZ(svar),svar,waga);
+  fprintf(PHLUN,"  -  ");
+  fprintf(PHLUN,"BT-part= %f BU-part= %f",
+                 2*(BT*t*t+BT*t1*t1)
+                   /(1+(1-xk)*(1-xk))* 2.0/(BT*(1-C)*(1-C))/svar/svar,
+                 2*(BU*u*u+BU*u1*u1)
+	           /(1+(1-xk)*(1-xk))* 2.0/(BU*(1+C)*(1+C))/svar/svar);
+  fprintf(PHLUN,"BT-part*BU-part= %f wagan2= %f",
+                 2*(BT*t*t+BT*t1*t1)
+                   /(1+(1-xk)*(1-xk))* 2.0/(BT*(1-C)*(1-C))/svar/svar
+                *2*(BU*u*u+BU*u1*u1)
+	           /(1+(1-xk)*(1-xk))* 2.0/(BU*(1+C)*(1+C))/svar/svar,  wagan2);
+
+  fprintf(PHLUN,"wagan2= %f",wagan2);
+  fprintf(PHLUN," ###################  ");
+
+
+  wagan2=3.8; //  ! overwrite 
+  waga=2/(1.0+COSTHG*BETA)*wagan2 ; 
+	   //     %       * svar/4./xkap*(1.D0-COSTHG*BETA)*sqrt(1.0-xk)
+
+  return waga;
+
+}

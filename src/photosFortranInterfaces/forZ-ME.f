@@ -7,12 +7,13 @@ C.    Purpose:  calculates instead of interference weight
 C.              complete NLO weight for vector boson decays
 C.              of pure vector (or pseudovector) couplings
 C.              Proper orientation of beams required.
-C.              This is not standard in PHOTOS.
-C.              At NLO more tuning than in standard is needed.
+C.              Uses Zphwtnlo encapsulating actual matrix element
+C.              At NLO more tuning on kinematical conf.
+C.              than in standard is needed.
 C.              Works with KORALZ and KKMC. 
 C.              Note some commented out commons from MUSTAAL, KORALZ
 C.
-C.    Input Parameters:   Common /PHOEVT/
+C.    Input Parameters:   Common /PHOEVT/ /PHOPS/ /PHOREST/ /PHOPRO/
 C.
 C.    Output Parameters:  Function value
 C.
