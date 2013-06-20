@@ -779,12 +779,12 @@ void PHLUPAB(int IPOINT){
     fprintf(PHLUN,"EVENT NR= %i WE ARE TESTING /PH_HEPEVT/ at IPOINT=%i ",(int)phnum_.iev,IPOINT);
     fprintf(PHLUN,"  ID      p_x      p_y      p_z      E        m        ID-MO_DA1ID-MO DA2");
     I=1;
-    fprintf(PHLUN,"%i4 %14.9f %14.9f %14.9f %14.9f %14.9f %i9 i9", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i]);
+    fprintf(PHLUN,"%i4 %14.9f %14.9f %14.9f %14.9f %14.9f %i9 %i9", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i]);
     I=2;
-    fprintf(PHLUN,"%i4 %14.9f %14.9f %14.9f %14.9f %14.9f %i9 i9", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i]);
+    fprintf(PHLUN,"%i4 %14.9f %14.9f %14.9f %14.9f %14.9f %i9 %i9", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i]);
     fprintf(PHLUN," ");
     for(I=3;I<=ph_hepevt_.nhep;I++){
-      fprintf(PHLUN,"%i4 %14.9f %14.9f %14.9f %14.9f %14.9f %i9 i9", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jmohep[1-i][I-i],ph_hepevt_.jmohep[2-i][I-i]);
+      fprintf(PHLUN,"%i4 %14.9f %14.9f %14.9f %14.9f %14.9f %i9 %i9", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jmohep[1-i][I-i],ph_hepevt_.jmohep[2-i][I-i]);
       for(J=1;J<=4;J++) SUM[J-i]=SUM[J-i]+ph_hepevt_.phep[J-i][I-i];
     }
   
