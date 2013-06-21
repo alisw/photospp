@@ -118,3 +118,18 @@ extern "C" void phodmp_()
   return PHODMP();
 }
 
+
+extern void PHLUPAB(int IPOINT);
+
+extern "C" void phlupab_(int *IPOINT)
+{
+  return PHLUPAB(*IPOINT);
+}
+
+extern void PHLUPA(int IPOINT);
+
+extern "C" void phlupa_(int *IPOINT)
+{
+  return PHLUPA(*IPOINT);
+}
+
