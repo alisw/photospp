@@ -1,8 +1,23 @@
 #ifndef _f_Init_included_
 #define _f_Init_included_
-
+const static int NMXHEP = 10000;
 extern "C"
 {
+
+	/** Definition of the PHOEVT common block */
+	extern struct
+	{
+		int    nevhep;
+		int    nhep;
+		int    isthep[NMXHEP];
+		int    idhep[NMXHEP];
+		int    jmohep[NMXHEP][2];
+		int    jdahep[NMXHEP][2];
+		double phep[NMXHEP][5];
+		double vhep[NMXHEP][4];
+		//      NEVPHO,NPHO,ISTPHO(NMXPHO),IDPHO(NMXPHO),
+		//  JMOPHO(2,NMXPHO),JDAPHO(2,NMXPHO),PPHO(5,NMXPHO),VPHO(4,NMXPHO)
+	} phoevt_;
 
 	extern struct
 	{
