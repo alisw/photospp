@@ -758,27 +758,24 @@ void PHODMP(){
 //----------------------------------------------------------------------
 
 void PHLUPAB(int IPOINT){
-
+  char name[12] = "/PH_HEPEVT/";
   int I,J;
-  int &IPOIN = phlupy_.ipoin;
-  int &IPOINM= phlupy_.ipoinm;
   static int IPOIN0=-5;
   static int i=1;
-  int IOUT;
   double  SUM[5];
   FILE *PHLUN = stdout;
 
   if (IPOIN0<0){
     IPOIN0=400000; //  ! maximal no-print point
-    IPOIN =IPOIN0;
-    IPOINM=400001; // ! minimal no-print point
+    phlupy_.ipoin =IPOIN0;
+    phlupy_.ipoinm=400001; // ! minimal no-print point
   }
-  if (IPOINT<=IPOINM||IPOINT>=IPOIN ) return;
-  IOUT=56;
+  
+  if (IPOINT<=phlupy_.ipoinm||IPOINT>=phlupy_.ipoin ) return;
   if ((int)phnum_.iev<1000){
     for(I=1; I<=5;I++) SUM[I-i]=0.0;
      
-    fprintf(PHLUN,"EVENT NR= %i WE ARE TESTING /PH_HEPEVT/ at IPOINT=%i \n",(int)phnum_.iev,IPOINT);
+    fprintf(PHLUN,"EVENT NR= %i WE ARE TESTING %s at IPOINT=%i \n",(int)phnum_.iev,name,IPOINT);
     fprintf(PHLUN,"  ID      p_x      p_y      p_z      E        m        ID-MO_DA1 ID-MO_DA2\n");
     I=1;
     fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i]);
@@ -789,7 +786,7 @@ void PHLUPAB(int IPOINT){
       fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jmohep[1-i][I-i],ph_hepevt_.jmohep[2-i][I-i]);
       for(J=1;J<=4;J++) SUM[J-i]=SUM[J-i]+ph_hepevt_.phep[J-i][I-i];
     }
-  
+
 
     SUM[5]=sqrt(fabs(SUM[4-i]*SUM[4-i]-SUM[1-i]*SUM[1-i]-SUM[2-i]*SUM[2-i]-SUM[3-i]*SUM[3-i]));
     fprintf(PHLUN," SUM %14.9f %14.9f %14.9f %14.9f %14.9f\n",SUM[1-i],SUM[2-i],SUM[3-i],SUM[4-i],SUM[5-i]);
@@ -831,28 +828,24 @@ void PHLUPAB(int IPOINT){
 //----------------------------------------------------------------------
 
 void PHLUPA(int IPOINT){
-
+  char name[9] = "/PHOEVT/";
   int I,J;
-  int &IPOIN = phlupy_.ipoin;
-  int &IPOINM= phlupy_.ipoinm;
   static int IPOIN0=-5;
   static int i=1;
-  int IOUT;
   double  SUM[5];
   FILE *PHLUN = stdout;
 
   if (IPOIN0<0){
     IPOIN0=400000; //  ! maximal no-print point
-    IPOIN =IPOIN0;
-    IPOINM=400001; // ! minimal no-print point
+    phlupy_.ipoin =IPOIN0;
+    phlupy_.ipoinm=400001; // ! minimal no-print point
   }
   
-  if (IPOINT<=IPOINM||IPOINT>=IPOIN ) return;
-  IOUT=56;
+  if (IPOINT<=phlupy_.ipoinm||IPOINT>=phlupy_.ipoin ) return;
   if ((int)phnum_.iev<1000){
     for(I=1; I<=5;I++) SUM[I-i]=0.0;
      
-    fprintf(PHLUN,"EVENT NR= %i WE ARE TESTING /PHOEVT/ at IPOINT=%i \n",(int)phnum_.iev,IPOINT);
+    fprintf(PHLUN,"EVENT NR= %i WE ARE TESTING %s at IPOINT=%i \n",(int)phnum_.iev,name,IPOINT);
     fprintf(PHLUN,"  ID      p_x      p_y      p_z      E        m        ID-MO_DA1 ID-MO_DA2\n");
     I=1;
     fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", phoevt_.idhep[I-i],phoevt_.phep[1-i][I-i],phoevt_.phep[2-i][I-i],phoevt_.phep[3-i][I-i],phoevt_.phep[4-i][I-i],phoevt_.phep[5-i][I-i],phoevt_.jdahep[1-i][I-i],phoevt_.jdahep[2-i][I-i]);
