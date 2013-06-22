@@ -689,9 +689,9 @@ void PHODMP(){
   //--
   //--   Print event number...
   fprintf(PHLUN,"%s",eq80);
-  fprintf(PHLUN,"%s Event No.: %10i",X29,ph_hepevt_.nevhep);
-  fprintf(PHLUN,"%s Particle Parameters",X6);
-  fprintf(PHLUN,"%s Nr %s Type %s Parent(s) %s Daughter(s) %s Px %s Py %s Pz %s E %s Inv. M.",X1,X3,X3,X2,X6,X7,X7,X7,X4);
+  fprintf(PHLUN,"%s Event No.: %10i\n",X29,ph_hepevt_.nevhep);
+  fprintf(PHLUN,"%s Particle Parameters\n",X6);
+  fprintf(PHLUN,"%s Nr %s Type %s Parent(s) %s Daughter(s) %s Px %s Py %s Pz %s E %s Inv. M.\n",X1,X3,X3,X2,X6,X7,X7,X7,X4);
   for(I=0;I<ph_hepevt_.nhep;I++){ 
     //--
     //--   For 'stable particle' calculate vector momentum sum
@@ -700,23 +700,23 @@ void PHODMP(){
 	SUMVEC[J-i]=SUMVEC[J-i]+ph_hepevt_.phep[J-i][I-i];
       }
       if (ph_hepevt_.jmohep[2-i][I-i]==0){
-	fprintf(PHLUN,"%4i %7i %s  %4i %s Stable %s  %9.2f %9.2f %9.2f %9.2f %9.2f " ,  I,ph_hepevt_.idhep[I-i],X3,ph_hepevt_.jmohep[1-i][I-i],X9,X2,ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i]);
+	fprintf(PHLUN,"%4i %7i %s %4i %s Stable %9.2f %9.2f %9.2f %9.2f %9.2f\n" ,  I,ph_hepevt_.idhep[I-i],X3,ph_hepevt_.jmohep[1-i][I-i],X7,ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i]);
       }
       else{
-	fprintf(PHLUN,"%4i %7i %4i  -  %4i %s Stable %s  %9.2f %9.2f %9.2f %9.2f %9.2f ",I,ph_hepevt_.idhep[I-i],ph_hepevt_.jmohep[1-i][I-i],ph_hepevt_.jmohep[2-i][I-i], X5,X2,ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i]);
+	fprintf(PHLUN,"%4i %7i %4i - %4i %s Stable %9.2f %9.2f %9.2f %9.2f %9.2f\n",I,ph_hepevt_.idhep[I-i],ph_hepevt_.jmohep[1-i][I-i],ph_hepevt_.jmohep[2-i][I-i], X4,ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i]);
       }
     }
     else{
       if(ph_hepevt_.jmohep[2-i][I-i]==0){
-	fprintf(PHLUN,"%4i %7i %s  %4i %s %4i  -  %4i  %9.2f %9.2f %9.2f %9.2f %9.2f " ,  I,ph_hepevt_.idhep[I-i],X3,ph_hepevt_.jmohep[1-i][I-i], X6,ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i]);
+	fprintf(PHLUN,"%4i %7i %s %4i %s %4i - %4i %9.2f %9.2f %9.2f %9.2f %9.2f\n" ,  I,ph_hepevt_.idhep[I-i],X3,ph_hepevt_.jmohep[1-i][I-i], X6,ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i]);
       }
       else{
-	fprintf(PHLUN,"%4i %7i %4i  -  %4i  %4i -   %4i %9.2f %9.2f %9.2f %9.2f %9.2f ",  I,ph_hepevt_.idhep[I-i],ph_hepevt_.jmohep[1-i][I-i],ph_hepevt_.jmohep[2-i][I-i],ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i]);
+	fprintf(PHLUN,"%4i %7i %4i - %4i %4i - %4i %9.2f %9.2f %9.2f %9.2f %9.2f\n",  I,ph_hepevt_.idhep[I-i],ph_hepevt_.jmohep[1-i][I-i],ph_hepevt_.jmohep[2-i][I-i],ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i]);
       }
     }
   }
   SUMVEC[5]=sqrt(SUMVEC[4-i]*SUMVEC[4-i]-SUMVEC[1-i]*SUMVEC[1-i]-SUMVEC[2-i]*SUMVEC[2-i]-SUMVEC[3-i]*SUMVEC[3-i]);
-  fprintf(PHLUN,"%s Vector Sum: %9.2f %9.2f %9.2f %9.2f %9.2f ",X23,SUMVEC[1-i],SUMVEC[2-i],SUMVEC[3-i],SUMVEC[4-i],SUMVEC[5-i]);
+  fprintf(PHLUN,"%s  Vector Sum: %9.2f %9.2f %9.2f %9.2f %9.2f\n",X23,SUMVEC[1-i],SUMVEC[2-i],SUMVEC[3-i],SUMVEC[4-i],SUMVEC[5-i]);
 
 
 
@@ -759,7 +759,8 @@ void PHODMP(){
 void PHLUPAB(int IPOINT){
 
   int I,J;
-  int IPOIN,IPOINM;
+  int &IPOIN = phlupy_.ipoin;
+  int &IPOINM= phlupy_.ipoinm;
   static int IPOIN0=-5;
   static int i=1;
   int IOUT;
@@ -776,21 +777,21 @@ void PHLUPAB(int IPOINT){
   if ((int)phnum_.iev<1000){
     for(I=1; I<=5;I++) SUM[I-i]=0.0;
      
-    fprintf(PHLUN,"EVENT NR= %i WE ARE TESTING /PH_HEPEVT/ at IPOINT=%i ",(int)phnum_.iev,IPOINT);
-    fprintf(PHLUN,"  ID      p_x      p_y      p_z      E        m        ID-MO_DA1ID-MO DA2");
+    fprintf(PHLUN,"EVENT NR= %i WE ARE TESTING /PH_HEPEVT/ at IPOINT=%i \n",(int)phnum_.iev,IPOINT);
+    fprintf(PHLUN,"  ID      p_x      p_y      p_z      E        m        ID-MO_DA1 ID-MO_DA2\n");
     I=1;
-    fprintf(PHLUN,"%i4 %14.9f %14.9f %14.9f %14.9f %14.9f %i9 %i9", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i]);
+    fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i]);
     I=2;
-    fprintf(PHLUN,"%i4 %14.9f %14.9f %14.9f %14.9f %14.9f %i9 %i9", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i]);
-    fprintf(PHLUN," ");
+    fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i]);
+    fprintf(PHLUN," \n");
     for(I=3;I<=ph_hepevt_.nhep;I++){
-      fprintf(PHLUN,"%i4 %14.9f %14.9f %14.9f %14.9f %14.9f %i9 %i9", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jmohep[1-i][I-i],ph_hepevt_.jmohep[2-i][I-i]);
+      fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jmohep[1-i][I-i],ph_hepevt_.jmohep[2-i][I-i]);
       for(J=1;J<=4;J++) SUM[J-i]=SUM[J-i]+ph_hepevt_.phep[J-i][I-i];
     }
   
 
-    SUM[5]=sqrt(abs(SUM[4-i]*SUM[4-i]-SUM[1-i]*SUM[1-i]-SUM[2-i]*SUM[2-i]-SUM[3-i]*SUM[3-i]));
-    fprintf(PHLUN," SUM %14.9f %14.9f %14.9f %14.9f %14.9f",SUM[1-i],SUM[2-i],SUM[3-i],SUM[4-i],SUM[5-i]);
+    SUM[5]=sqrt(fabs(SUM[4-i]*SUM[4-i]-SUM[1-i]*SUM[1-i]-SUM[2-i]*SUM[2-i]-SUM[3-i]*SUM[3-i]));
+    fprintf(PHLUN," SUM %14.9f %14.9f %14.9f %14.9f %14.9f\n",SUM[1-i],SUM[2-i],SUM[3-i],SUM[4-i],SUM[5-i]);
 
   }
 
@@ -831,7 +832,8 @@ void PHLUPAB(int IPOINT){
 void PHLUPA(int IPOINT){
 
   int I,J;
-  int IPOIN,IPOINM;
+  int &IPOIN = phlupy_.ipoin;
+  int &IPOINM= phlupy_.ipoinm;
   static int IPOIN0=-5;
   static int i=1;
   int IOUT;
@@ -843,26 +845,27 @@ void PHLUPA(int IPOINT){
     IPOIN =IPOIN0;
     IPOINM=400001; // ! minimal no-print point
   }
+  
   if (IPOINT<=IPOINM||IPOINT>=IPOIN ) return;
   IOUT=56;
   if ((int)phnum_.iev<1000){
     for(I=1; I<=5;I++) SUM[I-i]=0.0;
      
-    fprintf(PHLUN,"EVENT NR= %i WE ARE TESTING /PHOEVT/ at IPOINT=%i ",(int)phnum_.iev,IPOINT);
-    fprintf(PHLUN,"  ID      p_x      p_y      p_z      E        m        ID-MO_DA1ID-MO DA2");
+    fprintf(PHLUN,"EVENT NR= %i WE ARE TESTING /PHOEVT/ at IPOINT=%i \n",(int)phnum_.iev,IPOINT);
+    fprintf(PHLUN,"  ID      p_x      p_y      p_z      E        m        ID-MO_DA1 ID-MO_DA2\n");
     I=1;
-    fprintf(PHLUN,"%i4 %14.9f %14.9f %14.9f %14.9f %14.9f %i9 %i9", phoevt_.idhep[I-i],phoevt_.phep[1-i][I-i],phoevt_.phep[2-i][I-i],phoevt_.phep[3-i][I-i],phoevt_.phep[4-i][I-i],phoevt_.phep[5-i][I-i],phoevt_.jdahep[1-i][I-i],phoevt_.jdahep[2-i][I-i]);
+    fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", phoevt_.idhep[I-i],phoevt_.phep[1-i][I-i],phoevt_.phep[2-i][I-i],phoevt_.phep[3-i][I-i],phoevt_.phep[4-i][I-i],phoevt_.phep[5-i][I-i],phoevt_.jdahep[1-i][I-i],phoevt_.jdahep[2-i][I-i]);
     I=2;
-    fprintf(PHLUN,"%i4 %14.9f %14.9f %14.9f %14.9f %14.9f %i9 %i9", phoevt_.idhep[I-i],phoevt_.phep[1-i][I-i],phoevt_.phep[2-i][I-i],phoevt_.phep[3-i][I-i],phoevt_.phep[4-i][I-i],phoevt_.phep[5-i][I-i],phoevt_.jdahep[1-i][I-i],phoevt_.jdahep[2-i][I-i]);
-    fprintf(PHLUN," ");
+    fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", phoevt_.idhep[I-i],phoevt_.phep[1-i][I-i],phoevt_.phep[2-i][I-i],phoevt_.phep[3-i][I-i],phoevt_.phep[4-i][I-i],phoevt_.phep[5-i][I-i],phoevt_.jdahep[1-i][I-i],phoevt_.jdahep[2-i][I-i]);
+    fprintf(PHLUN," \n");
     for(I=3;I<=phoevt_.nhep;I++){
-      fprintf(PHLUN,"%i4 %14.9f %14.9f %14.9f %14.9f %14.9f %i9 %i9", phoevt_.idhep[I-i],phoevt_.phep[1-i][I-i],phoevt_.phep[2-i][I-i],phoevt_.phep[3-i][I-i],phoevt_.phep[4-i][I-i],phoevt_.phep[5-i][I-i],phoevt_.jmohep[1-i][I-i],phoevt_.jmohep[2-i][I-i]);
+      fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", phoevt_.idhep[I-i],phoevt_.phep[1-i][I-i],phoevt_.phep[2-i][I-i],phoevt_.phep[3-i][I-i],phoevt_.phep[4-i][I-i],phoevt_.phep[5-i][I-i],phoevt_.jmohep[1-i][I-i],phoevt_.jmohep[2-i][I-i]);
       for(J=1;J<=4;J++) SUM[J-i]=SUM[J-i]+phoevt_.phep[J-i][I-i];
     }
   
 
-    SUM[5]=sqrt(abs(SUM[4-i]*SUM[4-i]-SUM[1-i]*SUM[1-i]-SUM[2-i]*SUM[2-i]-SUM[3-i]*SUM[3-i]));
-    fprintf(PHLUN," SUM %14.9f %14.9f %14.9f %14.9f %14.9f",SUM[1-i],SUM[2-i],SUM[3-i],SUM[4-i],SUM[5-i]);
+    SUM[5]=sqrt(fabs(SUM[4-i]*SUM[4-i]-SUM[1-i]*SUM[1-i]-SUM[2-i]*SUM[2-i]-SUM[3-i]*SUM[3-i]));
+    fprintf(PHLUN," SUM %14.9f %14.9f %14.9f %14.9f %14.9f\n",SUM[1-i],SUM[2-i],SUM[3-i],SUM[4-i],SUM[5-i]);
 
   }
 
@@ -871,7 +874,7 @@ void PHLUPA(int IPOINT){
 	//$                   'E        ','m        ',
 	//$                   'ID-MO_DA1','ID-MO DA2' )
   // 20   FORMAT(1X,I4,5(F14.9),2I9)
-  //"%i4 %14.9f %14.9f %14.9f %14.9f %i9 i9"
+  //"%4i %14.9f %14.9f %14.9f %14.9f %9i %9i"
 	// 30   FORMAT(1X,' SUM',5(F14.9))
 }
 
