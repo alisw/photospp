@@ -63,7 +63,7 @@ extern "C"
 	} pholun_;
 
 	//debug mode on if ipoin <  1 and ipoinm > 1
-	extern struct
+	extern struct PHLUPY
 	{
 		int ipoin;
 		int ipoinm;
