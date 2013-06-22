@@ -1,9 +1,12 @@
+#include "Photos.h"
 #include<complex>
 #include<iostream>
+#include "f_Init.h"
+#include "PH_HEPEVT_Interface.h"
 using std::cout;
 using std::endl;
 using std::complex;
-
+using namespace Photospp;
 struct{
   // COMMON /Kleiss_Stirling/spV,bet
   double spV[4],bet[4];
@@ -951,4 +954,123 @@ void SANC_INIT(double ALPHA,int PHLUN){
 
     mc_parameters_.mcLUN = PHLUN;
   } 
+}
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOtos Boson W correction weight
+//
+//    Purpose:  calculates correction weight due to amplitudes of 
+//              emission from W boson. It is ecact, but not verified
+//              for exponentiation yet.
+//              
+//              
+//              
+//
+//    Input Parameters:  Common /PHOEVT/, with photon added.
+//                       wt  to be corrected
+//                       
+//                       
+//                       
+//    Output Parameters: wt
+//
+//    Author(s):  G. Nanava, Z. Was               Created at:  13/03/03
+//                                                Last Update: 22/06/13
+//
+//----------------------------------------------------------------------
+
+void PHOBWnlo(double WT){
+  FILE *PHLUN = stdout;
+  int phlun=6;
+  double EMU,MCHREN,BETA,COSTHG,MPASQR,XPH;
+  double  PW[4],PMU[4],PPHOT[4],PNE[4];
+  double  B_PW[4],B_PNE[4],B_PMU[4],AMPSQR;
+  static int i=1;
+  int I,IJ,I3,I4,JJ,J;
+  double MB,MF1,MF2,QB,QF2;
+  //  double  pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af;
+
+
+  //!      write(*,*) 'IDPHOs=',IDPHO(1),IDPHO(2),IDPHO(3),IDPHO(4),IDPHO(5)
+  //!      write(*,*) 'IDPHOs=',phoevt_.jdahep[1-i][1-i],npho
+  //!      write(*,*) 'ph_hepevt_.IDPHOs=',ph_hepevt_.IDhep(1),ph_hepevt_.IDhep(2),ph_hepevt_.IDhep(3),ph_hepevt_.IDhep(4),ph_hepevt_.IDhep(5)
+
+  //--
+        if(abs(phoevt_.idhep[1-i])==24&&
+           abs(phoevt_.idhep[phoevt_.jdahep[1-i][1-i]-i  ])>=11&&
+           abs(phoevt_.idhep[phoevt_.jdahep[1-i][1-i]-i  ])<=16&&
+           abs(phoevt_.idhep[phoevt_.jdahep[1-i][1-i]-i+1])>=11&&
+           abs(phoevt_.idhep[phoevt_.jdahep[1-i][1-i]-i+1])<=16     ){
+
+	  if(
+            abs(phoevt_.idhep[phoevt_.jdahep[1-i][1-i]-i  ])==11||
+            abs(phoevt_.idhep[phoevt_.jdahep[1-i][1-i]-i  ])==13||
+            abs(phoevt_.idhep[phoevt_.jdahep[1-i][1-i]-i  ])==15    ){
+	    I=phoevt_.jdahep[1-i][1-i]-i;
+	  }
+	  else{
+	    I=phoevt_.jdahep[1-i][1-i]-i+1;
+	  }
+	  //..        muon energy   
+	  EMU=phoevt_.phep[4-i][I-i];
+	  //..        muon mass square
+	  MCHREN=abs(phoevt_.phep[4-i][I-i]*phoevt_.phep[4-i][I-i]-phoevt_.phep[3-i][I-i]*phoevt_.phep[3-i][I-i]
+		     -phoevt_.phep[2-i][I-i]*phoevt_.phep[2-i][I-i]-phoevt_.phep[1-i][I-i]*phoevt_.phep[1-i][I-i]);
+	  BETA=sqrt(1- MCHREN/ phoevt_.phep[4-i][I-i]*phoevt_.phep[4-i][I-i]);
+          COSTHG=((phoevt_.phep[3-i][I-i]*phoevt_.phep[3-i][phoevt_.nhep-i]+phoevt_.phep[2-i][I-i]*phoevt_.phep[2-i][phoevt_.nhep-i]
+	          +phoevt_.phep[1-i][I-i]*phoevt_.phep[1-i][phoevt_.nhep-i])/
+                  sqrt(phoevt_.phep[3-i][I-i]*phoevt_.phep[3-i][I-i]+phoevt_.phep[2-i][I-i]*phoevt_.phep[2-i][I-i]+phoevt_.phep[1-i][I-i]*phoevt_.phep[1-i][I-i])   /
+		  sqrt(phoevt_.phep[3-i][phoevt_.nhep-i]*phoevt_.phep[3-i][phoevt_.nhep-i]+phoevt_.phep[2-i][phoevt_.nhep-i]*phoevt_.phep[2-i][phoevt_.nhep-i]+phoevt_.phep[1-i][phoevt_.nhep-i]*phoevt_.phep[1-i][phoevt_.nhep-i]));
+	  MPASQR=phoevt_.phep[4-i][1-i]*phoevt_.phep[4-i][1-i];
+	  XPH=phoevt_.phep[4-i][phoevt_.nhep-i];
+
+	  //...       Initialization of the W->l\nu\gamma 
+	  //...       decay Matrix Element parameters 
+	  SANC_INIT(phocop_.alpha,phlun);
+
+
+	  MB=phoevt_.phep[4-i][1-i];//                      ! W boson mass
+	  MF2=sqrt(MCHREN);//                 ! muon mass
+
+	  for(IJ=1;IJ<=ph_hepevt_.nhep;IJ++){
+            if(abs(ph_hepevt_.idhep[IJ-i])==24){ I3=IJ;} //! position of W 
+	  }
+           if(
+              abs(ph_hepevt_.idhep[ph_hepevt_.jdahep[1-i][I3-i]-i  ])==11||
+              abs(ph_hepevt_.idhep[ph_hepevt_.jdahep[1-i][I3-i]-i  ])==13||
+              abs(ph_hepevt_.idhep[ph_hepevt_.jdahep[1-i][I3-i]-i  ])==15    ){ 
+	     I4=ph_hepevt_.jdahep[1-i][I3-i];} //              ! position of lepton
+           else{
+	     I4=ph_hepevt_.jdahep[1-i][I3-i]+1 ;  //         ! position of lepton
+	   }
+
+
+	   if (ph_hepevt_.idhep[I3-i]==-24) QB=-1.0;//  ! W boson charge
+	   if (ph_hepevt_.idhep[I3-i]==+24) QB=+1.0;//   
+	   if (ph_hepevt_.idhep[I4-i]>0.0) QF2=-1.0; // ! lepton charge
+	   if (ph_hepevt_.idhep[I4-i]<0.0) QF2=+1.0;
+
+
+	   //...          Particle momenta before foton radiation; effective Born level
+	   for( JJ=1; J<=4;J++){
+	     B_PW[(JJ % 4)]=ph_hepevt_.phep[JJ-i][I3-i];//  ! W boson
+	     B_PNE[(JJ % 4)]=ph_hepevt_.phep[JJ-i][I3-i]-ph_hepevt_.phep[JJ-i][I4-i];// ! neutrino
+	     B_PMU[(JJ % 4)]=ph_hepevt_.phep[JJ-i][I4-i]; // ! muon
+	   }
+
+	   //..        Particle monenta after photon radiation
+	   for( JJ=1; J<=4;J++){
+             PW[(JJ % 4)]=phoevt_.phep[JJ-i][1-i];
+             PMU[(JJ%4)]=phoevt_.phep[JJ-i][I-i];
+             PPHOT[(JJ% 4)]=phoevt_.phep[JJ-i][phoevt_.nhep-i];
+             PNE[(JJ % 4)]=phoevt_.phep[JJ-i][1-i]-phoevt_.phep[JJ-i][I-i]-phoevt_.phep[JJ-i][phoevt_.nhep-i];
+           }
+
+	   // two options of calculating neutrino (spectator) mass
+           MF1=sqrt(abs(B_PNE[0]*B_PNE[0]*-B_PNE[1]*B_PNE[1]-B_PNE[2]*B_PNE[2]-B_PNE[3]*B_PNE[3]));
+           MF1=sqrt(abs(  PNE[0]*PNE[0]-  PNE[1]*PNE[1]-  PNE[2]*PNE[2]-  PNE[3]*PNE[3]));
+
+	   SANC_INIT1(QB,QF2,MF1,MF2,MB);
+	   WT=WT*SANC_WT(PW,PNE,PMU,PPHOT,B_PW,B_PNE,B_PMU);
+        }
+	//      write(*,*)   'AMPSQR/EIKONALFACTOR= ',   AMPSQR/EIKONALFACTOR
 }
