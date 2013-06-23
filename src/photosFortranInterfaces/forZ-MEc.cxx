@@ -8,8 +8,9 @@ using namespace Photospp;
 
 // from photosC.cxx
 extern void GETIDEIDF(int *IDE, int *IDF);
-// from photosC.cxx
 extern void PHODMP();
+extern void PHOB(int MODE,double PBOOS1[4],double VEC[4]);
+extern double PHINT(int idumm);
 // ----------------------------------------------------------------------
 // PROVIDES ELECTRIC CHARGE AND WEAK IZOSPIN OF A FAMILY FERMION
 // IDFERM=1,2,3,4 DENOTES NEUTRINO, LEPTON, UP AND DOWN QUARK
@@ -236,15 +237,15 @@ double PHASYZ(double SVAR){
 //                                                Last Update: 20/06/13
 //
 //----------------------------------------------------------------------
-double  Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,int IBREM,double qp[4],double qm[4],double ph[4],double pp[4],double pm[4],double COSTHG,double BETA,double th1){
+double  Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,double qp[4],double qm[4],double ph[4],double pp[4],double pm[4],double COSTHG,double BETA,double th1){
   int IDE,IDF;
   double C,s,xkaM,xkaP,t,u,t1,u1,BT,BU;
   double waga,wagan2;
   static int i=1;
-
+  int IBREM;
 
   // IBREM is spurious but it numbers branches of MUSTRAAL
-
+  IBREM=1;
   if (IREP==1)  IBREM=-1;
 
   // we calculate C and S, note that TH1 exists in MUSTRAAL as well. 
@@ -369,4 +370,147 @@ double  Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,int IBREM,double qp[4
 
   return waga;
 
+}
+
+
+
+
+//----------------------------------------------------------------------
+//
+//    PHWTNLO:   PHotosWTatNLO
+//
+//    Purpose:  calculates instead of interference weight
+//              complete NLO weight for vector boson decays
+//              of pure vector (or pseudovector) couplings
+//              Proper orientation of beams required.
+//              Uses Zphwtnlo encapsulating actual matrix element
+//              At NLO more tuning on kinematical conf.
+//              than in standard is needed.
+//              Works with KORALZ and KKM// 
+//              Note some commented out commons from MUSTAAL, KORALZ
+//
+//    Input Parameters:   Common /PHOEVT/ /PHOPS/ /PHOREST/ /PHOPRO/
+//
+//    Output Parameters:  Function value
+//
+//    Author(s):  Z. Was                          Created at:  08/12/05
+//                                                Last Update: 23/06/13
+//
+//----------------------------------------------------------------------
+
+double phwtnlo(double xdumm){
+ # define pho phoevt_
+  // fi3 orientation of photon, fi1,th1 orientation of neutral
+
+      //      COMMON/PHOPHS/XPHMAX,XPHOTO,COSTHG,SINTHG
+
+      //      COMMON /PHOREST/ FI3,fi1,th1
+      //      COMMON /PHWT/ BETA,WT1,WT2,WT3
+      //      COMMON/PHOPRO/PROBH,CORWT,XF,IREP
+  //      COMMON/PHOMOM/MCHSQR,MNESQR,PNEUTR(5)
+  //  static double PI=3.141592653589793238462643;
+  static int i=1;
+  int K,L,IDHEP3,IDUM;
+  double  QP[4],QM[4],PH[4],QQ[4],PP[4],PM[4],QQS[4];
+  double XK,ENE,svar;
+
+	//      REAL*8 s,c,svar,xkaM,xkaP,xk,phwtnlo,xdumm,PHINT
+	//      REAL*8 ENE,a,t,u,t1,u1,wagan2,waga,PHASYZ,BT,BU,ENEB
+	//      INTEGER IBREM,K,L,IREP,IDUM,IDHEP3
+	//      integer icont,ide,idf
+	//      REAL*8 delta
+
+/////////////////////
+//         phlupa(299500);
+
+
+/////////////////////
+//        phlupa(299500);
+
+  XK=2.0*pho.phep[4-i][pho.nhep-i]/pho.phep[4-i][1-i];
+
+  XK=2.0*pho.phep[4-i][pho.nhep-i]/pho.phep[4-i][1-i]/phops_.xphmax;  // it is not used becuse here
+                                                               //order of emissions is meaningless
+  if(pho.nhep<=4) XK=0.0;
+  // the mother must be Z or gamma*  !!!!
+      
+  if (XK>1.0e-10 &&(pho.idhep[1-i]==22 || pho.idhep[1-i]==23)){
+
+    //        write(*,*) 'nhep=',nhep
+    //      DO K=1,3 ENDDO
+    //      IF (K.EQ.1) IBREM= 1
+    //      IF (K.EQ.2) IBREM=-1
+    //      ICONT=ICONT+1
+    //      IBREM=IBREX        ! that will be input parameter.
+    //      IBREM=IBREY        ! that IS now   input parameter.
+
+    // We initialize twice 4-vectors, here and again later after boost 
+    // must be the same way. Important is how the reduction procedure will work.
+    // It seems at present that the beams must be translated to be back to back.
+    // this may be done after initialising, thus on 4-vectors.
+
+    for( K=1;K<5;K++){
+      PP[K-i]=pho.phep[K-i][1-i];
+      PM[K-i]=pho.phep[K-i][2-i];
+      QP[K-i]=pho.phep[K-i][3-i];
+      QM[K-i]=pho.phep[K-i][4-i];
+      PH[K-i]=pho.phep[K-i][pho.nhep-i];
+      QQ[K-i]=0.0;
+      QQS[K-i]=QP[K-i]+QM[K-i];
+    }
+
+
+    PP[4-i]=(pho.phep[4-i][1-i]+pho.phep[4-i][2-i])/2.0;
+    PM[4-i]=(pho.phep[4-i][1-i]+pho.phep[4-i][2-i])/2.0;
+    PP[3-i]= PP[4-i];
+    PM[3-i]=-PP[4-i];
+        
+    for(L=5;L<=pho.nhep-1;L++){
+      for( K=1;K<5;K++){      
+	QQ[K-i]=QQ[K-i]+ pho.phep[K-i][L-i];
+	QQS[K-i]=QQS[K-i]+ pho.phep[K-i][L-i];
+      }
+    }       
+
+    // go to the restframe of 3        
+    PHOB(1,QQS,QP);
+    PHOB(1,QQS,QM);
+    PHOB(1,QQS,QQ);
+    ENE=(QP[4-i]+QM[4-i]+QQ[4-i])/2;
+
+    // preserve direction of emitting particle and wipeout QQ 
+    if (phopro_.irep==1){
+    double  a=sqrt(ENE*ENE-pho.phep[5-i][3-i]*pho.phep[5-i][3-i])/sqrt(QM[4-i]*QM[4-i]-pho.phep[5-i][3-i]*pho.phep[5-i][3-i]);
+      QM[1-i]= QM[1-i]*a;
+      QM[2-i]= QM[2-i]*a;
+      QM[3-i]= QM[3-i]*a;
+      QP[1-i]=-QM[1-i];
+      QP[2-i]=-QM[2-i];
+      QP[3-i]=-QM[3-i];
+    }
+    else{
+    double  a=sqrt(ENE*ENE-pho.phep[5-i][3-i]*pho.phep[5-i][3-i])/sqrt(QP[4-i]*QP[4-i]-pho.phep[5-i][3-i]*pho.phep[5-i][3-i]);
+      QP[1-i]= QP[1-i]*a;
+      QP[2-i]= QP[2-i]*a;
+      QP[3-i]= QP[3-i]*a;
+      QM[1-i]=-QP[1-i];
+      QM[2-i]=-QP[2-i];
+      QM[3-i]=-QP[3-i];
+    }
+    QP[4-i]=ENE;
+    QM[4-i]=ENE;
+    // go back to reaction frame (QQ eliminated) 
+    PHOB(-1,QQS,QP);
+    PHOB(-1,QQS,QM);
+    PHOB(-1,QQS,QQ);
+
+    svar=pho.phep[4-i][1-i]*pho.phep[4-i][1-i];
+
+    IDHEP3=pho.idhep[3-i];
+    return Zphwtnlo(svar,XK,IDHEP3,phopro_.irep,QP,QM,PH,PP,PM,phops_.costhg,phwt_.beta,phorest_.th1);
+  }
+  else{
+      // in other cases we just use default setups.
+    return PHINT(IDUM);
+  }
 }

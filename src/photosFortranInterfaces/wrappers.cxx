@@ -29,6 +29,13 @@ extern "C" double phocha_(int *IDHEP)
   return PHOCHA(*IDHEP);
 }
 
+extern double PHINT(int idhep);
+
+extern "C" double phint_(int *IDHEP)
+{
+  return PHINT(*IDHEP);
+}
+
 extern double PHOTRI(double A,double B,double C);
 
 extern "C" double photri_(double *A,double *B,double *C)

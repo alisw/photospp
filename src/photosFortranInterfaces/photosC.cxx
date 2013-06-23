@@ -201,6 +201,80 @@ double PHOCHA(int idhep){
 
 
 
+// --- can be used with  VARIANT A. For B use  PHINT1 or 2 --------------
+//----------------------------------------------------------------------
+//
+//    PHINT:   PHotos universal INTerference correction weight
+//
+//    Purpose:  calculates correction weight as expressed by
+//               formula (17) from CPC 79 (1994), 291. 
+//
+//    Input Parameters:  Common /PHOEVT/, with photon added.
+//                                          
+//    Output Parameters: correction weight
+//
+//    Author(s):  Z. Was, P.Golonka               Created at:  19/01/05
+//                                                Last Update: 23/06/13
+//
+//----------------------------------------------------------------------
+
+double PHINT(int IDUM){
+
+  double PHINT2;
+  double EPS1[4],EPS2[4],PH[4],PL[4];
+  static int i=1;
+  int K,L;
+  //      DOUBLE PRECISION EMU,MCHREN,BETA,COSTHG,MPASQR,XPH, XC1, XC2
+  double  XNUM1,XNUM2,XDENO,XC1,XC2;
+
+  //      REAL*8 PHOCHA
+  //--
+
+  //       Calculate polarimetric vector: ph, eps1, eps2 are orthogonal
+
+  for( K=1;K<=4;K++){
+    PH[K-i]= phoevt_.phep[K-i][phoevt_.nhep-i];
+    EPS2[K-i]=1.0;
+  }
+
+
+  PHOEPS(PH,EPS2,EPS1);
+  PHOEPS(PH,EPS1,EPS2);
+    
+ 
+  XNUM1=0.0;
+  XNUM2=0.0;
+  XDENO=0.0;
+
+  for( K=phoevt_.jdahep[1-i][1-i]; K<=phoevt_.nhep-1-i;K++){  //! or jdahep[1-i][2-i]
+      
+    // momenta of charged particle in PL
+
+    for( L=1;L<=4;L++) PL[L-i]=phoevt_.phep[L-i][K-i]; 
+
+    // scalar products: epsilon*p/k*p
+
+    XC1 = - PHOCHA(phoevt_.idhep[K-i]) * 
+         ( PL[1-i]*EPS1[1-i] + PL[2-i]*EPS1[2-i] + PL[3-i]*EPS1[3-i] ) / 
+	 ( PH[4-i]*PL[4-i]   - PH[1-i]*PL[1-i]   - PH[2-i]*PL[2-i] - PH[3-i]*PL[3-i] );
+     
+    XC2 = - PHOCHA(phoevt_.idhep[K-i]) * 
+         ( PL[1-i]*EPS2[1-i] + PL[2-i]*EPS2[2-i] + PL[3-i]*EPS2[3-i] ) / 
+	 ( PH[4-i]*PL[4-i]   - PH[1-i]*PL[1-i]   - PH[2-i]*PL[2-i] - PH[3-i]*PL[3-i] );
+	
+
+    // accumulate the currents
+    XNUM1  = XNUM1+XC1;
+    XNUM2  = XNUM2+XC2;
+
+    XDENO = XDENO + XC1*XC1 + XC2*XC2;
+  }
+
+  PHINT2=(XNUM1*XNUM1 + XNUM2*XNUM2) / XDENO;
+  return (XNUM1*XNUM1 + XNUM2*XNUM2) / XDENO;
+
+}
+
 
 
 //----------------------------------------------------------------------

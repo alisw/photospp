@@ -62,6 +62,41 @@ extern "C"
 		int phlun;
 	} pholun_;
 
+	extern struct
+	{
+		double xphmax;
+		double xphoto;
+		double costhg;
+		double sinthg;
+
+	} phops_;
+
+	extern struct
+	{
+		double probh;
+		double corwt;
+		double xf;
+		int irep;
+	} phopro_;
+
+	extern struct
+	{
+		double fi3;
+		double fi1;
+		double th1;
+		int irep;
+
+	} phorest_;
+
+	extern struct
+	{
+		double beta;
+		double wt1;
+		double wt2;
+		double wt3;
+
+	} phwt_;
+
 	//debug mode on if ipoin <  1 and ipoinm > 1
 	extern struct PHLUPY
 	{

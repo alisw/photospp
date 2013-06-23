@@ -28,9 +28,14 @@ extern "C" double phasyz_(double *SVAR)
   return PHASYZ(*SVAR);
 }
 
-extern double Zphwtnlo(double svar,double xk, int IDHEP3, int IREP,int IBREM, double qp[4], double qm[4],double ph[4], double pp[4], double pm[4], double COSTHG, double BETA, double th1);
+extern double Zphwtnlo(double svar,double xk, int IDHEP3, int IREP, double qp[4], double qm[4],double ph[4], double pp[4], double pm[4], double COSTHG, double BETA, double th1);
 
-extern "C" double zphwtnlo_(double *svar,double *xk,int *IDHEP3,int *IREP,int *IBREM,double qp[4],double qm[4],double ph[4],double pp[4], double pm[4],double *COSTHG, double *BETA, double *th1)
+extern "C" double zphwtnlo_(double *svar,double *xk,int *IDHEP3,int *IREP,double qp[4],double qm[4],double ph[4],double pp[4], double pm[4],double *COSTHG, double *BETA, double *th1)
 {
-  return Zphwtnlo(*svar, *xk, *IDHEP3, *IREP, *IBREM, qp,qm,ph,pp,pm, *COSTHG, *BETA, *th1);
+  return Zphwtnlo(*svar, *xk, *IDHEP3, *IREP,  qp,qm,ph,pp,pm, *COSTHG, *BETA, *th1);
+}
+extern double phwtnlo(double xdumm);
+extern "C" double phwtnlo_(double *xdumm)
+{
+  return phwtnlo(*xdumm);
 }
