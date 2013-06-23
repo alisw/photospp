@@ -979,6 +979,8 @@ void SANC_INIT(double ALPHA,int PHLUN){
 //----------------------------------------------------------------------
 
 void PHOBWnlo(double WT){
+# define pho phoevt_
+# define hep ph_hepevt_
   FILE *PHLUN = stdout;
   int phlun=6;
   double EMU,MCHREN,BETA,COSTHG,MPASQR,XPH;
@@ -991,78 +993,78 @@ void PHOBWnlo(double WT){
 
 
   //!      write(*,*) 'IDPHOs=',IDPHO(1),IDPHO(2),IDPHO(3),IDPHO(4),IDPHO(5)
-  //!      write(*,*) 'IDPHOs=',phoevt_.jdahep[1-i][1-i],npho
-  //!      write(*,*) 'ph_hepevt_.IDPHOs=',ph_hepevt_.IDhep(1),ph_hepevt_.IDhep(2),ph_hepevt_.IDhep(3),ph_hepevt_.IDhep(4),ph_hepevt_.IDhep(5)
+  //!      write(*,*) 'IDPHOs=',pho.jdahep[1-i][1-i],npho
+  //!      write(*,*) 'hep.IDPHOs=',hep.IDhep(1),hep.IDhep(2),hep.IDhep(3),hep.IDhep(4),hep.IDhep(5)
 
   //--
-        if(abs(phoevt_.idhep[1-i])==24&&
-           abs(phoevt_.idhep[phoevt_.jdahep[1-i][1-i]-i  ])>=11&&
-           abs(phoevt_.idhep[phoevt_.jdahep[1-i][1-i]-i  ])<=16&&
-           abs(phoevt_.idhep[phoevt_.jdahep[1-i][1-i]-i+1])>=11&&
-           abs(phoevt_.idhep[phoevt_.jdahep[1-i][1-i]-i+1])<=16     ){
+        if(abs(pho.idhep[1-i])==24&&
+           abs(pho.idhep[pho.jdahep[1-i][1-i]-i  ])>=11&&
+           abs(pho.idhep[pho.jdahep[1-i][1-i]-i  ])<=16&&
+           abs(pho.idhep[pho.jdahep[1-i][1-i]-i+1])>=11&&
+           abs(pho.idhep[pho.jdahep[1-i][1-i]-i+1])<=16     ){
 
 	  if(
-            abs(phoevt_.idhep[phoevt_.jdahep[1-i][1-i]-i  ])==11||
-            abs(phoevt_.idhep[phoevt_.jdahep[1-i][1-i]-i  ])==13||
-            abs(phoevt_.idhep[phoevt_.jdahep[1-i][1-i]-i  ])==15    ){
-	    I=phoevt_.jdahep[1-i][1-i]-i;
+            abs(pho.idhep[pho.jdahep[1-i][1-i]-i  ])==11||
+            abs(pho.idhep[pho.jdahep[1-i][1-i]-i  ])==13||
+            abs(pho.idhep[pho.jdahep[1-i][1-i]-i  ])==15    ){
+	    I=pho.jdahep[1-i][1-i]-i;
 	  }
 	  else{
-	    I=phoevt_.jdahep[1-i][1-i]-i+1;
+	    I=pho.jdahep[1-i][1-i]-i+1;
 	  }
 	  //..        muon energy   
-	  EMU=phoevt_.phep[4-i][I-i];
+	  EMU=pho.phep[4-i][I-i];
 	  //..        muon mass square
-	  MCHREN=abs(phoevt_.phep[4-i][I-i]*phoevt_.phep[4-i][I-i]-phoevt_.phep[3-i][I-i]*phoevt_.phep[3-i][I-i]
-		     -phoevt_.phep[2-i][I-i]*phoevt_.phep[2-i][I-i]-phoevt_.phep[1-i][I-i]*phoevt_.phep[1-i][I-i]);
-	  BETA=sqrt(1- MCHREN/ phoevt_.phep[4-i][I-i]*phoevt_.phep[4-i][I-i]);
-          COSTHG=((phoevt_.phep[3-i][I-i]*phoevt_.phep[3-i][phoevt_.nhep-i]+phoevt_.phep[2-i][I-i]*phoevt_.phep[2-i][phoevt_.nhep-i]
-	          +phoevt_.phep[1-i][I-i]*phoevt_.phep[1-i][phoevt_.nhep-i])/
-                  sqrt(phoevt_.phep[3-i][I-i]*phoevt_.phep[3-i][I-i]+phoevt_.phep[2-i][I-i]*phoevt_.phep[2-i][I-i]+phoevt_.phep[1-i][I-i]*phoevt_.phep[1-i][I-i])   /
-		  sqrt(phoevt_.phep[3-i][phoevt_.nhep-i]*phoevt_.phep[3-i][phoevt_.nhep-i]+phoevt_.phep[2-i][phoevt_.nhep-i]*phoevt_.phep[2-i][phoevt_.nhep-i]+phoevt_.phep[1-i][phoevt_.nhep-i]*phoevt_.phep[1-i][phoevt_.nhep-i]));
-	  MPASQR=phoevt_.phep[4-i][1-i]*phoevt_.phep[4-i][1-i];
-	  XPH=phoevt_.phep[4-i][phoevt_.nhep-i];
+	  MCHREN=abs(pho.phep[4-i][I-i]*pho.phep[4-i][I-i]-pho.phep[3-i][I-i]*pho.phep[3-i][I-i]
+		     -pho.phep[2-i][I-i]*pho.phep[2-i][I-i]-pho.phep[1-i][I-i]*pho.phep[1-i][I-i]);
+	  BETA=sqrt(1- MCHREN/ pho.phep[4-i][I-i]*pho.phep[4-i][I-i]);
+          COSTHG=((pho.phep[3-i][I-i]*pho.phep[3-i][pho.nhep-i]+pho.phep[2-i][I-i]*pho.phep[2-i][pho.nhep-i]
+	          +pho.phep[1-i][I-i]*pho.phep[1-i][pho.nhep-i])/
+                  sqrt(pho.phep[3-i][I-i]*pho.phep[3-i][I-i]+pho.phep[2-i][I-i]*pho.phep[2-i][I-i]+pho.phep[1-i][I-i]*pho.phep[1-i][I-i])   /
+		  sqrt(pho.phep[3-i][pho.nhep-i]*pho.phep[3-i][pho.nhep-i]+pho.phep[2-i][pho.nhep-i]*pho.phep[2-i][pho.nhep-i]+pho.phep[1-i][pho.nhep-i]*pho.phep[1-i][pho.nhep-i]));
+	  MPASQR=pho.phep[4-i][1-i]*pho.phep[4-i][1-i];
+	  XPH=pho.phep[4-i][pho.nhep-i];
 
 	  //...       Initialization of the W->l\nu\gamma 
 	  //...       decay Matrix Element parameters 
 	  SANC_INIT(phocop_.alpha,phlun);
 
 
-	  MB=phoevt_.phep[4-i][1-i];//                      ! W boson mass
+	  MB=pho.phep[4-i][1-i];//                      ! W boson mass
 	  MF2=sqrt(MCHREN);//                 ! muon mass
 
-	  for(IJ=1;IJ<=ph_hepevt_.nhep;IJ++){
-            if(abs(ph_hepevt_.idhep[IJ-i])==24){ I3=IJ;} //! position of W 
+	  for(IJ=1;IJ<=hep.nhep;IJ++){
+            if(abs(hep.idhep[IJ-i])==24){ I3=IJ;} //! position of W 
 	  }
            if(
-              abs(ph_hepevt_.idhep[ph_hepevt_.jdahep[1-i][I3-i]-i  ])==11||
-              abs(ph_hepevt_.idhep[ph_hepevt_.jdahep[1-i][I3-i]-i  ])==13||
-              abs(ph_hepevt_.idhep[ph_hepevt_.jdahep[1-i][I3-i]-i  ])==15    ){ 
-	     I4=ph_hepevt_.jdahep[1-i][I3-i];} //              ! position of lepton
+              abs(hep.idhep[hep.jdahep[1-i][I3-i]-i  ])==11||
+              abs(hep.idhep[hep.jdahep[1-i][I3-i]-i  ])==13||
+              abs(hep.idhep[hep.jdahep[1-i][I3-i]-i  ])==15    ){ 
+	     I4=hep.jdahep[1-i][I3-i];} //              ! position of lepton
            else{
-	     I4=ph_hepevt_.jdahep[1-i][I3-i]+1 ;  //         ! position of lepton
+	     I4=hep.jdahep[1-i][I3-i]+1 ;  //         ! position of lepton
 	   }
 
 
-	   if (ph_hepevt_.idhep[I3-i]==-24) QB=-1.0;//  ! W boson charge
-	   if (ph_hepevt_.idhep[I3-i]==+24) QB=+1.0;//   
-	   if (ph_hepevt_.idhep[I4-i]>0.0) QF2=-1.0; // ! lepton charge
-	   if (ph_hepevt_.idhep[I4-i]<0.0) QF2=+1.0;
+	   if (hep.idhep[I3-i]==-24) QB=-1.0;//  ! W boson charge
+	   if (hep.idhep[I3-i]==+24) QB=+1.0;//   
+	   if (hep.idhep[I4-i]>0.0) QF2=-1.0; // ! lepton charge
+	   if (hep.idhep[I4-i]<0.0) QF2=+1.0;
 
 
 	   //...          Particle momenta before foton radiation; effective Born level
 	   for( JJ=1; J<=4;J++){
-	     B_PW[(JJ % 4)]=ph_hepevt_.phep[JJ-i][I3-i];//  ! W boson
-	     B_PNE[(JJ % 4)]=ph_hepevt_.phep[JJ-i][I3-i]-ph_hepevt_.phep[JJ-i][I4-i];// ! neutrino
-	     B_PMU[(JJ % 4)]=ph_hepevt_.phep[JJ-i][I4-i]; // ! muon
+	     B_PW[(JJ % 4)]=hep.phep[JJ-i][I3-i];//  ! W boson
+	     B_PNE[(JJ % 4)]=hep.phep[JJ-i][I3-i]-hep.phep[JJ-i][I4-i];// ! neutrino
+	     B_PMU[(JJ % 4)]=hep.phep[JJ-i][I4-i]; // ! muon
 	   }
 
 	   //..        Particle monenta after photon radiation
 	   for( JJ=1; J<=4;J++){
-             PW[(JJ % 4)]=phoevt_.phep[JJ-i][1-i];
-             PMU[(JJ%4)]=phoevt_.phep[JJ-i][I-i];
-             PPHOT[(JJ% 4)]=phoevt_.phep[JJ-i][phoevt_.nhep-i];
-             PNE[(JJ % 4)]=phoevt_.phep[JJ-i][1-i]-phoevt_.phep[JJ-i][I-i]-phoevt_.phep[JJ-i][phoevt_.nhep-i];
+             PW[(JJ % 4)]=pho.phep[JJ-i][1-i];
+             PMU[(JJ%4)]=pho.phep[JJ-i][I-i];
+             PPHOT[(JJ% 4)]=pho.phep[JJ-i][pho.nhep-i];
+             PNE[(JJ % 4)]=pho.phep[JJ-i][1-i]-pho.phep[JJ-i][I-i]-pho.phep[JJ-i][pho.nhep-i];
            }
 
 	   // two options of calculating neutrino (spectator) mass
