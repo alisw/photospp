@@ -69,7 +69,7 @@ extern "C"
 		double costhg;
 		double sinthg;
 
-	} phops_;
+	} phophs_;
 
 	extern struct
 	{

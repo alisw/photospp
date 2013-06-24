@@ -1,4 +1,5 @@
 #include "Photos.h"
+#include "f_Init.h"
 #include <cmath>
 #include <iostream>
 using std::max;
@@ -86,7 +87,7 @@ double PHBORNM(double svar,double costhe,double T3e,double qe,double T3f,double 
   amfin = 0.000511; //  m_xpar(kf+6)
   Vf =  2*T3f -4*qf*Sw2;
   Af =  2*T3f;
-  if(abs(costhe) > 1.0){
+  if(fabs(costhe) > 1.0){
     cout << "+++++STOP in PHBORN: costhe>0 =" << costhe << endl;
     exit(0);
   }
@@ -243,6 +244,7 @@ double  Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,double qp[4],double q
   double waga,wagan2;
   static int i=1;
   int IBREM;
+
 
   // IBREM is spurious but it numbers branches of MUSTRAAL
   IBREM=1;
@@ -427,9 +429,9 @@ double phwtnlo(double xdumm){
 /////////////////////
 //        phlupa(299500);
 
-  XK=2.0*pho.phep[4-i][pho.nhep-i]/pho.phep[4-i][1-i];
+  XK=2.0*pho.phep[pho.nhep-i][4-i]/pho.phep[1-i][4-i];
 
-  XK=2.0*pho.phep[4-i][pho.nhep-i]/pho.phep[4-i][1-i]/phops_.xphmax;  // it is not used becuse here
+//  XK=2.0*pho.phep[pho.nhep-i][4-i]/pho.phep[1-i][4-i]/phophs_.xphmax;  // it is not used becuse here
                                                                //order of emissions is meaningless
   if(pho.nhep<=4) XK=0.0;
   // the mother must be Z or gamma*  !!!!
@@ -450,25 +452,25 @@ double phwtnlo(double xdumm){
     // this may be done after initialising, thus on 4-vectors.
 
     for( K=1;K<5;K++){
-      PP[K-i]=pho.phep[K-i][1-i];
-      PM[K-i]=pho.phep[K-i][2-i];
-      QP[K-i]=pho.phep[K-i][3-i];
-      QM[K-i]=pho.phep[K-i][4-i];
-      PH[K-i]=pho.phep[K-i][pho.nhep-i];
+      PP[K-i]=pho.phep[1-i][K-i];
+      PM[K-i]=pho.phep[2-i][K-i];
+      QP[K-i]=pho.phep[3-i][K-i];
+      QM[K-i]=pho.phep[4-i][K-i];
+      PH[K-i]=pho.phep[pho.nhep-i][K-i];
       QQ[K-i]=0.0;
       QQS[K-i]=QP[K-i]+QM[K-i];
     }
 
 
-    PP[4-i]=(pho.phep[4-i][1-i]+pho.phep[4-i][2-i])/2.0;
-    PM[4-i]=(pho.phep[4-i][1-i]+pho.phep[4-i][2-i])/2.0;
+    PP[4-i]=(pho.phep[1-i][4-i]+pho.phep[2-i][4-i])/2.0;
+    PM[4-i]=(pho.phep[1-i][4-i]+pho.phep[2-i][4-i])/2.0;
     PP[3-i]= PP[4-i];
     PM[3-i]=-PP[4-i];
         
     for(L=5;L<=pho.nhep-1;L++){
       for( K=1;K<5;K++){      
-	QQ[K-i]=QQ[K-i]+ pho.phep[K-i][L-i];
-	QQS[K-i]=QQS[K-i]+ pho.phep[K-i][L-i];
+	QQ [K-i]=QQ [K-i]+ pho.phep[L-i][K-i];
+	QQS[K-i]=QQS[K-i]+ pho.phep[L-i][K-i];
       }
     }       
 
@@ -480,7 +482,7 @@ double phwtnlo(double xdumm){
 
     // preserve direction of emitting particle and wipeout QQ 
     if (phopro_.irep==1){
-    double  a=sqrt(ENE*ENE-pho.phep[5-i][3-i]*pho.phep[5-i][3-i])/sqrt(QM[4-i]*QM[4-i]-pho.phep[5-i][3-i]*pho.phep[5-i][3-i]);
+    double  a=sqrt(ENE*ENE-pho.phep[3-i][5-i]*pho.phep[3-i][5-i])/sqrt(QM[4-i]*QM[4-i]-pho.phep[3-i][5-i]*pho.phep[3-i][5-i]);
       QM[1-i]= QM[1-i]*a;
       QM[2-i]= QM[2-i]*a;
       QM[3-i]= QM[3-i]*a;
@@ -489,7 +491,7 @@ double phwtnlo(double xdumm){
       QP[3-i]=-QM[3-i];
     }
     else{
-    double  a=sqrt(ENE*ENE-pho.phep[5-i][3-i]*pho.phep[5-i][3-i])/sqrt(QP[4-i]*QP[4-i]-pho.phep[5-i][3-i]*pho.phep[5-i][3-i]);
+    double  a=sqrt(ENE*ENE-pho.phep[3-i][5-i]*pho.phep[3-i][5-i])/sqrt(QP[4-i]*QP[4-i]-pho.phep[3-i][5-i]*pho.phep[3-i][5-i]);
       QP[1-i]= QP[1-i]*a;
       QP[2-i]= QP[2-i]*a;
       QP[3-i]= QP[3-i]*a;
@@ -504,10 +506,10 @@ double phwtnlo(double xdumm){
     PHOB(-1,QQS,QM);
     PHOB(-1,QQS,QQ);
 
-    svar=pho.phep[4-i][1-i]*pho.phep[4-i][1-i];
+    svar=pho.phep[1-i][4-i]*pho.phep[1-i][4-i];
 
     IDHEP3=pho.idhep[3-i];
-    return Zphwtnlo(svar,XK,IDHEP3,phopro_.irep,QP,QM,PH,PP,PM,phops_.costhg,phwt_.beta,phorest_.th1);
+    return Zphwtnlo(svar,XK,IDHEP3,phopro_.irep,QP,QM,PH,PP,PM,phophs_.costhg,phwt_.beta,phorest_.th1);
   }
   else{
       // in other cases we just use default setups.
