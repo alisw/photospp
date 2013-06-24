@@ -51,10 +51,10 @@ extern "C" void sanc_init_(double *ALPHA,int *PHLUN)
 }
 
 
-void PHOBWnlo(double WT);
+void PHOBWnlo(double *WT);
 
 extern "C" void phobwnlo_(double *WT)
 {
-  return PHOBWnlo(*WT);
+  return PHOBWnlo(WT);
 }
 
