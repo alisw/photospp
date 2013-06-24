@@ -233,7 +233,7 @@ double PHINT(int IDUM){
   //       Calculate polarimetric vector: ph, eps1, eps2 are orthogonal
 
   for( K=1;K<=4;K++){
-    PH[K-i]= phoevt_.phep[K-i][phoevt_.nhep-i];
+    PH[K-i]= phoevt_.phep[phoevt_.nhep-i][K-i];
     EPS2[K-i]=1.0;
   }
 
@@ -246,11 +246,11 @@ double PHINT(int IDUM){
   XNUM2=0.0;
   XDENO=0.0;
 
-  for( K=phoevt_.jdahep[1-i][1-i]; K<=phoevt_.nhep-1-i;K++){  //! or jdahep[1-i][2-i]
+  for( K=phoevt_.jdahep[1-i][1-i]; K<=phoevt_.nhep-1;K++){  //! or jdahep[1-i][2-i]
       
     // momenta of charged particle in PL
 
-    for( L=1;L<=4;L++) PL[L-i]=phoevt_.phep[L-i][K-i]; 
+    for( L=1;L<=4;L++) PL[L-i]=phoevt_.phep[K-i][L-i]; 
 
     // scalar products: epsilon*p/k*p
 
