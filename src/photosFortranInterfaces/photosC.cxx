@@ -767,26 +767,26 @@ void PHODMP(){
   fprintf(PHLUN,"%s Event No.: %10i\n",X29,ph_hepevt_.nevhep);
   fprintf(PHLUN,"%s Particle Parameters\n",X6);
   fprintf(PHLUN,"%s Nr %s Type %s Parent(s) %s Daughter(s) %s Px %s Py %s Pz %s E %s Inv. M.\n",X1,X3,X3,X2,X6,X7,X7,X7,X4);
-  for(I=0;I<ph_hepevt_.nhep;I++){ 
+  for(I=1;I<=ph_hepevt_.nhep;I++){ 
     //--
     //--   For 'stable particle' calculate vector momentum sum
-    if (ph_hepevt_.jdahep[1-i][I-i]==0){
+    if (ph_hepevt_.jdahep[I-i][1-i]==0){
       for(J=1; J<=4;J++){
-	SUMVEC[J-i]=SUMVEC[J-i]+ph_hepevt_.phep[J-i][I-i];
+	SUMVEC[J-i]=SUMVEC[J-i]+ph_hepevt_.phep[I-i][J-i];
       }
-      if (ph_hepevt_.jmohep[2-i][I-i]==0){
-	fprintf(PHLUN,"%4i %7i %s %4i %s Stable %9.2f %9.2f %9.2f %9.2f %9.2f\n" ,  I,ph_hepevt_.idhep[I-i],X3,ph_hepevt_.jmohep[1-i][I-i],X7,ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i]);
+      if (ph_hepevt_.jmohep[I-i][2-i]==0){
+	fprintf(PHLUN,"%4i %7i %s %4i %s Stable %9.2f %9.2f %9.2f %9.2f %9.2f\n" ,  I,ph_hepevt_.idhep[I-i],X3,ph_hepevt_.jmohep[I-i][1-i],X7,ph_hepevt_.phep[I-i][1-i],ph_hepevt_.phep[I-i][2-i],ph_hepevt_.phep[I-i][3-i],ph_hepevt_.phep[I-i][4-i],ph_hepevt_.phep[I-i][5-i]);
       }
       else{
-	fprintf(PHLUN,"%4i %7i %4i - %4i %s Stable %9.2f %9.2f %9.2f %9.2f %9.2f\n",I,ph_hepevt_.idhep[I-i],ph_hepevt_.jmohep[1-i][I-i],ph_hepevt_.jmohep[2-i][I-i], X4,ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i]);
+	fprintf(PHLUN,"%4i %7i %4i - %4i %s Stable %9.2f %9.2f %9.2f %9.2f %9.2f\n",I,ph_hepevt_.idhep[I-i],ph_hepevt_.jmohep[I-i][1-i],ph_hepevt_.jmohep[I-i][2-i], X4,ph_hepevt_.phep[I-i][1-i],ph_hepevt_.phep[I-i][2-i],ph_hepevt_.phep[I-i][3-i],ph_hepevt_.phep[I-i][4-i],ph_hepevt_.phep[I-i][5-i]);
       }
     }
     else{
-      if(ph_hepevt_.jmohep[2-i][I-i]==0){
-	fprintf(PHLUN,"%4i %7i %s %4i %s %4i - %4i %9.2f %9.2f %9.2f %9.2f %9.2f\n" ,  I,ph_hepevt_.idhep[I-i],X3,ph_hepevt_.jmohep[1-i][I-i], X6,ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i]);
+      if(ph_hepevt_.jmohep[I-i][2-i]==0){
+	fprintf(PHLUN,"%4i %7i %s %4i %s %4i - %4i %9.2f %9.2f %9.2f %9.2f %9.2f\n" ,  I,ph_hepevt_.idhep[I-i],X3,ph_hepevt_.jmohep[I-i][1-i],X2,ph_hepevt_.jdahep[I-i][1-i],ph_hepevt_.jdahep[I-i][2-i],ph_hepevt_.phep[I-i][1-i],ph_hepevt_.phep[I-i][2-i],ph_hepevt_.phep[I-i][3-i],ph_hepevt_.phep[I-i][4-i],ph_hepevt_.phep[I-i][5-i]);
       }
       else{
-	fprintf(PHLUN,"%4i %7i %4i - %4i %4i - %4i %9.2f %9.2f %9.2f %9.2f %9.2f\n",  I,ph_hepevt_.idhep[I-i],ph_hepevt_.jmohep[1-i][I-i],ph_hepevt_.jmohep[2-i][I-i],ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i]);
+	fprintf(PHLUN,"%4i %7i %4i - %4i %4i - %4i %9.2f %9.2f %9.2f %9.2f %9.2f\n",  I,ph_hepevt_.idhep[I-i],ph_hepevt_.jmohep[I-i][1-i],ph_hepevt_.jmohep[I-i][2-i],ph_hepevt_.jdahep[I-i][1-i],ph_hepevt_.jdahep[I-i][2-i],ph_hepevt_.phep[I-i][1-i],ph_hepevt_.phep[I-i][2-i],ph_hepevt_.phep[I-i][3-i],ph_hepevt_.phep[I-i][4-i],ph_hepevt_.phep[I-i][5-i]);
       }
     }
   }
