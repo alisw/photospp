@@ -3,7 +3,7 @@ include ../make.inc
 SOURCES_F=Photos_make.f
 OBJECTS_F=$(SOURCES_F:.f=.o)
 
-SOURCES_C=PH_HEPEVT_Interface.cxx wrappers.cxx photosC.cxx wrappersZ.cxx forZ-MEc.cxx wrappersW.cxx forW-MEc.cxx
+SOURCES_C=PH_HEPEVT_Interface.cxx wrappers.cxx photosC.cxx wrappersZ.cxx forZ-MEc.cxx wrappersW.cxx forW-MEc.cxx PhotosUtilities.cxx
 OBJECTS_C=$(SOURCES_C:.cxx=.o)
 
 %.o: %.cxx

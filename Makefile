@@ -17,7 +17,8 @@ PHOTOS_CXX_INT_OBJECTS = src/$(EVENT_RECORD_INTERFACE_DIR)/*.o \
                          src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/wrappersZ.o \
                          src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/forZ-MEc.o \
                          src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/wrappersW.o \
-                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/forW-MEc.o
+                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/forW-MEc.o \
+                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/PhotosUtilities.o
 
 PHOTOS_FORTRAN_OBJECTS = src/$(PHOTOS_FORTRAN_DIR)/photos.o \
                          src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/Photos_make.o
