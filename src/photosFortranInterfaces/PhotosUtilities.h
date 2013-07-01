@@ -11,6 +11,7 @@
  * @author Tomasz Przedzinski, Zbigniew Was
  * @date 29 June 2013
  */
+# define PHOBO3 PhotosUtilities::PHOBO3
 
 namespace Photospp
 {
