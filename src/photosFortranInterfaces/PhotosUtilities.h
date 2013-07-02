@@ -11,17 +11,16 @@
  * @author Tomasz Przedzinski, Zbigniew Was
  * @date 29 June 2013
  */
-# define PHOBO3 PhotosUtilities::PHOBO3
-
 namespace Photospp
 {
 
-class PhotosUtilities
+namespace PhotosUtilities
 {
-public:
+
 	/** PHOton radiation in decays BOost routine '3' */
-	static void PHOBO3(double ANGLE,double PVEC[4]);
-};
+	void PHOBO3(double ANGLE,double PVEC[4]);
+
+} // namespace PhotosUtilities
 
 } // namespace Photospp
 #endif

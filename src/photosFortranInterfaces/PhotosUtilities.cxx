@@ -5,6 +5,9 @@
 namespace Photospp
 {
 
+namespace PhotosUtilities
+{
+
 //----------------------------------------------------------------------
 //
 //    PHOTOS:   PHOton radiation in decays BOost routine '3'
@@ -20,7 +23,7 @@ namespace Photospp
 //                B. van Eijk                     Last Update: 12/06/13
 //
 //----------------------------------------------------------------------
-void PhotosUtilities::PHOBO3(double ANGLE,double PVEC[4]){
+void PHOBO3(double ANGLE,double PVEC[4]){
   int j=1;  // convention of indices of Riemann space must be preserved.
   double QPL,QMI;
   QPL=(PVEC[4-j]+PVEC[3-j])*ANGLE;
@@ -28,5 +31,8 @@ void PhotosUtilities::PHOBO3(double ANGLE,double PVEC[4]){
   PVEC[3-j]=(QPL-QMI)/2.0;
   PVEC[4-j]=(QPL+QMI)/2.0;
 }
+
+} // namespace PhotosUtilities
 	
 } // namespace Photospp
+

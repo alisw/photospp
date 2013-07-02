@@ -1,6 +1,7 @@
 #include "Photos.h"
 #include "PhotosUtilities.h"
 using namespace Photospp;
+using namespace PhotosUtilities;
 
 extern bool F(int m, int i);
 
@@ -60,7 +61,7 @@ extern "C" double phoan2_(double *X,double *Y)
 
 extern "C" void phobo3_(double *ANGLE,double PVEC[4])
 {
-  PhotosUtilities::PHOBO3(*ANGLE,PVEC);
+  PHOBO3(*ANGLE,PVEC);
 }
 
 extern double PHORO3(double ANGLE,double PVEC[4]);
