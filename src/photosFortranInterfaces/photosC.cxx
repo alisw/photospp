@@ -224,7 +224,7 @@ double PHINT(int IDUM){
   double EPS1[4],EPS2[4],PH[4],PL[4];
   static int i=1;
   int K,L;
-  //      DOUBLE PRECISION EMU,MCHREN,BETA,COSTHG,MPASQR,XPH, XC1, XC2
+  //      DOUBLE PRECISION EMU,MCHREN,BETA,phophs_.costhg,MPASQR,XPH, XC1, XC2
   double  XNUM1,XNUM2,XDENO,XC1,XC2;
 
   //      REAL*8 PHOCHA
@@ -275,6 +275,171 @@ double PHINT(int IDUM){
 
 }
 
+
+
+//----------------------------------------------------------------------
+//
+//    PHINT:   PHotos INTerference (Old version kept for tests only.
+//
+//    Purpose:  Calculates interference between emission of photons from
+//              different possible chaged daughters stored in
+//              the  HEP common /PHOEVT/.  
+//
+//    Input Parameter:    commons /PHOEVT/ /PHOMOM/ /PHOPHS/
+//    
+//
+//    Output Parameters:  
+//                        
+//
+//    Author(s):  Z. Was,                         Created at:  10/08/93
+//                                                Last Update: 15/03/99
+//
+//----------------------------------------------------------------------
+
+double PHINT1(int IDUM){
+# define pho phoevt_
+  double PHINT;
+
+  /*
+      DOUBLE PRECISION phomom_.mchsqr,phomom_.mnesqr
+      REAL*8 PNEUTR
+      COMMON/PHOMOM/phomom_.mchsqr,phomom_.mnesqr,PNEUTR(5)
+      DOUBLE PRECISION phophs_.costhg,SINTHG
+      REAL*8 XPHMAX,phophs_.xphoto
+      COMMON/PHOPHS/XPHMAX,phophs_.xphoto,phophs_.costhg,SINTHG
+
+  */
+  double MPASQR,XX,BETA;
+  bool IFINT;
+  int K,IDENT; 
+  static int i=-1;
+  //
+  for(K=pho.jdahep[1-i][2-i]; K<=pho.jdahep[1-i][1-i];K--){
+    if(pho.idhep[K-i]!=22){
+      IDENT=K;
+      break;
+    }
+  }
+
+  // check if there is a photon
+  IFINT= pho.nhep>IDENT;
+  // check if it is two body + gammas reaction
+  IFINT= IFINT && (IDENT-pho.jdahep[1-i][1-i])==1;
+  // check if two body was particle antiparticle
+  IFINT= IFINT && pho.idhep[pho.jdahep[1-i][1-i]-i] == -pho.idhep[IDENT-i];
+  // check if particles were charged
+  IFINT= IFINT && PHOCHA(pho.idhep[IDENT-i]) != 0;
+  // calculates interference weight contribution
+  if(IFINT){
+    MPASQR = pho.phep[1-i][5-i]*pho.phep[1-i][5-i];
+    XX=4.0*phomom_.mchsqr/MPASQR*(1.0-phophs_.xphoto)/(1.0-phophs_.xphoto+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR)/(1.0-phophs_.xphoto+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR);
+    BETA=sqrt(1.0-XX);
+    PHINT  = 2.0/(1.0+phophs_.costhg*phophs_.costhg*BETA*BETA);
+  }
+  else{
+    PHINT  = 1.0;
+  }
+
+  return  PHINT;
+}
+
+
+//----------------------------------------------------------------------
+//
+//    PHINT:   PHotos INTerference
+//
+//    Purpose:  Calculates interference between emission of photons from
+//              different possible chaged daughters stored in
+//              the  HEP common /PHOEVT/. 
+//
+//    Input Parameter:    commons /PHOEVT/ /PHOMOM/ /PHOPHS/
+//    
+//
+//    Output Parameters:  
+//                        
+//
+//    Author(s):  Z. Was,                         Created at:  10/08/93
+//                                                Last Update: 
+//
+//----------------------------------------------------------------------
+
+double PHINT2(int IDUM){
+# define pho phoevt_
+
+  /*
+      DOUBLE PRECISION phomom_.mchsqr,phomom_.mnesqr
+      REAL*8 PNEUTR
+      COMMON/PHOMOM/phomom_.mchsqr,phomom_.mnesqr,PNEUTR(5)
+      DOUBLE PRECISION phophs_.costhg,SINTHG
+      REAL*8 XPHMAX,phophs_.xphoto
+      COMMON/PHOPHS/XPHMAX,phophs_.xphoto,phophs_.costhg,SINTHG
+  */
+  double MPASQR,XX,BETA,pq1[4],pq2[4],pphot[4];
+  double SS,PP2,PP,E1,E2,q1,q2,costhe,PHINT;
+  bool IFINT;
+  int K,k,IDENT; 
+  static int i=-1;
+  //
+  for(K=pho.jdahep[1-i][2-i]; K<=pho.jdahep[1-i][1-i];K--){
+    if(pho.idhep[K-i]!=22){
+      IDENT=K;
+      break;
+    }
+  }
+
+  // check if there is a photon
+  IFINT= pho.nhep>IDENT;
+  // check if it is two body + gammas reaction
+  IFINT= IFINT&&(IDENT-pho.jdahep[1-i][1-i])==1;
+  // check if two body was particle antiparticle (we improve on it !
+  //      IFINT= IFINT.AND.pho.idhep(JDAPHO(1,1)).EQ.-pho.idhep(IDENT)
+  // check if particles were charged
+  IFINT= IFINT&&fabs(PHOCHA(pho.idhep[IDENT-i]))>0.01;
+  // check if they have both charge
+  IFINT= IFINT&&fabs(PHOCHA(pho.idhep[pho.jdahep[1-i][1-i]-i]))>0.01;
+  // calculates interference weight contribution
+  if(IFINT){
+    MPASQR = pho.phep[1-i][5-i]*pho.phep[1-i][5-i];
+    XX=4.0*phomom_.mchsqr/MPASQR*(1.0-phophs_.xphoto)/pow(1.-phophs_.xphoto+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR,2);
+    BETA=sqrt(1.0-XX);
+    PHINT  = 2.0/(1.0+phophs_.costhg*phophs_.costhg*BETA*BETA);
+    SS =MPASQR*(1.0-phophs_.xphoto);
+    PP2=((SS-phomom_.mchsqr-phomom_.mnesqr)*(SS-phomom_.mchsqr-phomom_.mnesqr)-4*phomom_.mchsqr*phomom_.mnesqr)/SS/4;
+    PP =sqrt(PP2);
+    E1 =sqrt(PP2+phomom_.mchsqr);
+    E2 =sqrt(PP2+phomom_.mnesqr);
+    PHINT= (E1+E2)*(E1+E2)/((E2+phophs_.costhg*PP)*(E2+phophs_.costhg*PP)+(E1-phophs_.costhg*PP)*(E1-phophs_.costhg*PP));
+    // return PHINT;
+    //
+    q1=PHOCHA(pho.idhep[pho.jdahep[1-i][1-i]-i]);
+    q2=PHOCHA(pho.idhep[IDENT-i]);
+    for( k=1;k<=4;k++){
+      pq1[k-i]=pho.phep[pho.jdahep[1-i][1-i]-i][k-i];
+      pq2[k-i]=pho.phep[pho.jdahep[1-i][1-i]+1-i][k-i];
+      pphot[k-i]=pho.phep[pho.nhep-i][k-i];
+    }
+    costhe=(pphot[1-i]*pq1[1-i]+pphot[2-i]*pq1[2-i]+pphot[3-i]*pq1[3-i]);
+    costhe=costhe/sqrt(pq1[1-i]*pq1[1-i]+pq1[2-i]*pq1[2-i]+pq1[3-i]*pq1[3-i]);
+    costhe=costhe/sqrt(pphot[1-i]*pphot[1-i]+pphot[2-i]*pphot[2-i]+pphot[3-i]*pphot[3-i]);
+    //
+    // --- this IF checks whether JDAPHO(1,1) was MCH or MNE. 
+    // --- phophs_.costhg angle (and in-generation variables) may be better choice 
+    // --- than costhe. note that in the formulae below amplitudes were 
+    // --- multiplied by (E2+phophs_.costhg*PP)*(E1-phophs_.costhg*PP). 
+    if(phophs_.costhg*costhe>0){
+
+      PHINT= pow(q1*(E2+phophs_.costhg*PP)-q2*(E1-phophs_.costhg*PP),2)/(q1*q1*(E2+phophs_.costhg*PP)*(E2+phophs_.costhg*PP)+q2*q2*(E1-phophs_.costhg*PP)*(E1-phophs_.costhg*PP));
+    }
+    else{
+
+      PHINT= pow(q1*(E1-phophs_.costhg*PP)-q2*(E2+phophs_.costhg*PP),2)/(q1*q1*(E1-phophs_.costhg*PP)*(E1-phophs_.costhg*PP)+q2*q2*(E2+phophs_.costhg*PP)*(E2+phophs_.costhg*PP));
+    }
+  }
+  else{
+    PHINT  = 1.0;
+  }
+  return PHINT;
+}
 
 
 //----------------------------------------------------------------------

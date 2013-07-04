@@ -327,7 +327,7 @@ double  Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,double qp[4],double q
 
   fprintf(PHLUN," "); 
   fprintf(PHLUN,"%i %i <-- IREP,IBREM", IREP,IBREM);
-  //!        fprintf(PHLUN,"") 'pneutr= ',pneutr
+  //!        fprintf(PHLUN,"%f %f %f %f %f") 'pneutr= ',phomom_.pneutr[0],phomom_.pneutr[1],phomom_.pneutr[2],phomom_.pneutr[3],phomom_.pneutr[4];
   fprintf(PHLUN,"%f %f %f %f  qp    = ",qp[0],qp[1],qp[2],qp[3]);
   fprintf(PHLUN,"%f %f %f %f  qm    = ",qm[0],qm[1],qm[2],qm[3]);
   fprintf(PHLUN," ");

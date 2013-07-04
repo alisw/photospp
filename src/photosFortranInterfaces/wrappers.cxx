@@ -37,6 +37,18 @@ extern "C" double phint_(int *IDHEP)
 {
   return PHINT(*IDHEP);
 }
+extern double PHINT1(int idhep);
+
+extern "C" double phint1_(int *IDHEP)
+{
+  return PHINT1(*IDHEP);
+}
+extern double PHINT2(int idhep);
+
+extern "C" double phint2_(int *IDHEP)
+{
+  return PHINT2(*IDHEP);
+}
 
 extern double PHOTRI(double A,double B,double C);
 

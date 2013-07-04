@@ -97,6 +97,13 @@ extern "C"
 
 	} phwt_;
 
+	extern struct
+	{
+		double mchsqr;
+		double mnesqr;
+		double pneutr[5];
+	} phomom_;
+
 	//debug mode on if ipoin <  1 and ipoinm > 1
 	extern struct PHLUPY
 	{
