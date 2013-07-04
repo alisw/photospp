@@ -312,9 +312,9 @@ double PHINT1(int IDUM){
   double MPASQR,XX,BETA;
   bool IFINT;
   int K,IDENT; 
-  static int i=-1;
+  static int i=1;
   //
-  for(K=pho.jdahep[1-i][2-i]; K<=pho.jdahep[1-i][1-i];K--){
+  for(K=pho.jdahep[1-i][2-i]; K>=pho.jdahep[1-i][1-i];K--){
     if(pho.idhep[K-i]!=22){
       IDENT=K;
       break;
@@ -378,9 +378,9 @@ double PHINT2(int IDUM){
   double SS,PP2,PP,E1,E2,q1,q2,costhe,PHINT;
   bool IFINT;
   int K,k,IDENT; 
-  static int i=-1;
+  static int i=1;
   //
-  for(K=pho.jdahep[1-i][2-i]; K<=pho.jdahep[1-i][1-i];K--){
+  for(K=pho.jdahep[1-i][2-i]; K>=pho.jdahep[1-i][1-i];K--){
     if(pho.idhep[K-i]!=22){
       IDENT=K;
       break;
