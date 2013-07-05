@@ -11,6 +11,7 @@ using namespace Photospp;
 // Declaration of structs defined in f_Init.h
 struct PHOSTA phosta_;
 struct PHLUPY phlupy_;
+struct TOFROM tofrom_;
 
 /** Logical function used deep inside algorithm to check if emitted
     particles are to emit. For mother it blocks the vertex, 
@@ -1101,14 +1102,15 @@ void PHOtoRF(){
   for(K=1;K<=4;K++){
     tofrom_.QQ[K-i]=0.0;
   }
-  for( L=pho.jdahep[pho.jmohep[hep.nhep-i][1-i]-i][1-i];L<=pho.jdahep[pho.jmohep[hep.nhep-i][1-i]-i][2-i];L++){
+  for( L=hep.jdahep[hep.jmohep[hep.nhep-i][1-i]-i][1-i];L<=hep.jdahep[hep.jmohep[hep.nhep-i][1-i]-i][2-i];L++){
     for(K=1;K<=4;K++){
-      tofrom_.QQ[K-i]=tofrom_.QQ[K-i]+hep.phep[L-i][K];
+      tofrom_.QQ[K-i]=tofrom_.QQ[K-i]+hep.phep[L-i][K-i];
     }
   }
   tofrom_.XM =tofrom_.QQ[4-i]*tofrom_.QQ[4-i]-tofrom_.QQ[3-i]*tofrom_.QQ[3-i]-tofrom_.QQ[2-i]*tofrom_.QQ[2-i]-tofrom_.QQ[1-i]*tofrom_.QQ[1-i];
   if(tofrom_.XM>0.0) tofrom_.XM=sqrt(tofrom_.XM);
   if(tofrom_.XM<=0.0) return;
+
   for(L=1;L<=hep.nhep;L++){
     for(K=1;K<=4;K++){       
       PP[K-i]=hep.phep[L-i][K-i];
@@ -1131,12 +1133,12 @@ void PHOtoRF(){
     }
      
     PHORO3(-tofrom_.fi1,RR);
-    PHORO2(-tofrom_.fi1,RR);
+    PHORO2(-tofrom_.th1,RR);
     for(K=1;K<=4;K++){     
       hep.phep[L-i][K-i]=RR[K-i];
     }
-
   }
+  
   return;
 }
 
