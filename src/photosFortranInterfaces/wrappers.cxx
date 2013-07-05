@@ -152,3 +152,17 @@ extern "C" void phlupa_(int *IPOINT)
   return PHLUPA(*IPOINT);
 }
 
+
+extern void PHOtoRF();
+
+extern "C" void photorf_()
+{
+  return PHOtoRF();
+}
+
+extern void PHOtoLAB();
+
+extern "C" void photolab_()
+{
+  return PHOtoLAB();
+}

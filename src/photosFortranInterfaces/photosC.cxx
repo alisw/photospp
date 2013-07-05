@@ -1089,6 +1089,83 @@ void PHLUPA(int IPOINT){
 }
 
 
+void PHOtoRF(){
+# define hep ph_hepevt_
+
+  //      COMMON /PH_TOFROM/ QQ[4],XM,th1,fi1
+  double PP[4],RR[4];
+
+  int K,L;
+  static int i=1;
+
+  for(K=1;K<=4;K++){
+    tofrom_.QQ[K-i]=0.0;
+  }
+  for( L=pho.jdahep[pho.jmohep[hep.nhep-i][1-i]-i][1-i];L<=pho.jdahep[pho.jmohep[hep.nhep-i][1-i]-i][2-i];L++){
+    for(K=1;K<=4;K++){
+      tofrom_.QQ[K-i]=tofrom_.QQ[K-i]+hep.phep[L-i][K];
+    }
+  }
+  tofrom_.XM =tofrom_.QQ[4-i]*tofrom_.QQ[4-i]-tofrom_.QQ[3-i]*tofrom_.QQ[3-i]-tofrom_.QQ[2-i]*tofrom_.QQ[2-i]-tofrom_.QQ[1-i]*tofrom_.QQ[1-i];
+  if(tofrom_.XM>0.0) tofrom_.XM=sqrt(tofrom_.XM);
+  if(tofrom_.XM<=0.0) return;
+  for(L=1;L<=hep.nhep;L++){
+    for(K=1;K<=4;K++){       
+      PP[K-i]=hep.phep[L-i][K-i];
+    }
+    bostdq(1,tofrom_.QQ,PP,RR);
+    for(K=1;K<=4;K++){     
+      hep.phep[L-i][K-i]=RR[K-i];
+    }
+  }
+
+  tofrom_.fi1=0.0;
+  tofrom_.th1=0.0;
+  if(fabs(hep.phep[1-i][1-i])+fabs(hep.phep[1-i][2-i])>0.0) tofrom_.fi1=PHOAN1(hep.phep[1-i][1-i],hep.phep[1-i][2-i]);
+  if(fabs(hep.phep[1-i][1-i])+fabs(hep.phep[1-i][2-i])+fabs(hep.phep[1-i][3-i])>0.0)  
+    tofrom_.th1=PHOAN2(hep.phep[1-i][3-i],sqrt(hep.phep[1-i][1-i]*hep.phep[1-i][1-i]+hep.phep[1-i][2-i]*hep.phep[1-i][2-i]));
+
+  for(L=1;L<=hep.nhep;L++){ 
+    for(K=1;K<=4;K++){       
+      RR[K-i]=hep.phep[L-i][K-i];
+    }
+     
+    PHORO3(-tofrom_.fi1,RR);
+    PHORO2(-tofrom_.fi1,RR);
+    for(K=1;K<=4;K++){     
+      hep.phep[L-i][K-i]=RR[K-i];
+    }
+
+  }
+  return;
+}
+
+void PHOtoLAB(){
+# define hep ph_hepevt_
+  //  //      REAL*8 QQ(4),XM,th1,fi1
+  //     COMMON /PH_TOFROM/ QQ,XM,th1,fi1
+  double PP[4],RR[4];
+  int K,L;
+  static int i=1;
+  
+  if(tofrom_.XM<=0.0) return;
+
+
+  for(L=1;L<=hep.nhep;L++){
+    for(K=1;K<=4;K++){
+      PP[K-i]=hep.phep[L-i][K-i];
+    }
+
+    PHORO2( tofrom_.th1,PP);
+    PHORO3( tofrom_.fi1,PP);
+    bostdq(-1,tofrom_.QQ,PP,RR);
+
+    for(K=1;K<=4;K++){
+      hep.phep[L-i][K-i]=RR[K-i];
+    }
+  }
+  return;
+}
 
 
 

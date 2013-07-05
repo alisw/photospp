@@ -70,6 +70,14 @@ extern "C"
 		double sinthg;
 
 	} phophs_;
+	extern struct
+	{
+		double QQ[4];
+		double XM;
+		double th1;
+		double fi1;
+
+	} tofrom_;
 
 	extern struct
 	{
