@@ -50,7 +50,6 @@ C.----------------------------------------------------------------------
       INTEGER IP,IPARR,IPPAR,I,J,K,L,NLAST
       DOUBLE PRECISION DATA
       INTEGER MOTHER,POSPHO
-      LOGICAL CASCAD
       INTEGER NMXHEP
       PARAMETER (NMXHEP=10000)
       INTEGER IDHEP,ISTHEP,JDAHEP,JMOHEP,NEVHEP,NHEP
@@ -61,9 +60,8 @@ C.----------------------------------------------------------------------
       COMMON/PH_PHOQED/QEDRAD(NMXHEP)
       INTEGER NMXPHO
       PARAMETER (NMXPHO=10000)
-      INTEGER ISTACK(0:NMXPHO),NUMIT,NTRY,KK,LL,II,NA,FIRST,LAST
+      INTEGER NUMIT,NTRY,KK,LL,II
       INTEGER FIRSTA,LASTA,IPP,IDA1,IDA2,MOTHER2,IDPHO,ISPHO
-      REAL*8 PORIG(5,NMXPHO)
 C--
       CALL PHLUPAB(3)
 C      NEVHEP=EVENT
@@ -72,39 +70,25 @@ C      write(*,*) 'at poczatek'
 C      CALL PHODMP
       IPPAR=ABS(IPARR)
 C--   Store pointers for cascade treatement...
-      IP=IPPAR
       NLAST=NHEP
-      CASCAD=.FALSE.
+
 
 C--
 C--   Check decay multiplicity and minimum of correctness..
-      IF ((JDAHEP(1,IP).EQ.0).OR.(JMOHEP(1,JDAHEP(1,IP)).NE.IP)) RETURN
+      IF ((JDAHEP(1,IPPAR).EQ.0).OR.(JMOHEP(1,JDAHEP(1,IPPAR)).NE.IPPAR)) RETURN
+
       CALL PHOtoRF
 
 C      write(*,*) 'at przygotowany'
 C      CALL PHODMP
 C--
 C-- single branch mode 
-C-- we start looking for the decay points in the cascade 
 C-- IPPAR is original position where the program was called
-      ISTACK(0)=IPPAR
-C--   NUMIT denotes number of secondary decay branches
-      NUMIT=0
-C--   NTRY denotes number of secondary branches already checked for 
-C--        for existence of further branches 
-      NTRY=0
+
 C-- let-s do generation
 
-        NA=NHEP
-        FIRST=JDAHEP(1,IPPAR)
-        LAST=JDAHEP(2,IPPAR)
-        DO II=1,LAST-FIRST+1
-         DO LL=1,5
-          PORIG(LL,II)=PHEP(LL,FIRST+II-1) 
-         ENDDO
-        ENDDO
+
 C--   
-c        CALL PHTYPE(ISTACK(KK))
         CALL PHTYPE(IPPAR)
 
 
