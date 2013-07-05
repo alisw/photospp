@@ -124,7 +124,8 @@ C-- let-s do generation
          ENDDO
         ENDDO
 C--   
-        CALL PHTYPE(ISTACK(KK))
+c        CALL PHTYPE(ISTACK(KK))
+        CALL PHTYPE(IPPAR)
 
 C--
 C--  Correct energy/momentum of cascade daughters 
