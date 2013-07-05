@@ -103,11 +103,6 @@ C--   Photon mother and position...
 C--   Intermediate save of photon energy/momentum and pointers
               DO 90 J=1,5
    90         PHOTON(J)=PHEP(J,I)
-              ISPHO =ISTHEP(I)
-              IDPHO =IDHEP(I)
-              MOTHER2 =JMOHEP(2,I)
-              IDA1 =JDAHEP(1,I)
-              IDA2 =JDAHEP(2,I)
 C--
 C--   Exclude photon in sequence !
             IF (POSPHO.NE.NHEP) THEN
@@ -115,39 +110,15 @@ C--
 C--
 C--   Order /PH_HEPEVT/
               DO 120 K=I,POSPHO+1,-1
-                ISTHEP(K)=ISTHEP(K-1)
-                QEDRAD(K)=QEDRAD(K-1)
-                IDHEP(K)=IDHEP(K-1)
-                DO 100 L=1,2
-                JMOHEP(L,K)=JMOHEP(L,K-1)
-  100           JDAHEP(L,K)=JDAHEP(L,K-1)
                 DO 110 L=1,5
   110           PHEP(L,K)=PHEP(L,K-1)
                 DO 120 L=1,4
   120         VHEP(L,K)=VHEP(L,K-1)
 C--
-C--   Correct pointers assuming most dirty /PH_HEPEVT/...
-              DO 130 K=1,NHEP
-                DO 130 L=1,2
-                  IF ((JMOHEP(L,K).NE.0).AND.(JMOHEP(L,K).GE.
-     &            POSPHO)) JMOHEP(L,K)=JMOHEP(L,K)+1
-                  IF ((JDAHEP(L,K).NE.0).AND.(JDAHEP(L,K).GE.
-     &            POSPHO)) JDAHEP(L,K)=JDAHEP(L,K)+1
-  130         CONTINUE
-C--
 C--   Store photon energy/momentum
               DO 140 J=1,5
   140         PHEP(J,POSPHO)=PHOTON(J)
             ENDIF
-C--
-C--   Store pointers for the photon...
-            JDAHEP(2,MOTHER)=POSPHO
-            ISTHEP(POSPHO)=ISPHO
-            IDHEP(POSPHO)=IDPHO
-            JMOHEP(1,POSPHO)=MOTHER
-            JMOHEP(2,POSPHO)=MOTHER2
-            JDAHEP(1,POSPHO)=IDA1
-            JDAHEP(2,POSPHO)=IDA2
 C--
 C--   Get photon production vertex position
             DO 150 J=1,4
