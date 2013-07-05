@@ -93,31 +93,11 @@ C--   NUMIT denotes number of secondary decay branches
 C--   NTRY denotes number of secondary branches already checked for 
 C--        for existence of further branches 
       NTRY=0
-C-- let-s search if IPARR does not prevent searching. 
-      IF (IPARR.GT.0)  THEN
- 30    CONTINUE
-         DO I=JDAHEP(1,IP),JDAHEP(2,IP)
-          IF (JDAHEP(1,I).NE.0.AND.JMOHEP(1,JDAHEP(1,I)).EQ.I) THEN
-            NUMIT=NUMIT+1
-              IF (NUMIT.GT.NMXPHO) THEN
-               DATA=NUMIT
-               CALL PHOERR(7,'PHOTOS',DATA)
-              ENDIF
-            ISTACK(NUMIT)=I
-          ENDIF
-         ENDDO
-      IF(NUMIT.GT.NTRY) THEN
-       NTRY=NTRY+1
-       IP=ISTACK(NTRY)
-       GOTO 30
-      ENDIF
-      ENDIF
 C-- let-s do generation
 
-      DO 25 KK=0,NUMIT
         NA=NHEP
-        FIRST=JDAHEP(1,ISTACK(KK))
-        LAST=JDAHEP(2,ISTACK(KK))
+        FIRST=JDAHEP(1,IPPAR)
+        LAST=JDAHEP(2,IPPAR)
         DO II=1,LAST-FIRST+1
          DO LL=1,5
           PORIG(LL,II)=PHEP(LL,FIRST+II-1) 
@@ -127,19 +107,7 @@ C--
 c        CALL PHTYPE(ISTACK(KK))
         CALL PHTYPE(IPPAR)
 
-C--
-C--  Correct energy/momentum of cascade daughters 
-C    not neede kept for a while for tests. 
-C        IF(NHEP.GT.NA) THEN 
-C        DO II=1,LAST-FIRST+1
-C          IPP=FIRST+II-1
-C          FIRSTA=JDAHEP(1,IPP)
-C          LASTA=JDAHEP(2,IPP)
-C          IF(JMOHEP(1,IPP).EQ.ISTACK(KK))
-C     $      CALL PHOBOS(IPP,PORIG(1,II),PHEP(1,IPP),FIRSTA,LASTA) 
-C        ENDDO
-C        ENDIF
- 25   CONTINUE
+
 C--
 C--   rearrange  /PH_HEPEVT/  to get correct order..
         IF (NHEP.GT.NLAST) THEN
