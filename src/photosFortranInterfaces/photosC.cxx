@@ -1251,19 +1251,6 @@ void PHOTOS_MAKE_C(int IPARR){
   //-- let-s do generation
   phtype_(&IPPAR);
 
-
-  //--   rearrange  /PH_HEPEVT/  for added particles.
-  if (hep.nhep>NLAST){
-    for(I=NLAST+1;I<=hep.nhep;I++){
-      //--
-      //--   Photon mother and vertex...
-      MOTHER=hep.jmohep[I-i][1-i];
-      hep.jdahep[MOTHER-i][2-i]=I;
-      for( J=1;J<=4;J++){
-        hep.vhep[I-i][J-i]=hep.vhep[I-1-i][J-i];
-      }
-    }
-  }
   //      write(*,*) 'at po dzialaniu '
   //      PHODMP();
   PHOtoLAB();
