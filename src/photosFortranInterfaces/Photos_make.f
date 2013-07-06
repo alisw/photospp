@@ -98,29 +98,15 @@ C--   rearrange  /PH_HEPEVT/  to get correct order..
           DO 160 I=NLAST+1,NHEP
 C--
 C--   Photon mother and position...
-            MOTHER=JMOHEP(1,I)
-            POSPHO=JDAHEP(2,MOTHER)+1
+
 C--   Intermediate save of photon energy/momentum and pointers
-              DO 90 J=1,5
-   90         PHOTON(J)=PHEP(J,I)
-              ISPHO =ISTHEP(I)
-              IDPHO =IDHEP(I)
-              MOTHER2 =JMOHEP(2,I)
-              IDA1 =JDAHEP(1,I)
-              IDA2 =JDAHEP(2,I)
-C--
+ C--
 C--   Store pointers for the photon...
-            JDAHEP(2,MOTHER)=POSPHO
-            ISTHEP(POSPHO)=ISPHO
-            IDHEP(POSPHO)=IDPHO
-            JMOHEP(1,POSPHO)=MOTHER
-            JMOHEP(2,POSPHO)=MOTHER2
-            JDAHEP(1,POSPHO)=IDA1
-            JDAHEP(2,POSPHO)=IDA2
-C--
+            JDAHEP(2,MOTHER)=I
+ C--
 C--   Get photon production vertex position
             DO 150 J=1,4
-  150       VHEP(J,POSPHO)=VHEP(J,POSPHO-1)
+  150       VHEP(J,I)=VHEP(J,I-1)
   160     CONTINUE
         ENDIF
 C      write(*,*) 'at po dzialaniu '
