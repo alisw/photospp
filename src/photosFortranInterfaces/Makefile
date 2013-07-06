@@ -1,18 +1,12 @@
 include ../make.inc
 
-SOURCES_F=Photos_make.f
-OBJECTS_F=$(SOURCES_F:.f=.o)
-
 SOURCES_C=PH_HEPEVT_Interface.cxx wrappers.cxx photosC.cxx wrappersZ.cxx forZ-MEc.cxx wrappersW.cxx forW-MEc.cxx PhotosUtilities.cxx
 OBJECTS_C=$(SOURCES_C:.cxx=.o)
 
 %.o: %.cxx
 	$(CC) $(CFLAGS) $(DEBUG) -I. -I../photosCInterfaces -I../photosFortranInterfaces -I../utilities -c $< -o $@
 
-%.o: %.f
-	$(F77) $(FFLAGS) $(DEBUG) -I. -c $< -o $@
-
-all: $(OBJECTS_C) $(OBJECTS_F)
+all: $(OBJECTS_C)
 
 clean:
 	rm -f *.o *~;

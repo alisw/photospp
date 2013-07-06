@@ -132,6 +132,10 @@ extern "C"
 	/* Printout of error messages */
 	void phoerr_(int *imes,char *text,double *data);
 
+	/* Central management routine. Defines what action
+	   will be pefrormed at point ID. */
+	void phtype_(int *ID);
+
 }
 
 #endif
