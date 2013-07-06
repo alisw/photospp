@@ -1173,6 +1173,107 @@ void PHOtoLAB(){
 
 
 
+//             2) GENERAL INTERFACE:
+//                                      PHOTOS_GET
+//                                      PHOTOS_MAKE
+
+
+//   COMMONS:
+//   NAME     USED IN SECT. # OF OC//     Comment
+//   PHOQED   1) 2)            3      Flags whether emisson to be gen. 
+//   PHOLUN   1) 4)            6      Output device number
+//   PHOCOP   1) 3)            4      photon coupling & min energy
+//   PHPICO   1) 3) 4)         5      PI & 2*PI
+//   PHSEED   1) 4)            3      RN seed 
+//   PHOSTA   1) 4)            3      Status information
+//   PHOKEY   1) 2) 3)         7      Keys for nonstandard application
+//   PHOVER   1)               1      Version info for outside
+//   HEPEVT   2)               2      PDG common
+//   PH_HEPEVT2)               8      PDG common internal
+//   PHOEVT   2) 3)           10      PDG branch
+//   PHOIF    2) 3)            2      emission flags for PDG branch 
+//   PHOMOM   3)               5      param of char-neutr system
+//   PHOPHS   3)               5      photon momentum parameters
+//   PHOPRO   3)               4      var. for photon rep. (in branch)
+//   PHOCMS   2)               3      parameters of boost to branch CMS
+//   PHNUM    4)               1      event number from outside         
+//----------------------------------------------------------------------
+
+
+//----------------------------------------------------------------------
+//
+//    PHOTOS_MAKE:   General search routine
+//
+//    Purpose:  Search through the /PH_HEPEVT/ standard HEP common, sta-
+//              rting from  the IPPAR-th  particle.  Whenevr  branching 
+//              point is found routine PHTYPE(IP) is called.
+//              Finally if calls on PHTYPE(IP) modified entries, common
+//               /PH_HEPEVT/ is ordered.
+//
+//    Input Parameter:    IPPAR:  Pointer   to   decaying  particle  in
+//                                /PH_HEPEVT/ and the common itself,
+//
+//    Output Parameters:  Common  /PH_HEPEVT/, either with or without 
+//                                new particles added.
+//
+//    Author(s):  Z. Was, B. van Eijk             Created at:  26/11/89
+//                                                Last Update: 30/08/93
+//
+//----------------------------------------------------------------------
+
+void PHOTOS_MAKE_C(int IPARR){
+  static int i=1;
+  int IPPAR,I,J,NLAST,MOTHER;
+
+  //--
+  PHLUPAB(3);
+
+  //      write(*,*) 'at poczatek'
+  //       PHODMP();
+  IPPAR=abs(IPARR);
+  //--   Store pointers for cascade treatement...
+  NLAST=hep.nhep;
+
+
+  //--
+  //--   Check decay multiplicity and minimum of correctness..
+  if ((hep.jdahep[IPPAR-i][1-i]==0)||(hep.jmohep[hep.jdahep[IPPAR-i][1-i]-i][1-i]!=IPPAR)) return;
+
+  PHOtoRF();
+
+  //      write(*,*) 'at przygotowany'
+  //       PHODMP();
+
+  //--
+  //-- single branch mode 
+  //-- IPPAR is original position where the program was called
+
+  //-- let-s do generation
+  PHTYPE_(IPPAR);
+
+
+
+  //--   rearrange  /PH_HEPEVT/  for added particles.
+  if (hep.nhep>NLAST){
+    for(I=NLAST+1;I<=hep.nhep;I++){
+      //--
+      //--   Photon mother and vertex...
+
+
+      hep.jdahep[MOTHER-i][2-i]=I;
+      for( J=1;J<=4;J++){
+        hep.vhep[I-i][J-i]=hep.vhep[I-1-i][J-i];
+      }
+    }
+  }
+  //      write(*,*) 'at po dzialaniu '
+  //      PHODMP();
+
+  PHOtoLAB();
+  //      write(*,*) 'at koniec'
+  //      PHODMP();
+  return;
+}
 
 
 

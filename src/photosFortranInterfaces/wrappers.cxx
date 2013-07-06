@@ -166,3 +166,9 @@ extern "C" void photolab_()
 {
   return PHOtoLAB();
 }
+extern void PHOTOS_MAKE_C(int IPPAR);
+
+extern "C" void potos_make_c_(int *IPPAR)
+{
+  return PHOTOS_MAKE_C(*IPPAR);
+}
