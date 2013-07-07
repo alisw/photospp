@@ -18,7 +18,7 @@ struct TOFROM tofrom_;
     but for daughters individually: bad sisters will not prevent electron to emit.
     top quark has further exception method. */
 bool F(int m, int i)
-{
+{ 
   return Photos::IPHQRK_setQarknoEmission(0,i) && (i<= 41 || i>100)
      && i != 21 
      && i != 2101 && i !=3101 && i !=3201 
@@ -1251,6 +1251,21 @@ void PHOTOS_MAKE_C(int IPARR){
   //-- let-s do generation
   phtype_(&IPPAR);
 
+
+  //--   rearrange  /PH_HEPEVT/  for added particles.
+  //--   at present this may be not needed as information 
+  //--   is set at HepMC level.
+  if (hep.nhep>NLAST){
+    for(I=NLAST+1;I<=hep.nhep;I++){
+      //--
+      //--   Photon mother and vertex...
+      MOTHER=hep.jmohep[I-i][1-i];
+      hep.jdahep[MOTHER-i][2-i]=I;
+      for( J=1;J<=4;J++){
+        hep.vhep[I-i][J-i]=hep.vhep[I-1-i][J-i];
+      }
+    }
+  }
   //      write(*,*) 'at po dzialaniu '
   //      PHODMP();
   PHOtoLAB();
