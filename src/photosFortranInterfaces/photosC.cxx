@@ -1277,3 +1277,219 @@ void PHOTOS_MAKE_C(int IPARR){
 
 
 
+//----------------------------------------------------------------------
+//
+//    PHCORK: corrects kinmatics of subbranch needed if host program
+//            produces events with the shaky momentum conservation
+//
+//    Input Parameters:   Common /PHOEVT/, MODCOR
+//                        MODCOR >0 type of action
+//                               =1 no action
+//                               =2 corrects energy from mass
+//                               =3 corrects mass from energy
+//                               =4 corrects energy from mass for 
+//                                  particles up to .4 GeV mass, 
+//                                  for heavier ones corrects mass,
+//                               =5 most complete correct also of mother
+//                                  often necessary for exponentiation.
+//                               =0 execution mode 
+//
+//    Output Parameters:  corrected /PHOEVT/
+//
+//    Author(s):  P.Golonka, Z. Was               Created at:  01/02/99
+//						  Modified  :  07/07/13
+//----------------------------------------------------------------------
+
+void PHCORK(int MODCOR){
+      
+  double M,P2,PX,PY,PZ,E,EN,XMS;
+  int I,K;
+  FILE *PHLUN = stdout;
+
+
+  int MODOP=0;
+  static int IPRINT=0;
+  static double  MCUT=0.4;
+  static int i=1;
+
+  if(MODCOR !=0){
+    //       INITIALIZATION
+    MODOP=MODCOR;
+
+    fprintf(PHLUN,"Message from PHCORK(MODCOR):: initialization");
+    if(MODOP==1) fprintf(PHLUN,"MODOP=1 -- no corrections on event: DEFAULT");
+    else if(MODOP==2) fprintf(PHLUN,"MODOP=2 -- corrects Energy from mass");
+    else if(MODOP==3) fprintf(PHLUN,"MODOP=3 -- corrects mass from Energy");
+    else if(MODOP==4){
+      fprintf(PHLUN,"MODOP=4 -- corrects Energy from mass to Mcut");
+      fprintf(PHLUN,"           and mass from  energy above  Mcut ");
+      fprintf(PHLUN," Mcut=%6.3f GeV",MCUT);
+    }
+    else if(MODOP==5) fprintf(PHLUN,"MODOP=5 -- corrects Energy from mass+flow");
+
+    else{
+      fprintf(PHLUN,"PHCORK wrong MODCOR=%4i",MODCOR);
+      exit(0);
+    }
+    return;
+  }
+
+  if(MODOP==0&&MODCOR==0){
+    fprintf(PHLUN,"PHCORK lack of initialization");
+    exit(0);
+  }
+
+  // execution mode
+  // ==============
+  // ============== 
+
+     
+  PX=0.0;
+  PY=0.0;
+  PZ=0.0;
+  E =0.0;
+
+  if    (MODOP==1){
+    //     -----------------------
+    //       In this case we do nothing
+    return;
+  }
+  else if(MODOP==2){
+    //     -----------------------
+    //      lets loop thru all daughters and correct their energies 
+    //      according to E^2=p^2+m^2
+
+    for( I=3;I<=pho.nhep;I++){
+         
+      PX=PX+pho.phep[I-i][1-i];
+      PY=PY+pho.phep[I-i][2-i];
+      PZ=PZ+pho.phep[I-i][3-i];
+
+      P2=pho.phep[I-i][1-i]*pho.phep[I-i][1-i]+pho.phep[I-i][2-i]*pho.phep[I-i][2-i]+pho.phep[I-i][3-i]*pho.phep[I-i][3-i];
+
+      EN=sqrt( pho.phep[I-i][5-i]*pho.phep[I-i][5-i] + P2);
+         
+      if (IPRINT==1)fprintf(PHLUN,"CORRECTING ENERGY OF %6i :%14.9f=>%14.9f",I,pho.phep[I-i][4-i],EN);
+
+      pho.phep[I-i][4-i]=EN;
+      E = E+pho.phep[I-i][4-i];
+
+    }
+  }
+
+  else if (MODOP==5){
+    //     -----------------------
+    //C      lets loop thru all daughters and correct their energies 
+    //C      according to E^2=p^2+m^2
+
+    for( I=3;I<=pho.nhep;I++){
+      PX=PX+pho.phep[I-i][1-i];
+      PY=PY+pho.phep[I-i][2-i];
+      PZ=PZ+pho.phep[I-i][3-i];
+
+      P2=pho.phep[I-i][1-i]*pho.phep[I-i][1-i]+pho.phep[I-i][2-i]*pho.phep[I-i][2-i]+pho.phep[I-i][3-i]*pho.phep[I-i][3-i];
+
+      EN=sqrt( pho.phep[I-i][5-i]*pho.phep[I-i][5-i] + P2);
+         
+      if (IPRINT==1)fprintf(PHLUN,"CORRECTING ENERGY OF %6i :%14.9f=>%14.9f",I,pho.phep[I-i][4-i],EN);
+
+      pho.phep[I-i][4-i]=EN;
+      E = E+pho.phep[I-i][4-i];
+
+    }
+    for( K=1;K<=4;K++){
+      pho.phep[1-i][K-i]=0.0;
+      for( I=3;I<=pho.nhep;I++){
+        pho.phep[1-i][K-i]=pho.phep[1-i][K-i]+pho.phep[I-i][K-i];
+      }
+    }
+    XMS=sqrt(pho.phep[1-i][4-i]*pho.phep[1-i][4-i]-pho.phep[1-i][3-i]*pho.phep[1-i][3-i]-pho.phep[1-i][2-i]*pho.phep[1-i][2-i]-pho.phep[1-i][1-i]*pho.phep[1-i][1-i]);
+    pho.phep[1-i][5-i]=XMS;
+  }
+  else if(MODOP==3){
+    //     -----------------------
+
+    //      lets loop thru all daughters and correct their masses 
+    //     according to E^2=p^2+m^2
+
+    for (I=3;I<=pho.nhep;I++){
+         
+      PX=PX+pho.phep[I-i][1-i];
+      PY=PY+pho.phep[I-i][2-i];
+      PZ=PZ+pho.phep[I-i][3-i];
+      E = E+pho.phep[I-i][4-i];
+
+      P2=pho.phep[I-i][1-i]*pho.phep[I-i][1-i]+pho.phep[I-i][2-i]*pho.phep[I-i][2-i]+pho.phep[I-i][3-i]*pho.phep[I-i][3-i];
+
+      M=sqrt(fabs( pho.phep[I-i][4-i]*pho.phep[I-i][4-i] - P2));
+
+      if (IPRINT==1) fprintf(PHLUN,"CORRECTING MASS OF %6i:%14.9f=>%14.9f",I,pho.phep[I-i][5-i],M);
+
+      pho.phep[I-i][5-i]=M;
+
+    }
+      
+  }
+ else if(MODOP==4){
+   //     -----------------------
+            
+   //      lets loop thru all daughters and correct their masses 
+   //      or energies according to E^2=p^2+m^2
+
+    for (I=3;I<=pho.nhep;I++){
+         
+      PX=PX+pho.phep[I-i][1-i];
+      PY=PY+pho.phep[I-i][2-i];
+      PZ=PZ+pho.phep[I-i][3-i];
+      P2=pho.phep[I-i][1-i]*pho.phep[I-i][1-i]+pho.phep[I-i][2-i]*pho.phep[I-i][2-i]+pho.phep[I-i][3-i]*pho.phep[I-i][3-i];
+      M=sqrt(fabs( pho.phep[I-i][4-i]*pho.phep[I-i][4-i] - P2));
+
+
+      if(M>MCUT){
+	if(IPRINT==1) fprintf(PHLUN,"CORRECTING MASS OF %6i :%14.9f ,=>%14.9f",I,pho.phep[I-i][5-i],M);
+	pho.phep[I-i][5-i]=M;
+	E = E+pho.phep[I-i][4-i];
+      }
+      else{
+
+      EN=sqrt( pho.phep[I-i][5-i]*pho.phep[I-i][5-i] + P2);
+      if(IPRINT==1) fprintf(PHLUN,"CORRECTING ENERGY OF %6i:%14.9f ,=>%14.9f",I ,pho.phep[I-i][4-i],EN);
+
+      pho.phep[I-i][4-i]=EN;
+      E = E+pho.phep[I-i][4-i];
+      }
+         
+
+    }
+ }
+
+  //     -----
+
+  if(IPRINT==1){
+    fprintf(PHLUN,"CORRECTING MOTHER");
+    fprintf(PHLUN,"PX:%14.9f =>%14.9f",pho.phep[1-i][1-i],PX-pho.phep[2-i][1-i]);
+    fprintf(PHLUN,"PY:%14.9f =>%14.9f",pho.phep[1-i][2-i],PY-pho.phep[2-i][2-i]);
+    fprintf(PHLUN,"PZ:%14.9f =>%14.9f",pho.phep[1-i][3-i],PZ-pho.phep[2-i][3-i]);
+    fprintf(PHLUN," E:%14.9f =>%14.9f",pho.phep[1-i][4-i], E-pho.phep[2-i][4-i]);
+  }
+
+  pho.phep[1-i][1-i]=PX-pho.phep[2-i][1-i];
+  pho.phep[1-i][2-i]=PY-pho.phep[2-i][2-i];
+  pho.phep[1-i][3-i]=PZ-pho.phep[2-i][3-i];
+  pho.phep[1-i][4-i]=E -pho.phep[2-i][4-i];
+
+
+  P2=pho.phep[I-i][1-i]*pho.phep[I-i][1-i]+pho.phep[I-i][2-i]*pho.phep[I-i][2-i]+pho.phep[I-i][3-i]*pho.phep[I-i][3-i];
+  if(pho.phep[i-i][4-i]*pho.phep[i-i][4-i]>P2){
+    M=sqrt(pho.phep[i-i][4-i]*pho.phep[i-i][4-i] - P2 );
+    if(IPRINT==1)fprintf(PHLUN," M: %14.9f => %14.9f",pho.phep[1-i][5-i],M);
+    pho.phep[1-i][5-i]=M;
+  }
+
+  PHLUPA(25);
+
+}
+
+
+
+

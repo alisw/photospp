@@ -172,3 +172,9 @@ extern "C" void photos_make_c_(int *IPPAR)
 {
   return PHOTOS_MAKE_C(*IPPAR);
 }
+extern void PHCORK(int MODCOR);
+
+extern "C" void phcork(int *MODCOR)
+{
+  return PHCORK(*MODCOR);
+}
