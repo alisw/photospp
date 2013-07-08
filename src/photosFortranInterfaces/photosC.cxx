@@ -15,6 +15,7 @@ struct PHLUPY phlupy_;
 struct TOFROM tofrom_;
 struct PHNUM  phnum_;
 struct PHOLUN pholun_;
+struct PHOREST phorest_;
 
 /** Logical function used deep inside algorithm to check if emitted
     particles are to emit. For mother it blocks the vertex, 
