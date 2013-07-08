@@ -1667,3 +1667,66 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   //--
 }
 
+
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOtos Boson W correction weight
+//
+//    Purpose:  calculates correction weight due to amplitudes of 
+//              emission from W boson.
+//              
+//              
+//              
+//              
+//
+//    Input Parameters:  Common /PHOEVT/, with photon added.
+//                       wt  to be corrected
+//                       
+//                       
+//                       
+//    Output Parameters: wt
+//
+//    Author(s):  G. Nanava, Z. Was               Created at:  13/03/03
+//                                                Last Update: 08/07/13
+//
+//----------------------------------------------------------------------
+
+void PHOBW(double WT){
+  static int i=1;
+  int I;
+  double EMU,MCHREN,BETA,COSTHG,MPASQR,XPH;
+  //--
+  if(abs(pho.idhep[1-i])==24 &&
+     abs(pho.idhep[pho.jdahep[1-i][1-i]-i])  >=11 &&
+     abs(pho.idhep[pho.jdahep[1-i][1-i]-i])  <=16 &&
+     abs(pho.idhep[pho.jdahep[1-i][1-i]+1-i])>=11 &&
+     abs(pho.idhep[pho.jdahep[1-i][1-i]+1-i])<=16   ){
+
+     if(
+	abs(pho.idhep[pho.jdahep[1-i][1-i]-i])==11 ||
+        abs(pho.idhep[pho.jdahep[1-i][1-i]-i])==13 ||
+        abs(pho.idhep[pho.jdahep[1-i][1-i]-i])==15    ){ 
+	I=pho.jdahep[1-i][1-i];
+     }
+     else{
+       I=pho.jdahep[1-i][1-i]+1;
+     }
+          
+     EMU=pho.phep[I-i][4-i];
+     MCHREN=fabs(pow(pho.phep[I-i][4-i],2)-pow(pho.phep[I-i][3-i],2)
+	        -pow(pho.phep[I-i][2-i],2)-pow(pho.phep[I-i][1-i],2));
+     BETA=sqrt(1.0- MCHREN/ pho.phep[I-i][4-i]/pho.phep[I-i][4-i]);
+     COSTHG=(pho.phep[I-i][3-i]*pho.phep[pho.nhep-i][3-i]+pho.phep[I-i][2-i]*pho.phep[2-i][pho.nhep-i]
+	    +pho.phep[I-i][1-i]*pho.phep[pho.nhep-i][1-i])/
+     sqrt(pho.phep[I-i][3-i]*pho.phep[I-i][3-i]+pho.phep[I-i][2-i]*pho.phep[I-i][2-i]+pho.phep[I-i][1-i]*pho.phep[I-i][1-i])/
+     sqrt(pho.phep[pho.nhep-i][3-i]*pho.phep[pho.nhep-i][3-i]+pho.phep[pho.nhep-i][2-i]*pho.phep[pho.nhep-i][2-i]+pho.phep[pho.nhep-i][1-i]*pho.phep[pho.nhep-i][1-i]);
+     MPASQR=pho.phep[1-i][4-i]*pho.phep[1-i][4-i];    
+     XPH=pho.phep[pho.nhep-i][4-i];
+     WT=WT*(1-8*EMU*XPH*(1-COSTHG*BETA)*     
+           (MCHREN+2*XPH*sqrt(MPASQR))/
+            MPASQR*MPASQR/(1-MCHREN/MPASQR)/(4-MCHREN/MPASQR));
+  }
+  //        write(*,*) pho.idhep[1),pho.idhep[pho.jdahep[1,1)),pho.idhep[pho.jdahep[1,1)+1)
+  //        write(*,*) emu,xph,costhg,beta,mpasqr,mchren
+
+}
