@@ -25,7 +25,7 @@ extern "C"
 		double xphcut;
 	} phocop_;
 
-	extern struct
+	extern struct PHNUM
 	{
 		double iev;
 	} phnum_;
@@ -57,7 +57,7 @@ extern "C"
 		double twopi;
 	} phpico_;
 
-	extern struct
+	extern struct PHOLUN
 	{
 		int phlun;
 	} pholun_;

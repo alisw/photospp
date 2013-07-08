@@ -12,6 +12,8 @@ using namespace Photospp;
 struct PHOSTA phosta_;
 struct PHLUPY phlupy_;
 struct TOFROM tofrom_;
+struct PHNUM  phnum_;
+struct PHOLUN pholun_;
 
 /** Logical function used deep inside algorithm to check if emitted
     particles are to emit. For mother it blocks the vertex, 
@@ -1307,7 +1309,7 @@ void PHCORK(int MODCOR){
   FILE *PHLUN = stdout;
 
 
-  int MODOP=0;
+  static int MODOP=0;
   static int IPRINT=0;
   static double  MCUT=0.4;
   static int i=1;
@@ -1316,26 +1318,26 @@ void PHCORK(int MODCOR){
     //       INITIALIZATION
     MODOP=MODCOR;
 
-    fprintf(PHLUN,"Message from PHCORK(MODCOR):: initialization");
-    if(MODOP==1) fprintf(PHLUN,"MODOP=1 -- no corrections on event: DEFAULT");
-    else if(MODOP==2) fprintf(PHLUN,"MODOP=2 -- corrects Energy from mass");
-    else if(MODOP==3) fprintf(PHLUN,"MODOP=3 -- corrects mass from Energy");
+    fprintf(PHLUN,"Message from PHCORK(MODCOR):: initialization\n");
+    if(MODOP==1) fprintf(PHLUN,"MODOP=1 -- no corrections on event: DEFAULT\n");
+    else if(MODOP==2) fprintf(PHLUN,"MODOP=2 -- corrects Energy from mass\n");
+    else if(MODOP==3) fprintf(PHLUN,"MODOP=3 -- corrects mass from Energy\n");
     else if(MODOP==4){
-      fprintf(PHLUN,"MODOP=4 -- corrects Energy from mass to Mcut");
-      fprintf(PHLUN,"           and mass from  energy above  Mcut ");
+      fprintf(PHLUN,"MODOP=4 -- corrects Energy from mass to Mcut\n");
+      fprintf(PHLUN,"           and mass from  energy above  Mcut\n");
       fprintf(PHLUN," Mcut=%6.3f GeV",MCUT);
     }
-    else if(MODOP==5) fprintf(PHLUN,"MODOP=5 -- corrects Energy from mass+flow");
+    else if(MODOP==5) fprintf(PHLUN,"MODOP=5 -- corrects Energy from mass+flow\n");
 
     else{
-      fprintf(PHLUN,"PHCORK wrong MODCOR=%4i",MODCOR);
+      fprintf(PHLUN,"PHCORK wrong MODCOR=%4i\n",MODCOR);
       exit(0);
     }
     return;
   }
 
   if(MODOP==0&&MODCOR==0){
-    fprintf(PHLUN,"PHCORK lack of initialization");
+    fprintf(PHLUN,"PHCORK lack of initialization\n");
     exit(0);
   }
 
@@ -1369,7 +1371,7 @@ void PHCORK(int MODCOR){
 
       EN=sqrt( pho.phep[I-i][5-i]*pho.phep[I-i][5-i] + P2);
          
-      if (IPRINT==1)fprintf(PHLUN,"CORRECTING ENERGY OF %6i :%14.9f=>%14.9f",I,pho.phep[I-i][4-i],EN);
+      if (IPRINT==1)fprintf(PHLUN,"CORRECTING ENERGY OF %6i: %14.9f => %14.9f\n",I,pho.phep[I-i][4-i],EN);
 
       pho.phep[I-i][4-i]=EN;
       E = E+pho.phep[I-i][4-i];
@@ -1391,7 +1393,7 @@ void PHCORK(int MODCOR){
 
       EN=sqrt( pho.phep[I-i][5-i]*pho.phep[I-i][5-i] + P2);
          
-      if (IPRINT==1)fprintf(PHLUN,"CORRECTING ENERGY OF %6i :%14.9f=>%14.9f",I,pho.phep[I-i][4-i],EN);
+      if (IPRINT==1)fprintf(PHLUN,"CORRECTING ENERGY OF %6i: %14.9f => %14.9f\n",I,pho.phep[I-i][4-i],EN);
 
       pho.phep[I-i][4-i]=EN;
       E = E+pho.phep[I-i][4-i];
@@ -1423,7 +1425,7 @@ void PHCORK(int MODCOR){
 
       M=sqrt(fabs( pho.phep[I-i][4-i]*pho.phep[I-i][4-i] - P2));
 
-      if (IPRINT==1) fprintf(PHLUN,"CORRECTING MASS OF %6i:%14.9f=>%14.9f",I,pho.phep[I-i][5-i],M);
+      if (IPRINT==1) fprintf(PHLUN,"CORRECTING MASS OF %6i: %14.9f => %14.9f\n",I,pho.phep[I-i][5-i],M);
 
       pho.phep[I-i][5-i]=M;
 
@@ -1446,14 +1448,14 @@ void PHCORK(int MODCOR){
 
 
       if(M>MCUT){
-	if(IPRINT==1) fprintf(PHLUN,"CORRECTING MASS OF %6i :%14.9f ,=>%14.9f",I,pho.phep[I-i][5-i],M);
+	if(IPRINT==1) fprintf(PHLUN,"CORRECTING MASS OF %6i: %14.9f => %14.9f\n",I,pho.phep[I-i][5-i],M);
 	pho.phep[I-i][5-i]=M;
 	E = E+pho.phep[I-i][4-i];
       }
       else{
 
       EN=sqrt( pho.phep[I-i][5-i]*pho.phep[I-i][5-i] + P2);
-      if(IPRINT==1) fprintf(PHLUN,"CORRECTING ENERGY OF %6i:%14.9f ,=>%14.9f",I ,pho.phep[I-i][4-i],EN);
+      if(IPRINT==1) fprintf(PHLUN,"CORRECTING ENERGY OF %6i: %14.9f =>% 14.9f\n",I ,pho.phep[I-i][4-i],EN);
 
       pho.phep[I-i][4-i]=EN;
       E = E+pho.phep[I-i][4-i];
@@ -1479,10 +1481,10 @@ void PHCORK(int MODCOR){
   pho.phep[1-i][4-i]=E -pho.phep[2-i][4-i];
 
 
-  P2=pho.phep[I-i][1-i]*pho.phep[I-i][1-i]+pho.phep[I-i][2-i]*pho.phep[I-i][2-i]+pho.phep[I-i][3-i]*pho.phep[I-i][3-i];
-  if(pho.phep[i-i][4-i]*pho.phep[i-i][4-i]>P2){
-    M=sqrt(pho.phep[i-i][4-i]*pho.phep[i-i][4-i] - P2 );
-    if(IPRINT==1)fprintf(PHLUN," M: %14.9f => %14.9f",pho.phep[1-i][5-i],M);
+  P2=pho.phep[1-i][1-i]*pho.phep[1-i][1-i]+pho.phep[1-i][2-i]*pho.phep[1-i][2-i]+pho.phep[1-i][3-i]*pho.phep[1-i][3-i];
+  if(pho.phep[1-i][4-i]*pho.phep[1-i][4-i]>P2){
+    M=sqrt(pho.phep[1-i][4-i]*pho.phep[1-i][4-i] - P2 );
+    if(IPRINT==1)fprintf(PHLUN," M: %14.9f => %14.9f\n",pho.phep[1-i][5-i],M);
     pho.phep[1-i][5-i]=M;
   }
 
