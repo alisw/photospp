@@ -3,11 +3,12 @@
 #include <iostream>
 #include "f_Init.h"
 #include "PH_HEPEVT_Interface.h"
+#include "PhotosUtilities.h"
 using std::cout;
 using std::endl;
 using std::max;
 using namespace Photospp;
-
+using namespace PhotosUtilities;
 // Declaration of structs defined in f_Init.h
 struct PHOSTA phosta_;
 struct PHLUPY phlupy_;
@@ -1525,31 +1526,9 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   double QNEW,QOLD,EPHOTO,PMAVIR;
   double GNEUT,DATA;
   double PHORANC,CCOSTH,SSINTH,PVEC[4],PARNE;
-  double TH3,FI3,TH4,FI4,FI5,ANGLE,FI3DUM;
+  double TH3,FI3,TH4,FI4,FI5,ANGLE;
   int I,J,FIRST,LAST;
 
-  /*
-      DOUBLE PRECISION PHOAN1,PHOAN2,ANGLE,FI1,FI3,FI4,FI5,TH1,TH3,TH4
-      DOUBLE PRECISION PARNE,DATA
-      INTEGER IP,FI3DUM,I,J,NEUDAU,FIRST,LAST
-      INTEGER NCHARB
-      REAL*8 PHOTRI
-      REAL*8 ,PHORANC,CCOSTH,SSINTH,PVEC(4)
-      INTEGER NMXPHO
-      PARAMETER (NMXPHO=10000)
-      INTEGER IDPHO,ISTPHO,JDAPHO,JMOPHO,NEVPHO,pho.nhep
-      REAL*8 PPHO,VPHO
-      COMMON/PHOEVT/NEVPHO,pho.nhep,ISTPHO(NMXPHO),IDPHO(NMXPHO),
-     &JMOPHO(2,NMXPHO),JDAPHO(2,NMXPHO),pho.phep[5,NMXPHO),VPHO(4,NMXPHO)
-      DOUBLE PRECISION MCHSQR,MNESQR
-      REAL*8 PNEUTR
-      COMMON/PHOMOM/MCHSQR,MNESQR,PNEUTR(5)
-      DOUBLE PRECISION COSTHG,SINTHG
-      REAL*8 XPHMAX,XPHOTO
-      COMMON/PHOPHS/XPHMAX,XPHOTO,COSTHG,SINTHG
-C fi3 orientation of photon, fi1,th1 orientation of neutral
-      COMMON /PHOREST/ FI3,fi1,th1
-  */
   //--
   EPHOTO=phophs_.xphoto*pho.phep[IP-i][5-i]/2.0;
   PMAVIR=sqrt(pho.phep[IP-i][5-i]*(pho.phep[IP-i][5-i]-2.0*EPHOTO));
@@ -1596,7 +1575,7 @@ C fi3 orientation of photon, fi1,th1 orientation of neutral
   CCOSTH=-phophs_.costhg;
   SSINTH=phophs_.sinthg;
   TH3=PHOAN2(CCOSTH,SSINTH);
-  FI3=phpico_.twopi*PHORANC(FI3DUM);
+  FI3=phpico_.twopi*Photos::randomDouble();
   pho.phep[pho.nhep-i][1-i]=pho.phep[pho.nhep-i][4-i]*phophs_.sinthg*cos(FI3);
   pho.phep[pho.nhep-i][2-i]=pho.phep[pho.nhep-i][4-i]*phophs_.sinthg*sin(FI3);
   //--
