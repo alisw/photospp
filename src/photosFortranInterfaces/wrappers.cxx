@@ -173,9 +173,15 @@ extern "C" void photos_make_c_(int *IPPAR)
   return PHOTOS_MAKE_C(*IPPAR);
 }
 extern void PHCORK(int MODCOR);
-extern "C" void phcork_lol_(int *MODCOR);
 
 extern "C" void phcork_(int *MODCOR)
 {
   return PHCORK(*MODCOR);
+}
+
+extern void PHODO(int IP,int NCHARB,int NEUDAU);
+
+extern "C" void phodo_(int *IP,int *NCHARB,int *NEUDAU)
+{
+  PHODO(*IP,*NCHARB,*NEUDAU);
 }

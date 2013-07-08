@@ -1534,13 +1534,13 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   PMAVIR=sqrt(pho.phep[IP-i][5-i]*(pho.phep[IP-i][5-i]-2.0*EPHOTO));
   //--
   //--   Reconstruct  kinematics  of  charged particle  and  neutral system
-  tofrom_.fi1=PHOAN1(phomom_.pneutr[1-i],phomom_.pneutr[2-i]);
+  phorest_.fi1=PHOAN1(phomom_.pneutr[1-i],phomom_.pneutr[2-i]);
   //--
   //--   Choose axis along  z of  PNEUTR, calculate  angle  between x and y
   //--   components  and z  and x-y plane and  perform Lorentz transform...
-  tofrom_.th1=PHOAN2(phomom_.pneutr[3-i],sqrt(phomom_.pneutr[1-i]*phomom_.pneutr[1-i]+phomom_.pneutr[2-i]*phomom_.pneutr[2-i]));
-  PHORO3(-tofrom_.fi1,phomom_.pneutr);
-  PHORO2(-tofrom_.th1,phomom_.pneutr);
+  phorest_.th1=PHOAN2(phomom_.pneutr[3-i],sqrt(phomom_.pneutr[1-i]*phomom_.pneutr[1-i]+phomom_.pneutr[2-i]*phomom_.pneutr[2-i]));
+  PHORO3(-phorest_.fi1,phomom_.pneutr);
+  PHORO2(-phorest_.th1,phomom_.pneutr);
   //--
   //--   Take  away  photon energy from charged particle and PNEUTR !  Thus
   //--   the onshell charged particle  decays into virtual charged particle
@@ -1615,10 +1615,10 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   //--   Charged particle restores original direction
   PHORO3(-FI5,phomom_.pneutr);
   PHORO3(-FI5,pho.phep[pho.nhep-i]);
-  PHORO2(tofrom_.th1,phomom_.pneutr);
-  PHORO2(tofrom_.th1,pho.phep[pho.nhep-i]);
-  PHORO3(tofrom_.fi1,phomom_.pneutr);
-  PHORO3(tofrom_.fi1,pho.phep[pho.nhep-i]);
+  PHORO2(phorest_.th1,phomom_.pneutr);
+  PHORO2(phorest_.th1,pho.phep[pho.nhep-i]);
+  PHORO3(phorest_.fi1,phomom_.pneutr);
+  PHORO3(phorest_.fi1,pho.phep[pho.nhep-i]);
   //--   See whether neutral system has multiplicity larger than 1...
 
   if((pho.jdahep[IP-i][2-i]-pho.jdahep[IP-i][1-i])>1){
@@ -1630,8 +1630,8 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
       if(I!=NCHARB && ( pho.jmohep[I-i][1-i]==IP)){
 	//--
 	//--   Reconstruct kinematics...
-	PHORO3(-tofrom_.fi1,pho.phep[I-i]);
-	PHORO2(-tofrom_.th1,pho.phep[I-i]);
+	PHORO3(-phorest_.fi1,pho.phep[I-i]);
+	PHORO2(-phorest_.th1,pho.phep[I-i]);
 	//--
 	//--   ...reductive boost
 	PHOBO3(PARNE,pho.phep[I-i]);
@@ -1649,8 +1649,8 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
 	//--
 	//--   Charged particle restores original direction
 	PHORO3(-FI5,pho.phep[I-i]);
-	PHORO2(tofrom_.th1,pho.phep[I-i]);
-	PHORO3(tofrom_.fi1,pho.phep[I-i]);
+	PHORO2(phorest_.th1,pho.phep[I-i]);
+	PHORO3(phorest_.fi1,pho.phep[I-i]);
       }
     }
   }

@@ -87,7 +87,7 @@ extern "C"
 		int irep;
 	} phopro_;
 
-	extern struct
+	extern struct PHOREST
 	{
 		double fi3;
 		double fi1;
