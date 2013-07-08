@@ -186,9 +186,9 @@ extern "C" void phodo_(int *IP,int *NCHARB,int *NEUDAU)
   PHODO(*IP,*NCHARB,*NEUDAU);
 }
 
-extern void PHOBW(double WT);
+extern void PHOBW(double *WT);
 
 extern "C" void phobw_(double *WT)
 {
-  return PHOBW(*WT);
+  return PHOBW(WT);
 }

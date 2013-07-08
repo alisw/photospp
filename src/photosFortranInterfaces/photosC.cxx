@@ -1691,7 +1691,7 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
 //
 //----------------------------------------------------------------------
 
-void PHOBW(double WT){
+void PHOBW(double *WT){
   static int i=1;
   int I;
   double EMU,MCHREN,BETA,COSTHG,MPASQR,XPH;
@@ -1716,15 +1716,15 @@ void PHOBW(double WT){
      MCHREN=fabs(pow(pho.phep[I-i][4-i],2)-pow(pho.phep[I-i][3-i],2)
 	        -pow(pho.phep[I-i][2-i],2)-pow(pho.phep[I-i][1-i],2));
      BETA=sqrt(1.0- MCHREN/ pho.phep[I-i][4-i]/pho.phep[I-i][4-i]);
-     COSTHG=(pho.phep[I-i][3-i]*pho.phep[pho.nhep-i][3-i]+pho.phep[I-i][2-i]*pho.phep[2-i][pho.nhep-i]
+     COSTHG=(pho.phep[I-i][3-i]*pho.phep[pho.nhep-i][3-i]+pho.phep[I-i][2-i]*pho.phep[pho.nhep-i][2-i]
 	    +pho.phep[I-i][1-i]*pho.phep[pho.nhep-i][1-i])/
      sqrt(pho.phep[I-i][3-i]*pho.phep[I-i][3-i]+pho.phep[I-i][2-i]*pho.phep[I-i][2-i]+pho.phep[I-i][1-i]*pho.phep[I-i][1-i])/
      sqrt(pho.phep[pho.nhep-i][3-i]*pho.phep[pho.nhep-i][3-i]+pho.phep[pho.nhep-i][2-i]*pho.phep[pho.nhep-i][2-i]+pho.phep[pho.nhep-i][1-i]*pho.phep[pho.nhep-i][1-i]);
      MPASQR=pho.phep[1-i][4-i]*pho.phep[1-i][4-i];    
      XPH=pho.phep[pho.nhep-i][4-i];
-     WT=WT*(1-8*EMU*XPH*(1-COSTHG*BETA)*     
+     *WT=(*WT)*(1-8*EMU*XPH*(1-COSTHG*BETA)*     
            (MCHREN+2*XPH*sqrt(MPASQR))/
-            MPASQR*MPASQR/(1-MCHREN/MPASQR)/(4-MCHREN/MPASQR));
+            (MPASQR*MPASQR)/(1-MCHREN/MPASQR)/(4-MCHREN/MPASQR));
   }
   //        write(*,*) pho.idhep[1),pho.idhep[pho.jdahep[1,1)),pho.idhep[pho.jdahep[1,1)+1)
   //        write(*,*) emu,xph,costhg,beta,mpasqr,mchren
