@@ -1495,3 +1495,195 @@ void PHCORK(int MODCOR){
 
 
 
+
+
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOton radiation in  decays DOing of KINematics
+//
+//    Purpose:  Starting  from   the  charged  particle energy/momentum,
+//              PNEUTR, photon  energy  fraction and photon  angle  with
+//              respect  to  the axis formed by charged particle energy/
+//              momentum  vector  and PNEUTR, scale the energy/momentum,
+//              keeping the original direction of the neutral system  in
+//              the lab. frame untouched.
+//
+//    Input Parameters:   IP:      Pointer  to   decaying  particle   in
+//                                 /PHOEVT/  and   the   common   itself
+//                        NCHARB:  pointer to the charged radiating
+//                                 daughter in /PHOEVT/.
+//                        NEUDAU:  pointer to the first neutral daughter
+//    Output Parameters:  Common /PHOEVT/, with photon added.
+//
+//    Author(s):  Z. Was, B. van Eijk             Created at:  26/11/89
+//                                                Last Update: 27/05/93
+//
+//----------------------------------------------------------------------
+
+void PHODO(int IP,int NCHARB,int NEUDAU){
+  static int i=1;
+  double QNEW,QOLD,EPHOTO,PMAVIR;
+  double GNEUT,DATA;
+  double PHORANC,CCOSTH,SSINTH,PVEC[4],PARNE;
+  double TH3,FI3,TH4,FI4,FI5,ANGLE,FI3DUM;
+  int I,J,FIRST,LAST;
+
+  /*
+      DOUBLE PRECISION PHOAN1,PHOAN2,ANGLE,FI1,FI3,FI4,FI5,TH1,TH3,TH4
+      DOUBLE PRECISION PARNE,DATA
+      INTEGER IP,FI3DUM,I,J,NEUDAU,FIRST,LAST
+      INTEGER NCHARB
+      REAL*8 PHOTRI
+      REAL*8 ,PHORANC,CCOSTH,SSINTH,PVEC(4)
+      INTEGER NMXPHO
+      PARAMETER (NMXPHO=10000)
+      INTEGER IDPHO,ISTPHO,JDAPHO,JMOPHO,NEVPHO,pho.nhep
+      REAL*8 PPHO,VPHO
+      COMMON/PHOEVT/NEVPHO,pho.nhep,ISTPHO(NMXPHO),IDPHO(NMXPHO),
+     &JMOPHO(2,NMXPHO),JDAPHO(2,NMXPHO),pho.phep[5,NMXPHO),VPHO(4,NMXPHO)
+      DOUBLE PRECISION MCHSQR,MNESQR
+      REAL*8 PNEUTR
+      COMMON/PHOMOM/MCHSQR,MNESQR,PNEUTR(5)
+      DOUBLE PRECISION COSTHG,SINTHG
+      REAL*8 XPHMAX,XPHOTO
+      COMMON/PHOPHS/XPHMAX,XPHOTO,COSTHG,SINTHG
+C fi3 orientation of photon, fi1,th1 orientation of neutral
+      COMMON /PHOREST/ FI3,fi1,th1
+  */
+  //--
+  EPHOTO=phophs_.xphoto*pho.phep[IP-i][5-i]/2.0;
+  PMAVIR=sqrt(pho.phep[IP-i][5-i]*(pho.phep[IP-i][5-i]-2.0*EPHOTO));
+  //--
+  //--   Reconstruct  kinematics  of  charged particle  and  neutral system
+  tofrom_.fi1=PHOAN1(phomom_.pneutr[1-i],phomom_.pneutr[2-i]);
+  //--
+  //--   Choose axis along  z of  PNEUTR, calculate  angle  between x and y
+  //--   components  and z  and x-y plane and  perform Lorentz transform...
+  tofrom_.th1=PHOAN2(phomom_.pneutr[3-i],sqrt(phomom_.pneutr[1-i]*phomom_.pneutr[1-i]+phomom_.pneutr[2-i]*phomom_.pneutr[2-i]));
+  PHORO3(-tofrom_.fi1,phomom_.pneutr[1-i]);
+  PHORO2(-tofrom_.th1,phomom_.pneutr[1-i]);
+  //--
+  //--   Take  away  photon energy from charged particle and PNEUTR !  Thus
+  //--   the onshell charged particle  decays into virtual charged particle
+  //--   and photon.  The virtual charged  particle mass becomes:
+  //--   SQRT(pho.phep[5,IP)*(pho.phep[5,IP)-2*EPHOTO)).  Construct  new PNEUTR mo-
+  //--   mentum in the rest frame of the parent:
+  //--   1) Scaling parameters...
+  QNEW=PHOTRI(PMAVIR,phomom_.pneutr[5-i],pho.phep[NCHARB-i][5-i]);
+  QOLD=phomom_.pneutr[3-i];
+  GNEUT=(QNEW*QNEW+QOLD*QOLD+phomom_.mnesqr)/(QNEW*QOLD+sqrt((QNEW*QNEW+phomom_.mnesqr)*(QOLD*QOLD+phomom_.mnesqr)));
+  if(GNEUT<1.0){
+    DATA=0.0;
+    PHOERR(4,'PHOKIN',DATA);
+  }
+  PARNE=GNEUT-sqrt(max(GNEUT*GNEUT-1.0,0.0));
+  //--
+  //--   2) ...reductive boost...
+  PHOBO3(PARNE,phomom_.pneutr);
+  //--
+  //--   ...calculate photon energy in the reduced system...
+  pho.nhep=pho.nhep+1;
+  pho.isthep[pho.nhep-i]=1;
+  pho.idhep[pho.nhep-i] =22;
+  //--   Photon mother and daughter pointers !
+  pho.jmohep[pho.nhep-i][1]=IP;
+  pho.jmohep[pho.nhep-i][2]=0;
+  pho.jdahep[pho.nhep-i][1]=0;
+  pho.jdahep[pho.nhep-i][2]=0;
+  pho.phep[pho.nhep-i][4-i]=EPHOTO*pho.phep[IP-i][5-i]/PMAVIR;
+  //--
+  //--   ...and photon momenta
+  CCOSTH=-phophs_.costhg;
+  SSINTH=phophs_.sinthg;
+  TH3=PHOAN2(CCOSTH,SSINTH);
+  FI3=phpico_.twopi*PHORANC(FI3DUM);
+  pho.phep[pho.nhep-i][1-i]=pho.phep[pho.nhep-i][4-i]*phophs_.sinthg*cos(FI3);
+  pho.phep[pho.nhep-i][2-i]=pho.phep[pho.nhep-i][4-i]*phophs_.sinthg*sin(FI3);
+  //--
+  //--   Minus sign because axis opposite direction of charged particle !
+  pho.phep[pho.nhep-i][3-i]=-pho.phep[pho.nhep-i][4-i]*phophs_.costhg;
+  pho.phep[pho.nhep-i][5-i]=0.0;
+  //--
+  //--   Rotate in order to get photon along z-axis
+  PHORO3(-FI3,phomom_.pneutr[1-i]);
+  PHORO3(-FI3,pho.phep[pho.nhep-i][1-i]);
+  PHORO2(-TH3,phomom_.pneutr[1-i]);
+  PHORO2(-TH3,pho.phep[pho.nhep-i][1-i]);
+  ANGLE=EPHOTO/pho.phep[pho.nhep-i][4-i];
+  //--
+  //--   Boost to the rest frame of decaying particle
+  PHOBO3(ANGLE,phomom_.pneutr[1-i]);
+  PHOBO3(ANGLE,pho.phep[pho.nhep-i][1-i]);
+  //--
+  //--   Back in the parent rest frame but PNEUTR not yet oriented !
+  FI4=PHOAN1(phomom_.pneutr[1-i],phomom_.pneutr[2-i]);
+  TH4=PHOAN2(phomom_.pneutr[3-i],sqrt(phomom_.pneutr[1-i]*phomom_.pneutr[1-i]+phomom_.pneutr[2-i]*phomom_.pneutr[2-i]));
+  PHORO3(FI4,phomom_.pneutr[1-i]);
+  PHORO3(FI4,pho.phep[pho.nhep-i][1-i]);
+  //--
+  for(I=2; I<=4;I++) PVEC[I-i]=0.0;
+  PVEC[1-i]=1.0;
+
+  PHORO3(-FI3,PVEC);
+  PHORO2(-TH3,PVEC);
+  PHOBO3(ANGLE,PVEC);
+  PHORO3(FI4,PVEC);
+  PHORO2(-TH4,phomom_.pneutr);
+  PHORO2(-TH4,pho.phep[pho.nhep-i][1-i]);
+  PHORO2(-TH4,PVEC);
+  FI5=PHOAN1(PVEC[1-i],PVEC[2-i]);
+  //--
+  //--   Charged particle restores original direction
+  PHORO3(-FI5,phomom_.pneutr);
+  PHORO3(-FI5,pho.phep[pho.nhep-i][1-i]);
+  PHORO2(tofrom_.th1,phomom_.pneutr[1-i]);
+  PHORO2(tofrom_.th1,pho.phep[pho.nhep-i][1-i]);
+  PHORO3(tofrom_.fi1,phomom_.pneutr);
+  PHORO3(tofrom_.fi1,pho.phep[pho.nhep-i][1-i]);
+  //--   See whether neutral system has multiplicity larger than 1...
+
+  if((pho.jdahep[IP-i][2-i]-pho.jdahep[IP-i][1-i])>1){
+    //--   Find pointers to components of 'neutral' system
+    //--
+    FIRST=NEUDAU;
+    LAST=pho.jdahep[IP-i][2-i];
+    for(I=FIRST;I<=LAST;I++){
+      if(I!=NCHARB && ( pho.jmohep[I-i][1-i]==IP)){
+	//--
+	//--   Reconstruct kinematics...
+	PHORO3(-tofrom_.fi1,pho.phep[I-i][1-i]);
+	PHORO2(-tofrom_.th1,pho.phep[I-i][1-i]);
+	//--
+	//--   ...reductive boost
+	PHOBO3(PARNE,pho.phep[I-i][1-i]);
+	//--
+	//--   Rotate in order to get photon along z-axis
+	PHORO3(-FI3,pho.phep[I-i][1-i]);
+	PHORO2(-TH3,pho.phep[I-i][1-i]);
+	//--
+	//--   Boost to the rest frame of decaying particle
+	PHOBO3(ANGLE,pho.phep[I-i][1-i]);
+	//--
+	//--   Back in the parent rest-frame but PNEUTR not yet oriented.
+	PHORO3(FI4,pho.phep[I-i][1-i]);
+	PHORO2(-TH4,pho.phep[I-i][1-i]);
+	//--
+	//--   Charged particle restores original direction
+	PHORO3(-FI5,pho.phep[I-i][1-i]);
+	PHORO2(tofrom_.th1,pho.phep[I-i][1-i]);
+	PHORO3(tofrom_.fi1,pho.phep[I-i][1-i]);
+      }
+    }
+  }
+  else{
+    //--
+    //   ...only one 'neutral' particle in addition to photon!
+    for(J=1;J<=4;J++) pho.phep[NEUDAU-i][J-i]=phomom_.pneutr[J-i];
+  }
+  //--
+  //--   All 'neutrals' treated, fill /PHOEVT/ for charged particle...
+  for (J=1;J<=3;J++) pho.phep[NCHARB-i][J-i]=-(pho.phep[pho.nhep-i][J-i]+phomom_.pneutr[J-i]);
+                     pho.phep[NCHARB-i][4-i]=pho.phep[IP-i][5-i]-(pho.phep[pho.nhep-i][4-i]+phomom_.pneutr[4-i]);
+  //--
+}
+
