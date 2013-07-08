@@ -1539,8 +1539,8 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   //--   Choose axis along  z of  PNEUTR, calculate  angle  between x and y
   //--   components  and z  and x-y plane and  perform Lorentz transform...
   tofrom_.th1=PHOAN2(phomom_.pneutr[3-i],sqrt(phomom_.pneutr[1-i]*phomom_.pneutr[1-i]+phomom_.pneutr[2-i]*phomom_.pneutr[2-i]));
-  PHORO3(-tofrom_.fi1,phomom_.pneutr[1-i]);
-  PHORO2(-tofrom_.th1,phomom_.pneutr[1-i]);
+  PHORO3(-tofrom_.fi1,phomom_.pneutr);
+  PHORO2(-tofrom_.th1,phomom_.pneutr);
   //--
   //--   Take  away  photon energy from charged particle and PNEUTR !  Thus
   //--   the onshell charged particle  decays into virtual charged particle
@@ -1553,7 +1553,7 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   GNEUT=(QNEW*QNEW+QOLD*QOLD+phomom_.mnesqr)/(QNEW*QOLD+sqrt((QNEW*QNEW+phomom_.mnesqr)*(QOLD*QOLD+phomom_.mnesqr)));
   if(GNEUT<1.0){
     DATA=0.0;
-    PHOERR(4,'PHOKIN',DATA);
+    PHOERR(4,"PHOKIN",DATA);
   }
   PARNE=GNEUT-sqrt(max(GNEUT*GNEUT-1.0,0.0));
   //--
@@ -1584,21 +1584,21 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   pho.phep[pho.nhep-i][5-i]=0.0;
   //--
   //--   Rotate in order to get photon along z-axis
-  PHORO3(-FI3,phomom_.pneutr[1-i]);
-  PHORO3(-FI3,pho.phep[pho.nhep-i][1-i]);
-  PHORO2(-TH3,phomom_.pneutr[1-i]);
-  PHORO2(-TH3,pho.phep[pho.nhep-i][1-i]);
+  PHORO3(-FI3,phomom_.pneutr);
+  PHORO3(-FI3,pho.phep[pho.nhep-i]);
+  PHORO2(-TH3,phomom_.pneutr);
+  PHORO2(-TH3,pho.phep[pho.nhep-i]);
   ANGLE=EPHOTO/pho.phep[pho.nhep-i][4-i];
   //--
   //--   Boost to the rest frame of decaying particle
-  PHOBO3(ANGLE,phomom_.pneutr[1-i]);
-  PHOBO3(ANGLE,pho.phep[pho.nhep-i][1-i]);
+  PHOBO3(ANGLE,phomom_.pneutr);
+  PHOBO3(ANGLE,pho.phep[pho.nhep-i]);
   //--
   //--   Back in the parent rest frame but PNEUTR not yet oriented !
   FI4=PHOAN1(phomom_.pneutr[1-i],phomom_.pneutr[2-i]);
   TH4=PHOAN2(phomom_.pneutr[3-i],sqrt(phomom_.pneutr[1-i]*phomom_.pneutr[1-i]+phomom_.pneutr[2-i]*phomom_.pneutr[2-i]));
-  PHORO3(FI4,phomom_.pneutr[1-i]);
-  PHORO3(FI4,pho.phep[pho.nhep-i][1-i]);
+  PHORO3(FI4,phomom_.pneutr);
+  PHORO3(FI4,pho.phep[pho.nhep-i]);
   //--
   for(I=2; I<=4;I++) PVEC[I-i]=0.0;
   PVEC[1-i]=1.0;
@@ -1608,17 +1608,17 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   PHOBO3(ANGLE,PVEC);
   PHORO3(FI4,PVEC);
   PHORO2(-TH4,phomom_.pneutr);
-  PHORO2(-TH4,pho.phep[pho.nhep-i][1-i]);
+  PHORO2(-TH4,pho.phep[pho.nhep-i]);
   PHORO2(-TH4,PVEC);
   FI5=PHOAN1(PVEC[1-i],PVEC[2-i]);
   //--
   //--   Charged particle restores original direction
   PHORO3(-FI5,phomom_.pneutr);
-  PHORO3(-FI5,pho.phep[pho.nhep-i][1-i]);
-  PHORO2(tofrom_.th1,phomom_.pneutr[1-i]);
-  PHORO2(tofrom_.th1,pho.phep[pho.nhep-i][1-i]);
+  PHORO3(-FI5,pho.phep[pho.nhep-i]);
+  PHORO2(tofrom_.th1,phomom_.pneutr);
+  PHORO2(tofrom_.th1,pho.phep[pho.nhep-i]);
   PHORO3(tofrom_.fi1,phomom_.pneutr);
-  PHORO3(tofrom_.fi1,pho.phep[pho.nhep-i][1-i]);
+  PHORO3(tofrom_.fi1,pho.phep[pho.nhep-i]);
   //--   See whether neutral system has multiplicity larger than 1...
 
   if((pho.jdahep[IP-i][2-i]-pho.jdahep[IP-i][1-i])>1){
@@ -1630,27 +1630,27 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
       if(I!=NCHARB && ( pho.jmohep[I-i][1-i]==IP)){
 	//--
 	//--   Reconstruct kinematics...
-	PHORO3(-tofrom_.fi1,pho.phep[I-i][1-i]);
-	PHORO2(-tofrom_.th1,pho.phep[I-i][1-i]);
+	PHORO3(-tofrom_.fi1,pho.phep[I-i]);
+	PHORO2(-tofrom_.th1,pho.phep[I-i]);
 	//--
 	//--   ...reductive boost
-	PHOBO3(PARNE,pho.phep[I-i][1-i]);
+	PHOBO3(PARNE,pho.phep[I-i]);
 	//--
 	//--   Rotate in order to get photon along z-axis
-	PHORO3(-FI3,pho.phep[I-i][1-i]);
-	PHORO2(-TH3,pho.phep[I-i][1-i]);
+	PHORO3(-FI3,pho.phep[I-i]);
+	PHORO2(-TH3,pho.phep[I-i]);
 	//--
 	//--   Boost to the rest frame of decaying particle
-	PHOBO3(ANGLE,pho.phep[I-i][1-i]);
+	PHOBO3(ANGLE,pho.phep[I-i]);
 	//--
 	//--   Back in the parent rest-frame but PNEUTR not yet oriented.
-	PHORO3(FI4,pho.phep[I-i][1-i]);
-	PHORO2(-TH4,pho.phep[I-i][1-i]);
+	PHORO3(FI4,pho.phep[I-i]);
+	PHORO2(-TH4,pho.phep[I-i]);
 	//--
 	//--   Charged particle restores original direction
-	PHORO3(-FI5,pho.phep[I-i][1-i]);
-	PHORO2(tofrom_.th1,pho.phep[I-i][1-i]);
-	PHORO3(tofrom_.fi1,pho.phep[I-i][1-i]);
+	PHORO3(-FI5,pho.phep[I-i]);
+	PHORO2(tofrom_.th1,pho.phep[I-i]);
+	PHORO3(tofrom_.fi1,pho.phep[I-i]);
       }
     }
   }
