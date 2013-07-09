@@ -104,6 +104,13 @@ extern "C"
 		double wt3;
 
 	} phwt_;
+	extern struct
+	{
+		double phocorwt3;
+		double phocorwt2;
+		double phocorwt1;
+
+	} phocorwt_;
 
 	extern struct
 	{

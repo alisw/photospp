@@ -1526,7 +1526,7 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   static int i=1;
   double QNEW,QOLD,EPHOTO,PMAVIR;
   double GNEUT,DATA;
-  double PHORANC,CCOSTH,SSINTH,PVEC[4],PARNE;
+  double CCOSTH,SSINTH,PVEC[4],PARNE;
   double TH3,FI3,TH4,FI4,FI5,ANGLE;
   int I,J,FIRST,LAST;
 
@@ -1789,3 +1789,182 @@ double PHOFAC(int MODE){
     return 1.0/FF;
   }
 }
+
+
+
+// ###### 
+//  replace with, 
+// ######
+
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOton radiation in decays CORrection weight from
+//              matrix elements This version for spin 1/2 is verified for
+//              W decay only
+//    Purpose:  Calculate  photon  angle.  The reshaping functions  will
+//              have  to  depend  on the spin S of the charged particle.
+//              We define:  ME = 2 * S + 1 !
+//              THIS IS POSSIBLY ALWAYS BETTER THAN PHOCOR()
+//
+//    Input Parameters:  MPASQR:  Parent mass squared,
+//                       MCHREN:  Renormalised mass of charged system,
+//                       ME:      2 * spin + 1 determines matrix element
+//
+//    Output Parameter:  Function value.
+//
+//    Author(s):  Z. Was, B. van Eijk, G. Nanava  Created at:  26/11/89
+//                                                Last Update: 01/11/12
+//
+//----------------------------------------------------------------------
+
+double PHOCORN(double MPASQR,double MCHREN,int ME){
+  double wt1,wt2,wt3;
+  double  beta0,beta1,XX,YY,DATA;
+  double S1,PHOCOR;
+
+
+
+  //--
+  //--   Shaping (modified by ZW)...
+  XX=4.0*phomom_.mchsqr/MPASQR*(1.0-phophs_.xphoto)/pow(1.0-phophs_.xphoto+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR,2);
+  if(ME==1){
+    S1=MPASQR  * (1.0-phophs_.xphoto);
+    beta0=2*PHOTRI(1.0,sqrt(phomom_.mchsqr/MPASQR),sqrt(phomom_.mnesqr/MPASQR));
+    beta1=2*PHOTRI(1.0,sqrt(phomom_.mchsqr/S1),sqrt(phomom_.mnesqr/S1));
+    wt1= (1.0-phophs_.costhg*sqrt(1.0-MCHREN))
+       /((1.0+pow(1.0-phophs_.xphoto/phophs_.xphmax,2))/2.0)*phophs_.xphoto;             // de-presampler
+           
+    wt2= beta1/beta0*phophs_.xphoto;                                                        //phase space jacobians
+    wt3=  beta1*beta1* (1.0-phophs_.costhg*phophs_.costhg) * (1.0-phophs_.xphoto)/phophs_.xphoto/phophs_.xphoto 
+      /pow(1.0 +phomom_.mchsqr/S1-phomom_.mnesqr/S1-beta1*phophs_.costhg,2)/2.0;             // matrix element
+  }
+  else if (ME==2){
+    S1=MPASQR  * (1.0-phophs_.xphoto);
+    beta0=2*PHOTRI(1.0,sqrt(phomom_.mchsqr/MPASQR),sqrt(phomom_.mnesqr/MPASQR));
+    beta1=2*PHOTRI(1.0,sqrt(phomom_.mchsqr/S1),sqrt(phomom_.mnesqr/S1));
+    wt1= (1.0-phophs_.costhg*sqrt(1.0-MCHREN))
+      /((1.0+pow(1.0-phophs_.xphoto/phophs_.xphmax,2))/2.0)*phophs_.xphoto;          // de-presampler
+         
+    wt2= beta1/beta0*phophs_.xphoto;                                  // phase space jacobians
+
+    wt3= beta1*beta1* (1.0-phophs_.costhg*phophs_.costhg) * (1.0-phophs_.xphoto)/phophs_.xphoto/phophs_.xphoto  // matrix element
+    /pow(1.0 +phomom_.mchsqr/S1-phomom_.mnesqr/S1-beta1*phophs_.costhg,2)/2.0 ;
+    wt3=wt3*(1-phophs_.xphoto/phophs_.xphmax+0.5*pow(phophs_.xphoto/phophs_.xphmax,2))/(1-phophs_.xphoto/phophs_.xphmax);
+    //       print*,"wt3=",wt3
+    phocorwt_.phocorwt3=wt3;
+    phocorwt_.phocorwt2=wt2;
+    phocorwt_.phocorwt1=wt1;
+
+    //       YY=0.5D0*(1.D0-phophs_.xphoto/phophs_.xphmax+1.D0/(1.D0-phophs_.xphoto/phophs_.xphmax))
+    //       phwt_.beta=SQRT(1.D0-XX)
+    //       wt1=(1.D0-phophs_.costhg*SQRT(1.D0-MCHREN))/(1.D0-phophs_.costhg*phwt_.beta)
+    //       wt2=(1.D0-XX/YY/(1.D0-phwt_.beta**2*phophs_.costhg**2))*(1.D0+phophs_.costhg*phwt_.beta)/2.D0
+    //       wt3=1.D0
+  }
+  else if  ((ME==3) || (ME==4) || (ME==5)){
+    YY=1.0;
+    phwt_.beta=sqrt(1.0-XX);
+    wt1=(1.0-phophs_.costhg*sqrt(1.0-MCHREN))/(1.0-phophs_.costhg*phwt_.beta);
+    wt2=(1.0-XX/YY/(1.0-phwt_.beta*phwt_.beta*phophs_.costhg*phophs_.costhg))*(1.0+phophs_.costhg*phwt_.beta)/2.0;
+    wt3=(1.0+pow(1.0-phophs_.xphoto/phophs_.xphmax,2)-pow(phophs_.xphoto/phophs_.xphmax,3))/
+        (1.0+pow(1.0-phophs_.xphoto/phophs_.xphmax,2));
+  }
+  else{
+    DATA=(ME-1.0)/2.0;
+    PHOERR(6,"PHOCORN",DATA);
+    YY=1.0;
+    phwt_.beta=sqrt(1.0-XX);
+    wt1=(1.0-phophs_.costhg*sqrt(1.0-MCHREN))/(1.0-phophs_.costhg*phwt_.beta);
+    wt2=(1.0-XX/YY/(1.0-phwt_.beta*phwt_.beta*phophs_.costhg*phophs_.costhg))*(1.0+phophs_.costhg*phwt_.beta)/2.0;
+    wt3=1.0;
+  }
+  wt2=wt2*PHOFAC(1);
+  PHOCOR=wt1*wt2*wt3;
+
+  phopro_.corwt=PHOCOR;
+  if(PHOCOR>1.0){
+    DATA=PHOCOR;
+    PHOERR(3,"PHOCOR",DATA);
+  }
+  return PHOCOR;
+}
+
+
+
+
+
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOton radiation in decays CORrection weight from
+//              matrix elements
+//
+//    Purpose:  Calculate  photon  angle.  The reshaping functions  will
+//              have  to  depend  on the spin S of the charged particle.
+//              We define:  ME = 2 * S + 1 !
+//
+//    Input Parameters:  MPASQR:  Parent mass squared,
+//                       MCHREN:  Renormalised mass of charged system,
+//                       ME:      2 * spin + 1 determines matrix element
+//
+//    Output Parameter:  Function value.
+//
+//    Author(s):  Z. Was, B. van Eijk             Created at:  26/11/89
+//                                                Last Update: 21/03/93
+//
+//----------------------------------------------------------------------
+
+double  PHOCOR(double MPASQR,double MCHREN,int ME){
+  double XX,YY,DATA;
+  double PHOC;
+  int IscaNLO;
+
+  //--
+  //--   Shaping (modified by ZW)...
+  XX=4.0*phomom_.mchsqr/MPASQR*(1.0-phophs_.xphoto)/pow((1.0-phophs_.xphoto+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR),2);
+  if(ME==1){
+    YY=1.0;
+    phwt_.wt3=(1.0-phophs_.xphoto/phophs_.xphmax)/((1.0+pow((1.0-phophs_.xphoto/phophs_.xphmax),2))/2.0);
+  }
+  else if(ME==2){
+    YY=0.5*(1.0-phophs_.xphoto/phophs_.xphmax+1.0/(1.0-phophs_.xphoto/phophs_.xphmax));
+    phwt_.wt3=1.0;
+  }
+  else if((ME==3)||(ME==4)||(ME==5)){
+    YY=1.0;
+    phwt_.wt3=(1.0+pow(1.0-phophs_.xphoto/phophs_.xphmax,2)-pow(phophs_.xphoto/phophs_.xphmax,3))/
+              (1.0+pow(1.0-phophs_.xphoto/phophs_.xphmax,2)  );
+  }
+  else{
+    DATA=(ME-1.0)/2.0;
+    PHOERR(6,"PHOCOR",DATA);
+    YY=1.0;
+    phwt_.wt3=1.0;
+  }
+
+
+  phwt_.beta=sqrt(1.0-XX);
+  phwt_.wt1=(1.0-phophs_.costhg*sqrt(1.0-MCHREN))/(1.0-phophs_.costhg*phwt_.beta);
+  phwt_.wt2=(1.0-XX/YY/(1.0-phwt_.beta*phwt_.beta*phophs_.costhg*phophs_.costhg))*(1.0+phophs_.costhg*phwt_.beta)/2.0;
+      
+  ME_SCALAR(IscaNLO);
+  if(ME==1 && IscaNLO ==1){  // this  switch NLO in scalar decays. 
+                             // overrules default calculation.
+                             // Need tests including basic ones
+    PHOC=PHOCORN(MPASQR,MCHREN,ME);
+    phwt_.wt1=1.0;
+    phwt_.wt2=1.0;
+    phwt_.wt3=PHOC;
+  }
+  else{
+    phwt_.wt2=phwt_.wt2*PHOFAC(1);
+  }
+  PHOC=phwt_.wt1*phwt_.wt2*phwt_.wt3;
+
+  phopro_.corwt=PHOC;
+  if(PHOC>1.0){
+    DATA=PHOC;
+    PHOERR(3,"PHOCOR",DATA);
+  }
+  return PHOC;
+}
+

@@ -200,3 +200,19 @@ extern "C" double phofac_(int *MODE)
 {
   return PHOFAC(*MODE);
 }
+
+
+extern void PHOCORN(double MPASQR,double MCHREN,int ME);
+
+extern "C" void phocorn_(double *MPASQR,double *MCHREN, int *ME)
+{
+  return PHOCORN(*MPASQR,*MCHREN,*ME);
+}
+
+extern void PHOCOR(double MPASQR,double MCHREN,int ME);
+
+extern "C" void phocor_(double *MPASQR,double *MCHREN, int *ME)
+{
+  return PHOCOR(*MPASQR,*MCHREN,*ME);
+}
+
