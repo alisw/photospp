@@ -1968,3 +1968,58 @@ double  PHOCOR(double MPASQR,double MCHREN,int ME){
   return PHOC;
 }
 
+
+//----------------------------------------------------------------------
+//
+//    PHOTWO:   PHOtos but TWO mothers allowed
+//
+//    Purpose:  Combines two mothers into one in /PHOEVT/
+//              necessary eg in case of g g (q qbar) --> t tbar 
+//
+//    Input Parameters: Common /PHOEVT/ (/PHOCMS/)
+//
+//    Output Parameters:  Common /PHOEVT/, (stored mothers)
+//
+//    Author(s):  Z. Was                          Created at:  5/08/93
+//                                                Last Update:10/08/93
+//
+//----------------------------------------------------------------------
+
+void PHOTWO(int MODE){
+
+  int I;
+  static int i=1;
+  double MPASQR;
+  bool  IFRAD;
+  // logical IFRAD is used to tag cases when two mothers may be 
+  // merged to the sole one. 
+  // So far used in case:
+  //                      1) of t tbar production
+  //
+  // t tbar case
+  if(MODE==0){
+    IFRAD=(pho.idhep[1-i]==21) && (pho.idhep[2-i]==21);
+    IFRAD=IFRAD || (pho.idhep[1-i]==-pho.idhep[2-i] && abs(pho.idhep[1-i])<=6);
+    IFRAD=IFRAD && (abs(pho.idhep[3-i])==6) && (abs(pho.idhep[4-i])==6);
+    MPASQR=  pow(pho.phep[1-i][4-i]+pho.phep[2-i][4-i],2)-pow(pho.phep[1-i][3-i]+pho.phep[2-i][3-i],2)
+            -pow(pho.phep[1-i][2-i]+pho.phep[2-i][2-i],2)-pow(pho.phep[1-i][1-i]+pho.phep[2-i][1-i],2);
+    IFRAD=IFRAD && (MPASQR>0.0);
+    if(IFRAD){
+      //.....combining first and second mother
+      for(I=1;I<=4;I++){
+	pho.phep[1-i][I-i]=pho.phep[1-i][I-i]+pho.phep[2-i][I-i];
+      }
+      pho.phep[1-i][5-i]=sqrt(MPASQR);
+      //.....removing second mother,
+       for(I=1;I<=5;I++){
+	 pho.phep[2-i][I-i]=0.0;
+       }
+    }
+  }
+  else{
+      // boosting of the mothers to the reaction frame not implemented yet.
+      // to do it in mode 0 original mothers have to be stored in new comon (?)
+      // and in mode 1 boosted to cms. 
+  }
+} 
+

@@ -216,3 +216,10 @@ extern "C" void phocor_(double *MPASQR,double *MCHREN, int *ME)
   return PHOCOR(*MPASQR,*MCHREN,*ME);
 }
 
+
+extern void PHOTWO(int MODE);
+
+extern "C" void photwo_(int *MODE)
+{
+  return PHOTWO(*MODE);
+}
