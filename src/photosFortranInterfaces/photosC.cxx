@@ -1730,3 +1730,62 @@ void PHOBW(double *WT){
   //        write(*,*) emu,xph,costhg,beta,mpasqr,mchren
 
 }
+
+
+
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOton radiation in decays control FACtor
+//
+//    Purpose:  This is the control function for the photon spectrum and
+//              final weighting.  It is  called  from PHOENE for genera-
+//              ting the raw photon energy spectrum (MODE=0) and in PHO-
+//              COR to scale the final weight (MODE=1).  The factor con-
+//              sists of 3 terms.  Addition of  the factor FF which mul-
+//              tiplies PHOFAC for MODE=0 and divides PHOFAC for MODE=1,
+//              does not affect  the results for  the MC generation.  An
+//              appropriate choice  for FF can speed up the calculation.
+//              Note that a too small value of FF may cause weight over-
+//              flow in PHOCOR  and will generate a warning, halting the
+//              execution.  PRX  should  be  included for repeated calls
+//              for  the  same event, allowing more particles to radiate
+//              photons.  At  the  first  call IREP=0, for  more  than 1
+//              charged  decay  products, IREP >= 1.  Thus,  PRSOFT  (no
+//              photon radiation  probability  in  the  previous  calls)
+//              appropriately scales the strength of the bremsstrahlung.
+//
+//    Input Parameters:  MODE, PROBH, XF
+//
+//    Output Parameter:  Function value
+//
+//    Author(s):  S. Jadach, Z. Was               Created at:  01/01/89
+//                B. van Eijk, P.Golonka          Last Update: 09/07/13
+//
+//----------------------------------------------------------------------
+ 
+double PHOFAC(int MODE){
+  static  double FF=0.0,PRX=0.0;
+
+  if(phokey_.iexp)  return 1.0;  // In case of exponentiation this routine is useles
+
+  if(MODE==-1){
+    PRX=1.0;
+    FF=1.0;
+    phopro_.probh=0.0;
+  }
+  else if (MODE==0){
+    if(phopro_.irep==0) PRX=1.0;
+    PRX=PRX/(1.0-phopro_.probh);
+    FF=1.0;
+    //--
+    //--   Following options are not considered for the time being...
+    //--   (1) Good choice, but does not save very much time:
+    //--       FF=(1.0-sqrt(phopro_.xf)/2.0)/(1.0+sqrt(phopro_.xf)/2.0)
+    //--   (2) Taken from the blue, but works without weight overflows...
+    //--       FF=(1.0-phopro_.xf/(1-pow((1-sqrt(phopro_.xf)),2)))*(1+(1-sqrt(phopro_.xf))/sqrt(1-phopro_.xf))/2.0
+    return FF*PRX;
+  }
+  else{
+    return 1.0/FF;
+  }
+}
