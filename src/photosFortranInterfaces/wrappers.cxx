@@ -194,9 +194,9 @@ extern "C" void phobw_(double *WT)
 }
 
 
-extern void PHOFAC(int MODE);
+extern double PHOFAC(int MODE);
 
-extern "C" void phofac_(int *MODE)
+extern "C" double phofac_(int *MODE)
 {
   return PHOFAC(*MODE);
 }
