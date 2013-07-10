@@ -17,6 +17,8 @@ struct PHNUM  phnum_;
 struct PHOLUN pholun_;
 struct PHOREST phorest_;
 
+extern "C" void me_scalar_(int *);
+
 /** Logical function used deep inside algorithm to check if emitted
     particles are to emit. For mother it blocks the vertex, 
     but for daughters individually: bad sisters will not prevent electron to emit.
@@ -1946,7 +1948,7 @@ double  PHOCOR(double MPASQR,double MCHREN,int ME){
   phwt_.wt1=(1.0-phophs_.costhg*sqrt(1.0-MCHREN))/(1.0-phophs_.costhg*phwt_.beta);
   phwt_.wt2=(1.0-XX/YY/(1.0-phwt_.beta*phwt_.beta*phophs_.costhg*phophs_.costhg))*(1.0+phophs_.costhg*phwt_.beta)/2.0;
       
-  ME_SCALAR(IscaNLO);
+  me_scalar_(&IscaNLO);
   if(ME==1 && IscaNLO ==1){  // this  switch NLO in scalar decays. 
                              // overrules default calculation.
                              // Need tests including basic ones
