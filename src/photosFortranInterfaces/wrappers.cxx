@@ -223,3 +223,18 @@ extern "C" void photwo_(int *MODE)
 {
   return PHOTWO(*MODE);
 }
+
+extern void PHOIN(int IP, bool BOOST, int nhep0);
+
+extern "C" void phoin_(int *IP, bool BOOST, int nhep0)
+{
+  return PHOIN(*IP,BOOST,nhep0);
+}
+
+
+extern void PHOOUT(int IP, bool BOOST, int nhep0);
+
+extern "C" void phoout_(int *IP, bool BOOST, int nhep0)
+{
+  return PHOOUT(*IP,BOOST,nhep0);
+}

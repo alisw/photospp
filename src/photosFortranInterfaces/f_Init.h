@@ -118,6 +118,12 @@ extern "C"
 		double mnesqr;
 		double pneutr[5];
 	} phomom_;
+	extern struct PHOCMS
+	{
+		double bet[3];
+		double gam;
+	} phocms_;
+
 
 	//debug mode on if ipoin <  1 and ipoinm > 1
 	extern struct PHLUPY

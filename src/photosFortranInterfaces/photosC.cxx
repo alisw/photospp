@@ -2025,3 +2025,269 @@ void PHOTWO(int MODE){
   }
 } 
 
+
+
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOtos CDE-s
+//
+//    Purpose:  Keep definitions  for PHOTOS QED correction Monte Carlo.
+//
+//    Input Parameters:   None
+//
+//    Output Parameters:  None
+//
+//    Author(s):  Z. Was, B. van Eijk             Created at:  29/11/89
+//                                                Last Update: 10/08/93
+//
+// =========================================================
+//    General Structure Information:                       =
+// =========================================================
+//:   ROUTINES:
+//             1) INITIALIZATION (all in C++ now)
+//             2) GENERAL INTERFACE:
+//                                      PHOBOS
+//                                      PHOIN
+//                                      PHOTWO (specific interface
+//                                      PHOOUT
+//                                      PHOCHK
+//                                      PHTYPE (specific interface
+//                                      PHOMAK (specific interface
+//             3) QED PHOTON GENERATION:
+//                                      PHINT
+//                                      PHOBW
+//                                      PHOPRE
+//                                      PHOOMA
+//                                      PHOENE
+//                                      PHOCOR
+//                                      PHOFAC
+//                                      PHODO
+//             4) UTILITIES:
+//                                      PHOTRI
+//                                      PHOAN1
+//                                      PHOAN2
+//                                      PHOBO3
+//                                      PHORO2
+//                                      PHORO3
+//                                      PHOCHA
+//                                      PHOSPI
+//                                      PHOERR
+//                                      PHOREP
+//                                      PHLUPA
+//                                      PHCORK
+//                                      IPHQRK
+//                                      IPHEKL
+//   COMMONS:
+//   NAME     USED IN SECT. # OF OC//     Comment
+//   PHOQED   1) 2)            3      Flags whether emisson to be gen. 
+//   PHOLUN   1) 4)            6      Output device number
+//   PHOCOP   1) 3)            4      photon coupling & min energy
+//   PHPICO   1) 3) 4)         5      PI & 2*PI
+//   PHOSTA   1) 4)            3      Status information
+//   PHOKEY   1) 2) 3)         7      Keys for nonstandard application
+//   PHOVER   1)               1      Version info for outside
+//   HEPEVT   2)               2      PDG common
+//   PH_HEPEVT2)               8      PDG common internal
+//   PHOEVT   2) 3)           10      PDG branch
+//   PHOIF    2) 3)            2      emission flags for PDG branch 
+//   PHOMOM   3)               5      param of char-neutr system
+//   PHOPHS   3)               5      photon momentum parameters
+//   PHOPRO   3)               4      var. for photon rep. (in branch)
+//   PHOCMS   2)               3      parameters of boost to branch CMS
+//   PHNUM    4)               1      event number from outside         
+//----------------------------------------------------------------------
+
+
+//----------------------------------------------------------------------
+//
+//    PHOIN:   PHOtos INput
+//
+//    Purpose:  copies IP branch of the common /PH_HEPEVT/ into /PHOEVT/
+//              moves branch into its CMS system.
+//
+//    Input Parameters:       IP:  pointer of particle starting branch
+//                                 to be copied
+//                        BOOST:   Flag whether boost to CMS was or was 
+//     .                          replace stri  not performed.
+//
+//    Output Parameters:  Commons: /PHOEVT/, /PHOCMS/
+//
+//    Author(s):  Z. Was                          Created at:  24/05/93
+//                                                Last Update: 16/11/93
+//
+//----------------------------------------------------------------------
+void PHOIN(int IP,bool BOOST,int nhep0){
+  int FIRST,LAST,I,LL,IP2,J,NA;
+  double PB;
+  static int i=1;
+
+  //--
+  // let-s calculate size of the little common entry
+  FIRST=hep.jdahep[IP-i][1-i];
+  LAST =hep.jdahep[IP-i][2-i];
+  pho.nhep=3+LAST-FIRST+hep.nhep-nhep0;
+  phoevt_.nevhep=pho.nhep;
+
+  // let-s take in decaying particle
+  pho.idhep[1-i]=hep.idhep[IP-i];
+  pho.jdahep[1-i][1-i]=3;
+  pho.jdahep[1-i][2-i]=3+LAST-FIRST;
+  for(I=1;I<=5;I++) pho.phep[1-i][I-i]=hep.phep[IP-i][I-i];
+           
+  // let-s take in eventual second mother
+  IP2=hep.jmohep[hep.jdahep[IP-i][1-i]-i][2-i];
+  if((IP2!=0) && (IP2!=IP)){
+    pho.idhep[2-i]=hep.idhep[IP2-i];
+    pho.jdahep[2-i][1-i]=3;
+    pho.jdahep[2-i][2-i]=3+LAST-FIRST;
+    for(I=1;I<=5;I++)
+      pho.phep[2-i][I-i]=hep.phep[IP2-i][I-i];
+  }
+  else{
+    pho.idhep[2-i]=0;
+    for(I=1;I<=5;I++)  pho.phep[2-i][I-i]=0.0;
+  }            
+        
+  // let-s take in daughters
+  for(LL=0;LL<=LAST-FIRST;LL++){
+    pho.idhep[3+LL-i]=hep.idhep[FIRST+LL-i];
+    pho.jmohep[3+LL-i][1-i]=hep.jmohep[FIRST+LL-i][1-i];
+    if(hep.jmohep[FIRST+LL-i][1-i]==IP) pho.jmohep[3+LL-i][1-i]=1;
+    for(I=1;I<=5;I++) pho.phep[3+LL-i][I-i]=hep.phep[FIRST+LL-i][I-i];
+          
+  }
+  if(hep.nhep>nhep0){
+    // let-s take in illegitimate daughters
+    NA=3+LAST-FIRST; 
+    for(LL=1;LL<=hep.nhep-nhep0;LL++){
+      pho.idhep[NA+LL-i]=hep.idhep[nhep0+LL-i];
+      pho.jmohep[NA+LL-i][1-i]=hep.jmohep[nhep0+LL-i][1-i];
+      if(hep.jmohep[nhep0+LL-i][1-i]==IP) pho.jmohep[NA+LL-i][1-i]=1;
+      for(I=1;I<=5;I++) pho.phep[NA+LL-i][I-i]=hep.phep[nhep0+LL-i][I-i];
+          
+    }
+    //--        there is hep.nhep-nhep0 daugters more.
+    pho.jdahep[1][2]=3+LAST-FIRST+hep.nhep-nhep0;
+  }
+  if (pho.idhep[pho.nhep-1]==22) PHLUPA(100001);
+  // if (pho.idhep[pho.nhep-1]==22) exit(0);
+  PHCORK(0);
+  if(pho.idhep[pho.nhep-1]==22) PHLUPA(100002);
+
+  // special case of t tbar production process
+  if(phokey_.iftop) PHOTWO(0);
+  BOOST=false;
+
+  //--   Check whether parent is in its rest frame...
+  // ZBW ND  27.07.2009:
+  // bug reported by Vladimir Savinov localized and fixed.
+  // protection against rounding error was back-firing if soft
+  // momentum of mother was physical. Consequence was that PHCORK was
+  // messing up masses of final state particles in vertex of the decay.
+  // Only configurations with previously generated photons of energy fraction
+  // smaller than 0.0001 were affected. Effect was numerically insignificant. 
+
+  //      IF (     (ABS(pho.phep[4,1)-pho.phep[5,1)).GT.pho.phep[5,1)*1.D-8)
+  //     $    .AND.(pho.phep[5,1).NE.0))                            THEN
+
+  if((abs(pho.phep[1][1]+abs(pho.phep[1][2])+abs(pho.phep[1][3]))>
+      pho.phep[1][5]*1.E-8) && (pho.phep[1][5]!=0)){
+
+    BOOST=true;
+    PHOERR(3,"PHOIN",1.0);  // we need to correct this line  program should never
+                            // enter this place  
+    //  may be   exit(0);
+    //--
+    //--   Boost daughter particles to rest frame of parent...
+    //--   Resultant neutral system already calculated in rest frame !
+    for(J=1;J<=3;J++) phocms_.bet[J-i]=-pho.phep[1][J]/pho.phep[1][5];
+    phocms_.gam=pho.phep[1-i][4-i]/pho.phep[1-i][5-i];
+    for(I=pho.jdahep[1-i][1-i];I<=pho.jdahep[1-i][2-i];I++){
+      PB=phocms_.bet[1-i]*pho.phep[I-i][1-i]+phocms_.bet[2-i]*pho.phep[I-i][2-i]+phocms_.bet[3-i]*pho.phep[I-i][3-i];
+      for(J=1;J<=3;J++)   pho.phep[I-i][J-i]=pho.phep[I-i][J-i]+phocms_.bet[J-i]*(pho.phep[I-i][4-i]+PB/(phocms_.gam+1.0));
+      pho.phep[I-i][4-i]=phocms_.gam*pho.phep[I-i][4-i]+PB;
+    }
+    //--    Finally boost mother as well
+    I=1;   
+    PB=phocms_.bet[1-i]*pho.phep[I-i][1-i]+phocms_.bet[2-i]*pho.phep[I-i][2-i]+phocms_.bet[3-i]*pho.phep[I-i][3-i];
+    for(J=1;J<=3;J++) pho.phep[I-i][J-i]=pho.phep[I-i][J-i]+phocms_.bet[J-i]*(pho.phep[I-i][4-i]+PB/(phocms_.gam+1.0));
+ 
+    pho.phep[I][4]=phocms_.gam*pho.phep[I][4]+PB;
+  }
+
+
+  // special case of t tbar production process
+  if(phokey_.iftop) PHOTWO(1);
+  PHLUPA(2);
+  if(pho.idhep[pho.nhep-i]==22) PHLUPA(10000);
+  //if (pho.idhep[pho.nhep-1-i]==22) exit(0);  // this is probably form very old times ...
+  return;
+} 
+
+
+//----------------------------------------------------------------------
+//
+//    PHOOUT:   PHOtos OUTput
+//
+//    Purpose:  copies back IP branch of the common /PH_HEPEVT/ from 
+//              /PHOEVT/ moves branch back from its CMS system.
+//
+//    Input Parameters:       IP:  pointer of particle starting branch
+//                                 to be given back.
+//                        BOOST:   Flag whether boost to CMS was or was 
+//     .                            not performed.
+//
+//    Output Parameters:  Common /PHOEVT/, 
+//
+//    Author(s):  Z. Was                          Created at:  24/05/93
+//                                                Last Update:
+//
+//----------------------------------------------------------------------
+void PHOOUT(int IP, bool BOOST, int nhep0){
+  int LL,FIRST,LAST,I;
+  int NN,J,K,NA;
+  double PB;
+  static int i=1;
+  if(pho.nhep==phoevt_.nevhep) return;
+  //--   When parent was not in its rest-frame, boost back...
+  PHLUPA(10);
+  if (BOOST){
+
+    for (J=pho.jdahep[1-i][1-i];J<=pho.jdahep[1-i][2-i];J++){
+      PB=-phocms_.bet[1-i]*pho.phep[J-i][1-i]-phocms_.bet[2-i]*pho.phep[J-i][2-i]-phocms_.bet[3-i]*pho.phep[J-i][3-i];
+      for(K=1;K<=3;K++) pho.phep[J-i][K-i]=pho.phep[J-i][K-i]-phocms_.bet[K-i]*(pho.phep[J-i][4-i]+PB/(phocms_.gam+1.0));
+      pho.phep[J-i][4-i]=phocms_.gam*pho.phep[J-i][4-i]+PB;
+    }
+
+    //--   ...boost photon, or whatever else has shown up
+    for(NN=phoevt_.nevhep+1;NN<=pho.nhep;NN++){
+      PB=-phocms_.bet[1-i]*pho.phep[NN-i][1-i]-phocms_.bet[2-i]*pho.phep[NN-i][2-i]-phocms_.bet[3-i]*pho.phep[NN-i][3-i];
+      for(K=1;K<=3;K++) pho.phep[NN-i][K-i]=pho.phep[NN-i][K-i]-phocms_.bet[K-i]*(pho.phep[NN-i][4-i]+PB/(phocms_.gam+1.0));
+      pho.phep[NN-i][4-i]=phocms_.gam*pho.phep[NN][4-i]+PB;
+    }
+					  }
+  PHCORK(0);   // we have to use it because it clears input 
+               // for grandaughters modified in C++
+  FIRST=hep.jdahep[IP-i][1-i];
+  LAST =hep.jdahep[IP-i][2-i];
+  // let-s take in original daughters
+  for(LL=0;LL<=LAST-FIRST;LL++){
+    hep.idhep[FIRST+LL-i] = pho.idhep[3+LL-i];
+    for(I=1;I<=5;I++) hep.phep[FIRST+LL-i][I-i] = pho.phep[3+LL-i][I-i];         
+  }
+
+  // let-s take newcomers to the end of HEPEVT.
+  NA=3+LAST-FIRST;
+  for (LL=1;LL<=pho.nhep-NA;LL++){
+    hep.idhep[nhep0+LL-i] = pho.idhep[NA+LL-i];
+    hep.isthep[nhep0+LL-i]=pho.isthep[NA+LL-i];
+    hep.jmohep[nhep0+LL-i][1-i]=IP;
+    hep.jmohep[nhep0+LL-i][2-i]=hep.jmohep[hep.jdahep[IP-i][1-i]-i][2-i];
+    hep.jdahep[nhep0+LL-i][1-i]=0;
+    hep.jdahep[nhep0+LL-i][2-i]=0;
+    for(I=1;I<=5;I++) hep.phep[nhep0+LL-i][I-i] = pho.phep[NA+LL-i][I-i];
+  }
+  hep.nhep=hep.nhep+pho.nhep-phoevt_.nevhep;
+  PHLUPA(20);
+  return;
+}
