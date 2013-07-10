@@ -16,6 +16,7 @@ struct TOFROM tofrom_;
 struct PHNUM  phnum_;
 struct PHOLUN pholun_;
 struct PHOREST phorest_;
+struct PHOCMS  phocms_;
 
 extern "C" void me_scalar_(int *);
 
@@ -2116,7 +2117,7 @@ void PHOTWO(int MODE){
 //                                                Last Update: 16/11/93
 //
 //----------------------------------------------------------------------
-void PHOIN(int IP,bool BOOST,int nhep0){
+void PHOIN(int IP,bool *BOOST,int nhep0){
   int FIRST,LAST,I,LL,IP2,J,NA;
   double PB;
   static int i=1;
@@ -2167,16 +2168,16 @@ void PHOIN(int IP,bool BOOST,int nhep0){
           
     }
     //--        there is hep.nhep-nhep0 daugters more.
-    pho.jdahep[1][2]=3+LAST-FIRST+hep.nhep-nhep0;
+    pho.jdahep[1-i][2-i]=3+LAST-FIRST+hep.nhep-nhep0;
   }
-  if (pho.idhep[pho.nhep-1]==22) PHLUPA(100001);
-  // if (pho.idhep[pho.nhep-1]==22) exit(0);
+  if (pho.idhep[pho.nhep-i]==22) PHLUPA(100001);
+  // if (pho.idhep[pho.nhep-i]==22) exit(0);
   PHCORK(0);
-  if(pho.idhep[pho.nhep-1]==22) PHLUPA(100002);
+  if(pho.idhep[pho.nhep-i]==22) PHLUPA(100002);
 
   // special case of t tbar production process
   if(phokey_.iftop) PHOTWO(0);
-  BOOST=false;
+  *BOOST=false;
 
   //--   Check whether parent is in its rest frame...
   // ZBW ND  27.07.2009:
@@ -2190,17 +2191,17 @@ void PHOIN(int IP,bool BOOST,int nhep0){
   //      IF (     (ABS(pho.phep[4,1)-pho.phep[5,1)).GT.pho.phep[5,1)*1.D-8)
   //     $    .AND.(pho.phep[5,1).NE.0))                            THEN
 
-  if((abs(pho.phep[1][1]+abs(pho.phep[1][2])+abs(pho.phep[1][3]))>
-      pho.phep[1][5]*1.E-8) && (pho.phep[1][5]!=0)){
+  if((fabs(pho.phep[1-i][1-i]+fabs(pho.phep[1-i][2-i])+fabs(pho.phep[1-i][3-i]))>
+      pho.phep[1-i][5-i]*1.E-8) && (pho.phep[1-i][5-i]!=0)){
 
-    BOOST=true;
-    PHOERR(3,"PHOIN",1.0);  // we need to correct this line  program should never
+    *BOOST=true;
+    PHOERR(404,"PHOIN",1.0);  // we need to correct this line  program should never
                             // enter this place  
     //  may be   exit(0);
     //--
     //--   Boost daughter particles to rest frame of parent...
     //--   Resultant neutral system already calculated in rest frame !
-    for(J=1;J<=3;J++) phocms_.bet[J-i]=-pho.phep[1][J]/pho.phep[1][5];
+    for(J=1;J<=3;J++) phocms_.bet[J-i]=-pho.phep[1-i][J-i]/pho.phep[1-i][5-i];
     phocms_.gam=pho.phep[1-i][4-i]/pho.phep[1-i][5-i];
     for(I=pho.jdahep[1-i][1-i];I<=pho.jdahep[1-i][2-i];I++){
       PB=phocms_.bet[1-i]*pho.phep[I-i][1-i]+phocms_.bet[2-i]*pho.phep[I-i][2-i]+phocms_.bet[3-i]*pho.phep[I-i][3-i];
@@ -2212,7 +2213,7 @@ void PHOIN(int IP,bool BOOST,int nhep0){
     PB=phocms_.bet[1-i]*pho.phep[I-i][1-i]+phocms_.bet[2-i]*pho.phep[I-i][2-i]+phocms_.bet[3-i]*pho.phep[I-i][3-i];
     for(J=1;J<=3;J++) pho.phep[I-i][J-i]=pho.phep[I-i][J-i]+phocms_.bet[J-i]*(pho.phep[I-i][4-i]+PB/(phocms_.gam+1.0));
  
-    pho.phep[I][4]=phocms_.gam*pho.phep[I][4]+PB;
+    pho.phep[I-i][4-i]=phocms_.gam*pho.phep[I-i][4-i]+PB;
   }
 
 

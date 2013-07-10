@@ -202,16 +202,16 @@ extern "C" double phofac_(int *MODE)
 }
 
 
-extern void PHOCORN(double MPASQR,double MCHREN,int ME);
+extern double PHOCORN(double MPASQR,double MCHREN,int ME);
 
-extern "C" void phocorn_(double *MPASQR,double *MCHREN, int *ME)
+extern "C" double phocorn_(double *MPASQR,double *MCHREN, int *ME)
 {
   return PHOCORN(*MPASQR,*MCHREN,*ME);
 }
 
-extern void PHOCOR(double MPASQR,double MCHREN,int ME);
+extern double PHOCOR(double MPASQR,double MCHREN,int ME);
 
-extern "C" void phocor_(double *MPASQR,double *MCHREN, int *ME)
+extern "C" double phocor_(double *MPASQR,double *MCHREN, int *ME)
 {
   return PHOCOR(*MPASQR,*MCHREN,*ME);
 }
@@ -224,17 +224,17 @@ extern "C" void photwo_(int *MODE)
   return PHOTWO(*MODE);
 }
 
-extern void PHOIN(int IP, bool BOOST, int nhep0);
+extern void PHOIN(int IP, bool *BOOST, int nhep0);
 
-extern "C" void phoin_(int *IP, bool BOOST, int nhep0)
+extern "C" void phoin_(int *IP, bool *BOOST, int *nhep0)
 {
-  return PHOIN(*IP,BOOST,nhep0);
+  return PHOIN(*IP,BOOST,*nhep0);
 }
 
 
 extern void PHOOUT(int IP, bool BOOST, int nhep0);
 
-extern "C" void phoout_(int *IP, bool BOOST, int nhep0)
+extern "C" void phoout_(int *IP, bool *BOOST, int *nhep0)
 {
-  return PHOOUT(*IP,BOOST,nhep0);
+  return PHOOUT(*IP,*BOOST,*nhep0);
 }
