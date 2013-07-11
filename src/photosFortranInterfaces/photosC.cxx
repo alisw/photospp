@@ -2195,8 +2195,8 @@ void PHOIN(int IP,bool *BOOST,int nhep0){
       pho.phep[1-i][5-i]*1.E-8) && (pho.phep[1-i][5-i]!=0)){
 
     *BOOST=true;
-    PHOERR(404,"PHOIN",1.0);  // we need to correct this line  program should never
-                            // enter this place  
+    PHOERR(404,"PHOIN",1.0);  // we need to improve this warning:  program should never
+                              // enter this place  
     //  may be   exit(0);
     //--
     //--   Boost daughter particles to rest frame of parent...
@@ -2253,6 +2253,8 @@ void PHOOUT(int IP, bool BOOST, int nhep0){
   //--   When parent was not in its rest-frame, boost back...
   PHLUPA(10);
   if (BOOST){
+    PHOERR(404,"PHOOUT",1.0);  // we need to improve this warning:  program should never
+                               // enter this place  
 
     for (J=pho.jdahep[1-i][1-i];J<=pho.jdahep[1-i][2-i];J++){
       PB=-phocms_.bet[1-i]*pho.phep[J-i][1-i]-phocms_.bet[2-i]*pho.phep[J-i][2-i]-phocms_.bet[3-i]*pho.phep[J-i][3-i];
