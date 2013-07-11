@@ -26,7 +26,7 @@ extern "C"
 	/** Add up to the PHOEVT common block */
 	extern struct
 	{
-	  int chkif[NMXPHO];
+	  int chkif[NMXPHO]; // to be bool once compatibility with F77 removed
 	} phoif_;
 
 
@@ -103,7 +103,7 @@ extern "C"
 		double fi3;
 		double fi1;
 		double th1;
-		int irep;
+        	int irep;     //    provably line to be removed
 
 	} phorest_;
 
@@ -135,6 +135,13 @@ extern "C"
 		double gam;
 	} phocms_;
 
+	extern struct PHOEXP
+	{
+	        const static int NX = 10;
+		double pro[NX];
+		int nchan;
+	        int expini;    // bool
+	} phoexp_;
 
 	//debug mode on if ipoin <  1 and ipoinm > 1
 	extern struct PHLUPY

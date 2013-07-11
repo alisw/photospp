@@ -4,6 +4,7 @@
 #include "f_Init.h"
 #include "PH_HEPEVT_Interface.h"
 #include "PhotosUtilities.h"
+// #define variantB true
 using std::cout;
 using std::endl;
 using std::max;
@@ -2382,5 +2383,148 @@ void PHOCHK(int JFIRST){
   }
   //--
   //--
+  return;
+}
+
+
+
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   PHOton radiation in decays calculation  of photon ENErgy
+//              fraction
+//
+//    Purpose:  Subroutine  returns  photon  energy fraction (in (parent
+//              mass)/2 units) for the decay bremsstrahlung.
+//
+//    Input Parameters:  MPASQR:  Mass of decaying system squared,
+//                       XPHCUT:  Minimum energy fraction of photon,
+//                       XPHMAX:  Maximum energy fraction of photon.
+//
+//    Output Parameter:  MCHREN:  Renormalised mass squared,
+//                       BETA:    Beta factor due to renormalisation,
+//                       XPHOTO:  Photon energy fraction,
+//                       XF:      Correction factor for PHOFA//
+//
+//    Author(s):  S. Jadach, Z. Was               Created at:  01/01/89
+//                B. van Eijk, P.Golonka          Last Update: 11/07/13
+//
+//----------------------------------------------------------------------
+
+void PHOENE(double MPASQR,double MCHREN,double BETA,double BIGLOG,int IDENT){
+  double  DATA;
+  double PRSOFT,PRHARD;
+  double PRKILL,RRR;
+  int K,IDME;
+  double PRSUM;
+  static int i=1;
+  //--
+  if(phophs_.xphmax<=phocop_.xphcut){
+    BETA=PHOFAC(-1);    // to zero counter, here beta is dummy
+    phophs_.xphoto=0.0;
+    return;
+  }
+  //--   Probabilities for hard and soft bremstrahlung...
+  MCHREN=4.0* phomom_.mchsqr/MPASQR/pow(1.0+ phomom_.mchsqr/MPASQR,2);
+  BETA=sqrt(1.0-MCHREN);
+
+#if defined (variantB)
+  // ----------- VARIANT B ------------------
+  // we replace 1D0/BETA*BIGLOG with (1.0/BETA*BIGLOG+2*phokey_.fint) 
+  // for integral of new crude
+  BIGLOG=log(MPASQR/ phomom_.mchsqr*(1.0+BETA)*(1.0+BETA)/4.0*
+	     pow(1.0+ phomom_.mchsqr/MPASQR,2));
+  PRHARD=phocop_.alpha/phpico_.pi*(1.0/BETA*BIGLOG+2*phokey_.fint)
+        *(log(phophs_.xphmax/phocop_.xphcut)-.75+phocop_.xphcut/phophs_.xphmax-.25*phocop_.xphcut*phocop_.xphcut/phophs_.xphmax/phophs_.xphmax);
+  PRHARD=PRHARD*PHOCHA(IDENT)*PHOCHA(IDENT)*phokey_.fsec;
+  // ----------- END OF VARIANT B ------------------
+#else
+  // ----------- VARIANT A ------------------
+  BIGLOG=log(MPASQR/ phomom_.mchsqr*(1.0+BETA)*(1.0+BETA)/4.0*
+	     pow(1.0+ phomom_.mchsqr/MPASQR,2));
+  PRHARD=phocop_.alpha/phpico_.pi*(1.0/BETA*BIGLOG)*
+    (log(phophs_.xphmax/phocop_.xphcut)-.75+phocop_.xphcut/phophs_.xphmax-.25*phocop_.xphcut*phocop_.xphcut/phophs_.xphmax/phophs_.xphmax);
+  PRHARD=PRHARD*PHOCHA(IDENT)*PHOCHA(IDENT)*phokey_.fsec*phokey_.fint;
+  //me_channel_(&IDME);
+  IDME=PH_HEPEVT_Interface::ME_channel;
+  //        write(*,*) 'KANALIK IDME=',IDME
+  if(IDME==0){  
+    // do nothing
+  }
+
+  else if(IDME==1){
+    PRHARD=PRHARD/(1.0+0.75*phocop_.alpha/phpico_.pi); //  NLO
+  }
+  else if (IDME==2){
+    // work on virtual crrections in W decay to be done.
+  }
+  else{
+    cout << "problem with ME_CHANNEL  IDME= " << IDME << endl;
+	   exit(0);
+  }
+
+  //----------- END OF VARIANT A ------------------
+#endif
+  if(phopro_.irep==0) phopro_.probh=0.0;
+  PRKILL=0.0;
+  if(phokey_.iexp){           // IEXP
+    phoexp_.nchan=phoexp_.nchan+1;
+    if(phoexp_.expini){    // EXPINI
+      phoexp_.pro[phoexp_.nchan-i]=PRHARD+0.05*(1.0+phokey_.fint); // we store hard photon emission prob 
+	                                                           //for leg phoexp_.nchan
+      PRHARD=0.0;                                                // to kill emission at initialization call
+      phopro_.probh=PRHARD;
+    }
+    else{                // EXPINI
+      PRSUM=0.0;
+      for(K=phoexp_.nchan;K<=phoexp_.NX;K++) PRSUM=PRSUM+phoexp_.pro[K-i];
+      PRHARD=PRHARD/PRSUM;  // note that PRHARD may be smaller than 
+                            //phoexp_.pro[phoexp_.nchan) because it is calculated
+                            // for kinematical configuartion as is 
+                            // (with effects of previous photons)
+      PRKILL=phoexp_.pro[phoexp_.nchan-i]/PRSUM-PRHARD;
+
+    }                     // EXPINI
+    PRSOFT=1.0-PRHARD;
+  }
+  else{                       // IEXP
+    PRHARD=PRHARD*PHOFAC(0); // PHOFAC is used to control eikonal 
+                             // formfactors for non exp version only
+                             // here PHOFAC(0)=1 at least now.
+    phopro_.probh=PRHARD;
+  }                         // IEXP
+  PRSOFT=1.0-PRHARD;
+  //--
+  //--   Check on kinematical bounds
+  if (phokey_.iexp){
+    if(PRSOFT<-5.0E-8){
+      DATA=PRSOFT;
+      PHOERR(2,"PHOENE",DATA);
+    }
+  }
+  else{
+    if (PRSOFT<0.1){
+      DATA=PRSOFT;
+      PHOERR(2,"PHOENE",DATA);
+    }
+  }
+
+  RRR=Photos::randomDouble();
+  if (RRR<PRSOFT){
+    //--
+    //--   No photon... (ie. photon too soft)
+    phophs_.xphoto=0.0;
+    if (RRR<PRKILL) phophs_.xphoto=-5.0;  //No photon...no further trials
+  }
+  //--
+  //--   Hard  photon... (ie.  photon  hard enough).
+  //--   Calculate  Altarelli-Parisi Kernel
+  do{
+    phophs_.xphoto=exp(Photos::randomDouble()*log(phocop_.xphcut/phophs_.xphmax));
+    phophs_.xphoto=phophs_.xphoto*phophs_.xphmax;}
+  while(Photos::randomDouble()>((1.0+pow(1.0-phophs_.xphoto/phophs_.xphmax,2))/2.0));
+
+  //--
+  //--   Calculate parameter for PHOFAC function
+  phopro_.xf=4.0* phomom_.mchsqr*MPASQR/pow(MPASQR+ phomom_.mchsqr-phomom_.mnesqr,2);
   return;
 }
