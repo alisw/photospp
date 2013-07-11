@@ -4,7 +4,7 @@
 #include "f_Init.h"
 #include "PH_HEPEVT_Interface.h"
 #include "PhotosUtilities.h"
-// #define variantB true
+// #define VARIANTB true
 using std::cout;
 using std::endl;
 using std::max;
@@ -2430,7 +2430,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double BIGLOG,int IDENT)
   MCHREN=4.0* phomom_.mchsqr/MPASQR/pow(1.0+ phomom_.mchsqr/MPASQR,2);
   BETA=sqrt(1.0-MCHREN);
 
-#ifdef PHOENE_VARIANTB
+#ifdef VARIANTB
   // ----------- VARIANT B ------------------
   // we replace 1D0/BETA*BIGLOG with (1.0/BETA*BIGLOG+2*phokey_.fint) 
   // for integral of new crude
@@ -2518,8 +2518,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double BIGLOG,int IDENT)
     phophs_.xphoto=0.0;
     if (RRR<PRKILL) phophs_.xphoto=-5.0;  //No photon...no further trials
   }
-  else
-  {
+  else{
   //--
   //--   Hard  photon... (ie.  photon  hard enough).
   //--   Calculate  Altarelli-Parisi Kernel
@@ -2528,6 +2527,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double BIGLOG,int IDENT)
     phophs_.xphoto=phophs_.xphoto*phophs_.xphmax;}
   while(Photos::randomDouble()>((1.0+pow(1.0-phophs_.xphoto/phophs_.xphmax,2))/2.0));
   }
+
   //--
   //--   Calculate parameter for PHOFAC function
   phopro_.xf=4.0* phomom_.mchsqr*MPASQR/pow(MPASQR+ phomom_.mchsqr-phomom_.mnesqr,2);
