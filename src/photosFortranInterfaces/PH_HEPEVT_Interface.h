@@ -28,7 +28,7 @@ extern "C"
 		//  &JMOHEP(2,NMXHEP),JDAHEP(2,NMXHEP),PHEP(5,NMXHEP),VHEP(4,NMXHEP)
 	} ph_hepevt_;
 
-	extern struct
+	extern struct PH_PHOQED
 	{ 
 		int qedrad[NMXHEP];
 	} ph_phoqed_;

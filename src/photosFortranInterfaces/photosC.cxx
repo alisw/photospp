@@ -18,6 +18,9 @@ struct PHOLUN pholun_;
 struct PHOREST phorest_;
 struct PHOCMS  phocms_;
 
+// Declarations of structs defined in PH_HEPEVT_interface.h
+struct PH_PHOQED Photospp::ph_phoqed_;
+
 extern "C" void me_scalar_(int *);
 
 /** Logical function used deep inside algorithm to check if emitted
@@ -2195,7 +2198,7 @@ void PHOIN(int IP,bool *BOOST,int nhep0){
       pho.phep[1-i][5-i]*1.E-8) && (pho.phep[1-i][5-i]!=0)){
 
     *BOOST=true;
-    PHOERR(404,"PHOIN",1.0);  // we need to improve this warning:  program should never
+    //PHOERR(404,"PHOIN",1.0);  // we need to improve this warning:  program should never
                               // enter this place  
     //  may be   exit(0);
     //--
@@ -2324,7 +2327,7 @@ void PHOCHK(int JFIRST){
   for (I=IPPAR;I<=NLAST;I++){
     IDABS    = abs(pho.idhep[I-i]);
     // possibly call on PHZODE is a dead (to be omitted) code. 
-    phoif_.chkif[I-i]= F(IDABS)  && F(abs(pho.idhep[1-i]))
+    phoif_.chkif[I-i]= F(0,IDABS)  && F(0,abs(pho.idhep[1-i]))
                                  &&  (pho.idhep[2-i]==0);
 
     if(I>2) phoif_.chkif[I-i]=phoif_.chkif[I-i] && ph_phoqed_.qedrad[JFIRST+I-IPPAR-2-i];

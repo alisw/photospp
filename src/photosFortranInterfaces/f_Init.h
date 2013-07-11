@@ -26,7 +26,7 @@ extern "C"
 	/** Add up to the PHOEVT common block */
 	extern struct
 	{
-	  bool chkif[NMXPHO];
+	  int chkif[NMXPHO];
 	} phoif_;
 
 
