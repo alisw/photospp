@@ -1,6 +1,10 @@
 #ifndef _f_Init_included_
 #define _f_Init_included_
 const static int NMXHEP = 10000;
+// warning that it does not match place not NMXHEP
+const static int NMXPHO = 10000;  
+
+
 extern "C"
 {
 
@@ -18,6 +22,13 @@ extern "C"
 		//      NEVPHO,NPHO,ISTPHO(NMXPHO),IDPHO(NMXPHO),
 		//  JMOPHO(2,NMXPHO),JDAPHO(2,NMXPHO),PPHO(5,NMXPHO),VPHO(4,NMXPHO)
 	} phoevt_;
+
+	/** Add up to the PHOEVT common block */
+	extern struct
+	{
+	  bool chkif[NMXPHO];
+	} phoif_;
+
 
 	extern struct
 	{

@@ -238,3 +238,12 @@ extern "C" void phoout_(int *IP, bool *BOOST, int *nhep0)
 {
   return PHOOUT(*IP,*BOOST,*nhep0);
 }
+
+
+
+extern void PHOCHK(int JFIRST);
+
+extern "C" void phochk_(int *JFIRST)
+{
+  return PHOCHK(*JFIRST);
+}

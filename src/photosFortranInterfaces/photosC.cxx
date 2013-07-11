@@ -2294,3 +2294,90 @@ void PHOOUT(int IP, bool BOOST, int nhep0){
   PHLUPA(20);
   return;
 }
+
+//----------------------------------------------------------------------
+//
+//    PHOCHK:   checking branch.
+//
+//    Purpose:  checks whether particles in the common block /PHOEVT/
+//              can be served by PHOMAK. 
+//              JFIRST is the position in /PH_HEPEVT/ (!) of the first 
+//              daughter of sub-branch under action.
+//
+//
+//    Author(s):  Z. Was                           Created at: 22/10/92
+//                                                Last Update: 11/12/00
+//
+//----------------------------------------------------------------------
+//     ********************
+
+void PHOCHK(int JFIRST){
+
+  int IDABS,NLAST,I;
+  bool IFRAD;
+  int IDENT,K;
+  static int i=1, IPPAR=1;
+
+  NLAST = pho.nhep;
+  //
+ 
+  for (I=IPPAR;I<=NLAST;I++){
+    IDABS    = abs(pho.idhep[I-i]);
+    // possibly call on PHZODE is a dead (to be omitted) code. 
+    phoif_.chkif[I-i]= F(IDABS)  && F(abs(pho.idhep[1-i]))
+                                 &&  (pho.idhep[2-i]==0);
+
+    if(I>2) phoif_.chkif[I-i]=phoif_.chkif[I-i] && ph_phoqed_.qedrad[JFIRST+I-IPPAR-2-i];
+  }
+
+  //--
+  // now we go to special cases, where phoif_.chkif[I) will be overwritten
+  //--
+  if(phokey_.iftop){
+    // special case of top pair production
+    for(K=pho.jdahep[1-i][2-i];K>=pho.jdahep[1-i][1-i];K--){
+      if(pho.idhep[K-i]!=22){
+	IDENT=K;
+	break;   // from loop over K
+      }
+    }
+
+    IFRAD=((pho.idhep[1-i]==21)      && (pho.idhep[2-i]== 21))
+      ||  ((abs(pho.idhep[1-i])<=6)  && (pho.idhep[2-i]==(-pho.idhep[1-i])));
+        IFRAD=IFRAD
+          && (abs(pho.idhep[3-i])==6)&& (pho.idhep[4-i]==(-pho.idhep[3-i]))
+	  && (IDENT==4);   
+        if(IFRAD){    
+	  for(I=IPPAR;I<=NLAST;I++){
+	    phoif_.chkif[I-i]= true;
+	    if(I>2) phoif_.chkif[I-i]=phoif_.chkif[I-i] && ph_phoqed_.qedrad[JFIRST+I-IPPAR-2-i];
+	  }
+	}
+  }
+  //--
+  //--
+  if(phokey_.iftop){
+    // special case of top decay
+    for (K=pho.jdahep[1-i][2-i];K>=pho.jdahep[1-i][1-i];K--){
+      if(pho.idhep[K-i]!=22){
+	IDENT=K;
+	break;
+      }
+    }
+    IFRAD=((abs(pho.idhep[1-i])==6) && (pho.idhep[2-i]==0));
+    IFRAD=IFRAD
+      &&    ((abs(pho.idhep[3-i])==24) &&(abs(pho.idhep[4-i])== 5)
+	  || (abs(pho.idhep[3-i])== 5) &&(abs(pho.idhep[4-i])==24) )
+      &&  (IDENT==4);
+  
+    if(IFRAD){    
+      for(I=IPPAR;I<=NLAST;I++){
+	phoif_.chkif[I-i]= true;
+	if(I>2) phoif_.chkif[I-i]=phoif_.chkif[I-i] && ph_phoqed_.qedrad[JFIRST+I-IPPAR-2-i];
+      }
+    }
+  }
+  //--
+  //--
+  return;
+}
