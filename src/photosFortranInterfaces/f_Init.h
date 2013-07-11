@@ -62,7 +62,7 @@ extern "C"
 	        int ifstop;
 	} phosta_;
 
-	extern struct
+	extern struct PHPICO
 	{
 		double pi;
 		double twopi;

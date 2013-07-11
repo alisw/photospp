@@ -18,6 +18,7 @@ struct PHNUM  phnum_;
 struct PHOLUN pholun_;
 struct PHOREST phorest_;
 struct PHOCMS  phocms_;
+struct PHPICO  phpico_;
 
 // Declarations of structs defined in PH_HEPEVT_interface.h
 struct PH_PHOQED Photospp::ph_phoqed_;
@@ -2410,13 +2411,15 @@ void PHOCHK(int JFIRST){
 //
 //----------------------------------------------------------------------
 
-void PHOENE(double MPASQR,double MCHREN,double BETA,double BIGLOG,int IDENT){
+void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double BIGLOG,int IDENT){
   double  DATA;
   double PRSOFT,PRHARD;
   double PRKILL,RRR;
   int K,IDME;
   double PRSUM;
   static int i=1;
+  double &MCHREN = *pMCHREN;
+  double &BETA   = *pBETA;
   //--
   if(phophs_.xphmax<=phocop_.xphcut){
     BETA=PHOFAC(-1);    // to zero counter, here beta is dummy
@@ -2427,7 +2430,7 @@ void PHOENE(double MPASQR,double MCHREN,double BETA,double BIGLOG,int IDENT){
   MCHREN=4.0* phomom_.mchsqr/MPASQR/pow(1.0+ phomom_.mchsqr/MPASQR,2);
   BETA=sqrt(1.0-MCHREN);
 
-#if defined (variantB)
+#ifdef PHOENE_VARIANTB
   // ----------- VARIANT B ------------------
   // we replace 1D0/BETA*BIGLOG with (1.0/BETA*BIGLOG+2*phokey_.fint) 
   // for integral of new crude
@@ -2515,6 +2518,8 @@ void PHOENE(double MPASQR,double MCHREN,double BETA,double BIGLOG,int IDENT){
     phophs_.xphoto=0.0;
     if (RRR<PRKILL) phophs_.xphoto=-5.0;  //No photon...no further trials
   }
+  else
+  {
   //--
   //--   Hard  photon... (ie.  photon  hard enough).
   //--   Calculate  Altarelli-Parisi Kernel
@@ -2522,7 +2527,7 @@ void PHOENE(double MPASQR,double MCHREN,double BETA,double BIGLOG,int IDENT){
     phophs_.xphoto=exp(Photos::randomDouble()*log(phocop_.xphcut/phophs_.xphmax));
     phophs_.xphoto=phophs_.xphoto*phophs_.xphmax;}
   while(Photos::randomDouble()>((1.0+pow(1.0-phophs_.xphoto/phophs_.xphmax,2))/2.0));
-
+  }
   //--
   //--   Calculate parameter for PHOFAC function
   phopro_.xf=4.0* phomom_.mchsqr*MPASQR/pow(MPASQR+ phomom_.mchsqr-phomom_.mnesqr,2);

@@ -247,3 +247,10 @@ extern "C" void phochk_(int *JFIRST)
 {
   return PHOCHK(*JFIRST);
 }
+
+extern void PHOENE(double MPASQR,double *MCHREN,double *BETA,double BIGLOG,int IDENT);
+
+extern "C" void phoene_(double *MPASQR,double *MCHREN,double *BETA,double *BIGLOG,int *IDENT)
+{
+  PHOENE(*MPASQR,MCHREN,BETA,*BIGLOG,*IDENT);
+}
