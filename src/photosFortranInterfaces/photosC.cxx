@@ -19,6 +19,14 @@ struct PHOLUN pholun_;
 struct PHOREST phorest_;
 struct PHOCMS  phocms_;
 struct PHPICO  phpico_;
+struct PHOMOM  phomom_;
+struct PHOPHS  phophs_;
+struct PHOIF   phoif_;
+struct PHOCORWT phocorwt_;
+struct PHOPRO  phopro_;
+struct PHOCOP  phocop_;
+struct PHWT    phwt_;
+struct PHOEVT  phoevt_;
 
 // Declarations of structs defined in PH_HEPEVT_interface.h
 struct PH_PHOQED Photospp::ph_phoqed_;
@@ -2558,7 +2566,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double BIGLOG,int IDENT)
 //
 //----------------------------------------------------------------------
 
-void PHOPRE(int IPARR,double WT,int NEUDAU,int NCHARB){
+void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
   int CHAPOI[pho.nmxhep];
   double MINMAS,MPASQR,MCHREN;
   double EPS,DEL1,DEL2,DATA,BIGLOG;
@@ -2568,6 +2576,9 @@ void PHOPRE(int IPARR,double WT,int NEUDAU,int NCHARB){
   double WGT;
   int IDME;
   double a,b;
+  double &WT = *pWT;
+  int &NEUDAU = *pNEUDAU;
+  int &NCHARB = *pNCHARB;
 
   static int i=1;
 
@@ -2717,8 +2728,8 @@ void PHOPRE(int IPARR,double WT,int NEUDAU,int NCHARB){
         label51:
  
         NCHARB=CHAPOI[NCHARG-i];
-        NCHARB=NCHARB-pho.jdahep[IP][1]+3;
-        NEUDAU=NEUDAU-pho.jdahep[IP][1]+3;
+        NCHARB=NCHARB-pho.jdahep[IP-i][1-i]+3;
+        NEUDAU=NEUDAU-pho.jdahep[IP-i][1-i]+3;
 
         IDME=PH_HEPEVT_Interface::ME_channel;
         //  two options introduced temporarily. 
@@ -2744,7 +2755,7 @@ void PHOPRE(int IPARR,double WT,int NEUDAU,int NCHARB){
 	else{
 	  a=PHOCOR(MPASQR,MCHREN,ME);
           WT=a*WGT;
-          WT=b*WGT; // /(1-phophs_.xphoto/phophs_.xphmax+0.5*pow(phophs_.xphoto/phophs_.xphmax,2))*(1-phophs_.xphoto/phophs_.xphmax)/2;
+//          WT=b*WGT; // /(1-phophs_.xphoto/phophs_.xphmax+0.5*pow(phophs_.xphoto/phophs_.xphmax,2))*(1-phophs_.xphoto/phophs_.xphmax)/2;
 	}
       
 

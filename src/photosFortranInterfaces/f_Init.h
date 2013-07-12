@@ -9,7 +9,7 @@ extern "C"
 {
 
 	/** Definition of the PHOEVT common block */
-	extern struct
+	extern struct PHOEVT
 	{
 		int    nevhep;
 		int    nhep;
@@ -25,13 +25,13 @@ extern "C"
 	} phoevt_;
 
 	/** Add up to the PHOEVT common block */
-	extern struct
+	extern struct PHOIF
 	{
 	  int chkif[NMXPHO]; // to be bool once compatibility with F77 removed
 	} phoif_;
 
 
-	extern struct
+	extern struct PHOCOP
 	{
 		double alpha;
 		double xphcut;
@@ -74,7 +74,7 @@ extern "C"
 		int phlun;
 	} pholun_;
 
-	extern struct
+	extern struct PHOPHS
 	{
 		double xphmax;
 		double xphoto;
@@ -91,7 +91,7 @@ extern "C"
 
 	} tofrom_;
 
-	extern struct
+	extern struct PHOPRO
 	{
 		double probh;
 		double corwt;
@@ -108,7 +108,7 @@ extern "C"
 
 	} phorest_;
 
-	extern struct
+	extern struct PHWT
 	{
 		double beta;
 		double wt1;
@@ -116,7 +116,7 @@ extern "C"
 		double wt3;
 
 	} phwt_;
-	extern struct
+	extern struct PHOCORWT
 	{
 		double phocorwt3;
 		double phocorwt2;
@@ -124,7 +124,7 @@ extern "C"
 
 	} phocorwt_;
 
-	extern struct
+	extern struct PHOMOM
 	{
 		double mchsqr;
 		double mnesqr;
