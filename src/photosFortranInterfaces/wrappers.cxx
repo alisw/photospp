@@ -254,3 +254,12 @@ extern "C" void phoene_(double *MPASQR,double *MCHREN,double *BETA,double *BIGLO
 {
   PHOENE(*MPASQR,MCHREN,BETA,*BIGLOG,*IDENT);
 }
+
+
+extern void PHOPRE(int IPARR,double *WT,int *NEUDAU,int *NCHARB);
+
+extern "C" void phopre_(int *IPARR,double *WT,int *NEUDAU,int *NCHARB)
+{
+  PHOPRE(*IPARR,WT,NEUDAU,NCHARB);
+}
+

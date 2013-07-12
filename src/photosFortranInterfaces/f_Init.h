@@ -19,6 +19,7 @@ extern "C"
 		int    jdahep[NMXHEP][2];
 		double phep[NMXHEP][5];
 		double vhep[NMXHEP][4];
+	        const static int nmxhep=NMXHEP;
 		//      NEVPHO,NPHO,ISTPHO(NMXPHO),IDPHO(NMXPHO),
 		//  JMOPHO(2,NMXPHO),JDAPHO(2,NMXPHO),PPHO(5,NMXPHO),VPHO(4,NMXPHO)
 	} phoevt_;

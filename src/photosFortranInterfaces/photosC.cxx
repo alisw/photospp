@@ -2533,3 +2533,230 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double BIGLOG,int IDENT)
   phopro_.xf=4.0* phomom_.mchsqr*MPASQR/pow(MPASQR+ phomom_.mchsqr-phomom_.mnesqr,2);
   return;
 }
+
+
+//----------------------------------------------------------------------
+//
+//    PHOTOS:   Photon radiation in decays
+//
+//    Purpose:  Order (alpha) radiative corrections  are  generated  in
+//              the decay of the IPPAR-th particle in the HEP-like
+//              common /PHOEVT/.  Photon radiation takes place from one
+//              of the charged daughters of the decaying particle IPPAR
+//              WT is calculated, eventual rejection will be performed
+//              later after inclusion of interference weight.
+//
+//    Input Parameter:    IPPAR:  Pointer   to   decaying  particle  in
+//                                /PHOEVT/ and the common itself,
+//
+//    Output Parameters:  Common  /PHOEVT/, either  with  or  without a
+//                                photon(s) added.
+//                        WT      weight of the configuration 
+//
+//    Author(s):  Z. Was, B. van Eijk             Created at:  26/11/89
+//                                                Last Update: 12/07/13
+//
+//----------------------------------------------------------------------
+
+void PHOPRE(int IPARR,double WT,int NEUDAU,int NCHARB){
+  int CHAPOI[pho.nmxhep];
+  double MINMAS,MPASQR,MCHREN;
+  double EPS,DEL1,DEL2,DATA,BIGLOG;
+  double MASSUM;
+  int IP,IPPAR,I,J,ME,NCHARG,NEUPOI,NLAST;
+  int IDABS;
+  double WGT;
+  int IDME;
+  double a,b;
+
+  static int i=1;
+
+  //--
+  IPPAR=IPARR;
+  //--   Store pointers for cascade treatement...
+  IP=IPPAR;
+  NLAST=pho.nhep;
+
+  //--
+  //--   Check decay multiplicity..
+  if (pho.jdahep[IP-i][1-i]==0) return;
+
+  //--
+  //--   Loop over daughters, determine charge multiplicity
+
+  NCHARG=0;
+  phopro_.irep=0;
+  MINMAS=0.0;
+  MASSUM=0.0;
+  for (I=pho.jdahep[IP-i][1-i];I<=pho.jdahep[IP-i][2-i];I++){
+    //--
+    //--
+    //--   Exclude marked particles, quarks and gluons etc...
+    IDABS=abs(pho.idhep[I-i]);
+    if (phoif_.chkif[I-pho.jdahep[IP-i][1-i]+3-i]){
+      if(PHOCHA(pho.idhep[I-i])!=0){
+	NCHARG=NCHARG+1;
+	if(NCHARG>pho.nmxhep){
+	  DATA=NCHARG;
+	  PHOERR(1,"PHOTOS",DATA);
+	}
+	CHAPOI[NCHARG-i]=I;
+      }
+      MINMAS=MINMAS+pho.phep[I-i][5-i]*pho.phep[I-i][5-i];
+    }
+    MASSUM=MASSUM+pho.phep[I-i][5-i];
+  }
+
+  if (NCHARG!=0){
+    //--
+    //--   Check that sum of daughter masses does not exceed parent mass
+    if ((pho.phep[IP-i][5-i]-MASSUM)/pho.phep[IP-i][5-i]>2.0*phocop_.xphcut){
+      //--
+      label30:
+
+//  do{
+    
+      for (J=1;J<=3;J++) phomom_.pneutr[J-i] =-pho.phep[CHAPOI[NCHARG-i]-i][J-i];
+      phomom_.pneutr[4-i]=pho.phep[IP-i][5-i]-pho.phep[CHAPOI[NCHARG-i]-i][4-i];
+      //--
+      //--   Calculate  invariant  mass of 'neutral' etc. systems
+      MPASQR=pho.phep[IP-i][5-i]*pho.phep[IP-i][5-i];
+      phomom_.mchsqr=pow(pho.phep[CHAPOI[NCHARG-i]-i][5-i],2);
+      if((pho.jdahep[IP-i][2-i]-pho.jdahep[IP-i][1-i])==1){
+        NEUPOI=pho.jdahep[IP-i][1-i];
+        if(NEUPOI==CHAPOI[NCHARG-i]) NEUPOI=pho.jdahep[IP-i][2-i];
+        phomom_.mnesqr=pho.phep[NEUPOI-i][5-i]*pho.phep[NEUPOI-i][5-i];
+        phomom_.pneutr[5-i]=pho.phep[NEUPOI-i][5-i];
+      }
+      else{
+        phomom_.mnesqr=pow(phomom_.pneutr[4-i],2)-pow(phomom_.pneutr[1-i],2)-pow(phomom_.pneutr[2-i],2)-pow(phomom_.pneutr[3-i],2);
+        phomom_.mnesqr=max(phomom_.mnesqr,MINMAS-phomom_.mchsqr);
+        phomom_.pneutr[5-i]=sqrt(phomom_.mnesqr);
+      }
+
+      //--
+      //--   Determine kinematical limit...
+      phophs_.xphmax=(MPASQR-pow(phomom_.pneutr[5-i]+pho.phep[CHAPOI[NCHARG-i]-i][5-i],2))/MPASQR;
+
+      //--
+      //--   Photon energy fraction...
+      PHOENE(MPASQR,&MCHREN,&phwt_.beta,BIGLOG,pho.idhep[CHAPOI[NCHARG-i]-i]);
+     //--
+
+      if (phophs_.xphoto<-4.0) {
+        NCHARG=0;                 // we really stop trials
+        phophs_.xphoto=0.0;       // in this case !!
+        //--   Energy fraction not too large (very seldom) ? Define angle.
+      }
+      else if ((phophs_.xphoto<phocop_.xphcut) || (phophs_.xphoto > phophs_.xphmax)){
+        //--
+        //--   No radiation was accepted, check  for more daughters  that may ra-
+        //--   diate and correct radiation probability...
+        NCHARG=NCHARG-1;
+        if(NCHARG>0)  phopro_.irep=phopro_.irep+1;
+        if(NCHARG>0) goto label30;
+      }
+      else{    
+	//--
+        //--   Angle is generated  in  the  frame defined  by  charged vector and
+        //--   PNEUTR, distribution is taken in the infrared limit...
+        EPS=MCHREN/(1.0+phwt_.beta);
+        //--
+        //--   Calculate sin(theta) and cos(theta) from interval variables
+        DEL1=(2.0-EPS)*pow(EPS/(2.0-EPS),Photos::randomDouble());
+        DEL2=2.0-DEL1;
+
+#ifdef VARIANTB
+	// ----------- VARIANT B ------------------
+        // corrections for more efiicient interference correction,
+        // instead of doubling crude distribution, we add flat parallel channel
+	if(Photos::randomDouble()<BIGLOG/phwt_.beta/(BIGLOG/phwt_.beta+2*phokey_.fint)){
+	  phophs_.costhg=(1.0-DEL1)/phwt_.beta;
+	  phophs_.sinthg=sqrt(DEL1*DEL2-MCHREN)/phwt_.beta;
+	}
+	else{
+	  phophs_.costhg=-1.0+2*Photos::randomDouble();
+	  phophs_.sinthg= sqrt(1.0-phophs_.costhg*phophs_.costhg);
+	}
+ 
+	if (phokey_.fint>1.0){
+ 
+	  WGT=1.0/(1.0-phwt_.beta*phophs_.costhg);
+	  WGT=WGT/(WGT+phokey_.fint);
+	  //       WGT=1.0   // ??
+	}
+	else{
+	  WGT=1.0;
+	}
+        //
+        // ----------- END OF VARIANT B ------------------
+#else
+	// ----------- VARIANT A ------------------
+        phophs_.costhg=(1.0-DEL1)/phwt_.beta;
+        phophs_.sinthg=sqrt(DEL1*DEL2-MCHREN)/phwt_.beta;
+        WGT=1.0;
+        // ----------- END OF VARIANT A ------------------
+#endif
+	//--
+	//--   Determine spin of  particle and construct code  for matrix element
+        ME=2.0*PHOSPI(pho.idhep[CHAPOI[NCHARG-i]-i])+1.0;
+        //--
+        //--   Weighting procedure with 'exact' matrix element, reconstruct kine-
+        //--   matics for photon, neutral and charged system and update /PHOEVT/.
+        //--   Find pointer to the first component of 'neutral' system
+	for  (I=pho.jdahep[IP-i][1-i];I<=pho.jdahep[IP-i][2-i];I++){
+	  if(I!=CHAPOI[NCHARG-i]){
+	    NEUDAU=I;
+	    goto label51;   //break; // to 51
+	  }
+	}
+        //--
+        //--   Pointer not found...
+	DATA=NCHARG;
+	PHOERR(5,"PHOKIN",DATA);
+        label51:
+ 
+        NCHARB=CHAPOI[NCHARG-i];
+        NCHARB=NCHARB-pho.jdahep[IP][1]+3;
+        NEUDAU=NEUDAU-pho.jdahep[IP][1]+3;
+
+        IDME=PH_HEPEVT_Interface::ME_channel;
+        //  two options introduced temporarily. 
+        //  In future always PHOCOR-->PHOCORN
+        //  Tests and adjustment of wts for Znlo needed.
+        //  otherwise simple change. PHOCORN implements
+        //  exact ME for scalar to 2 scalar decays.
+	if(IDME==2){
+	  b=PHOCORN(MPASQR,MCHREN,ME);
+          WT=b*WGT;
+          WT=WT/(1-phophs_.xphoto/phophs_.xphmax+0.5*pow(phophs_.xphoto/phophs_.xphmax,2))*(1-phophs_.xphoto/phophs_.xphmax)/2; // factor to go to WnloWT
+	}
+        else if(IDME==1){
+
+	  a=PHOCOR(MPASQR,MCHREN,ME);
+	  b=PHOCORN(MPASQR,MCHREN,ME);
+	  WT=b*WGT ;
+        WT=WT*phwt_.wt1*phwt_.wt2*phwt_.wt3/phocorwt_.phocorwt1/phocorwt_.phocorwt2/phocorwt_.phocorwt3; // factor to go to ZnloWT
+	  //        write(*,*) ' -----------'
+	  //        write(*,*)   phwt_.wt1,' ',phwt_.wt2,' ',phwt_.wt3
+	  //        write(*,*)   phocorwt_.phocorwt1,' ',phocorwt_.phocorwt2,' ',phocorwt_.phocorwt3
+	}
+	else{
+	  a=PHOCOR(MPASQR,MCHREN,ME);
+          WT=a*WGT;
+          WT=b*WGT; // /(1-phophs_.xphoto/phophs_.xphmax+0.5*pow(phophs_.xphoto/phophs_.xphmax,2))*(1-phophs_.xphoto/phophs_.xphmax)/2;
+	}
+      
+
+
+      }
+    }
+    else{
+      DATA=pho.phep[IP-i][5-i]-MASSUM;
+      PHOERR(10,"PHOTOS",DATA);
+    }
+  }   
+     
+  //--
+  return;
+}
