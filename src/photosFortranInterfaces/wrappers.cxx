@@ -271,3 +271,10 @@ extern "C" void phomak_(int *IPARR, int *NHEP0)
   PHOMAK(*IPARR, *NHEP0);
 }
 
+extern void PHTYPE(int ID);
+
+extern "C" void phtype_(int *ID)
+{
+  PHTYPE(*ID);
+}
+

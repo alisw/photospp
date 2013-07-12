@@ -27,9 +27,12 @@ struct PHOPRO  phopro_;
 struct PHOCOP  phocop_;
 struct PHWT    phwt_;
 struct PHOEVT  phoevt_;
+struct PHOKEY  phokey_;
+struct PHOEXP  phoexp_;
 
 // Declarations of structs defined in PH_HEPEVT_interface.h
 struct PH_PHOQED Photospp::ph_phoqed_;
+struct PH_HEPEVT Photospp::ph_hepevt_;
 
 extern "C" void me_scalar_(int *);
 extern void   PHOBWnlo(double *WT);   //defined in forW-MEc.cxx

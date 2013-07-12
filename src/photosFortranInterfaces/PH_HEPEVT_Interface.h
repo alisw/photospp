@@ -14,7 +14,7 @@ const static double NO_BOOST_THRESHOLD=1.0e-8;
 extern "C"
 {
 	/** Definition of the PH_HEPEVT common block */
-	extern struct
+	extern struct PH_HEPEVT
 	{
 		int    nevhep;
 		int    nhep;

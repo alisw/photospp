@@ -44,7 +44,7 @@ extern "C"
 
 
 
-	extern struct
+	extern struct PHOKEY
 	{
 		double fsec;
 		double fint;
