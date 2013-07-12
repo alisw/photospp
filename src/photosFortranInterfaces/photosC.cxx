@@ -32,6 +32,8 @@ struct PHOEVT  phoevt_;
 struct PH_PHOQED Photospp::ph_phoqed_;
 
 extern "C" void me_scalar_(int *);
+extern void   PHOBWnlo(double *WT);   //defined in forW-MEc.cxx
+extern double phwtnlo (double xdumm); //defined in forZ-MEc.cxx
 
 /** Logical function used deep inside algorithm to check if emitted
     particles are to emit. For mother it blocks the vertex, 
@@ -2810,7 +2812,7 @@ void PHOMAK(int IPPAR,int NHEP0){
   PHOIN(IP,&BOOST,NHEP0);
   PHOCHK(hep.jdahep[IP-i][1-i]);
   WT=0.0;
-  PHOPRE(1,WT,NEUDAU,NCHARB);
+  PHOPRE(1,&WT,&NEUDAU,&NCHARB);
 
   if(WT==0.0) return;
   RN=Photos::randomDouble();
@@ -2834,7 +2836,7 @@ void PHOMAK(int IPPAR,int NHEP0){
   }
   else if (IDME==2){                                    // ME weight for leptonic W decay
 
-    PHOBWnlo(WT);
+    PHOBWnlo(&WT);
     WT=WT*2.0/phokey_.fint;
   }
   else if (IDME==1){                                     //  ME weight for leptonic Z decay
