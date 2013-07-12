@@ -2859,3 +2859,121 @@ void PHOMAK(int IPPAR,int NHEP0){
   return;
 }
 
+//----------------------------------------------------------------------
+//
+//    PHTYPE:   Central manadgement routine.              
+//
+//    Purpose:   defines what kind of the 
+//              actions will be performed at point ID. 
+//
+//    Input Parameters:       ID:  pointer of particle starting branch
+//                                 in /PH_HEPEVT/ to be treated.
+//
+//    Output Parameters:  Common /PH_HEPEVT/.
+//
+//    Author(s):  Z. Was                          Created at:  24/05/93
+//                P. Golonka                      Last Update: 27/06/04
+//
+//----------------------------------------------------------------------
+void PHTYPE(int ID){
+
+  int K;
+  double PRSUM,ESU;
+  int NHEP0;
+  bool IPAIR;
+  double RN,SUM;
+  bool IFOUR;
+  static int i=1;
+
+  //--
+  IFOUR=          phokey_.itre; // we can make internal choice whether 
+                                // we want 3 or four photons at most.
+  IPAIR=true;
+  //--   Check decay multiplicity..
+  if(hep.jdahep[ID-i][1-i]==0) return;
+  //      if (hep.jdahep[ID-i][1-i]==hep.jdahep[ID-i][2-i]) return;
+  //--
+  NHEP0=hep.nhep;
+  //--
+  if(phokey_.iexp){
+    phoexp_.expini=true;      // Initialization/cleaning
+    for(phoexp_.nchan=1;phoexp_.nchan<=phoexp_.NX;phoexp_.nchan++)
+        phoexp_.pro[phoexp_.nchan-i]=0.0;        
+    phoexp_.nchan=0;
+         
+    phokey_.fsec=1.0;
+    PHOMAK(ID,NHEP0);          // Initialization/crude formfactors into 
+                               // phoexp_.pro[phoexp_.nchan)
+    phoexp_.expini=false;
+    RN=Photos::randomDouble();
+    PRSUM=0.0;
+    for(K=1;K<=phoexp_.NX;K++)PRSUM=PRSUM+phoexp_.pro[K-i];
+      
+    ESU=exp(-PRSUM);    
+    // exponent for crude Poissonian multiplicity 
+    // distribution, will be later overwritten 
+    // to give probability for k
+    SUM=ESU;         
+    // distribuant for the crude Poissonian 
+    // at first for k=0
+    for(K=1;K<=100;K++){      // hard coded max (photon) multiplicity is 100
+      if(RN<SUM) break;
+      ESU=ESU*PRSUM/K;        // we get at K ESU=EXP(-PRSUM)*PRSUM**K/K!
+      SUM=SUM+ESU;            // thus we get distribuant at K.
+      phoexp_.nchan=0;
+      PHOMAK(ID,NHEP0);       // LOOPING
+      if(SUM>1.0-phokey_.expeps) break;
+    }
+ 
+  }
+  else if(IFOUR){
+    //-- quatro photon emission
+    phokey_.fsec=1.0;
+    RN=Photos::randomDouble();
+    if(RN>=23.0/24.0){
+      PHOMAK(ID,NHEP0);
+      PHOMAK(ID,NHEP0);
+      PHOMAK(ID,NHEP0);
+      PHOMAK(ID,NHEP0);
+    }
+    else if (RN>=17.0/24.0){
+      PHOMAK(ID,NHEP0);
+      PHOMAK(ID,NHEP0);
+    }
+    else if(RN>=9.0/24.0){
+      PHOMAK(ID,NHEP0);
+    }
+    else{
+    }
+  }
+  else if(phokey_.itre){
+    //-- triple photon emission
+    phokey_.fsec=1.0;
+    RN=Photos::randomDouble();
+    if(RN>=5.0/6.0){
+      PHOMAK(ID,NHEP0);
+      PHOMAK(ID,NHEP0);
+      PHOMAK(ID,NHEP0);
+    }
+    else if (RN>=2.0/6.0){
+      PHOMAK(ID,NHEP0);
+    }
+  }
+  else if(phokey_.isec){
+    //-- double photon emission
+    phokey_.fsec=1.0;
+    RN=Photos::randomDouble();
+    if(RN>=0.5){
+      PHOMAK(ID,NHEP0);
+      PHOMAK(ID,NHEP0);
+    }
+  }
+  else{
+    //-- single photon emission
+    phokey_.fsec=1.0;
+    PHOMAK(ID,NHEP0);
+  }
+  //--
+  //-- electron positron pair (coomented out for a while
+  //    if (IPAIR)  PHOPAR(ID,NHEP0);
+} 
