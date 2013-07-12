@@ -263,3 +263,11 @@ extern "C" void phopre_(int *IPARR,double *WT,int *NEUDAU,int *NCHARB)
   PHOPRE(*IPARR,WT,NEUDAU,NCHARB);
 }
 
+
+extern void PHOMAK(int IPARR, int NHEP0);
+
+extern "C" void phomak_(int *IPARR, int *NHEP0)
+{
+  PHOMAK(*IPARR, *NHEP0);
+}
+

@@ -2771,3 +2771,89 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
   //--
   return;
 }
+
+
+//----------------------------------------------------------------------
+//
+//    PHOMAK:   PHOtos MAKe
+//
+//    Purpose:  Single or double bremstrahlung radiative corrections  
+//              are generated in  the decay of the IPPAR-th particle in 
+//              the  HEP common /PH_HEPEVT/. Example of the use of 
+//              general tools.
+//
+//    Input Parameter:    IPPAR:  Pointer   to   decaying  particle  in
+//                                /PH_HEPEVT/ and the common itself
+//
+//    Output Parameters:  Common  /PH_HEPEVT/, either  with  or  without
+//                                particles added.
+//
+//    Author(s):  Z. Was,                         Created at:  26/05/93
+//                                                Last Update: 29/01/05
+//
+//----------------------------------------------------------------------
+
+void PHOMAK(int IPPAR,int NHEP0){
+
+  double DATA;
+  int IP,NCHARG,IDME;
+  int IDUM;
+  int NCHARB,NEUDAU;
+  double RN,WT,xdumm;
+  bool BOOST;
+  static int i=1;
+  //--
+  IP=IPPAR;
+  IDUM=1;
+  NCHARG=0;
+  //--
+  PHOIN(IP,&BOOST,NHEP0);
+  PHOCHK(hep.jdahep[IP-i][1-i]);
+  WT=0.0;
+  PHOPRE(1,WT,NEUDAU,NCHARB);
+
+  if(WT==0.0) return;
+  RN=Photos::randomDouble();
+  // PHODO is caling randomDouble(), thus change of series if it is moved before if
+  PHODO(1,NCHARB,NEUDAU);
+
+#ifdef VARIANTB
+  // we eliminate divisions  /phokey_.fint in variant B.  ???
+#endif
+  // get ID of channel dependent ME, ID=0 means no 
+
+  IDME=PH_HEPEVT_Interface::ME_channel;
+  // corrections for matrix elements
+  // controlled by IDME
+  // write(*,*) 'KANALIK IDME=',IDME
+
+  if(     IDME==0) {                                    // default 
+
+    if(phokey_.interf) WT=WT*PHINT(IDUM)/phokey_.fint;  // FINT must be in variant A
+    if(phokey_.ifw) PHOBW(&WT);                          // extra weight for leptonic W decay 
+  }
+  else if (IDME==2){                                    // ME weight for leptonic W decay
+
+    PHOBWnlo(WT);
+    WT=WT*2.0/phokey_.fint;
+  }
+  else if (IDME==1){                                     //  ME weight for leptonic Z decay
+
+    xdumm=0.5;
+    WT=WT*phwtnlo(xdumm)/phokey_.fint;
+  }
+  else{
+    cout << "problem with ME_CHANNEL  IDME= " << IDME << endl;
+    exit(0);
+  }
+
+
+  DATA=WT; 
+  if (WT>1.0) PHOERR(3,"WT_INT",DATA);
+  // weighting
+  if (RN<=WT){
+    PHOOUT(IP,BOOST,NHEP0);
+  }
+  return;
+}
+
