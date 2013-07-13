@@ -1,6 +1,6 @@
 include ../make.inc
 
-SOURCES_C=PH_HEPEVT_Interface.cxx wrappers.cxx photosC.cxx wrappersZ.cxx forZ-MEc.cxx wrappersW.cxx forW-MEc.cxx PhotosUtilities.cxx
+SOURCES_C=PH_HEPEVT_Interface.cxx
 OBJECTS_C=$(SOURCES_C:.cxx=.o)
 
 %.o: %.cxx

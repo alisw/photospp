@@ -11,17 +11,9 @@ LIB_PHOTOS_FORTRAN_A  = libPhotosFortran.a
 PHOTOS_CXX_INT_OBJECTS = src/$(EVENT_RECORD_INTERFACE_DIR)/*.o \
                          src/$(C_PHOTOS_INTERFACE_DIR)/*.o \
                          src/$(UTILITIES_DIR)/*.o \
-                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/PH_HEPEVT_Interface.o \
-                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/wrappers.o \
-                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/photosC.o \
-                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/wrappersZ.o \
-                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/forZ-MEc.o \
-                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/wrappersW.o \
-                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/forW-MEc.o \
-                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/PhotosUtilities.o
+                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/*.o
 
-PHOTOS_FORTRAN_OBJECTS = src/$(PHOTOS_FORTRAN_DIR)/photos.o \
-                         src/$(FORTRAN_PHOTOS_INTERFACE_DIR)/Photos_make.o
+PHOTOS_FORTRAN_OBJECTS = src/$(PHOTOS_FORTRAN_DIR)/*.o
 
 #directories containing source code
 EVENT_RECORD_INTERFACE_DIR   = eventRecordInterfaces
