@@ -4,11 +4,11 @@
 #include <vector>
 #include "PhotosBranch.h"
 #include "PhotosParticle.h"
+#include "f_Init.h"
 
 namespace Photospp
 {
 
-const static int NMXHEP = 10000;
 const static double NO_BOOST_THRESHOLD=1.0e-8;
 
 extern "C"

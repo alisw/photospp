@@ -7,6 +7,9 @@ using std::cout;
 using std::endl;
 using namespace Photospp;
 
+namespace Photospp
+{
+
 // from photosC.cxx
 extern void GETIDEIDF(int *IDE, int *IDF);
 extern void PHODMP();
@@ -516,3 +519,6 @@ double phwtnlo(double xdumm){
     return PHINT(IDUM);
   }
 }
+
+} // namespace Photospp
+

@@ -7,6 +7,10 @@ using std::cout;
 using std::endl;
 using std::complex;
 using namespace Photospp;
+
+namespace Photospp
+{
+
 struct{
   // COMMON /Kleiss_Stirling/spV,bet
   double spV[4],bet[4];
@@ -1074,3 +1078,6 @@ void PHOBWnlo(double *WT){
         }
 	//      write(*,*)   'AMPSQR/EIKONALFACTOR= ',   AMPSQR/EIKONALFACTOR
 }
+
+} // namespace Photospp
+

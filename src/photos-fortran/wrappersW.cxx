@@ -1,6 +1,8 @@
 #include <complex>
 using std::complex;
 
+namespace Photospp
+{
 
 extern double WDecayEikonalSqrKS_1ph(double p3[4],double p1[4],double p2[4],double k[4]);
 
@@ -57,4 +59,6 @@ extern "C" void phobwnlo_(double *WT)
 {
   return PHOBWnlo(WT);
 }
+
+} // namespace Photospp
 

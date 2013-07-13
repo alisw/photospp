@@ -3,6 +3,9 @@
 using namespace Photospp;
 using namespace PhotosUtilities;
 
+namespace Photospp
+{
+
 extern bool F(int m, int i);
 
 extern "C" bool f_(int *IDABS)
@@ -277,4 +280,6 @@ extern "C" void phtype_(int *ID)
 {
   PHTYPE(*ID);
 }
+
+} // namespace Photospp
 

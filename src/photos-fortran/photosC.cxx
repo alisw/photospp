@@ -10,6 +10,10 @@ using std::endl;
 using std::max;
 using namespace Photospp;
 using namespace PhotosUtilities;
+
+namespace Photospp
+{
+
 // Declaration of structs defined in f_Init.h
 struct PHOSTA phosta_;
 struct PHLUPY phlupy_;
@@ -31,8 +35,8 @@ struct PHOKEY  phokey_;
 struct PHOEXP  phoexp_;
 
 // Declarations of structs defined in PH_HEPEVT_interface.h
-struct PH_PHOQED Photospp::ph_phoqed_;
-struct PH_HEPEVT Photospp::ph_hepevt_;
+struct PH_PHOQED ph_phoqed_;
+struct PH_HEPEVT ph_hepevt_;
 
 extern "C" void me_scalar_(int *);
 extern void   PHOBWnlo(double *WT);   //defined in forW-MEc.cxx
@@ -2979,4 +2983,7 @@ void PHTYPE(int ID){
   //--
   //-- electron positron pair (coomented out for a while
   //    if (IPAIR)  PHOPAR(ID,NHEP0);
-} 
+}
+
+} // namespace Photospp
+

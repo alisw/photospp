@@ -1,5 +1,9 @@
 #ifndef _f_Init_included_
 #define _f_Init_included_
+
+namespace Photospp
+{
+
 const static int NMXHEP = 10000;
 // warning that it does not match place not NMXHEP
 const static int NMXPHO = 10000;  
@@ -170,4 +174,5 @@ extern "C"
 
 }
 
+} // namespace Photospp
 #endif
