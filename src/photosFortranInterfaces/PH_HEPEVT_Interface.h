@@ -8,7 +8,7 @@
 
 namespace Photospp
 {
-
+  // const static int NMXHEP = 10000; at present NMXHEP is defined in f_Init.h
 const static double NO_BOOST_THRESHOLD=1.0e-8;
 
 extern "C"
