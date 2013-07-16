@@ -1,4 +1,5 @@
 #include "Photos.h"
+#include "PhotosUtilities.h"
 #include "f_Init.h"
 #include <cmath>
 #include <iostream>
@@ -6,6 +7,7 @@ using std::max;
 using std::cout;
 using std::endl;
 using namespace Photospp;
+using namespace PhotosUtilities;
 
 namespace Photospp
 {
@@ -13,7 +15,6 @@ namespace Photospp
 // from photosC.cxx
 extern void GETIDEIDF(int *IDE, int *IDF);
 extern void PHODMP();
-extern void PHOB(int MODE,double PBOOS1[4],double VEC[4]);
 extern double PHINT(int idumm);
 // ----------------------------------------------------------------------
 // PROVIDES ELECTRIC CHARGE AND WEAK IZOSPIN OF A FAMILY FERMION

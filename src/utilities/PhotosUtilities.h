@@ -1,7 +1,7 @@
 #ifndef _PhotosUtilities_h_included_
 #define _PhotosUtilities_h_included_
 #include <cmath>
-//#include <iostream>
+#include <iostream>
 using std::cout;
 using std::endl;
 /**
