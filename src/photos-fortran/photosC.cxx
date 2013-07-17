@@ -1,4 +1,5 @@
 #include "Photos.h"
+#include "Log.h"
 #include <cmath>
 #include <iostream>
 #include "f_Init.h"
@@ -8,8 +9,6 @@
 using std::cout;
 using std::endl;
 using std::max;
-using Log::PHOERR;
-using Log::PHOREP;
 using namespace Photospp;
 using namespace PhotosUtilities;
 

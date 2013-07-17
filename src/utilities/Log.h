@@ -30,6 +30,8 @@ using std::endl;
 namespace Photospp
 {
 
+extern void (*PHOERR)(int,char*,double);
+
 class Log
 {
 public:
@@ -111,10 +113,10 @@ public:
 	static void SetWarningLimit(int x)                                        { warnLimit=x;          }
 
 	/**  Warnings on errors from internal part of PHOTOS (originally in F77) */
-	void PHOERR(int IMES,char *TEXT,double DATA)
+	static void PHOERR(int IMES,char *TEXT,double DATA);
 
 	/**  Final report of warnings from internal part of PHOTOS (originally in F77) */
-	void PHOREP()
+	static void PHOREP();
 
 protected:
 	static streambuf *bCout,*bCerr;

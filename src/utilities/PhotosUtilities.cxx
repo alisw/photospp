@@ -1,6 +1,7 @@
 #include "PhotosUtilities.h"
 #include <cstdlib>
 #include <cstdio>
+using std::max;
 
 namespace Photospp
 {
