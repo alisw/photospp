@@ -39,7 +39,7 @@ struct PHOEXP  phoexp_;
 struct PH_PHOQED ph_phoqed_;
 struct PH_HEPEVT ph_hepevt_;
 
-extern "C" void me_scalar_(int *);
+extern "C" void me_scalar_(int *);    // defined in PH_HEPEVT_Interface.cxx what is awkawrd !
 extern void   PHOBWnlo(double *WT);   //defined in forW-MEc.cxx
 extern double phwtnlo (double xdumm); //defined in forZ-MEc.cxx
 
