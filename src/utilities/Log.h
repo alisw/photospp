@@ -110,6 +110,12 @@ public:
 	/** Change the limit of warnings that will be displayed. Set to 0 for no limit. */
 	static void SetWarningLimit(int x)                                        { warnLimit=x;          }
 
+	/**  Warnings on errors from internal part of PHOTOS (originally in F77) */
+	void PHOERR(int IMES,char *TEXT,double DATA)
+
+	/**  Final report of warnings from internal part of PHOTOS (originally in F77) */
+	void PHOREP()
+
 protected:
 	static streambuf *bCout,*bCerr;
 	static ostream *out;

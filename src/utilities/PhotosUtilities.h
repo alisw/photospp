@@ -45,6 +45,18 @@ namespace PhotosUtilities
   /** PHOton radiation in decays BOost routine along 3-rd axis */
   void PHOBO3(double ANGLE,double PVEC[4]);
 
+  /** trivial method to fill value into array on positions beg to end */
+  void fill_val(int beg, int end, double* array, double value); 
+
+ /** PHOeps vector product (normalized to unity) */
+  void PHOEPS(double vec1[4], double vec2[4], double eps[4]);
+
+ /** PHOton radiation  in decays function for SPIn determination */
+  double PHOSPI(int idhep);
+
+ /**  PHOton radiation in decays CHArge determination */
+  double PHOCHA(int idhep);
+
 } // namespace PhotosUtilities
 
 } // namespace Photospp
