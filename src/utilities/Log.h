@@ -31,6 +31,7 @@ namespace Photospp
 {
 
 extern void (*PHOERR)(int,char*,double);
+extern void (*PHOREP)();
 
 class Log
 {

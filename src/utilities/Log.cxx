@@ -11,6 +11,7 @@ namespace Photospp
 {
 
 void (*PHOERR)(int,char*,double) = Log::PHOERR;
+void (*PHOREP)()                 = Log::PHOREP;
 
 list<Log::Pointer*> *Log::PointerList = NULL;
 
@@ -281,7 +282,7 @@ void Log::PHOERR(int IMES,char *TEXT,double DATA){
 //                                                Last Update: 18/06/13
 //
 //----------------------------------------------------------------------
-void PHOREP(){
+void Log::PHOREP(){
   static int PHOMES=10;
   int I;
   bool ERROR=false;
