@@ -520,16 +520,5 @@ void PH_HEPEVT_Interface::check_ME_channel()
 	Log::Debug(902)<<"ME_channel: Finally, after flag check, ME_channel is: "<<ME_channel<<endl;
 }
 
-// Call from fortran: 'CALL ME_CHANNEL(X)'
-extern "C" void me_channel_(int *x)
-{
-	*x=PH_HEPEVT_Interface::ME_channel;
-}
-// Call from fortran: 'CALL ME_SCALAR(X)'
-// transmits flag if NLO correction for scalar is on/off
-extern "C" void me_scalar_(int *x)
-{
-  *x=(int) Photos::meCorrectionWtForScalar;
-}
 
 } // namespace Photospp

@@ -39,7 +39,7 @@ struct PHOEXP  phoexp_;
 struct PH_PHOQED ph_phoqed_;
 struct PH_HEPEVT ph_hepevt_;
 
-extern "C" void me_scalar_(int *);    // defined in PH_HEPEVT_Interface.cxx what is awkawrd !
+
 extern void   PHOBWnlo(double *WT);   //defined in forW-MEc.cxx
 extern double phwtnlo (double xdumm); //defined in forZ-MEc.cxx
 
@@ -1394,7 +1394,8 @@ double  PHOCOR(double MPASQR,double MCHREN,int ME){
   phwt_.wt1=(1.0-phophs_.costhg*sqrt(1.0-MCHREN))/(1.0-phophs_.costhg*phwt_.beta);
   phwt_.wt2=(1.0-XX/YY/(1.0-phwt_.beta*phwt_.beta*phophs_.costhg*phophs_.costhg))*(1.0+phophs_.costhg*phwt_.beta)/2.0;
       
-  me_scalar_(&IscaNLO);
+
+  IscaNLO=Photos::meCorrectionWtForScalar;
   if(ME==1 && IscaNLO ==1){  // this  switch NLO in scalar decays. 
                              // overrules default calculation.
                              // Need tests including basic ones
