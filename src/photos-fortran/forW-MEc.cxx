@@ -1,29 +1,19 @@
+#include "forW-MEc.h"
 #include "Photos.h"
-#include<complex>
-#include<iostream>
 #include "f_Init.h"
 #include "PH_HEPEVT_Interface.h"
+#include<iostream>
 using std::cout;
 using std::endl;
-using std::complex;
-using namespace Photospp;
 
 namespace Photospp
 {
 
-struct{
-  // COMMON /Kleiss_Stirling/spV,bet
-  double spV[4],bet[4];
-} kleiss_stirling_;
+// COMMON /Kleiss_Stirling/spV,bet
+double PhotosMEforW::spV[4],PhotosMEforW::bet[4];
 
-struct{
-  // COMMON /mc_parameters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN
-  double pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN;
-} mc_parameters_;
-
-
-
-
+// COMMON /mc_parameters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN
+double PhotosMEforW::pi,PhotosMEforW::sw,PhotosMEforW::cw,PhotosMEforW::alphaI,PhotosMEforW::qb,PhotosMEforW::mb,PhotosMEforW::mf1,PhotosMEforW::mf2,PhotosMEforW::qf1,PhotosMEforW::qf2,PhotosMEforW::vf,PhotosMEforW::af,PhotosMEforW::mcLUN;
 
 //////////////////////////////////////////////////////////////////
 //         small s_{+,-}(p1,p2) for massless case:              //
@@ -35,7 +25,7 @@ struct{
 //     k0(3) = 0.d0                                             //
 //                                                              //
 //////////////////////////////////////////////////////////////////
-complex<double> InProd_zero(double p1[4],int l1,double p2[4],int l2){
+complex<double> PhotosMEforW::InProd_zero(double p1[4],int l1,double p2[4],int l2){
 
   int i; 
   double  forSqrt1,forSqrt2,sqrt1,sqrt2;
@@ -86,7 +76,7 @@ complex<double> InProd_zero(double p1[4],int l1,double p2[4],int l2){
   }
 }
 
-double InSqrt(double p[4],double q[4]){
+double PhotosMEforW::InSqrt(double p[4],double q[4]){
             
   return sqrt( (p[0]-p[1]) / (q[0]-q[1]) );
 }
@@ -97,7 +87,7 @@ double InSqrt(double p[4],double q[4]){
 //                                                              //
 //////////////////////////////////////////////////////////////////
 
-complex<double> InProd_mass(double p1[4],double m1,int l1,double p2[4],double m2,int l2){
+complex<double> PhotosMEforW::InProd_mass(double p1[4],double m1,int l1,double p2[4],double m2,int l2){
   double sqrt1,sqrt2,forSqrt1;
 
 
@@ -133,20 +123,9 @@ complex<double> InProd_mass(double p1[4],double m1,int l1,double p2[4],double m2
 //  this is small B_{s}(k,p) function when TrMartix is diaagonal!! //
 //                                                                 //
 /////////////////////////////////////////////////////////////////////
-  complex<double>  BsFactor(int s,double k[4],double p[4],double m){
+complex<double> PhotosMEforW::BsFactor(int s,double k[4],double p[4],double m){
     double forSqrt1,sqrt1;
     complex<double>  inPr1;
-  
-  // COMMON /mc_paraneters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN 
-  // temporary solution these will be global variables of the class   
-  double pi     = mc_parameters_.pi;
-  double alphaI = mc_parameters_.alphaI;
-  double qb     = mc_parameters_.qb;
-  double mf1    = mc_parameters_.mf1;
-  double mf2    = mc_parameters_.mf2;
-  double qf1    = mc_parameters_.qf1;
-  double qf2    = mc_parameters_.qf2;
-  // end of temporary solution
 
   if ( s==1 ){ 
 
@@ -190,21 +169,10 @@ complex<double> InProd_mass(double p1[4],double m1,int l1,double p2[4],double m2
 //   q - charge
 //    
 //======================================================================
-complex<double> WDecayEikonalKS_1ph(double p3[4],double p1[4],double p2[4],double k[4],int s){
+complex<double> PhotosMEforW::WDecayEikonalKS_1ph(double p3[4],double p1[4],double p2[4],double k[4],int s){
 
   double scalProd1,scalProd2,scalProd3;
   complex<double> wdecayeikonalks_1ph,BSoft1,BSoft2;  
-  
-  // COMMON /mc_paraneters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN 
-  // temporary solution these will be global variables of the class   
-  double pi     = mc_parameters_.pi;
-  double alphaI = mc_parameters_.alphaI;
-  double qb     = mc_parameters_.qb;
-  double mf1    = mc_parameters_.mf1;
-  double mf2    = mc_parameters_.mf2;
-  double qf1    = mc_parameters_.qf1;
-  double qf2    = mc_parameters_.qf2;
-  // end of temporary solution
 
   scalProd1 = p1[0]*k[0]-p1[1]*k[1]-p1[2]*k[2]-p1[3]*k[3];
   scalProd2 = p2[0]*k[0]-p2[1]*k[1]-p2[2]*k[2]-p2[3]*k[3];
@@ -226,7 +194,7 @@ complex<double> WDecayEikonalKS_1ph(double p3[4],double p1[4],double p2[4],doubl
 //       Gmass2 -- photon mass square       
 // 
 //======================================================================
-complex<double>  SoftFactor(int s,double k[4],double p1[4],double m1,double p2[4],double m2,double Gmass2){
+complex<double>  PhotosMEforW::SoftFactor(int s,double k[4],double p1[4],double m1,double p2[4],double m2,double Gmass2){
 
   double ScalProd1,ScalProd2;
   complex<double>  BsFactor2,BsFactor1;
@@ -262,7 +230,7 @@ complex<double>  SoftFactor(int s,double k[4],double p1[4],double m1,double p2[4
 //              bet[3] = 0.d0                                                 #
 //#############################################################################
 
-complex<double> TrMatrix_zero(double p1[4],double m1,int l1,double k[4],int s,double p2[4],double m2,int l2){
+complex<double> PhotosMEforW::TrMatrix_zero(double p1[4],double m1,int l1,double k[4],int s,double p2[4],double m2,int l2){
 
   double forSqrt1,forSqrt2;
   double p1_1[4],p2_1[4];
@@ -410,29 +378,13 @@ complex<double> TrMatrix_zero(double p1[4],double m1,int l1,double k[4],int s,do
 //       Ub(p1,m1,l1)                  U(p2,m2,l2)            //
 //                                                            // 
 ////////////////////////////////////////////////////////////////                         
-complex<double> TrMatrix_mass(double p1[4],double m1,int l1,double k[4],double m,int s,double p2[4],double m2,int l2){
+complex<double> PhotosMEforW::TrMatrix_mass(double p1[4],double m1,int l1,double k[4],double m,int s,double p2[4],double m2,int l2){
 
 
   double forSqrt1,forSqrt2;
   double k_1[4],k_2[4];
   double forSqrt3,forSqrt4,sqrt3,sqrt1,sqrt2,sqrt4;
   complex<double>   inPr1,inPr2,inPr3,inPr4;
-
-  //           double  spV[4],bet[4]
-  //           double  pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af
-  //           COMMON /Kleiss_Stirling/spV,bet
-  //           COMMON /mc_parameters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN      
-  // COMMON /mc_paraneters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN 
-  // temporary solution these will be global variables of the class   
-  double pi     = mc_parameters_.pi;
-  double alphaI = mc_parameters_.alphaI;
-  double qb     = mc_parameters_.qb;
-  double mf1    = mc_parameters_.mf1;
-  double mf2    = mc_parameters_.mf2;
-  double vf     = mc_parameters_.vf;
-  double af     = mc_parameters_.af;
-  double *spV = kleiss_stirling_.spV;
-  // end of temporary solution
 
   for (int i = 0; i < 4; i++) {
     k_1[i] = 1.0/2.0*(k[i] - m*spV[i]);
@@ -662,16 +614,7 @@ complex<double> TrMatrix_mass(double p1[4],double m1,int l1,double k[4],double m
 // OUTPUT: value of functions            -- decay amplitude            =
 //                                                                     =
 //======================================================================
-complex<double>WDecayBornAmpKS_1ph(double p3[4],int l3,double p1[4],int l1,double p2[4],int l2){
-  // COMMON /mc_paraneters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN 
-  // temporary solution these will be global variables of the class   
-  double pi     = mc_parameters_.pi;
-  double alphaI = mc_parameters_.alphaI;
-  double sw     = mc_parameters_.sw;
-  double mb     = mc_parameters_.mb;
-  double mf1    = mc_parameters_.mf1;
-  double mf2    = mc_parameters_.mf2;
-  // end of temporary solution
+complex<double> PhotosMEforW::WDecayBornAmpKS_1ph(double p3[4],int l3,double p1[4],int l1,double p2[4],int l2){
 
   double coeff;
  
@@ -729,24 +672,13 @@ complex<double>WDecayBornAmpKS_1ph(double p3[4],int l3,double p1[4],int l1,doubl
 //                                                                     =
 //======================================================================
 
-complex<double>WDecayAmplitudeKS_1ph(double p3[4],int l3,double p1[4],int l1,double p2[4],int l2,double k[4],int s){
+complex<double> PhotosMEforW::WDecayAmplitudeKS_1ph(double p3[4],int l3,double p1[4],int l1,double p2[4],int l2,double k[4],int s){
  
   int          la1;
   double scalProd1,scalProd2,scalProd3,coeff,theta3,ph3;
   complex<double>  bornAmp,TrMx1,TrMx2;
   complex<double>  BSoft1,BSoft2;  
-  // COMMON /mc_paraneters/pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af,mcLUN 
-  // temporary solution these will be global variables of the class   
-  double pi     = mc_parameters_.pi;
-  double alphaI = mc_parameters_.alphaI;
-  double sw     = mc_parameters_.sw;
-  double mb     = mc_parameters_.mb;
-  double mf1    = mc_parameters_.mf1;
-  double mf2    = mc_parameters_.mf2;
-  double qb     = mc_parameters_.qb;
-  double qf1    = mc_parameters_.qf1;
-  double qf2    = mc_parameters_.qf2;
- // end of temporary solution
+
   coeff = sqrt(2.0)*pi/sw/alphaI;      // vertex: g/2/sqrt[2] * e
 
   scalProd1 = p1[0]*k[0]-p1[1]*k[1]-p1[2]*k[2]-p1[3]*k[3];
@@ -786,7 +718,7 @@ complex<double>WDecayAmplitudeKS_1ph(double p3[4],int l3,double p1[4],int l1,dou
 //  OUTPUT:                                              =
 //========================================================       
 
-double WDecayEikonalSqrKS_1ph(double p3[4],double p1[4],double p2[4],double k[4]){
+double PhotosMEforW::WDecayEikonalSqrKS_1ph(double p3[4],double p1[4],double p2[4],double k[4]){
   int          s;
   double spinSumAvrg;
   complex<double>  wDecAmp;
@@ -807,7 +739,7 @@ double WDecayEikonalSqrKS_1ph(double p3[4],double p1[4],double p2[4],double k[4]
 //  OUTPUT:                                              =
 //========================================================       
 
-double WDecayBornAmpSqrKS_1ph(double p3[4],double p1[4],double p2[4]){
+double PhotosMEforW::WDecayBornAmpSqrKS_1ph(double p3[4],double p1[4],double p2[4]){
   double spinSumAvrg;
   complex<double> wDecAmp;
 
@@ -833,7 +765,7 @@ double WDecayBornAmpSqrKS_1ph(double p3[4],double p1[4],double p2[4]){
 //  OUTPUT:                                              =
 //========================================================       
 
-double WDecayAmplitudeSqrKS_1ph(double p3[4],double p1[4],double p2[4], double k[4]){
+double PhotosMEforW::WDecayAmplitudeSqrKS_1ph(double p3[4],double p1[4],double p2[4], double k[4]){
 
   double spinSumAvrg;
   complex<double> wDecAmp;
@@ -883,7 +815,7 @@ double WDecayAmplitudeSqrKS_1ph(double p3[4],double p1[4],double p2[4], double k
 //C========================================================== ==
 //C========================================================== ==
 
-double SANC_WT(double PW[4],double PNE[4],double PMU[4],double PPHOT[4],double B_PW[4],double B_PNE[4],double B_PMU[4]){
+double PhotosMEforW::SANC_WT(double PW[4],double PNE[4],double PMU[4],double PPHOT[4],double B_PW[4],double B_PNE[4],double B_PMU[4]){
 
 
   //..        Exact amplitude square      
@@ -917,15 +849,15 @@ double SANC_WT(double PW[4],double PNE[4],double PMU[4],double PPHOT[4],double B
 }
 
 
-void SANC_INIT1(double QB0,double QF20,double MF10,double MF20,double MB0){
-  mc_parameters_.qb =QB0;
-  mc_parameters_.qf2=QF20;
-  mc_parameters_.mf1=MF10;
-  mc_parameters_.mf2=MF20;
-  mc_parameters_.mb =MB0;
+void PhotosMEforW::SANC_INIT1(double QB0,double QF20,double MF10,double MF20,double MB0){
+  qb =QB0;
+  qf2=QF20;
+  mf1=MF10;
+  mf2=MF20;
+  mb =MB0;
 }
 
-void SANC_INIT(double ALPHA,int PHLUN){
+void PhotosMEforW::SANC_INIT(double ALPHA,int PHLUN){
 
 
   static int SANC_MC_INIT=-123456789;
@@ -935,28 +867,28 @@ void SANC_INIT(double ALPHA,int PHLUN){
   if (SANC_MC_INIT==-123456789){
     SANC_MC_INIT=1;
 
-    mc_parameters_.pi=4*atan(1.0);
-    mc_parameters_.qf1=0.0;                           // neutrino charge
-    mc_parameters_.mf1=1.0e-10;                       // newutrino mass
-    mc_parameters_.vf=1.0;                            // V&A couplings
-    mc_parameters_.af=1.0;
-    mc_parameters_.alphaI=1.0/ALPHA;
-    mc_parameters_.cw=0.881731727;                    // Weak Weinberg angle
-    mc_parameters_.sw=0.471751166;
+    pi=4*atan(1.0);
+    qf1=0.0;                           // neutrino charge
+    mf1=1.0e-10;                       // newutrino mass
+    vf=1.0;                            // V&A couplings
+    af=1.0;
+    alphaI=1.0/ALPHA;
+    cw=0.881731727;                    // Weak Weinberg angle
+    sw=0.471751166;
            
 
     //...          An auxilary K&S vectors
-    kleiss_stirling_.bet[0]= 1.0;
-    kleiss_stirling_.bet[1]= 0.0722794881816159;
-    kleiss_stirling_.bet[2]=-0.994200045099866;
-    kleiss_stirling_.bet[3]= 0.0796363353729248; 
+    bet[0]= 1.0;
+    bet[1]= 0.0722794881816159;
+    bet[2]=-0.994200045099866;
+    bet[3]= 0.0796363353729248; 
 
-    kleiss_stirling_.spV[0]= 0.0; 
-    kleiss_stirling_.spV[1]= 7.22794881816159e-2;
-    kleiss_stirling_.spV[2]=-0.994200045099866;     
-    kleiss_stirling_.spV[3]= 7.96363353729248e-2;
+    spV[0]= 0.0; 
+    spV[1]= 7.22794881816159e-2;
+    spV[2]=-0.994200045099866;     
+    spV[3]= 7.96363353729248e-2;
 
-    mc_parameters_.mcLUN = PHLUN;
+    mcLUN = PHLUN;
   } 
 }
 //----------------------------------------------------------------------
@@ -981,7 +913,7 @@ void SANC_INIT(double ALPHA,int PHLUN){
 //                                                Last Update: 22/06/13
 //
 //----------------------------------------------------------------------
-void PHOBWnlo(double *WT){
+void PhotosMEforW::PHOBWnlo(double *WT){
 # define pho phoevt_
 # define hep ph_hepevt_
   FILE *PHLUN = stdout;

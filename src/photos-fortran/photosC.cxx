@@ -1,4 +1,5 @@
 #include "Photos.h"
+#include "forW-MEc.h"
 #include "Log.h"
 #include <cmath>
 #include <iostream>
@@ -39,8 +40,6 @@ struct PHOEXP  phoexp_;
 struct PH_PHOQED ph_phoqed_;
 struct PH_HEPEVT ph_hepevt_;
 
-
-extern void   PHOBWnlo(double *WT);   //defined in forW-MEc.cxx
 extern double phwtnlo (double xdumm); //defined in forZ-MEc.cxx
 
 /** Logical function used deep inside algorithm to check if emitted
@@ -2267,7 +2266,7 @@ void PHOMAK(int IPPAR,int NHEP0){
   }
   else if (IDME==2){                                    // ME weight for leptonic W decay
 
-    PHOBWnlo(&WT);
+    PhotosMEforW::PHOBWnlo(&WT);
     WT=WT*2.0/phokey_.fint;
   }
   else if (IDME==1){                                     //  ME weight for leptonic Z decay
