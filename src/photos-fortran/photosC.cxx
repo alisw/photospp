@@ -37,10 +37,8 @@ struct PHOKEY  phokey_;
 struct PHOEXP  phoexp_;
 struct PH_PHOQED ph_phoqed_;
 
-struct HEPEVT ph_hepevt_;
-struct HEPEVT phoevt_;
-# define hep ph_hepevt_
-# define pho phoevt_
+struct HEPEVT hep;
+struct HEPEVT pho;
 
 /** Logical function used deep inside algorithm to check if emitted
     particles are to emit. For mother it blocks the vertex, 
@@ -690,7 +688,7 @@ void PHOTOS_MAKE_C(int IPARR){
   //-- IPPAR is original position where the program was called
 
   //-- let-s do generation
-  phtype_(&IPPAR);
+  PHTYPE(IPPAR);
 
 
   //--   rearrange  /PH_HEPEVT/  for added particles.

@@ -914,8 +914,6 @@ void PhotosMEforW::SANC_INIT(double ALPHA,int PHLUN){
 //
 //----------------------------------------------------------------------
 void PhotosMEforW::PHOBWnlo(double *WT){
-# define pho phoevt_
-# define hep ph_hepevt_
   FILE *PHLUN = stdout;
   int phlun=6;
   double EMU,MCHREN,BETA,COSTHG,MPASQR,XPH;

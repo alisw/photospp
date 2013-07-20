@@ -17,25 +17,25 @@ void PH_HEPEVT_Interface::clear(){
 
   m_particle_list.clear();
 
-  ph_hepevt_.nevhep=0; 
-  ph_hepevt_.nhep=0;
+  hep.nevhep=0; 
+  hep.nhep=0;
   
 
   /**  for(int i=0; i < NMXHEP; i++){
 
-    ph_hepevt_.isthep[i]=0;
-    ph_hepevt_.idhep[i]=0;
+    hep.isthep[i]=0;
+    hep.idhep[i]=0;
     
     for(int j=0; j<2; j++){
-      ph_hepevt_.jmohep[i][j]=0;
-      ph_hepevt_.jdahep[i][j]=0;
+      hep.jmohep[i][j]=0;
+      hep.jdahep[i][j]=0;
     }
     
     for(int j=0; j<5; j++)
-      ph_hepevt_.phep[i][j]=0;
+      hep.phep[i][j]=0;
     
     for(int j=0; j<4; j++)
-      ph_hepevt_.vhep[i][j]=0;
+      hep.vhep[i][j]=0;
   
       ph_phoqed_.qedrad[i]=0;
   
@@ -56,26 +56,26 @@ void PH_HEPEVT_Interface::add_particle(int i,PhotosParticle * particle,
   m_particle_list.push_back(particle);
 
   //now set the element of PH_HEPEVT
-  ph_hepevt_.nevhep=0; //dummy
-  ph_hepevt_.nhep=ph_hepevt_.nhep++;
-  ph_hepevt_.isthep[i]=particle->getStatus();
-  ph_hepevt_.idhep[i]=particle->getPdgID();
+  hep.nevhep=0; //dummy
+  hep.nhep=hep.nhep++;
+  hep.isthep[i]=particle->getStatus();
+  hep.idhep[i]=particle->getPdgID();
 
-  ph_hepevt_.jmohep[i][0]=first_mother;
-  ph_hepevt_.jmohep[i][1]=last_mother;
+  hep.jmohep[i][0]=first_mother;
+  hep.jmohep[i][1]=last_mother;
 
-  ph_hepevt_.jdahep[i][0]=first_daughter;
-  ph_hepevt_.jdahep[i][1]=last_daughter;
+  hep.jdahep[i][0]=first_daughter;
+  hep.jdahep[i][1]=last_daughter;
 
-  ph_hepevt_.phep[i][0]=particle->getPx();
-  ph_hepevt_.phep[i][1]=particle->getPy();
-  ph_hepevt_.phep[i][2]=particle->getPz();
-  ph_hepevt_.phep[i][3]=particle->getE();
+  hep.phep[i][0]=particle->getPx();
+  hep.phep[i][1]=particle->getPy();
+  hep.phep[i][2]=particle->getPz();
+  hep.phep[i][3]=particle->getE();
   
   // if massFrom4Vector=true (default) - get sqrt(e^2-p^2)
   // otherwise - get mass from event record
-  if(!Photos::massFrom4Vector) ph_hepevt_.phep[i][4]=particle->getMass();
-  else                         ph_hepevt_.phep[i][4]=particle->getVirtuality();
+  if(!Photos::massFrom4Vector) hep.phep[i][4]=particle->getMass();
+  else                         hep.phep[i][4]=particle->getVirtuality();
 
   int pdgid = abs(particle->getPdgID());
 
@@ -92,15 +92,15 @@ void PH_HEPEVT_Interface::add_particle(int i,PhotosParticle * particle,
         // when 'forceMassFromEventRecord' is used mass is -1.0
         // in this case - get mass from event record
         if(mass<0.0) mass = particle->getMass();
-        ph_hepevt_.phep[i][4] = mass;
+        hep.phep[i][4] = mass;
       }
     }
   }
 
-  ph_hepevt_.vhep[i][0]=0;
-  ph_hepevt_.vhep[i][1]=0;
-  ph_hepevt_.vhep[i][2]=0;
-  ph_hepevt_.vhep[i][3]=0;
+  hep.vhep[i][0]=0;
+  hep.vhep[i][1]=0;
+  hep.vhep[i][2]=0;
+  hep.vhep[i][3]=0;
 
   ph_phoqed_.qedrad[i]=1;
 
@@ -162,14 +162,14 @@ void PH_HEPEVT_Interface::get(){
   int index = 0;
 
   //if no photons have been added to the event record, do nothing.
-  if(ph_hepevt_.nhep == (int) m_particle_list.size())
+  if(hep.nhep == (int) m_particle_list.size())
     return;
 
   //phodmp_();
 
   int  particle_count  = m_particle_list.size();
-  int  daughters_start = ph_hepevt_.jmohep[ph_hepevt_.nhep-1][0];
-  int  photons         = ph_hepevt_.nhep - m_particle_list.size();
+  int  daughters_start = hep.jmohep[hep.nhep-1][0];
+  int  photons         = hep.nhep - m_particle_list.size();
   bool isPhotonCreated = (photons>0);
   
   std::vector<PhotosParticle*> photon_list; // list of added photons
@@ -179,34 +179,34 @@ void PH_HEPEVT_Interface::get(){
   // we decipher daughters_start from  last entry 
   // that is last daughter in  ph_hepevt_
   // another option of this functionality may be 
-  // ph_hepevt_.jdahep[ ph_hepevt_.jmohep[ph_hepevt_.nhep-1][0]-1][0];
+  // hep.jdahep[ hep.jmohep[hep.nhep-1][0]-1][0];
   // Update daughters_start if there are two mothers
-  // NOTE: daughters_start is index for C++ arrays, while ph_hepevt_.jmohep
+  // NOTE: daughters_start is index for C++ arrays, while hep.jmohep
   //       contains indices for Fortran arrays.
-  if(ph_hepevt_.jmohep[ph_hepevt_.nhep-1][1]>0)
-    daughters_start = ph_hepevt_.jmohep[ph_hepevt_.nhep-1][1];
+  if(hep.jmohep[hep.nhep-1][1]>0)
+    daughters_start = hep.jmohep[hep.nhep-1][1];
   
   index = particle_count;
 
   // Add extra photons
   for(;photons>0; photons--, index++){
     
-    if(ph_hepevt_.idhep[index]!=PhotosParticle::GAMMA)
+    if(hep.idhep[index]!=PhotosParticle::GAMMA)
       Log::Fatal("PH_HEPEVT_Interface::get(): Extra particle added to the PH_HEPEVT common block in not a photon!",6);
     
     //create a new particle
     PhotosParticle * new_photon;
-    new_photon = m_particle_list.at(0)->createNewParticle(ph_hepevt_.idhep[index],
-							  ph_hepevt_.isthep[index],
-							  ph_hepevt_.phep[index][4],
-							  ph_hepevt_.phep[index][0],
-							  ph_hepevt_.phep[index][1],
-							  ph_hepevt_.phep[index][2],
-							  ph_hepevt_.phep[index][3]);
+    new_photon = m_particle_list.at(0)->createNewParticle(hep.idhep[index],
+							  hep.isthep[index],
+							  hep.phep[index][4],
+							  hep.phep[index][0],
+							  hep.phep[index][1],
+							  hep.phep[index][2],
+							  hep.phep[index][3]);
     
     //add into the event record
     //get mother particle of photon
-    PhotosParticle * mother =  m_particle_list.at(ph_hepevt_.jmohep[index][0]-1);
+    PhotosParticle * mother =  m_particle_list.at(hep.jmohep[index][0]-1);
     mother->addDaughter(new_photon);
     
     //add to list of photons
@@ -333,7 +333,7 @@ void PH_HEPEVT_Interface::get(){
 
     PhotosParticle * particle = m_particle_list.at(index);
 
-    if(ph_hepevt_.idhep[index]!=particle->getPdgID())
+    if(hep.idhep[index]!=particle->getPdgID())
       Log::Fatal("PH_HEPEVT_Interface::get(): Something is wrong with the PH_HEPEVT common block",5);
 
     // If photons were added - for each daughter create a history entry
@@ -346,11 +346,11 @@ void PH_HEPEVT_Interface::get(){
     bool   update=false;
 
     // don't update particle if difference lower than THRESHOLD * particle energy (default threshold = 10e-8)
-    double threshold = NO_BOOST_THRESHOLD*ph_hepevt_.phep[index][3];
-    if( fabs(ph_hepevt_.phep[index][0]-particle->getPx()) > threshold ||
-        fabs(ph_hepevt_.phep[index][1]-particle->getPy()) > threshold ||
-        fabs(ph_hepevt_.phep[index][2]-particle->getPz()) > threshold ||
-        fabs(ph_hepevt_.phep[index][3]-particle->getE())  > threshold    ) update=true;
+    double threshold = NO_BOOST_THRESHOLD*hep.phep[index][3];
+    if( fabs(hep.phep[index][0]-particle->getPx()) > threshold ||
+        fabs(hep.phep[index][1]-particle->getPy()) > threshold ||
+        fabs(hep.phep[index][2]-particle->getPz()) > threshold ||
+        fabs(hep.phep[index][3]-particle->getE())  > threshold    ) update=true;
 
     if(update)
     {
@@ -362,10 +362,10 @@ void PH_HEPEVT_Interface::get(){
       particle->boostDaughtersToRestFrame(particle);
 
       //2. change this particles 4 momentum
-      particle->setPx(ph_hepevt_.phep[index][0]);
-      particle->setPy(ph_hepevt_.phep[index][1]);
-      particle->setPz(ph_hepevt_.phep[index][2]);
-      particle->setE(ph_hepevt_.phep[index][3]);
+      particle->setPx(hep.phep[index][0]);
+      particle->setPy(hep.phep[index][1]);
+      particle->setPz(hep.phep[index][2]);
+      particle->setE(hep.phep[index][3]);
 
       //3. boost the particles daughters back into the lab frame
       particle->boostDaughtersFromRestFrame(particle);
@@ -422,18 +422,18 @@ void PH_HEPEVT_Interface::check_ME_channel()
 // Check mothers:
 
 	if(decay_idx==2)                              return; // Only one mother present
-	if(ph_hepevt_.idhep[0]*ph_hepevt_.idhep[1]>0) return; // Mothers have same sign
+	if(hep.idhep[0]*hep.idhep[1]>0) return; // Mothers have same sign
 
-	Log::Debug(900)<<"ME_channel: Mothers PDG:  "<<ph_hepevt_.idhep[0]<<" "<<ph_hepevt_.idhep[1]<<endl;
+	Log::Debug(900)<<"ME_channel: Mothers PDG:  "<<hep.idhep[0]<<" "<<hep.idhep[1]<<endl;
 	if(decay_idx)
-		Log::Debug(900,false)<<"            Intermediate: "<<ph_hepevt_.idhep[decay_idx-1]<<endl;
+		Log::Debug(900,false)<<"            Intermediate: "<<hep.idhep[decay_idx-1]<<endl;
 
 	int              firstDaughter=3;
 	if(decay_idx==0) firstDaughter=2; // if no intermediate particle - daughters start at idx 2
 
 	// Are mothers in range +/- 1-6; +/- 11-16?
-	int mother1 = abs(ph_hepevt_.idhep[0]);
-	int mother2 = abs(ph_hepevt_.idhep[1]);
+	int mother1 = abs(hep.idhep[0]);
+	int mother2 = abs(hep.idhep[1]);
 	if( mother1<1 || (mother1>6 && mother1<11) || mother1>16 ) return;
 	if( mother2<1 || (mother2>6 && mother2<11) || mother2>16 ) return;
 
@@ -443,15 +443,15 @@ void PH_HEPEVT_Interface::check_ME_channel()
 	// -------------------------------------------
 	int firstPDG =0;
 	int secondPDG=0;
-	for(int i=firstDaughter; i<ph_hepevt_.nhep;i++)
+	for(int i=firstDaughter; i<hep.nhep;i++)
 	{
-		int pdg = abs(ph_hepevt_.idhep[i]);
+		int pdg = abs(hep.idhep[i]);
 		if(pdg==11 || pdg==13 || pdg==15)
 		{
-			if(firstPDG==0) firstPDG=ph_hepevt_.idhep[i];
+			if(firstPDG==0) firstPDG=hep.idhep[i];
 			else
 			{
-				secondPDG=ph_hepevt_.idhep[i];
+				secondPDG=hep.idhep[i];
 				// Just in case two pairs are genereted - verify that we have a pair with oposite signs
 				if(firstPDG*secondPDG>0) secondPDG=0;
 				break;
@@ -466,15 +466,15 @@ void PH_HEPEVT_Interface::check_ME_channel()
 	// -----------------------------------------------------------------
 	firstPDG =0;
 	secondPDG=0;
-	for(int i=firstDaughter; i<ph_hepevt_.nhep;i++)
+	for(int i=firstDaughter; i<hep.nhep;i++)
 	{
-		int pdg = abs(ph_hepevt_.idhep[i]);
+		int pdg = abs(hep.idhep[i]);
 		if(pdg>=11 && pdg<=16)
 		{
-			if(firstPDG==0) firstPDG=ph_hepevt_.idhep[i];
+			if(firstPDG==0) firstPDG=hep.idhep[i];
 			else
 			{
-				secondPDG=ph_hepevt_.idhep[i];
+				secondPDG=hep.idhep[i];
 				// Just in case two pairs are genereted - verify that we have a pair with oposite signs
 				if(firstPDG*secondPDG>0) secondPDG=0;
 				break;
@@ -499,7 +499,7 @@ void PH_HEPEVT_Interface::check_ME_channel()
 	// Verify that intermediate particle PDG matches ME_channel found
 	if(ME_channel>0 && decay_idx)
 	{
-		int pdg=ph_hepevt_.idhep[decay_idx-1];
+		int pdg=hep.idhep[decay_idx-1];
 
 		if(ME_channel==1 && !(pdg==22 || pdg==23) ) ME_channel=0; //gamma/Z
 		if(ME_channel==2 && !(pdg==24 || pdg==-24)) ME_channel=0; //W+/W-

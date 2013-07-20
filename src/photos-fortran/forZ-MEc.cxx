@@ -403,8 +403,6 @@ double PhotosMEforZ::Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,double q
 //----------------------------------------------------------------------
 
 double PhotosMEforZ::phwtnlo(){
-# define hep ph_hepevt_
-# define pho phoevt_
   // fi3 orientation of photon, fi1,th1 orientation of neutral
 
       //      COMMON/PHOPHS/XPHMAX,XPHOTO,COSTHG,SINTHG

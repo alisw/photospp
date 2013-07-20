@@ -75,7 +75,7 @@ void PhotosBranch::process()
 	*/
 	int index = PH_HEPEVT_Interface::set(this);
 	PH_HEPEVT_Interface::prepare();
-	photos_make_c_(&index);
+	PHOTOS_MAKE_C(index);
 	PH_HEPEVT_Interface::complete();
 	PH_HEPEVT_Interface::get();
 	checkMomentumConservation();

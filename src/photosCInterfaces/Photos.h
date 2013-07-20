@@ -129,7 +129,7 @@ public:
 	static void setStopAtCriticalError(bool stop);
 
 	/** Initialize kinematic corrections */
-	static void initializeKinematicCorrections(int flag) { phcork_(&flag); }
+	static void initializeKinematicCorrections(int flag) { PHCORK(flag); }
 
 	/** Force mass value to be sqrt(e^2-p^2) for all particle momenta
 	    taken from event record. May be important for numerical stability.

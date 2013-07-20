@@ -26,12 +26,13 @@ extern "C"
 	        const static int nmxhep=NMXHEP;
 		//      NEVPHO,NPHO,ISTPHO(NMXPHO),IDPHO(NMXPHO),
 		//  JMOPHO(2,NMXPHO),JDAPHO(2,NMXPHO),PPHO(5,NMXPHO),VPHO(4,NMXPHO)
-	} phoevt_,ph_hepevt_;
+	} hep,pho;
+    //ph_hepevt_,phoevt_;
 
-	extern struct PH_PHOQED
-	{ 
-		int qedrad[NMXHEP];
-	} ph_phoqed_;
+  extern struct PH_PHOQED
+  { 
+    int qedrad[NMXHEP];
+  } ph_phoqed_;
 
 	/** Add up to the PHOEVT common block */
 	extern struct PHOIF
@@ -161,22 +162,14 @@ extern "C"
 	} phlupy_;
 
 	/** Initialize kinematic corrections */
-	void phcork_(int * modcor);
+	void PHCORK(int modcor);
 
 	/** Single branch processing */
-	void photos_make_c_(int * id);
-
-	/* PHOINI subroutines */
-	int  iphqrk_(int *i);
-	int  iphekl_(int *i);
-
-	/* Printout of error messages */
-	void phoerr_(int *imes,char *text,double *data);
+	void PHOTOS_MAKE_C(int id);
 
 	/* Central management routine. Defines what action
 	   will be performed at point ID. */
-	void phtype_(int *ID);
-
+	void PHTYPE(int ID);
 }
 
 } // namespace Photospp
