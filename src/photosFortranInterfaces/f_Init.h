@@ -9,7 +9,7 @@ const static int NMXHEP = 10000;
 const static int NMXPHO = 10000;  
 
 
-extern "C"
+extern  // "C"
 {
 
 	/** Definition of the PHOEVT common block */

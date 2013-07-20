@@ -1,5 +1,7 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Jul 20 2013
+- Code fully located in Photospp namespace
 Jul 12 2013
 - version 3.54 is free of fortran, but need to be tested/cleaned.
 Nov 04 2012
