@@ -13,7 +13,7 @@ extern "C"
 {
 
 	/** Definition of the PHOEVT common block */
-	extern struct PHOEVT
+	extern struct HEPEVT
 	{
 		int    nevhep;
 		int    nhep;
@@ -26,7 +26,12 @@ extern "C"
 	        const static int nmxhep=NMXHEP;
 		//      NEVPHO,NPHO,ISTPHO(NMXPHO),IDPHO(NMXPHO),
 		//  JMOPHO(2,NMXPHO),JDAPHO(2,NMXPHO),PPHO(5,NMXPHO),VPHO(4,NMXPHO)
-	} phoevt_;
+	} phoevt_,ph_hepevt_;
+
+	extern struct PH_PHOQED
+	{ 
+		int qedrad[NMXHEP];
+	} ph_phoqed_;
 
 	/** Add up to the PHOEVT common block */
 	extern struct PHOIF

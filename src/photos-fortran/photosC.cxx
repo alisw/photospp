@@ -33,17 +33,14 @@ struct PHOCORWT phocorwt_;
 struct PHOPRO  phopro_;
 struct PHOCOP  phocop_;
 struct PHWT    phwt_;
-struct PHOEVT  phoevt_;
 struct PHOKEY  phokey_;
 struct PHOEXP  phoexp_;
-
-// Declarations of structs defined in PH_HEPEVT_interface.h
 struct PH_PHOQED ph_phoqed_;
-struct PH_HEPEVT ph_hepevt_;
+
+struct HEPEVT ph_hepevt_;
+struct HEPEVT phoevt_;
 # define hep ph_hepevt_
 # define pho phoevt_
-
-extern double phwtnlo (double xdumm); //defined in forZ-MEc.cxx
 
 /** Logical function used deep inside algorithm to check if emitted
     particles are to emit. For mother it blocks the vertex, 
