@@ -1,10 +1,10 @@
+#include "forZ-MEc.h"
 #include "Photos.h"
 #include "PhotosUtilities.h"
 #include "PH_HEPEVT_Interface.h"
 #include "f_Init.h"
 #include <cmath>
 #include <iostream>
-using std::max;
 using std::cout;
 using std::endl;
 using namespace Photospp;
@@ -15,7 +15,6 @@ namespace Photospp
 
 // from photosC.cxx
 
-# define hep ph_hepevt_
 extern void PHODMP();
 extern double PHINT(int idumm);
 // ----------------------------------------------------------------------
@@ -30,7 +29,7 @@ extern double PHINT(int idumm);
 //     called by : EVENTE, EVENTM, FUNTIH, .....
 // ----------------------------------------------------------------------
 
-void GIVIZO(int IDFERM,int IHELIC,double *SIZO3,double *CHARGE,int *KOLOR) {
+void PhotosMEforZ::GIVIZO(int IDFERM,int IHELIC,double *SIZO3,double *CHARGE,int *KOLOR) {
   //
   int IH, IDTYPE, IC, LEPQUA, IUPDOW; 
   if (IDFERM==0 || abs(IDFERM)>4 || abs(IHELIC)!=1){
@@ -57,7 +56,7 @@ void GIVIZO(int IDFERM,int IHELIC,double *SIZO3,double *CHARGE,int *KOLOR) {
 /// This routine provides unsophisticated Born differential cross section //
 /// at the crude x-section level, with Z and gamma s-chanel exchange.     //
 ///////////////////////////////////////////////////////////////////////////
-double PHBORNM(double svar,double costhe,double T3e,double qe,double T3f,double qf,int NCf){
+double PhotosMEforZ::PHBORNM(double svar,double costhe,double T3e,double qe,double T3f,double qf,int NCf){
 
   double   s,t,Sw2,MZ,MZ2,GammZ,MW,MW2,AlfInv,GFermi;
   double   sum,deno,Ve,Ae,thresh;
@@ -143,7 +142,7 @@ double PHBORNM(double svar,double costhe,double T3e,double qe,double T3f,double 
 //     called by : EVENTM
 // ----------------------------------------------------------------------
 //
-double AFBCALC(double SVAR,int IDEE,int IDFF){
+double PhotosMEforZ::AFBCALC(double SVAR,int IDEE,int IDFF){
   int KOLOR,KOLOR1;
   double T3e,qe,T3f,qf,A,B;
   GIVIZO(IDEE,-1,&T3e,&qe,&KOLOR);
@@ -155,7 +154,7 @@ double AFBCALC(double SVAR,int IDEE,int IDFF){
 }
 
 
-int GETIDEE(int IDE){
+int PhotosMEforZ::GETIDEE(int IDE){
 
   int IDEE;
   if((IDE==11)       || (IDE== 13) || (IDE== 15)){
@@ -211,16 +210,10 @@ int GETIDEE(int IDE){
 //                                                Last Update: 19/06/13
 //
 //----------------------------------------------------------------------
-double PHASYZ(double SVAR){
-
-  static int i=1;
+double PhotosMEforZ::PHASYZ(double SVAR,int IDE, int IDF){
 
   double AFB;
-  int IDE,IDF,IDEE,IDFF;
-
-  IDE=hep.idhep[1-i];
-  IDF=hep.idhep[4-i];
-  if(abs(hep.idhep[4-i])==abs(hep.idhep[3-i])) IDF=hep.idhep[3-i];
+  int IDEE,IDFF;
 
   IDEE=abs(GETIDEE(IDE));
   IDFF=abs(GETIDEE(IDF));
@@ -251,8 +244,7 @@ double PHASYZ(double SVAR){
 //                                                Last Update: 20/06/13
 //
 //----------------------------------------------------------------------
-double  Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,double qp[4],double qm[4],double ph[4],double pp[4],double pm[4],double COSTHG,double BETA,double th1){
-  int IDE,IDF;
+double PhotosMEforZ::Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,double qp[4],double qm[4],double ph[4],double pp[4],double pm[4],double COSTHG,double BETA,double th1,int IDE,int IDF){
   double C,s,xkaM,xkaP,t,u,t1,u1,BT,BU;
   double waga,wagan2;
   static int i=1;
@@ -303,20 +295,14 @@ double  Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,double qp[4],double q
   u1=u1- (qp[4-i]*qp[4-i]-qp[3-i]*qp[3-i]-qp[2-i]*qp[2-i]-qp[1-i]*qp[1-i]);
   t1=t1- (qm[4-i]*qm[4-i]-qm[3-i]*qm[3-i]-qm[2-i]*qm[2-i]-qm[1-i]*qm[1-i]);
 
-
-
-  IDE=hep.idhep[1-i];
-  IDF=hep.idhep[4-i];
-  if(abs(hep.idhep[4-i])==abs(hep.idhep[3-i])) IDF=hep.idhep[3-i];
-
   // we adjust to what is f-st,s-nd beam flavour 
   if (IDE*IDHEP3>0){
-    BT=1.0+PHASYZ(svar);
-    BU=1.0-PHASYZ(svar);
+    BT=1.0+PHASYZ(svar,IDE,IDF);
+    BU=1.0-PHASYZ(svar,IDE,IDF);
   }
   else{
-    BT=1.0-PHASYZ(svar);
-    BU=1.0+PHASYZ(svar);
+    BT=1.0-PHASYZ(svar,IDE,IDF);
+    BU=1.0+PHASYZ(svar,IDE,IDF);
   }  
   wagan2=2*(BT*t*t+BU*u*u+BT*t1*t1+BU*u1*u1)
     /(1+(1-xk)*(1-xk))* 2.0/(BT*(1-C)*(1-C)+BU*(1+C)*(1+C))/svar/svar;
@@ -365,7 +351,7 @@ double  Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,double qp[4],double q
   fprintf(PHLUN,"t1,u1     = %f %f",t1,u1);
   fprintf(PHLUN,"sredniaki = %f %f",svar*(1-C)/2,svar*(1+C)/2);
   //	   !         fprintf(PHLUN,"") 'xk= %f c= %f COSTHG=  %f' ,xk,c,COSTHG
-  fprintf(PHLUN,"PHASYZ(svar)=',%f,' svar= %f',' waga= %f",PHASYZ(svar),svar,waga);
+  fprintf(PHLUN,"PHASYZ(svar)=',%f,' svar= %f',' waga= %f",PHASYZ(svar,IDE,IDF),svar,waga);
   fprintf(PHLUN,"  -  ");
   fprintf(PHLUN,"BT-part= %f BU-part= %f",
                  2*(BT*t*t+BT*t1*t1)
@@ -416,8 +402,9 @@ double  Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,double qp[4],double q
 //
 //----------------------------------------------------------------------
 
-double phwtnlo(double xdumm){
- # define pho phoevt_
+double PhotosMEforZ::phwtnlo(){
+# define hep ph_hepevt_
+# define pho phoevt_
   // fi3 orientation of photon, fi1,th1 orientation of neutral
 
       //      COMMON/PHOPHS/XPHMAX,XPHOTO,COSTHG,SINTHG
@@ -429,6 +416,7 @@ double phwtnlo(double xdumm){
   //  static double PI=3.141592653589793238462643;
   static int i=1;
   int K,L,IDHEP3,IDUM;
+  int IDE,IDF;
   double  QP[4],QM[4],PH[4],QQ[4],PP[4],PM[4],QQS[4];
   double XK,ENE,svar;
 
@@ -524,8 +512,12 @@ double phwtnlo(double xdumm){
 
     svar=pho.phep[1-i][4-i]*pho.phep[1-i][4-i];
 
+    IDE=hep.idhep[1-i];
+    IDF=hep.idhep[4-i];
+    if(abs(hep.idhep[4-i])==abs(hep.idhep[3-i])) IDF=hep.idhep[3-i];
+
     IDHEP3=pho.idhep[3-i];
-    return Zphwtnlo(svar,XK,IDHEP3,phopro_.irep,QP,QM,PH,PP,PM,phophs_.costhg,phwt_.beta,phorest_.th1);
+    return Zphwtnlo(svar,XK,IDHEP3,phopro_.irep,QP,QM,PH,PP,PM,phophs_.costhg,phwt_.beta,phorest_.th1,IDE,IDF);
   }
   else{
       // in other cases we just use default setups.

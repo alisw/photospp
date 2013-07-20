@@ -1,5 +1,6 @@
 #include "Photos.h"
 #include "forW-MEc.h"
+#include "forZ-MEc.h"
 #include "Log.h"
 #include <cmath>
 #include <iostream>
@@ -2263,8 +2264,7 @@ void PHOMAK(int IPPAR,int NHEP0){
   }
   else if (IDME==1){                                     //  ME weight for leptonic Z decay
 
-    xdumm=0.5;
-    WT=WT*phwtnlo(xdumm)/phokey_.fint;
+    WT=WT*PhotosMEforZ::phwtnlo()/phokey_.fint;
   }
   else{
     cout << "problem with ME_CHANNEL  IDME= " << IDME << endl;
