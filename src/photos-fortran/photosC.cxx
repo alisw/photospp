@@ -39,6 +39,8 @@ struct PHOEXP  phoexp_;
 // Declarations of structs defined in PH_HEPEVT_interface.h
 struct PH_PHOQED ph_phoqed_;
 struct PH_HEPEVT ph_hepevt_;
+# define hep ph_hepevt_
+# define pho phoevt_
 
 extern double phwtnlo (double xdumm); //defined in forZ-MEc.cxx
 
@@ -88,7 +90,7 @@ double PHINT(int IDUM){
   //       Calculate polarimetric vector: ph, eps1, eps2 are orthogonal
 
   for( K=1;K<=4;K++){
-    PH[K-i]= phoevt_.phep[phoevt_.nhep-i][K-i];
+    PH[K-i]= pho.phep[pho.nhep-i][K-i];
     EPS2[K-i]=1.0;
   }
 
@@ -101,19 +103,19 @@ double PHINT(int IDUM){
   XNUM2=0.0;
   XDENO=0.0;
 
-  for( K=phoevt_.jdahep[1-i][1-i]; K<=phoevt_.nhep-1;K++){  //! or jdahep[1-i][2-i]
+  for( K=pho.jdahep[1-i][1-i]; K<=pho.nhep-1;K++){  //! or jdahep[1-i][2-i]
       
     // momenta of charged particle in PL
 
-    for( L=1;L<=4;L++) PL[L-i]=phoevt_.phep[K-i][L-i]; 
+    for( L=1;L<=4;L++) PL[L-i]=pho.phep[K-i][L-i]; 
 
     // scalar products: epsilon*p/k*p
 
-    XC1 = - PHOCHA(phoevt_.idhep[K-i]) * 
+    XC1 = - PHOCHA(pho.idhep[K-i]) * 
          ( PL[1-i]*EPS1[1-i] + PL[2-i]*EPS1[2-i] + PL[3-i]*EPS1[3-i] ) / 
 	 ( PH[4-i]*PL[4-i]   - PH[1-i]*PL[1-i]   - PH[2-i]*PL[2-i] - PH[3-i]*PL[3-i] );
      
-    XC2 = - PHOCHA(phoevt_.idhep[K-i]) * 
+    XC2 = - PHOCHA(pho.idhep[K-i]) * 
          ( PL[1-i]*EPS2[1-i] + PL[2-i]*EPS2[2-i] + PL[3-i]*EPS2[3-i] ) / 
 	 ( PH[4-i]*PL[4-i]   - PH[1-i]*PL[1-i]   - PH[2-i]*PL[2-i] - PH[3-i]*PL[3-i] );
 	
@@ -152,7 +154,7 @@ double PHINT(int IDUM){
 //----------------------------------------------------------------------
 
 double PHINT1(int IDUM){
-# define pho phoevt_
+
   double PHINT;
 
   /*
@@ -219,7 +221,7 @@ double PHINT1(int IDUM){
 //----------------------------------------------------------------------
 
 double PHINT2(int IDUM){
-# define pho phoevt_
+
 
   /*
       DOUBLE PRECISION phomom_.mchsqr,phomom_.mnesqr
@@ -306,16 +308,6 @@ double PHINT2(int IDUM){
 //*****************************************************************
 
 
-void GETIDEIDF(int *IDE,int *IDF){
-  // this method provides information on particles ID-s to be used
-  // by  the Z-ME class in calculation of A_FB
-  static int i=1;  
-  *IDE=ph_hepevt_.idhep[1-i];
-  *IDF=ph_hepevt_.idhep[4-i];
-  if(abs(ph_hepevt_.idhep[4-i])==abs(ph_hepevt_.idhep[3-i])) *IDF=ph_hepevt_.idhep[3-i];
-}
-
-
 //----------------------------------------------------------------------
 //
 //    PHOTOS:   PHOton radiation in decays event DuMP routine
@@ -358,29 +350,29 @@ void PHODMP(){
   //--
   //--   Print event number...
   fprintf(PHLUN,"%s",eq80);
-  fprintf(PHLUN,"%s Event No.: %10i\n",X29,ph_hepevt_.nevhep);
+  fprintf(PHLUN,"%s Event No.: %10i\n",X29,hep.nevhep);
   fprintf(PHLUN,"%s Particle Parameters\n",X6);
   fprintf(PHLUN,"%s Nr %s Type %s Parent(s) %s Daughter(s) %s Px %s Py %s Pz %s E %s Inv. M.\n",X1,X3,X3,X2,X6,X7,X7,X7,X4);
-  for(I=1;I<=ph_hepevt_.nhep;I++){ 
+  for(I=1;I<=hep.nhep;I++){ 
     //--
     //--   For 'stable particle' calculate vector momentum sum
-    if (ph_hepevt_.jdahep[I-i][1-i]==0){
+    if (hep.jdahep[I-i][1-i]==0){
       for(J=1; J<=4;J++){
-	SUMVEC[J-i]=SUMVEC[J-i]+ph_hepevt_.phep[I-i][J-i];
+	SUMVEC[J-i]=SUMVEC[J-i]+hep.phep[I-i][J-i];
       }
-      if (ph_hepevt_.jmohep[I-i][2-i]==0){
-	fprintf(PHLUN,"%4i %7i %s %4i %s Stable %9.2f %9.2f %9.2f %9.2f %9.2f\n" ,  I,ph_hepevt_.idhep[I-i],X3,ph_hepevt_.jmohep[I-i][1-i],X7,ph_hepevt_.phep[I-i][1-i],ph_hepevt_.phep[I-i][2-i],ph_hepevt_.phep[I-i][3-i],ph_hepevt_.phep[I-i][4-i],ph_hepevt_.phep[I-i][5-i]);
+      if (hep.jmohep[I-i][2-i]==0){
+	fprintf(PHLUN,"%4i %7i %s %4i %s Stable %9.2f %9.2f %9.2f %9.2f %9.2f\n" ,  I,hep.idhep[I-i],X3,hep.jmohep[I-i][1-i],X7,hep.phep[I-i][1-i],hep.phep[I-i][2-i],hep.phep[I-i][3-i],hep.phep[I-i][4-i],hep.phep[I-i][5-i]);
       }
       else{
-	fprintf(PHLUN,"%4i %7i %4i - %4i %s Stable %9.2f %9.2f %9.2f %9.2f %9.2f\n",I,ph_hepevt_.idhep[I-i],ph_hepevt_.jmohep[I-i][1-i],ph_hepevt_.jmohep[I-i][2-i], X4,ph_hepevt_.phep[I-i][1-i],ph_hepevt_.phep[I-i][2-i],ph_hepevt_.phep[I-i][3-i],ph_hepevt_.phep[I-i][4-i],ph_hepevt_.phep[I-i][5-i]);
+	fprintf(PHLUN,"%4i %7i %4i - %4i %s Stable %9.2f %9.2f %9.2f %9.2f %9.2f\n",I,hep.idhep[I-i],hep.jmohep[I-i][1-i],hep.jmohep[I-i][2-i], X4,hep.phep[I-i][1-i],hep.phep[I-i][2-i],hep.phep[I-i][3-i],hep.phep[I-i][4-i],hep.phep[I-i][5-i]);
       }
     }
     else{
-      if(ph_hepevt_.jmohep[I-i][2-i]==0){
-	fprintf(PHLUN,"%4i %7i %s %4i %s %4i - %4i %9.2f %9.2f %9.2f %9.2f %9.2f\n" ,  I,ph_hepevt_.idhep[I-i],X3,ph_hepevt_.jmohep[I-i][1-i],X2,ph_hepevt_.jdahep[I-i][1-i],ph_hepevt_.jdahep[I-i][2-i],ph_hepevt_.phep[I-i][1-i],ph_hepevt_.phep[I-i][2-i],ph_hepevt_.phep[I-i][3-i],ph_hepevt_.phep[I-i][4-i],ph_hepevt_.phep[I-i][5-i]);
+      if(hep.jmohep[I-i][2-i]==0){
+	fprintf(PHLUN,"%4i %7i %s %4i %s %4i - %4i %9.2f %9.2f %9.2f %9.2f %9.2f\n" ,  I,hep.idhep[I-i],X3,hep.jmohep[I-i][1-i],X2,hep.jdahep[I-i][1-i],hep.jdahep[I-i][2-i],hep.phep[I-i][1-i],hep.phep[I-i][2-i],hep.phep[I-i][3-i],hep.phep[I-i][4-i],hep.phep[I-i][5-i]);
       }
       else{
-	fprintf(PHLUN,"%4i %7i %4i - %4i %4i - %4i %9.2f %9.2f %9.2f %9.2f %9.2f\n",  I,ph_hepevt_.idhep[I-i],ph_hepevt_.jmohep[I-i][1-i],ph_hepevt_.jmohep[I-i][2-i],ph_hepevt_.jdahep[I-i][1-i],ph_hepevt_.jdahep[I-i][2-i],ph_hepevt_.phep[I-i][1-i],ph_hepevt_.phep[I-i][2-i],ph_hepevt_.phep[I-i][3-i],ph_hepevt_.phep[I-i][4-i],ph_hepevt_.phep[I-i][5-i]);
+	fprintf(PHLUN,"%4i %7i %4i - %4i %4i - %4i %9.2f %9.2f %9.2f %9.2f %9.2f\n",  I,hep.idhep[I-i],hep.jmohep[I-i][1-i],hep.jmohep[I-i][2-i],hep.jdahep[I-i][1-i],hep.jdahep[I-i][2-i],hep.phep[I-i][1-i],hep.phep[I-i][2-i],hep.phep[I-i][3-i],hep.phep[I-i][4-i],hep.phep[I-i][5-i]);
       }
     }
   }
@@ -446,13 +438,13 @@ void PHLUPAB(int IPOINT){
     fprintf(PHLUN,"EVENT NR= %i WE ARE TESTING %s at IPOINT=%i \n",(int)phnum_.iev,name,IPOINT);
     fprintf(PHLUN,"  ID      p_x      p_y      p_z      E        m        ID-MO_DA1 ID-MO_DA2\n");
     I=1;
-    fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i]);
+    fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", hep.idhep[I-i],hep.phep[1-i][I-i],hep.phep[2-i][I-i],hep.phep[3-i][I-i],hep.phep[4-i][I-i],hep.phep[5-i][I-i],hep.jdahep[1-i][I-i],hep.jdahep[2-i][I-i]);
     I=2;
-    fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jdahep[1-i][I-i],ph_hepevt_.jdahep[2-i][I-i]);
+    fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", hep.idhep[I-i],hep.phep[1-i][I-i],hep.phep[2-i][I-i],hep.phep[3-i][I-i],hep.phep[4-i][I-i],hep.phep[5-i][I-i],hep.jdahep[1-i][I-i],hep.jdahep[2-i][I-i]);
     fprintf(PHLUN," \n");
-    for(I=3;I<=ph_hepevt_.nhep;I++){
-      fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", ph_hepevt_.idhep[I-i],ph_hepevt_.phep[1-i][I-i],ph_hepevt_.phep[2-i][I-i],ph_hepevt_.phep[3-i][I-i],ph_hepevt_.phep[4-i][I-i],ph_hepevt_.phep[5-i][I-i],ph_hepevt_.jmohep[1-i][I-i],ph_hepevt_.jmohep[2-i][I-i]);
-      for(J=1;J<=4;J++) SUM[J-i]=SUM[J-i]+ph_hepevt_.phep[J-i][I-i];
+    for(I=3;I<=hep.nhep;I++){
+      fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", hep.idhep[I-i],hep.phep[1-i][I-i],hep.phep[2-i][I-i],hep.phep[3-i][I-i],hep.phep[4-i][I-i],hep.phep[5-i][I-i],hep.jmohep[1-i][I-i],hep.jmohep[2-i][I-i]);
+      for(J=1;J<=4;J++) SUM[J-i]=SUM[J-i]+hep.phep[J-i][I-i];
     }
 
 
@@ -516,13 +508,13 @@ void PHLUPA(int IPOINT){
     fprintf(PHLUN,"EVENT NR= %i WE ARE TESTING %s at IPOINT=%i \n",(int)phnum_.iev,name,IPOINT);
     fprintf(PHLUN,"  ID      p_x      p_y      p_z      E        m        ID-MO_DA1 ID-MO_DA2\n");
     I=1;
-    fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", phoevt_.idhep[I-i],phoevt_.phep[1-i][I-i],phoevt_.phep[2-i][I-i],phoevt_.phep[3-i][I-i],phoevt_.phep[4-i][I-i],phoevt_.phep[5-i][I-i],phoevt_.jdahep[1-i][I-i],phoevt_.jdahep[2-i][I-i]);
+    fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", pho.idhep[I-i],pho.phep[1-i][I-i],pho.phep[2-i][I-i],pho.phep[3-i][I-i],pho.phep[4-i][I-i],pho.phep[5-i][I-i],pho.jdahep[1-i][I-i],pho.jdahep[2-i][I-i]);
     I=2;
-    fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", phoevt_.idhep[I-i],phoevt_.phep[1-i][I-i],phoevt_.phep[2-i][I-i],phoevt_.phep[3-i][I-i],phoevt_.phep[4-i][I-i],phoevt_.phep[5-i][I-i],phoevt_.jdahep[1-i][I-i],phoevt_.jdahep[2-i][I-i]);
+    fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", pho.idhep[I-i],pho.phep[1-i][I-i],pho.phep[2-i][I-i],pho.phep[3-i][I-i],pho.phep[4-i][I-i],pho.phep[5-i][I-i],pho.jdahep[1-i][I-i],pho.jdahep[2-i][I-i]);
     fprintf(PHLUN," \n");
-    for(I=3;I<=phoevt_.nhep;I++){
-      fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", phoevt_.idhep[I-i],phoevt_.phep[1-i][I-i],phoevt_.phep[2-i][I-i],phoevt_.phep[3-i][I-i],phoevt_.phep[4-i][I-i],phoevt_.phep[5-i][I-i],phoevt_.jmohep[1-i][I-i],phoevt_.jmohep[2-i][I-i]);
-      for(J=1;J<=4;J++) SUM[J-i]=SUM[J-i]+phoevt_.phep[J-i][I-i];
+    for(I=3;I<=pho.nhep;I++){
+      fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", pho.idhep[I-i],pho.phep[1-i][I-i],pho.phep[2-i][I-i],pho.phep[3-i][I-i],pho.phep[4-i][I-i],pho.phep[5-i][I-i],pho.jmohep[1-i][I-i],pho.jmohep[2-i][I-i]);
+      for(J=1;J<=4;J++) SUM[J-i]=SUM[J-i]+pho.phep[J-i][I-i];
     }
   
 
@@ -542,7 +534,7 @@ void PHLUPA(int IPOINT){
 
 
 void PHOtoRF(){
-# define hep ph_hepevt_
+
 
   //      COMMON /PH_TOFROM/ QQ[4],XM,th1,fi1
   double PP[4],RR[4];
@@ -594,7 +586,7 @@ void PHOtoRF(){
 }
 
 void PHOtoLAB(){
-# define hep ph_hepevt_
+
   //  //      REAL*8 QQ(4),XM,th1,fi1
   //     COMMON /PH_TOFROM/ QQ,XM,th1,fi1
   double PP[4],RR[4];
@@ -1572,7 +1564,7 @@ void PHOIN(int IP,bool *BOOST,int nhep0){
   FIRST=hep.jdahep[IP-i][1-i];
   LAST =hep.jdahep[IP-i][2-i];
   pho.nhep=3+LAST-FIRST+hep.nhep-nhep0;
-  phoevt_.nevhep=pho.nhep;
+  pho.nevhep=pho.nhep;
 
   // let-s take in decaying particle
   pho.idhep[1-i]=hep.idhep[IP-i];
@@ -1694,7 +1686,7 @@ void PHOOUT(int IP, bool BOOST, int nhep0){
   int NN,J,K,NA;
   double PB;
   static int i=1;
-  if(pho.nhep==phoevt_.nevhep) return;
+  if(pho.nhep==pho.nevhep) return;
   //--   When parent was not in its rest-frame, boost back...
   PHLUPA(10);
   if (BOOST){
@@ -1708,7 +1700,7 @@ void PHOOUT(int IP, bool BOOST, int nhep0){
     }
 
     //--   ...boost photon, or whatever else has shown up
-    for(NN=phoevt_.nevhep+1;NN<=pho.nhep;NN++){
+    for(NN=pho.nevhep+1;NN<=pho.nhep;NN++){
       PB=-phocms_.bet[1-i]*pho.phep[NN-i][1-i]-phocms_.bet[2-i]*pho.phep[NN-i][2-i]-phocms_.bet[3-i]*pho.phep[NN-i][3-i];
       for(K=1;K<=3;K++) pho.phep[NN-i][K-i]=pho.phep[NN-i][K-i]-phocms_.bet[K-i]*(pho.phep[NN-i][4-i]+PB/(phocms_.gam+1.0));
       pho.phep[NN-i][4-i]=phocms_.gam*pho.phep[NN][4-i]+PB;
@@ -1735,7 +1727,7 @@ void PHOOUT(int IP, bool BOOST, int nhep0){
     hep.jdahep[nhep0+LL-i][2-i]=0;
     for(I=1;I<=5;I++) hep.phep[nhep0+LL-i][I-i] = pho.phep[NA+LL-i][I-i];
   }
-  hep.nhep=hep.nhep+pho.nhep-phoevt_.nevhep;
+  hep.nhep=hep.nhep+pho.nhep-pho.nevhep;
   PHLUPA(20);
   return;
 }

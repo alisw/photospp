@@ -1,5 +1,6 @@
 #include "Photos.h"
 #include "PhotosUtilities.h"
+#include "PH_HEPEVT_Interface.h"
 #include "f_Init.h"
 #include <cmath>
 #include <iostream>
@@ -13,7 +14,8 @@ namespace Photospp
 {
 
 // from photosC.cxx
-extern void GETIDEIDF(int *IDE, int *IDF);
+
+# define hep ph_hepevt_
 extern void PHODMP();
 extern double PHINT(int idumm);
 // ----------------------------------------------------------------------
@@ -185,6 +187,8 @@ int GETIDEE(int IDE){
 }
 
 
+
+
 //----------------------------------------------------------------------
 //
 //    PHASYZ:   PHotosASYmmetry of Z
@@ -209,10 +213,15 @@ int GETIDEE(int IDE){
 //----------------------------------------------------------------------
 double PHASYZ(double SVAR){
 
+  static int i=1;
 
   double AFB;
   int IDE,IDF,IDEE,IDFF;
-  GETIDEIDF(&IDE,&IDF);
+
+  IDE=hep.idhep[1-i];
+  IDF=hep.idhep[4-i];
+  if(abs(hep.idhep[4-i])==abs(hep.idhep[3-i])) IDF=hep.idhep[3-i];
+
   IDEE=abs(GETIDEE(IDE));
   IDFF=abs(GETIDEE(IDF));
   AFB= -AFBCALC(SVAR,IDEE,IDFF);
@@ -296,8 +305,11 @@ double  Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,double qp[4],double q
 
 
 
+  IDE=hep.idhep[1-i];
+  IDF=hep.idhep[4-i];
+  if(abs(hep.idhep[4-i])==abs(hep.idhep[3-i])) IDF=hep.idhep[3-i];
 
-  GETIDEIDF(&IDE,&IDF);   // we adjust to what is f-st,s-nd beam flavour 
+  // we adjust to what is f-st,s-nd beam flavour 
   if (IDE*IDHEP3>0){
     BT=1.0+PHASYZ(svar);
     BU=1.0-PHASYZ(svar);
