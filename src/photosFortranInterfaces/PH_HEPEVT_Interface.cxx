@@ -102,7 +102,7 @@ void PH_HEPEVT_Interface::add_particle(int i,PhotosParticle * particle,
   hep.vhep[i][2]=0;
   hep.vhep[i][3]=0;
 
-  ph_phoqed_.qedrad[i]=1;
+  hep.qedrad[i]=1;
 
 }
 

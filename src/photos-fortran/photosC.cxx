@@ -28,14 +28,13 @@ struct PHOCMS  phocms_;
 struct PHPICO  phpico_;
 struct PHOMOM  phomom_;
 struct PHOPHS  phophs_;
-struct PHOIF   phoif_;
 struct PHOCORWT phocorwt_;
 struct PHOPRO  phopro_;
 struct PHOCOP  phocop_;
 struct PHWT    phwt_;
 struct PHOKEY  phokey_;
 struct PHOEXP  phoexp_;
-struct PH_PHOQED ph_phoqed_;
+
 
 struct HEPEVT hep;
 struct HEPEVT pho;
@@ -1757,14 +1756,14 @@ void PHOCHK(int JFIRST){
   for (I=IPPAR;I<=NLAST;I++){
     IDABS    = abs(pho.idhep[I-i]);
     // possibly call on PHZODE is a dead (to be omitted) code. 
-    phoif_.chkif[I-i]= F(0,IDABS)  && F(0,abs(pho.idhep[1-i]))
+    pho.qedrad[I-i]= F(0,IDABS)  && F(0,abs(pho.idhep[1-i]))
                                  &&  (pho.idhep[2-i]==0);
 
-    if(I>2) phoif_.chkif[I-i]=phoif_.chkif[I-i] && ph_phoqed_.qedrad[JFIRST+I-IPPAR-2-i];
+    if(I>2) pho.qedrad[I-i]=pho.qedrad[I-i] && hep.qedrad[JFIRST+I-IPPAR-2-i];
   }
 
   //--
-  // now we go to special cases, where phoif_.chkif[I) will be overwritten
+  // now we go to special cases, where pho.qedrad[I) will be overwritten
   //--
   if(phokey_.iftop){
     // special case of top pair production
@@ -1782,8 +1781,8 @@ void PHOCHK(int JFIRST){
 	  && (IDENT==4);   
         if(IFRAD){    
 	  for(I=IPPAR;I<=NLAST;I++){
-	    phoif_.chkif[I-i]= true;
-	    if(I>2) phoif_.chkif[I-i]=phoif_.chkif[I-i] && ph_phoqed_.qedrad[JFIRST+I-IPPAR-2-i];
+	    pho.qedrad[I-i]= true;
+	    if(I>2) pho.qedrad[I-i]=pho.qedrad[I-i] && hep.qedrad[JFIRST+I-IPPAR-2-i];
 	  }
 	}
   }
@@ -1805,8 +1804,8 @@ void PHOCHK(int JFIRST){
   
     if(IFRAD){    
       for(I=IPPAR;I<=NLAST;I++){
-	phoif_.chkif[I-i]= true;
-	if(I>2) phoif_.chkif[I-i]=phoif_.chkif[I-i] && ph_phoqed_.qedrad[JFIRST+I-IPPAR-2-i];
+	pho.qedrad[I-i]= true;
+	if(I>2) pho.qedrad[I-i]=pho.qedrad[I-i] && hep.qedrad[JFIRST+I-IPPAR-2-i];
       }
     }
   }
@@ -2024,7 +2023,7 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
     //--
     //--   Exclude marked particles, quarks and gluons etc...
     IDABS=abs(pho.idhep[I-i]);
-    if (phoif_.chkif[I-pho.jdahep[IP-i][1-i]+3-i]){
+    if (pho.qedrad[I-pho.jdahep[IP-i][1-i]+3-i]){
       if(PHOCHA(pho.idhep[I-i])!=0){
 	NCHARG=NCHARG+1;
 	if(NCHARG>pho.nmxhep){

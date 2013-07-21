@@ -5,11 +5,10 @@ namespace Photospp
 {
 
 const static int NMXHEP = 10000;
-// warning that it does not match place not NMXHEP
-const static int NMXPHO = 10000;  
 
 
-extern  // "C"
+
+ extern   "C"
 {
 
 	/** Definition of the PHOEVT common block */
@@ -23,22 +22,17 @@ extern  // "C"
 		int    jdahep[NMXHEP][2];
 		double phep[NMXHEP][5];
 		double vhep[NMXHEP][4];
+	        int    qedrad[NMXHEP];  // to be bool once compatibility with F77 removed       
 	        const static int nmxhep=NMXHEP;
 		//      NEVPHO,NPHO,ISTPHO(NMXPHO),IDPHO(NMXPHO),
 		//  JMOPHO(2,NMXPHO),JDAPHO(2,NMXPHO),PPHO(5,NMXPHO),VPHO(4,NMXPHO)
+	        //   int qedrad[NMXHEP]  was an add up 
+                //   for  HEPEVT in F77 times. Separate common PH_PHOQED
+	        //   also phoif_.chkif[NMXPHO] was add up for PHOEVT
+                //   now it is pho.qedrad
 	} hep,pho;
-    //ph_hepevt_,phoevt_;
+        //ph_hepevt_,phoevt_;
 
-  extern struct PH_PHOQED
-  { 
-    int qedrad[NMXHEP];
-  } ph_phoqed_;
-
-	/** Add up to the PHOEVT common block */
-	extern struct PHOIF
-	{
-	  int chkif[NMXPHO]; // to be bool once compatibility with F77 removed
-	} phoif_;
 
 
 	extern struct PHOCOP
@@ -170,7 +164,7 @@ extern  // "C"
 	/* Central management routine. Defines what action
 	   will be performed at point ID. */
 	void PHTYPE(int ID);
-}
+ }
 
 } // namespace Photospp
 #endif
