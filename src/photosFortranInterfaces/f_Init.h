@@ -8,8 +8,8 @@ const static int NMXHEP = 10000;
 
 
 
- extern   "C"
-{
+// extern "C"
+//{
 
 	/** Definition of the PHOEVT common block */
 	extern struct HEPEVT
@@ -164,7 +164,7 @@ const static int NMXHEP = 10000;
 	/* Central management routine. Defines what action
 	   will be performed at point ID. */
 	void PHTYPE(int ID);
- }
+// }
 
 } // namespace Photospp
 #endif
