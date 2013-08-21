@@ -107,12 +107,12 @@ photos_standalone_example.exe: photos_standalone_example.cxx
 	-Wl,-rpath,$(HEPMCLOCATION)/lib
 
 # Version for photos HEPEVT example - no other libraries are required
-photos_hepevt_example.exe: photos_hepevt_example.cxx
-	$(CC) $(CFLAGS) -I$(PHOTOSLOCATION)/include -c $<
-	$(CC) -o $@ $(LDFLAGS) $(<:.cxx=.o) $(HEPMC_LIBS) $(PHOTOS_LIBS) \
+photos_hepevt_example.exe: photos_hepevt_example.f photos_hepevt_example_interface.cxx
+	$(F77) $(FFLAGS) -c $<
+	$(CC)  $(CFLAGS) -I$(PHOTOSLOCATION)/include -c photos_hepevt_example_interface.cxx
+	$(F77) -o $@ $(LDFLAGS) $(<:.f=.o) photos_hepevt_example_interface.o $(HEPMC_LIBS) $(PHOTOS_LIBS) \
 	-Wl,-rpath,$(PREFIX)/lib \
-	-Wl,-rpath,$(PHOTOSLOCATION)/lib \
-	-Wl,-rpath,$(HEPMCLOCATION)/lib
+	-Wl,-rpath,$(PHOTOSLOCATION)/lib
 
 clean:
 	rm -f *.o *.a *~ *.exe
