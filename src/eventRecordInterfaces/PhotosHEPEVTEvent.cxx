@@ -1,6 +1,8 @@
 #include "PhotosHEPEVTEvent.h"
 #include "Log.h"
 
+struct Photospp::HEPEVT hepevt_;
+
 namespace Photospp
 {
 
@@ -57,8 +59,6 @@ void PhotosHEPEVTEvent::clear()
   particle_list.clear();
 }
 
-#ifdef USE_HEPEVT_INTERFACE
-
 void PhotosHEPEVTEvent::read_event_from_HEPEVT(PhotosHEPEVTEvent *evt)
 {
   if(evt==NULL) return;
@@ -110,7 +110,5 @@ void PhotosHEPEVTEvent::write_event_to_HEPEVT(PhotosHEPEVTEvent *evt)
     hepevt_.vhep  [i][3]=0.0;
   }
 }
-
-#endif
 
 } // namespace Photospp
