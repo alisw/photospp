@@ -7,15 +7,34 @@ C @author Tomasz Przedzinski
 C @date 21 August 2013
 C********************************************************
       PROGRAM PH_HEPVT_TEST
-      REAL*8 AMELL
-
-      AMELL = 0.0005111;
 
 C     INITIALIZE PHOTOS++
       CALL PHOTOS_INIT
 
-C     CREATE SIMPLE EVENT: D+ D- -> Z -> tau+ tau-
-C     --------------------------------------------
+C     PREPARE SIMPLE EVENT in HEPEVT
+      CALL SIMPLE_EVENT
+      WRITE(*,*) "##############"
+      WRITE(*,*) "PHODMP: BEFORE"
+      WRITE(*,*) "##############"
+      CALL PHODMP
+
+      CALL PHOTOS_PROCESS
+C      CALL PHOTOS_PROCESS_PARTICLE(4)
+C      CALL PHOTOS_PROCESS_BRANCH(4)
+
+      WRITE(*,*) "##############"
+      WRITE(*,*) "PHODMP: AFTER"
+      WRITE(*,*) "##############"
+      CALL PHODMP
+      END
+
+      SUBROUTINE SIMPLE_EVENT
+      REAL*8 AMELL
+
+      AMELL = 0.0005111;
+
+C     CREATE SIMPLE EVENT: e+ e- -> Z -> tau+ tau- -> pi nu_tau,  pi nu_tau
+C     ---------------------------------------------------------------------
       CALL ADD_PARTICLE(  11, 6,  1.7763568394002505D-15, -3.5565894425761324D-15,  4.5521681043409913D+01, 4.5521681043409934D+01,
      $                    AMELL,                   0,  0,  3,  3)
       CALL ADD_PARTICLE( -11, 6, -1.7763568394002505D-15,  3.5488352204797800D-15, -4.5584999071936601D+01, 4.5584999071936622D+01,
@@ -34,24 +53,12 @@ C     --------------------------------------------
      $                    9.9829332903027534D-03,  5,  0,  0, 0)
       CALL ADD_PARTICLE( 211, 1,  1.4755273459419701D+01,  1.7990366047940022D+01,  1.9362977676297948D+01, 3.0270707771933196D+01,
      $                    1.3956753909587860D-01,  5,  0,  0, 0)
-
-      WRITE(*,*) "##############"
-      WRITE(*,*) "PHODMP: BEFORE"
-      WRITE(*,*) "##############"
-      CALL PHODMP
-
-      CALL PHOTOS_PROCESS
-
-      WRITE(*,*) "##############"
-      WRITE(*,*) "PHODMP: AFTER"
-      WRITE(*,*) "##############"
-      CALL PHODMP
       END
 
       SUBROUTINE ADD_PARTICLE(ID,STATUS,PX,PY,PZ,E,M,MOTHER1,MOTHER2,DAUGHTER1,DAUGHTER2)
       INTEGER ID,STATUS,MOTHER1,MOTHER2,DAUGHTER1,DAUGHTER2
       REAL*8  PX,PY,PZ,E,M
-C this is the hepevt class in old style. No d_h_ class prD-name
+
       INTEGER NMXHEP
       PARAMETER (NMXHEP=10000)
       REAL*8  phep,  vhep ! to be real*4/ *8  depending on host
