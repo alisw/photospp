@@ -1,6 +1,11 @@
 #include "PhotosHEPEVTEvent.h"
 #include "Log.h"
 
+// the following definition of struct which must serve as an example to user
+// interface is not flxible enough and must be changed. User may have 
+//  hepevt_ of nmxhep differen than 10000 and it may have single precision 
+// variables too.
+// may be #ifdef USE_HEPEVT_INTERFACE should be introduced back?
 struct Photospp::HEPEVT hepevt_;
 
 namespace Photospp
@@ -60,6 +65,8 @@ void PhotosHEPEVTEvent::clear()
 }
 
 void PhotosHEPEVTEvent::read_event_from_HEPEVT(PhotosHEPEVTEvent *evt)
+// vertex info is not needed, but what about info for write_event_to_HEPEVT?
+// need to be fixed later.
 {
   if(evt==NULL) return;
   
@@ -84,6 +91,10 @@ void PhotosHEPEVTEvent::read_event_from_HEPEVT(PhotosHEPEVTEvent *evt)
 }
 
 void PhotosHEPEVTEvent::write_event_to_HEPEVT(PhotosHEPEVTEvent *evt)
+// vertex info is needed, for photons it should be as of other sisters 
+// taken at  read_event_from_HEPEVT
+// need to be fixed later.
+
 {
   if(evt==NULL) return;
   
