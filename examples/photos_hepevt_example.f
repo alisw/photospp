@@ -58,7 +58,15 @@ C     ---------------------------------------------------------------------
       SUBROUTINE ADD_PARTICLE(ID,STATUS,PX,PY,PZ,E,M,MOTHER1,MOTHER2,DAUGHTER1,DAUGHTER2)
       INTEGER ID,STATUS,MOTHER1,MOTHER2,DAUGHTER1,DAUGHTER2
       REAL*8  PX,PY,PZ,E,M
-
+C-----------------------------------------------------------------------------
+C COMMON HEPEVT
+C
+C IMPORTANT: The definition of HEPEVT is also present in:
+C            TAUOLA/src/eventRecords/PhotosHEPEVTEvent.cxx
+C            If the definition changes (eg. different value of NMXHEP or REAL
+C            instead of REAL*8) it has to be updated in that file as well
+C            and Tauola++ has to be recompiled.
+C-----------------------------------------------------------------------------
       INTEGER NMXHEP
       PARAMETER (NMXHEP=10000)
       REAL*8  phep,  vhep ! to be real*4/ *8  depending on host

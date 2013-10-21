@@ -1,12 +1,28 @@
 #include "PhotosHEPEVTEvent.h"
 #include "Log.h"
 
-// the following definition of struct which must serve as an example to user
-// interface is not flxible enough and must be changed. User may have 
-//  hepevt_ of nmxhep differen than 10000 and it may have single precision 
-// variables too.
-// may be #ifdef USE_HEPEVT_INTERFACE should be introduced back?
-struct Photospp::HEPEVT hepevt_;
+const static int NMXHEP = 10000;
+
+/** Definition of the PHOEVT common block */
+struct HEPEVT
+{
+  int    nevhep;
+  int    nhep;
+  int    isthep[NMXHEP];
+  int    idhep[NMXHEP];
+  int    jmohep[NMXHEP][2];
+  int    jdahep[NMXHEP][2];
+  double phep[NMXHEP][5];
+  double vhep[NMXHEP][4];
+  int    qedrad[NMXHEP];  // to be bool once compatibility with F77 removed
+  const static int nmxhep=NMXHEP;
+  //      NEVPHO,NPHO,ISTPHO(NMXPHO),IDPHO(NMXPHO),
+  //  JMOPHO(2,NMXPHO),JDAPHO(2,NMXPHO),PPHO(5,NMXPHO),VPHO(4,NMXPHO)
+  //   int qedrad[NMXHEP]  was an add up
+  //   for  HEPEVT in F77 times. Separate common PH_PHOQED
+  //   also phoif_.chkif[NMXPHO] was add up for PHOEVT
+  //   now it is pho.qedrad
+} hepevt_;
 
 namespace Photospp
 {
