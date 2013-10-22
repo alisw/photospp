@@ -3,7 +3,7 @@
 
 const static int NMXHEP = 10000;
 
-/** Definition of the PHOEVT common block */
+/** Definition of the HEPEVT common block  it can be adapted to user env of F77*/
 struct HEPEVT
 {
   int    nevhep;
@@ -14,7 +14,6 @@ struct HEPEVT
   int    jdahep[NMXHEP][2];
   double phep[NMXHEP][5];
   double vhep[NMXHEP][4];
-  int    qedrad[NMXHEP];  // to be bool once compatibility with F77 removed
   const static int nmxhep=NMXHEP;
   //      NEVPHO,NPHO,ISTPHO(NMXPHO),IDPHO(NMXPHO),
   //  JMOPHO(2,NMXPHO),JDAPHO(2,NMXPHO),PPHO(5,NMXPHO),VPHO(4,NMXPHO)
