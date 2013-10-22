@@ -14,7 +14,6 @@ struct HEPEVT
   int    jdahep[NMXHEP][2];
   double phep[NMXHEP][5];
   double vhep[NMXHEP][4];
-  const static int nmxhep=NMXHEP;
   //      NEVPHO,NPHO,ISTPHO(NMXPHO),IDPHO(NMXPHO),
   //  JMOPHO(2,NMXPHO),JDAPHO(2,NMXPHO),PPHO(5,NMXPHO),VPHO(4,NMXPHO)
   //   int qedrad[NMXHEP]  was an add up
@@ -22,6 +21,11 @@ struct HEPEVT
   //   also phoif_.chkif[NMXPHO] was add up for PHOEVT
   //   now it is pho.qedrad
 } hepevt_;
+
+struct PHOQED
+{
+  int qedrad[NMXHEP]; // Photos flag
+} phoqed_;
 
 namespace Photospp
 {
