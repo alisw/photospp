@@ -82,6 +82,15 @@ C-----------------------------------------------------------------------------
      $      jdahep(2,nmxhep), ! childreen particles
      $      phep(5,nmxhep),   ! four-momentum, mass [GeV]
      $      vhep(4,nmxhep)    ! vertex [mm]
+
+C
+C  WARNING: note that common PHOQED is missing in this example.
+C           it is because its content, so far, is not used in C++
+C           implementations.
+C           Its function is taken by other methods, which are probably more
+C           comfortable and elegant.
+C
+        
       SAVE hepevt
       NHEP=NHEP+1
       IDHEP(NHEP) =ID
