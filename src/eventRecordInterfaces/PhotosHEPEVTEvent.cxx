@@ -1,19 +1,19 @@
 #include "PhotosHEPEVTEvent.h"
 #include "Log.h"
 
-const static int NMXHEP = 10000;
+const static int fortranNMXHEP = 10000;
 
 /** Definition of the HEPEVT common block  it can be adapted to user env of F77*/
 struct HEPEVT
 {
   int    nevhep;
   int    nhep;
-  int    isthep[NMXHEP];
-  int    idhep[NMXHEP];
-  int    jmohep[NMXHEP][2];
-  int    jdahep[NMXHEP][2];
-  double phep[NMXHEP][5];
-  double vhep[NMXHEP][4];
+  int    isthep[fortranNMXHEP];
+  int    idhep[fortranNMXHEP];
+  int    jmohep[fortranNMXHEP][2];
+  int    jdahep[fortranNMXHEP][2];
+  double phep[fortranNMXHEP][5];
+  double vhep[fortranNMXHEP][4];
   //      NEVPHO,NPHO,ISTPHO(NMXPHO),IDPHO(NMXPHO),
   //  JMOPHO(2,NMXPHO),JDAPHO(2,NMXPHO),PPHO(5,NMXPHO),VPHO(4,NMXPHO)
   //   int qedrad[NMXHEP]  was an add up
@@ -24,7 +24,7 @@ struct HEPEVT
 
 struct PHOQED
 {
-  int qedrad[NMXHEP]; // Photos flag
+  int qedrad[fortranNMXHEP]; // Photos flag
 } phoqed_;
 
 namespace Photospp
