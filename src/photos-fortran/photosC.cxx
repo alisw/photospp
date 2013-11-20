@@ -1214,7 +1214,7 @@ double PHOFAC(int MODE){
     return 1.0/FF;
   }
   
-  return 1.0;
+  return NAN;
 }
 
 
