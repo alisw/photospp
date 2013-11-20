@@ -4,6 +4,7 @@
 #include "PH_HEPEVT_Interface.h"
 #include "f_Init.h"
 #include <cmath>
+#include <cstdlib>
 #include <iostream>
 using std::cout;
 using std::endl;

@@ -321,23 +321,15 @@ void PHODMP(){
   double  SUMVEC[5];
   int I,J;
   static int i=1;
-  char star80[81]= "********************************************************************************";
   char eq80[81]  = "================================================================================";
-  char X26[27] = "                          ";
-  char EQ25[26]= "=========================";
-  char X30[31] = "                              ";
   char X29[30] = "                             ";
-  char X22[23] = "                      ";
   char X23[24 ]= "                       ";
-  char X16[17] = "                ";
   char X1[2] = " ";
   char X2[3] = "  ";
   char X3[4] = "   ";
   char X4[5] = "    ";
-  char X5[6] = "     ";
   char X6[7] = "      ";
   char X7[8] = "       ";
-  char X9[10]= "         ";
   FILE *PHLUN = stdout;
 
   for(I=0;I<5;I++)  SUMVEC[I]=0.0;
@@ -370,7 +362,7 @@ void PHODMP(){
       }
     }
   }
-  SUMVEC[5]=sqrt(SUMVEC[4-i]*SUMVEC[4-i]-SUMVEC[1-i]*SUMVEC[1-i]-SUMVEC[2-i]*SUMVEC[2-i]-SUMVEC[3-i]*SUMVEC[3-i]);
+  SUMVEC[5-i]=sqrt(SUMVEC[4-i]*SUMVEC[4-i]-SUMVEC[1-i]*SUMVEC[1-i]-SUMVEC[2-i]*SUMVEC[2-i]-SUMVEC[3-i]*SUMVEC[3-i]);
   fprintf(PHLUN,"%s  Vector Sum: %9.2f %9.2f %9.2f %9.2f %9.2f\n",X23,SUMVEC[1-i],SUMVEC[2-i],SUMVEC[3-i],SUMVEC[4-i],SUMVEC[5-i]);
 
 
@@ -442,7 +434,7 @@ void PHLUPAB(int IPOINT){
     }
 
 
-    SUM[5]=sqrt(fabs(SUM[4-i]*SUM[4-i]-SUM[1-i]*SUM[1-i]-SUM[2-i]*SUM[2-i]-SUM[3-i]*SUM[3-i]));
+    SUM[5-i]=sqrt(fabs(SUM[4-i]*SUM[4-i]-SUM[1-i]*SUM[1-i]-SUM[2-i]*SUM[2-i]-SUM[3-i]*SUM[3-i]));
     fprintf(PHLUN," SUM %14.9f %14.9f %14.9f %14.9f %14.9f\n",SUM[1-i],SUM[2-i],SUM[3-i],SUM[4-i],SUM[5-i]);
 
   }
@@ -512,7 +504,7 @@ void PHLUPA(int IPOINT){
     }
   
 
-    SUM[5]=sqrt(fabs(SUM[4-i]*SUM[4-i]-SUM[1-i]*SUM[1-i]-SUM[2-i]*SUM[2-i]-SUM[3-i]*SUM[3-i]));
+    SUM[5-i]=sqrt(fabs(SUM[4-i]*SUM[4-i]-SUM[1-i]*SUM[1-i]-SUM[2-i]*SUM[2-i]-SUM[3-i]*SUM[3-i]));
     fprintf(PHLUN," SUM %14.9f %14.9f %14.9f %14.9f %14.9f\n",SUM[1-i],SUM[2-i],SUM[3-i],SUM[4-i],SUM[5-i]);
 
   }
@@ -1221,6 +1213,8 @@ double PHOFAC(int MODE){
   else{
     return 1.0/FF;
   }
+  
+  return 1.0;
 }
 
 
@@ -1804,7 +1798,7 @@ void PHOCHK(int JFIRST){
     if(IFRAD){    
       for(I=IPPAR;I<=NLAST;I++){
 	pho.qedrad[I-i]= true;
-	if(I>2) pho.qedrad[I-i]=pho.qedrad[I-i] && hep.qedrad[JFIRST+I-IPPAR-2-i];
+	if(I>2) pho.qedrad[I-i] = (pho.qedrad[I-i] && hep.qedrad[JFIRST+I-IPPAR-2-i]);
       }
     }
   }
@@ -2217,7 +2211,7 @@ void PHOMAK(int IPPAR,int NHEP0){
   int IP,NCHARG,IDME;
   int IDUM;
   int NCHARB,NEUDAU;
-  double RN,WT,xdumm;
+  double RN,WT;
   bool BOOST;
   static int i=1;
   //--

@@ -2,6 +2,7 @@
 #include "Photos.h"
 #include "f_Init.h"
 #include "PH_HEPEVT_Interface.h"
+#include <cstdlib>
 #include<iostream>
 using std::cout;
 using std::endl;
