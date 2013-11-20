@@ -1834,7 +1834,7 @@ void PHOCHK(int JFIRST){
 //
 //----------------------------------------------------------------------
 
-void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double BIGLOG,int IDENT){
+void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDENT){
   double  DATA;
   double PRSOFT,PRHARD;
   double PRKILL,RRR;
@@ -1843,6 +1843,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double BIGLOG,int IDENT)
   static int i=1;
   double &MCHREN = *pMCHREN;
   double &BETA   = *pBETA;
+  double &BIGLOG = *pBIGLOG;
   //--
   if(phophs_.xphmax<=phocop_.xphcut){
     BETA=PHOFAC(-1);    // to zero counter, here beta is dummy
@@ -2066,7 +2067,7 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
 
       //--
       //--   Photon energy fraction...
-      PHOENE(MPASQR,&MCHREN,&phwt_.beta,BIGLOG,pho.idhep[CHAPOI[NCHARG-i]-i]);
+      PHOENE(MPASQR,&MCHREN,&phwt_.beta,&BIGLOG,pho.idhep[CHAPOI[NCHARG-i]-i]);
      //--
 
       if (phophs_.xphoto<-4.0) {
