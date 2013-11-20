@@ -966,7 +966,7 @@ void PhotosMEforW::PHOBWnlo(double *WT){
 
 	  MB=pho.phep[1-i][4-i];//                      ! W boson mass
 	  MF2=sqrt(MCHREN);//                 ! muon mass
-
+	  I3=NAN;
 	  for(IJ=1;IJ<=hep.nhep;IJ++){
             if(abs(hep.idhep[IJ-i])==24){ I3=IJ;} //! position of W 
 	  }

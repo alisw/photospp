@@ -17,7 +17,7 @@ namespace Photospp
 // from photosC.cxx
 
 extern void PHODMP();
-extern double PHINT(int idumm);
+extern double PHINT();//int idumm);
 // ----------------------------------------------------------------------
 // PROVIDES ELECTRIC CHARGE AND WEAK IZOSPIN OF A FAMILY FERMION
 // IDFERM=1,2,3,4 DENOTES NEUTRINO, LEPTON, UP AND DOWN QUARK
@@ -156,6 +156,7 @@ double PhotosMEforZ::AFBCALC(double SVAR,int IDEE,int IDFF){
 int PhotosMEforZ::GETIDEE(int IDE){
 
   int IDEE;
+  IDEE=NAN;
   if((IDE==11)       || (IDE== 13) || (IDE== 15)){
     IDEE=2;
   }
@@ -518,7 +519,7 @@ double PhotosMEforZ::phwtnlo(){
   }
   else{
       // in other cases we just use default setups.
-    return PHINT(IDUM);
+    return PHINT();//(IDUM);
   }
 }
 
