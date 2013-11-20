@@ -164,6 +164,7 @@ double PHINT1(int IDUM){
   bool IFINT;
   int K,IDENT; 
   static int i=1;
+  IDENT=pho.nhep;
   //
   for(K=pho.jdahep[1-i][2-i]; K>=pho.jdahep[1-i][1-i];K--){
     if(pho.idhep[K-i]!=22){
@@ -230,6 +231,7 @@ double PHINT2(int IDUM){
   bool IFINT;
   int K,k,IDENT; 
   static int i=1;
+  IDENT=pho.nhep;
   //
   for(K=pho.jdahep[1-i][2-i]; K>=pho.jdahep[1-i][1-i];K--){
     if(pho.idhep[K-i]!=22){
@@ -1758,6 +1760,7 @@ void PHOCHK(int JFIRST){
   //--
   // now we go to special cases, where pho.qedrad[I) will be overwritten
   //--
+  IDENT=pho.nhep;
   if(phokey_.iftop){
     // special case of top pair production
     for(K=pho.jdahep[1-i][2-i];K>=pho.jdahep[1-i][1-i];K--){
@@ -2122,7 +2125,7 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
 #endif
 	//--
 	//--   Determine spin of  particle and construct code  for matrix element
-        ME=2.0*PHOSPI(pho.idhep[CHAPOI[NCHARG-i]-i])+1.0;
+        ME=(int) 2.0*PHOSPI(pho.idhep[CHAPOI[NCHARG-i]-i])+1.0;
         //--
         //--   Weighting procedure with 'exact' matrix element, reconstruct kine-
         //--   matics for photon, neutral and charged system and update /PHOEVT/.
