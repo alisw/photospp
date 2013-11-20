@@ -25,7 +25,6 @@ struct PHNUM  phnum_;
 struct PHOLUN pholun_;
 struct PHOREST phorest_;
 struct PHOCMS  phocms_;
-struct PHPICO  phpico_;
 struct PHOMOM  phomom_;
 struct PHOPHS  phophs_;
 struct PHOCORWT phocorwt_;
@@ -1010,7 +1009,7 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   CCOSTH=-phophs_.costhg;
   SSINTH=phophs_.sinthg;
   TH3=PHOAN2(CCOSTH,SSINTH);
-  FI3=phpico_.twopi*Photos::randomDouble();
+  FI3=TWOPI*Photos::randomDouble();
   pho.phep[pho.nhep-i][1-i]=pho.phep[pho.nhep-i][4-i]*phophs_.sinthg*cos(FI3);
   pho.phep[pho.nhep-i][2-i]=pho.phep[pho.nhep-i][4-i]*phophs_.sinthg*sin(FI3);
   //--
@@ -1863,7 +1862,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double BIGLOG,int IDENT)
   // for integral of new crude
   BIGLOG=log(MPASQR/ phomom_.mchsqr*(1.0+BETA)*(1.0+BETA)/4.0*
 	     pow(1.0+ phomom_.mchsqr/MPASQR,2));
-  PRHARD=phocop_.alpha/phpico_.pi*(1.0/BETA*BIGLOG+2*phokey_.fint)
+  PRHARD=phocop_.alpha/PI*(1.0/BETA*BIGLOG+2*phokey_.fint)
         *(log(phophs_.xphmax/phocop_.xphcut)-.75+phocop_.xphcut/phophs_.xphmax-.25*phocop_.xphcut*phocop_.xphcut/phophs_.xphmax/phophs_.xphmax);
   PRHARD=PRHARD*PHOCHA(IDENT)*PHOCHA(IDENT)*phokey_.fsec;
   // ----------- END OF VARIANT B ------------------
@@ -1871,7 +1870,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double BIGLOG,int IDENT)
   // ----------- VARIANT A ------------------
   BIGLOG=log(MPASQR/ phomom_.mchsqr*(1.0+BETA)*(1.0+BETA)/4.0*
 	     pow(1.0+ phomom_.mchsqr/MPASQR,2));
-  PRHARD=phocop_.alpha/phpico_.pi*(1.0/BETA*BIGLOG)*
+  PRHARD=phocop_.alpha/PI*(1.0/BETA*BIGLOG)*
     (log(phophs_.xphmax/phocop_.xphcut)-.75+phocop_.xphcut/phophs_.xphmax-.25*phocop_.xphcut*phocop_.xphcut/phophs_.xphmax/phophs_.xphmax);
   PRHARD=PRHARD*PHOCHA(IDENT)*PHOCHA(IDENT)*phokey_.fsec*phokey_.fint;
   //me_channel_(&IDME);
@@ -1882,7 +1881,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double BIGLOG,int IDENT)
   }
 
   else if(IDME==1){
-    PRHARD=PRHARD/(1.0+0.75*phocop_.alpha/phpico_.pi); //  NLO
+    PRHARD=PRHARD/(1.0+0.75*phocop_.alpha/PI); //  NLO
   }
   else if (IDME==2){
     // work on virtual crrections in W decay to be done.

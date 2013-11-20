@@ -66,8 +66,6 @@ double PhotosMEforZ::PHBORNM(double svar,double costhe,double T3e,double qe,doub
   int  KeyZet,HadMin,KFbeam;
   int  i,ke,KFfin,kf,IsGenerated,iKF;
   int  KeyWidFix;
-  // we may want to use phpico_.pi phpico_.twopi defined in Photos::initialize()
-  static double PI=3.14159265358979324, TWOPI=6.28318530717958648;
  
   AlfInv= 137.0359895;
   GFermi=1.16639e-5;

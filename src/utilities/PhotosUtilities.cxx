@@ -1,4 +1,5 @@
 #include "PhotosUtilities.h"
+#include "f_Init.h"
 #include <cstdlib>
 #include <cstdio>
 using std::max;
@@ -230,9 +231,6 @@ double PHOTRI(double A,double B,double C){
 double PHOAN1(double X,double Y){
 
   double phoan1 = 0.0;
-  
-  // we may want to use phpico_.pi phpico_.twopi defined in Photos::initialize()
-  static double PI=3.14159265358979324, TWOPI=6.28318530717958648;
  
   if (fabs(Y)<fabs(X)){
     phoan1=atan(fabs(Y/X));
@@ -262,9 +260,6 @@ double PHOAN1(double X,double Y){
 double PHOAN2(double X,double Y){
 
   double phoan2 = 0.0;
-
-  // we may want to use phpico_.pi phpico_.twopi defined in Photos::initialize()
-  static double PI=3.14159265358979324, TWOPI=6.28318530717958648;
 
   if (fabs(Y)<fabs(X)){
     phoan2=atan(fabs(Y/X));

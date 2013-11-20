@@ -5,7 +5,8 @@ namespace Photospp
 {
 
 const static int NMXHEP = 10000;
-
+const static double PI    = 3.14159265358979324;
+const static double TWOPI = 6.28318530717958648;
 
 
 // extern "C"
@@ -66,12 +67,6 @@ const static int NMXHEP = 10000;
 		int status[10];
 	        int ifstop;
 	} phosta_;
-
-	extern struct PHPICO
-	{
-		double pi;
-		double twopi;
-	} phpico_;
 
 	extern struct PHOLUN
 	{

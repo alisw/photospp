@@ -68,10 +68,6 @@ void Photos::initialize()
 
 	pholun_.phlun=6; // Logical output unit for printing error messages
 
-// Define pi and 2*pi
-	phpico_.pi   =3.14159265358979324;
-	phpico_.twopi=6.28318530717958648;
-
 // Further initialization done automatically
 // see places with - VARIANT A - VARIANT B - all over to switch between options
 
