@@ -2126,7 +2126,7 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
 #endif
 	//--
 	//--   Determine spin of  particle and construct code  for matrix element
-        ME=(int) 2.0*PHOSPI(pho.idhep[CHAPOI[NCHARG-i]-i])+1.0;
+        ME=(int) (2.0*PHOSPI(pho.idhep[CHAPOI[NCHARG-i]-i])+1.0);
         //--
         //--   Weighting procedure with 'exact' matrix element, reconstruct kine-
         //--   matics for photon, neutral and charged system and update /PHOEVT/.
