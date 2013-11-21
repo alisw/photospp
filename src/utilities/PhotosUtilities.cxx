@@ -262,7 +262,7 @@ double PHOAN2(double X,double Y){
 
   double phoan2 = 0.0;
 
-  static double PI=3.14159265358979324, TWOPI=6.28318530717958648;
+  static double PI=3.14159265358979324; //, TWOPI=6.28318530717958648;
 
   if (fabs(Y)<fabs(X)){
     phoan2=atan(fabs(Y/X));
@@ -341,7 +341,7 @@ void PHORO3(double ANGLE,double PVEC[4]){
 void PHOB(int MODE,double PBOOS1[4],double vec[4]){
   double BET1[3],GAM1,PB;
   static int j0=1;
-  int I,J;
+  int J;
 
 
   PB=sqrt(PBOOS1[4-j0]*PBOOS1[4-j0]-PBOOS1[3-j0]*PBOOS1[3-j0]-PBOOS1[2-j0]*PBOOS1[2-j0]-PBOOS1[1-j0]*PBOOS1[1-j0]);
