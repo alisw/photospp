@@ -123,7 +123,10 @@ std::vector<PhotosParticle*> PhotosHEPEVTParticle::getMothers(){
 
   PhotosParticle *p1 = NULL;
   PhotosParticle *p2 = NULL;
-  
+
+  // 21.XI.2013: Some generators set same mother ID in both indices if there is only one mother  
+  if(m_first_mother == m_second_mother) m_second_mother = -1;
+
   if(m_first_mother>=0)  p1 = m_event->getParticle(m_first_mother);
   if(m_second_mother>=0) p2 = m_event->getParticle(m_second_mother);
 
@@ -272,6 +275,7 @@ bool PhotosHEPEVTParticle::checkMomentumConservation(){
     Log::RedirectOutput( Log::Warning()<<"Momentum not conserved in vertex: " );
     if(first_mother_idx >=0) m_event->getParticle(first_mother_idx) ->print();
     if(second_mother_idx>=0) m_event->getParticle(second_mother_idx)->print();
+    cout<<"  TO: "<<endl;
     for(int i=m_daughter_start;i<=m_daughter_end;i++) m_event->getParticle(i)->print();
     Log::RevertOutput();
     return false;
