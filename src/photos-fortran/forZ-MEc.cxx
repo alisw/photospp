@@ -59,13 +59,13 @@ void PhotosMEforZ::GIVIZO(int IDFERM,int IHELIC,double *SIZO3,double *CHARGE,int
 ///////////////////////////////////////////////////////////////////////////
 double PhotosMEforZ::PHBORNM(double svar,double costhe,double T3e,double qe,double T3f,double qf,int NCf){
 
-  double   s,t,Sw2,MZ,MZ2,GammZ,MW,MW2,AlfInv,GFermi;
-  double   sum,deno,Ve,Ae,thresh;
+  double   s,Sw2,MZ,MZ2,GammZ,AlfInv,GFermi;  // t,MW,MW2,
+  double   Ve,Ae,thresh;          //  sum,deno,
   double   xe,yf,xf,ye,ff0,ff1,amx2,amfin,Vf,Af;
-  double   ReChiZ,SqChiZ,RaZ,RaW,ReChiW,SqChiW;
-  double   Born, BornS;
-  int  KeyZet,HadMin,KFbeam;
-  int  i,ke,KFfin,kf,IsGenerated,iKF;
+  double   ReChiZ,SqChiZ,RaZ;     //,RaW,ReChiW,SqChiW;
+  double   Born;                  //, BornS;
+  //  int  KeyZet,HadMin,KFbeam;
+  //  int  i,ke,KFfin,kf,IsGenerated,iKF;
   int  KeyWidFix;
  
   AlfInv= 137.0359895;
@@ -156,7 +156,7 @@ double PhotosMEforZ::AFBCALC(double SVAR,int IDEE,int IDFF){
 int PhotosMEforZ::GETIDEE(int IDE){
 
   int IDEE;
-  IDEE=NAN;
+  IDEE=-555;
   if((IDE==11)       || (IDE== 13) || (IDE== 15)){
     IDEE=2;
   }
@@ -181,7 +181,7 @@ int PhotosMEforZ::GETIDEE(int IDE){
   else if((IDE==- 2) || (IDE== -4) || (IDE== -6)){
     IDEE=-3;
   }
-
+  if(IDEE==-555) {cout << " ERROR IN GETIDEE of PHOTS Z-ME: I3= &4i"<<IDEE<<endl;}
   return IDEE;
 }
 
@@ -413,7 +413,7 @@ double PhotosMEforZ::phwtnlo(){
   //      COMMON/PHOMOM/MCHSQR,MNESQR,PNEUTR(5)
   //  static double PI=3.141592653589793238462643;
   static int i=1;
-  int K,L,IDHEP3,IDUM;
+  int K,L,IDHEP3;
   int IDE,IDF;
   double  QP[4],QM[4],PH[4],QQ[4],PP[4],PM[4],QQS[4];
   double XK,ENE,svar;

@@ -28,7 +28,7 @@ double PhotosMEforW::pi,PhotosMEforW::sw,PhotosMEforW::cw,PhotosMEforW::alphaI,P
 //////////////////////////////////////////////////////////////////
 complex<double> PhotosMEforW::InProd_zero(double p1[4],int l1,double p2[4],int l2){
 
-  int i; 
+
   double  forSqrt1,forSqrt2,sqrt1,sqrt2;
   complex<double>    Dcmplx;
   static complex<double>    i_= complex<double>(0.0,1.0);
@@ -234,8 +234,8 @@ complex<double>  PhotosMEforW::SoftFactor(int s,double k[4],double p1[4],double 
 complex<double> PhotosMEforW::TrMatrix_zero(double p1[4],double m1,int l1,double k[4],int s,double p2[4],double m2,int l2){
 
   double forSqrt1,forSqrt2;
-  double p1_1[4],p2_1[4];
-  double sqrt1,sqrt2,scalProd1,scalProd2;
+  //                            double p1_1[4],p2_1[4];
+  double sqrt1,sqrt2;        //       ,scalProd1,scalProd2;
   complex<double>   inPr1,inPr2,inPr3;
   bool          equal;
 
@@ -675,8 +675,7 @@ complex<double> PhotosMEforW::WDecayBornAmpKS_1ph(double p3[4],int l3,double p1[
 
 complex<double> PhotosMEforW::WDecayAmplitudeKS_1ph(double p3[4],int l3,double p1[4],int l1,double p2[4],int l2,double k[4],int s){
  
-  int          la1;
-  double scalProd1,scalProd2,scalProd3,coeff,theta3,ph3;
+  double scalProd1,scalProd2,scalProd3,coeff;  //,theta3,ph3;
   complex<double>  bornAmp,TrMx1,TrMx2;
   complex<double>  BSoft1,BSoft2;  
 
@@ -720,7 +719,6 @@ complex<double> PhotosMEforW::WDecayAmplitudeKS_1ph(double p3[4],int l3,double p
 //========================================================       
 
 double PhotosMEforW::WDecayEikonalSqrKS_1ph(double p3[4],double p1[4],double p2[4],double k[4]){
-  int          s;
   double spinSumAvrg;
   complex<double>  wDecAmp;
 
@@ -915,13 +913,14 @@ void PhotosMEforW::SANC_INIT(double ALPHA,int PHLUN){
 //
 //----------------------------------------------------------------------
 void PhotosMEforW::PHOBWnlo(double *WT){
-  FILE *PHLUN = stdout;
+  //  FILE *PHLUN = stdout;  // printouts from matrix element calculations
+  //                            directed with phlun still
   int phlun=6;
   double EMU,MCHREN,BETA,COSTHG,MPASQR,XPH;
   double  PW[4],PMU[4],PPHOT[4],PNE[4];
-  double  B_PW[4],B_PNE[4],B_PMU[4],AMPSQR;
+  double  B_PW[4],B_PNE[4],B_PMU[4]; //,AMPSQR;
   static int i=1;
-  int I,IJ,I3,I4,JJ,J;
+  int I,IJ,I3,I4,JJ;
   double MB,MF1,MF2,QB,QF2;
   //  double  pi,sw,cw,alphaI,qb,mb,mf1,mf2,qf1,qf2,vf,af;
 
@@ -966,10 +965,11 @@ void PhotosMEforW::PHOBWnlo(double *WT){
 
 	  MB=pho.phep[1-i][4-i];//                      ! W boson mass
 	  MF2=sqrt(MCHREN);//                 ! muon mass
-	  I3=NAN;
+	  I3=-1;
 	  for(IJ=1;IJ<=hep.nhep;IJ++){
             if(abs(hep.idhep[IJ-i])==24){ I3=IJ;} //! position of W 
 	  }
+          if(I3==-1) {cout << " ERROR IN PHOBWnlo of PHOTS W-ME: I3= &2i"<<I3<<endl;}
            if(
               abs(hep.idhep[hep.jdahep[I3-i][1-i]-i  ])==11||
               abs(hep.idhep[hep.jdahep[I3-i][1-i]-i  ])==13||
