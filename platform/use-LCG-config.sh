@@ -18,7 +18,7 @@ ANSWER=`echo $ANSWER | tr "[:upper:]" "[:lower:]"`
 if test "$ANSWER" = "yes" || test "$ANSWER" = "y"; then
   echo "Removing previous installation scripts"
   rm -rf ../config* ../make* ../Make*
-  rm -rf ../src/make.inc ../src/*/Makefile ../photos-fortran/make*
+  rm -rf ../src/make.inc ../src/*/Makefile ../src/photos-fortran/make*
   rm -rf ../examples/config* ../examples/make* ../examples/Make*
 
   echo "Copying and configuring new scripts"

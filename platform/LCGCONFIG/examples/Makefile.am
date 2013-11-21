@@ -1,9 +1,13 @@
 exampledir = $(top_srcdir)/examples
 
-### Standalone example ###
+noinst_LTLIBRARIES = libphotos_hepevt_example_interface.la
+libphotos_hepevt_example_interface_la_SOURCES = photos_hepevt_example_interface.cxx
+
+### HEPEVT example ###
 example_PROGRAMS = photos_hepevt_example.exe
 
-photos_hepevt_example_exe_SOURCES      = photos_hepevt_example.cxx
+photos_hepevt_example_exe_SOURCES      = photos_hepevt_example.f
+photos_hepevt_example_exe_FFLAGS       = -fno-automatic -fno-backslash -ffixed-line-length-132
 
 INCLUDES = -I$(prefix)/include
 
@@ -14,6 +18,8 @@ $(FLIBS)                         \
 $(prefix)/lib/libPhotosCxxInterface.so \
 $(prefix)/lib/libPhotosFortran.so
 
+photos_hepevt_example_exe_LDADD = -lphotos_hepevt_example_interface $(LDADD)
+
 ### All other examples require HepMC ###
 if HAS_HEPMC
 
@@ -21,6 +27,8 @@ AM_LDFLAGS += -R $(HEPMC_DIR)/lib
 
 INCLUDES += -I$(HEPMC_DIR)/include
 LDADD    += -L$(HEPMC_DIR)/lib -lHepMC
+
+photos_hepevt_example_exe_LDADD += -L$(HEPMC_DIR)/lib -lHepMC
 
 example_PROGRAMS += photos_standalone_example.exe
 
