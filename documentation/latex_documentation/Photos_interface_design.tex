@@ -405,17 +405,10 @@ event record.
       of {\tt PHOTOS C++ Interface} and tracks statistics for each run.
   \item { \bf PhotosRandom} - random number generator taken from {\tt PHOTOS FORTRAN} and rewritten to C++.
   \end{itemize}   
-\item {\bf src/photos-fortran/ } - the  standard {\tt PHOTOS FORTRAN} 
-        distribution\footnote{Parts of {\tt PHOTOS FORTRAN} are already 
-        rewritten to C++. The resulting modules are interchangeable and the program
-will function properly even if the {\tt PHOTOS FORTRAN} library is loaded from another
-part of the user's system (as a shared object). 
-In such cases its random number generator will 
-be used, and its initialization will not be controlled from the C++ interface.
-The remaining  initialization of {\tt PHOTOS} options can be executed from 
-{\tt FORTRAN} or C++; the later initialized options
-will take precedence.  {\bf ZBW: need to be checked}.}.
-
+\item {\bf src/photos-fortran/ } - {\tt PHOTOS FORTRAN} core rewritten to C++. Since version 3.54 {\tt PHOTOS} has been
+      fully rewritten to C++ and located in its own namespace {\tt Photospp}\footnote{This means that no part of
+      the code is shared with old {\tt PHOTOS FORTRAN} and both versions can be loaded simultanously without the
+      risk of one version overwriting the options of the other.}.
   \item {\bf examples/ } - examples of different {\tt PHOTOS} C++ Interface uses.
     \begin{itemize}
         \item {\bf photos\_hepevt\_example} - stand alone example with a simple 
@@ -1669,13 +1662,12 @@ for the project).
 \subsection*{Functionality}
 \begin{itemize}
   \item[\ding{111}]{\bf 2} - Remove dead {\tt FORTRAN} code
-  \item[\ding{111}]{\bf 2} - Rewrite parts on HEPEVT type data structure
-  \item[\ding{111}]{\bf 3} - Move {\tt FORTRAN} remnants to C++
+  \item[\ding{111}]{\bf 2} - Rewrite parts on HEPEVT type data structure   %TP: DONE?
 \end{itemize}
 
 \subsection*{Testing}
 \begin{itemize}
-  \item[\ding{111}]{\bf 3} - event record options
+  \item[\ding{111}]{\bf 3} - event record options                          %TP: DONE?
   \item[\ding{111}]{\bf 3} - further plots of some interest
 \end{itemize}
 
