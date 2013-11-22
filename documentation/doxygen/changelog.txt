@@ -1,6 +1,10 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
 
+Nov 22 2013
+- Fixed bug that caused segmentation fault in rare cases when
+  HepMC::GenParticle::parent_event() caused invalid memory read
+  Thanks Wojciech Kotlarski for finding it out
 Nov 21 2013
 - Added compatibility for FORTRAN generators that use different standard
   of setting mother ID in HEPEVT event record
