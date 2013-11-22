@@ -26,9 +26,8 @@ PhotosHepMCParticle::~PhotosHepMCParticle(){
   clear(m_daughters);
   //  clear(m_created_particles);
 
-  // Delete HepMC particle if it's not attached to any vertex or event
+  // Delete HepMC particle if it's not attached to any vertex
   if( m_particle &&
-     !m_particle->parent_event() &&
      !m_particle->production_vertex() &&
      !m_particle->end_vertex()) delete m_particle;
 }
