@@ -7,7 +7,6 @@
 #include "f_Init.h"
 #include "PH_HEPEVT_Interface.h"
 #include "PhotosUtilities.h"
-// #define VARIANTB true
 using std::cout;
 using std::endl;
 using std::max;
@@ -2245,23 +2244,26 @@ void PHOMAK(int IPPAR,int NHEP0){
 
   if(     IDME==0) {                                    // default 
 
-    if(phokey_.interf) WT=WT*PHINT(IDUM)/phokey_.fint;  // FINT must be in variant A
+    if(phokey_.interf) WT=WT*PHINT(IDUM);
     if(phokey_.ifw) PHOBW(&WT);                          // extra weight for leptonic W decay 
   }
   else if (IDME==2){                                    // ME weight for leptonic W decay
 
     PhotosMEforW::PHOBWnlo(&WT);
-    WT=WT*2.0/phokey_.fint;
+    WT=WT*2.0;
   }
   else if (IDME==1){                                     //  ME weight for leptonic Z decay
 
-    WT=WT*PhotosMEforZ::phwtnlo()/phokey_.fint;
+    WT=WT*PhotosMEforZ::phwtnlo();
   }
   else{
     cout << "problem with ME_CHANNEL  IDME= " << IDME << endl;
     exit(0);
   }
 
+#ifndef VARIANTB
+  WT = WT/phokey_.fint; // FINT must be in variant A
+#endif
 
   DATA=WT; 
   if (WT>1.0) PHOERR(3,"WT_INT",DATA);

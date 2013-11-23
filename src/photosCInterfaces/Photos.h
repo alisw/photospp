@@ -17,6 +17,7 @@
 #include "PhotosParticle.h"
 #include "PhotosRandom.h"
 #include "f_Init.h"
+//#define VARIANTB true
 using std::vector;
 using std::pair;
 

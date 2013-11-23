@@ -71,6 +71,7 @@ void Photos::initialize()
 // Further initialization done automatically
 // see places with - VARIANT A - VARIANT B - all over to switch between options
 
+#ifndef VARIANTB
 //----------- SLOWER VARIANT A, but stable ------------------
 //--- it is limiting choice for small XPHCUT in fixed orer
 //--- modes of operation
@@ -80,18 +81,17 @@ void Photos::initialize()
 // see report on overweihted events
 	if(phokey_.interf) maxWtInterference(2.0);
 	else               maxWtInterference(1.0);
+#else
 
-/*
------------ FASTER VARIANT B  ------------------
--- it is good for tests of fixed order and small XPHCUT
--- but is less promising for more complex cases of interference
--- sometimes fails because of that
+//----------- FASTER VARIANT B  ------------------
+//-- it is good for tests of fixed order and small XPHCUT
+//-- but is less promising for more complex cases of interference
+//-- sometimes fails because of that
 
 	if(phokey_.interf) maxWtInterference(1.8);
 	else               maxWtInterference(0.0);
-------------END VARIANTS A B -----------------------
-*/
-
+#endif
+//------------END VARIANTS A B -----------------------
 
 //------------------------------------------------------------------------------
 // Print PHOTOS header
