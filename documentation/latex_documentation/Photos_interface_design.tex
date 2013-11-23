@@ -1012,13 +1012,22 @@ also acknowledged.
 
 This appendix is addressed to developers of the interface,
 and special users interested in advanced options of {\tt PHOTOS}.
-It s valid up to version 3.53. The following common blocks are directly replaced
-by the struct objects of C starting from version 3.54 of the code:
+The discussed below {\tt COMMON} blocks of {\tt FORTRAN} were used in the
+program up  to version 3.53 only.
+Starting from version 3.54 some of these {\tt COMMON}  blocks were preserved,
+as the struct objects of C. The following ones may be of some interest for the
+user:
 {\tt PHOCOP, PHOKEY, PHOSTA, PHLUPY}.
 
-Names of variables and structs are not modified but adapted to C++ definition style.
-Common {\tt HEPEVT} evolved into larger data structure and its interface is available
-through the use of classes {\tt PhotosHEPEVTEvent.h} and {\tt PhotosHEPEVTParticle.h}.
+Names of variables and structs are not modified with respect to {\tt FORTRAN}, 
+the  C++ definition style is adapted, small letters are used and underscore is added at the
+end of structs names.
+Common {\tt HEPEVT} is preserved for use of example and future applications,
+ where the main program is in {\tt FORTRAN}.
+The interface is available
+through the classes {\tt PhotosHEPEVTEvent.h} and {\tt PhotosHEPEVTParticle.h}.
+Internally in C++  {\tt Photos} code, the {\tt HEPEVT}-like  data type
+is used.
 
 \subsection{Common Blocks}
 
