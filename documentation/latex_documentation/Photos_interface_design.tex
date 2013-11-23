@@ -1009,10 +1009,16 @@ also acknowledged.
 \section{Appendix: Interface to {\tt PHOTOS FORTRAN}}
 \label{Interface to PHOTOS}
 
-This section is addressed to developers of the interface, 
-and special users interested in advanced options of {\tt PHOTOS FORTRAN}.
-For this purpose we describe the common blocks and routines which allow
-communication between {\tt PHOTOS} and the {\tt PHOTOS} C++ Interface.
+
+This appendix is addressed to developers of the interface,
+and special users interested in advanced options of {\tt PHOTOS}.
+It s valid up to version 3.53. The following common blocks are directly replaced
+by the struct objects of C starting from version 3.54 of the code:
+{\tt PHOCOP, PHOKEY, PHOSTA, PHLUPY}.
+
+Names of variables and structs are not modified but adapted to C++ definition style.
+Common {\tt HEPEVT} evolved into larger data structure and its interface is available
+through the use of classes {\tt PhotosHEPEVTEvent.h} and {\tt PhotosHEPEVTParticle.h}.
 
 \subsection{Common Blocks}
 
