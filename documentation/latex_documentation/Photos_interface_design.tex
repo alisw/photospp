@@ -408,7 +408,13 @@ event record.
 \item {\bf src/photos-fortran/ } - {\tt PHOTOS FORTRAN} core rewritten to C++. Since version 3.54 {\tt PHOTOS} has been
       fully rewritten to C++ and located in its own namespace {\tt Photospp}\footnote{This means that no part of
       the code is shared with old {\tt PHOTOS FORTRAN} and both versions can be loaded simultanously without the
-      risk of one version overwriting the options of the other.}.
+      risk of one version overwriting the options of the other.}. From the algorithmic point of view
+full compatibility\footnote{The resulting modules are however not interchangeable and the program
+ will not function if the {\tt PHOTOS FORTRAN} library is loaded instead of code encapsulated 
+in {\bf src/photos-fortran/ } directory.
+}
+ with the {\tt FORTRAN } version is kept. The appropriate descriptions remain vaild;
+in publications as well as in the code, now in C++.
   \item {\bf examples/ } - examples of different {\tt PHOTOS} C++ Interface uses.
     \begin{itemize}
         \item {\bf photos\_hepevt\_example} - stand alone example with a simple 
