@@ -7,12 +7,12 @@
 
  @section download1 New release
 
- The source code and documentation for release 3.52. The following files are provided for download:
- - <a href="resources/PHOTOS.3.52/Photos_interface_design.3.52.pdf">Photos_interface_design.pdf</a> full software documentation.
- - <a href="resources/PHOTOS.3.52/PHOTOS.3.52.tar.gz">PHOTOS 3.52 source code </a> tarball
-   ( <a href="resources/PHOTOS.3.52/PHOTOS.3.52-LHC.tar.gz"> version for LHC/LCG</a>  installation)
-   and its <a href="resources/PHOTOS.3.52/svn_info_photos.3.52.txt">revision info</a> SVN tag, tarball creation date/time, etc.
-   For updates with respect to release 3.0 see <a href="resources/PHOTOS.3.52/changelog.3.52.txt">changelog.txt</a>
+ The source code and documentation for release 3.54. The following files are provided for download:
+ - <a href="resources/PHOTOS.3.54/Photos_interface_design.3.54.pdf">Photos_interface_design.pdf</a> full software documentation.
+ - <a href="resources/PHOTOS.3.54/PHOTOS.3.54.tar.gz">PHOTOS 3.54 source code </a> tarball
+   ( <a href="resources/PHOTOS.3.54/PHOTOS.3.54-LHC.tar.gz"> version for LHC/LCG</a>  installation)
+   and its <a href="resources/PHOTOS.3.54/svn_info_photos.3.54.txt">revision info</a> SVN tag, tarball creation date/time, etc.
+   For updates with respect to release 3.0 see <a href="resources/PHOTOS.3.54/changelog.3.54.txt">changelog.txt</a>
 
  @section developement Developement version
 
@@ -25,6 +25,13 @@
 
  @section download Older releases
 
+ The source code and documentation for release 3.52. The following files are provided for download:
+ - <a href="resources/PHOTOS.3.52/Photos_interface_design.3.52.pdf">Photos_interface_design.pdf</a> full software documentation.
+ - <a href="resources/PHOTOS.3.52/PHOTOS.3.52.tar.gz">PHOTOS 3.52 source code </a> tarball
+   ( <a href="resources/PHOTOS.3.52/PHOTOS.3.52-LHC.tar.gz"> version for LHC/LCG</a>  installation)
+   and its <a href="resources/PHOTOS.3.52/svn_info_photos.3.52.txt">revision info</a> SVN tag, tarball creation date/time, etc.
+   For updates with respect to release 3.0 see <a href="resources/PHOTOS.3.52/changelog.3.52.txt">changelog.txt</a>
+ 
  The source code and documentation for release 3.51. The following files are provided for download:
  - <a href="resources/PHOTOS.3.51/Photos_interface_design.3.51.pdf">Photos_interface_design.pdf</a> full software documentation.
  - <a href="resources/PHOTOS.3.51/PHOTOS.3.51.tar.gz">PHOTOS 3.51 source code </a> tarball
