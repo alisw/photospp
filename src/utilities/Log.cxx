@@ -10,8 +10,8 @@ using std::endl;
 namespace Photospp
 {
 
-void (*PHOERR)(int,char*,double) = Log::PHOERR;
-void (*PHOREP)()                 = Log::PHOREP;
+void (*PHOERR)(int,const char*,double) = Log::PHOERR;
+void (*PHOREP)()                       = Log::PHOREP;
 
 list<Log::Pointer*> *Log::PointerList = NULL;
 
@@ -155,7 +155,7 @@ void Log::Summary()
 //                                                Last Update: 18/06/13
 //
 //----------------------------------------------------------------------
-void Log::PHOERR(int IMES,char *TEXT,double DATA){
+void Log::PHOERR(int IMES,const char *TEXT,double DATA){
 
   static int IERROR=0;
   double  SDATA;

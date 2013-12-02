@@ -2,6 +2,7 @@
 #include "forW-MEc.h"
 #include "forZ-MEc.h"
 #include "Log.h"
+#include <cstdio>
 #include <cmath>
 #include <iostream>
 #include "f_Init.h"
@@ -322,15 +323,15 @@ void PHODMP(){
   double  SUMVEC[5];
   int I,J;
   static int i=1;
-  char eq80[81]  = "================================================================================";
-  char X29[30] = "                             ";
-  char X23[24 ]= "                       ";
-  char X1[2] = " ";
-  char X2[3] = "  ";
-  char X3[4] = "   ";
-  char X4[5] = "    ";
-  char X6[7] = "      ";
-  char X7[8] = "       ";
+  const char eq80[81]  = "================================================================================";
+  const char X29[30] = "                             ";
+  const char X23[24 ]= "                       ";
+  const char X1[2] = " ";
+  const char X2[3] = "  ";
+  const char X3[4] = "   ";
+  const char X4[5] = "    ";
+  const char X6[7] = "      ";
+  const char X7[8] = "       ";
   FILE *PHLUN = stdout;
 
   for(I=0;I<5;I++)  SUMVEC[I]=0.0;
