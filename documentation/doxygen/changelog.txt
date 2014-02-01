@@ -2,10 +2,11 @@ Changelog for changes with respect to version 3.0
 -------------------------------------------------
 
 Feb  1 2014
-- Fix for gcc 4.8.1. Thanks to Rafael Delgado Lopez for pointing it out.
-  Photos++ has been extensively tested on gcc 4.8.1. While no other issues
-  were found, due to nature of changes in gcc 4.8 we are still not confident
-  that Photos++ will work correctly with this version of gcc.
+- Fix for gcc 4.8.1 introduced (thanks to Rafael Delgado Lopez for warning);
+  Photos++ has been  tested on gcc 4.8.1. While no further problems
+  were found, due to nature of changes in gcc 4.8, we are  not confident
+  that Photos++ will work correctly in all conditions and for this 
+  version of gcc. We plan further tests.
 Nov 22 2013
 - Fixed bug that caused segmentation fault in rare cases when
   HepMC::GenParticle::parent_event() caused invalid memory read
