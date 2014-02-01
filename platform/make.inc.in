@@ -6,7 +6,7 @@ F77FLAGS = @FFLAGS@ -fPIC -fno-automatic -fno-backslash -ffixed-line-length-132
 FFLAGS   = $(F77FLAGS)
 
 LD       = @F77@
-LDFLAGS  = -g
+LDFLAGS  = -g -lstdc++
 SOFLAGS  = -shared
 
 RANLIB   = @RANLIB@

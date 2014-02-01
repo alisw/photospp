@@ -57,7 +57,8 @@ void PH_HEPEVT_Interface::add_particle(int i,PhotosParticle * particle,
 
   //now set the element of PH_HEPEVT
   hep.nevhep=0; //dummy
-  hep.nhep=++hep.nhep;
+  hep.nhep = hep.nhep + 1; // 1.II.2014: fix for gcc 4.8.1. Previously it was:
+                           // hep.nhep = hep.nhep++; which technically is an undefined operation
   hep.isthep[i]=particle->getStatus();
   hep.idhep[i]=particle->getPdgID();
 
