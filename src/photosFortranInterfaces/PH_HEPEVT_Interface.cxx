@@ -57,7 +57,7 @@ void PH_HEPEVT_Interface::add_particle(int i,PhotosParticle * particle,
 
   //now set the element of PH_HEPEVT
   hep.nevhep=0; //dummy
-  hep.nhep=hep.nhep++;
+  hep.nhep=++hep.nhep;
   hep.isthep[i]=particle->getStatus();
   hep.idhep[i]=particle->getPdgID();
 
