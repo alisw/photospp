@@ -993,10 +993,10 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   pho.isthep[pho.nhep-i]=1;
   pho.idhep[pho.nhep-i] =22;
   //--   Photon mother and daughter pointers !
-  pho.jmohep[pho.nhep-i][1]=IP;
-  pho.jmohep[pho.nhep-i][2]=0;
-  pho.jdahep[pho.nhep-i][1]=0;
-  pho.jdahep[pho.nhep-i][2]=0;
+  pho.jmohep[pho.nhep-i][1-i]=IP;
+  pho.jmohep[pho.nhep-i][2-i]=0;
+  pho.jdahep[pho.nhep-i][1-i]=0;
+  pho.jdahep[pho.nhep-i][2-i]=0;
   pho.phep[pho.nhep-i][4-i]=EPHOTO*pho.phep[IP-i][5-i]/PMAVIR;
   //--
   //--   ...and photon momenta
@@ -1544,10 +1544,11 @@ void PHOTWO(int MODE){
 //                                                Last Update: 16/11/93
 //
 //----------------------------------------------------------------------
-void PHOIN(int IP,bool *BOOST,int nhep0){
+void PHOIN(int IP,bool *BOOST,int *NHEP0){
   int FIRST,LAST,I,LL,IP2,J,NA;
   double PB;
   static int i=1;
+  int &nhep0 = *NHEP0;
 
   //--
   // let-s calculate size of the little common entry
@@ -2223,7 +2224,7 @@ void PHOMAK(int IPPAR,int NHEP0){
   IDUM=1;
   NCHARG=0;
   //--
-  PHOIN(IP,&BOOST,NHEP0);
+  PHOIN(IP,&BOOST,&NHEP0);
   PHOCHK(hep.jdahep[IP-i][1-i]);
   WT=0.0;
   PHOPRE(1,&WT,&NEUDAU,&NCHARB);
