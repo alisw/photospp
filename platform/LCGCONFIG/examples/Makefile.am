@@ -7,7 +7,7 @@ libphotos_hepevt_example_interface_la_SOURCES = photos_hepevt_example_interface.
 example_PROGRAMS = photos_hepevt_example.exe
 
 photos_hepevt_example_exe_SOURCES      = photos_hepevt_example.f
-photos_hepevt_example_exe_FFLAGS       = -fno-automatic -fno-backslash -ffixed-line-length-132
+photos_hepevt_example_exe_FFLAGS       = -fno-automatic -fno-backslash -ffixed-line-length-132 -132
 
 INCLUDES = -I$(prefix)/include
 
