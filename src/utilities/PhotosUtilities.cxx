@@ -390,7 +390,7 @@ void bostdq(int mode,double qq[4],double pp[4],double r[4]){
   }
   else{
     cout << " ++++++++ wrong mode in boostdq " << endl;
-    exit(0);
+    exit(-1);
   }
   r[1-i]=p[1-i]+fac*q[1-i];
   r[2-i]=p[2-i]+fac*q[2-i];

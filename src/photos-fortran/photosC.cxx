@@ -760,14 +760,14 @@ void PHCORK(int MODCOR){
 
     else{
       fprintf(PHLUN,"PHCORK wrong MODCOR=%4i\n",MODCOR);
-      exit(0);
+      exit(-1);
     }
     return;
   }
 
   if(MODOP==0&&MODCOR==0){
     fprintf(PHLUN,"PHCORK lack of initialization\n");
-    exit(0);
+    exit(-1);
   }
 
   // execution mode
@@ -1599,7 +1599,7 @@ void PHOIN(int IP,bool *BOOST,int *NHEP0){
     pho.jdahep[1-i][2-i]=3+LAST-FIRST+hep.nhep-nhep0;
   }
   if (pho.idhep[pho.nhep-i]==22) PHLUPA(100001);
-  // if (pho.idhep[pho.nhep-i]==22) exit(0);
+  // if (pho.idhep[pho.nhep-i]==22) exit(-1);
   PHCORK(0);
   if(pho.idhep[pho.nhep-i]==22) PHLUPA(100002);
 
@@ -1625,7 +1625,7 @@ void PHOIN(int IP,bool *BOOST,int *NHEP0){
     *BOOST=true;
     //PHOERR(404,"PHOIN",1.0);  // we need to improve this warning:  program should never
                               // enter this place  
-    //  may be   exit(0);
+    //  may be   exit(-1);
     //--
     //--   Boost daughter particles to rest frame of parent...
     //--   Resultant neutral system already calculated in rest frame !
@@ -1649,7 +1649,7 @@ void PHOIN(int IP,bool *BOOST,int *NHEP0){
   if(phokey_.iftop) PHOTWO(1);
   PHLUPA(2);
   if(pho.idhep[pho.nhep-i]==22) PHLUPA(10000);
-  //if (pho.idhep[pho.nhep-1-i]==22) exit(0);  // this is probably form very old times ...
+  //if (pho.idhep[pho.nhep-1-i]==22) exit(-1);  // this is probably form very old times ...
   return;
 } 
 
@@ -1887,7 +1887,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
   }
   else{
     cout << "problem with ME_CHANNEL  IDME= " << IDME << endl;
-	   exit(0);
+	   exit(-1);
   }
 
   //----------- END OF VARIANT A ------------------
@@ -2260,7 +2260,7 @@ void PHOMAK(int IPPAR,int NHEP0){
   }
   else{
     cout << "problem with ME_CHANNEL  IDME= " << IDME << endl;
-    exit(0);
+    exit(-1);
   }
 
 #ifndef VARIANTB

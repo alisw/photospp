@@ -73,7 +73,7 @@ complex<double> PhotosMEforW::InProd_zero(double p1[4],int l1,double p2[4],int l
     cout << " ERROR IN InProd_zero:"<<endl;
     cout << "   WRONG VALUES FOR l1,l2: l1,l2 = -1,+1 "<<endl;
     cout << " "  <<endl;           
-    exit(0);
+    exit(-1);
   }
 }
 
@@ -115,7 +115,7 @@ complex<double> PhotosMEforW::InProd_mass(double p1[4],double m1,int l1,double p
     cout <<" ERROR IN InProd_mass.."<<endl;
     cout <<"       WRONG VALUES FOR l1,l2"<<endl;
     cout <<" " <<endl;            
-    exit(0);
+    exit(-1);
   }
 }
 
@@ -151,7 +151,7 @@ complex<double> PhotosMEforW::BsFactor(int s,double k[4],double p[4],double m){
     cout << " ERROR IN BsFactor: "<<endl;
     cout << "       WRONG VALUES FOR s : s = -1,+1"<<endl;
     cout << " "  <<endl;           
-    exit(0);
+    exit(-1);
   }
 }
 
@@ -283,7 +283,7 @@ complex<double> PhotosMEforW::TrMatrix_zero(double p1[4],double m1,int l1,double
       cout << " ERROR IN  TrMatrix_zero: " <<endl;
       cout << "       WRONG VALUES FOR l1,l2,s" <<endl; 
       cout <<  "" <<endl;             
-      exit(0);
+      exit(-1);
 
     }       
 
@@ -358,7 +358,7 @@ complex<double> PhotosMEforW::TrMatrix_zero(double p1[4],double m1,int l1,double
     cout << " ERROR IN TrMatrix_zero: " << endl;
     cout << "    WRONG VALUES FOR l1,l2,s" << endl;
     cout << "" << endl;             
-    exit(0);
+    exit(-1);
   }
 
 }
@@ -590,7 +590,7 @@ complex<double> PhotosMEforW::TrMatrix_mass(double p1[4],double m1,int l1,double
     cout << " TrMatrix_mass: Wrong values for l1,l2,s:"<< endl;
     cout << "          l1,l2 = -1,+1; s = -1,0,1 "<< endl;
     cout << " "<< endl;             
-    exit(0);
+    exit(-1);
 
   } 
          

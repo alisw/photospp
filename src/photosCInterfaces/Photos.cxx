@@ -318,7 +318,7 @@ bool Photos::IPHQRK_setQarknoEmission(int MODCOR, int PDGID)
   static int IPHQRK_MODOP=-1;
   if(IPHQRK_MODOP==-1 && MODCOR==0){
     cout << "stop from IPHQRK_setQarknoEmission lack of initialization" << endl ;
-    exit(0);
+    exit(-1);
   }
   else if (MODCOR != 0){
     IPHQRK_MODOP = MODCOR;

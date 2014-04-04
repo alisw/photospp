@@ -230,7 +230,7 @@ void Log::PHOERR(int IMES,const char *TEXT,double DATA){
    fprintf(PHLUN,"*\n"); //9120
    fprintf(PHLUN,"%s\n",star80);
    if (IFSTOP){ 
-     exit(0);
+     exit(-1);
    }
    else{
      fprintf(PHLUN,"*\n"); //9120
@@ -244,7 +244,7 @@ void Log::PHOERR(int IMES,const char *TEXT,double DATA){
      fprintf(PHLUN,"*\n");//9120
      fprintf(PHLUN,"%s\n",star80);
      if (IFSTOP){
-       exit(0);
+       exit(-1);
      }
      else{
        fprintf(PHLUN,"*\n"); //9120

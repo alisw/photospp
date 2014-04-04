@@ -36,7 +36,7 @@ void PhotosMEforZ::GIVIZO(int IDFERM,int IHELIC,double *SIZO3,double *CHARGE,int
   int IH, IDTYPE, IC, LEPQUA, IUPDOW; 
   if (IDFERM==0 || abs(IDFERM)>4 || abs(IHELIC)!=1){
     cout << "STOP IN GIVIZO: WRONG PARAMS" << endl;
-    exit(0);
+    exit(-1);
    }
 
   IH  =IHELIC;
@@ -94,7 +94,7 @@ double PhotosMEforZ::PHBORNM(double svar,double costhe,double T3e,double qe,doub
   Af =  2*T3f;
   if(fabs(costhe) > 1.0){
     cout << "+++++STOP in PHBORN: costhe>0 =" << costhe << endl;
-    exit(0);
+    exit(-1);
   }
   MZ2  = MZ*MZ;
   RaZ  = (GFermi *MZ2 *AlfInv  )/( sqrt(2.0) *8.0 *PI); //
