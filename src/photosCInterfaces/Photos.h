@@ -31,8 +31,8 @@ class PhotosParticle;
 class Photos
 {
 public:
-	static const int VER_MAJOR=3, VER_MINOR=54;
-	static const int DAT_DAY  =2, DAT_MONTH=12,DAT_YEAR=13;
+	static const int VER_MAJOR=3, VER_MINOR=55;
+	static const int DAT_DAY  =7, DAT_MONTH=4, DAT_YEAR=14;
 public:
 
 	/** Initalize Photos with the parameters previously set via the
