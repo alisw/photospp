@@ -1681,8 +1681,16 @@ void PHOOUT(int IP, bool BOOST, int nhep0){
   //--   When parent was not in its rest-frame, boost back...
   PHLUPA(10);
   if (BOOST){
-    PHOERR(404,"PHOOUT",1.0);  // we need to improve this warning:  program should never
-                               // enter this place  
+    //PHOERR(404,"PHOOUT",1.0);  // we need to improve this warning:  program should never
+                               // enter this place
+
+    double phocms_check = 1 - fabs(phocms_.gam) + fabs(phocms_.bet[1-i]) + fabs(phocms_.bet[2-i]) + fabs(phocms_.bet[3-i]);
+    if( phocms_check > 0.001 ) {
+        Log::Error() << "Possible problems with boosting due to the rounding errors." << endl
+                     << "Boost parameters:   ("<< phocms_.gam << ","
+                     << phocms_.bet[1-i] << "," << phocms_.bet[2-i] << "," << phocms_.bet[3-i] << ")"<<endl
+                     << "should be equal to: (1,0,0,0) up to at least several digits." << endl;
+    }
 
     for (J=pho.jdahep[1-i][1-i];J<=pho.jdahep[1-i][2-i];J++){
       PB=-phocms_.bet[1-i]*pho.phep[J-i][1-i]-phocms_.bet[2-i]*pho.phep[J-i][2-i]-phocms_.bet[3-i]*pho.phep[J-i][3-i];
