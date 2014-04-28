@@ -1686,13 +1686,13 @@ void PHOOUT(int IP, bool BOOST, int nhep0){
 
     double phocms_check = fabs(1 - phocms_.gam) + fabs(phocms_.bet[1-i]) + fabs(phocms_.bet[2-i]) + fabs(phocms_.bet[3-i]);
     if( phocms_check > 0.001 ) {
-        Log::Error() << "Possible problems with boosting due to the rounding errors." << endl
+        Log::Error() << "Msg. from PHOOUT: possible problems with boosting due to the rounding errors." << endl
                      << "Boost parameters:   ("<< phocms_.gam << ","
                      << phocms_.bet[1-i] << "," << phocms_.bet[2-i] << "," << phocms_.bet[3-i] << ")"<<endl
                      << "should be equal to: (1,0,0,0) up to at least several digits." << endl;
     }
     else{
-        Log::Warning() << "Possible problems with boosting due to the rounding errors." << endl
+        Log::Warning() << "Msg. from PHOOUT: possible problems with boosting due to the rounding errors." << endl
                        << "Boost parameters:   ("<< phocms_.gam << ","
                        << phocms_.bet[1-i] << "," << phocms_.bet[2-i] << "," << phocms_.bet[3-i] << ")"<<endl
                        << "should be equal to: (1,0,0,0) up to at least several digits." << endl;
