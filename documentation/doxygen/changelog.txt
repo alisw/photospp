@@ -1,6 +1,9 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
 
+May 3 2014
+- Adaptation for new class of events written to HepMC by new releases of
+  Pythia and spotted in versions newer thant 8.165
 Apr 7 2014
 - Exit codes in case of an error changed to -1 (previously it was mostly 0)
 - Version 3.55 released
