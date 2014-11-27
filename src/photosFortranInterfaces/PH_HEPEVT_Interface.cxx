@@ -162,7 +162,7 @@ void PH_HEPEVT_Interface::get(){
 
   int index = 0;
 
-  //if no photons have been added to the event record, do nothing.
+  //if no new particles have been added to the event record, do nothing.
   if(hep.nhep == (int) m_particle_list.size())
     return;
 
@@ -170,12 +170,12 @@ void PH_HEPEVT_Interface::get(){
 
   int  particle_count  = m_particle_list.size();
   int  daughters_start = hep.jmohep[hep.nhep-1][0];
-  int  photons         = hep.nhep - m_particle_list.size();
-  bool isPhotonCreated = (photons>0);
+  int  new_particles   = hep.nhep - m_particle_list.size();
+  bool isParticleCreated = (new_particles>0);
   
-  std::vector<PhotosParticle*> photon_list; // list of added photons
-                                            // which need kinematical treatment
-                                            // in special case
+  std::vector<PhotosParticle*> new_particles_list; // list of added particles
+                                                   // which need kinematical treatment
+                                                   // in special case
 
   // we decipher daughters_start from  last entry 
   // that is last daughter in  ph_hepevt_
@@ -189,15 +189,17 @@ void PH_HEPEVT_Interface::get(){
   
   index = particle_count;
 
-  // Add extra photons
-  for(;photons>0; photons--, index++){
+  // Add new particles
+  for(;new_particles>0; new_particles--, index++){
     
-    if(hep.idhep[index]!=PhotosParticle::GAMMA)
-      Log::Fatal("PH_HEPEVT_Interface::get(): Extra particle added to the PH_HEPEVT common block in not a photon!",6);
+    // 27.11.2014: This sanity check is no longer useful (or needed)
+    //             We now allow photos to produce particles other than gamma
+    //if(hep.idhep[index]!=PhotosParticle::GAMMA)
+    //  Log::Fatal("PH_HEPEVT_Interface::get(): Extra particle added to the PH_HEPEVT common block in not a photon!",6);
     
     //create a new particle
-    PhotosParticle * new_photon;
-    new_photon = m_particle_list.at(0)->createNewParticle(hep.idhep[index],
+    PhotosParticle * new_particle;
+    new_particle = m_particle_list.at(0)->createNewParticle(hep.idhep[index],
 							  hep.isthep[index],
 							  hep.phep[index][4],
 							  hep.phep[index][0],
@@ -206,22 +208,22 @@ void PH_HEPEVT_Interface::get(){
 							  hep.phep[index][3]);
     
     //add into the event record
-    //get mother particle of photon
+    //get mother particle of new particle
     PhotosParticle * mother =  m_particle_list.at(hep.jmohep[index][0]-1);
-    mother->addDaughter(new_photon);
+    mother->addDaughter(new_particle);
     
-    //add to list of photons
-    photon_list.push_back(new_photon);
+    //add to list of new_particles
+    new_particles_list.push_back(new_particle);
   }
 
   // Before we update particles, we check for special cases
   // At this step, particles are yet unmodified
-  // but photons are already in the event record
+  // but new particles are already in the event record
   bool special=false;
   PhotosParticle *p1 = NULL;
   PhotosParticle *p2 = NULL;
 
-  if( isPhotonCreated )
+  if( isParticleCreated )
   {
     std::vector<PhotosParticle*> daughters;
 
@@ -272,11 +274,9 @@ void PH_HEPEVT_Interface::get(){
       double px2=0.0, py2=0.0, pz2=0.0, e2=0.0;
 
       // get sum of 4-momenta of unmodified particles
-      for(unsigned int i=0;i<daughters.size();i++)
+      // 27.11.2014: range changed. Now it does not depend on added particles
+      for(int i=0; i < particle_count-daughters_start; i++)
       {
-        // ignore photons
-        if(daughters[i]->getPdgID()==22) continue;
-
         px1+=daughters[i]->getPx();
         py1+=daughters[i]->getPy();
         pz1+=daughters[i]->getPz();
@@ -284,11 +284,9 @@ void PH_HEPEVT_Interface::get(){
       }
 
       // get sum of 4-momenta of particles in self-decay vertices
-      for(unsigned int i=0;i<daughters.size();i++)
+      // 27.11.2014: range changed. Now it does not depend on added particles
+      for(int i=0; i < particle_count-daughters_start; i++)
       {
-        // ignore photons
-        if(daughters[i]->getPdgID()==22) continue;
-
         // since 'allDaughtersSelfDecay()' is true
         // each of these particles has exactly one daughter
         px2 += daughters[i]->getDaughters().at(0)->getPx();
@@ -303,20 +301,20 @@ void PH_HEPEVT_Interface::get(){
       p1 = m_particle_list.at(0)->createNewParticle(0,-1,0.0,px1,py1,pz1,e1);
       p2 = m_particle_list.at(0)->createNewParticle(0,-2,0.0,px2,py2,pz2,e2);
 
-      // Finaly, boost photons to appropriate frame
-      for(unsigned int i=0;i<photon_list.size();i++)
+      // Finally, boost new particles to appropriate frame
+      for(unsigned int i=0;i<new_particles_list.size();i++)
       {
-        PhotosParticle *boosted = photon_list[i]->createNewParticle( 22, 1,
+        PhotosParticle *boosted = new_particles_list[i]->createNewParticle( 22, 1,
                                     0.0,
-                                    photon_list[i]->getPx(),
-                                    photon_list[i]->getPy(),
-                                    photon_list[i]->getPz(),
-                                    photon_list[i]->getE()   );
+                                    new_particles_list[i]->getPx(),
+                                    new_particles_list[i]->getPy(),
+                                    new_particles_list[i]->getPz(),
+                                    new_particles_list[i]->getE()   );
                 
         boosted->boostToRestFrame(p1);
         boosted->boostFromRestFrame(p2);
         
-        photon_list[i]->createSelfDecayVertex(boosted);
+        new_particles_list[i]->createSelfDecayVertex(boosted);
         
         delete boosted;
       }
@@ -337,8 +335,8 @@ void PH_HEPEVT_Interface::get(){
     if(hep.idhep[index]!=particle->getPdgID())
       Log::Fatal("PH_HEPEVT_Interface::get(): Something is wrong with the PH_HEPEVT common block",5);
 
-    // If photons were added - for each daughter create a history entry
-    if(isPhotonCreated && Photos::isCreateHistoryEntries)
+    // If new particles were added - for each daughter create a history entry
+    if(isParticleCreated && Photos::isCreateHistoryEntries)
     {
       particle->createHistoryEntry();
     }
