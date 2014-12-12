@@ -1,5 +1,5 @@
 COMMAND = phopar.exe
-COMMAND_OBJECTS = phopar.o photos.o pseudo_jetset.o pary.o
+COMMAND_OBJECTS = phopar.o photos.o pseudo_jetset.o pary.o pairs.o
 ############
 all:	$(COMMAND)
 FFLAGS  = -fno-automatic -g -ffixed-line-length-132 -fno-backslash
@@ -7,6 +7,9 @@ LDFLAGS =    -fno-automatic -g
 F77 = gfortran
 LD  = $(F77)
 ###########
+.c.o:
+	$(CC) $(CFLAGS) -c $< -o $@
+
 .f.o:
 	$(F77) $(FFLAGS) -c $<
 # Link procedure

@@ -579,24 +579,6 @@ C
       QVEC(4)=RVEC(4)
       RETURN
       END
-      SUBROUTINE ROTOD3(PH1,PVEC,QVEC)
-C ----------------------------------------------------------------------
-C
-C     USED BY : KORALZ RADKOR
-C ----------------------------------------------------------------------
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-C
-      DIMENSION PVEC(4),QVEC(4),RVEC(4)
-      PHI=PH1
-      CS=COS(PHI)
-      SN=SIN(PHI)
-      DO 10 I=1,4
-  10  RVEC(I)=PVEC(I)
-      QVEC(1)= CS*RVEC(1)-SN*RVEC(2)
-      QVEC(2)= SN*RVEC(1)+CS*RVEC(2)
-      QVEC(3)=RVEC(3)
-      QVEC(4)=RVEC(4)
-      END
       SUBROUTINE BOSTD3(EXE,PVEC,QVEC)
 C ----------------------------------------------------------------------
 C BOOST ALONG Z AXIS, EXE=EXP(ETA), ETA= HIPERBOLIC VELOCITY.
