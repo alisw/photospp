@@ -1,9 +1,11 @@
+include ../../make.inc
+
 COMMAND = phopar.exe
 COMMAND_OBJECTS = phopar.o photos.o pseudo_jetset.o pary.o pairs.o
 ############
 all:	$(COMMAND)
 FFLAGS  = -fno-automatic -g -ffixed-line-length-132 -fno-backslash
-LDFLAGS =    -fno-automatic -g
+LDFLAGS = -fno-automatic -g -lstdc++
 F77 = gfortran
 LD  = $(F77)
 ###########

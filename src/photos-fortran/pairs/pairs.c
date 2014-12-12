@@ -1,7 +1,9 @@
+#include <cmath>
 // after investigations PHORO3 of PhotosUtilities.cxx will be used instead
 // but it must be checked first if it works
 
-void ROTOD3_(double ANGLE,double PVEC[4],double QVEC[4]){
+extern "C" void rotod3_(double *pANGLE,double PVEC[4],double QVEC[4]){
+  const double &ANGLE = *pANGLE;
   int j=1;  // convention of indices of Riemann space must be preserved.
   double CS,SN;
   CS=cos(ANGLE)*PVEC[1-j]-sin(ANGLE)*PVEC[2-j];
