@@ -515,7 +515,7 @@ C
 C     called by : RADCOR                                                
 C --------------------------------------------------------------------- 
       IMPLICIT REAL*8 (A-H,O-Z)                                        
-      REAL*8 PNU(4),PAA(4)
+      REAL*8 PNU(4),PAA(4),PP(4),PE(4)
       REAL*8 PNEUTR(4)                                                 
 C                                                                     
       IF     (KEY.EQ.1) THEN                                           

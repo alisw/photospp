@@ -273,8 +273,7 @@ C--   Print info
      &,/,    1H ,'*',T81,'*'
      &,/,    1H ,'*',18X,'INTERF=',L2,'  ISEC=',L2,'  IFTOP=',L2,T81,'*'
      &,/,    1H ,'*',18X,'ALPHA_QED=',F8.5,'   XPHCUT=',F8.5,T81,'*')
- 9070 FORMAT(1H ,'*',9X,'Monte Carlo Program - by E. Barberio, B. van Ei
-     &jk and Z. Was',T81,'*',/,
+ 9070 FORMAT(1H ,'*',9X,'Monte Carlo Program - by E. Barberio, B. van Eijk and Z. Was',T81,'*',/,
      &      1H ,'*',9X,'From version 2.0 on - by E.B. and Z.W.',T81,'*')
       END
       SUBROUTINE PHOTOS(IPARR)
@@ -945,7 +944,7 @@ C-- electron positron pair (coomented out for a while
       DO k=1,2000
       IF (IPAIR) CALL PHOPAR(ID,NHEP0)
       enddo
-      write(*,*) nhep0
+      write(*,*) 'some old print from  PHTYPE nhep0=',nhep0
       END  
       SUBROUTINE PHOMAK(IPPAR,NHEP0)
 C.----------------------------------------------------------------------
