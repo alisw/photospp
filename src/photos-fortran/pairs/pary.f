@@ -163,56 +163,7 @@ C--   probability of pair emission is assumed to be negligible !!!
 C--
       RETURN
       END
-      SUBROUTINE DUMPZ(NOUT)     
-*     **********************     
-* THIS PRINTS OUT FOUR MOMENTA OF PHOTONS 
-* ON OUTPUT UNIT NOUT
-      IMPLICIT REAL*8(A-H,O-Z)   
-      COMMON / MOMSET / P1(4),Q1(4),P2(4),Q2(4),PHOT(100,4),NPHOT
-      COMMON /PAIRST/   PELE(4),PPOZ(4),NPAIRS  
-      REAL*8 SUM(4)     
-      WRITE(NOUT,*) '=====================DUMPS====================' 
-      WRITE(NOUT,3100) ' P2',(P2(K),K=1,4)   
-      WRITE(NOUT,3100) ' Q2',(Q2(K),K=1,4)   
-      WRITE(NOUT,3100) ' PE',(PELE(K),K=1,4)   
-      WRITE(NOUT,3100) ' PP',(PPOZ(K),K=1,4)   
-      DO 100 I=1,NPHOT  
-  100 WRITE(NOUT,3100) 'PHO',(PHOT(I,K),K=1,4)        
-      DO 200 K=1,4      
-  200 SUM(K)=P2(K)+Q2(K)+PELE(K)+PPOZ(K)         
-      DO 210 I=1,NPHOT  
-      DO 210 K=1,4      
-  210 SUM(K)=SUM(K)+PHOT(I,K)    
-      WRITE(NOUT,3100) 'SUM',(SUM(K),K=1,4)           
- 3100 FORMAT(1X,A3,1X,5F18.13)   
-      END   
-      SUBROUTINE SPAJ(KUDA,PA,PB,PP,PE)     
-*     **********************     
-* THIS PRINTS OUT FOUR MOMENTA OF PHOTONS 
-* ON OUTPUT UNIT NOUT
-      IMPLICIT REAL*8(A-H,O-Z)   
-      REAL*8 SUM(4),PA(4),PB(4),PP(4),PE(4)
-      DATA KLUCZ /0/
-      IF (KLUCZ.EQ.0) RETURN
-      NOUT=56     
-      WRITE(NOUT,*) KUDA,'=====================SPAJ====================' 
-      WRITE(NOUT,3100) ' P2',(PA(K),K=1,4)   
-      WRITE(NOUT,3100) ' Q2',(PB(K),K=1,4)   
-      WRITE(NOUT,3100) ' PE',(PE(K),K=1,4)   
-      WRITE(NOUT,3100) ' PP',(PP(K),K=1,4)   
-      DO 200 K=1,4      
-  200 SUM(K)=PA(K)+PB(K)+PE(K)+PP(K)         
-      WRITE(NOUT,3100) 'SUM',(SUM(K),K=1,4)           
-      NOUT=16     
-      WRITE(NOUT,*) KUDA,'=====================SPAJ====================' 
-      WRITE(NOUT,3100) ' P2',(PA(K),K=1,4)   
-      WRITE(NOUT,3100) ' Q2',(PB(K),K=1,4)   
-      WRITE(NOUT,3100) ' PE',(PE(K),K=1,4)   
-      WRITE(NOUT,3100) ' PP',(PP(K),K=1,4)   
-      WRITE(NOUT,3100) 'SUM',(SUM(K),K=1,4)           
- 3100 FORMAT(1X,A3,1X,5F18.13)   
-      END   
-   
+  
       SUBROUTINE TRYPAR(JESLI,STRENG,PA,PB,PE,PP)       
       IMPLICIT REAL*8 (A-H,O-Z)                                        
       COMMON  /PARKIN/ 
@@ -927,6 +878,29 @@ C
       RETURN
       END
 
+      SUBROUTINE DUMPZ(NOUT)     
+*     **********************     
+* THIS PRINTS OUT FOUR MOMENTA OF PHOTONS 
+* ON OUTPUT UNIT NOUT
+      IMPLICIT REAL*8(A-H,O-Z)   
+      COMMON / MOMSET / P1(4),Q1(4),P2(4),Q2(4),PHOT(100,4),NPHOT
+      COMMON /PAIRST/   PELE(4),PPOZ(4),NPAIRS  
+      REAL*8 SUM(4)     
+      WRITE(NOUT,*) '=====================DUMPS====================' 
+      WRITE(NOUT,3100) ' P2',(P2(K),K=1,4)   
+      WRITE(NOUT,3100) ' Q2',(Q2(K),K=1,4)   
+      WRITE(NOUT,3100) ' PE',(PELE(K),K=1,4)   
+      WRITE(NOUT,3100) ' PP',(PPOZ(K),K=1,4)   
+      DO 100 I=1,NPHOT  
+  100 WRITE(NOUT,3100) 'PHO',(PHOT(I,K),K=1,4)        
+      DO 200 K=1,4      
+  200 SUM(K)=P2(K)+Q2(K)+PELE(K)+PPOZ(K)         
+      DO 210 I=1,NPHOT  
+      DO 210 K=1,4      
+  210 SUM(K)=SUM(K)+PHOT(I,K)    
+      WRITE(NOUT,3100) 'SUM',(SUM(K),K=1,4)           
+ 3100 FORMAT(1X,A3,1X,5F18.13)   
+      END   
 
 
 

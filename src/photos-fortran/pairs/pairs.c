@@ -150,3 +150,23 @@ extern "C" double amast_(double VEC[4]){
   return ama;
 } 
 
+extern "C" void spaj_(int *pKUDA,double P2[4],double Q2[4],double PP[4],double PE[4]){    
+  //     **********************     
+  // THIS PRINTS OUT FOUR MOMENTA OF PHOTONS 
+  // ON OUTPUT UNIT NOUT
+  const int &KUDA = *pKUDA;
+
+  double SUM[4];
+  const int KLUCZ=1;
+  if (KLUCZ==0) return;
+
+  printf (" %10i =====================SPAJ==================== \n", KUDA);
+  printf (" P2 %18.13f %18.13f %18.13f %18.13f \n",P2[0],P2[1],P2[2],P2[3]);
+  printf (" Q2 %18.13f %18.13f %18.13f %18.13f \n",Q2[0],Q2[1],Q2[2],Q2[3]);
+  printf (" PE %18.13f %18.13f %18.13f %18.13f \n",PE[0],PE[1],PE[2],PE[3]);
+  printf (" PP %18.13f %18.13f %18.13f %18.13f \n",PP[0],PP[1],PP[2],PP[3]);
+ 
+  for( int k=0;k<=3;k++) SUM[k]=P2[k]+Q2[k]+PE[k]+PP[k];
+
+  printf ("SUM %18.13f %18.13f %18.13f %18.13f \n",SUM[0],SUM[1],SUM[2],SUM[3]);
+}
