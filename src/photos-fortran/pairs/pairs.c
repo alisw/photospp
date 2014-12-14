@@ -157,7 +157,7 @@ extern "C" void spaj_(int *pKUDA,double P2[4],double Q2[4],double PP[4],double P
   const int &KUDA = *pKUDA;
 
   double SUM[4];
-  const int KLUCZ=1;
+  const int KLUCZ=0;
   if (KLUCZ==0) return;
 
   printf (" %10i =====================SPAJ==================== \n", KUDA);
@@ -170,3 +170,68 @@ extern "C" void spaj_(int *pKUDA,double P2[4],double Q2[4],double PP[4],double P
 
   printf ("SUM %18.13f %18.13f %18.13f %18.13f \n",SUM[0],SUM[1],SUM[2],SUM[3]);
 }
+extern "C" {
+ extern struct { 
+   double fi0; // FI0
+   double fi1; // FI1
+   double fi2; // FI2
+   double fi3; // FI3
+   double fi4; // FI4
+   double fi5; // FI5
+   double th0; // TH0
+   double th1; // TH1
+   double th3; // TH3
+   double th4; // TH4
+   double parneu; // PARNEU
+   double parch; // PARCH
+   double bpar; // BPAR
+   double bsta; // BSTA
+   double bstb; // BSTB
+  } parkin_;
+}
+
+extern "C" void partra_(int *pIBRAN,double PHOT[4]){
+
+   const int &IBRAN = *pIBRAN;
+
+   // particularily stupid way of introdicing minus for argument of the function.
+   double FI0 = -parkin_.fi0;
+   double FI1 = -parkin_.fi1;
+   double FI2 = -parkin_.fi2;
+   double FI3 = -parkin_.fi3;
+   double FI5 = -parkin_.fi5;
+   double TH0 = -parkin_.th0;
+   double TH1 = -parkin_.th1;
+   double TH3 = -parkin_.th3;
+   double TH4 = -parkin_.th4;
+
+   rotod3_(        &FI0,PHOT,PHOT); 
+   rotod2_(        &TH0,PHOT,PHOT);
+   bostd3_(&parkin_.bsta,PHOT,PHOT);
+   rotod3_(        &FI1,PHOT,PHOT);
+   rotod2_(        &TH1,PHOT,PHOT);
+   rotod3_(        &FI2,PHOT,PHOT);
+
+   if(IBRAN==-1){
+     bostd3_(&parkin_.parneu,PHOT,PHOT);
+   }
+   else{
+     bostd3_(&parkin_.parch,PHOT,PHOT);
+   }
+
+   rotod3_(        &FI3,PHOT,PHOT);
+   rotod2_(        &TH3,PHOT,PHOT);
+   bostd3_(&parkin_.bpar,PHOT,PHOT);
+   rotod3_(&parkin_.fi4,PHOT,PHOT);
+   rotod2_(        &TH4,PHOT,PHOT);
+   rotod3_(        &FI5,PHOT,PHOT);
+   rotod3_(&parkin_.fi2,PHOT,PHOT);
+   rotod2_(&parkin_.th1,PHOT,PHOT); 
+   rotod3_(&parkin_.fi1,PHOT,PHOT);
+   bostd3_(&parkin_.bstb,PHOT,PHOT);
+   rotod2_(&parkin_.th0,PHOT,PHOT);
+   rotod3_(&parkin_.fi0,PHOT,PHOT);
+   
+}
+
+
