@@ -8,7 +8,9 @@
   {
   return (a > b) ? a : b;
   }
-   //  
+   // 
+extern "C" void varran_( double RRR[], int *N);
+
 extern "C" double angfi_(double *pX,double *pY){                                               
   const double &X = *pX;
   const double &Y = *pY;
@@ -97,6 +99,30 @@ extern "C" void  bostd3_(double *pEXE,double PVEC[4],double QVEC[4]){
   QVEC[3-j]=(QPL-QMI)/2;
   QVEC[4-j]=(QPL+QMI)/2;
 }
+extern "C" void  bostd3(double EXE,double PVEC[4],double QVEC[4]){
+  // ----------------------------------------------------------------------
+  // BOOST ALONG Z AXIS, EXE=EXP(ETA), ETA= HIPERBOLIC VELOCITY.
+  //
+  //     USED BY : KORALZ RADKOR
+  /// ----------------------------------------------------------------------
+  int j=1;  // convention of indices of Riemann space must be preserved.
+  double RPL,RMI,QPL,QMI;
+  double RVEC[4];
+
+
+  RVEC[1-j]=PVEC[1-j];
+  RVEC[2-j]=PVEC[2-j];
+  RVEC[3-j]=PVEC[3-j];
+  RVEC[4-j]=PVEC[4-j];
+  RPL=RVEC[4-j]+RVEC[3-j];
+  RMI=RVEC[4-j]-RVEC[3-j];
+  QPL=RPL*EXE;
+  QMI=RMI/EXE;
+  QVEC[1-j]=RVEC[1-j];
+  QVEC[2-j]=RVEC[2-j];
+  QVEC[3-j]=(QPL-QMI)/2;
+  QVEC[4-j]=(QPL+QMI)/2;
+}
 
 // after investigations PHORO3 of PhotosUtilities.cxx will be used instead
 // but it must be checked first if it works
@@ -120,6 +146,46 @@ extern "C" void rotod3_(double *pANGLE,double PVEC[4],double QVEC[4]){
 
 extern "C" void   rotod2_(double *PH1,double PVEC[4],double QVEC[4]){
   const double &PHI = *PH1;
+  double RVEC[4];
+  int j=1;  // convention of indices of Riemann space must be preserved.
+  double CS,SN;
+
+  CS=cos(PHI);
+  SN=sin(PHI);
+
+  RVEC[1-j]=PVEC[1-j];
+  RVEC[2-j]=PVEC[2-j];
+  RVEC[3-j]=PVEC[3-j];
+  RVEC[4-j]=PVEC[4-j];
+
+  QVEC[1-j]= CS*RVEC[1-j]+SN*RVEC[3-j];
+  QVEC[2-j]=RVEC[2-j];
+  QVEC[3-j]=-SN*RVEC[1-j]+CS*RVEC[3-j];
+  QVEC[4-j]=RVEC[4-j];
+  //   printf ("%15.12f %15.12f %15.12f %15.12f \n",QVEC[0],QVEC[1],QVEC[2],QVEC[3]);
+  // exit(-1);
+}
+
+
+extern "C" void rotod3(double ANGLE,double PVEC[4],double QVEC[4]){
+
+ 
+  int j=1;  // convention of indices of Riemann space must be preserved.
+  double CS,SN;
+  //  printf ("%5.2f\n",cos(ANGLE));
+  CS=cos(ANGLE)*PVEC[1-j]-sin(ANGLE)*PVEC[2-j];
+  SN=sin(ANGLE)*PVEC[1-j]+cos(ANGLE)*PVEC[2-j];
+
+  QVEC[1-j]=CS;
+  QVEC[2-j]=SN;
+  QVEC[3-j]=PVEC[3-j];
+  QVEC[4-j]=PVEC[4-j];
+}
+
+
+
+extern "C" void   rotod2(double PHI,double PVEC[4],double QVEC[4]){
+
   double RVEC[4];
   int j=1;  // convention of indices of Riemann space must be preserved.
   double CS,SN;
@@ -244,6 +310,28 @@ extern "C" void spaj_(int *pKUDA,double P2[4],double Q2[4],double PP[4],double P
 
   printf ("SUM %18.13f %18.13f %18.13f %18.13f \n",SUM[0],SUM[1],SUM[2],SUM[3]);
 }
+
+
+extern "C" void spaj(int KUDA,double P2[4],double Q2[4],double PP[4],double PE[4]){    
+  //     **********************     
+  // THIS PRINTS OUT FOUR MOMENTA OF PHOTONS 
+  // ON OUTPUT UNIT NOUT
+
+  double SUM[4];
+  const int KLUCZ=0;
+  if (KLUCZ==0) return;
+
+  printf (" %10i =====================SPAJ==================== \n", KUDA);
+  printf (" P2 %18.13f %18.13f %18.13f %18.13f \n",P2[0],P2[1],P2[2],P2[3]);
+  printf (" Q2 %18.13f %18.13f %18.13f %18.13f \n",Q2[0],Q2[1],Q2[2],Q2[3]);
+  printf (" PE %18.13f %18.13f %18.13f %18.13f \n",PE[0],PE[1],PE[2],PE[3]);
+  printf (" PP %18.13f %18.13f %18.13f %18.13f \n",PP[0],PP[1],PP[2],PP[3]);
+ 
+  for( int k=0;k<=3;k++) SUM[k]=P2[k]+Q2[k]+PE[k]+PP[k];
+
+  printf ("SUM %18.13f %18.13f %18.13f %18.13f \n",SUM[0],SUM[1],SUM[2],SUM[3]);
+}
+
 extern "C" {
  extern struct { 
    double fi0; // FI0
@@ -308,7 +396,7 @@ extern "C" void partra_(int *pIBRAN,double PHOT[4]){
    
 }
 
-/*
+
 extern "C" void trypar1_(bool JESLI,double STRENG,double PA[4],double PB[4],double PE[4],double PP[4]){       
 
   //      COMMON  /PARKIN/ 
@@ -351,21 +439,22 @@ extern "C" void trypar1_(bool JESLI,double STRENG,double PA[4],double PB[4],doub
   X1 = PSUM[3-j];                                                 
   X2 = sqrt(PSUM[1-j]*PSUM[1-j]+PSUM[2-j]*PSUM[2-j]);                            
   TH0  =angxy(X1,X2) ;
-  spaj_(-2,PNEUTR,PAA,PP,PE);    
+  spaj(-2,PNEUTR,PAA,PP,PE);    
   lortra(3,-FI0,PNEUTR,VEC,PAA,PP,PE);
   lortra(2,-TH0,PNEUTR,VEC,PAA,PP,PE);
-  rotod3_(-FI0,PSUM,PSUM);
-  rotod2_(-TH0,PSUM,PSUM);
+  rotod3(-FI0,PSUM,PSUM);
+  rotod2(-TH0,PSUM,PSUM);
   BSTA=(PSUM[4-j]-PSUM[3-j])/sqrt(PSUM[4-j]*PSUM[4-j]-PSUM[3-j]*PSUM[3-j]);
   BSTB=(PSUM[4-j]+PSUM[3-j])/sqrt(PSUM[4-j]*PSUM[4-j]-PSUM[3-j]*PSUM[3-j]);
   lortra(1,BSTA,PNEUTR,VEC,PAA,PP,PE);
-  spaj_(-1,PNEUTR,PAA,PP,PE);                                  
+  spaj(-1,PNEUTR,PAA,PP,PE);                                  
   double AMNE=amast_(PNEUTR);                                              
   double AMCH=amast_(PAA);                                                
   if(AMCH<0.0) AMCH=AMEL;                                   
   if (AMNE<0.0) AMNE=0.0;
   double AMTO =PAA[4-j]+PNEUTR[4-j];
-  VARRAN_(RRR,8);
+  int osm=8;
+  varran_(RRR,&osm);
   double PRHARD;
   PRHARD= (1.0/PI/ALFINV)*(1.0/PI/ALFINV)* (2.0*log(AMTO/AMEL/2.0)) * 
           log(1.0/XK0) * log(AMTO*AMTO/2.0/AMEL*AMEL);
@@ -389,6 +478,7 @@ extern "C" void trypar1_(bool JESLI,double STRENG,double PA[4],double PB[4],doub
   // histograming .......................
   JESLIK=     (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
   double WTA=0.0;
+  WTA=WTA*5;
   if(JESLIK) WTA=1.0;
   //      GMONIT( 0,101   ,WTA,1D0,0D0)
   JESLIK= (XMP<(AMTO-AMNE-AMCH));
@@ -459,16 +549,16 @@ extern "C" void trypar1_(bool JESLI,double STRENG,double PA[4],double PB[4],doub
   X1 = PNEUTR[3-j];                                                 
   X2 = sqrt(PNEUTR[1-j]*PNEUTR[1-j]+PNEUTR[2-j]*PNEUTR[2-j]) ;                           
   TH1  =angxy(X1,X2); 
-  spaj_(0,PNEUTR,PAA,PP,PE);                                             
+  spaj(0,PNEUTR,PAA,PP,PE);                                             
   lortra(3,-FI1,PNEUTR,VEC,PAA,PP,PE);
-  lortra_(2,-TH1,PNEUTR,VEC,PAA,PP,PE);
+  lortra(2,-TH1,PNEUTR,VEC,PAA,PP,PE);
   VEC[4-j]=0.0;                                                  
   VEC[3-j]=0.0;                                                 
   VEC[2-j]=0.0;                                                 
   VEC[1-j]=1.0;                                                  
   FI2=angfi(VEC[1-j],VEC[2-j]);                                             
   lortra(3,-FI2,PNEUTR,VEC,PAA,PP,PE);
-  spaj_(1,PNEUTR,PAA,PP,PE);
+  spaj(1,PNEUTR,PAA,PP,PE);
                                         
   // STEALING FROM PAA AND PNEUTR ENERGY FOR THE pair
   // ====================================================  
@@ -495,18 +585,18 @@ extern "C" void trypar1_(bool JESLI,double STRENG,double PA[4],double PB[4],doub
   if(GNEU<1.||GCHAR<1.){
     printf(" TRYPAR GBOOST LT 1., LIMIT OF PHASE SPACE %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f \n" 
              ,GNEU,GCHAR,QNEW,QOLD,AMTO,AMTOST,AMNE,AMCH);
-    double XK,XKM,XK0DEC,AXK;
+    double XK=0,XKM=0,XK0DEC=0,AXK=0;
     printf(" %18.13f %18.13f %18.13f %18.13f ",XK,XKM,XK0DEC,AXK);
     return;
   }
   PARCH =GCHAR+sqrt(GCHAR*GCHAR-1.0);
   PARNEU=GNEU -sqrt(GNEU*GNEU -1.0);
 
-  // 2) REDUCTIVE BOOSTS
-  BOSTD3(PARNEU,VEC ,VEC );
-  BOSTD3(PARNEU,PNEUTR,PNEUTR);
-  BOSTD3(PARCH,PAA ,PAA );
-  spaj_(2,PNEUTR,PAA,PP,PE);
+  // 2) REDUCTIEV BOOSTS
+  bostd3(PARNEU,VEC ,VEC );
+  bostd3(PARNEU,PNEUTR,PNEUTR);
+  bostd3(PARCH,PAA ,PAA );
+  spaj(2,PNEUTR,PAA,PP,PE);
                                              
   // TIME FOR THE PHOTON that is electron pair
   double PMOD=xlam(XMP*XMP,AMEL*AMEL,AMEL*AMEL)/XMP/2.0;
@@ -537,20 +627,20 @@ extern "C" void trypar1_(bool JESLI,double STRENG,double PA[4],double PB[4],doub
   X1 = PHOT[1-j];
   X2 = PHOT[2-j]; 
   lortra(3,-FI3,PNEUTR,VEC,PAA,PP,PE);
-  rotod3_(-FI3,PHOT,PHOT);
+  rotod3(-FI3,PHOT,PHOT);
   lortra(2,-TH3,PNEUTR,VEC,PAA,PP,PE);
-  rotod2_(-TH3,PHOT,PHOT);
-  spaj_(21,PNEUTR,PAA,PP,PE);                                             
+  rotod2(-TH3,PHOT,PHOT);
+  spaj(21,PNEUTR,PAA,PP,PE);                                             
   // ... now get the pair !
   double PAIRB=PENE/XMP+PPED/XMP;
-  BOSTD3(PAIRB,PE,PE);  
-  BOSTD3(PAIRB,PP,PP);   
-  spaj_(3,PNEUTR,PAA,PP,PE); 
+  bostd3(PAIRB,PE,PE);  
+  bostd3(PAIRB,PP,PP);   
+  spaj(3,PNEUTR,PAA,PP,PE); 
   double GAMM=(PNEUTR[4-j]+PAA[4-j]+PP[4-j]+PE[4-j])/AMTO;
-  BPAR=GAMM-sqrt(GAMM**2-1.0);
+  BPAR=GAMM-sqrt(GAMM*GAMM-1.0);
   lortra(1, BPAR,PNEUTR,VEC,PAA,PP,PE);
-  BOSTD3( BPAR,PHOT,PHOT);
-  spaj_(4,PNEUTR,PAA,PP,PE);                                             
+  bostd3( BPAR,PHOT,PHOT);
+  spaj(4,PNEUTR,PAA,PP,PE);                                             
   // BACK IN THE TAU REST FRAME BUT PNEUTR NOT YET ORIENTED.
   X1 = PNEUTR[1-j];
   X2 = PNEUTR[2-j];
@@ -559,25 +649,25 @@ extern "C" void trypar1_(bool JESLI,double STRENG,double PA[4],double PB[4],doub
   X2 = sqrt(PNEUTR[1-j]*PNEUTR[1-j]+PNEUTR[2-j]*PNEUTR[2-j]);
   TH4  =angxy(X1,X2);
   lortra(3, FI4,PNEUTR,VEC,PAA,PP,PE);
-  rotod3_( FI4,PHOT,PHOT);
+  rotod3( FI4,PHOT,PHOT);
   lortra(2,-TH4,PNEUTR,VEC,PAA,PP,PE);
-  rotod2_(-TH4,PHOT,PHOT);
+  rotod2(-TH4,PHOT,PHOT);
   X1 = VEC[1-j];
   X2 = VEC[2-j];
   FI5=angfi(X1,X2);
   lortra(3,-FI5,PNEUTR,VEC,PAA,PP,PE);
-  rotod3_(-FI5,PHOT,PHOT);
+  rotod3(-FI5,PHOT,PHOT);
   // PAA RESTORES ORIGINAL DIRECTION 
   lortra(3, FI2,PNEUTR,VEC,PAA,PP,PE);
-  rotod3_( FI2,PHOT,PHOT);
+  rotod3( FI2,PHOT,PHOT);
   lortra(2, TH1,PNEUTR,VEC,PAA,PP,PE);
-  rotod2_( TH1,PHOT,PHOT);
+  rotod2( TH1,PHOT,PHOT);
   lortra(3, FI1,PNEUTR,VEC,PAA,PP,PE);
-  rotod3_( FI1,PHOT,PHOT);
-  spaj_(10,PNEUTR,PAA,PP,PE);
+  rotod3( FI1,PHOT,PHOT);
+  spaj(10,PNEUTR,PAA,PP,PE);
   lortra(1,BSTB,PNEUTR,VEC,PAA,PP,PE);
   lortra(2,TH0,PNEUTR,VEC,PAA,PP,PE);
   lortra(3,FI0,PNEUTR,VEC,PAA,PP,PE);
-  spaj_(11,PNEUTR,PAA,PP,PE);
+  spaj(11,PNEUTR,PAA,PP,PE);
 }  
-*/
+
