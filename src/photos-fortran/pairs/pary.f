@@ -192,6 +192,11 @@ C 4-MOMENTUM OF THE NEUTRAL SYSTEM
         JESLI=.FALSE.                                      
        RETURN
       ENDIF 
+
+ !     write(*,*) 'payac',jesli,streng
+ !     CALL SPAJ(-2,PNEUTR,PAA,PP,PE) 
+  !    stop
+
 C MASSES OF THE NEUTRAL AND CHARGED SYSTEMS AND OVERALL MASS
 C FIRST WE HAVE TO GO TO THE RESTFRAME TO GET RID OF INSTABILITIES 
 C FROM BHLUMI OR ANYTHING ELSE            

@@ -397,8 +397,9 @@ extern "C" void partra_(int *pIBRAN,double PHOT[4]){
 }
 
 
-extern "C" void trypar1_(bool JESLI,double STRENG,double PA[4],double PB[4],double PE[4],double PP[4]){       
-
+extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],double PE[4],double PP[4]){       
+  bool &JESLI = *pJESLI;
+  const double &STRENG = *pSTRENG;
   //      COMMON  /PARKIN/ 
   double FI0,FI1,FI2,FI3,FI4,FI5,TH0,TH1,TH3,TH4, PARNEU,PARCH,BPAR,BSTA,BSTB;
 
@@ -412,7 +413,6 @@ extern "C" void trypar1_(bool JESLI,double STRENG,double PA[4],double PB[4],doub
   const double ALFINV= 137.01;
   const int j=1;  // convention of indices of Riemann space must be preserved.
    
-    
   PA[4-j]=max(PA[4-j],sqrt(PA[1-j]*PA[1-j]+PA[2-j]*PA[2-j]+PA[3-j]*PA[3-j]));
   PB[4-j]=max(PB[4-j],sqrt(PB[1-j]*PB[1-j]+PB[2-j]*PB[2-j]+PB[3-j]*PB[3-j]));
   // 4-MOMENTUM OF THE NEUTRAL SYSTEM                                 
@@ -428,6 +428,10 @@ extern "C" void trypar1_(bool JESLI,double STRENG,double PA[4],double PB[4],doub
     JESLI=false;                                      
     return;
   }
+
+  //printf(" payac  %i %18.13f ",JESLI,STRENG );
+  //spaj(-2,PNEUTR,PAA,PP,PE);    
+  //exit(-1);
  
   // MASSES OF THE NEUTRAL AND CHARGED SYSTEMS AND OVERALL MASS
   // FIRST WE HAVE TO GO TO THE RESTFRAME TO GET RID OF INSTABILITIES 
@@ -585,7 +589,7 @@ extern "C" void trypar1_(bool JESLI,double STRENG,double PA[4],double PB[4],doub
   if(GNEU<1.||GCHAR<1.){
     printf(" TRYPAR GBOOST LT 1., LIMIT OF PHASE SPACE %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f \n" 
              ,GNEU,GCHAR,QNEW,QOLD,AMTO,AMTOST,AMNE,AMCH);
-    double XK=0,XKM=0,XK0DEC=0,AXK=0;
+    double XK=STRENG,XKM=0,XK0DEC=0,AXK=0;
     printf(" %18.13f %18.13f %18.13f %18.13f ",XK,XKM,XK0DEC,AXK);
     return;
   }
