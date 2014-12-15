@@ -1,9 +1,31 @@
 #include <cmath>
 #include <stdio.h>
 #include <stdlib.h>  
+//
+  inline double xlam(double A,double B,double C){return sqrt((A-B-C)*(A-B-C)-4.0*B*C);}
+
+  inline double max(double a, double b)
+  {
+  return (a > b) ? a : b;
+  }
+   //  
 extern "C" double angfi_(double *pX,double *pY){                                               
   const double &X = *pX;
   const double &Y = *pY;
+  double THE;
+  const double PI=3.141592653589793238462643;
+
+  if(X==0.0 && Y==0.0) return 0.0;           
+   if(fabs(Y) < fabs(X)){                                         
+    THE=atan(fabs(Y/X));                                              
+    if(X<=0.0) THE=PI-THE;}                                         
+  else{                                                              
+    THE=acos(X/sqrt(X*X +Y*Y));                                     
+  }
+   if(Y<0.0) THE=2*PI-THE;
+   return THE;
+}
+extern "C" double angfi(double X,double Y){                                               
   double THE;
   const double PI=3.141592653589793238462643;
 
@@ -21,6 +43,21 @@ extern "C" double angfi_(double *pX,double *pY){
 extern "C" double angxy_(double *pX,double *pY){                                               
   const double &X = *pX;
   const double &Y = *pY;
+  double THE;
+  const double PI=3.141592653589793238462643;
+
+  if(X==0.0 && Y==0.0) return 0.0;
+
+  if(fabs(Y) < fabs(X)){                                         
+    THE=atan(fabs(Y/X));                                              
+    if(X<=0.0) THE=PI-THE;}                                         
+  else{                                                              
+    THE=acos(X/sqrt(X*X +Y*Y));                                     
+  }                                       
+  return THE;                                                         
+}
+
+extern "C" double angxy(double X,double Y){                                               
   double THE;
   const double PI=3.141592653589793238462643;
 
@@ -143,6 +180,43 @@ extern "C" void   lortra_(int *pKEY,double *pPRM,double PNEUTR[4],double PNU[4],
   }
 }
 
+extern "C" void   lortra(int KEY,double PRM,double PNEUTR[4],double PNU[4],double PAA[4],double PP[4],double PE[4]){
+  // --------------------------------------------------------------------- 
+  // THIS ROUTINE PERFORMS LORENTZ TRANSFORMATION ON MANY 4-VECTORS        
+  // KEY   =1    BOOST    ALONG   3RD AXIS                                 
+  //       =2    ROTATION AROUND 2ND AXIS                                  
+  //       =3    ROTATION AROUND 3RD AXIS                                 
+  // PRM         TRANSFORMATION PARAMETER - ANGLE OR EXP(HIPERANGLE).     
+  //                                                                      
+  //    called by : RADCOR                                                
+  // --------------------------------------------------------------------- 
+  if(KEY==1){                                           
+    bostd3_(&PRM,PNEUTR,PNEUTR);                                 
+    bostd3_(&PRM,PNU ,PNU );                                     
+    bostd3_(&PRM,PAA ,PAA );                                     
+    bostd3_(&PRM,PE ,PE );                                     
+    bostd3_(&PRM,PP ,PP );
+  }                                     
+  else if (KEY==2){                                           
+    rotod2_(&PRM,PNEUTR,PNEUTR);                                 
+    rotod2_(&PRM,PNU ,PNU );                                     
+    rotod2_(&PRM,PAA ,PAA );                                    
+    rotod2_(&PRM,PE  ,PE  );                                     
+    rotod2_(&PRM,PP  ,PP );
+  }                                    
+  else if (KEY==3){                                          
+    rotod3_(&PRM,PNEUTR,PNEUTR);                                
+    rotod3_(&PRM,PNU ,PNU );                                     
+    rotod3_(&PRM,PAA ,PAA );                                    
+    rotod3_(&PRM,PE  ,PE  );                                     
+    rotod3_(&PRM,PP  ,PP );
+  }                                    
+  else{                                                            
+    printf (" STOP IN LOTRA. WRONG KEYTRA"); 
+    exit(-1);
+  }
+}
+
 extern "C" double amast_(double VEC[4]){
   int i=1;  // convention of indices of Riemann space must be preserved
   double ama= VEC[4-i]*VEC[4-i]-VEC[1-i]*VEC[1-i]-VEC[2-i]*VEC[2-i]-VEC[3-i]*VEC[3-i];
@@ -234,4 +308,276 @@ extern "C" void partra_(int *pIBRAN,double PHOT[4]){
    
 }
 
+/*
+extern "C" void trypar1_(bool JESLI,double STRENG,double PA[4],double PB[4],double PE[4],double PP[4]){       
 
+  //      COMMON  /PARKIN/ 
+  double FI0,FI1,FI2,FI3,FI4,FI5,TH0,TH1,TH3,TH4, PARNEU,PARCH,BPAR,BSTA,BSTB;
+
+  double  PNEUTR[4],PAA[4],PHOT[4],PSUM[4];
+  double VEC[4];                                                
+  double RRR[8]; 
+  bool JESLIK; 
+  const double PI=3.141592653589793238462643;     
+  const double AMEL=.511e3;
+  const double XK0 =  1.0e-3;                                 
+  const double ALFINV= 137.01;
+  const int j=1;  // convention of indices of Riemann space must be preserved.
+   
+    
+  PA[4-j]=max(PA[4-j],sqrt(PA[1-j]*PA[1-j]+PA[2-j]*PA[2-j]+PA[3-j]*PA[3-j]));
+  PB[4-j]=max(PB[4-j],sqrt(PB[1-j]*PB[1-j]+PB[2-j]*PB[2-j]+PB[3-j]*PB[3-j]));
+  // 4-MOMENTUM OF THE NEUTRAL SYSTEM                                 
+
+  for( int k=0;k<=3;k++){
+    PE[k]    =0.0;
+    PP[k]    =0.0;
+    PSUM[k]  =PA[k]+PB[k];
+    PAA[k]   =PA[k];
+    PNEUTR[k]=PB[k];
+  }
+  if((PAA[4-j]+PNEUTR[4-j])< 0.01 ){
+    JESLI=false;                                      
+    return;
+  }
+ 
+  // MASSES OF THE NEUTRAL AND CHARGED SYSTEMS AND OVERALL MASS
+  // FIRST WE HAVE TO GO TO THE RESTFRAME TO GET RID OF INSTABILITIES 
+  // FROM BHLUMI OR ANYTHING ELSE            
+  // THIRD AXIS ALONG PNEUTR                                             
+  double X1 = PSUM[1-j];                                                  
+  double X2 = PSUM[2-j]; 
+  FI0  =angfi(X1,X2);           
+  X1 = PSUM[3-j];                                                 
+  X2 = sqrt(PSUM[1-j]*PSUM[1-j]+PSUM[2-j]*PSUM[2-j]);                            
+  TH0  =angxy(X1,X2) ;
+  spaj_(-2,PNEUTR,PAA,PP,PE);    
+  lortra(3,-FI0,PNEUTR,VEC,PAA,PP,PE);
+  lortra(2,-TH0,PNEUTR,VEC,PAA,PP,PE);
+  rotod3_(-FI0,PSUM,PSUM);
+  rotod2_(-TH0,PSUM,PSUM);
+  BSTA=(PSUM[4-j]-PSUM[3-j])/sqrt(PSUM[4-j]*PSUM[4-j]-PSUM[3-j]*PSUM[3-j]);
+  BSTB=(PSUM[4-j]+PSUM[3-j])/sqrt(PSUM[4-j]*PSUM[4-j]-PSUM[3-j]*PSUM[3-j]);
+  lortra(1,BSTA,PNEUTR,VEC,PAA,PP,PE);
+  spaj_(-1,PNEUTR,PAA,PP,PE);                                  
+  double AMNE=amast_(PNEUTR);                                              
+  double AMCH=amast_(PAA);                                                
+  if(AMCH<0.0) AMCH=AMEL;                                   
+  if (AMNE<0.0) AMNE=0.0;
+  double AMTO =PAA[4-j]+PNEUTR[4-j];
+  VARRAN_(RRR,8);
+  double PRHARD;
+  PRHARD= (1.0/PI/ALFINV)*(1.0/PI/ALFINV)* (2.0*log(AMTO/AMEL/2.0)) * 
+          log(1.0/XK0) * log(AMTO*AMTO/2.0/AMEL*AMEL);
+
+  // this just enforces hard pairs to be generated 'always'
+  // this is for the sake of tests only.
+  //       PRHARD=0.99  
+  //
+
+  double XMP=2.0*AMEL*exp(RRR[1-j]*log(AMTO/2.0/AMEL)); 
+  double XP =AMTO*XK0*exp(RRR[2-j]*log(1.0/XK0));    
+  double C1 =1.0-4.0*AMEL*AMEL/AMTO*AMTO*exp(RRR[3-j]*log(AMTO*AMTO/2.0/AMEL*AMEL));
+  double FIX1=2.0*PI*RRR[4-j];
+  double C2  =1.0-2.0*RRR[5-j]; 
+  double FIX2=2.0*PI*RRR[6-j]; 
+  JESLI=(RRR[7-j]<PRHARD)       &&  
+        (XMP<(AMTO-AMNE-AMCH))  &&  
+        (XP >XMP)               &&  
+        (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
+
+  // histograming .......................
+  JESLIK=     (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
+  double WTA=0.0;
+  if(JESLIK) WTA=1.0;
+  //      GMONIT( 0,101   ,WTA,1D0,0D0)
+  JESLIK= (XMP<(AMTO-AMNE-AMCH));
+  WTA=0.0;
+  if(JESLIK) WTA=1.0;
+  //      GMONIT( 0,102   ,WTA,1D0,0D0)
+  JESLIK= (XMP<(AMTO-AMNE-AMCH))&& (XP >XMP);
+
+  WTA=0.0;
+  if(JESLIK) WTA=1.0;
+  //      GMONIT( 0,103   ,WTA,1D0,0D0)
+  JESLIK=
+         (XMP<(AMTO-AMNE-AMCH))&&
+         (XP >XMP)             &&
+         (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
+  WTA=0.0;
+  if (JESLIK) WTA=1.0;
+  //      GMONIT( 0,104   ,WTA,1D0,0D0)
+  // end of histograming ................  
+
+  // ... rejection due to parameters out of phase space
+  if (!JESLI) return;
+
+  // ... jacobians weights etc. 
+
+  double XMK2=AMTO*AMTO+XMP*XMP-2.0*XP*AMTO;
+  double XPMAX=(AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO;
+  double YOT3=(1-C1+4.0*AMEL*AMEL/AMTO/AMTO)/(1-C1+XMP*XMP/AMTO/AMTO);
+  double YOT2=(1-C1)*(1+C1)/2.0/(1-C1+XMP*XMP/AMTO/AMTO)*
+               xlam(AMTO*AMTO,XMK2,XMP*XMP)/(AMTO*AMTO+XMP*XMP-XMK2);
+
+  double YOT1=xlam(1.0,AMEL*AMEL/XMP/XMP, AMEL*AMEL/XMP/XMP)*
+              ((1-C1+XMP*XMP/AMTO/AMTO)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP))*
+              (1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX))*2.0/3.0;
+
+// note that the factor 2/3 in YOT1 above should be replaced by the 
+// appropriate A-P kernel for gamma splitting to e+e- !!!!!!!
+// the part of the weight below, should have average 1, but fluctuates 
+// wildly. This cancelation is important ingredient of the leading logs.
+//      YOT1=YOT1*
+//     $     (1D0-XP/(0.5D0*AMTO))/(1D0-XP/XPMAX)*
+//     $     XLAM(1D0,AMCH**2/XMK2,AMNEU**2/XMK2)/
+//     $     XLAM(1D0,AMCH**2/AMTO**2,AMNEU**2/AMTO**2)
+
+  double WT=YOT1*YOT2*YOT3;
+  //C histograming .......................
+  //      GMONIT( 0,105   ,WT  ,1D0,0D0) 
+  //      GMONIT( 0,106   ,YOT1,1D0,0D0) 
+  //      GMONIT( 0,107   ,YOT2,1D0,0D0) 
+  //      GMONIT( 0,108   ,YOT3,1D0,0D0)
+  //      GMONIT( 0,109   ,YOT4,1D0,0D0)
+  // end of histograming ................ 
+
+  // ... rejection due to weight
+  if (RRR[8-j]>WT){
+    JESLI=false;
+    return;
+  }
+
+  //                                                                     
+  //                                                                     
+  // FRAGMENTATION COMES !!                                              
+  //                                                                     
+  // THIRD AXIS ALONG PNEUTR                                             
+  X1 = PNEUTR[1-j];                                                  
+  X2 = PNEUTR[2-j];                                                 
+  FI1  =angfi(X1,X2);                                             
+  X1 = PNEUTR[3-j];                                                 
+  X2 = sqrt(PNEUTR[1-j]*PNEUTR[1-j]+PNEUTR[2-j]*PNEUTR[2-j]) ;                           
+  TH1  =angxy(X1,X2); 
+  spaj_(0,PNEUTR,PAA,PP,PE);                                             
+  lortra(3,-FI1,PNEUTR,VEC,PAA,PP,PE);
+  lortra_(2,-TH1,PNEUTR,VEC,PAA,PP,PE);
+  VEC[4-j]=0.0;                                                  
+  VEC[3-j]=0.0;                                                 
+  VEC[2-j]=0.0;                                                 
+  VEC[1-j]=1.0;                                                  
+  FI2=angfi(VEC[1-j],VEC[2-j]);                                             
+  lortra(3,-FI2,PNEUTR,VEC,PAA,PP,PE);
+  spaj_(1,PNEUTR,PAA,PP,PE);
+                                        
+  // STEALING FROM PAA AND PNEUTR ENERGY FOR THE pair
+  // ====================================================  
+  // NEW MOMENTUM OF PAA AND PNEUTR (IN THEIR VERY REST FRAME)
+  // 1) PARAMETERS..... 
+  double AMCH2=AMCH*AMCH;
+  double AMNE2=AMNE*AMNE;
+  double AMTOST=XMK2;
+  double QNEW=xlam(AMTOST,AMNE2,AMCH2)/sqrt(AMTOST)/2.0;
+  double QOLD=PNEUTR[3-j];
+  double GCHAR=(QNEW*QNEW+QOLD*QOLD+AMCH*AMCH)/
+               (QNEW*QOLD+sqrt((QNEW*QNEW+AMCH*AMCH)*(QOLD*QOLD+AMCH*AMCH)));
+  double GNEU= (QNEW*QNEW+QOLD*QOLD+AMNE*AMNE)/
+               (QNEW*QOLD+sqrt((QNEW*QNEW+AMNE*AMNE)*(QOLD*QOLD+AMNE*AMNE)));
+
+  //      GCHAR=(QOLD**2-QNEW**2)/(
+  //     &       QNEW*SQRT(QOLD**2+AMCH2)+QOLD*SQRT(QNEW**2+AMCH2)
+  //     &                        )
+  //      GCHAR=SQRT(1D0+GCHAR**2) 
+  //      GNEU=(QOLD**2-QNEW**2)/(
+  //     &       QNEW*SQRT(QOLD**2+AMNE2)+QOLD*SQRT(QNEW**2+AMNE2)
+  //     &                        )
+  //      GNEU=SQRT(1D0+GNEU**2) 
+  if(GNEU<1.||GCHAR<1.){
+    printf(" TRYPAR GBOOST LT 1., LIMIT OF PHASE SPACE %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f \n" 
+             ,GNEU,GCHAR,QNEW,QOLD,AMTO,AMTOST,AMNE,AMCH);
+    double XK,XKM,XK0DEC,AXK;
+    printf(" %18.13f %18.13f %18.13f %18.13f ",XK,XKM,XK0DEC,AXK);
+    return;
+  }
+  PARCH =GCHAR+sqrt(GCHAR*GCHAR-1.0);
+  PARNEU=GNEU -sqrt(GNEU*GNEU -1.0);
+
+  // 2) REDUCTIVE BOOSTS
+  BOSTD3(PARNEU,VEC ,VEC );
+  BOSTD3(PARNEU,PNEUTR,PNEUTR);
+  BOSTD3(PARCH,PAA ,PAA );
+  spaj_(2,PNEUTR,PAA,PP,PE);
+                                             
+  // TIME FOR THE PHOTON that is electron pair
+  double PMOD=xlam(XMP*XMP,AMEL*AMEL,AMEL*AMEL)/XMP/2.0;
+  double S2=sqrt(1.0-C2*C2);
+  PP[4-j]=XMP/2.0;
+  PP[3-j]=PMOD*C2;
+  PP[2-j]=PMOD*S2*cos(FIX2);
+  PP[1-j]=PMOD*S2*sin(FIX2);
+  PE[4-j]= PP[4-j];
+  PE[3-j]=-PP[3-j];
+  PE[2-j]=-PP[2-j];
+  PE[1-j]=-PP[1-j];
+  // PHOTON ENERGY and momentum IN THE REDUCED SYSTEM
+  double PENE=(AMTO*AMTO-XMP*XMP-XMK2)/2.0/sqrt(XMK2);
+  double PPED=sqrt(PENE*PENE-XMP*XMP);
+  FI3=FIX1;
+  double COSTHG=C1;
+  double SINTHG=sqrt(1.0-C1*C1);
+  X1 = -COSTHG;
+  X2 =  SINTHG;
+  TH3  =angxy(X1,X2);
+  PHOT[1-j]=PMOD*SINTHG*cos(FI3); 
+  PHOT[2-j]=PMOD*SINTHG*sin(FI3);
+  // MINUS BECAUSE AXIS OPPOSITE TO PAA
+  PHOT[3-j]=-PMOD*COSTHG;
+  PHOT[4-j]=PENE;
+  // ROTATE TO PUT PHOTON ALONG THIRD AXIS
+  X1 = PHOT[1-j];
+  X2 = PHOT[2-j]; 
+  lortra(3,-FI3,PNEUTR,VEC,PAA,PP,PE);
+  rotod3_(-FI3,PHOT,PHOT);
+  lortra(2,-TH3,PNEUTR,VEC,PAA,PP,PE);
+  rotod2_(-TH3,PHOT,PHOT);
+  spaj_(21,PNEUTR,PAA,PP,PE);                                             
+  // ... now get the pair !
+  double PAIRB=PENE/XMP+PPED/XMP;
+  BOSTD3(PAIRB,PE,PE);  
+  BOSTD3(PAIRB,PP,PP);   
+  spaj_(3,PNEUTR,PAA,PP,PE); 
+  double GAMM=(PNEUTR[4-j]+PAA[4-j]+PP[4-j]+PE[4-j])/AMTO;
+  BPAR=GAMM-sqrt(GAMM**2-1.0);
+  lortra(1, BPAR,PNEUTR,VEC,PAA,PP,PE);
+  BOSTD3( BPAR,PHOT,PHOT);
+  spaj_(4,PNEUTR,PAA,PP,PE);                                             
+  // BACK IN THE TAU REST FRAME BUT PNEUTR NOT YET ORIENTED.
+  X1 = PNEUTR[1-j];
+  X2 = PNEUTR[2-j];
+  FI4  =angfi(X1,X2);
+  X1 = PNEUTR[3-j];
+  X2 = sqrt(PNEUTR[1-j]*PNEUTR[1-j]+PNEUTR[2-j]*PNEUTR[2-j]);
+  TH4  =angxy(X1,X2);
+  lortra(3, FI4,PNEUTR,VEC,PAA,PP,PE);
+  rotod3_( FI4,PHOT,PHOT);
+  lortra(2,-TH4,PNEUTR,VEC,PAA,PP,PE);
+  rotod2_(-TH4,PHOT,PHOT);
+  X1 = VEC[1-j];
+  X2 = VEC[2-j];
+  FI5=angfi(X1,X2);
+  lortra(3,-FI5,PNEUTR,VEC,PAA,PP,PE);
+  rotod3_(-FI5,PHOT,PHOT);
+  // PAA RESTORES ORIGINAL DIRECTION 
+  lortra(3, FI2,PNEUTR,VEC,PAA,PP,PE);
+  rotod3_( FI2,PHOT,PHOT);
+  lortra(2, TH1,PNEUTR,VEC,PAA,PP,PE);
+  rotod2_( TH1,PHOT,PHOT);
+  lortra(3, FI1,PNEUTR,VEC,PAA,PP,PE);
+  rotod3_( FI1,PHOT,PHOT);
+  spaj_(10,PNEUTR,PAA,PP,PE);
+  lortra(1,BSTB,PNEUTR,VEC,PAA,PP,PE);
+  lortra(2,TH0,PNEUTR,VEC,PAA,PP,PE);
+  lortra(3,FI0,PNEUTR,VEC,PAA,PP,PE);
+  spaj_(11,PNEUTR,PAA,PP,PE);
+}  
+*/
