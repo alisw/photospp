@@ -103,9 +103,25 @@ C--
             PNEU(4)=PPHO(5,IP)-PPHO(4,CHAPOI(NCHARG))
             PCHAR (4)=PPHO(4,CHAPOI(NCHARG))
             STRENG=1D0
+C           here we attempt generating pair from PCHAR. One of the charged 
+C           decay products; that is why algorithm works in a loop.
+C           PNEU is four vector of all decay products except PCHAR
+C           we do not care on rare cases when two pairs could be generated
+C           we assume it is negligibly rare and fourth order in alpha anyway
+C           TRYPAR should take as an input electron mass.
+C           then it can be used for muons.         
             CALL TRYPAR(JESLI,STRENG,PCHAR,PNEU,PELE,PPOZ)
-          IF (JESLI) THEN
-           DO I=JDAPHO(1,IP),JDAPHO(2,IP)
+C           emitted pair four momenta are stored in PELE PPOZ
+C           then JESLI=.true. 
+
+
+          IF (JESLI) THEN                  ! THEN WE MODIFY OLD PARTICLES
+                                           ! OF THE VERTEX
+
+           DO I=JDAPHO(1,IP),JDAPHO(2,IP)  ! we have to correct 4-momenta 
+                                           ! of all decay products
+                                           ! we use PARTRA for that
+                                           ! PELE PPOZ are in right frame
             DO K=1,4
               BUF(K)=PPHO(K,I)
             ENDDO
@@ -118,7 +134,7 @@ C--
               PPHO(K,I)=BUF(K)
             ENDDO 
            ENDDO 
-c--  electron
+c--  electron:  adding to vertex
            CALL PHLUPA(1011)
            NPHO=NPHO+1
            ISTPHO(NPHO)=1
@@ -131,7 +147,7 @@ c--  electron
             PPHO(K,NPHO)=PELE(K)
            ENDDO
            PPHO(5,NPHO)=0.000 511
-c--  positron
+c--  positron: adding
            NPHO=NPHO+1
            ISTPHO(NPHO)=1
            IDPHO(NPHO) =-11
@@ -163,6 +179,13 @@ C--   probability of pair emission is assumed to be negligible !!!
 C--
       RETURN
       END
+
+
+C
+C  This is private random generator for adding pairs
+C it was useful form making sample of correlated events
+C with and without pairs.
+C
 
       SUBROUTINE VARRAN(DRVEC,LEN)
 C     ***************************
