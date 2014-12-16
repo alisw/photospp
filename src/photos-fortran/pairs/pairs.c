@@ -401,14 +401,28 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
   bool &JESLI = *pJESLI;
   const double &STRENG = *pSTRENG;
   //      COMMON  /PARKIN/ 
-  double FI0,FI1,FI2,FI3,FI4,FI5,TH0,TH1,TH3,TH4, PARNEU,PARCH,BPAR,BSTA,BSTB;
+  double &FI0=parkin_.fi0;
+  double &FI1=parkin_.fi1;
+  double &FI2=parkin_.fi2;
+  double &FI3=parkin_.fi3;
+  double &FI4=parkin_.fi4;
+  double &FI5=parkin_.fi5;
+  double &TH0=parkin_.th0;
+  double &TH1=parkin_.th1;
+  double &TH3=parkin_.th3;
+  double &TH4=parkin_.th4;
+  double &PARNEU=parkin_.parneu;
+  double &PARCH=parkin_.parch;
+  double &BPAR=parkin_.bpar;
+  double &BSTA=parkin_.bsta;
+  double &BSTB=parkin_.bstb;
 
   double  PNEUTR[4],PAA[4],PHOT[4],PSUM[4];
   double VEC[4];                                                
   double RRR[8]; 
   bool JESLIK; 
   const double PI=3.141592653589793238462643;     
-  const double AMEL=.511e3;
+  const double AMEL=.511e-3;
   const double XK0 =  1.0e-3;                                 
   const double ALFINV= 137.01;
   const int j=1;  // convention of indices of Riemann space must be preserved.
@@ -429,10 +443,12 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
     return;
   }
 
-  //printf(" payac  %i %18.13f ",JESLI,STRENG );
-  //spaj(-2,PNEUTR,PAA,PP,PE);    
-  //exit(-1);
- 
+  /*
+  printf(" payac  %i %18.13f ",JESLI,STRENG );
+  spaj(-2,PNEUTR,PAA,PP,PE);    
+  exit(-1);
+  */
+
   // MASSES OF THE NEUTRAL AND CHARGED SYSTEMS AND OVERALL MASS
   // FIRST WE HAVE TO GO TO THE RESTFRAME TO GET RID OF INSTABILITIES 
   // FROM BHLUMI OR ANYTHING ELSE            
@@ -443,7 +459,7 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
   X1 = PSUM[3-j];                                                 
   X2 = sqrt(PSUM[1-j]*PSUM[1-j]+PSUM[2-j]*PSUM[2-j]);                            
   TH0  =angxy(X1,X2) ;
-  spaj(-2,PNEUTR,PAA,PP,PE);    
+  spaj(-2,PNEUTR,PAA,PP,PE);
   lortra(3,-FI0,PNEUTR,VEC,PAA,PP,PE);
   lortra(2,-TH0,PNEUTR,VEC,PAA,PP,PE);
   rotod3(-FI0,PSUM,PSUM);
@@ -459,26 +475,33 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
   double AMTO =PAA[4-j]+PNEUTR[4-j];
   int osm=8;
   varran_(RRR,&osm);
+  // printf(" payacon   %18.13f %18.13f \n",RRR[0],RRR[7]);
+  // exit(-1);
   double PRHARD;
   PRHARD= (1.0/PI/ALFINV)*(1.0/PI/ALFINV)* (2.0*log(AMTO/AMEL/2.0)) * 
           log(1.0/XK0) * log(AMTO*AMTO/2.0/AMEL*AMEL);
 
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
-  //       PRHARD=0.99  
+  //  PRHARD=0.99;  
   //
 
   double XMP=2.0*AMEL*exp(RRR[1-j]*log(AMTO/2.0/AMEL)); 
+  // printf(" payacon   %18.13f %18.13f  %18.13f %18.13f  \n",AMEL,AMTO,RRR[1-j],log(AMTO/2.0/AMEL));
   double XP =AMTO*XK0*exp(RRR[2-j]*log(1.0/XK0));    
-  double C1 =1.0-4.0*AMEL*AMEL/AMTO*AMTO*exp(RRR[3-j]*log(AMTO*AMTO/2.0/AMEL*AMEL));
+  double C1 =1.0-4.0*AMEL*AMEL/AMTO/AMTO*exp(RRR[3-j]*log(AMTO*AMTO/2.0/AMEL/AMEL));
   double FIX1=2.0*PI*RRR[4-j];
   double C2  =1.0-2.0*RRR[5-j]; 
-  double FIX2=2.0*PI*RRR[6-j]; 
+  double FIX2=2.0*PI*RRR[6-j];
+ 
   JESLI=(RRR[7-j]<PRHARD)       &&  
         (XMP<(AMTO-AMNE-AMCH))  &&  
         (XP >XMP)               &&  
         (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
+  //  printf(" payacon   %18.13f %18.13f  %18.13f %18.13f  \n",XP,XMP,PRHARD,RRR[6]);
+  // printf(" payacon   %18.13f %18.13f  %18.13f %18.13f  \n",XMP,(AMTO-AMNE-AMCH),XP,((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
 
+  // exit(-1);   
   // histograming .......................
   JESLIK=     (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
   double WTA=0.0;
@@ -515,7 +538,8 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
                xlam(AMTO*AMTO,XMK2,XMP*XMP)/(AMTO*AMTO+XMP*XMP-XMK2);
 
   double YOT1=xlam(1.0,AMEL*AMEL/XMP/XMP, AMEL*AMEL/XMP/XMP)*
-              ((1-C1+XMP*XMP/AMTO/AMTO)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP))*
+              ((1-C1+XMP*XMP/AMTO/AMTO)/(1-C1+XMP*XMP/XP/XP))*
+              ((1-C1+XMP*XMP/AMTO/AMTO)/(1-C1+XMP*XMP/XP/XP))*
               (1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX))*2.0/3.0;
 
 // note that the factor 2/3 in YOT1 above should be replaced by the 
@@ -536,11 +560,17 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
   //      GMONIT( 0,109   ,YOT4,1D0,0D0)
   // end of histograming ................ 
 
+  //  printf(" payacon   %18.13f %18.13f  %18.13f %18.13f  \n",C1,AMEL,AMTO,XMP);
+  //printf(" payacon   %18.13f %18.13f  %18.13f %18.13f  \n",WT,WT,WT,RRR[8-j]);
+
+  //  exit(-1);   
+  // WT=1;
   // ... rejection due to weight
   if (RRR[8-j]>WT){
     JESLI=false;
     return;
   }
+
 
   //                                                                     
   //                                                                     
@@ -673,5 +703,7 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
   lortra(2,TH0,PNEUTR,VEC,PAA,PP,PE);
   lortra(3,FI0,PNEUTR,VEC,PAA,PP,PE);
   spaj(11,PNEUTR,PAA,PP,PE);
+  // payaco
+  //  exit(-1);   
 }  
 
