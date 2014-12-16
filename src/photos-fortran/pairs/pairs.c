@@ -197,23 +197,12 @@ extern "C" void partra_(int *pIBRAN,double PHOT[4]){
 
    const int &IBRAN = *pIBRAN;
 
-   // particularily stupid way of introdicing minus for argument of the function.
-   double FI0 = -parkin.fi0;
-   double FI1 = -parkin.fi1;
-   double FI2 = -parkin.fi2;
-   double FI3 = -parkin.fi3;
-   double FI5 = -parkin.fi5;
-   double TH0 = -parkin.th0;
-   double TH1 = -parkin.th1;
-   double TH3 = -parkin.th3;
-   double TH4 = -parkin.th4;
-
-   rotod3(        FI0,PHOT,PHOT); 
-   rotod2(        TH0,PHOT,PHOT);
+   rotod3(-parkin.fi0,PHOT,PHOT); 
+   rotod2(-parkin.th0,PHOT,PHOT);
    bostd3(parkin.bsta,PHOT,PHOT);
-   rotod3(        FI1,PHOT,PHOT);
-   rotod2(        TH1,PHOT,PHOT);
-   rotod3(        FI2,PHOT,PHOT);
+   rotod3(-parkin.fi1,PHOT,PHOT);
+   rotod2(-parkin.th1,PHOT,PHOT);
+   rotod3(-parkin.fi2,PHOT,PHOT);
 
    if(IBRAN==-1){
      bostd3(parkin.parneu,PHOT,PHOT);
@@ -222,18 +211,18 @@ extern "C" void partra_(int *pIBRAN,double PHOT[4]){
      bostd3(parkin.parch,PHOT,PHOT);
    }
 
-   rotod3(        FI3,PHOT,PHOT);
-   rotod2(        TH3,PHOT,PHOT);
+   rotod3(-parkin.fi3,PHOT,PHOT);
+   rotod2(-parkin.th3,PHOT,PHOT);
    bostd3(parkin.bpar,PHOT,PHOT);
-   rotod3(parkin.fi4,PHOT,PHOT);
-   rotod2(        TH4,PHOT,PHOT);
-   rotod3(        FI5,PHOT,PHOT);
-   rotod3(parkin.fi2,PHOT,PHOT);
-   rotod2(parkin.th1,PHOT,PHOT); 
-   rotod3(parkin.fi1,PHOT,PHOT);
+   rotod3( parkin.fi4,PHOT,PHOT);
+   rotod2(-parkin.th4,PHOT,PHOT);
+   rotod3(-parkin.fi5,PHOT,PHOT);
+   rotod3( parkin.fi2,PHOT,PHOT);
+   rotod2( parkin.th1,PHOT,PHOT); 
+   rotod3( parkin.fi1,PHOT,PHOT);
    bostd3(parkin.bstb,PHOT,PHOT);
-   rotod2(parkin.th0,PHOT,PHOT);
-   rotod3(parkin.fi0,PHOT,PHOT);
+   rotod2( parkin.th0,PHOT,PHOT);
+   rotod3( parkin.fi0,PHOT,PHOT);
    
 }
 
