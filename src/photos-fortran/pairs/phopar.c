@@ -40,26 +40,15 @@ void PHOPAR(int IPARR,int NHEP0) {
 
   IPPAR = IPARR;
   // Store pointers for cascade treatment...
-  // NOTE: IP is always 0 in this code.
-  //       This needs to be checked for cases when there are multiple mothers!
-  // NOTE: Mother JDAHEP is not modified even if particles are added!
-  IP    = 0;
+  IP    = IPPAR - 1;
   NLAST = pho.nhep;
 
   // Check decay multiplicity..
   PHOIN(IPPAR,&BOOST,&NHEP0);
+  PHOCHK(hep.jdahep[IP][0]);
   PHLUPA(100);
   if(pho.jdahep[IP][0] == 0) return;
   if(pho.jdahep[IP][0] == pho.jdahep[IP][1]) return;
-
-  MINMAS = 0.0;
-  MASSUM = 0.0;
-
-  // Calculate MASSUM and MINMAS
-  for(int I = pho.jdahep[IP][0]-1; I <= pho.jdahep[IP][1]-1; ++I) {
-    MINMAS += pho.phep[I][4]*pho.phep[I][4];
-    MASSUM += pho.phep[I][4];
-  }
 
   // Loop over charged daughters
   for(int I=pho.jdahep[IP][0]-1; I <= pho.jdahep[IP][1]-1; ++I) {
