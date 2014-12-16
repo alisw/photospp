@@ -479,7 +479,7 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
   // exit(-1);
   double PRHARD;
   PRHARD= (1.0/PI/ALFINV)*(1.0/PI/ALFINV)* (2.0*log(AMTO/AMEL/2.0)) * 
-          log(1.0/XK0) * log(AMTO*AMTO/2.0/AMEL*AMEL);
+          log(1.0/XK0) * log(AMTO*AMTO/2.0/AMEL/AMEL);
 
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
@@ -498,10 +498,16 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
         (XMP<(AMTO-AMNE-AMCH))  &&  
         (XP >XMP)               &&  
         (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
-  //  printf(" payacon   %18.13f %18.13f  %18.13f %18.13f  \n",XP,XMP,PRHARD,RRR[6]);
-  // printf(" payacon   %18.13f %18.13f  %18.13f %18.13f  \n",XMP,(AMTO-AMNE-AMCH),XP,((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
 
-  // exit(-1);   
+  //  if(!((XMP<(AMTO-AMNE-AMCH))  &&  
+  //      (XP >XMP)               &&  
+  //    (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO)))){
+  //  printf(" -- \n");
+  //  printf(" payaconik   %18.13f %18.13f  %18.13f %18.13f  \n",XP,XMP,PRHARD,RRR[6]);
+  // printf(" payaconik   %18.13f %18.13f  %18.13f %18.13f  \n",XMP,(AMTO-AMNE-AMCH),XP,((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
+   // }
+
+   //  exit(-1);   
   // histograming .......................
   JESLIK=     (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
   double WTA=0.0;
@@ -527,6 +533,9 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
   // end of histograming ................  
 
   // ... rejection due to parameters out of phase space
+  //  if (JESLI){
+  //printf(" ale JESLI \n");
+  // }
   if (!JESLI) return;
 
   // ... jacobians weights etc. 
@@ -561,7 +570,8 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
   // end of histograming ................ 
 
   //  printf(" payacon   %18.13f %18.13f  %18.13f %18.13f  \n",C1,AMEL,AMTO,XMP);
-  //printf(" payacon   %18.13f %18.13f  %18.13f %18.13f  \n",WT,WT,WT,RRR[8-j]);
+  //  if (RRR[8-j]>WT) printf(" payacon idzie para \n");
+  //  printf(" payacon   %18.13f %18.13f  %18.13f %18.13f  \n",WT,WT,WT,RRR[8-j]);
 
   //  exit(-1);   
   // WT=1;
