@@ -42,6 +42,7 @@ void PHOPAR(int IPARR,int NHEP0) {
   // Store pointers for cascade treatment...
   // NOTE: IP is always 0 in this code.
   //       This needs to be checked for cases when there are multiple mothers!
+  // NOTE: Mother JDAHEP is not modified even if particles are added!
   IP    = 0;
   NLAST = pho.nhep;
 
@@ -49,19 +50,19 @@ void PHOPAR(int IPARR,int NHEP0) {
   PHOIN(IPPAR,&BOOST,&NHEP0);
   PHLUPA(100);
   if(pho.jdahep[IP][0] == 0) return;
-  if(pho.jdahep[IP][0] == pho.jdahep[IP-1][1]) return;
+  if(pho.jdahep[IP][0] == pho.jdahep[IP][1]) return;
 
   MINMAS = 0.0;
   MASSUM = 0.0;
 
   // Calculate MASSUM and MINMAS
-  for(int I=pho.jdahep[IP][0]; I <= pho.jdahep[IP][1]; ++I) {
+  for(int I = pho.jdahep[IP][0]-1; I <= pho.jdahep[IP][1]-1; ++I) {
     MINMAS += pho.phep[I][4]*pho.phep[I][4];
     MASSUM += pho.phep[I][4];
   }
 
   // Loop over charged daughters
-  for(int I=pho.jdahep[IP][0]; I <= pho.jdahep[IP][1]; ++I) {
+  for(int I=pho.jdahep[IP][0]-1; I <= pho.jdahep[IP][1]-1; ++I) {
 
     // Skip this particle if it has no charge
     if( PHOCHA(pho.idhep[I]) == 0 ) continue;
@@ -73,7 +74,7 @@ void PHOPAR(int IPARR,int NHEP0) {
     }
 
     // Set energy
-    PNEU[3]  = pho.phep[IP-1][4] - pho.phep[I][3];
+    PNEU[3]  = pho.phep[IP][4] - pho.phep[I][3];
     PCHAR[3] = pho.phep[I][3];
 
     STRENG   = 1.0;
@@ -98,7 +99,7 @@ void PHOPAR(int IPARR,int NHEP0) {
       // of all decay products
       // we use PARTRA for that
       // PELE PPOZ are in right frame
-      for(int J = pho.jdahep[IP][0]; J<pho.jdahep[IP][1]; ++J) {
+      for(int J = pho.jdahep[IP][0]-1; J<pho.jdahep[IP][1]-1; ++J) {
         for(int K = 0; K<4; ++K) {
           BUF[K] = pho.phep[I][K];
         }
