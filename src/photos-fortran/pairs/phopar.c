@@ -45,7 +45,7 @@ void PHOPAR(int IPARR,int NHEP0) {
 
   // Check decay multiplicity..
   PHOIN(IPPAR,&BOOST,&NHEP0);
-  PHOCHK(hep.jdahep[IP][0]);
+  PHOCHK(pho.jdahep[IP][0]); // should be loop over all mothers?
   PHLUPA(100);
   if(pho.jdahep[IP][0] == 0) return;
   if(pho.jdahep[IP][0] == pho.jdahep[IP][1]) return;
