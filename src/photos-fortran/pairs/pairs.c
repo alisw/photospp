@@ -297,8 +297,10 @@ extern "C" void trypar_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],d
   if(AMCH<0.0) AMCH=AMEL;                                   
   if (AMNE<0.0) AMNE=0.0;
   double AMTO =PAA[4-j]+PNEUTR[4-j];
+
   int osm=8;
   varran_(RRR,&osm);
+  // for( int k=0;k<=7;k++) RRR[k]=Photos::randomDouble();
 
   double PRHARD;
   PRHARD= (1.0/PI/ALFINV)*(1.0/PI/ALFINV)* (2.0*log(AMTO/AMEL/2.0)) * 
