@@ -164,7 +164,7 @@ C--
       RETURN
       END
   
-      SUBROUTINE TRYPAR(JESLI,STRENG,PA,PB,PE,PP)       
+      SUBROUTINE TRYPAR1(JESLI,STRENG,PA,PB,PE,PP)       
       IMPLICIT REAL*8 (A-H,O-Z)                                        
       COMMON  /PARKIN/ 
      $ FI0,FI1,FI2,FI3,FI4,FI5,TH0,TH1,TH3,TH4
@@ -235,6 +235,14 @@ C
          FIX1=2D0*PI*RRR(4)
          C2  =1D0-2D0*RRR(5) 
          FIX2=2D0*PI*RRR(6) 
+!         IF (.not.( (XMP.LT.(AMTO-AMNE-AMCH)).AND.
+!     $         (XP .GT.XMP)             .AND.
+!     $         (XP .LT.((AMTO**2+XMP**2-(AMCH+AMNE)**2)/2D0/AMTO)))) THEN
+        write(*,*) ' '
+        write(*,*) 'pajaco',XP,XMP,PRHARD,RRR(7)
+        write(*,*) 'pajaco',XMP,(AMTO-AMNE-AMCH),XP,((AMTO**2+XMP**2-(AMCH+AMNE)**2)/2D0/AMTO)
+!        endif
+        stop 
          JESLI=(RRR(7).LT.PRHARD).AND.
      $         (XMP.LT.(AMTO-AMNE-AMCH)).AND.
      $         (XP .GT.XMP)             .AND.
@@ -266,6 +274,7 @@ C histograming .......................
 !      CALL GMONIT( 0,104   ,WTA,1D0,0D0)
 C end of histograming ................  
 C ... rejection due to parameters out of phase space
+      IF (JESLI) write(*,*) ' ale JESLI'
       IF (.NOT.JESLI) RETURN
 C ... jacobians weights etc. 
       XMK2=AMTO**2+XMP**2-2D0*XP*AMTO
@@ -293,6 +302,12 @@ C      CALL GMONIT( 0,108   ,YOT3,1D0,0D0)
 C      CALL GMONIT( 0,109   ,YOT4,1D0,0D0)
 C end of histograming ................ 
 C ... rejection due to weight
+c      write(*,*) 'payacon',C1,AMEL,AMTO,XMP
+      nn=nn+1
+      IF (RRR(8).LT.WT) write(*,*) ' idzie para' 
+       write(*,*) 'payacon',wt,wt,wt,RRR(8), '  nn= ',nn
+ 
+C      wt=1.0
       IF (RRR(8).GT.WT) THEN
         JESLI=.FALSE.
         RETURN

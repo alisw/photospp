@@ -397,7 +397,7 @@ extern "C" void partra_(int *pIBRAN,double PHOT[4]){
 }
 
 
-extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],double PE[4],double PP[4]){       
+extern "C" void trypar_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],double PE[4],double PP[4]){       
   bool &JESLI = *pJESLI;
   const double &STRENG = *pSTRENG;
   //      COMMON  /PARKIN/ 
@@ -443,12 +443,6 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
     return;
   }
 
-  /*
-  printf(" payac  %i %18.13f ",JESLI,STRENG );
-  spaj(-2,PNEUTR,PAA,PP,PE);    
-  exit(-1);
-  */
-
   // MASSES OF THE NEUTRAL AND CHARGED SYSTEMS AND OVERALL MASS
   // FIRST WE HAVE TO GO TO THE RESTFRAME TO GET RID OF INSTABILITIES 
   // FROM BHLUMI OR ANYTHING ELSE            
@@ -475,8 +469,7 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
   double AMTO =PAA[4-j]+PNEUTR[4-j];
   int osm=8;
   varran_(RRR,&osm);
-  // printf(" payacon   %18.13f %18.13f \n",RRR[0],RRR[7]);
-  // exit(-1);
+
   double PRHARD;
   PRHARD= (1.0/PI/ALFINV)*(1.0/PI/ALFINV)* (2.0*log(AMTO/AMEL/2.0)) * 
           log(1.0/XK0) * log(AMTO*AMTO/2.0/AMEL/AMEL);
@@ -487,7 +480,6 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
   //
 
   double XMP=2.0*AMEL*exp(RRR[1-j]*log(AMTO/2.0/AMEL)); 
-  // printf(" payacon   %18.13f %18.13f  %18.13f %18.13f  \n",AMEL,AMTO,RRR[1-j],log(AMTO/2.0/AMEL));
   double XP =AMTO*XK0*exp(RRR[2-j]*log(1.0/XK0));    
   double C1 =1.0-4.0*AMEL*AMEL/AMTO/AMTO*exp(RRR[3-j]*log(AMTO*AMTO/2.0/AMEL/AMEL));
   double FIX1=2.0*PI*RRR[4-j];
@@ -499,15 +491,6 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
         (XP >XMP)               &&  
         (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
 
-  //  if(!((XMP<(AMTO-AMNE-AMCH))  &&  
-  //      (XP >XMP)               &&  
-  //    (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO)))){
-  //  printf(" -- \n");
-  //  printf(" payaconik   %18.13f %18.13f  %18.13f %18.13f  \n",XP,XMP,PRHARD,RRR[6]);
-  // printf(" payaconik   %18.13f %18.13f  %18.13f %18.13f  \n",XMP,(AMTO-AMNE-AMCH),XP,((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
-   // }
-
-   //  exit(-1);   
   // histograming .......................
   JESLIK=     (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
   double WTA=0.0;
@@ -532,10 +515,6 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
   //      GMONIT( 0,104   ,WTA,1D0,0D0)
   // end of histograming ................  
 
-  // ... rejection due to parameters out of phase space
-  //  if (JESLI){
-  //printf(" ale JESLI \n");
-  // }
   if (!JESLI) return;
 
   // ... jacobians weights etc. 
@@ -569,13 +548,6 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
   //      GMONIT( 0,109   ,YOT4,1D0,0D0)
   // end of histograming ................ 
 
-  //  printf(" payacon   %18.13f %18.13f  %18.13f %18.13f  \n",C1,AMEL,AMTO,XMP);
-  //  if (RRR[8-j]>WT) printf(" payacon idzie para \n");
-  //  printf(" payacon   %18.13f %18.13f  %18.13f %18.13f  \n",WT,WT,WT,RRR[8-j]);
-
-  //  exit(-1);   
-  // WT=1;
-  // ... rejection due to weight
   if (RRR[8-j]>WT){
     JESLI=false;
     return;
@@ -713,7 +685,5 @@ extern "C" void trypar1_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],
   lortra(2,TH0,PNEUTR,VEC,PAA,PP,PE);
   lortra(3,FI0,PNEUTR,VEC,PAA,PP,PE);
   spaj(11,PNEUTR,PAA,PP,PE);
-  // payaco
-  //  exit(-1);   
 }  
 
