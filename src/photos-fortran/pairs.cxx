@@ -315,7 +315,7 @@ extern "C" void trypar_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],d
 
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
-  //  PRHARD=0.99;  
+    PRHARD=0.99;  
   //
 
   double XMP=2.0*AMEL*exp(RRR[1-j]*log(AMTO/2.0/AMEL)); 

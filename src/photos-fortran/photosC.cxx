@@ -2405,12 +2405,11 @@ void PHTYPE(int ID){
     phokey_.fsec=1.0;
     PHOMAK(ID,NHEP0);
   }
-}
-  
   //--
-  //-- electron positron pair (coomented out for a while
-  //      if (IPAIR)  PHOPAR(ID,NHEP0);
-  //}
+  //-- electron positron pair
+  if (IPAIR)  PHOPAR(ID,NHEP0);
+}
+
 /*----------------------------------------------------------------------
 
       PHOTOS:   Photon radiation in decays
@@ -2443,13 +2442,13 @@ void PHOPAR(int IPARR,int NHEP0) {
 
   IPPAR = IPARR;
   // Store pointers for cascade treatment...
-  IP    = IPPAR - 1;
+  IP    = 0;
   NLAST = pho.nhep;
-
   // Check decay multiplicity..
   PHOIN(IPPAR,&BOOST,&NHEP0);
   PHOCHK(pho.jdahep[IP][0]); // should be loop over all mothers?
   PHLUPA(100);
+
   if(pho.jdahep[IP][0] == 0) return;
   if(pho.jdahep[IP][0] == pho.jdahep[IP][1]) return;
 
