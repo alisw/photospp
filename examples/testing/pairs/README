@@ -1,0 +1,35 @@
+Dec 17
+
+This is at work.
+We collecxt the most elementary tests of pair emission algorithm.
+We start from generating sample
+e+e---> Z --> mu+mu-
+and adding pairs with MC tester. Many of these tests require intervention 
+in the code.
+
+1)
+==
+We run standard MC-tester on Z decays. Later we add some user-analysis
+plots as well.	
+// 2. Initialize pythia (argv[2], from console)
+	else if(atoi(argv[2])==1) pythia.init( 11, -11, 91.187);
+should be a good choice for the start.
+
+2)
+==
+to recompile/reload (typically src/photos-fortran files photosC.cxx 
+and photos-pair.cxx will change) one has to:
+.....
+
+3)
+==
+WHAT WE SHOULD DO as early tests:
+1) pair generator as flat phase generator, 
+2) virtuality of pair
+3) energy of pair
+4) angle: pair with respect to  lepton(s)
+
+4)
+==
+at present all these plots need the code to be modified/recompiled
+in fact written as well.
