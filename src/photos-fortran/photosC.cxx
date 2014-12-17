@@ -2510,12 +2510,12 @@ void PHOPAR(int IPARR,int NHEP0) {
 
       // electron: adding to vertex
       pho.nhep = pho.nhep+1;
-      pho.isthep[pho.nhep] = 1;
-      pho.idhep [pho.nhep] = 11;
-      pho.jmohep[pho.nhep][0] = IP;
-      pho.jmohep[pho.nhep][1] = 0;
-      pho.jdahep[pho.nhep][0] = 0;
-      pho.jdahep[pho.nhep][1] = 0;
+      pho.isthep[pho.nhep-1] = 1;
+      pho.idhep [pho.nhep-1] = 11;
+      pho.jmohep[pho.nhep-1][0] = IP;
+      pho.jmohep[pho.nhep-1][1] = 0;
+      pho.jdahep[pho.nhep-1][0] = 0;
+      pho.jdahep[pho.nhep-1][1] = 0;
 
       for(int K = 1; K<4; ++K) {
         pho.phep[pho.nhep][K] = PELE[K];
@@ -2525,12 +2525,12 @@ void PHOPAR(int IPARR,int NHEP0) {
 
       // positron: adding
       pho.nhep = pho.nhep+1;
-      pho.isthep[pho.nhep] = 1;
-      pho.idhep [pho.nhep] =-11;
-      pho.jmohep[pho.nhep][0] = IP;
-      pho.jmohep[pho.nhep][1] = 0;
-      pho.jdahep[pho.nhep][0] = 0;
-      pho.jdahep[pho.nhep][1] = 0;
+      pho.isthep[pho.nhep-1] = 1;
+      pho.idhep [pho.nhep-1] =-11;
+      pho.jmohep[pho.nhep-1][0] = IP;
+      pho.jmohep[pho.nhep-1][1] = 0;
+      pho.jdahep[pho.nhep-1][0] = 0;
+      pho.jdahep[pho.nhep-1][1] = 0;
 
       for(int K = 1; K<4; ++K) {
         pho.phep[pho.nhep][K] = PPOZ[K];
