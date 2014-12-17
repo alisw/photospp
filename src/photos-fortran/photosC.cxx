@@ -2407,7 +2407,7 @@ void PHTYPE(int ID){
   }
   //--
   //-- electron positron pair
-  if (IPAIR)  PHOPAR(ID,NHEP0);
+  //if (IPAIR)  PHOPAR(ID,NHEP0);
 }
 
 /*----------------------------------------------------------------------
@@ -2435,8 +2435,7 @@ void PHTYPE(int ID){
 
   ----------------------------------------------------------------------*/
 void PHOPAR(int IPARR,int NHEP0) {
-  double MINMAS,STRENG,PCHAR[4],PNEU[4],PELE[4],PPOZ[4],BUF[4];
-  float  MASSUM;
+  double STRENG,PCHAR[4],PNEU[4],PELE[4],PPOZ[4],BUF[4];
   int    IP,IPPAR,NLAST;
   bool   BOOST,JESLI;
 
