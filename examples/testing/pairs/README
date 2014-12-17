@@ -19,7 +19,27 @@ should be a good choice for the start.
 ==
 to recompile/reload (typically src/photos-fortran files photosC.cxx 
 and photos-pair.cxx will change) one has to:
-.....
+
+at new window
+-------------
+
+cd PHOTOS
+source configure.paths.sh
+./configure --with-hepmc=$HEPMCLOCATION --with-pythia8=$PYTHIALOCATION --with-mc-tester=$MCTESTERLOCATION --with-tauola=$TAUOLALOCATION
+make
+cd examples
+./configure
+make
+cd testing
+make
+cd pairs
+make clobber && make mc-tester.pairs.root
+
+after changing code 
+-------------------
+
+go to PHOTOS
+make clean ; make
 
 3)
 ==
