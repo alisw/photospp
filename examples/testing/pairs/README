@@ -7,24 +7,15 @@ e+e---> Z --> mu+mu-
 and adding pairs with MC tester. Many of these tests require intervention 
 in the code.
 
-1)
-==
-We run standard MC-tester on Z decays. Later we add some user-analysis
-plots as well.	
-// 2. Initialize pythia (argv[2], from console)
-	else if(atoi(argv[2])==1) pythia.init( 11, -11, 91.187);
-should be a good choice for the start.
 
-2)
-==
-to recompile/reload (typically src/photos-fortran files photosC.cxx 
-and photos-pair.cxx will change) one has to:
+------------------------------------------------------------------------------
+To recompile from the start (fresh repository or some problems)
+------------------------------------------------------------------------------
 
-at new window
--------------
-
-cd PHOTOS
+go to TAUOLA
 source configure.paths.sh
+
+go to PHOTOS
 ./configure --with-hepmc=$HEPMCLOCATION --with-pythia8=$PYTHIALOCATION --with-mc-tester=$MCTESTERLOCATION --with-tauola=$TAUOLALOCATION
 make
 cd examples
@@ -35,13 +26,32 @@ make
 cd pairs
 make clobber && make mc-tester.pairs.root
 
-after changing code 
--------------------
+------------------------------------------------------------------------------
+at new window (needed only once)
+------------------------------------------------------------------------------
 
-go to PHOTOS
-make clean ; make
+cd PHOTOS
+source configure.paths.sh
+cd examples/testing/pairs
+make clobber && make mc-tester.pairs.root
 
-3)
+------------------------------------------------------------------------------
+after changing code (to recompile libraries and if successful, run the test)
+------------------------------------------------------------------------------
+
+cd PHOTOS/examples/testing/pairs
+(cd ../../..; make) && make clobber && make mc-tester.pairs.root
+
+  or
+
+cd PHOTOS
+make
+cd examples/testing/pairs
+make clobber && make mc-tester.pairs.root
+
+------------------------------------------------------------------------------
+
+1)
 ==
 WHAT WE SHOULD DO as early tests:
 1) pair generator as flat phase generator, 
@@ -49,7 +59,7 @@ WHAT WE SHOULD DO as early tests:
 3) energy of pair
 4) angle: pair with respect to  lepton(s)
 
-4)
+2)
 ==
 at present all these plots need the code to be modified/recompiled
 in fact written as well.
