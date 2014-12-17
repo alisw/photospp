@@ -1,7 +1,13 @@
-/*
+#include "Photos.h"
+#include "pairs.h"
+
 #include <cmath>
 #include <stdio.h>
 #include <stdlib.h>  
+using namespace Photospp;
+
+namespace Photospp {
+
 //
   inline double xlam(double A,double B,double C){return sqrt((A-B-C)*(A-B-C)-4.0*B*C);}
 
@@ -299,9 +305,9 @@ extern "C" void trypar_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],d
   if (AMNE<0.0) AMNE=0.0;
   double AMTO =PAA[4-j]+PNEUTR[4-j];
 
-  int osm=8;
-  varran_(RRR,&osm);
-  // for( int k=0;k<=7;k++) RRR[k]=Photos::randomDouble();
+  //int osm=8;
+  //varran_(RRR,&osm);
+  for( int k=0;k<=7;k++) RRR[k]=Photos::randomDouble();
 
   double PRHARD;
   PRHARD= (1.0/PI/ALFINV)*(1.0/PI/ALFINV)* (2.0*log(AMTO/AMEL/2.0)) * 
@@ -520,4 +526,5 @@ extern "C" void trypar_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],d
   spaj(11,PNEUTR,PAA,PP,PE);
 }  
 
-*/
+} // namespace Photospp
+

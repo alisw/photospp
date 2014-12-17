@@ -1,6 +1,7 @@
 #include "Photos.h"
 #include "forW-MEc.h"
 #include "forZ-MEc.h"
+#include "pairs.h"
 #include "Log.h"
 #include <cstdio>
 #include <cmath>
@@ -2434,8 +2435,6 @@ void PHTYPE(int ID){
                                                   Last Update:
 
   ----------------------------------------------------------------------*/
-
-/*
 void PHOPAR(int IPARR,int NHEP0) {
   double MINMAS,STRENG,PCHAR[4],PNEU[4],PELE[4],PPOZ[4],BUF[4];
   float  MASSUM;
@@ -2548,6 +2547,6 @@ void PHOPAR(int IPARR,int NHEP0) {
     } // end of if (JESLI)
   } // end of loop over charged particles
 }
-*/
+
 } // namespace Photospp
 
