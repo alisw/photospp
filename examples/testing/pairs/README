@@ -49,6 +49,11 @@ make
 cd examples/testing/pairs
 make clobber && make mc-tester.pairs.root
 
+---------------
+to make plots
+---------------
+make
+
 ------------------------------------------------------------------------------
 
 1)
