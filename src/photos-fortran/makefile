@@ -1,6 +1,6 @@
 include ../make.inc
 
-SOURCES_C=photosC.cxx forZ-MEc.cxx forW-MEc.cxx
+SOURCES_C=photosC.cxx forZ-MEc.cxx forW-MEc.cxx pairs.cxx
 OBJECTS_C=$(SOURCES_C:.cxx=.o)
 
 %.o: %.cxx
