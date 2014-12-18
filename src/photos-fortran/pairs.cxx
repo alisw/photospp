@@ -234,10 +234,7 @@ void partra(int IBRAN,double PHOT[4]){
 }
 
 
-  extern "C" void trypar_(bool *pJESLI,double *pSTRENG, double *pAMEL, double PA[4],double PB[4],double PE[4],double PP[4]){       
-  bool &JESLI = *pJESLI;
-  const double &STRENG = *pSTRENG;
-  const double &AMEL = *pAMEL;
+  void trypar(bool *JESLI,double STRENG, double AMEL, double PA[4],double PB[4],double PE[4],double PP[4]){       
   //      COMMON  /PARKIN/ 
   double &FI0=parkin.fi0;
   double &FI1=parkin.fi1;
@@ -276,7 +273,7 @@ void partra(int IBRAN,double PHOT[4]){
     PNEUTR[k]=PB[k];
   }
   if((PAA[4-j]+PNEUTR[4-j])< 0.01 ){
-    JESLI=false;                                      
+    *JESLI=false;                                      
     return;
   }
 
@@ -325,7 +322,7 @@ void partra(int IBRAN,double PHOT[4]){
   double C2  =1.0-2.0*RRR[5-j]; 
   double FIX2=2.0*PI*RRR[6-j];
  
-  JESLI=(RRR[7-j]<PRHARD)       &&  
+ *JESLI=(RRR[7-j]<PRHARD)       &&  
         (XMP<(AMTO-AMNE-AMCH))  &&  
         (XP >XMP)               &&  
         (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
@@ -354,7 +351,7 @@ void partra(int IBRAN,double PHOT[4]){
   //      GMONIT( 0,104   ,WTA,1D0,0D0)
   // end of histograming ................  
 
-  if (!JESLI) return;
+  if (!*JESLI) return;
 
   // ... jacobians weights etc. 
 
@@ -388,7 +385,7 @@ void partra(int IBRAN,double PHOT[4]){
   // end of histograming ................ 
 
   if (RRR[8-j]>WT){
-    JESLI=false;
+    *JESLI=false;
     return;
   }
 

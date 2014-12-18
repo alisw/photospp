@@ -2479,8 +2479,7 @@ void PHTYPE(int ID){
     //we assume it is negligibly rare and fourth order in alpha anyway
     //TRYPAR should take as an input electron mass.
     //then it can be used for muons.
-
-    trypar_(&JESLI,&STRENG,&masslep,PCHAR,PNEU,PELE,PPOZ);
+    trypar(&JESLI,STRENG,masslep,PCHAR,PNEU,PELE,PPOZ);
     //emitted pair four momenta are stored in PELE PPOZ
     //then JESLI=.true.
 
