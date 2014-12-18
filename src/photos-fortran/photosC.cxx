@@ -2435,7 +2435,7 @@ void PHTYPE(int ID){
                                                   Last Update:
 
   ----------------------------------------------------------------------*/
-  void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
+void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
   double PCHAR[4],PNEU[4],PELE[4],PPOZ[4],BUF[4];
   int    IP,IPPAR,NLAST;
   bool   BOOST,JESLI;
@@ -2516,10 +2516,10 @@ void PHTYPE(int ID){
 
 
       for(int K = 1; K<4; ++K) {
-        pho.phep[pho.nhep][K] = PELE[K];
+        pho.phep[pho.nhep-i][K] = PELE[K];
       }
 
-      pho.phep[pho.nhep][4] = masslep;
+      pho.phep[pho.nhep-i][4] = masslep;
 
       // positron: adding
       pho.nhep = pho.nhep+1;
@@ -2532,10 +2532,10 @@ void PHTYPE(int ID){
       pho.qedrad[pho.nhep-i]=false;
 
       for(int K = 1; K<4; ++K) {
-        pho.phep[pho.nhep][K] = PPOZ[K];
+        pho.phep[pho.nhep-i][K] = PPOZ[K];
       }
 
-      pho.phep[pho.nhep][4] = masslep;
+      pho.phep[pho.nhep-i][4] = masslep;
 
       // write in
       PHLUPA(1012);
