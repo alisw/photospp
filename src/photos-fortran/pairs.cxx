@@ -200,11 +200,11 @@ extern "C" void spaj(int KUDA,double P2[4],double Q2[4],double PP[4],double PE[4
 
 struct PARKIN parkin;
 
-extern "C" void partra_(int *pIBRAN,double PHOT[4]){
+void partra(int IBRAN,double PHOT[4]){
 
-   const int &IBRAN = *pIBRAN;
 
-   rotod3(-parkin.fi0,PHOT,PHOT); 
+
+   rotod3(-parkin.fi0,PHOT,PHOT);
    rotod2(-parkin.th0,PHOT,PHOT);
    bostd3(parkin.bsta,PHOT,PHOT);
    rotod3(-parkin.fi1,PHOT,PHOT);

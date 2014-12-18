@@ -2495,13 +2495,9 @@ void PHTYPE(int ID){
         for(int K = 0; K<4; ++K) {
           BUF[K] = pho.phep[I][K];
         }
-        if (J == I) {
-          int _TEMP = 1;
-          partra_(&_TEMP,BUF);
-        } else {
-          int _TEMP = -1;
-          partra_(&_TEMP,BUF);
-        }
+        if (J == I) partra( 1,BUF);
+        else        partra(-1,BUF);
+        
         for(int K = 0; K<4; ++K) {
           pho.phep[I][K] = BUF[K];
         }
@@ -2518,6 +2514,7 @@ void PHTYPE(int ID){
       pho.jdahep[pho.nhep-i][0] = 0;
       pho.jdahep[pho.nhep-i][1] = 0;
       pho.qedrad[pho.nhep-i]=false;
+
 
       for(int K = 1; K<4; ++K) {
         pho.phep[pho.nhep][K] = PELE[K];
