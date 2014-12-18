@@ -2408,6 +2408,7 @@ void PHTYPE(int ID){
   //--
   //-- lepton anti-lepton pair(s)
   // we prepare to migrate half of tries to before photons accordingly to LL
+  // pho.qedrad is not yet used by PHOPAR
   if (IPAIR)  PHOPAR(ID,NHEP0,11,0.000511,1.0);
 }
 
@@ -2515,8 +2516,8 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
       pho.qedrad[pho.nhep-i]=false;
 
 
-      for(int K = 1; K<4; ++K) {
-        pho.phep[pho.nhep-i][K] = PELE[K];
+      for(int K = 1; K<=4; ++K) {
+        pho.phep[pho.nhep-i][K-i] = PELE[K-i];
       }
 
       pho.phep[pho.nhep-i][4] = masslep;
@@ -2531,8 +2532,8 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
       pho.jdahep[pho.nhep-i][1] = 0;
       pho.qedrad[pho.nhep-i]=false;
 
-      for(int K = 1; K<4; ++K) {
-        pho.phep[pho.nhep-i][K] = PPOZ[K];
+      for(int K = 1; K<=4; ++K) {
+        pho.phep[pho.nhep-i][K-i] = PPOZ[K-i];
       }
 
       pho.phep[pho.nhep-i][4] = masslep;
