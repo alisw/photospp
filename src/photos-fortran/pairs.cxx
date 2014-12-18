@@ -234,9 +234,10 @@ extern "C" void partra_(int *pIBRAN,double PHOT[4]){
 }
 
 
-extern "C" void trypar_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],double PE[4],double PP[4]){       
+  extern "C" void trypar_(bool *pJESLI,double *pSTRENG, double *pAMEL, double PA[4],double PB[4],double PE[4],double PP[4]){       
   bool &JESLI = *pJESLI;
   const double &STRENG = *pSTRENG;
+  const double &AMEL = *pAMEL;
   //      COMMON  /PARKIN/ 
   double &FI0=parkin.fi0;
   double &FI1=parkin.fi1;
@@ -259,7 +260,6 @@ extern "C" void trypar_(bool *pJESLI,double *pSTRENG,double PA[4],double PB[4],d
   double RRR[8]; 
   bool JESLIK; 
   const double PI=3.141592653589793238462643;     
-  const double AMEL=.511e-3;
   const double XK0 =  1.0e-3;                                 
   const double ALFINV= 137.01;
   const int j=1;  // convention of indices of Riemann space must be preserved.

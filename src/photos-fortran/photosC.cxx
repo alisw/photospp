@@ -2406,8 +2406,9 @@ void PHTYPE(int ID){
     PHOMAK(ID,NHEP0);
   }
   //--
-  //-- electron positron pair
-  //if (IPAIR)  PHOPAR(ID,NHEP0);
+  //-- lepton anti-lepton pair(s)
+  // we prepare to migrate half of tries to before photons accordingly to LL
+  if (IPAIR)  PHOPAR(ID,NHEP0,11,0.000511,1.0);
 }
 
 /*----------------------------------------------------------------------
@@ -2434,12 +2435,15 @@ void PHTYPE(int ID){
                                                   Last Update:
 
   ----------------------------------------------------------------------*/
-void PHOPAR(int IPARR,int NHEP0) {
-  double STRENG,PCHAR[4],PNEU[4],PELE[4],PPOZ[4],BUF[4];
+  void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
+  double PCHAR[4],PNEU[4],PELE[4],PPOZ[4],BUF[4];
   int    IP,IPPAR,NLAST;
   bool   BOOST,JESLI;
 
   IPPAR = IPARR;
+
+
+
   // Store pointers for cascade treatment...
   IP    = 0;
   NLAST = pho.nhep;
@@ -2467,7 +2471,6 @@ void PHOPAR(int IPARR,int NHEP0) {
     PNEU[3]  = pho.phep[IP][4] - pho.phep[I][3];
     PCHAR[3] = pho.phep[I][3];
 
-    STRENG   = 1.0;
 
     //here we attempt generating pair from PCHAR. One of the charged
     //decay products; that is why algorithm works in a loop.
@@ -2477,8 +2480,7 @@ void PHOPAR(int IPARR,int NHEP0) {
     //TRYPAR should take as an input electron mass.
     //then it can be used for muons.
 
-    trypar_(&JESLI,&STRENG,PCHAR,PNEU,PELE,PPOZ);
-
+    trypar_(&JESLI,&STRENG,&masslep,PCHAR,PNEU,PELE,PPOZ);
     //emitted pair four momenta are stored in PELE PPOZ
     //then JESLI=.true.
 
@@ -2506,36 +2508,38 @@ void PHOPAR(int IPARR,int NHEP0) {
       }
 
       PHLUPA(1011);
-
+      static int i=1;
       // electron: adding to vertex
       pho.nhep = pho.nhep+1;
-      pho.isthep[pho.nhep-1] = 1;
-      pho.idhep [pho.nhep-1] = 11;
-      pho.jmohep[pho.nhep-1][0] = IP;
-      pho.jmohep[pho.nhep-1][1] = 0;
-      pho.jdahep[pho.nhep-1][0] = 0;
-      pho.jdahep[pho.nhep-1][1] = 0;
+      pho.isthep[pho.nhep-i] = 1;
+      pho.idhep [pho.nhep-i] = idlep;
+      pho.jmohep[pho.nhep-i][0] = IP;
+      pho.jmohep[pho.nhep-i][1] = 0;
+      pho.jdahep[pho.nhep-i][0] = 0;
+      pho.jdahep[pho.nhep-i][1] = 0;
+      pho.qedrad[pho.nhep-i]=false;
 
       for(int K = 1; K<4; ++K) {
         pho.phep[pho.nhep][K] = PELE[K];
       }
 
-      pho.phep[pho.nhep][4] = 0.000511;
+      pho.phep[pho.nhep][4] = masslep;
 
       // positron: adding
       pho.nhep = pho.nhep+1;
-      pho.isthep[pho.nhep-1] = 1;
-      pho.idhep [pho.nhep-1] =-11;
-      pho.jmohep[pho.nhep-1][0] = IP;
-      pho.jmohep[pho.nhep-1][1] = 0;
-      pho.jdahep[pho.nhep-1][0] = 0;
-      pho.jdahep[pho.nhep-1][1] = 0;
+      pho.isthep[pho.nhep-i] = 1;
+      pho.idhep [pho.nhep-i] =-idlep;
+      pho.jmohep[pho.nhep-i][0] = IP;
+      pho.jmohep[pho.nhep-i][1] = 0;
+      pho.jdahep[pho.nhep-i][0] = 0;
+      pho.jdahep[pho.nhep-i][1] = 0;
+      pho.qedrad[pho.nhep-i]=false;
 
       for(int K = 1; K<4; ++K) {
         pho.phep[pho.nhep][K] = PPOZ[K];
       }
 
-      pho.phep[pho.nhep][4] = 0.000511;
+      pho.phep[pho.nhep][4] = masslep;
 
       // write in
       PHLUPA(1012);
