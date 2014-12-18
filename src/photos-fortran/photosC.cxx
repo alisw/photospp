@@ -2469,7 +2469,7 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
     }
 
     // Set energy
-    PNEU[3]  = pho.phep[IP][4] - pho.phep[I][3];
+    PNEU[3]  = pho.phep[IP][3] - pho.phep[I][3];
     PCHAR[3] = pho.phep[I][3];
 
 
@@ -2486,20 +2486,21 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
 
     // If JESLI = true, we modify old particles of the vertex
     if (JESLI) {
+      PHLUPA(1010);
 
       // we have to correct 4-momenta
       // of all decay products
       // we use PARTRA for that
       // PELE PPOZ are in right frame
-      for(int J = pho.jdahep[IP][0]-1; J<pho.jdahep[IP][1]-1; ++J) {
+      for(int J = pho.jdahep[IP][0]-1; J <= pho.jdahep[IP][1]-1; ++J) {
         for(int K = 0; K<4; ++K) {
-          BUF[K] = pho.phep[I][K];
+          BUF[K] = pho.phep[J][K];
         }
         if (J == I) partra( 1,BUF);
         else        partra(-1,BUF);
         
         for(int K = 0; K<4; ++K) {
-          pho.phep[I][K] = BUF[K];
+          pho.phep[J][K] = BUF[K];
         }
       }
 
