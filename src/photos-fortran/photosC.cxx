@@ -98,7 +98,7 @@ double PHINT(int IDUM){
   XNUM2=0.0;
   XDENO=0.0;
 
-  for( K=pho.jdahep[1-i][1-i]; K<=pho.nhep-1;K++){  //! or jdahep[1-i][2-i]
+  for( K=pho.jdahep[1-i][1-i]; K<=pho.nhep-i;K++){  //! or jdahep[1-i][2-i]
       
     // momenta of charged particle in PL
 
@@ -2440,7 +2440,7 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
   double PCHAR[4],PNEU[4],PELE[4],PPOZ[4],BUF[4];
   int    IP,IPPAR,NLAST;
   bool   BOOST,JESLI;
-
+  static int i=1;
   IPPAR = IPARR;
 
 
@@ -2457,7 +2457,7 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
   if(pho.jdahep[IP][0] == pho.jdahep[IP][1]) return;
 
   // Loop over charged daughters
-  for(int I=pho.jdahep[IP][0]-1; I <= pho.jdahep[IP][1]-1; ++I) {
+  for(int I=pho.jdahep[IP][0]-i; I <= pho.jdahep[IP][1]-i; ++I) {
 
     // Skip this particle if it has no charge
     if( PHOCHA(pho.idhep[I]) == 0 ) continue;
@@ -2492,7 +2492,7 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
       // of all decay products
       // we use PARTRA for that
       // PELE PPOZ are in right frame
-      for(int J = pho.jdahep[IP][0]-1; J <= pho.jdahep[IP][1]-1; ++J) {
+      for(int J = pho.jdahep[IP][0]-i; J <= pho.jdahep[IP][1]-i; ++J) {
         for(int K = 0; K<4; ++K) {
           BUF[K] = pho.phep[J][K];
         }
@@ -2505,7 +2505,6 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
       }
 
       PHLUPA(1011);
-      static int i=1;
       // electron: adding to vertex
       pho.nhep = pho.nhep+1;
       pho.isthep[pho.nhep-i] = 1;
