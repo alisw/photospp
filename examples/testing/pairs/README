@@ -29,7 +29,8 @@ make clobber && make mc-tester.pairs.root
 ------------------------------------------------------------------------------
 at new window (needed only once)
 ------------------------------------------------------------------------------
-
+cd TAUOLA
+source configure.paths.sh
 cd PHOTOS
 source configure.paths.sh
 cd examples/testing/pairs
@@ -66,5 +67,11 @@ WHAT WE SHOULD DO as early tests:
 
 2)
 ==
-at present all these plots need the code to be modified/recompiled
-in fact written as well.
+at present all these plots equivalents are available through mc-tester.
+look promising, but are not studied.
+
+3) 
+==
+
+as we are in  software organization, 
+next step are switches and pho.qedrad for pairs

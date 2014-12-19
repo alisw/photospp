@@ -146,6 +146,8 @@ int main(int argc,char **argv)
 	Photos::setInfraredCutOff(1.e-6);
 	Photos::maxWtInterference(3.0);
 
+
+
 	bool topDecays = false;
 
 	// 5. Check if we're using any special mode
@@ -174,7 +176,9 @@ int main(int argc,char **argv)
 	}
 
 
+	//	Photos::setPairEmission(true);
 	MC_Initialize();
+
 
 	Photos::iniInfo();
 	Log::SummaryAtExit();

@@ -112,6 +112,9 @@ public:
 	/** Set exponentiation mode */
 	static void setExponentiation(bool expo);
 
+	/** Set pair emission */
+	static void setPairEmission(bool ifpair);
+
 	/** Switch for complete effects of matrix element (in  scalar  to 2 scalars decays) */
 	static void setMeCorrectionWtForScalar(bool corr);
 
@@ -192,6 +195,9 @@ public:
   
   /** Flag for creating historic entries */
   static bool isCreateHistoryEntries;
+
+  /** Flag for generating emission of pairs */
+  static bool IfPair;
 
   /** Status of history entries */
   static int  historyEntriesStatus;

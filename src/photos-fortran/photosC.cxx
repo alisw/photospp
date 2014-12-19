@@ -2320,7 +2320,8 @@ void PHTYPE(int ID){
   //--
   IFOUR=          phokey_.itre; // we can make internal choice whether 
                                 // we want 3 or four photons at most.
-  IPAIR=true;
+  IPAIR=false;
+  IPAIR=Photos::IfPair;
   //--   Check decay multiplicity..
   if(hep.jdahep[ID-i][1-i]==0) return;
   //      if (hep.jdahep[ID-i][1-i]==hep.jdahep[ID-i][2-i]) return;
@@ -2461,6 +2462,14 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
 
     // Skip this particle if it has no charge
     if( PHOCHA(pho.idhep[I]) == 0 ) continue;
+
+   int IDABS    = abs(pho.idhep[I]);
+   // at the moment the following re-definition make not much sense as constraints
+   // were already checked before for  photons tries.
+   // we have to come back to this when we will have pairs emitted before photons.
+   pho.qedrad[I]=  pho.qedrad[I] &&F(0,IDABS)  && F(0,abs(pho.idhep[1-i]))
+                                 &&  (pho.idhep[2-i]==0);
+    if(!pho.qedrad[I]) continue;  // 
 
     // Set  3-vectors
     for(int J = 0; J < 3; ++J) {
