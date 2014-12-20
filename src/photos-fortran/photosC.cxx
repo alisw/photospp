@@ -1767,7 +1767,7 @@ void PHOCHK(int JFIRST){
   for (I=IPPAR;I<=NLAST;I++){
     IDABS    = abs(pho.idhep[I-i]);
     // possibly call on PHZODE is a dead (to be omitted) code. 
-    pho.qedrad[I-i]= F(0,IDABS)  && F(0,abs(pho.idhep[1-i]))
+    pho.qedrad[I-i]= pho.qedrad[I-i] &&F(0,IDABS)  && F(0,abs(pho.idhep[1-i]))
                                  &&  (pho.idhep[2-i]==0);
 
     if(I>2) pho.qedrad[I-i]=pho.qedrad[I-i] && hep.qedrad[JFIRST+I-IPPAR-2-i];
@@ -2327,6 +2327,13 @@ void PHTYPE(int ID){
   //      if (hep.jdahep[ID-i][1-i]==hep.jdahep[ID-i][2-i]) return;
   //--
   NHEP0=hep.nhep;
+
+  // note that in hep. there are three entries before daughters and in pho. only two
+  for(int I=hep.jdahep[ID-i][0]-1-i; I <= hep.jdahep[ID-i][1]-1-i; ++I) {
+    pho.qedrad[I]=true;
+  }
+
+  
   //--
   if(phokey_.iexp){
     phoexp_.expini=true;      // Initialization/cleaning
@@ -2406,6 +2413,7 @@ void PHTYPE(int ID){
     phokey_.fsec=1.0;
     PHOMAK(ID,NHEP0);
   }
+  
   //--
   //-- lepton anti-lepton pair(s)
   // we prepare to migrate half of tries to before photons accordingly to LL
@@ -2460,6 +2468,7 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
   // Loop over charged daughters
   for(int I=pho.jdahep[IP][0]-i; I <= pho.jdahep[IP][1]-i; ++I) {
 
+
     // Skip this particle if it has no charge
     if( PHOCHA(pho.idhep[I]) == 0 ) continue;
 
@@ -2467,9 +2476,12 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
    // at the moment the following re-definition make not much sense as constraints
    // were already checked before for  photons tries.
    // we have to come back to this when we will have pairs emitted before photons.
-   pho.qedrad[I]=  pho.qedrad[I] &&F(0,IDABS)  && F(0,abs(pho.idhep[1-i]))
+
+   pho.qedrad[I]=  pho.qedrad[I] && F(0,IDABS)  && F(0,abs(pho.idhep[1-i]))
                                  &&  (pho.idhep[2-i]==0);
+
     if(!pho.qedrad[I]) continue;  // 
+
 
     // Set  3-vectors
     for(int J = 0; J < 3; ++J) {
