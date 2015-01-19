@@ -308,17 +308,26 @@ void partra(int IBRAN,double PHOT[4]){
 
   double PRHARD;
   PRHARD= (1.0/PI/ALFINV)*(1.0/PI/ALFINV)* (2.0*log(AMTO/AMEL/2.0)) * 
-          log(1.0/XK0) * log(AMTO*AMTO/2.0/AMEL/AMEL);
+    log(1.0/XK0)   // log(AMTO/AMEL/2.0)
+        * log(AMTO*AMTO/2.0/AMEL/AMEL);
 
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
     PRHARD=0.99;  
   //
 
-  double XMP=2.0*AMEL*exp(RRR[1-j]*log(AMTO/2.0/AMEL)); 
-  double XP =AMTO*XK0*exp(RRR[2-j]*log(1.0/XK0));    
+  //virtuality of lepton pair
+  double XMP=2.0*AMEL*exp(RRR[1-j]*log(AMTO/2.0/AMEL));
+
+  // energy of lepton pair 
+  double XP =AMTO*XK0*exp(RRR[2-j]*log(1.0/XK0)); 
+  //  double XP =2.0*AMEL*exp(RRR[2-j]*log(AMTO/2.0/AMEL)); 
+
+  // angles of lepton pair  
   double C1 =1.0-4.0*AMEL*AMEL/AMTO/AMTO*exp(RRR[3-j]*log(AMTO*AMTO/2.0/AMEL/AMEL));
   double FIX1=2.0*PI*RRR[4-j];
+
+  // angles of lepton in resframe of lepton pair
   double C2  =1.0-2.0*RRR[5-j]; 
   double FIX2=2.0*PI*RRR[6-j];
  
@@ -355,15 +364,35 @@ void partra(int IBRAN,double PHOT[4]){
 
   // ... jacobians weights etc. 
 
+  // presampler for XMP invariant mass of emitted lepton pair:
+  // Jacobian of the change of variables from RRR[] to XMP^2
+  // virtuality of added lepton pair
+  // Factor for phase space is F
+  double F= (AMTO*AMTO-4.0*AMEL*AMEL)*   // span of lepton pair mass crude level (endpoint set by rejection JESLI)
+             XMP/AMTO  * 1/log(AMTO/2.0/AMEL);
+
+  // Energy of lepton pair representing  virtuality of muon pair
+  double G=   (AMTO*AMTO-4.0*AMEL*AMEL)*   // span of old lepton pair mass crude level (endpoint set by cut  JESLI)
+             XP/AMTO  * 1/log(AMTO/2.0/AMEL);
+  double H= 2.0*    // scattering angle of emitted lepton pair
+            2.0/(1.0-C1)/log(AMTO*AMTO/2.0/AMEL/AMEL);
+
   double XMK2=AMTO*AMTO+XMP*XMP-2.0*XP*AMTO;
   double XPMAX=(AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO;
-  double YOT3=(1-C1+4.0*AMEL*AMEL/AMTO/AMTO)/(1-C1+XMP*XMP/AMTO/AMTO);
-  double YOT2=(1-C1)*(1+C1)/2.0/(1-C1+XMP*XMP/AMTO/AMTO)*
-               xlam(AMTO*AMTO,XMK2,XMP*XMP)/(AMTO*AMTO+XMP*XMP-XMK2);
 
-  double YOT1=xlam(1.0,AMEL*AMEL/XMP/XMP, AMEL*AMEL/XMP/XMP)*
+  double YOT3=F*G*H;  // phase space variables treated independently but with presamples
+  double YOT2=       // lambda factors: 
+               xlam(1.0,AMEL*AMEL/XMP/XMP, AMEL*AMEL/XMP/XMP)*
+               xlam(AMTO*AMTO,XMK2,XMP*XMP)/AMTO/AMTO*
+    //         xlam(1.0,XMP*XMP/XMK2,AMNE*AMNE/XMK2)
+    //       / xlam(1.0,AMCH*AMCH/AMTO/AMTO,AMNE*AMNE/AMTO/AMTO)*
+               AMTO*AMTO/(AMTO*AMTO+XMP*XMP-XMK2);
+
+  double YOT1=(1-C1+4.0*AMEL*AMEL/AMTO/AMTO)/(1-C1+XMP*XMP/AMTO/AMTO)*
+              (1-C1)*(1+C1)/2.0/(1-C1+XMP*XMP/AMTO/AMTO)*
               ((1-C1+XMP*XMP/AMTO/AMTO)/(1-C1+XMP*XMP/XP/XP))*
               ((1-C1+XMP*XMP/AMTO/AMTO)/(1-C1+XMP*XMP/XP/XP))*
+              1.0/F/G/H*
               (1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX))*2.0/3.0;
 
 // note that the factor 2/3 in YOT1 above should be replaced by the 
