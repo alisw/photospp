@@ -317,8 +317,8 @@ void partra(int IBRAN,double PHOT[4]){
 
   //virtuality of lepton pair
   double XMP=2.0*AMEL*exp(RRR[1-j]*log(AMTO/2.0/AMEL));
-  XMP=2.0*AMEL*2.0*AMEL+RRR[1-j]*(AMTO-2.0*AMEL)*(AMTO-2.0*AMEL);
-  XMP=sqrt(XMP);
+  //XMP=2.0*AMEL*2.0*AMEL+RRR[1-j]*(AMTO-2.0*AMEL)*(AMTO-2.0*AMEL);
+  //XMP=sqrt(XMP);
 
   // energy of lepton pair represented  by  virtuality of muon pair
   double XMK2=(AMNE+AMCH)*(AMNE+AMCH)+RRR[2-j]*((AMTO-2.0*AMEL)*(AMTO-2.0*AMEL)-(AMNE+AMCH)*(AMNE+AMCH));
@@ -371,7 +371,7 @@ void partra(int IBRAN,double PHOT[4]){
   // virtuality of added lepton pair
   // Factor for phase space is F
   double F= ((AMTO)*(AMTO)-4.0*AMEL*AMEL)/(AMTO*AMTO-4.0*AMEL*AMEL)  // span of lepton pair mass crude level (endpoint set by rejection JESLI)
-    ;// *XMP/AMTO  * 1/log(AMTO/2.0/AMEL);
+    *XMP/AMTO*XMP/AMTO  ;// presampler makes 2*log(AMTO/2.0/AMEL) for PRHARD;
   
   // Energy of lepton pair represented  by  virtuality of muon pair
   double G=  // (AMTO*AMTO-4.0*AMEL*AMEL)   
