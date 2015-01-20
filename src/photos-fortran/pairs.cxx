@@ -317,16 +317,19 @@ void partra(int IBRAN,double PHOT[4]){
 
   //virtuality of lepton pair
   double XMP=2.0*AMEL*exp(RRR[1-j]*log(AMTO/2.0/AMEL));
-  //XMP=2.0*AMEL*2.0*AMEL+RRR[1-j]*(AMTO-2.0*AMEL)*(AMTO-2.0*AMEL);
-  //XMP=sqrt(XMP);
+  XMP=2.0*AMEL*2.0*AMEL+RRR[1-j]*(AMTO-2.0*AMEL)*(AMTO-2.0*AMEL);
+  XMP=sqrt(XMP);
 
-  // energy of lepton pair represented  by  virtuality of muon pair
-  double XMK2=(AMNE+AMCH)*(AMNE+AMCH)+RRR[2-j]*((AMTO-2.0*AMEL)*(AMTO-2.0*AMEL)-(AMNE+AMCH)*(AMNE+AMCH));
-    double XP=(AMTO*AMTO+XMP*XMP-XMK2)/2.0/AMTO;
-
+  // energy of lepton pair replace   virtuality of CHAR+NEU system
+  double XPmin= (XMP*XMP +AMTO*4.0*AMEL-4.0*AMEL*AMEL)/2.0/AMTO;
+  double XPdelta=((AMTO-2.0*AMEL)*(AMTO-2.0*AMEL)-(AMNE+AMCH)*(AMNE+AMCH))/2.0/AMTO;
+  //double XPmin=2.0*AMEL;
+  //double XPdelta=AMTO-XPmin;
+  double XP=  XPmin +RRR[2-j]*XPdelta;  // this is range as in  phase space.
+  double XMK2=(AMTO*AMTO+XMP*XMP)-2.0*AMTO*XP;
   // angles of lepton pair  
   double C1 =1.0-4.0*AMEL*AMEL/AMTO/AMTO*exp(RRR[3-j]*log(AMTO*AMTO/2.0/AMEL/AMEL));
-  //  C1=1.0-2.0*RRR[3-j]; 
+    C1=1.0-2.0*RRR[3-j]; 
   double FIX1=2.0*PI*RRR[4-j];
 
   // angles of lepton in resframe of lepton pair
@@ -371,15 +374,16 @@ void partra(int IBRAN,double PHOT[4]){
   // virtuality of added lepton pair
   // Factor for phase space is F
   double F= ((AMTO)*(AMTO)-4.0*AMEL*AMEL)/(AMTO*AMTO-4.0*AMEL*AMEL)  // span of lepton pair mass crude level (endpoint set by rejection JESLI)
-    *XMP/AMTO*XMP/AMTO  ;// presampler makes 2*log(AMTO/2.0/AMEL) for PRHARD;
+    ;//  *XMP/AMTO*XMP/AMTO  ;// presampler makes 2*log(AMTO/2.0/AMEL) for PRHARD;
   
   // Energy of lepton pair represented  by  virtuality of muon pair
   double G=  // (AMTO*AMTO-4.0*AMEL*AMEL)   
     ((AMTO-2*AMEL)*(AMTO-2*AMEL)-(AMNE+AMCH)*(AMNE+AMCH))
     /((AMTO-2*AMEL)*(AMTO-2*AMEL)-(AMNE+AMCH)*(AMNE+AMCH))// span of old lepton pair mass crude level (endpoint by JESLI)
-    ;//   * XP/AMTO  * 1/log(AMTO/2.0/AMEL);
+    ;//   * XP/AMTO  * 1/log(AMTO/2.0/AMEL);  
+  // #######################CLARIFICATION NEEDED for G presampler ######################
   double H= 2.0/2.0       // scattering angle of emitted lepton pair
-           *(1.0-C1)/2.0; // presampler makes   log(AMTO*AMTO/2.0/AMEL/AMEL) for PRHARD;
+    ;//         *(1.0-C1)/2.0; // presampler makes   log(AMTO*AMTO/2.0/AMEL/AMEL) for PRHARD;
 
 
   double XPMAX=(AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO;
