@@ -302,14 +302,13 @@ void partra(int IBRAN,double PHOT[4]){
   if (AMNE<0.0) AMNE=0.0;
   double AMTO =PAA[4-j]+PNEUTR[4-j];
 
-  //int osm=8;
-  //varran_(RRR,&osm);
   for( int k=0;k<=7;k++) RRR[k]=Photos::randomDouble();
 
   double PRHARD;
-  PRHARD= (1.0/PI/ALFINV)*(1.0/PI/ALFINV)* (2.0*log(AMTO/AMEL/2.0)) * 
-    log(1.0/XK0)   // log(AMTO/AMEL/2.0)
-        * log(AMTO*AMTO/2.0/AMEL/AMEL);
+  PRHARD= (1.0/PI/ALFINV)*(1.0/PI/ALFINV)* 
+    2.0*log(AMTO/AMEL/2.0) *               // virtuality
+    2.0*log((AMTO-2.0*AMEL)/(AMNE+AMCH))   // soft
+       * log(AMTO*AMTO/2.0/AMEL/AMEL);     // collinear
 
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
@@ -320,18 +319,14 @@ void partra(int IBRAN,double PHOT[4]){
   double XMP=2.0*AMEL*exp(RRR[1-j]*log(AMTO/2.0/AMEL));
   XMP=2.0*AMEL*2.0*AMEL+RRR[1-j]*(AMTO-2.0*AMEL)*(AMTO-2.0*AMEL);
   XMP=sqrt(XMP);
+
   // energy of lepton pair represented  by  virtuality of muon pair
-  //double XP =AMTO*XK0*exp(RRR[2-j]*log(1.0/XK0)); 
-  //    double XP =2.0*AMEL*exp(RRR[2-j]*log(AMTO/2.0/AMEL)); 
-  //  XP=2.0*AMEL*2.0*AMEL+RRR[2-j]*(AMTO-2.0*AMEL)*(AMTO-2.0*AMEL);
-  // XP=sqrt(XP);
-  // double XMK2=AMTO*AMTO+XMP*XMP-2.0*XP*AMTO;
-  // double XMK2=2.0*AMEL*2.0*AMEL+RRR[2-j]*(AMTO-2.0*AMEL)*(AMTO-2.0*AMEL);
-  double XMK2=(AMNE+AMCH)*(AMNE+AMCH)+RRR[2-j]*((AMTO-XMP)*(AMTO-XMP)-(AMNE+AMCH)*(AMNE+AMCH));
-  double XP=(AMTO*AMTO+XMP*XMP-XMK2)/2.0/AMTO;
+  double XMK2=(AMNE+AMCH)*(AMNE+AMCH)+RRR[2-j]*((AMTO-2.0*AMEL)*(AMTO-2.0*AMEL)-(AMNE+AMCH)*(AMNE+AMCH));
+    double XP=(AMTO*AMTO+XMP*XMP-XMK2)/2.0/AMTO;
+
   // angles of lepton pair  
   double C1 =1.0-4.0*AMEL*AMEL/AMTO/AMTO*exp(RRR[3-j]*log(AMTO*AMTO/2.0/AMEL/AMEL));
-  C1=1.0-2.0*RRR[3-j]; 
+  //  C1=1.0-2.0*RRR[3-j]; 
   double FIX1=2.0*PI*RRR[4-j];
 
   // angles of lepton in resframe of lepton pair
@@ -375,16 +370,16 @@ void partra(int IBRAN,double PHOT[4]){
   // Jacobian of the change of variables from RRR[] to XMP^2
   // virtuality of added lepton pair
   // Factor for phase space is F
-  double F= ((AMTO-AMNE-AMCH)*(AMTO-AMNE-AMCH)-4.0*AMEL*AMEL)/(AMTO*AMTO-4.0*AMEL*AMEL)  // span of lepton pair mass crude level (endpoint set by rejection JESLI)
+  double F= ((AMTO)*(AMTO)-4.0*AMEL*AMEL)/(AMTO*AMTO-4.0*AMEL*AMEL)  // span of lepton pair mass crude level (endpoint set by rejection JESLI)
     ;// *XMP/AMTO  * 1/log(AMTO/2.0/AMEL);
   
   // Energy of lepton pair represented  by  virtuality of muon pair
   double G=  // (AMTO*AMTO-4.0*AMEL*AMEL)   
-    ((AMTO-XMP)*(AMTO-XMP)-(AMNE+AMCH)*(AMNE+AMCH))
-    /((AMTO-2*AMEL)*(AMTO-2*AMEL)-(AMNE+AMCH)*(AMNE+AMCH))// span of old lepton pair mass crude level (endpoint set by cut  JESLI)
+    ((AMTO-2*AMEL)*(AMTO-2*AMEL)-(AMNE+AMCH)*(AMNE+AMCH))
+    /((AMTO-2*AMEL)*(AMTO-2*AMEL)-(AMNE+AMCH)*(AMNE+AMCH))// span of old lepton pair mass crude level (endpoint by JESLI)
     ;//   * XP/AMTO  * 1/log(AMTO/2.0/AMEL);
-  double H= 2.0/2.0   // scattering angle of emitted lepton pair
-    ;//*   (1.0-C1)/2.0/log(AMTO*AMTO/2.0/AMEL/AMEL);
+  double H= 2.0/2.0       // scattering angle of emitted lepton pair
+           *(1.0-C1)/2.0; // presampler makes   log(AMTO*AMTO/2.0/AMEL/AMEL) for PRHARD;
 
 
   double XPMAX=(AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO;
@@ -395,7 +390,7 @@ void partra(int IBRAN,double PHOT[4]){
                xlam(1.0,XMK2/AMTO/AMTO,XMP*XMP/AMTO/AMTO)*
                  xlam(1.0,AMCH*AMCH/XMK2,AMNE*AMNE/XMK2)
       / xlam(1.0,AMCH*AMCH/AMTO/AMTO,AMNE*AMNE/AMTO/AMTO);
-  //               AMTO*AMTO/(AMTO*AMTO+XMP*XMP-XMK2);
+
 
   double YOT1=(1-C1+4.0*AMEL*AMEL/AMTO/AMTO)/(1-C1+XMP*XMP/AMTO/AMTO)*
               (1-C1)*(1+C1)/2.0/(1-C1+XMP*XMP/AMTO/AMTO)*
@@ -404,15 +399,7 @@ void partra(int IBRAN,double PHOT[4]){
               1.0/F/G/H*
               (1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX))*2.0/3.0;
   YOT1=1;
-  /*
-   printf ("%10.6f  %10.6f    %10.6f  \n",
-	   xlam(1.0,AMEL*AMEL/XMP/XMP, AMEL*AMEL/XMP/XMP),
-	   xlam(1.0,XMK2/AMTO/AMTO,XMP*XMP/AMTO/AMTO),
-             xlam(1.0,AMCH*AMCH/XMK2,AMNE*AMNE/XMK2)
-	   / xlam(1.0,AMCH*AMCH/AMTO/AMTO,AMNE*AMNE/AMTO/AMTO));
- 
-  printf ("%10.6f   \n",YOT2);
-  */
+
 // note that the factor 2/3 in YOT1 above should be replaced by the 
 // appropriate A-P kernel for gamma splitting to e+e- !!!!!!!
 // the part of the weight below, should have average 1, but fluctuates 
