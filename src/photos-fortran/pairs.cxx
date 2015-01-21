@@ -305,10 +305,10 @@ void partra(int IBRAN,double PHOT[4]){
   for( int k=0;k<=7;k++) RRR[k]=Photos::randomDouble();
 
   double PRHARD;
-  PRHARD= (1.0/PI/ALFINV)*(1.0/PI/ALFINV)* // NOTE: logs originate from phase space presamplers not MEs
-    2.0*log(AMTO/AMEL/2.0) *               // virtuality
-    2.0*log((AMTO-2.0*AMEL)/(AMNE+AMCH))   // soft
-       * log(AMTO*AMTO/2.0/AMEL/AMEL);     // collinear
+  PRHARD= (1.0/PI/ALFINV)*(1.0/PI/ALFINV)* // NOTE: logs from phase space presamplers not MEs
+    2.0*log(AMTO/AMEL/2.0)                            // virtuality
+       *log(AMTO/AMEL/2.0)                            // soft
+    *2.0*log((AMTO*AMTO+2*AMEL*AMEL)/2.0/AMEL/AMEL);  // collinear
 
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
@@ -317,19 +317,20 @@ void partra(int IBRAN,double PHOT[4]){
 
   //virtuality of lepton pair
   double XMP=2.0*AMEL*exp(RRR[1-j]*log(AMTO/2.0/AMEL));
-         XMP=2.0*AMEL*2.0*AMEL+RRR[1-j]*(AMTO-2.0*AMEL)*(AMTO-2.0*AMEL);
-  XMP=sqrt(XMP);
+         XMP=2.0*AMEL*2.0*AMEL+RRR[1-j]*(AMTO-2.0*AMEL)*(AMTO-2.0*AMEL);  // option of no presampler
+         XMP=sqrt(XMP);
 
   // energy of lepton pair replace   virtuality of CHAR+NEU system in phase space parametrization
   double XPmin=2.0*AMEL;
   double XPdelta=AMTO-XPmin;
-  double XP=  XPmin*exp(RRR[2-j]*log(XPdelta+XPmin)/XPmin);  // this range is larger than  phase space.
-         XP=  XPmin +RRR[2-j]*XPdelta;
+  double XP=  XPmin*exp(RRR[2-j]*log(XPdelta+XPmin)/XPmin);  
+         XP=  XPmin +RRR[2-j]*XPdelta;                                  // option of no presampler
   double XMK2=(AMTO*AMTO+XMP*XMP)-2.0*AMTO*XP;
 
   // angles of lepton pair  
-  double C1 =1.0-4.0*AMEL*AMEL/AMTO/AMTO*exp(RRR[3-j]*log(AMTO*AMTO/2.0/AMEL/AMEL));
-         C1=1.0-2.0*RRR[3-j]; 
+  double eps=4.0*AMEL*AMEL/AMTO/AMTO;
+  double C1 =1.0+eps -eps*exp(RRR[3-j]*log((2+eps)/eps));
+  //       C1=1.0-2.0*RRR[3-j];                                       // option of no presampler
   double FIX1=2.0*PI*RRR[4-j];
 
   // angles of lepton in restframe of lepton pair
@@ -373,16 +374,16 @@ void partra(int IBRAN,double PHOT[4]){
   // for events in phase: jacobians weights etc. 
 
   // virtuality of added lepton pair
-  double F= ((AMTO)*(AMTO)-4.0*AMEL*AMEL)/(AMTO*AMTO-4.0*AMEL*AMEL)  // endpoint set by rejection JESLI
-    ;//  *XMP/AMTO*XMP/AMTO  ;// presampler makes 2*log(AMTO/2.0/AMEL) for PRHARD;
+  double F= ((AMTO)*(AMTO)-4.0*AMEL*AMEL)/(AMTO*AMTO-4.0*AMEL*AMEL)  
+    ;//  *XMP/AMTO*XMP/AMTO  ; // use this line when presampler is on
   
   // Energy of lepton pair represented  by  virtuality of muon pair
   double G= XPdelta/XPdelta
-    ;//   * XP/AMTO  ;// presampler makes log(AMTO/2.0/AMEL) for PRHARD;  
+    ;//   * XP/AMTO  ;         // use this line when presampler is on
 
   // scattering angle of emitted lepton pair
   double H= 2.0/2.0       
-    ;//         *(1.0-C1)/2.0; // presampler makes   log(AMTO*AMTO/2.0/AMEL/AMEL) for PRHARD;
+             *(1.0+eps-C1)/2.0; // use this line when presampler is on
 
 
   double XPMAX=(AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO;
