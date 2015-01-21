@@ -305,7 +305,7 @@ void partra(int IBRAN,double PHOT[4]){
   for( int k=0;k<=7;k++) RRR[k]=Photos::randomDouble();
 
   double PRHARD;
-  PRHARD= (1.0/PI/ALFINV)*(1.0/PI/ALFINV)* 
+  PRHARD= (1.0/PI/ALFINV)*(1.0/PI/ALFINV)* // NOTE: logs originate from phase space presamplers not MEs
     2.0*log(AMTO/AMEL/2.0) *               // virtuality
     2.0*log((AMTO-2.0*AMEL)/(AMNE+AMCH))   // soft
        * log(AMTO*AMTO/2.0/AMEL/AMEL);     // collinear
@@ -317,85 +317,84 @@ void partra(int IBRAN,double PHOT[4]){
 
   //virtuality of lepton pair
   double XMP=2.0*AMEL*exp(RRR[1-j]*log(AMTO/2.0/AMEL));
-  XMP=2.0*AMEL*2.0*AMEL+RRR[1-j]*(AMTO-2.0*AMEL)*(AMTO-2.0*AMEL);
+         XMP=2.0*AMEL*2.0*AMEL+RRR[1-j]*(AMTO-2.0*AMEL)*(AMTO-2.0*AMEL);
   XMP=sqrt(XMP);
 
-  // energy of lepton pair replace   virtuality of CHAR+NEU system
-  double XPmin= (XMP*XMP +AMTO*4.0*AMEL-4.0*AMEL*AMEL)/2.0/AMTO;
-  double XPdelta=((AMTO-2.0*AMEL)*(AMTO-2.0*AMEL)-(AMNE+AMCH)*(AMNE+AMCH))/2.0/AMTO;
-  //double XPmin=2.0*AMEL;
-  //double XPdelta=AMTO-XPmin;
-  double XP=  XPmin +RRR[2-j]*XPdelta;  // this is range as in  phase space.
+  // energy of lepton pair replace   virtuality of CHAR+NEU system in phase space parametrization
+  double XPmin=2.0*AMEL;
+  double XPdelta=AMTO-XPmin;
+  double XP=  XPmin*exp(RRR[2-j]*log(XPdelta+XPmin)/XPmin);  // this range is larger than  phase space.
+         XP=  XPmin +RRR[2-j]*XPdelta;
   double XMK2=(AMTO*AMTO+XMP*XMP)-2.0*AMTO*XP;
+
   // angles of lepton pair  
   double C1 =1.0-4.0*AMEL*AMEL/AMTO/AMTO*exp(RRR[3-j]*log(AMTO*AMTO/2.0/AMEL/AMEL));
-    C1=1.0-2.0*RRR[3-j]; 
+         C1=1.0-2.0*RRR[3-j]; 
   double FIX1=2.0*PI*RRR[4-j];
 
-  // angles of lepton in resframe of lepton pair
+  // angles of lepton in restframe of lepton pair
   double C2  =1.0-2.0*RRR[5-j]; 
   double FIX2=2.0*PI*RRR[6-j];
- 
+
+
+
+  // histograming .......................
+        JESLIK=     (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
+        double WTA=0.0;
+        WTA=WTA*5;
+        if(JESLIK) WTA=1.0;
+        //      GMONIT( 0,101   ,WTA,1D0,0D0)
+        JESLIK= (XMP<(AMTO-AMNE-AMCH));
+        WTA=0.0;
+        if(JESLIK) WTA=1.0;
+        //      GMONIT( 0,102   ,WTA,1D0,0D0)
+        JESLIK= (XMP<(AMTO-AMNE-AMCH))&& (XP >XMP);
+
+        WTA=0.0;
+        if(JESLIK) WTA=1.0;
+        //      GMONIT( 0,103   ,WTA,1D0,0D0)
+        JESLIK=
+               (XMP<(AMTO-AMNE-AMCH))&&
+               (XP >XMP)             &&
+               (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
+        WTA=0.0;
+        if (JESLIK) WTA=1.0;
+        //      GMONIT( 0,104   ,WTA,1D0,0D0)
+  // end of histograming ................  
+
+  // phase space limits rejection variable 
  *JESLI=(RRR[7-j]<PRHARD)       &&  
         (XMP<(AMTO-AMNE-AMCH))  &&  
         (XP >XMP)               &&  
         (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
 
-  // histograming .......................
-  JESLIK=     (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
-  double WTA=0.0;
-  WTA=WTA*5;
-  if(JESLIK) WTA=1.0;
-  //      GMONIT( 0,101   ,WTA,1D0,0D0)
-  JESLIK= (XMP<(AMTO-AMNE-AMCH));
-  WTA=0.0;
-  if(JESLIK) WTA=1.0;
-  //      GMONIT( 0,102   ,WTA,1D0,0D0)
-  JESLIK= (XMP<(AMTO-AMNE-AMCH))&& (XP >XMP);
-
-  WTA=0.0;
-  if(JESLIK) WTA=1.0;
-  //      GMONIT( 0,103   ,WTA,1D0,0D0)
-  JESLIK=
-         (XMP<(AMTO-AMNE-AMCH))&&
-         (XP >XMP)             &&
-         (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
-  WTA=0.0;
-  if (JESLIK) WTA=1.0;
-  //      GMONIT( 0,104   ,WTA,1D0,0D0)
-  // end of histograming ................  
-
   if (!*JESLI) return;
 
-  // ... jacobians weights etc. 
+  // for events in phase: jacobians weights etc. 
 
-  // presampler for XMP invariant mass of emitted lepton pair:
-  // Jacobian of the change of variables from RRR[] to XMP^2
   // virtuality of added lepton pair
-  // Factor for phase space is F
-  double F= ((AMTO)*(AMTO)-4.0*AMEL*AMEL)/(AMTO*AMTO-4.0*AMEL*AMEL)  // span of lepton pair mass crude level (endpoint set by rejection JESLI)
+  double F= ((AMTO)*(AMTO)-4.0*AMEL*AMEL)/(AMTO*AMTO-4.0*AMEL*AMEL)  // endpoint set by rejection JESLI
     ;//  *XMP/AMTO*XMP/AMTO  ;// presampler makes 2*log(AMTO/2.0/AMEL) for PRHARD;
   
   // Energy of lepton pair represented  by  virtuality of muon pair
-  double G=  // (AMTO*AMTO-4.0*AMEL*AMEL)   
-    ((AMTO-2*AMEL)*(AMTO-2*AMEL)-(AMNE+AMCH)*(AMNE+AMCH))
-    /((AMTO-2*AMEL)*(AMTO-2*AMEL)-(AMNE+AMCH)*(AMNE+AMCH))// span of old lepton pair mass crude level (endpoint by JESLI)
-    ;//   * XP/AMTO  * 1/log(AMTO/2.0/AMEL);  
-  // #######################CLARIFICATION NEEDED for G presampler ######################
-  double H= 2.0/2.0       // scattering angle of emitted lepton pair
+  double G= XPdelta/XPdelta
+    ;//   * XP/AMTO  ;// presampler makes log(AMTO/2.0/AMEL) for PRHARD;  
+
+  // scattering angle of emitted lepton pair
+  double H= 2.0/2.0       
     ;//         *(1.0-C1)/2.0; // presampler makes   log(AMTO*AMTO/2.0/AMEL/AMEL) for PRHARD;
 
 
   double XPMAX=(AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO;
 
-  double YOT3=F*G*H;  // phase space variables treated independently but with presamples
+  double YOT3=F*G*H; // jacobians for phase space variables
   double YOT2=       // lambda factors: 
                xlam(1.0,AMEL*AMEL/XMP/XMP, AMEL*AMEL/XMP/XMP)*
                xlam(1.0,XMK2/AMTO/AMTO,XMP*XMP/AMTO/AMTO)*
                  xlam(1.0,AMCH*AMCH/XMK2,AMNE*AMNE/XMK2)
       / xlam(1.0,AMCH*AMCH/AMTO/AMTO,AMNE*AMNE/AMTO/AMTO);
 
-
+  // ########  MATRIX ELEMENT ###########
   double YOT1=(1-C1+4.0*AMEL*AMEL/AMTO/AMTO)/(1-C1+XMP*XMP/AMTO/AMTO)*
               (1-C1)*(1+C1)/2.0/(1-C1+XMP*XMP/AMTO/AMTO)*
               ((1-C1+XMP*XMP/AMTO/AMTO)/(1-C1+XMP*XMP/XP/XP))*
