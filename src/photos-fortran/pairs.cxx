@@ -310,23 +310,24 @@ void partra(int IBRAN,double PHOT[4]){
        *log(AMTO/AMEL/2.0)                            // soft
     *2.0*log((AMTO*AMTO+2*AMEL*AMEL)/2.0/AMEL/AMEL);  // collinear
 
+  //  printf ("%5.2f\n",PRHARD);
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
-    PRHARD=0.99;  
+  //  PRHARD=0.99;  
   //
 
   //virtuality of lepton pair
   double XMP=2.0*AMEL*exp(RRR[1-j]*log(AMTO/2.0/AMEL));
-         XMP=2.0*AMEL*2.0*AMEL+RRR[1-j]*(AMTO-2.0*AMEL)*(AMTO-2.0*AMEL);  // option of no presampler
-         XMP=sqrt(XMP);
+  //   XMP=2.0*AMEL*2.0*AMEL+RRR[1-j]*(AMTO-2.0*AMEL)*(AMTO-2.0*AMEL); XMP=sqrt(XMP); // option of no presampler
+         
 
   // energy of lepton pair replace   virtuality of CHAR+NEU system in phase space parametrization
   double XPmin=2.0*AMEL;
   double XPdelta=AMTO-XPmin;
-  double XP=  XPmin*exp(RRR[2-j]*log(XPdelta+XPmin)/XPmin);  
-         XP=  XPmin +RRR[2-j]*XPdelta;                                  // option of no presampler
+  double XP=  XPmin*exp(RRR[2-j]*log((XPdelta+XPmin)/XPmin));  
+  //       XP=  XPmin +RRR[2-j]*XPdelta;                                  // option of no presampler
   double XMK2=(AMTO*AMTO+XMP*XMP)-2.0*AMTO*XP;
-
+  // printf ("XP min delta it %15.8f  %15.8f    %15.8f    %15.8f  \n", XPmin,XPdelta,RRR[2-j], XP);
   // angles of lepton pair  
   double eps=4.0*AMEL*AMEL/AMTO/AMTO;
   double C1 =1.0+eps -eps*exp(RRR[3-j]*log((2+eps)/eps));
@@ -368,18 +369,19 @@ void partra(int IBRAN,double PHOT[4]){
         (XMP<(AMTO-AMNE-AMCH))  &&  
         (XP >XMP)               &&  
         (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
-
+ //printf ("drugiki %15.8f  %15.8f  \n", XP, XMP);
+ //printf ("jesliki %15.8f  %15.8f   %15.8f    \n",AMTO-AMNE-AMCH-XMP,XP-XMP,((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO)-XP);
   if (!*JESLI) return;
 
   // for events in phase: jacobians weights etc. 
 
   // virtuality of added lepton pair
   double F= ((AMTO)*(AMTO)-4.0*AMEL*AMEL)/(AMTO*AMTO-4.0*AMEL*AMEL)  
-    ;//  *XMP/AMTO*XMP/AMTO  ; // use this line when presampler is on
+      *XMP/AMTO*XMP/AMTO  ; // use this line when presampler is on
   
   // Energy of lepton pair represented  by  virtuality of muon pair
   double G= XPdelta/XPdelta
-    ;//   * XP/AMTO  ;         // use this line when presampler is on
+       * XP/AMTO  ;         // use this line when presampler is on
 
   // scattering angle of emitted lepton pair
   double H= 2.0/2.0       
@@ -395,14 +397,13 @@ void partra(int IBRAN,double PHOT[4]){
                  xlam(1.0,AMCH*AMCH/XMK2,AMNE*AMNE/XMK2)
       / xlam(1.0,AMCH*AMCH/AMTO/AMTO,AMNE*AMNE/AMTO/AMTO);
 
-  // ########  MATRIX ELEMENT ###########
-  double YOT1=(1-C1+4.0*AMEL*AMEL/AMTO/AMTO)/(1-C1+XMP*XMP/AMTO/AMTO)*
-              (1-C1)*(1+C1)/2.0/(1-C1+XMP*XMP/AMTO/AMTO)*
-              ((1-C1+XMP*XMP/AMTO/AMTO)/(1-C1+XMP*XMP/XP/XP))*
-              ((1-C1+XMP*XMP/AMTO/AMTO)/(1-C1+XMP*XMP/XP/XP))*
-              1.0/F/G/H*
-              (1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX))*2.0/3.0;
-  YOT1=1;
+  // ########  MATRIX ELEMENT prototype ###########
+  double YOT1=AMTO/XP*AMTO/XP*                                   // infrared factor 
+    (1-C1)*(1+C1)/2.0/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP)* // angular factor
+    AMTO/XMP*AMTO/XMP*                                           // virtuality factor
+    (1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX))*2.0/3.0;              // A-P kernel
+
+  //  YOT1=1;
 
 // note that the factor 2/3 in YOT1 above should be replaced by the 
 // appropriate A-P kernel for gamma splitting to e+e- !!!!!!!
@@ -412,7 +413,7 @@ void partra(int IBRAN,double PHOT[4]){
 //     $     (1D0-XP/(0.5D0*AMTO))/(1D0-XP/XPMAX)*
 //     $     XLAM(1D0,AMCH**2/XMK2,AMNEU**2/XMK2)/
 //     $     XLAM(1D0,AMCH**2/AMTO**2,AMNEU**2/AMTO**2)
-
+//  printf (" yotiki %15.8f  %15.8f   %15.8f    \n",YOT1,YOT2,YOT3);
   double WT=YOT1*YOT2*YOT3;
   //C histograming .......................
   //      GMONIT( 0,105   ,WT  ,1D0,0D0) 
