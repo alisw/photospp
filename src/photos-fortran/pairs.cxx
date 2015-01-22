@@ -257,7 +257,6 @@ void partra(int IBRAN,double PHOT[4]){
   double RRR[8]; 
   bool JESLIK; 
   const double PI=3.141592653589793238462643;     
-  const double XK0 =  1.0e-3;                                 
   const double ALFINV= 137.01;
   const int j=1;  // convention of indices of Riemann space must be preserved.
    
@@ -312,9 +311,9 @@ void partra(int IBRAN,double PHOT[4]){
                                                   // other logs should come from rejection 
     *2*log(AMTO/AMEL/2.0)                         // virtuality
     *2*log(AMTO/AMEL/2.0)                         // soft
-      *log((AMTO*AMTO+2*AMEL*AMEL)/2.0/AMEL/AMEL);// collinear
+      *log((AMTO*AMTO+2*AMCH*AMCH)/2.0/AMCH/AMCH);// collinear
 
-  //  printf ("%10.7f\n",PRHARD);
+  //   printf ("%10.7f\n",PRHARD);
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
   //  PRHARD=0.99;  
@@ -333,7 +332,7 @@ void partra(int IBRAN,double PHOT[4]){
   double XMK2=(AMTO*AMTO+XMP*XMP)-2.0*AMTO*XP;
   // printf ("XP min delta it %15.8f  %15.8f    %15.8f    %15.8f  \n", XPmin,XPdelta,RRR[2-j], XP);
   // angles of lepton pair  
-  double eps=4.0*AMEL*AMEL/AMTO/AMTO;
+  double eps=4.0*AMCH*AMCH/AMTO/AMTO;
   double C1 =1.0+eps -eps*exp(RRR[3-j]*log((2+eps)/eps));
   //       C1=1.0-2.0*RRR[3-j];                                       // option of no presampler
   double FIX1=2.0*PI*RRR[4-j];
