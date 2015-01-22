@@ -305,15 +305,15 @@ void partra(int IBRAN,double PHOT[4]){
   for( int k=0;k<=7;k++) RRR[k]=Photos::randomDouble();
 
   double PRHARD;
-  PRHARD= (1.0/PI/ALFINV)*(1.0/PI/ALFINV)* // NOTE: logs from phase space presamplers not MEs
+  PRHARD= STRENG*(1.0/PI/ALFINV)*(1.0/PI/ALFINV)* // NOTE: logs from phase space presamplers not MEs
     2.0*log(AMTO/AMEL/2.0)                            // virtuality
        *log(AMTO/AMEL/2.0)                            // soft
     *2.0*log((AMTO*AMTO+2*AMEL*AMEL)/2.0/AMEL/AMEL);  // collinear
 
-  //  printf ("%5.2f\n",PRHARD);
+  //  printf ("%10.7f\n",PRHARD);
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
-  //  PRHARD=0.99;  
+    PRHARD=0.99;  
   //
 
   //virtuality of lepton pair
@@ -476,9 +476,7 @@ void partra(int IBRAN,double PHOT[4]){
   if(GNEU<1.||GCHAR<1.){
     printf(" TRYPAR GBOOST LT 1., LIMIT OF PHASE SPACE %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f \n" 
              ,GNEU,GCHAR,QNEW,QOLD,AMTO,AMTOST,AMNE,AMCH);
-    double XK=STRENG,XKM=0,XK0DEC=0,AXK=0;
-    printf(" %18.13f %18.13f %18.13f %18.13f ",XK,XKM,XK0DEC,AXK);
-    return;
+     return;
   }
   PARCH =GCHAR+sqrt(GCHAR*GCHAR-1.0);
   PARNEU=GNEU -sqrt(GNEU*GNEU -1.0);
