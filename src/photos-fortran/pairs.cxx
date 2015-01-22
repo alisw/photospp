@@ -305,15 +305,19 @@ void partra(int IBRAN,double PHOT[4]){
   for( int k=0;k<=7;k++) RRR[k]=Photos::randomDouble();
 
   double PRHARD;
-  PRHARD= STRENG*(1.0/PI/ALFINV)*(1.0/PI/ALFINV)* // NOTE: logs from phase space presamplers not MEs
-    2.0*log(AMTO/AMEL/2.0)                            // virtuality
-       *log(AMTO/AMEL/2.0)                            // soft
-    *2.0*log((AMTO*AMTO+2*AMEL*AMEL)/2.0/AMEL/AMEL);  // collinear
+  PRHARD= STRENG // NOTE: logs from phase space presamplers not MEs
+    *0.5*(1.0/PI/ALFINV)*(1.0/PI/ALFINV)/36       // normalization of triple log from 
+                                                  // journals.aps.org/prd/pdf/10.1103/PhysRevD.49.1178  
+                                                  // 0.5 is because it is for 1-leg only
+                                                  // other logs should come from rejection 
+    *2*log(AMTO/AMEL/2.0)                         // virtuality
+    *2*log(AMTO/AMEL/2.0)                         // soft
+      *log((AMTO*AMTO+2*AMEL*AMEL)/2.0/AMEL/AMEL);// collinear
 
   //  printf ("%10.7f\n",PRHARD);
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
-    PRHARD=0.99;  
+  //  PRHARD=0.99;  
   //
 
   //virtuality of lepton pair
