@@ -16,6 +16,19 @@ PhotosHepMCEvent::PhotosHepMCEvent(HepMC::GenEvent * event)
 		PhotosParticle *particle = new PhotosHepMCParticle(*part_itr);
 		particles.push_back(particle);
 	}
+    
+	switch(m_event->momentum_unit()) {
+		case HepMC::Units::GEV:
+			Photos::setMomentumUnit(Photos::GEV);
+			break;
+		case HepMC::Units::MEV:
+			Photos::setMomentumUnit(Photos::MEV);
+			break;
+		default:
+			Log::Error()<<"PhotosHepMCEvent: undefined unit"<<endl;
+			Photos::setMomentumUnit(Photos::DEFAULT_MOMENTUM);
+			break;
+	};
 }
 
 PhotosHepMCEvent::~PhotosHepMCEvent()

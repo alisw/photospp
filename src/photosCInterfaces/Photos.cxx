@@ -31,6 +31,8 @@ int  Photos::historyEntriesStatus = 3;
 bool Photos::IfPair=false;
 double (*Photos::randomDouble)() = PhotosRandom::randomReal;
 
+Photos::MomentumUnits Photos::momentumUnit = Photos::DEFAULT_MOMENTUM;
+
 Photos::Photos()
 {
 	setAlphaQED           (0.00729735039);

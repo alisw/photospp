@@ -1473,6 +1473,19 @@ $Z^0 \rightarrow \tau^+ \tau^-$ decays are generated and the event record is tra
 searching for the first $\tau^-$ particle in the event record.
 Instead of processing the whole event, only the decay of $\tau^-$ is processed by {\tt PHOTOS}.
 
+subsection{Units\footnote{Added 23 Jan 2015}}
+\label{sec:units}
+
+For the purpose of pair emission, the information about momentum unit
+(either {\tt GeV} or {\tt MeV}) used by the event has to be provided.
+For the rest of the {\tt Photos} processing this information is not needed.
+
+In case of {\tt HepMC} event record, this information is automatically obtained
+from the event. For {\tt HEPEVT} events, {\tt GeV} is assumed. For all other
+interfaces, the unit is undefined and has to be set in the event record
+interface by calling {\tt Photos::setMomentumUnit(MomentumUnits unit); }. See
+constructors for {\tt PhotosHepMCEvent} or {\tt PhotosHEPEVEvent} class for
+examples.
 
 \subsection{Logging and Debugging}
 \label{App:Logging}

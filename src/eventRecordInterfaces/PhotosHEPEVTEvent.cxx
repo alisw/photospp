@@ -35,7 +35,13 @@ PhotosHEPEVTEvent::~PhotosHEPEVTEvent()
   for(unsigned int i=0;i<particle_list.size();i++) delete particle_list[i];
 }
 
-PhotosHEPEVTEvent::PhotosHEPEVTEvent() {}
+PhotosHEPEVTEvent::PhotosHEPEVTEvent()
+{
+  // NOTE: We set default units to be GEV for HEPEVT events. This can be
+  //       overridden by calling Photos::setMomentumUnit(Photos::MEV);
+  //       after the event is created.
+  Photos::setMomentumUnit(Photos::GEV);
+}
 
 void PhotosHEPEVTEvent::addParticle(PhotosHEPEVTParticle *p)
 {

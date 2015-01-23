@@ -33,6 +33,9 @@ class Photos
 public:
 	static const int VER_MAJOR=3, VER_MINOR=56;
 	static const int DAT_DAY  =3, DAT_MONTH=5, DAT_YEAR=14;
+    
+	/** Units */
+	static enum MomentumUnits { DEFAULT_MOMENTUM=-1, MEV, GEV } momentumUnit;
 public:
 
 	/** Initalize Photos with the parameters previously set via the
@@ -126,6 +129,9 @@ public:
 
 	/** Set photon emission in top pair production in quark (gluon) pair annihilation */
 	static void setTopProcessRadiation(bool top)         { phokey_.iftop=(int)top; }
+
+	/** Set momentum unit */
+	static void setMomentumUnit(MomentumUnits unit)      { momentumUnit = unit; }
 
 	/* Set if PHOTOS should stop at critical error. True by default.
 	   WARNING: These stops are an essential source of debugging information flow
