@@ -234,7 +234,7 @@ void partra(int IBRAN,double PHOT[4]){
 }
 
 
-  void trypar(bool *JESLI,double STRENG, double AMEL, double PA[4],double PB[4],double PE[4],double PP[4]){       
+  void trypar(bool *JESLI,double STRENG,double AMCH, double AMEL, double PA[4],double PB[4],double PE[4],double PP[4]){       
   //      COMMON  /PARKIN/ 
   double &FI0=parkin.fi0;
   double &FI1=parkin.fi1;
@@ -296,7 +296,7 @@ void partra(int IBRAN,double PHOT[4]){
   lortra(1,BSTA,PNEUTR,VEC,PAA,PP,PE);
   spaj(-1,PNEUTR,PAA,PP,PE);                                  
   double AMNE=amast(PNEUTR);                                              
-  double AMCH=amast(PAA);                                                
+  AMCH=amast(PAA);  // to be removed. This is dangerous because of rounding error                                                
   if(AMCH<0.0) AMCH=AMEL;                                   
   if (AMNE<0.0) AMNE=0.0;
   double AMTO =PAA[4-j]+PNEUTR[4-j];
@@ -313,7 +313,7 @@ void partra(int IBRAN,double PHOT[4]){
     *2*log(AMTO/AMEL/2.0)                         // soft
       *log((AMTO*AMTO+2*AMCH*AMCH)/2.0/AMCH/AMCH);// collinear
 
-  //   printf ("%10.7f\n",PRHARD);
+  //  printf ("%10.7f\n",PRHARD);
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
   //  PRHARD=0.99;  
@@ -401,11 +401,12 @@ void partra(int IBRAN,double PHOT[4]){
       / xlam(1.0,AMCH*AMCH/AMTO/AMTO,AMNE*AMNE/AMTO/AMTO);
 
   // ########  MATRIX ELEMENT prototype ###########
-  double YOT1=AMTO/XP*AMTO/XP*                                   // infrared factor 
-    (1-C1)*(1+C1)/2.0/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP)* // angular factor
+  double YOT1=AMTO/XP*// AMTO/XP*                                   // infrared factor 
+    (1-C1)*(1+C1)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP)* // angular factor
     AMTO/XMP*AMTO/XMP*                                           // virtuality factor
-    (1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX))*2.0/3.0;              // A-P kernel
+    (1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX));//!*2.0/3.0;              // A-P kernel
 
+  // printf (" virtki C1= %15.8f XMP %15.8f XP %15.8f  1/F= %15.8f MEterm=  %15.8f      \n",C1,XMP,XP,2/(1.0+eps-C1),(1-C1)*(1+C1)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP));
   //  YOT1=1;
 
 // note that the factor 2/3 in YOT1 above should be replaced by the 

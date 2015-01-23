@@ -2335,6 +2335,7 @@ void PHTYPE(int ID){
 
   
   //--
+
   if(phokey_.iexp){
     phoexp_.expini=true;      // Initialization/cleaning
     for(phoexp_.nchan=1;phoexp_.nchan<=phoexp_.NX;phoexp_.nchan++)
@@ -2413,7 +2414,7 @@ void PHTYPE(int ID){
     phokey_.fsec=1.0;
     PHOMAK(ID,NHEP0);
   }
-  
+
   //--
   //-- lepton anti-lepton pair(s)
   // we prepare to migrate half of tries to before photons accordingly to LL
@@ -2466,6 +2467,7 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
   if(pho.jdahep[IP][0] == pho.jdahep[IP][1]) return;
 
   // Loop over charged daughters
+ 
   for(int I=pho.jdahep[IP][0]-i; I <= pho.jdahep[IP][1]-i; ++I) {
 
 
@@ -2483,6 +2485,7 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
     if(!pho.qedrad[I]) continue;  // 
 
 
+
     // Set  3-vectors
     for(int J = 0; J < 3; ++J) {
       PCHAR[J] = pho.phep[I][J];
@@ -2492,8 +2495,8 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
     // Set energy
     PNEU[3]  = pho.phep[IP][3] - pho.phep[I][3];
     PCHAR[3] = pho.phep[I][3];
-
-
+    // Set mass 
+    double AMCH = pho.phep[I][4];
     //here we attempt generating pair from PCHAR. One of the charged
     //decay products; that is why algorithm works in a loop.
     //PNEU is four vector of all decay products except PCHAR
@@ -2501,7 +2504,8 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
     //we assume it is negligibly rare and fourth order in alpha anyway
     //TRYPAR should take as an input electron mass.
     //then it can be used for muons.
-    trypar(&JESLI,STRENG,masslep,PCHAR,PNEU,PELE,PPOZ);
+    trypar(&JESLI,STRENG,AMCH,masslep,PCHAR,PNEU,PELE,PPOZ);
+ 
     //emitted pair four momenta are stored in PELE PPOZ
     //then JESLI=.true.
 

@@ -4,7 +4,7 @@
 namespace Photospp {
 
 
- void trypar(bool *JESLI,double STRENG,double AMEL,double PA[4],double PB[4],double PE[4],double PP[4]);
+ void trypar(bool *JESLI,double STRENG,double AMCH, double AMEL,double PA[4],double PB[4],double PE[4],double PP[4]);
 
  void PHOPAR(int IPARR,int NHEP0, int idlep, double masslep, double STRENG);
 
