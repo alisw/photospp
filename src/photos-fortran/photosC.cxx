@@ -2333,7 +2333,22 @@ void PHTYPE(int ID){
     pho.qedrad[I]=true;
   }
 
-  
+    double elMass=0.000511;  
+ if (IPAIR)  {
+
+	switch(Photos::momentumUnit) {
+		case Photos::GEV:
+                        elMass=0.000511;
+			break;
+		case Photos::MEV:
+                        elMass=0.511;
+			break;
+		default:
+			Log::Error()<<"GEV or MEV unit must be set for pair emission"<<endl;
+			break;
+	};
+	//    PHOPAR(ID,NHEP0,11,elMass,0.5);
+  }
   //--
 
   if(phokey_.iexp){
@@ -2419,7 +2434,10 @@ void PHTYPE(int ID){
   //-- lepton anti-lepton pair(s)
   // we prepare to migrate half of tries to before photons accordingly to LL
   // pho.qedrad is not yet used by PHOPAR
-  if (IPAIR)  PHOPAR(ID,NHEP0,11,0.000511,1.0);
+  if (IPAIR)  {
+    //    PHOPAR(ID,NHEP0,11,elMass,0.5);
+    PHOPAR(ID,NHEP0,11,elMass,1.0);
+  }
 }
 
 /*----------------------------------------------------------------------
@@ -2467,7 +2485,7 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
   if(pho.jdahep[IP][0] == pho.jdahep[IP][1]) return;
 
   // Loop over charged daughters
- 
+
   for(int I=pho.jdahep[IP][0]-i; I <= pho.jdahep[IP][1]-i; ++I) {
 
 
@@ -2483,7 +2501,7 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
                                  &&  (pho.idhep[2-i]==0);
 
     if(!pho.qedrad[I]) continue;  // 
-
+ 
 
 
     // Set  3-vectors
@@ -2505,7 +2523,6 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
     //TRYPAR should take as an input electron mass.
     //then it can be used for muons.
     trypar(&JESLI,STRENG,AMCH,masslep,PCHAR,PNEU,PELE,PPOZ);
- 
     //emitted pair four momenta are stored in PELE PPOZ
     //then JESLI=.true.
 
