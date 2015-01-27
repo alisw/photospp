@@ -305,12 +305,13 @@ void partra(int IBRAN,double PHOT[4]){
 
   double PRHARD;
   PRHARD= STRENG // NOTE: logs from phase space presamplers not MEs
-    *0.5*(1.0/PI/ALFINV)*(1.0/PI/ALFINV)/36       // normalization of triple log from 
+    *0.5*(1.0/PI/ALFINV)*(1.0/PI/ALFINV)          // normalization of triple log  1/36 from 
                                                   // journals.aps.org/prd/pdf/10.1103/PhysRevD.49.1178  
+                                                  // must come from rejection
                                                   // 0.5 is because it is for 1-leg only
                                                   // other logs should come from rejection 
     *2*log(AMTO/AMEL/2.0)                         // virtuality
-    *2*log(AMTO/AMEL/2.0)                         // soft
+      *log(AMTO/AMEL/2.0)                         // soft
       *log((AMTO*AMTO+2*AMCH*AMCH)/2.0/AMCH/AMCH);// collinear
 
   //  printf ("%10.7f\n",PRHARD);
@@ -321,20 +322,20 @@ void partra(int IBRAN,double PHOT[4]){
 
   //virtuality of lepton pair
   double XMP=2.0*AMEL*exp(RRR[1-j]*log(AMTO/2.0/AMEL));
-  //   XMP=2.0*AMEL*2.0*AMEL+RRR[1-j]*(AMTO-2.0*AMEL)*(AMTO-2.0*AMEL); XMP=sqrt(XMP); // option of no presampler
+ //  XMP=2.0*AMEL*2.0*AMEL+RRR[1-j]*(AMTO-2.0*AMEL)*(AMTO-2.0*AMEL); XMP=sqrt(XMP); // option of no presampler
          
 
   // energy of lepton pair replace   virtuality of CHAR+NEU system in phase space parametrization
   double XPmin=2.0*AMEL;
   double XPdelta=AMTO-XPmin;
   double XP=  XPmin*exp(RRR[2-j]*log((XPdelta+XPmin)/XPmin));  
-  //       XP=  XPmin +RRR[2-j]*XPdelta;                                  // option of no presampler
+  //     XP=  XPmin +RRR[2-j]*XPdelta;                                  // option of no presampler
   double XMK2=(AMTO*AMTO+XMP*XMP)-2.0*AMTO*XP;
   // printf ("XP min delta it %15.8f  %15.8f    %15.8f    %15.8f  \n", XPmin,XPdelta,RRR[2-j], XP);
   // angles of lepton pair  
   double eps=4.0*AMCH*AMCH/AMTO/AMTO;
   double C1 =1.0+eps -eps*exp(RRR[3-j]*log((2+eps)/eps));
-  //       C1=1.0-2.0*RRR[3-j];                                       // option of no presampler
+   //    C1=1.0-2.0*RRR[3-j];                                       // option of no presampler
   double FIX1=2.0*PI*RRR[4-j];
 
   // angles of lepton in restframe of lepton pair
@@ -379,17 +380,20 @@ void partra(int IBRAN,double PHOT[4]){
   // for events in phase: jacobians weights etc. 
 
   // virtuality of added lepton pair
-  double F= ((AMTO)*(AMTO)-4.0*AMEL*AMEL)/(AMTO*AMTO-4.0*AMEL*AMEL)  
-      *XMP/AMTO*XMP/AMTO  ; // use this line when presampler is on
-  
-  // Energy of lepton pair represented  by  virtuality of muon pair
-  double G= XPdelta/XPdelta
-       * XP/AMTO  ;         // use this line when presampler is on
+  double F= (AMTO*AMTO-4.0*AMEL*AMEL)            // flat phase space
+           /(AMTO*AMTO-4.0*AMEL*AMEL)  *XMP*XMP;  // use this when presampler is on  (log moved to PRHARD)
+ 
 
-  // scattering angle of emitted lepton pair
-  double H= 2.0/2.0       
-             *(1.0+eps-C1)/2.0; // use this line when presampler is on
+  // Energy of added lepton pair represented  by  virtuality of CH+N pair
+  double G= 2*AMTO*XPdelta                      // flat phase space
+          /(2*AMTO*XPdelta)   *2*AMTO*XP;        // use this  when presampler is on  (log moved to PRHARD)
 
+
+  // scattering angle of emitted lepton pair (also flat factors for other angles)
+  double H=   2.0                // flat phase space
+                /2.0  *(1.0+eps-C1); // use this when presampler is on  (log moved to PRHARD)
+ 
+             //*2*PI*4*PI  /2/PI/4/PI;      // other angles normalization of transformation to random numbers.
 
   double XPMAX=(AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO;
 
@@ -399,16 +403,24 @@ void partra(int IBRAN,double PHOT[4]){
                xlam(1.0,XMK2/AMTO/AMTO,XMP*XMP/AMTO/AMTO)*
                  xlam(1.0,AMCH*AMCH/XMK2,AMNE*AMNE/XMK2)
       / xlam(1.0,AMCH*AMCH/AMTO/AMTO,AMNE*AMNE/AMTO/AMTO);
+  //  YOT2=1.0;
 
   // ########  MATRIX ELEMENT prototype ###########
   double YOT1=AMTO/XP*// AMTO/XP*                                   // infrared factor 
     (1-C1)*(1+C1)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP)* // angular factor
+    (2+XMP*XMP/XP/XP)*(2+XMP*XMP/XP/XP)*
     AMTO/XMP*AMTO/XMP*                                           // virtuality factor
     (1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX));//!*2.0/3.0;              // A-P kernel
 
-  // printf (" virtki C1= %15.8f XMP %15.8f XP %15.8f  1/F= %15.8f MEterm=  %15.8f      \n",C1,XMP,XP,2/(1.0+eps-C1),(1-C1)*(1+C1)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP));
-  //  YOT1=1;
+  //  printf (" virtki C1= %15.8f XMP %15.8f XP %15.8f  1/F= %15.8f MEterm=  %15.8f      \n",C1,XMP,XP,2/(1.0+eps-C1),(1-C1)*(1+C1)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP));
+  //  printf (" virtki C1= %15.8f ratio xp/xmp %15.8f  ratio me/jaco %15.8f XMP %15.8f XP %15.8f      \n",C1,XP/XMP,(1.0+eps-C1)*(1-C1)*(1+C1)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP),XMP,XP);
 
+  //  YOT1=1; 
+     YOT1=YOT1 
+         /AMTO/AMTO  // ad hoc normalization virtuality
+         /AMTO/AMTO  // ad hoc normalization energy
+         /2.0;       // ad hoc normalization angle
+ //  YOT1=1; 
 // note that the factor 2/3 in YOT1 above should be replaced by the 
 // appropriate A-P kernel for gamma splitting to e+e- !!!!!!!
 // the part of the weight below, should have average 1, but fluctuates 
