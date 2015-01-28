@@ -406,20 +406,20 @@ void partra(int IBRAN,double PHOT[4]){
   //  YOT2=1.0;
 
   // ########  MATRIX ELEMENT prototype ###########
-  double YOT1=AMTO/XP*// AMTO/XP*                                   // infrared factor 
-    (1-C1)*(1+C1)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP)* // angular factor
-    (2+XMP*XMP/XP/XP)*(2+XMP*XMP/XP/XP)*
-    AMTO/XMP*AMTO/XMP*                                           // virtuality factor
+  double YOT1=1/2./AMTO/XP*// AMTO/XP*                                   // infrared factor 
+    (1-C1)*(1+C1)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)* // angular factor
+                  (2   +0.5*eps+0.5*XMP*XMP/XP/XP)*(2   +0.5*eps+0.5*+XMP*XMP/XP/XP)/4
+    /XMP/XMP*                                           // virtuality factor
     (1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX));//!*2.0/3.0;              // A-P kernel
 
-  //  printf (" virtki C1= %15.8f XMP %15.8f XP %15.8f  1/F= %15.8f MEterm=  %15.8f      \n",C1,XMP,XP,2/(1.0+eps-C1),(1-C1)*(1+C1)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP));
-  //  printf (" virtki C1= %15.8f ratio xp/xmp %15.8f  ratio me/jaco %15.8f XMP %15.8f XP %15.8f      \n",C1,XP/XMP,(1.0+eps-C1)*(1-C1)*(1+C1)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP),XMP,XP);
+ 
+    // printf (" virtki C1= %15.8f ratio xp/xmp %15.8f  ratio me/jaco %15.8f XMP %15.8f XP %15.8f      \n",C1,XP/XMP,(1.0+eps-C1)*(1-C1)*(1+C1)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP),XMP,XP);
 
   //  YOT1=1; 
-     YOT1=YOT1 
-         /AMTO/AMTO  // ad hoc normalization virtuality
-         /AMTO/AMTO  // ad hoc normalization energy
-         /2.0;       // ad hoc normalization angle
+  //   YOT1=YOT1 
+       //     /AMTO/AMTO  // ad hoc normalization virtuality
+       // /AMTO/AMTO/2.  // ad hoc normalization energy
+       //     /2.0;       // ad hoc normalization angle
  //  YOT1=1; 
 // note that the factor 2/3 in YOT1 above should be replaced by the 
 // appropriate A-P kernel for gamma splitting to e+e- !!!!!!!
@@ -431,6 +431,20 @@ void partra(int IBRAN,double PHOT[4]){
 //     $     XLAM(1D0,AMCH**2/AMTO**2,AMNEU**2/AMTO**2)
 //  printf (" yotiki %15.8f  %15.8f   %15.8f    \n",YOT1,YOT2,YOT3);
   double WT=YOT1*YOT2*YOT3;
+    if (WT>1.0) {
+    printf (" =============================  \n");
+  printf (" WT= %15.8f    \n",WT);
+  printf (" virtki C1= %15.8f XMP= %15.8f XP= %15.8f       \n",C1,XMP,XP);
+  printf (" eps XMP/XP^2  %15.8f  %15.8f     \n",eps,XMP*XMP/XP/XP);
+  printf (" F G H  %15.8f  %15.8f   %15.8f    \n",F,G,H);
+  printf ("        \n");
+  //  printf (" virtki   1/F= %15.8f MEterm=  %15.8f      \n",2/(1.0+eps-C1),(1-C1)*(1+C1)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP));
+  printf (" virtki   1/F= %15.8f MEterm=  %15.8f      \n",2/(1.0+eps-C1), (1-C1)*(1+C1)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)* 
+                                                                                        (2    +0.5*eps+0.5*XMP*XMP/XP/XP)*(2   +0.5*eps+0.5*+XMP*XMP/XP/XP));
+  printf (" virtki    AP= %15.8f   \n",(1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX)));
+  printf (" lambdas=      %15.8f     \n",YOT2);
+  printf (" virtene=      %15.8f    %15.8f    \n",F*H,AMTO/XP*AMTO/XMP*AMTO/XMP);
+  }
   //C histograming .......................
   //      GMONIT( 0,105   ,WT  ,1D0,0D0) 
   //      GMONIT( 0,106   ,YOT1,1D0,0D0) 
