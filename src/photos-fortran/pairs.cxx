@@ -406,11 +406,11 @@ void partra(int IBRAN,double PHOT[4]){
   //  YOT2=1.0;
 
   // ########  MATRIX ELEMENT prototype ###########
-  double YOT1=1/2./AMTO/XP*// AMTO/XP*                                   // infrared factor 
+  double YOT1=1/2./AMTO/(2*XP)* AMTO/(2*XP)*                                   // infrared factor from fermion propagator
     (1-C1)*(1+C1)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)* // angular factor
                   (2   +0.5*eps+0.5*XMP*XMP/XP/XP)*(2   +0.5*eps+0.5*+XMP*XMP/XP/XP)/4
-    /XMP/XMP*                                           // virtuality factor
-    (1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX));//!*2.0/3.0;              // A-P kernel
+    /XMP/XMP*                                           // virtuality factor i.e. photon propagator
+    (1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX))*(1+C2*C2)/2;             // A-P kernel, virt photon decay andgle dependence
 
  
     // printf (" virtki C1= %15.8f ratio xp/xmp %15.8f  ratio me/jaco %15.8f XMP %15.8f XP %15.8f      \n",C1,XP/XMP,(1.0+eps-C1)*(1-C1)*(1+C1)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP),XMP,XP);
@@ -437,12 +437,18 @@ void partra(int IBRAN,double PHOT[4]){
   printf (" virtki C1= %15.8f XMP= %15.8f XP= %15.8f       \n",C1,XMP,XP);
   printf (" eps XMP/XP^2  %15.8f  %15.8f     \n",eps,XMP*XMP/XP/XP);
   printf (" F G H  %15.8f  %15.8f   %15.8f    \n",F,G,H);
+
+
   printf ("        \n");
   //  printf (" virtki   1/F= %15.8f MEterm=  %15.8f      \n",2/(1.0+eps-C1),(1-C1)*(1+C1)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP));
   printf (" virtki   1/F= %15.8f MEterm=  %15.8f      \n",2/(1.0+eps-C1), (1-C1)*(1+C1)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)* 
                                                                                         (2    +0.5*eps+0.5*XMP*XMP/XP/XP)*(2   +0.5*eps+0.5*+XMP*XMP/XP/XP));
   printf (" virtki    AP= %15.8f   \n",(1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX)));
   printf (" lambdas=      %15.8f     \n",YOT2);
+  printf (" lambs  %15.8f  %15.8f   %15.8f    \n",               xlam(1.0,AMEL*AMEL/XMP/XMP, AMEL*AMEL/XMP/XMP),
+	  xlam(1.0,XMK2/AMTO/AMTO,XMP*XMP/AMTO/AMTO),
+                 xlam(1.0,AMCH*AMCH/XMK2,AMNE*AMNE/XMK2)
+);
   printf (" virtene=      %15.8f    %15.8f    \n",F*H,AMTO/XP*AMTO/XMP*AMTO/XMP);
   }
   //C histograming .......................
@@ -452,12 +458,13 @@ void partra(int IBRAN,double PHOT[4]){
   //      GMONIT( 0,108   ,YOT3,1D0,0D0)
   //      GMONIT( 0,109   ,YOT4,1D0,0D0)
   // end of histograming ................ 
+    //printf (" XP= %15.8f    \n",XP);
 
   if (RRR[8-j]>WT){
     *JESLI=false;
     return;
   }
-
+  //printf (" akceptow XP= %15.8f    \n",XP);
 
   //                                                                     
   //                                                                     
