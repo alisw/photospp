@@ -317,7 +317,7 @@ void partra(int IBRAN,double PHOT[4]){
   //  printf ("%10.7f\n",PRHARD);
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
-  //  PRHARD=0.99;  
+    PRHARD=0.99;  
   //
 
   //virtuality of lepton pair
@@ -375,6 +375,10 @@ void partra(int IBRAN,double PHOT[4]){
         (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
  //printf ("drugiki %15.8f  %15.8f  \n", XP, XMP);
  //printf ("jesliki %15.8f  %15.8f   %15.8f    \n",AMTO-AMNE-AMCH-XMP,XP-XMP,((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO)-XP);
+
+ // delta is for tests with PhysRevD.49.1178 
+ double delta=5;
+ *JESLI= *JESLI && XP< delta;
   if (!*JESLI) return;
 
   // for events in phase: jacobians weights etc. 
@@ -407,10 +411,13 @@ void partra(int IBRAN,double PHOT[4]){
 
   // ########  MATRIX ELEMENT prototype ###########
   double YOT1=1/2./AMTO/(2*XP)* AMTO/(2*XP)*                                   // infrared factor from fermion propagator
-    (1-C1)*(1+C1)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)* // angular factor
-                  (2   +0.5*eps+0.5*XMP*XMP/XP/XP)*(2   +0.5*eps+0.5*+XMP*XMP/XP/XP)/4
-    /XMP/XMP*                                           // virtuality factor i.e. photon propagator
-    (1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX))*(1+C2*C2)/2;             // A-P kernel, virt photon decay andgle dependence
+    //    (1-C1)*(1+C1)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)* // angular factor  from fermion propagator
+    (1-C1)*(1+C1)/(1-C1*sqrt(1-XMP*XMP/XP/XP))/(1-C1*sqrt(1-XMP*XMP/XP/XP)) // angular factor  from fermion propagator variant from paper?
+    *(1+2*AMEL*AMEL/XMP/XMP)   // factor from paper? 
+    //   *(2   +0.5*eps+0.5*XMP*XMP/XP/XP)*(2   +0.5*eps+0.5*+XMP*XMP/XP/XP)/4  // my variant of factor
+    /XMP/XMP                                           // virtuality factor i.e. photon propagator
+    //   *(1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX))  // A-P kernel
+*(1+C2*C2)/2;             //  virt photon decay angle dependence
 
  
     // printf (" virtki C1= %15.8f ratio xp/xmp %15.8f  ratio me/jaco %15.8f XMP %15.8f XP %15.8f      \n",C1,XP/XMP,(1.0+eps-C1)*(1-C1)*(1+C1)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP),XMP,XP);
