@@ -317,7 +317,7 @@ void partra(int IBRAN,double PHOT[4]){
   //  printf ("%10.7f\n",PRHARD);
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
-    PRHARD=0.99;  
+  //  PRHARD=0.99;  
   //
 
   //virtuality of lepton pair
