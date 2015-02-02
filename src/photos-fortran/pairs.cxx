@@ -317,12 +317,12 @@ void partra(int IBRAN,double PHOT[4]){
   //  printf ("%10.7f\n",PRHARD);
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
-  //  PRHARD=0.99;  
+    PRHARD=0.99;  
   //
 
   //virtuality of lepton pair
   double XMP=2.0*AMEL*exp(RRR[1-j]*log(AMTO/2.0/AMEL));
- //  XMP=2.0*AMEL*2.0*AMEL+RRR[1-j]*(AMTO-2.0*AMEL)*(AMTO-2.0*AMEL); XMP=sqrt(XMP); // option of no presampler
+  // XMP=2.0*AMEL*2.0*AMEL+RRR[1-j]*(AMTO-2.0*AMEL)*(AMTO-2.0*AMEL); XMP=sqrt(XMP); // option of no presampler
          
 
   // energy of lepton pair replace   virtuality of CHAR+NEU system in phase space parametrization
@@ -335,7 +335,7 @@ void partra(int IBRAN,double PHOT[4]){
   // angles of lepton pair  
   double eps=4.0*AMCH*AMCH/AMTO/AMTO;
   double C1 =1.0+eps -eps*exp(RRR[3-j]*log((2+eps)/eps));
-   //    C1=1.0-2.0*RRR[3-j];                                       // option of no presampler
+  //   C1=1.0-2.0*RRR[3-j];                                       // option of no presampler
   double FIX1=2.0*PI*RRR[4-j];
 
   // angles of lepton in restframe of lepton pair
@@ -377,7 +377,7 @@ void partra(int IBRAN,double PHOT[4]){
  //printf ("jesliki %15.8f  %15.8f   %15.8f    \n",AMTO-AMNE-AMCH-XMP,XP-XMP,((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO)-XP);
 
  // delta is for tests with PhysRevD.49.1178 
- double delta=AMTO*2; ;0.25;
+ double delta=AMTO*2; //5.;//.125; //AMTO*2; //.125; //AMTO*2; ;0.25;
  *JESLI= *JESLI && XP< delta;
   if (!*JESLI) return;
 
@@ -395,7 +395,7 @@ void partra(int IBRAN,double PHOT[4]){
 
   // scattering angle of emitted lepton pair (also flat factors for other angles)
   double H=   2.0                // flat phase space
-                /2.0  *(1.0+eps-C1); // use this when presampler is on  (log moved to PRHARD)
+       /2.0 *(1.0+eps-C1)/2.0; // use this when presampler is on  (log moved to PRHARD)
 
  double H1=2.0             // because we have other arm of generation   char neutr replaced
    /2.0  *(1.0+eps-C1);
@@ -641,6 +641,14 @@ void partra(int IBRAN,double PHOT[4]){
 			     );
  // printf (" WT= %15.8f %15.8f  \n",WT,YOT1);
   WT=YOT1*YOT2*YOT3;
+
+  WT=WT/8;  // surely incorrect
+
+  if(WT>1.0){
+    printf (" WT= %15.8f  \n",WT);
+
+}
+
   if (RRR[8-j]>WT){
     *JESLI=false;
     return;
