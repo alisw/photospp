@@ -25,7 +25,7 @@ PhotosHepMCEvent::PhotosHepMCEvent(HepMC::GenEvent * event)
 			Photos::setMomentumUnit(Photos::MEV);
 			break;
 		default:
-			Log::Error()<<"PhotosHepMCEvent: undefined unit"<<endl;
+			Log::Error()<<"PhotosHepMCEvent: undefined unit, important for pair emission only"<<endl;
 			Photos::setMomentumUnit(Photos::DEFAULT_MOMENTUM);
 			break;
 	};

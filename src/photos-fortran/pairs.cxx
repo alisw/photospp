@@ -317,7 +317,7 @@ void partra(int IBRAN,double PHOT[4]){
   //  printf ("%10.7f\n",PRHARD);
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
-    PRHARD=0.99;  
+  //  PRHARD=0.99;  
   //
 
   //virtuality of lepton pair
@@ -377,7 +377,7 @@ void partra(int IBRAN,double PHOT[4]){
  //printf ("jesliki %15.8f  %15.8f   %15.8f    \n",AMTO-AMNE-AMCH-XMP,XP-XMP,((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO)-XP);
 
  // delta is for tests with PhysRevD.49.1178 
- double delta=5;
+ double delta=AMTO*2; ;0.25;
  *JESLI= *JESLI && XP< delta;
   if (!*JESLI) return;
 
@@ -396,6 +396,12 @@ void partra(int IBRAN,double PHOT[4]){
   // scattering angle of emitted lepton pair (also flat factors for other angles)
   double H=   2.0                // flat phase space
                 /2.0  *(1.0+eps-C1); // use this when presampler is on  (log moved to PRHARD)
+
+ double H1=2.0             // because we have other arm of generation   char neutr replaced
+   /2.0  *(1.0+eps-C1);
+ double H2=2.0                
+   /2.0  *(1.0+eps+C1);
+  H=1./(0.5/H1+0.5/H2);
  
              //*2*PI*4*PI  /2/PI/4/PI;      // other angles normalization of transformation to random numbers.
 
@@ -418,7 +424,8 @@ void partra(int IBRAN,double PHOT[4]){
     /XMP/XMP                                           // virtuality factor i.e. photon propagator
     //   *(1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX))  // A-P kernel
 *(1+C2*C2)/2;             //  virt photon decay angle dependence
-
+  //### SECOND VERSION
+  //  YOT1=1/2/XMP/XMP;
  
     // printf (" virtki C1= %15.8f ratio xp/xmp %15.8f  ratio me/jaco %15.8f XMP %15.8f XP %15.8f      \n",C1,XP/XMP,(1.0+eps-C1)*(1-C1)*(1+C1)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP),XMP,XP);
 
@@ -438,7 +445,7 @@ void partra(int IBRAN,double PHOT[4]){
 //     $     XLAM(1D0,AMCH**2/AMTO**2,AMNEU**2/AMTO**2)
 //  printf (" yotiki %15.8f  %15.8f   %15.8f    \n",YOT1,YOT2,YOT3);
   double WT=YOT1*YOT2*YOT3;
-    if (WT>1.0) {
+    if (WT>2.0) {
     printf (" =============================  \n");
   printf (" WT= %15.8f    \n",WT);
   printf (" virtki C1= %15.8f XMP= %15.8f XP= %15.8f       \n",C1,XMP,XP);
@@ -466,11 +473,6 @@ void partra(int IBRAN,double PHOT[4]){
   //      GMONIT( 0,109   ,YOT4,1D0,0D0)
   // end of histograming ................ 
     //printf (" XP= %15.8f    \n",XP);
-
-  if (RRR[8-j]>WT){
-    *JESLI=false;
-    return;
-  }
   //printf (" akceptow XP= %15.8f    \n",XP);
 
   //                                                                     
@@ -602,7 +604,49 @@ void partra(int IBRAN,double PHOT[4]){
   lortra(2,TH0,PNEUTR,VEC,PAA,PP,PE);
   lortra(3,FI0,PNEUTR,VEC,PAA,PP,PE);
   spaj(11,PNEUTR,PAA,PP,PE);
-}  
+
+
+ YOT1=1/2./AMTO/(2*XP)* AMTO/(2*XP)*                                   // infrared factor from fermion propagator
+    //    (1-C1)*(1+C1)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)* // angular factor  from fermion propagator
+    (1-C1)*(1+C1)/(1-C1*sqrt(1-XMP*XMP/XP/XP))/(1-C1*sqrt(1-XMP*XMP/XP/XP)) // angular factor  from fermion propagator variant from paper?
+    *(1+2*AMEL*AMEL/XMP/XMP)   // factor from paper? 
+    //   *(2   +0.5*eps+0.5*XMP*XMP/XP/XP)*(2   +0.5*eps+0.5*+XMP*XMP/XP/XP)/4  // my variant of factor
+    /XMP/XMP                                           // virtuality factor i.e. photon propagator
+    //   *(1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX))  // A-P kernel
+   *(1+C2*C2)/2;             //  virt photon decay angle dependence
+ // printf (" \n");
+ //printf (" XP= %15.8f %15.8f %15.8f    %15.8f \n",PP[0],PP[1],PP[2],PP[3]);
+ //printf (" XM= %15.8f %15.8f %15.8f    %15.8f \n",PE[0],PE[1],PE[2],PE[3]);
+ //printf (" XM= %15.8f %15.8f %15.8f    %15.8f \n",PNEUTR[0],PNEUTR[1],PNEUTR[2],PNEUTR[3]);
+ //printf (" XM= %15.8f %15.8f %15.8f    %15.8f \n",PAA[0],PAA[1],PAA[2],PAA[3]);
+
+ // matrix element as formula 1 from journals.aps.org/prd/pdf/10.1103/PhysRevD.49.1178 
+
+ double pq=      PAA[3]*PP[3]-PAA[2]*PP[2]-PAA[1]*PP[1]-PAA[0]*PP[0];
+        pq=pq   +PAA[3]*PE[3]-PAA[2]*PE[2]-PAA[1]*PE[1]-PAA[0]*PE[0];
+
+ double ppq=     PNEUTR[3]*PP[3]-PNEUTR[2]*PP[2]-PNEUTR[1]*PP[1]-PNEUTR[0]*PP[0];
+        ppq=ppq+ PNEUTR[3]*PE[3]-PNEUTR[2]*PE[2]-PNEUTR[1]*PE[1]-PNEUTR[0]*PE[0];
+ double pq1 =PAA[3]*PP[3]-PAA[2]*PP[2]-PAA[1]*PP[1]-PAA[0]*PP[0];
+ double pq2 =PAA[3]*PE[3]-PAA[2]*PE[2]-PAA[1]*PE[1]-PAA[0]*PE[0];
+ 
+ double ppq1=PNEUTR[3]*PP[3]-PNEUTR[2]*PP[2]-PNEUTR[1]*PP[1]-PNEUTR[0]*PP[0];
+ double ppq2=PNEUTR[3]*PE[3]-PNEUTR[2]*PE[2]-PNEUTR[1]*PE[1]-PNEUTR[0]*PE[0];
+
+ double ppp=PNEUTR[3]*PAA[3]-PNEUTR[2]*PAA[2]-PNEUTR[1]*PAA[1]-PNEUTR[0]*PAA[0];
+
+ YOT1=1./2./XMP/XMP/XMP/XMP*(
+			     4*(pq1/pq-ppq1/ppq)*(pq2/pq-ppq2/ppq)
+			     -XMP*XMP*(AMCH2/pq/pq+AMNE2/ppq/ppq-ppp/pq/ppq-ppp/pq/ppq)
+			     );
+ // printf (" WT= %15.8f %15.8f  \n",WT,YOT1);
+  WT=YOT1*YOT2*YOT3;
+  if (RRR[8-j]>WT){
+    *JESLI=false;
+    return;
+  }
+
+  }  
 
 } // namespace Photospp
 
