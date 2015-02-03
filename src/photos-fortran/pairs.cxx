@@ -234,7 +234,8 @@ void partra(int IBRAN,double PHOT[4]){
 }
 
 
-  void trypar(bool *JESLI,double STRENG,double AMCH, double AMEL, double PA[4],double PB[4],double PE[4],double PP[4]){       
+  void trypar(bool *JESLI,double *pSTRENG,double AMCH, double AMEL, double PA[4],double PB[4],double PE[4],double PP[4]){       
+  double &STRENG = *pSTRENG;
   //      COMMON  /PARKIN/ 
   double &FI0=parkin.fi0;
   double &FI1=parkin.fi1;
@@ -259,7 +260,8 @@ void partra(int IBRAN,double PHOT[4]){
   const double PI=3.141592653589793238462643;     
   const double ALFINV= 137.01;
   const int j=1;  // convention of indices of Riemann space must be preserved.
-   
+
+    if(STRENG<0.2) return;   
   PA[4-j]=max(PA[4-j],sqrt(PA[1-j]*PA[1-j]+PA[2-j]*PA[2-j]+PA[3-j]*PA[3-j]));
   PB[4-j]=max(PB[4-j],sqrt(PB[1-j]*PB[1-j]+PB[2-j]*PB[2-j]+PB[3-j]*PB[3-j]));
   // 4-MOMENTUM OF THE NEUTRAL SYSTEM                                 
@@ -317,7 +319,10 @@ void partra(int IBRAN,double PHOT[4]){
   //  printf ("%10.7f\n",PRHARD);
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
-  //  PRHARD=0.99;  
+  //  PRHARD=0.99* STRENG;
+    //printf ("%10.7f\n",STRENG);
+
+    STRENG=0.0;
   //
 
   //virtuality of lepton pair
@@ -377,7 +382,7 @@ void partra(int IBRAN,double PHOT[4]){
  //printf ("jesliki %15.8f  %15.8f   %15.8f    \n",AMTO-AMNE-AMCH-XMP,XP-XMP,((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO)-XP);
 
  // delta is for tests with PhysRevD.49.1178 
- double delta=AMTO*2; //5.;//.125; //AMTO*2; //.125; //AMTO*2; ;0.25;
+ double delta=AMTO*2; //5;//.125; //AMTO*2; //.125; //AMTO*2; ;0.25;
  *JESLI= *JESLI && XP< delta;
   if (!*JESLI) return;
 

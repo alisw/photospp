@@ -2327,27 +2327,32 @@ void PHTYPE(int ID){
   //      if (hep.jdahep[ID-i][1-i]==hep.jdahep[ID-i][2-i]) return;
   //--
   NHEP0=hep.nhep;
-
+  
   // note that in hep. there are three entries before daughters and in pho. only two
   for(int I=hep.jdahep[ID-i][0]-1-i; I <= hep.jdahep[ID-i][1]-1-i; ++I) {
     pho.qedrad[I]=true;
   }
 
-    double elMass=0.000511;  
+  double elMass=0.000511;
+  double muMass=0.1057;
+  double STRENG=1.0;
  if (IPAIR)  {
 
 	switch(Photos::momentumUnit) {
 		case Photos::GEV:
-                        elMass=0.000511;
+	        	elMass=0.000511; 
+			muMass=0.1057;
 			break;
 		case Photos::MEV:
                         elMass=0.511;
+			muMass=105.7;
 			break;
 		default:
 			Log::Error()<<"GEV or MEV unit must be set for pair emission"<<endl;
 			break;
 	};
-	//    PHOPAR(ID,NHEP0,11,elMass,0.5);
+	//    PHOPAR(ID,NHEP0,11,elMass,&STRENG);
+	//    PHOPAR(ID,NHEP0,13,muMass,&STRENG);
   }
   //--
 
@@ -2435,8 +2440,8 @@ void PHTYPE(int ID){
   // we prepare to migrate half of tries to before photons accordingly to LL
   // pho.qedrad is not yet used by PHOPAR
   if (IPAIR)  {
-    //    PHOPAR(ID,NHEP0,11,elMass,0.5);
-    PHOPAR(ID,NHEP0,11,elMass,1.0);
+    PHOPAR(ID,NHEP0,11,elMass,&STRENG);
+    //  PHOPAR(ID,NHEP0,13,muMass,&STRENG);
   }
 }
 
@@ -2464,14 +2469,14 @@ void PHTYPE(int ID){
                                                   Last Update:
 
   ----------------------------------------------------------------------*/
-void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
+void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double *pSTRENG) {
   double PCHAR[4],PNEU[4],PELE[4],PPOZ[4],BUF[4];
   int    IP,IPPAR,NLAST;
   bool   BOOST,JESLI;
   static int i=1;
   IPPAR = IPARR;
 
-
+  double &STRENG = *pSTRENG;
 
   // Store pointers for cascade treatment...
   IP    = 0;
@@ -2485,8 +2490,7 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
   if(pho.jdahep[IP][0] == pho.jdahep[IP][1]) return;
 
   // Loop over charged daughters
-
-  for(int I=pho.jdahep[IP][0]-i; I <= pho.jdahep[IP][1]-i; ++I) {
+   for(int I=pho.jdahep[IP][0]-i; I <= pho.jdahep[IP][1]-i; ++I) {
 
 
     // Skip this particle if it has no charge
@@ -2502,7 +2506,6 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
 
     if(!pho.qedrad[I]) continue;  // 
  
-
 
     // Set  3-vectors
     for(int J = 0; J < 3; ++J) {
@@ -2522,7 +2525,7 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double STRENG) {
     //we assume it is negligibly rare and fourth order in alpha anyway
     //TRYPAR should take as an input electron mass.
     //then it can be used for muons.
-    trypar(&JESLI,STRENG,AMCH,masslep,PCHAR,PNEU,PELE,PPOZ);
+    trypar(&JESLI,&STRENG,AMCH,masslep,PCHAR,PNEU,PELE,PPOZ);
     //emitted pair four momenta are stored in PELE PPOZ
     //then JESLI=.true.
 
