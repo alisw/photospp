@@ -2335,7 +2335,7 @@ void PHTYPE(int ID){
 
   double elMass=0.000511;
   double muMass=0.1057;
-  double STRENG=1.0;
+  double STRENG=0.5;
  if (IPAIR)  {
 
 	switch(Photos::momentumUnit) {
@@ -2351,11 +2351,11 @@ void PHTYPE(int ID){
 			Log::Error()<<"GEV or MEV unit must be set for pair emission"<<endl;
 			break;
 	};
-	//    PHOPAR(ID,NHEP0,11,elMass,&STRENG);
-	//    PHOPAR(ID,NHEP0,13,muMass,&STRENG);
+	PHOPAR(ID,NHEP0,11,elMass,&STRENG);
+	PHOPAR(ID,NHEP0,13,muMass,&STRENG);
   }
   //--
-
+  /*
   if(phokey_.iexp){
     phoexp_.expini=true;      // Initialization/cleaning
     for(phoexp_.nchan=1;phoexp_.nchan<=phoexp_.NX;phoexp_.nchan++)
@@ -2434,14 +2434,14 @@ void PHTYPE(int ID){
     phokey_.fsec=1.0;
     PHOMAK(ID,NHEP0);
   }
-
+  */
   //--
   //-- lepton anti-lepton pair(s)
   // we prepare to migrate half of tries to before photons accordingly to LL
   // pho.qedrad is not yet used by PHOPAR
   if (IPAIR)  {
     PHOPAR(ID,NHEP0,11,elMass,&STRENG);
-    //  PHOPAR(ID,NHEP0,13,muMass,&STRENG);
+    PHOPAR(ID,NHEP0,13,muMass,&STRENG);
   }
 }
 
@@ -2525,7 +2525,9 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double *pSTRENG) {
     //we assume it is negligibly rare and fourth order in alpha anyway
     //TRYPAR should take as an input electron mass.
     //then it can be used for muons.
+    //  printf ("wrotki %10.7f\n",STRENG);
     trypar(&JESLI,&STRENG,AMCH,masslep,PCHAR,PNEU,PELE,PPOZ);
+    //  printf ("rowerek %10.7f\n",STRENG);
     //emitted pair four momenta are stored in PELE PPOZ
     //then JESLI=.true.
 

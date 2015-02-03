@@ -260,8 +260,7 @@ void partra(int IBRAN,double PHOT[4]){
   const double PI=3.141592653589793238462643;     
   const double ALFINV= 137.01;
   const int j=1;  // convention of indices of Riemann space must be preserved.
-
-    if(STRENG<0.2) return;   
+    // if(STRENG<0.2)printf (" rowerek %10.7f\n",STRENG);
   PA[4-j]=max(PA[4-j],sqrt(PA[1-j]*PA[1-j]+PA[2-j]*PA[2-j]+PA[3-j]*PA[3-j]));
   PB[4-j]=max(PB[4-j],sqrt(PB[1-j]*PB[1-j]+PB[2-j]*PB[2-j]+PB[3-j]*PB[3-j]));
   // 4-MOMENTUM OF THE NEUTRAL SYSTEM                                 
@@ -274,6 +273,7 @@ void partra(int IBRAN,double PHOT[4]){
     PNEUTR[k]=PB[k];
   }
   if((PAA[4-j]+PNEUTR[4-j])< 0.01 ){
+printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
     *JESLI=false;                                      
     return;
   }
@@ -303,7 +303,10 @@ void partra(int IBRAN,double PHOT[4]){
   if (AMNE<0.0) AMNE=0.0;
   double AMTO =PAA[4-j]+PNEUTR[4-j];
 
+
   for( int k=0;k<=7;k++) RRR[k]=Photos::randomDouble();
+  //printf ("%10.7f  %10.7f    \n",STRENG,RRR[8-j]);
+  if(STRENG==0.0) {*JESLI=false;  return;}
 
   double PRHARD;
   PRHARD= STRENG // NOTE: logs from phase space presamplers not MEs
@@ -319,10 +322,21 @@ void partra(int IBRAN,double PHOT[4]){
   //  printf ("%10.7f\n",PRHARD);
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
-  //  PRHARD=0.99* STRENG;
-    //printf ("%10.7f\n",STRENG);
+  //   PRHARD=0.99* STRENG;
+    //    printf ("%10.7f\n",STRENG);
+    // STRENG=0.0;
+  //    printf ("%10.7f  %10.7f  %10.7f  \n",STRENG,PRHARD,RRR[8-j]);
+    if (RRR[8-j]>PRHARD){
+      STRENG=STRENG/(1.0-PRHARD);
+      *JESLI=false;
+      return;
+    } 
+    else{STRENG=0.0;}
 
-    STRENG=0.0;
+
+
+
+
   //
 
   //virtuality of lepton pair
