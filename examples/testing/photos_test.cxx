@@ -176,7 +176,7 @@ int main(int argc,char **argv)
 	}
 
 
-	//	Photos::setPairEmission(true);
+	// Photos::setPairEmission(true);
 	MC_Initialize();
 
 
@@ -196,7 +196,7 @@ int main(int argc,char **argv)
 		if(iEvent<EventsToCheck)
 		{
 			cout<<"                                          "<<endl;
-			cout<<"Momentum conservation chceck BEFORE/AFTER Photos"<<endl;
+			cout<<"Momentum conservation check BEFORE/AFTER Photos"<<endl;
 			checkMomentumConservationInEvent(HepMCEvt);
 		}
 
@@ -221,4 +221,19 @@ int main(int argc,char **argv)
 	}
 	pythia.statistics();
 	MC_Finalize();
+
+	/*
+	// PAIR emission
+	// Test with formula 11 from UTHEP-93-0301 M. Skrzypek ...
+	double deno=log(91/2/0.000511);
+	//	deno=log(91/2/0.1056);
+	deno=deno*deno*(deno+log(2.))*4;
+        double delta= 5;//.125;//0.125; //0.25;
+        double L=log(2*delta/0.000511)-5.0/6.0;
+	// L=log(2*delta/0.1056)-5.0/6.0;
+	double pi=3.1415926;
+        double num=0.99* 4.0/3.0*(L*L*L/3.+ (31./36.- pi*pi/6.)*L+0.5940);
+	printf ("test= %15.8f \n",num/deno);
+        //cout<<"test= "<<deno<<endl;
+	*/
 }
