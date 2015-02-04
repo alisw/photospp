@@ -260,11 +260,11 @@ void partra(int IBRAN,double PHOT[4]){
   const double PI=3.141592653589793238462643;     
   const double ALFINV= 137.01;
   const int j=1;  // convention of indices of Riemann space must be preserved.
-    // if(STRENG<0.2)printf (" rowerek %10.7f\n",STRENG);
+ 
   PA[4-j]=max(PA[4-j],sqrt(PA[1-j]*PA[1-j]+PA[2-j]*PA[2-j]+PA[3-j]*PA[3-j]));
   PB[4-j]=max(PB[4-j],sqrt(PB[1-j]*PB[1-j]+PB[2-j]*PB[2-j]+PB[3-j]*PB[3-j]));
+ 
   // 4-MOMENTUM OF THE NEUTRAL SYSTEM                                 
-
   for( int k=0;k<=3;k++){
     PE[k]    =0.0;
     PP[k]    =0.0;
@@ -298,14 +298,14 @@ printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
   lortra(1,BSTA,PNEUTR,VEC,PAA,PP,PE);
   spaj(-1,PNEUTR,PAA,PP,PE);                                  
   double AMNE=amast(PNEUTR);                                              
-  AMCH=amast(PAA);  // to be removed. This is dangerous because of rounding error                                                
+  AMCH=amast(PAA);  // to be improved. May be dangerous because of rounding error                                                
   if(AMCH<0.0) AMCH=AMEL;                                   
   if (AMNE<0.0) AMNE=0.0;
   double AMTO =PAA[4-j]+PNEUTR[4-j];
 
 
   for( int k=0;k<=7;k++) RRR[k]=Photos::randomDouble();
-  //printf ("%10.7f  %10.7f    \n",STRENG,RRR[8-j]);
+
   if(STRENG==0.0) {*JESLI=false;  return;}
 
   double PRHARD;
@@ -320,20 +320,22 @@ printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
       *log(AMTO/AMEL/2.0)                         // soft
       *log((AMTO*AMTO+2*AMCH*AMCH)/2.0/AMCH/AMCH);// collinear
 
-  //printf ("%10.7f  %10.7f  \n",PRHARD,STRENG);
-  // this just enforces hard pairs to be generated 'always'
-  // this is for the sake of tests only.
+
+  // enforces hard pairs to be generated 'always'
+  // for the sake of tests with high statistics, also for flat phase space.
   //   PRHARD=0.99* STRENG*2;
-  // STRENG=0.0;
-    //    printf ("%10.7f\n",STRENG);
-    // STRENG=0.0;
-    //  printf ("%10.7f  %10.7f  %10.7f  \n",STRENG,PRHARD,RRR[7-j]);
-    if (RRR[7-j]>PRHARD){
-      STRENG=STRENG/(1.0-PRHARD);
-      *JESLI=false;
-      return;
-    } 
-    else{STRENG=0.0;}
+  //   STRENG=0.0;
+
+ // delta is for tests with PhysRevD.49.1178, default is AMTO*2 no restriction on pair phase space
+ double delta=AMTO*2; //5;//.125; //AMTO*2; //.125; //AMTO*2; ;0.25;
+
+
+ if (RRR[7-j]>PRHARD){         // compensate crude probablilities; for pairs from consecutive sources 
+   STRENG=STRENG/(1.0-PRHARD);
+   *JESLI=false;
+   return;
+ }
+ else STRENG=0.0;
 
 
 
@@ -352,7 +354,7 @@ printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
   double XP=  XPmin*exp(RRR[2-j]*log((XPdelta+XPmin)/XPmin));  
   //     XP=  XPmin +RRR[2-j]*XPdelta;                                  // option of no presampler
   double XMK2=(AMTO*AMTO+XMP*XMP)-2.0*AMTO*XP;
-  // printf ("XP min delta it %15.8f  %15.8f    %15.8f    %15.8f  \n", XPmin,XPdelta,RRR[2-j], XP);
+
   // angles of lepton pair  
   double eps=4.0*AMCH*AMCH/AMTO/AMTO;
   double C1 =1.0+eps -eps*exp(RRR[3-j]*log((2+eps)/eps));
@@ -394,11 +396,9 @@ printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
         (XMP<(AMTO-AMNE-AMCH))  &&  
         (XP >XMP)               &&  
         (XP <((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO));
- //printf ("drugiki %15.8f  %15.8f  \n", XP, XMP);
- //printf ("jesliki %15.8f  %15.8f   %15.8f    \n",AMTO-AMNE-AMCH-XMP,XP-XMP,((AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO)-XP);
 
- // delta is for tests with PhysRevD.49.1178 
- double delta=AMTO*2; //5;//.125; //AMTO*2; //.125; //AMTO*2; ;0.25;
+
+ // rejection for phase space restriction:  for tests with PhysRevD.49.1178 
  *JESLI= *JESLI && XP< delta;
   if (!*JESLI) return;
 
@@ -406,25 +406,25 @@ printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
 
   // virtuality of added lepton pair
   double F= (AMTO*AMTO-4.0*AMEL*AMEL)            // flat phase space
-           /(AMTO*AMTO-4.0*AMEL*AMEL)  *XMP*XMP;  // use this when presampler is on  (log moved to PRHARD)
+           /(AMTO*AMTO-4.0*AMEL*AMEL)  *XMP*XMP; // use this when presampler is on  (log moved to PRHARD)
  
 
   // Energy of added lepton pair represented  by  virtuality of CH+N pair
   double G= 2*AMTO*XPdelta                      // flat phase space
-          /(2*AMTO*XPdelta)   *2*AMTO*XP;        // use this  when presampler is on  (log moved to PRHARD)
+          /(2*AMTO*XPdelta)   *2*AMTO*XP;       // use this  when presampler is on  (log moved to PRHARD)
 
 
   // scattering angle of emitted lepton pair (also flat factors for other angles)
   double H=   2.0                // flat phase space
-       /2.0 *(1.0+eps-C1)/2.0; // use this when presampler is on  (log moved to PRHARD)
+       /2.0 *(1.0+eps-C1)/2.0;   // use this when presampler is on  (log moved to PRHARD)
 
- double H1=2.0             // because we have other arm of generation   char neutr replaced
+ double H1=2.0                   // for other generation arm:   char neutr replaced
    /2.0  *(1.0+eps-C1);
  double H2=2.0                
    /2.0  *(1.0+eps+C1);
   H=1./(0.5/H1+0.5/H2);
  
-             //*2*PI*4*PI  /2/PI/4/PI;      // other angles normalization of transformation to random numbers.
+  //*2*PI*4*PI  /2/PI/4/PI;      // other angles normalization of transformation to random numbers.
 
   double XPMAX=(AMTO*AMTO+XMP*XMP-(AMCH+AMNE)*(AMCH+AMNE))/2.0/AMTO;
 
@@ -434,58 +434,8 @@ printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
                xlam(1.0,XMK2/AMTO/AMTO,XMP*XMP/AMTO/AMTO)*
                  xlam(1.0,AMCH*AMCH/XMK2,AMNE*AMNE/XMK2)
       / xlam(1.0,AMCH*AMCH/AMTO/AMTO,AMNE*AMNE/AMTO/AMTO);
-  //  YOT2=1.0;
-
-  // ########  MATRIX ELEMENT prototype ###########
-  double YOT1=1/2./AMTO/(2*XP)* AMTO/(2*XP)*                                   // infrared factor from fermion propagator
-    //    (1-C1)*(1+C1)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)* // angular factor  from fermion propagator
-    (1-C1)*(1+C1)/(1-C1*sqrt(1-XMP*XMP/XP/XP))/(1-C1*sqrt(1-XMP*XMP/XP/XP)) // angular factor  from fermion propagator variant from paper?
-    *(1+2*AMEL*AMEL/XMP/XMP)   // factor from paper? 
-    //   *(2   +0.5*eps+0.5*XMP*XMP/XP/XP)*(2   +0.5*eps+0.5*+XMP*XMP/XP/XP)/4  // my variant of factor
-    /XMP/XMP                                           // virtuality factor i.e. photon propagator
-    //   *(1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX))  // A-P kernel
-*(1+C2*C2)/2;             //  virt photon decay angle dependence
-  //### SECOND VERSION
-  //  YOT1=1/2/XMP/XMP;
- 
-    // printf (" virtki C1= %15.8f ratio xp/xmp %15.8f  ratio me/jaco %15.8f XMP %15.8f XP %15.8f      \n",C1,XP/XMP,(1.0+eps-C1)*(1-C1)*(1+C1)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP),XMP,XP);
-
-  //  YOT1=1; 
-  //   YOT1=YOT1 
-       //     /AMTO/AMTO  // ad hoc normalization virtuality
-       // /AMTO/AMTO/2.  // ad hoc normalization energy
-       //     /2.0;       // ad hoc normalization angle
- //  YOT1=1; 
-// note that the factor 2/3 in YOT1 above should be replaced by the 
-// appropriate A-P kernel for gamma splitting to e+e- !!!!!!!
-// the part of the weight below, should have average 1, but fluctuates 
-// wildly. This cancelation is important ingredient of the leading logs.
-//      YOT1=YOT1*
-//     $     (1D0-XP/(0.5D0*AMTO))/(1D0-XP/XPMAX)*
-//     $     XLAM(1D0,AMCH**2/XMK2,AMNEU**2/XMK2)/
-//     $     XLAM(1D0,AMCH**2/AMTO**2,AMNEU**2/AMTO**2)
-//  printf (" yotiki %15.8f  %15.8f   %15.8f    \n",YOT1,YOT2,YOT3);
-  double WT=YOT1*YOT2*YOT3;
-    if (WT>2.0) {
-    printf (" =============================  \n");
-  printf (" WT= %15.8f    \n",WT);
-  printf (" virtki C1= %15.8f XMP= %15.8f XP= %15.8f       \n",C1,XMP,XP);
-  printf (" eps XMP/XP^2  %15.8f  %15.8f     \n",eps,XMP*XMP/XP/XP);
-  printf (" F G H  %15.8f  %15.8f   %15.8f    \n",F,G,H);
 
 
-  printf ("        \n");
-  //  printf (" virtki   1/F= %15.8f MEterm=  %15.8f      \n",2/(1.0+eps-C1),(1-C1)*(1+C1)/(1-C1+XMP*XMP/XP/XP)/(1-C1+XMP*XMP/XP/XP));
-  printf (" virtki   1/F= %15.8f MEterm=  %15.8f      \n",2/(1.0+eps-C1), (1-C1)*(1+C1)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)* 
-                                                                                        (2    +0.5*eps+0.5*XMP*XMP/XP/XP)*(2   +0.5*eps+0.5*+XMP*XMP/XP/XP));
-  printf (" virtki    AP= %15.8f   \n",(1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX)));
-  printf (" lambdas=      %15.8f     \n",YOT2);
-  printf (" lambs  %15.8f  %15.8f   %15.8f    \n",               xlam(1.0,AMEL*AMEL/XMP/XMP, AMEL*AMEL/XMP/XMP),
-	  xlam(1.0,XMK2/AMTO/AMTO,XMP*XMP/AMTO/AMTO),
-                 xlam(1.0,AMCH*AMCH/XMK2,AMNE*AMNE/XMK2)
-);
-  printf (" virtene=      %15.8f    %15.8f    \n",F*H,AMTO/XP*AMTO/XMP*AMTO/XMP);
-  }
   //C histograming .......................
   //      GMONIT( 0,105   ,WT  ,1D0,0D0) 
   //      GMONIT( 0,106   ,YOT1,1D0,0D0) 
@@ -493,8 +443,7 @@ printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
   //      GMONIT( 0,108   ,YOT3,1D0,0D0)
   //      GMONIT( 0,109   ,YOT4,1D0,0D0)
   // end of histograming ................ 
-    //printf (" XP= %15.8f    \n",XP);
-  //printf (" akceptow XP= %15.8f    \n",XP);
+
 
   //                                                                     
   //                                                                     
@@ -541,7 +490,7 @@ printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
   //     &                        )
   //      GNEU=SQRT(1D0+GNEU**2) 
   if(GNEU<1.||GCHAR<1.){
-    printf(" TRYPAR GBOOST LT 1., LIMIT OF PHASE SPACE %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f \n" 
+    printf(" PHOTOS TRYPAR GBOOST LT 1., LIMIT OF PHASE SPACE %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f %18.13f \n" 
              ,GNEU,GCHAR,QNEW,QOLD,AMTO,AMTOST,AMNE,AMCH);
      return;
   }
@@ -627,20 +576,6 @@ printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
   spaj(11,PNEUTR,PAA,PP,PE);
 
 
- YOT1=1/2./AMTO/(2*XP)* AMTO/(2*XP)*                                   // infrared factor from fermion propagator
-    //    (1-C1)*(1+C1)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)/(1-C1+0.5*eps+0.5*XMP*XMP/XP/XP)* // angular factor  from fermion propagator
-    (1-C1)*(1+C1)/(1-C1*sqrt(1-XMP*XMP/XP/XP))/(1-C1*sqrt(1-XMP*XMP/XP/XP)) // angular factor  from fermion propagator variant from paper?
-    *(1+2*AMEL*AMEL/XMP/XMP)   // factor from paper? 
-    //   *(2   +0.5*eps+0.5*XMP*XMP/XP/XP)*(2   +0.5*eps+0.5*+XMP*XMP/XP/XP)/4  // my variant of factor
-    /XMP/XMP                                           // virtuality factor i.e. photon propagator
-    //   *(1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX))  // A-P kernel
-   *(1+C2*C2)/2;             //  virt photon decay angle dependence
- // printf (" \n");
- //printf (" XP= %15.8f %15.8f %15.8f    %15.8f \n",PP[0],PP[1],PP[2],PP[3]);
- //printf (" XM= %15.8f %15.8f %15.8f    %15.8f \n",PE[0],PE[1],PE[2],PE[3]);
- //printf (" XM= %15.8f %15.8f %15.8f    %15.8f \n",PNEUTR[0],PNEUTR[1],PNEUTR[2],PNEUTR[3]);
- //printf (" XM= %15.8f %15.8f %15.8f    %15.8f \n",PAA[0],PAA[1],PAA[2],PAA[3]);
-
  // matrix element as formula 1 from journals.aps.org/prd/pdf/10.1103/PhysRevD.49.1178 
 
  double pq=      PAA[3]*PP[3]-PAA[2]*PP[2]-PAA[1]*PP[1]-PAA[0]*PP[0];
@@ -656,17 +591,16 @@ printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
 
  double ppp=PNEUTR[3]*PAA[3]-PNEUTR[2]*PAA[2]-PNEUTR[1]*PAA[1]-PNEUTR[0]*PAA[0];
 
- YOT1=1./2./XMP/XMP/XMP/XMP*(
-			     4*(pq1/pq-ppq1/ppq)*(pq2/pq-ppq2/ppq)
-			     -XMP*XMP*(AMCH2/pq/pq+AMNE2/ppq/ppq-ppp/pq/ppq-ppp/pq/ppq)
-			     );
- // printf (" WT= %15.8f %15.8f  \n",WT,YOT1);
-  WT=YOT1*YOT2*YOT3;
+ double YOT1=1./2./XMP/XMP/XMP/XMP*
+            ( 4*(pq1/pq-ppq1/ppq)*(pq2/pq-ppq2/ppq)
+	     -XMP*XMP*(AMCH2/pq/pq+AMNE2/ppq/ppq-ppp/pq/ppq-ppp/pq/ppq) );
+         //   *(1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX));  // A-P kernel divide by (1-XP/XPMAX)?
+  double WT=YOT1*YOT2*YOT3;
 
   WT=WT/8;  //   origin must be understood
 
   if(WT>1.0){
-    printf (" WT= %15.8f  \n",WT);
+    printf (" from Photos pairs.cxx WT= %15.8f  \n",WT);
 
 }
 
