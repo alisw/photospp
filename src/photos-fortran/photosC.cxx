@@ -2355,7 +2355,7 @@ void PHTYPE(int ID){
 	PHOPAR(ID,NHEP0,13,muMass,&STRENG);
   }
   //--
-  /*
+  
   if(phokey_.iexp){
     phoexp_.expini=true;      // Initialization/cleaning
     for(phoexp_.nchan=1;phoexp_.nchan<=phoexp_.NX;phoexp_.nchan++)
@@ -2434,7 +2434,7 @@ void PHTYPE(int ID){
     phokey_.fsec=1.0;
     PHOMAK(ID,NHEP0);
   }
-  */
+  
   //--
   //-- lepton anti-lepton pair(s)
   // we prepare to migrate half of tries to before photons accordingly to LL

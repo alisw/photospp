@@ -314,19 +314,21 @@ printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
                                                   // journals.aps.org/prd/pdf/10.1103/PhysRevD.49.1178  
                                                   // must come from rejection
                                                   // 0.5 is because it is for 1-leg only
+                                                  // STRENG=0,5 because of calls before and after photons
                                                   // other logs should come from rejection 
     *2*log(AMTO/AMEL/2.0)                         // virtuality
       *log(AMTO/AMEL/2.0)                         // soft
       *log((AMTO*AMTO+2*AMCH*AMCH)/2.0/AMCH/AMCH);// collinear
 
-  //  printf ("%10.7f\n",PRHARD);
+  //printf ("%10.7f  %10.7f  \n",PRHARD,STRENG);
   // this just enforces hard pairs to be generated 'always'
   // this is for the sake of tests only.
-  //   PRHARD=0.99* STRENG;
+  //   PRHARD=0.99* STRENG*2;
+  // STRENG=0.0;
     //    printf ("%10.7f\n",STRENG);
     // STRENG=0.0;
-  //    printf ("%10.7f  %10.7f  %10.7f  \n",STRENG,PRHARD,RRR[8-j]);
-    if (RRR[8-j]>PRHARD){
+    //  printf ("%10.7f  %10.7f  %10.7f  \n",STRENG,PRHARD,RRR[7-j]);
+    if (RRR[7-j]>PRHARD){
       STRENG=STRENG/(1.0-PRHARD);
       *JESLI=false;
       return;
@@ -661,7 +663,7 @@ printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
  // printf (" WT= %15.8f %15.8f  \n",WT,YOT1);
   WT=YOT1*YOT2*YOT3;
 
-  WT=WT/8;  // surely incorrect
+  WT=WT/8;  //   origin must be understood
 
   if(WT>1.0){
     printf (" WT= %15.8f  \n",WT);
