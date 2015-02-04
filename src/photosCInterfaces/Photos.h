@@ -118,6 +118,9 @@ public:
 	/** Set pair emission */
 	static void setPairEmission(bool ifpair);
 
+	/** Set photon emission */
+	static void setPhotonEmission(bool ifphot);
+
 	/** Switch for complete effects of matrix element (in  scalar  to 2 scalars decays) */
 	static void setMeCorrectionWtForScalar(bool corr);
 
@@ -204,6 +207,10 @@ public:
 
   /** Flag for generating emission of pairs */
   static bool IfPair;
+
+  /** Flag for generating emission of photons */
+  static bool IfPhot;
+
 
   /** Status of history entries */
   static int  historyEntriesStatus;

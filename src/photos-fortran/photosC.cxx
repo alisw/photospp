@@ -2313,6 +2313,7 @@ void PHTYPE(int ID){
   double PRSUM,ESU;
   int NHEP0;
   bool IPAIR;
+  bool IPHOT;
   double RN,SUM;
   bool IFOUR;
   static int i=1;
@@ -2322,6 +2323,8 @@ void PHTYPE(int ID){
                                 // we want 3 or four photons at most.
   IPAIR=false;
   IPAIR=Photos::IfPair;
+  IPHOT=true;
+  IPHOT=Photos::IfPhot;
   //--   Check decay multiplicity..
   if(hep.jdahep[ID-i][1-i]==0) return;
   //      if (hep.jdahep[ID-i][1-i]==hep.jdahep[ID-i][2-i]) return;
@@ -2355,7 +2358,7 @@ void PHTYPE(int ID){
 	PHOPAR(ID,NHEP0,13,muMass,&STRENG);
   }
   //--
-  
+ if(IPHOT){
   if(phokey_.iexp){
     phoexp_.expini=true;      // Initialization/cleaning
     for(phoexp_.nchan=1;phoexp_.nchan<=phoexp_.NX;phoexp_.nchan++)
@@ -2434,7 +2437,7 @@ void PHTYPE(int ID){
     phokey_.fsec=1.0;
     PHOMAK(ID,NHEP0);
   }
-  
+ }
   //--
   //-- lepton anti-lepton pair(s)
   // we prepare to migrate half of tries to before photons accordingly to LL
@@ -2442,7 +2445,7 @@ void PHTYPE(int ID){
   if (IPAIR)  {
     PHOPAR(ID,NHEP0,11,elMass,&STRENG);
     PHOPAR(ID,NHEP0,13,muMass,&STRENG);
-  }
+ }
 }
 
 /*----------------------------------------------------------------------

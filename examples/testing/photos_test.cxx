@@ -175,8 +175,9 @@ int main(int argc,char **argv)
 
 	}
 
-
-	// Photos::setPairEmission(true);
+	 Photos::setPhotonEmission(true);
+	 bool pary=false;
+	 Photos::setPairEmission(pary);
 	MC_Initialize();
 
 
@@ -222,7 +223,7 @@ int main(int argc,char **argv)
 	pythia.statistics();
 	MC_Finalize();
 
-	/*		
+      if(pary){			
 	// PAIR emission
 	// Test with formula 11 from UTHEP-93-0301 M. Skrzypek ...
 	const double PI=3.141592653589793238462643;     
@@ -230,13 +231,13 @@ int main(int argc,char **argv)
 
 	double deno=log(91/2/0.000511);
 	deno=deno*deno*(deno+log(2.))*4;
-        double delta= 5;//.125;//0.125; //0.25;
+        double delta=5;//.125;//0.125; //0.25;
         double L=log(2*delta/0.000511)-5.0/6.0;
         double num=0.99* 4.0/3.0*(L*L*L/3.+ (31./36.- PI*PI/6.)*L+0.5940);
 	printf ("    >>>    Soft pairs emission --- probability tests    <<< \n");
 	printf (" Delta = %15.8f GeV (set the same in pairs.cxx): \n", delta);
 	printf (" Z->ee: \n");
-	printf (" Abslolute= %15.8f  Relative to crude= %15.8f \n",num/PI/PI/ALFINV/ALFINV, num/deno);
+	printf (" Abslolute= %15.8f  Relative to crude= %15.8f \n",num/PI/PI/ALFINV/ALFINV/0.99, num/deno);
 
 
        	deno=log(91/2/0.1056);
@@ -244,8 +245,8 @@ int main(int argc,char **argv)
         L=log(2*delta/0.1056)-5.0/6.0;
         num=0.99* 4.0/3.0*(L*L*L/3.+ (31./36.- PI*PI/6.)*L+0.5940);
 	printf (" Z->mumu: \n");
-	printf (" Abslolute= %15.8f  Relative to crude= %15.8f \n",num/PI/PI/ALFINV/ALFINV, num/deno);
+	printf (" Abslolute= %15.8f  Relative to crude= %15.8f \n",num/PI/PI/ALFINV/ALFINV/0.99, num/deno);
+     }
 
-        //cout<<"test= "<<deno<<endl;
-	*/
+	
 }

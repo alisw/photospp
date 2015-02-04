@@ -29,6 +29,7 @@ bool Photos::meCorrectionWtForScalar=false;
 bool Photos::isCreateHistoryEntries=false;
 int  Photos::historyEntriesStatus = 3;
 bool Photos::IfPair=false;
+bool Photos::IfPhot=true;
 double (*Photos::randomDouble)() = PhotosRandom::randomReal;
 
 Photos::MomentumUnits Photos::momentumUnit = Photos::DEFAULT_MOMENTUM;
@@ -131,6 +132,7 @@ void Photos::initialize()
 	if(meCorrectionWtForZ)    cout<<"                    ME in decay of Z is active"<<endl;
 	if(meCorrectionWtForW)    cout<<"                    ME in decay of W is active"<<endl;
 	if(IfPair)          cout<<"                    emission of pairs is active"<<endl;
+	if(!IfPhot)          cout<<"                    emission of photons  is inactive"<<endl;
 
 	cout<<endl<<"          WARNING:  /HEPEVT/ is not anymore used."<<endl<<endl;
 /*
@@ -211,6 +213,7 @@ void Photos::iniInfo()
 	if(meCorrectionWtForW)    cout<<"                    ME in decay of W is active"<<endl;
 	if(meCorrectionWtForScalar)    cout<<"                    ME in decay of Scalar is active"<<endl;
 	if(IfPair)          cout<<"                    emission of pairs is active"<<endl;
+	if(IfPhot)          cout<<"                    emission of photons is inactive"<<endl;
 
 	cout<<endl<<"          WARNING:  /HEPEVT/ is not anymore used."<<endl<<endl;
 	// Revert output stream flags and precision
@@ -412,6 +415,11 @@ void Photos::setExponentiation(bool expo)
   void Photos::setPairEmission(bool corr)
 {
         IfPair=corr;
+}
+
+  void Photos::setPhotonEmission(bool corr)
+{
+        IfPhot=corr;
 }
 
 void Photos::setMeCorrectionWtForW(bool corr)
