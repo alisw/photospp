@@ -1473,29 +1473,33 @@ $Z^0 \rightarrow \tau^+ \tau^-$ decays are generated and the event record is tra
 searching for the first $\tau^-$ particle in the event record.
 Instead of processing the whole event, only the decay of $\tau^-$ is processed by {\tt PHOTOS}.
 
-\subsection{Units and lepton pair emission \footnote{Added  Jan 23 2015, extended Feb 3 2015}}
+\subsection{Lepton pair emission and event record momentum unit}
 \label{sec:units}
 
-For the purpose of pair emission, introduced with {\tt Photos} version 3.57, the information about momentum unit
-(either {\tt GeV} or {\tt MeV}) used by the event has to be provided.
+
+
+For the purpose of pair emission, introduced for the first time   with {\tt Photos} version\footnote{Added Jan 23 2015, installation and preliminary tests completed Feb 3 Jan 2015} 3.57, the information about momentum unit
+(either {\tt GEV} or {\tt MEV}) used by the event has to be provided.
 For the rest of the {\tt Photos} processing this information is not needed.
 
 In case of {\tt HepMC} event record, this information is automatically obtained
-from the event. For {\tt HEPEVT} events, {\tt GeV} is assumed. For all other
+from the event. For {\tt HEPEVT} events, {\tt GEV} is assumed. For all other
 interfaces, the unit is undefined and has to be set in the event record
-interface by calling {\tt Photos::setMomentumUnit(MomentumUnits unit); }. See
+interface by calling \\ {\tt Photos::setMomentumUnit(MomentumUnits unit); }
+(e.g. {\tt Photos::setMomentumUnit(Photos::MEV); })
+\\ See
 constructors for {\tt PhotosHepMCEvent} or {\tt PhotosHEPEVEvent} class for
-examples.
+further examples
 
 As  default, photonic emissions are active but pair emission is not.
 Emission of additional pairs (electrons or muons) can be activated with
- {\tt Photos::setPairEmission(true); }
+\\ {\tt Photos::setPairEmission(true); } \\
 method. Another method was prepared  to desactivate photonic emissions:
-{ \tt Photos::setPhotonEmission(false);} 
+\\{ \tt Photos::setPhotonEmission(false);} \\
 
 Tests and implementation of pair emission follow formulae 1 and 11 from Ref.~\cite{Jadach:1993wk}.
 The ageement, when pair emission phase space was restricted to soft region, was  at the   2-5 \% 
-level of the pair effect (which itself is at the 0.1 \% level). 
+level of the pair effect (which itself is at the 0.1 \% level of the cross section). 
 The  matrix element is coded  explicitly as function of four vectors; it is thus easy to replace/modify. 
 The phase space  is parametrized without any mass or other approximations. This feature 
 was checked separately with  the special runs (matrix element removed) of multimilion samples.
