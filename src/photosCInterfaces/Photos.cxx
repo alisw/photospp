@@ -30,6 +30,7 @@ bool Photos::isCreateHistoryEntries=false;
 int  Photos::historyEntriesStatus = 3;
 bool Photos::IfPair=false;
 bool Photos::IfPhot=true;
+int  Photos::EventNo=0;
 double (*Photos::randomDouble)() = PhotosRandom::randomReal;
 
 Photos::MomentumUnits Photos::momentumUnit = Photos::DEFAULT_MOMENTUM;

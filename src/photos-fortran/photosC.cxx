@@ -656,7 +656,8 @@ void PHOtoLAB(){
 void PHOTOS_MAKE_C(int IPARR){
   static int i=1;
   int IPPAR,I,J,NLAST,MOTHER;
-
+  if(Photos::EventNo==1331095) printf ("make_c event no %10i\n",Photos::EventNo);
+ if(Photos::EventNo==1331094) printf ("make_c event no %10i\n",Photos::EventNo);
   //--
   PHLUPAB(3);
 
@@ -2318,6 +2319,7 @@ void PHTYPE(int ID){
   bool IFOUR;
   static int i=1;
 
+  if(Photos::EventNo==1331095) printf ("event no %10i\n",Photos::EventNo);
   //--
   IFOUR=          phokey_.itre; // we can make internal choice whether 
                                 // we want 3 or four photons at most.
@@ -2339,6 +2341,7 @@ void PHTYPE(int ID){
   double elMass=0.000511;
   double muMass=0.1057;
   double STRENG=0.5;
+
  if (IPAIR)  {
 
 	switch(Photos::momentumUnit) {
@@ -2446,6 +2449,7 @@ void PHTYPE(int ID){
     PHOPAR(ID,NHEP0,11,elMass,&STRENG);
     PHOPAR(ID,NHEP0,13,muMass,&STRENG);
  }
+  if(Photos::EventNo==1331094) printf ("event no %10i   zakonczony \n",Photos::EventNo);
 }
 
 /*----------------------------------------------------------------------
@@ -2529,11 +2533,39 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double *pSTRENG) {
     //TRYPAR should take as an input electron mass.
     //then it can be used for muons.
     //  printf ("wrotki %10.7f\n",STRENG);
+    /*
+    double PCH[4]={0};
+    double PNEu[4]={0};
+    double CC1;
+    double CC2;
+    
+    for(int K = 0; K<4; ++K) {
+     PCH[K]=PCHAR[K];
+     PNEu[K]=PNEU[K];
+    }
+    */
     trypar(&JESLI,&STRENG,AMCH,masslep,PCHAR,PNEU,PELE,PPOZ);
     //  printf ("rowerek %10.7f\n",STRENG);
     //emitted pair four momenta are stored in PELE PPOZ
     //then JESLI=.true.
+    /*
+if (JESLI) {
+ // printf ("PCHAR   %10.7f %10.7f  %10.7f  %10.7f\n",PCHAR[0],PCHAR[1],PCHAR[2],PCHAR[3]);
+ //printf ("PNEU    %10.7f %10.7f  %10.7f  %10.7f\n",PNEU[0],PNEU[1],PNEU[2],PNEU[3]);
 
+ // printf ("PNEu    %10.7f %10.7f  %10.7f  %10.7f\n",PNEu[0],PNEu[1],PNEu[2],PNEu[3]);
+ 
+ printf ("PELE    %10.7f %10.7f  %10.7f  %10.7f\n",PELE[0],PELE[1],PELE[2],PELE[3]);
+ printf ("PPOZ    %10.7f %10.7f  %10.7f  %10.7f\n",PPOZ[0],PPOZ[1],PPOZ[2],PPOZ[3]);
+ printf ("-----------------\n");
+ printf ("PCH     %10.7f %10.7f  %10.7f  %10.7f\n",PCH[0],PCH[1],PCH[2],PCH[3]);
+ CC1=(PELE[0]*PCHAR[0]+PELE[1]*PCHAR[1]+PELE[2]*PCHAR[2])/sqrt(PELE[0]*PELE[0]+PELE[1]*PELE[1]+PELE[2]*PELE[2])/sqrt(PCHAR[0]*PCHAR[0]+PCHAR[1]*PCHAR[1]+PCHAR[2]*PCHAR[2]);
+ CC2=(PPOZ[0]*PCHAR[0]+PPOZ[1]*PCHAR[1]+PPOZ[2]*PCHAR[2])/sqrt(PPOZ[0]*PPOZ[0]+PPOZ[1]*PPOZ[1]+PPOZ[2]*PPOZ[2])/sqrt(PCHAR[0]*PCHAR[0]+PCHAR[1]*PCHAR[1]+PCHAR[2]*PCHAR[2]);
+
+ printf ("-=================-\n");
+
+ }
+    */
     // If JESLI = true, we modify old particles of the vertex
     if (JESLI) {
       PHLUPA(1010);
@@ -2552,6 +2584,14 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double *pSTRENG) {
         for(int K = 0; K<4; ++K) {
           pho.phep[J][K] = BUF[K];
         }
+	/*
+	if (J == I){
+	  printf ("PCHar   %10.7f %10.7f  %10.7f  %10.7f\n",pho.phep[J][0],pho.phep[J][1],pho.phep[J][2],pho.phep[J][3]);
+	  printf ("c1=  %10.7f\n",CC1);
+	  printf ("c2=  %10.7f\n",CC2);
+	  printf ("-=#####################################====-\n");
+	}
+	*/
       }
 
       PHLUPA(1011);
@@ -2587,7 +2627,7 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double *pSTRENG) {
       }
 
       pho.phep[pho.nhep-i][4] = masslep;
-
+           PHCORK(0);
       // write in
       PHLUPA(1012);
       PHOOUT(IPPAR, BOOST, NHEP0);
@@ -2596,6 +2636,7 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double *pSTRENG) {
     } // end of if (JESLI)
   } // end of loop over charged particles
 }
+
 
 } // namespace Photospp
 

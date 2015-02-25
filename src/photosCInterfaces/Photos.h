@@ -36,6 +36,8 @@ public:
     
 	/** Units */
 	static enum MomentumUnits { DEFAULT_MOMENTUM=-1, MEV, GEV } momentumUnit;
+
+
 public:
 
 	/** Initalize Photos with the parameters previously set via the
@@ -171,7 +173,14 @@ public:
 	/** set energy momentum conservation threshold */
 	static void setMomentumConservationThreshold(double threshold){momentum_conservation_threshold=threshold; }
 
+	/** set event no */
+	static void setEventNo(int iEvt){EventNo=iEvt; }
 public:
+
+
+	/** Is event No */
+	static int EventNo;
+
 	/** Is in suppressed mode */
 	static bool isSuppressed;
 
