@@ -176,7 +176,7 @@ int main(int argc,char **argv)
 	}
 
 	 Photos::setPhotonEmission(true);
-	 bool pary=false;
+	 bool pary=true;
 	 Photos::setPairEmission(pary);
 	MC_Initialize();
 
@@ -189,6 +189,8 @@ int main(int argc,char **argv)
 	for(unsigned long iEvent = 0; iEvent < NumberOfEvents; ++iEvent)
 	{
 		if(iEvent%1000==0) Log::Info()<<"Event: "<<iEvent<<"\t("<<iEvent*(100./NumberOfEvents)<<"%)"<<endl;
+		// For tests: event no transmitted inside Photos:: 
+		Photos::setEventNo(iEvent);
 		if (!pythia.next()) continue;
 
 		HepMC::GenEvent * HepMCEvt = new HepMC::GenEvent();
