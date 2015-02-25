@@ -542,6 +542,19 @@ printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
   bostd3(PAIRB,PP,PP);   
   spaj(3,PNEUTR,PAA,PP,PE); 
   double GAMM=(PNEUTR[4-j]+PAA[4-j]+PP[4-j]+PE[4-j])/AMTO;
+
+  // TP and ZW: 25.II.2015: fix for cases when mother is very close
+  //            to its rest frame and pair is generated after photon emission.
+  //            Then GAMM can be slightly less than 1.0 due to rounding error
+  if( GAMM < 1.0 ) {
+     if( GAMM > 0.9999999 ) GAMM = 1.0;
+     else {
+         printf("Photos::partra: GAMM = %20.18e\n",GAMM);
+         printf("                BELOW  0.9999999 THRESHOLD!\n");
+         GAMM = 1.0;
+     }
+  }
+
   BPAR=GAMM-sqrt(GAMM*GAMM-1.0);
   lortra(1, BPAR,PNEUTR,VEC,PAA,PP,PE);
   bostd3( BPAR,PHOT,PHOT);

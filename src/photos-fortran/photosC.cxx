@@ -2449,7 +2449,10 @@ void PHTYPE(int ID){
     PHOPAR(ID,NHEP0,11,elMass,&STRENG);
     PHOPAR(ID,NHEP0,13,muMass,&STRENG);
  }
-  if(Photos::EventNo==1331094) printf ("event no %10i   zakonczony \n",Photos::EventNo);
+ 
+ // Fill Photos::EventNo in user main program to provide
+ // debug input for specific events, e.g.:
+ //if(Photos::EventNo==1331094) printf("PHOTOS: event no: %10i finished\n",Photos::EventNo);
 }
 
 /*----------------------------------------------------------------------
