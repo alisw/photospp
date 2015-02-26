@@ -1,5 +1,7 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Feb 26 2015
+- tests and rounding error fix for simultaneous pairs and photons generation in long runs
 Feb 3 2015
 - Emission of extra lepton  pairs introduced. 
 - Tests of phase space (presamples on/off): comparison with flat space
