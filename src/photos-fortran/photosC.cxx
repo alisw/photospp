@@ -656,8 +656,6 @@ void PHOtoLAB(){
 void PHOTOS_MAKE_C(int IPARR){
   static int i=1;
   int IPPAR,I,J,NLAST,MOTHER;
-  if(Photos::EventNo==1331095) printf ("make_c event no %10i\n",Photos::EventNo);
- if(Photos::EventNo==1331094) printf ("make_c event no %10i\n",Photos::EventNo);
   //--
   PHLUPAB(3);
 
@@ -2319,7 +2317,7 @@ void PHTYPE(int ID){
   bool IFOUR;
   static int i=1;
 
-  if(Photos::EventNo==1331095) printf ("event no %10i\n",Photos::EventNo);
+
   //--
   IFOUR=          phokey_.itre; // we can make internal choice whether 
                                 // we want 3 or four photons at most.
@@ -2452,7 +2450,7 @@ void PHTYPE(int ID){
  
  // Fill Photos::EventNo in user main program to provide
  // debug input for specific events, e.g.:
- //if(Photos::EventNo==1331094) printf("PHOTOS: event no: %10i finished\n",Photos::EventNo);
+ // if(Photos::EventNo==1331094) printf("PHOTOS: event no: %10i finished\n",Photos::EventNo);
 }
 
 /*----------------------------------------------------------------------
