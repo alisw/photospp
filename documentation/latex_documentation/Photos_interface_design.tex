@@ -26,10 +26,12 @@ For a long time, {\tt PHOTOS} Monte Carlo \cite{Barberio:1990ms,Barberio:1993qi}
 has been used for the generation of bremsstrahlung in the decay of particles and resonances.
 Over the years the program has acquired
 popularity and it evolved into a high 
-precision tool \cite{Golonka:2006tw}. Since version 2.15 of the program become 
-public in the year 2005 and multi-photon radiation was 
-introduced \cite{Golonka:2005pn}, there were no further public upgrades 
-of the program. However the effort on documentation and tests was going on;
+precision tool \cite{Golonka:2006tw}. Since in 2005, when
+multi-photon radiation was 
+introduced \cite{Golonka:2005pn} into program version 2.15, there were no 
+further public upgrades 
+of the program. The efforts were concentrated on documentation and 
+new tests;
  phase space treatment was shown to be 
 exact \cite{Nanava:2006vv} and for several 
 processes \cite{Golonka:2006tw,Nanava:2006vv,Nanava:2009vg}
@@ -40,20 +42,20 @@ other simulation programs, were collected on the program web page \cite{Photos_t
  Such high precision applications require good control of the event record content on which {\tt PHOTOS} operates. On one side it 
 requests skills and experience of the user and on the other it provides 
 the flexibility necessary for the study of effects like, for example, systematic errors for 
-measurements of anomalous couplings or W cross section. Methods of 
+measurements of anomalous couplings or $W$ cross section. Methods of 
 correlated samples  can be applied\footnote{To exploit such methods in 
 the high precision regime, good control of matrix element properties is necessary.
 As was shown in \cite{Kleiss:1990jv}, complications for such methods arise at the second order matrix element only, thus at the precision level of 
 $(\frac{\alpha_{QED}}{\pi})^2 \simeq 10^{-5}$.}. 
 
-Until recently {\tt HEPEVT} \cite{Altarelli:1989wu} was used as the structure for 
+Until 2010 {\tt HEPEVT} \cite{Altarelli:1989wu} was used as the structure for 
 communication between physics Monte Carlo programs and detector/reconstruction 
 packages. Experimental physicists used {\tt HEPEVT} 
-for their own applications  as well. Recently, to gain  flexibility, {\tt FORTRAN} is being replaced by C++ and 
-instead of {\tt HEPEVT}, the C++ event structure called {\tt HepMC} \cite{Dobbs:2001ck}
-is used. Nothing prevents 
+for their own applications  as well. Later, to gain  flexibility, {\tt FORTRAN} was replaced by C++ and 
+instead of {\tt HEPEVT}, the C++ event structure  {\tt HepMC} \cite{Dobbs:2001ck}
+is used. Nothing prevented 
 moving {\tt PHOTOS} to an environment based on  {\tt HepMC}
-and to rewriting the whole (beginning with the event record interface)
+and to rewrite the whole (beginning with the event record interface)
 of {\tt PHOTOS}\footnote{An up-to-date version of the code described in this paper is
 available from the web page of our project~\cite{photosC++}. 
   }
@@ -71,7 +73,7 @@ from {\tt FORTRAN} to C++  brings some benefits as well.
 The channel dependent, complete first order matrix elements of {\tt PHOTOS}, in {\tt FORTRAN},
  are available only 
 in special
-kinematical configurations. With the help of the new  event record interface they will become
+kinematical configurations. With the help of the new  event record interface they  become
 available for general use.
 For that purpose, better access to the information necessary to orient the spin state of decaying particles
 is now provided.
@@ -1015,7 +1017,7 @@ and special users interested in advanced options of {\tt PHOTOS}.
 The discussed below {\tt COMMON} blocks of {\tt FORTRAN} were used in the
 program up  to version 3.53 only.
 Starting from version 3.54 some of these {\tt COMMON}  blocks were preserved,
-as the struct objects of C. The following ones may be of some interest for the
+as the struct objects of C. The following ones may be of particular interest for the
 user:
 {\tt PHOCOP, PHOKEY, PHOSTA, PHLUPY}.
 
@@ -1029,10 +1031,15 @@ through the classes {\tt PhotosHEPEVTEvent.h} and {\tt PhotosHEPEVTParticle.h}.
 Internally in C++  {\tt Photos} code, the {\tt HEPEVT}-like  data type
 is used.
 
-\subsection{Common Blocks}
+\subsection{Common Blocks migrated to struct objects of C}
 
-In the following let us list the common blocks of {\tt PHOTOS} which are accessed
-from C++.
+In the following let us list the original common blocks of {\tt FORTRAN} {\tt PHOTOS} which are in fact now replaced with struct objects of C. 
+To simplify 
+and to preserve continuity of  the mathematical formulae shapes,
+in many places  we  use  aliases to the struct elements  
+which differ only that are  written in capital letters instead os small one.
+
+
 
 \begin{description}
 \item[PHOCOP] coupling constant and related parameters.

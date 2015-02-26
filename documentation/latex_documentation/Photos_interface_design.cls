@@ -86,7 +86,7 @@
 \begin{flushright}
 {\bf  CERN-PH-TH/2010-261 \\
   IFJPAN-IV-2010-6  \\
-  November 2010}
+  November 2010- February 2015}
 \end{flushright}
 
 \begin{center}
@@ -111,7 +111,8 @@ Jagellonian University, Reymonta 4, 30-059 Cracow, Poland}\\
 
 { The first version of {\tt PHOTOS} Monte Carlo for
 bremsstrahlung in the decay of particles and resonances
- with an interface to the HepMC event record written in C++ is now available.
+ with an interface to the HepMC event record written in C++ is available
+since five years now.
 The main purpose of the present
 paper is to document technical aspects of the {\tt PHOTOS} Monte Carlo 
 installation and its use. A multitude of test results and examples are  
@@ -119,13 +120,12 @@ distributed together
 with the program code.
 
 The
-{\tt PHOTOS} C++ physics precision is  now as good as that of its {\tt FORTRAN}
-predecessor. However
-better steering options are available. 
+{\tt PHOTOS} C++ physics precision is  now better than  its {\tt FORTRAN}
+predecessor, better steering options are also available. 
 An algorithm of the event record interface
-is prepared
+is prepared and used in particular in $Z$ and $W$ decays,
 for the  installation of process dependent variants of the 
-photon emission kernel.
+photon emission kernel. Pair emission is introduced also.
 Weights, featuring complete first order matrix elements, can be installed 
 for general use. In the {\tt FORTRAN} version of  {\tt PHOTOS} they were 
 available only for decays of particles   at rest and with spin 
