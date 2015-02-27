@@ -42,10 +42,10 @@ const static double TWOPI = 6.28318530717958648;
 		double xphcut;
 	} phocop_;
 
-	extern struct PHNUM
+	struct
 	{
 		double iev;
-	} phnum_;
+	} phnum;
 
 
 

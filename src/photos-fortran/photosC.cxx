@@ -21,7 +21,7 @@ namespace Photospp
 // Declaration of structs defined in f_Init.h
 
 
-struct PHNUM  phnum_;
+
 struct PHOLUN pholun_;
 struct PHOREST phorest_;
 struct PHOCMS  phocms_;
@@ -420,10 +420,10 @@ void PHLUPAB(int IPOINT){
   }
   
   if (IPOINT<=phlupy.ipoinm||IPOINT>=phlupy.ipoin ) return;
-  if ((int)phnum_.iev<1000){
+  if ((int)phnum.iev<1000){
     for(I=1; I<=5;I++) SUM[I-i]=0.0;
      
-    fprintf(PHLUN,"EVENT NR= %i WE ARE TESTING %s at IPOINT=%i \n",(int)phnum_.iev,name,IPOINT);
+    fprintf(PHLUN,"EVENT NR= %i WE ARE TESTING %s at IPOINT=%i \n",(int)phnum.iev,name,IPOINT);
     fprintf(PHLUN,"  ID      p_x      p_y      p_z      E        m        ID-MO_DA1 ID-MO_DA2\n");
     I=1;
     fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", hep.idhep[I-i],hep.phep[I-i][1-i],hep.phep[I-i][2-i],hep.phep[I-i][3-i],hep.phep[I-i][4-i],hep.phep[I-i][5-i],hep.jdahep[I-i][1-i],hep.jdahep[I-i][2-i]);
@@ -490,10 +490,10 @@ void PHLUPA(int IPOINT){
   }
   
   if (IPOINT<=phlupy.ipoinm||IPOINT>=phlupy.ipoin ) return;
-  if ((int)phnum_.iev<1000){
+  if ((int)phnum.iev<1000){
     for(I=1; I<=5;I++) SUM[I-i]=0.0;
      
-    fprintf(PHLUN,"EVENT NR= %i WE ARE TESTING %s at IPOINT=%i \n",(int)phnum_.iev,name,IPOINT);
+    fprintf(PHLUN,"EVENT NR= %i WE ARE TESTING %s at IPOINT=%i \n",(int)phnum.iev,name,IPOINT);
     fprintf(PHLUN,"  ID      p_x      p_y      p_z      E        m        ID-MO_DA1 ID-MO_DA2\n");
     I=1;
     fprintf(PHLUN,"%4i %14.9f %14.9f %14.9f %14.9f %14.9f %9i %9i\n", pho.idhep[I-i],pho.phep[I-i][1-i],pho.phep[I-i][2-i],pho.phep[I-i][3-i],pho.phep[I-i][4-i],pho.phep[I-i][5-i],pho.jdahep[I-i][1-i],pho.jdahep[I-i][2-i]);
@@ -1548,6 +1548,7 @@ void PHOIN(int IP,bool *BOOST,int *NHEP0){
   double PB;
   static int i=1;
   int &nhep0 = *NHEP0;
+  //double &BET[3]=(phocms_.bet[0],phocms_.bet[1],phocms_.bet[2]);
 
   //--
   // let-s calculate size of the little common entry
