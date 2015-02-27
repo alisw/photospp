@@ -42,7 +42,7 @@ const static double TWOPI = 6.28318530717958648;
 		double xphcut;
 	} phocop_;
 
-	struct
+	extern struct PHNUM
 	{
 		double iev;
 	} phnum;
@@ -62,18 +62,18 @@ const static double TWOPI = 6.28318530717958648;
 		int ifw;
 	} phokey_;
 
-	struct
+	extern struct PHOSTA
 	{
 		int status[10];
 	        int ifstop;
 	} phosta;
 
-	struct
+	extern struct PHOLUN
 	{
 		int phlun;
 	} pholun;
 
-	struct
+	extern struct PHOPHS
 	{
 		double xphmax;
 		double xphoto;
@@ -81,7 +81,7 @@ const static double TWOPI = 6.28318530717958648;
 		double sinthg;
 
 	} phophs;
-	struct
+	extern struct TOFROM
 	{
 		double QQ[4];
 		double XM;
@@ -90,7 +90,7 @@ const static double TWOPI = 6.28318530717958648;
 
 	} tofrom;
 
-	struct
+	extern struct PHOPRO
 	{
 		double probh;
 		double corwt;
@@ -98,7 +98,7 @@ const static double TWOPI = 6.28318530717958648;
 		int irep;
 	} phopro;
 
-	struct
+	extern struct PHOREST
 	{
 		double fi3;
 		double fi1;
@@ -107,7 +107,7 @@ const static double TWOPI = 6.28318530717958648;
 
 	} phorest;
 
-	struct
+	extern struct PHWT
 	{
 		double beta;
 		double wt1;
@@ -115,7 +115,7 @@ const static double TWOPI = 6.28318530717958648;
 		double wt3;
 
 	} phwt;
-	struct
+	extern struct PHOCORWT
 	{
 		double phocorwt3;
 		double phocorwt2;
@@ -123,19 +123,19 @@ const static double TWOPI = 6.28318530717958648;
 
 	} phocorwt;
 
-	struct
+	extern struct PHOMOM
 	{
 		double mchsqr;
 		double mnesqr;
 		double pneutr[5];
 	} phomom;
-	struct
+	extern struct PHOCMS
 	{
 		double bet[3];
 		double gam;
 	} phocms;
 
-	struct
+	extern struct PHOEXP
 	{
 	        const static int NX = 10;
 		double pro[NX];
@@ -144,7 +144,7 @@ const static double TWOPI = 6.28318530717958648;
 	} phoexp;
 
 	//debug mode on if ipoin <  1 and ipoinm > 1
-	struct
+	extern struct PHLUPY
 	{
 		int ipoin;
 		int ipoinm;

@@ -20,14 +20,24 @@ namespace Photospp
 
 // Declaration of structs defined in f_Init.h
 
-
-struct PHOCOP  phocop_;
-struct PHOKEY  phokey_;
-
-
-
 struct HEPEVT hep;
 struct HEPEVT pho;
+
+struct PHOCOP  phocop_;
+struct PHNUM   phnum;
+struct PHOKEY  phokey_;
+struct PHOSTA  phosta;
+struct PHOLUN  pholun;
+struct PHOPHS  phophs;
+struct TOFROM  tofrom;
+struct PHOPRO  phopro;
+struct PHOREST phorest;
+struct PHWT    phwt;
+struct PHOCORWT  phocorwt;
+struct PHOMOM  phomom;
+struct PHOCMS  phocms;
+struct PHOEXP  phoexp;
+struct PHLUPY  phlupy;
 
 /** Logical function used deep inside algorithm to check if emitted
     particles are to emit. For mother it blocks the vertex, 
