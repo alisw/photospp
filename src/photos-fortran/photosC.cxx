@@ -23,7 +23,7 @@ namespace Photospp
 struct HEPEVT hep;
 struct HEPEVT pho;
 
-struct PHOCOP  phocop_;
+struct PHOCOP  phocop;
 struct PHNUM   phnum;
 struct PHOKEY  phokey_;
 struct PHOSTA  phosta;
@@ -1900,7 +1900,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
   double &MNESQR = phomom.mnesqr;
 
   //--
-  if(XPHMAX<=phocop_.xphcut){
+  if(XPHMAX<=phocop.xphcut){
     BETA=PHOFAC(-1);    // to zero counter, here beta is dummy
     XPHOTO=0.0;
     return;
@@ -1915,16 +1915,16 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
   // for integral of new crude
   BIGLOG=log(MPASQR/ MCHSQR*(1.0+BETA)*(1.0+BETA)/4.0*
 	     pow(1.0+ MCHSQR/MPASQR,2));
-  PRHARD=phocop_.alpha/PI*(1.0/BETA*BIGLOG+2*phokey_.fint)
-        *(log(XPHMAX/phocop_.xphcut)-.75+phocop_.xphcut/XPHMAX-.25*phocop_.xphcut*phocop_.xphcut/XPHMAX/XPHMAX);
+  PRHARD=phocop.alpha/PI*(1.0/BETA*BIGLOG+2*phokey_.fint)
+        *(log(XPHMAX/phocop.xphcut)-.75+phocop.xphcut/XPHMAX-.25*phocop.xphcut*phocop.xphcut/XPHMAX/XPHMAX);
   PRHARD=PRHARD*PHOCHA(IDENT)*PHOCHA(IDENT)*phokey_.fsec;
   // ----------- END OF VARIANT B ------------------
 #else
   // ----------- VARIANT A ------------------
   BIGLOG=log(MPASQR/ MCHSQR*(1.0+BETA)*(1.0+BETA)/4.0*
 	     pow(1.0+ MCHSQR/MPASQR,2));
-  PRHARD=phocop_.alpha/PI*(1.0/BETA*BIGLOG)*
-    (log(XPHMAX/phocop_.xphcut)-.75+phocop_.xphcut/XPHMAX-.25*phocop_.xphcut*phocop_.xphcut/XPHMAX/XPHMAX);
+  PRHARD=phocop.alpha/PI*(1.0/BETA*BIGLOG)*
+    (log(XPHMAX/phocop.xphcut)-.75+phocop.xphcut/XPHMAX-.25*phocop.xphcut*phocop.xphcut/XPHMAX/XPHMAX);
   PRHARD=PRHARD*PHOCHA(IDENT)*PHOCHA(IDENT)*phokey_.fsec*phokey_.fint;
   //me_channel_(&IDME);
   IDME=PH_HEPEVT_Interface::ME_channel;
@@ -1934,7 +1934,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
   }
 
   else if(IDME==1){
-    PRHARD=PRHARD/(1.0+0.75*phocop_.alpha/PI); //  NLO
+    PRHARD=PRHARD/(1.0+0.75*phocop.alpha/PI); //  NLO
   }
   else if (IDME==2){
     // work on virtual crrections in W decay to be done.
@@ -2002,7 +2002,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
   //--   Hard  photon... (ie.  photon  hard enough).
   //--   Calculate  Altarelli-Parisi Kernel
   do{
-    XPHOTO=exp(Photos::randomDouble()*log(phocop_.xphcut/XPHMAX));
+    XPHOTO=exp(Photos::randomDouble()*log(phocop.xphcut/XPHMAX));
     XPHOTO=XPHOTO*XPHMAX;}
   while(Photos::randomDouble()>((1.0+pow(1.0-XPHOTO/XPHMAX,2))/2.0));
   }
@@ -2099,7 +2099,7 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
   if (NCHARG!=0){
     //--
     //--   Check that sum of daughter masses does not exceed parent mass
-    if ((pho.phep[IP-i][5-i]-MASSUM)/pho.phep[IP-i][5-i]>2.0*phocop_.xphcut){
+    if ((pho.phep[IP-i][5-i]-MASSUM)/pho.phep[IP-i][5-i]>2.0*phocop.xphcut){
       //--
       label30:
 
@@ -2137,7 +2137,7 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
         XPHOTO=0.0;       // in this case !!
         //--   Energy fraction not too large (very seldom) ? Define angle.
       }
-      else if ((XPHOTO<phocop_.xphcut) || (XPHOTO > XPHMAX)){
+      else if ((XPHOTO<phocop.xphcut) || (XPHOTO > XPHMAX)){
         //--
         //--   No radiation was accepted, check  for more daughters  that may ra-
         //--   diate and correct radiation probability...

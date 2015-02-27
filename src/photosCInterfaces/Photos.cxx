@@ -122,7 +122,7 @@ void Photos::initialize()
 	cout<<"                  Internal (default) input parameters: "<<endl<<endl;
 	cout<<"                    INTERF= "<<phokey_.interf<<" ISEC= " <<phokey_.isec <<" ITRE= "<<phokey_.itre
 	                     <<" IEXP= "  <<phokey_.iexp  <<" IFTOP= "<<phokey_.iftop<<" IFW= " <<phokey_.ifw <<endl;
-	cout<<"                    ALPHA_QED= "<<phocop_.alpha<<" XPHCUT= "<<phocop_.xphcut<<endl<<endl;
+	cout<<"                    ALPHA_QED= "<<phocop.alpha<<" XPHCUT= "<<phocop.xphcut<<endl<<endl;
 
 	if(phokey_.interf) cout<<"                    Option with interference is active"<<endl;
 	if(phokey_.isec)   cout<<"                    Option with double photons is active"<<endl;
@@ -202,7 +202,7 @@ void Photos::iniInfo()
 	cout<<"********************************************************************************"<<endl<<endl;
 	cout<<"                    INTERF= "<<phokey_.interf<<" ISEC= " <<phokey_.isec <<" ITRE= "<<phokey_.itre
 	                     <<" IEXP= "  <<phokey_.iexp  <<" IFTOP= "<<phokey_.iftop<<" IFW= " <<phokey_.ifw <<endl;
-	cout<<"                    ALPHA_QED= "<<phocop_.alpha<<" XPHCUT= "<<phocop_.xphcut<<endl<<endl;
+	cout<<"                    ALPHA_QED= "<<phocop.alpha<<" XPHCUT= "<<phocop.xphcut<<endl<<endl;
 
 	if(phokey_.interf) cout<<"                    Option with interference is active"<<endl;
 	if(phokey_.isec)   cout<<"                    Option with double photons is active"<<endl;

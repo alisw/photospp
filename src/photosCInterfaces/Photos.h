@@ -97,10 +97,10 @@ public:
 	static void maxWtInterference(double interference) { phokey_.fint=interference; }
 
 	/** Minimal energy (in units of decaying particle mass) for photons to be explicitly generated */
-	static void setInfraredCutOff(double cut_off)  { phocop_.xphcut=cut_off; }
+	static void setInfraredCutOff(double cut_off)  { phocop.xphcut=cut_off; }
 
 	/** Coupling constant alpha QED */
-	static void setAlphaQED(double alpha)          { phocop_.alpha=alpha; }
+	static void setAlphaQED(double alpha)          { phocop.alpha=alpha; }
 
 	/** Key for interference, matrix element weight */
 	static void setInterference(bool interference) { phokey_.interf=(int)interference; }

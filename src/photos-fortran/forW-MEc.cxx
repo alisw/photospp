@@ -960,7 +960,7 @@ void PhotosMEforW::PHOBWnlo(double *WT){
 
 	  //...       Initialization of the W->l\nu\gamma 
 	  //...       decay Matrix Element parameters 
-	  SANC_INIT(phocop_.alpha,phlun);
+	  SANC_INIT(phocop.alpha,phlun);
 
 
 	  MB=pho.phep[1-i][4-i];//                      ! W boson mass
