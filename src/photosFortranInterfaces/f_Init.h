@@ -107,21 +107,21 @@ const static double TWOPI = 6.28318530717958648;
 
 	} phorest;
 
-	extern struct PHWT
+	struct
 	{
 		double beta;
 		double wt1;
 		double wt2;
 		double wt3;
 
-	} phwt_;
-	extern struct PHOCORWT
+	} phwt;
+	struct
 	{
 		double phocorwt3;
 		double phocorwt2;
 		double phocorwt1;
 
-	} phocorwt_;
+	} phocorwt;
 
 	extern struct PHOMOM
 	{

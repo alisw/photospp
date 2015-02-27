@@ -22,9 +22,7 @@ namespace Photospp
 
 struct PHOCMS  phocms_;
 struct PHOMOM  phomom_;
-struct PHOCORWT phocorwt_;
 struct PHOCOP  phocop_;
-struct PHWT    phwt_;
 struct PHOKEY  phokey_;
 
 
@@ -1284,21 +1282,21 @@ double PHOCORN(double MPASQR,double MCHREN,int ME){
     /pow(1.0 +phomom_.mchsqr/S1-phomom_.mnesqr/S1-beta1*COSTHG,2)/2.0 ;
     wt3=wt3*(1-XPHOTO/XPHMAX+0.5*pow(XPHOTO/XPHMAX,2))/(1-XPHOTO/XPHMAX);
     //       print*,"wt3=",wt3
-    phocorwt_.phocorwt3=wt3;
-    phocorwt_.phocorwt2=wt2;
-    phocorwt_.phocorwt1=wt1;
+    phocorwt.phocorwt3=wt3;
+    phocorwt.phocorwt2=wt2;
+    phocorwt.phocorwt1=wt1;
 
     //       YY=0.5D0*(1.D0-XPHOTO/XPHMAX+1.D0/(1.D0-XPHOTO/XPHMAX))
-    //       phwt_.beta=SQRT(1.D0-XX)
-    //       wt1=(1.D0-COSTHG*SQRT(1.D0-MCHREN))/(1.D0-COSTHG*phwt_.beta)
-    //       wt2=(1.D0-XX/YY/(1.D0-phwt_.beta**2*COSTHG**2))*(1.D0+COSTHG*phwt_.beta)/2.D0
+    //       phwt.beta=SQRT(1.D0-XX)
+    //       wt1=(1.D0-COSTHG*SQRT(1.D0-MCHREN))/(1.D0-COSTHG*phwt.beta)
+    //       wt2=(1.D0-XX/YY/(1.D0-phwt.beta**2*COSTHG**2))*(1.D0+COSTHG*phwt.beta)/2.D0
     //       wt3=1.D0
   }
   else if  ((ME==3) || (ME==4) || (ME==5)){
     YY=1.0;
-    phwt_.beta=sqrt(1.0-XX);
-    wt1=(1.0-COSTHG*sqrt(1.0-MCHREN))/(1.0-COSTHG*phwt_.beta);
-    wt2=(1.0-XX/YY/(1.0-phwt_.beta*phwt_.beta*COSTHG*COSTHG))*(1.0+COSTHG*phwt_.beta)/2.0;
+    phwt.beta=sqrt(1.0-XX);
+    wt1=(1.0-COSTHG*sqrt(1.0-MCHREN))/(1.0-COSTHG*phwt.beta);
+    wt2=(1.0-XX/YY/(1.0-phwt.beta*phwt.beta*COSTHG*COSTHG))*(1.0+COSTHG*phwt.beta)/2.0;
     wt3=(1.0+pow(1.0-XPHOTO/XPHMAX,2)-pow(XPHOTO/XPHMAX,3))/
         (1.0+pow(1.0-XPHOTO/XPHMAX,2));
   }
@@ -1306,9 +1304,9 @@ double PHOCORN(double MPASQR,double MCHREN,int ME){
     DATA=(ME-1.0)/2.0;
     PHOERR(6,"PHOCORN",DATA);
     YY=1.0;
-    phwt_.beta=sqrt(1.0-XX);
-    wt1=(1.0-COSTHG*sqrt(1.0-MCHREN))/(1.0-COSTHG*phwt_.beta);
-    wt2=(1.0-XX/YY/(1.0-phwt_.beta*phwt_.beta*COSTHG*COSTHG))*(1.0+COSTHG*phwt_.beta)/2.0;
+    phwt.beta=sqrt(1.0-XX);
+    wt1=(1.0-COSTHG*sqrt(1.0-MCHREN))/(1.0-COSTHG*phwt.beta);
+    wt2=(1.0-XX/YY/(1.0-phwt.beta*phwt.beta*COSTHG*COSTHG))*(1.0+COSTHG*phwt.beta)/2.0;
     wt3=1.0;
   }
   wt2=wt2*PHOFAC(1);
@@ -1359,28 +1357,28 @@ double  PHOCOR(double MPASQR,double MCHREN,int ME){
   XX=4.0*phomom_.mchsqr/MPASQR*(1.0-XPHOTO)/pow((1.0-XPHOTO+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR),2);
   if(ME==1){
     YY=1.0;
-    phwt_.wt3=(1.0-XPHOTO/XPHMAX)/((1.0+pow((1.0-XPHOTO/XPHMAX),2))/2.0);
+    phwt.wt3=(1.0-XPHOTO/XPHMAX)/((1.0+pow((1.0-XPHOTO/XPHMAX),2))/2.0);
   }
   else if(ME==2){
     YY=0.5*(1.0-XPHOTO/XPHMAX+1.0/(1.0-XPHOTO/XPHMAX));
-    phwt_.wt3=1.0;
+    phwt.wt3=1.0;
   }
   else if((ME==3)||(ME==4)||(ME==5)){
     YY=1.0;
-    phwt_.wt3=(1.0+pow(1.0-XPHOTO/XPHMAX,2)-pow(XPHOTO/XPHMAX,3))/
+    phwt.wt3=(1.0+pow(1.0-XPHOTO/XPHMAX,2)-pow(XPHOTO/XPHMAX,3))/
               (1.0+pow(1.0-XPHOTO/XPHMAX,2)  );
   }
   else{
     DATA=(ME-1.0)/2.0;
     PHOERR(6,"PHOCOR",DATA);
     YY=1.0;
-    phwt_.wt3=1.0;
+    phwt.wt3=1.0;
   }
 
 
-  phwt_.beta=sqrt(1.0-XX);
-  phwt_.wt1=(1.0-COSTHG*sqrt(1.0-MCHREN))/(1.0-COSTHG*phwt_.beta);
-  phwt_.wt2=(1.0-XX/YY/(1.0-phwt_.beta*phwt_.beta*COSTHG*COSTHG))*(1.0+COSTHG*phwt_.beta)/2.0;
+  phwt.beta=sqrt(1.0-XX);
+  phwt.wt1=(1.0-COSTHG*sqrt(1.0-MCHREN))/(1.0-COSTHG*phwt.beta);
+  phwt.wt2=(1.0-XX/YY/(1.0-phwt.beta*phwt.beta*COSTHG*COSTHG))*(1.0+COSTHG*phwt.beta)/2.0;
       
 
   IscaNLO=Photos::meCorrectionWtForScalar;
@@ -1388,14 +1386,14 @@ double  PHOCOR(double MPASQR,double MCHREN,int ME){
                              // overrules default calculation.
                              // Need tests including basic ones
     PHOC=PHOCORN(MPASQR,MCHREN,ME);
-    phwt_.wt1=1.0;
-    phwt_.wt2=1.0;
-    phwt_.wt3=PHOC;
+    phwt.wt1=1.0;
+    phwt.wt2=1.0;
+    phwt.wt3=PHOC;
   }
   else{
-    phwt_.wt2=phwt_.wt2*PHOFAC(1);
+    phwt.wt2=phwt.wt2*PHOFAC(1);
   }
-  PHOC=phwt_.wt1*phwt_.wt2*phwt_.wt3;
+  PHOC=phwt.wt1*phwt.wt2*phwt.wt3;
 
   phopro.corwt=PHOC;
   if(PHOC>1.0){
@@ -2098,7 +2096,7 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
 
       //--
       //--   Photon energy fraction...
-      PHOENE(MPASQR,&MCHREN,&phwt_.beta,&BIGLOG,pho.idhep[CHAPOI[NCHARG-i]-i]);
+      PHOENE(MPASQR,&MCHREN,&phwt.beta,&BIGLOG,pho.idhep[CHAPOI[NCHARG-i]-i]);
      //--
 
       if (XPHOTO<-4.0) {
@@ -2118,7 +2116,7 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
 	//--
         //--   Angle is generated  in  the  frame defined  by  charged vector and
         //--   PNEUTR, distribution is taken in the infrared limit...
-        EPS=MCHREN/(1.0+phwt_.beta);
+        EPS=MCHREN/(1.0+phwt.beta);
         //--
         //--   Calculate sin(theta) and cos(theta) from interval variables
         DEL1=(2.0-EPS)*pow(EPS/(2.0-EPS),Photos::randomDouble());
@@ -2128,9 +2126,9 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
 	// ----------- VARIANT B ------------------
         // corrections for more efiicient interference correction,
         // instead of doubling crude distribution, we add flat parallel channel
-	if(Photos::randomDouble()<BIGLOG/phwt_.beta/(BIGLOG/phwt_.beta+2*phokey_.fint)){
-	  COSTHG=(1.0-DEL1)/phwt_.beta;
-	  SINTHG=sqrt(DEL1*DEL2-MCHREN)/phwt_.beta;
+	if(Photos::randomDouble()<BIGLOG/phwt.beta/(BIGLOG/phwt.beta+2*phokey_.fint)){
+	  COSTHG=(1.0-DEL1)/phwt.beta;
+	  SINTHG=sqrt(DEL1*DEL2-MCHREN)/phwt.beta;
 	}
 	else{
 	  COSTHG=-1.0+2*Photos::randomDouble();
@@ -2139,7 +2137,7 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
  
 	if (phokey_.fint>1.0){
  
-	  WGT=1.0/(1.0-phwt_.beta*COSTHG);
+	  WGT=1.0/(1.0-phwt.beta*COSTHG);
 	  WGT=WGT/(WGT+phokey_.fint);
 	  //       WGT=1.0   // ??
 	}
@@ -2150,8 +2148,8 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
         // ----------- END OF VARIANT B ------------------
 #else
 	// ----------- VARIANT A ------------------
-        COSTHG=(1.0-DEL1)/phwt_.beta;
-        SINTHG=sqrt(DEL1*DEL2-MCHREN)/phwt_.beta;
+        COSTHG=(1.0-DEL1)/phwt.beta;
+        SINTHG=sqrt(DEL1*DEL2-MCHREN)/phwt.beta;
         WGT=1.0;
         // ----------- END OF VARIANT A ------------------
 #endif
@@ -2194,10 +2192,10 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
 	  a=PHOCOR(MPASQR,MCHREN,ME);
 	  b=PHOCORN(MPASQR,MCHREN,ME);
 	  WT=b*WGT ;
-        WT=WT*phwt_.wt1*phwt_.wt2*phwt_.wt3/phocorwt_.phocorwt1/phocorwt_.phocorwt2/phocorwt_.phocorwt3; // factor to go to ZnloWT
+        WT=WT*phwt.wt1*phwt.wt2*phwt.wt3/phocorwt.phocorwt1/phocorwt.phocorwt2/phocorwt.phocorwt3; // factor to go to ZnloWT
 	  //        write(*,*) ' -----------'
-	  //        write(*,*)   phwt_.wt1,' ',phwt_.wt2,' ',phwt_.wt3
-	  //        write(*,*)   phocorwt_.phocorwt1,' ',phocorwt_.phocorwt2,' ',phocorwt_.phocorwt3
+	  //        write(*,*)   phwt.wt1,' ',phwt.wt2,' ',phwt.wt3
+	  //        write(*,*)   phocorwt.phocorwt1,' ',phocorwt.phocorwt2,' ',phocorwt.phocorwt3
 	}
 	else{
 	  a=PHOCOR(MPASQR,MCHREN,ME);

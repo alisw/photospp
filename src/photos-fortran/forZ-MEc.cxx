@@ -516,7 +516,7 @@ double PhotosMEforZ::phwtnlo(){
     if(abs(hep.idhep[4-i])==abs(hep.idhep[3-i])) IDF=hep.idhep[3-i];
 
     IDHEP3=pho.idhep[3-i];
-    return Zphwtnlo(svar,XK,IDHEP3,phopro.irep,QP,QM,PH,PP,PM,phophs.costhg,phwt_.beta,phorest.th1,IDE,IDF);
+    return Zphwtnlo(svar,XK,IDHEP3,phopro.irep,QP,QM,PH,PP,PM,phophs.costhg,phwt.beta,phorest.th1,IDE,IDF);
   }
   else{
       // in other cases we just use default setups.
