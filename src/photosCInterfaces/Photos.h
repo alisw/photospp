@@ -94,7 +94,7 @@ public:
 	static void setSeed(int iseed1, int iseed2)    { PhotosRandom::setSeed(iseed1,iseed2); }
 
 	/** Maximum interference weight */
-	static void maxWtInterference(double interference) { phokey_.fint=interference; }
+	static void maxWtInterference(double interference) { phokey.fint=interference; }
 
 	/** Minimal energy (in units of decaying particle mass) for photons to be explicitly generated */
 	static void setInfraredCutOff(double cut_off)  { phocop.xphcut=cut_off; }
@@ -103,16 +103,16 @@ public:
 	static void setAlphaQED(double alpha)          { phocop.alpha=alpha; }
 
 	/** Key for interference, matrix element weight */
-	static void setInterference(bool interference) { phokey_.interf=(int)interference; }
+	static void setInterference(bool interference) { phokey.interf=(int)interference; }
 
 	/** Set double bremsstrahlung generation */
-	static void setDoubleBrem(bool doub)           { phokey_.isec=(int)doub; }
+	static void setDoubleBrem(bool doub)           { phokey.isec=(int)doub; }
 
 	/** Set bremsstrahlung generation up to multiplicity of 4 */
-	static void setQuatroBrem(bool quatroBrem)     { phokey_.itre=(int)quatroBrem; }
+	static void setQuatroBrem(bool quatroBrem)     { phokey.itre=(int)quatroBrem; }
 
 	/* Key for partial effects of  matrix element (in leptonic W decays) */
-	static void setCorrectionWtForW(bool corr) { phokey_.ifw=(int)corr; }
+	static void setCorrectionWtForW(bool corr) { phokey.ifw=(int)corr; }
 
 	/** Set exponentiation mode */
 	static void setExponentiation(bool expo);
@@ -133,7 +133,7 @@ public:
 	static void setMeCorrectionWtForZ(bool corr);
 
 	/** Set photon emission in top pair production in quark (gluon) pair annihilation */
-	static void setTopProcessRadiation(bool top)         { phokey_.iftop=(int)top; }
+	static void setTopProcessRadiation(bool top)         { phokey.iftop=(int)top; }
 
 	/** Set momentum unit */
 	static void setMomentumUnit(MomentumUnits unit)      { momentumUnit = unit; }

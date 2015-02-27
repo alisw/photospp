@@ -47,7 +47,7 @@ Photos::Photos()
 
 	// setExponentiation(true) moved to initialize() due to communication
 	// problems with Fortran under MacOS.
-	phokey_.iexp = 1;
+	phokey.iexp = 1;
 }
 
 void Photos::initialize()
@@ -63,7 +63,7 @@ void Photos::initialize()
   Definition given here will be thus overwritten in such a case
   below in routine PHOCIN
 *******************************************************************************/
-	if(!phokey_.iexp) initializeKinematicCorrections(1);
+	if(!phokey.iexp) initializeKinematicCorrections(1);
 	else              setExponentiation(true);
 
 // Initialize status counter for warning messages
@@ -84,7 +84,7 @@ void Photos::initialize()
 // Best choice is if FINT=2**N where N+1 is maximal number
 // of charged daughters
 // see report on overweihted events
-	if(phokey_.interf) maxWtInterference(2.0);
+	if(phokey.interf) maxWtInterference(2.0);
 	else               maxWtInterference(1.0);
 #else
 
@@ -93,7 +93,7 @@ void Photos::initialize()
 //-- but is less promising for more complex cases of interference
 //-- sometimes fails because of that
 
-	if(phokey_.interf) maxWtInterference(1.8);
+	if(phokey.interf) maxWtInterference(1.8);
 	else               maxWtInterference(0.0);
 #endif
 //------------END VARIANTS A B -----------------------
@@ -120,16 +120,16 @@ void Photos::initialize()
 	cout<<"********************************************************************************"<<endl<<endl;
 
 	cout<<"                  Internal (default) input parameters: "<<endl<<endl;
-	cout<<"                    INTERF= "<<phokey_.interf<<" ISEC= " <<phokey_.isec <<" ITRE= "<<phokey_.itre
-	                     <<" IEXP= "  <<phokey_.iexp  <<" IFTOP= "<<phokey_.iftop<<" IFW= " <<phokey_.ifw <<endl;
+	cout<<"                    INTERF= "<<phokey.interf<<" ISEC= " <<phokey.isec <<" ITRE= "<<phokey.itre
+	                     <<" IEXP= "  <<phokey.iexp  <<" IFTOP= "<<phokey.iftop<<" IFW= " <<phokey.ifw <<endl;
 	cout<<"                    ALPHA_QED= "<<phocop.alpha<<" XPHCUT= "<<phocop.xphcut<<endl<<endl;
 
-	if(phokey_.interf) cout<<"                    Option with interference is active"<<endl;
-	if(phokey_.isec)   cout<<"                    Option with double photons is active"<<endl;
-	if(phokey_.itre)   cout<<"                    Option with triple/quatric photons is active"<<endl;
-	if(phokey_.iexp)   cout<<"                    Option with exponentiation is active EPSEXP="<<phokey_.expeps<<endl;
-	if(phokey_.iftop)  cout<<"                    Emision in t tbar production is active"<<endl;
-	if(phokey_.ifw)    cout<<"                    Correction wt in decay of W is active"<<endl;
+	if(phokey.interf) cout<<"                    Option with interference is active"<<endl;
+	if(phokey.isec)   cout<<"                    Option with double photons is active"<<endl;
+	if(phokey.itre)   cout<<"                    Option with triple/quatric photons is active"<<endl;
+	if(phokey.iexp)   cout<<"                    Option with exponentiation is active EPSEXP="<<phokey.expeps<<endl;
+	if(phokey.iftop)  cout<<"                    Emision in t tbar production is active"<<endl;
+	if(phokey.ifw)    cout<<"                    Correction wt in decay of W is active"<<endl;
 	if(meCorrectionWtForZ)    cout<<"                    ME in decay of Z is active"<<endl;
 	if(meCorrectionWtForW)    cout<<"                    ME in decay of W is active"<<endl;
 	if(IfPair)          cout<<"                    emission of pairs is active"<<endl;
@@ -200,16 +200,16 @@ void Photos::iniInfo()
 	cout<<"                            Input parameters after reinitialization: "<<endl<<endl;
 	cout<<"                            ========================================="<<endl<<endl;
 	cout<<"********************************************************************************"<<endl<<endl;
-	cout<<"                    INTERF= "<<phokey_.interf<<" ISEC= " <<phokey_.isec <<" ITRE= "<<phokey_.itre
-	                     <<" IEXP= "  <<phokey_.iexp  <<" IFTOP= "<<phokey_.iftop<<" IFW= " <<phokey_.ifw <<endl;
+	cout<<"                    INTERF= "<<phokey.interf<<" ISEC= " <<phokey.isec <<" ITRE= "<<phokey.itre
+	                     <<" IEXP= "  <<phokey.iexp  <<" IFTOP= "<<phokey.iftop<<" IFW= " <<phokey.ifw <<endl;
 	cout<<"                    ALPHA_QED= "<<phocop.alpha<<" XPHCUT= "<<phocop.xphcut<<endl<<endl;
 
-	if(phokey_.interf) cout<<"                    Option with interference is active"<<endl;
-	if(phokey_.isec)   cout<<"                    Option with double photons is active"<<endl;
-	if(phokey_.itre)   cout<<"                    Option with triple/quatric photons is active"<<endl;
-	if(phokey_.iexp)   cout<<"                    Option with exponentiation is active EPSEXP="<<phokey_.expeps<<endl;
-	if(phokey_.iftop)  cout<<"                    Emision in t tbar production is active"<<endl;
-	if(phokey_.ifw)    cout<<"                    Correction wt in decay of W is active"<<endl;
+	if(phokey.interf) cout<<"                    Option with interference is active"<<endl;
+	if(phokey.isec)   cout<<"                    Option with double photons is active"<<endl;
+	if(phokey.itre)   cout<<"                    Option with triple/quatric photons is active"<<endl;
+	if(phokey.iexp)   cout<<"                    Option with exponentiation is active EPSEXP="<<phokey.expeps<<endl;
+	if(phokey.iftop)  cout<<"                    Emision in t tbar production is active"<<endl;
+	if(phokey.ifw)    cout<<"                    Correction wt in decay of W is active"<<endl;
 	if(meCorrectionWtForZ)    cout<<"                    ME in decay of Z is active"<<endl;
 	if(meCorrectionWtForW)    cout<<"                    ME in decay of W is active"<<endl;
 	if(meCorrectionWtForScalar)    cout<<"                    ME in decay of Scalar is active"<<endl;
@@ -402,14 +402,14 @@ void Photos::setRandomGenerator( double (*gen)() )
 
 void Photos::setExponentiation(bool expo)
 {
-	phokey_.iexp = (int) expo;
+	phokey.iexp = (int) expo;
 	if(expo)
 	{
 		setDoubleBrem(false);
 		setQuatroBrem(false);
 		setInfraredCutOff(0.0000001);
 		initializeKinematicCorrections(5);
-		phokey_.expeps=0.0001;
+		phokey.expeps=0.0001;
 	}
 }
 

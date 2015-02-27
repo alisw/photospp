@@ -25,7 +25,7 @@ struct HEPEVT pho;
 
 struct PHOCOP  phocop;
 struct PHNUM   phnum;
-struct PHOKEY  phokey_;
+struct PHOKEY  phokey;
 struct PHOSTA  phosta;
 struct PHOLUN  pholun;
 struct PHOPHS  phophs;
@@ -1210,7 +1210,7 @@ void PHOBW(double *WT){
 double PHOFAC(int MODE){
   static  double FF=0.0,PRX=0.0;
 
-  if(phokey_.iexp)  return 1.0;  // In case of exponentiation this routine is useles
+  if(phokey.iexp)  return 1.0;  // In case of exponentiation this routine is useles
 
   if(MODE==-1){
     PRX=1.0;
@@ -1635,7 +1635,7 @@ void PHOIN(int IP,bool *BOOST,int *NHEP0){
   if(pho.idhep[pho.nhep-i]==22) PHLUPA(100002);
 
   // special case of t tbar production process
-  if(phokey_.iftop) PHOTWO(0);
+  if(phokey.iftop) PHOTWO(0);
   *BOOST=false;
 
   //--   Check whether parent is in its rest frame...
@@ -1677,7 +1677,7 @@ void PHOIN(int IP,bool *BOOST,int *NHEP0){
 
 
   // special case of t tbar production process
-  if(phokey_.iftop) PHOTWO(1);
+  if(phokey.iftop) PHOTWO(1);
   PHLUPA(2);
   if(pho.idhep[pho.nhep-i]==22) PHLUPA(10000);
   //if (pho.idhep[pho.nhep-1-i]==22) exit(-1);  // this is probably form very old times ...
@@ -1810,7 +1810,7 @@ void PHOCHK(int JFIRST){
   // now we go to special cases, where pho.qedrad[I) will be overwritten
   //--
   IDENT=pho.nhep;
-  if(phokey_.iftop){
+  if(phokey.iftop){
     // special case of top pair production
     for(K=pho.jdahep[1-i][2-i];K>=pho.jdahep[1-i][1-i];K--){
       if(pho.idhep[K-i]!=22){
@@ -1833,7 +1833,7 @@ void PHOCHK(int JFIRST){
   }
   //--
   //--
-  if(phokey_.iftop){
+  if(phokey.iftop){
     // special case of top decay
     for (K=pho.jdahep[1-i][2-i];K>=pho.jdahep[1-i][1-i];K--){
       if(pho.idhep[K-i]!=22){
@@ -1911,13 +1911,13 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
 
 #ifdef VARIANTB
   // ----------- VARIANT B ------------------
-  // we replace 1D0/BETA*BIGLOG with (1.0/BETA*BIGLOG+2*phokey_.fint) 
+  // we replace 1D0/BETA*BIGLOG with (1.0/BETA*BIGLOG+2*phokey.fint) 
   // for integral of new crude
   BIGLOG=log(MPASQR/ MCHSQR*(1.0+BETA)*(1.0+BETA)/4.0*
 	     pow(1.0+ MCHSQR/MPASQR,2));
-  PRHARD=phocop.alpha/PI*(1.0/BETA*BIGLOG+2*phokey_.fint)
+  PRHARD=phocop.alpha/PI*(1.0/BETA*BIGLOG+2*phokey.fint)
         *(log(XPHMAX/phocop.xphcut)-.75+phocop.xphcut/XPHMAX-.25*phocop.xphcut*phocop.xphcut/XPHMAX/XPHMAX);
-  PRHARD=PRHARD*PHOCHA(IDENT)*PHOCHA(IDENT)*phokey_.fsec;
+  PRHARD=PRHARD*PHOCHA(IDENT)*PHOCHA(IDENT)*phokey.fsec;
   // ----------- END OF VARIANT B ------------------
 #else
   // ----------- VARIANT A ------------------
@@ -1925,7 +1925,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
 	     pow(1.0+ MCHSQR/MPASQR,2));
   PRHARD=phocop.alpha/PI*(1.0/BETA*BIGLOG)*
     (log(XPHMAX/phocop.xphcut)-.75+phocop.xphcut/XPHMAX-.25*phocop.xphcut*phocop.xphcut/XPHMAX/XPHMAX);
-  PRHARD=PRHARD*PHOCHA(IDENT)*PHOCHA(IDENT)*phokey_.fsec*phokey_.fint;
+  PRHARD=PRHARD*PHOCHA(IDENT)*PHOCHA(IDENT)*phokey.fsec*phokey.fint;
   //me_channel_(&IDME);
   IDME=PH_HEPEVT_Interface::ME_channel;
   //        write(*,*) 'KANALIK IDME=',IDME
@@ -1948,10 +1948,10 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
 #endif
   if(phopro.irep==0) phopro.probh=0.0;
   PRKILL=0.0;
-  if(phokey_.iexp){           // IEXP
+  if(phokey.iexp){           // IEXP
     NCHAN=NCHAN+1;
     if(phoexp.expini){    // EXPINI
-      phoexp.pro[NCHAN-i]=PRHARD+0.05*(1.0+phokey_.fint); // we store hard photon emission prob 
+      phoexp.pro[NCHAN-i]=PRHARD+0.05*(1.0+phokey.fint); // we store hard photon emission prob 
 	                                                           //for leg NCHAN
       PRHARD=0.0;                                                // to kill emission at initialization call
       phopro.probh=PRHARD;
@@ -1977,7 +1977,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
   PRSOFT=1.0-PRHARD;
   //--
   //--   Check on kinematical bounds
-  if (phokey_.iexp){
+  if (phokey.iexp){
     if(PRSOFT<-5.0E-8){
       DATA=PRSOFT;
       PHOERR(2,"PHOENE",DATA);
@@ -2159,7 +2159,7 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
 	// ----------- VARIANT B ------------------
         // corrections for more efiicient interference correction,
         // instead of doubling crude distribution, we add flat parallel channel
-	if(Photos::randomDouble()<BIGLOG/phwt.beta/(BIGLOG/phwt.beta+2*phokey_.fint)){
+	if(Photos::randomDouble()<BIGLOG/phwt.beta/(BIGLOG/phwt.beta+2*phokey.fint)){
 	  COSTHG=(1.0-DEL1)/phwt.beta;
 	  SINTHG=sqrt(DEL1*DEL2-MCHREN)/phwt.beta;
 	}
@@ -2168,10 +2168,10 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
 	  SINTHG= sqrt(1.0-COSTHG*COSTHG);
 	}
  
-	if (phokey_.fint>1.0){
+	if (phokey.fint>1.0){
  
 	  WGT=1.0/(1.0-phwt.beta*COSTHG);
-	  WGT=WGT/(WGT+phokey_.fint);
+	  WGT=WGT/(WGT+phokey.fint);
 	  //       WGT=1.0   // ??
 	}
 	else{
@@ -2296,7 +2296,7 @@ void PHOMAK(int IPPAR,int NHEP0){
   PHODO(1,NCHARB,NEUDAU);
 
 #ifdef VARIANTB
-  // we eliminate divisions  /phokey_.fint in variant B.  ???
+  // we eliminate divisions  /phokey.fint in variant B.  ???
 #endif
   // get ID of channel dependent ME, ID=0 means no 
 
@@ -2307,8 +2307,8 @@ void PHOMAK(int IPPAR,int NHEP0){
 
   if(     IDME==0) {                                    // default 
 
-    if(phokey_.interf) WT=WT*PHINT(IDUM);
-    if(phokey_.ifw) PHOBW(&WT);                          // extra weight for leptonic W decay 
+    if(phokey.interf) WT=WT*PHINT(IDUM);
+    if(phokey.ifw) PHOBW(&WT);                          // extra weight for leptonic W decay 
   }
   else if (IDME==2){                                    // ME weight for leptonic W decay
 
@@ -2325,7 +2325,7 @@ void PHOMAK(int IPPAR,int NHEP0){
   }
 
 #ifndef VARIANTB
-  WT = WT/phokey_.fint; // FINT must be in variant A
+  WT = WT/phokey.fint; // FINT must be in variant A
 #endif
 
   DATA=WT; 
@@ -2368,7 +2368,7 @@ void PHTYPE(int ID){
 
 
   //--
-  IFOUR=          phokey_.itre; // we can make internal choice whether 
+  IFOUR=          phokey.itre; // we can make internal choice whether 
                                 // we want 3 or four photons at most.
   IPAIR=false;
   IPAIR=Photos::IfPair;
@@ -2409,13 +2409,13 @@ void PHTYPE(int ID){
   }
   //--
  if(IPHOT){
-  if(phokey_.iexp){
+  if(phokey.iexp){
     phoexp.expini=true;      // Initialization/cleaning
     for(NCHAN=1;NCHAN<=phoexp.NX;NCHAN++)
         phoexp.pro[NCHAN-i]=0.0;        
     NCHAN=0;
          
-    phokey_.fsec=1.0;
+    phokey.fsec=1.0;
     PHOMAK(ID,NHEP0);          // Initialization/crude formfactors into 
                                // phoexp.pro[NCHAN)
     phoexp.expini=false;
@@ -2436,13 +2436,13 @@ void PHTYPE(int ID){
       SUM=SUM+ESU;            // thus we get distribuant at K.
       NCHAN=0;
       PHOMAK(ID,NHEP0);       // LOOPING
-      if(SUM>1.0-phokey_.expeps) break;
+      if(SUM>1.0-phokey.expeps) break;
     }
  
   }
   else if(IFOUR){
     //-- quatro photon emission
-    phokey_.fsec=1.0;
+    phokey.fsec=1.0;
     RN=Photos::randomDouble();
     if(RN>=23.0/24.0){
       PHOMAK(ID,NHEP0);
@@ -2460,9 +2460,9 @@ void PHTYPE(int ID){
     else{
     }
   }
-  else if(phokey_.itre){
+  else if(phokey.itre){
     //-- triple photon emission
-    phokey_.fsec=1.0;
+    phokey.fsec=1.0;
     RN=Photos::randomDouble();
     if(RN>=5.0/6.0){
       PHOMAK(ID,NHEP0);
@@ -2473,9 +2473,9 @@ void PHTYPE(int ID){
       PHOMAK(ID,NHEP0);
     }
   }
-  else if(phokey_.isec){
+  else if(phokey.isec){
     //-- double photon emission
-    phokey_.fsec=1.0;
+    phokey.fsec=1.0;
     RN=Photos::randomDouble();
     if(RN>=0.5){
       PHOMAK(ID,NHEP0);
@@ -2484,7 +2484,7 @@ void PHTYPE(int ID){
   }
   else{
     //-- single photon emission
-    phokey_.fsec=1.0;
+    phokey.fsec=1.0;
     PHOMAK(ID,NHEP0);
   }
  }
