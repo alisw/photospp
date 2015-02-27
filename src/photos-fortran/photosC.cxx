@@ -20,14 +20,9 @@ namespace Photospp
 
 // Declaration of structs defined in f_Init.h
 
-
-
-
-struct PHOREST phorest_;
 struct PHOCMS  phocms_;
 struct PHOMOM  phomom_;
 struct PHOCORWT phocorwt_;
-struct PHOPRO  phopro_;
 struct PHOCOP  phocop_;
 struct PHWT    phwt_;
 struct PHOKEY  phokey_;
@@ -968,13 +963,13 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   PMAVIR=sqrt(pho.phep[IP-i][5-i]*(pho.phep[IP-i][5-i]-2.0*EPHOTO));
   //--
   //--   Reconstruct  kinematics  of  charged particle  and  neutral system
-  phorest_.fi1=PHOAN1(phomom_.pneutr[1-i],phomom_.pneutr[2-i]);
+  phorest.fi1=PHOAN1(phomom_.pneutr[1-i],phomom_.pneutr[2-i]);
   //--
   //--   Choose axis along  z of  PNEUTR, calculate  angle  between x and y
   //--   components  and z  and x-y plane and  perform Lorentz transform...
-  phorest_.th1=PHOAN2(phomom_.pneutr[3-i],sqrt(phomom_.pneutr[1-i]*phomom_.pneutr[1-i]+phomom_.pneutr[2-i]*phomom_.pneutr[2-i]));
-  PHORO3(-phorest_.fi1,phomom_.pneutr);
-  PHORO2(-phorest_.th1,phomom_.pneutr);
+  phorest.th1=PHOAN2(phomom_.pneutr[3-i],sqrt(phomom_.pneutr[1-i]*phomom_.pneutr[1-i]+phomom_.pneutr[2-i]*phomom_.pneutr[2-i]));
+  PHORO3(-phorest.fi1,phomom_.pneutr);
+  PHORO2(-phorest.th1,phomom_.pneutr);
   //--
   //--   Take  away  photon energy from charged particle and PNEUTR !  Thus
   //--   the onshell charged particle  decays into virtual charged particle
@@ -1049,10 +1044,10 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   //--   Charged particle restores original direction
   PHORO3(-FI5,phomom_.pneutr);
   PHORO3(-FI5,pho.phep[pho.nhep-i]);
-  PHORO2(phorest_.th1,phomom_.pneutr);
-  PHORO2(phorest_.th1,pho.phep[pho.nhep-i]);
-  PHORO3(phorest_.fi1,phomom_.pneutr);
-  PHORO3(phorest_.fi1,pho.phep[pho.nhep-i]);
+  PHORO2(phorest.th1,phomom_.pneutr);
+  PHORO2(phorest.th1,pho.phep[pho.nhep-i]);
+  PHORO3(phorest.fi1,phomom_.pneutr);
+  PHORO3(phorest.fi1,pho.phep[pho.nhep-i]);
   //--   See whether neutral system has multiplicity larger than 1...
 
   if((pho.jdahep[IP-i][2-i]-pho.jdahep[IP-i][1-i])>1){
@@ -1064,8 +1059,8 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
       if(I!=NCHARB && ( pho.jmohep[I-i][1-i]==IP)){
 	//--
 	//--   Reconstruct kinematics...
-	PHORO3(-phorest_.fi1,pho.phep[I-i]);
-	PHORO2(-phorest_.th1,pho.phep[I-i]);
+	PHORO3(-phorest.fi1,pho.phep[I-i]);
+	PHORO2(-phorest.th1,pho.phep[I-i]);
 	//--
 	//--   ...reductive boost
 	PHOBO3(PARNE,pho.phep[I-i]);
@@ -1083,8 +1078,8 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
 	//--
 	//--   Charged particle restores original direction
 	PHORO3(-FI5,pho.phep[I-i]);
-	PHORO2(phorest_.th1,pho.phep[I-i]);
-	PHORO3(phorest_.fi1,pho.phep[I-i]);
+	PHORO2(phorest.th1,pho.phep[I-i]);
+	PHORO3(phorest.fi1,pho.phep[I-i]);
       }
     }
   }
@@ -1204,18 +1199,18 @@ double PHOFAC(int MODE){
   if(MODE==-1){
     PRX=1.0;
     FF=1.0;
-    phopro_.probh=0.0;
+    phopro.probh=0.0;
   }
   else if (MODE==0){
-    if(phopro_.irep==0) PRX=1.0;
-    PRX=PRX/(1.0-phopro_.probh);
+    if(phopro.irep==0) PRX=1.0;
+    PRX=PRX/(1.0-phopro.probh);
     FF=1.0;
     //--
     //--   Following options are not considered for the time being...
     //--   (1) Good choice, but does not save very much time:
-    //--       FF=(1.0-sqrt(phopro_.xf)/2.0)/(1.0+sqrt(phopro_.xf)/2.0)
+    //--       FF=(1.0-sqrt(phopro.xf)/2.0)/(1.0+sqrt(phopro.xf)/2.0)
     //--   (2) Taken from the blue, but works without weight overflows...
-    //--       FF=(1.0-phopro_.xf/(1-pow((1-sqrt(phopro_.xf)),2)))*(1+(1-sqrt(phopro_.xf))/sqrt(1-phopro_.xf))/2.0
+    //--       FF=(1.0-phopro.xf/(1-pow((1-sqrt(phopro.xf)),2)))*(1+(1-sqrt(phopro.xf))/sqrt(1-phopro.xf))/2.0
     return FF*PRX;
   }
   else{
@@ -1319,7 +1314,7 @@ double PHOCORN(double MPASQR,double MCHREN,int ME){
   wt2=wt2*PHOFAC(1);
   PHOCOR=wt1*wt2*wt3;
 
-  phopro_.corwt=PHOCOR;
+  phopro.corwt=PHOCOR;
   if(PHOCOR>1.0){
     DATA=PHOCOR;
     PHOERR(3,"PHOCOR",DATA);
@@ -1402,7 +1397,7 @@ double  PHOCOR(double MPASQR,double MCHREN,int ME){
   }
   PHOC=phwt_.wt1*phwt_.wt2*phwt_.wt3;
 
-  phopro_.corwt=PHOC;
+  phopro.corwt=PHOC;
   if(PHOC>1.0){
     DATA=PHOC;
     PHOERR(3,"PHOCOR",DATA);
@@ -1923,7 +1918,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
 
   //----------- END OF VARIANT A ------------------
 #endif
-  if(phopro_.irep==0) phopro_.probh=0.0;
+  if(phopro.irep==0) phopro.probh=0.0;
   PRKILL=0.0;
   if(phokey_.iexp){           // IEXP
     NCHAN=NCHAN+1;
@@ -1931,7 +1926,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
       phoexp.pro[NCHAN-i]=PRHARD+0.05*(1.0+phokey_.fint); // we store hard photon emission prob 
 	                                                           //for leg NCHAN
       PRHARD=0.0;                                                // to kill emission at initialization call
-      phopro_.probh=PRHARD;
+      phopro.probh=PRHARD;
     }
     else{                // EXPINI
       PRSUM=0.0;
@@ -1949,7 +1944,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
     PRHARD=PRHARD*PHOFAC(0); // PHOFAC is used to control eikonal 
                              // formfactors for non exp version only
                              // here PHOFAC(0)=1 at least now.
-    phopro_.probh=PRHARD;
+    phopro.probh=PRHARD;
   }                         // IEXP
   PRSOFT=1.0-PRHARD;
   //--
@@ -1986,7 +1981,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
 
   //--
   //--   Calculate parameter for PHOFAC function
-  phopro_.xf=4.0* phomom_.mchsqr*MPASQR/pow(MPASQR+ phomom_.mchsqr-phomom_.mnesqr,2);
+  phopro.xf=4.0* phomom_.mchsqr*MPASQR/pow(MPASQR+ phomom_.mchsqr-phomom_.mnesqr,2);
   return;
 }
 
@@ -2048,7 +2043,7 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
   //--   Loop over daughters, determine charge multiplicity
 
   NCHARG=0;
-  phopro_.irep=0;
+  phopro.irep=0;
   MINMAS=0.0;
   MASSUM=0.0;
   for (I=pho.jdahep[IP-i][1-i];I<=pho.jdahep[IP-i][2-i];I++){
@@ -2116,7 +2111,7 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
         //--   No radiation was accepted, check  for more daughters  that may ra-
         //--   diate and correct radiation probability...
         NCHARG=NCHARG-1;
-        if(NCHARG>0)  phopro_.irep=phopro_.irep+1;
+        if(NCHARG>0)  phopro.irep=phopro.irep+1;
         if(NCHARG>0) goto label30;
       }
       else{    

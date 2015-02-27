@@ -90,22 +90,22 @@ const static double TWOPI = 6.28318530717958648;
 
 	} tofrom;
 
-	extern struct PHOPRO
+	struct
 	{
 		double probh;
 		double corwt;
 		double xf;
 		int irep;
-	} phopro_;
+	} phopro;
 
-	extern struct PHOREST
+	struct
 	{
 		double fi3;
 		double fi1;
 		double th1;
         	int irep;     //    provably line to be removed
 
-	} phorest_;
+	} phorest;
 
 	extern struct PHWT
 	{

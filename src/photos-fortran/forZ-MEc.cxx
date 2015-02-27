@@ -484,7 +484,7 @@ double PhotosMEforZ::phwtnlo(){
     ENE=(QP[4-i]+QM[4-i]+QQ[4-i])/2;
 
     // preserve direction of emitting particle and wipeout QQ 
-    if (phopro_.irep==1){
+    if (phopro.irep==1){
     double  a=sqrt(ENE*ENE-pho.phep[3-i][5-i]*pho.phep[3-i][5-i])/sqrt(QM[4-i]*QM[4-i]-pho.phep[3-i][5-i]*pho.phep[3-i][5-i]);
       QM[1-i]= QM[1-i]*a;
       QM[2-i]= QM[2-i]*a;
@@ -516,7 +516,7 @@ double PhotosMEforZ::phwtnlo(){
     if(abs(hep.idhep[4-i])==abs(hep.idhep[3-i])) IDF=hep.idhep[3-i];
 
     IDHEP3=pho.idhep[3-i];
-    return Zphwtnlo(svar,XK,IDHEP3,phopro_.irep,QP,QM,PH,PP,PM,phophs.costhg,phwt_.beta,phorest_.th1,IDE,IDF);
+    return Zphwtnlo(svar,XK,IDHEP3,phopro.irep,QP,QM,PH,PP,PM,phophs.costhg,phwt_.beta,phorest.th1,IDE,IDF);
   }
   else{
       // in other cases we just use default setups.
