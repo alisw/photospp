@@ -20,7 +20,7 @@ namespace Photospp
 
 // Declaration of structs defined in f_Init.h
 
-struct TOFROM tofrom_;
+
 struct PHNUM  phnum_;
 struct PHOLUN pholun_;
 struct PHOREST phorest_;
@@ -531,40 +531,40 @@ void PHOtoRF(){
   static int i=1;
 
   for(K=1;K<=4;K++){
-    tofrom_.QQ[K-i]=0.0;
+    tofrom.QQ[K-i]=0.0;
   }
   for( L=hep.jdahep[hep.jmohep[hep.nhep-i][1-i]-i][1-i];L<=hep.jdahep[hep.jmohep[hep.nhep-i][1-i]-i][2-i];L++){
     for(K=1;K<=4;K++){
-      tofrom_.QQ[K-i]=tofrom_.QQ[K-i]+hep.phep[L-i][K-i];
+      tofrom.QQ[K-i]=tofrom.QQ[K-i]+hep.phep[L-i][K-i];
     }
   }
-  tofrom_.XM =tofrom_.QQ[4-i]*tofrom_.QQ[4-i]-tofrom_.QQ[3-i]*tofrom_.QQ[3-i]-tofrom_.QQ[2-i]*tofrom_.QQ[2-i]-tofrom_.QQ[1-i]*tofrom_.QQ[1-i];
-  if(tofrom_.XM>0.0) tofrom_.XM=sqrt(tofrom_.XM);
-  if(tofrom_.XM<=0.0) return;
+  tofrom.XM =tofrom.QQ[4-i]*tofrom.QQ[4-i]-tofrom.QQ[3-i]*tofrom.QQ[3-i]-tofrom.QQ[2-i]*tofrom.QQ[2-i]-tofrom.QQ[1-i]*tofrom.QQ[1-i];
+  if(tofrom.XM>0.0) tofrom.XM=sqrt(tofrom.XM);
+  if(tofrom.XM<=0.0) return;
 
   for(L=1;L<=hep.nhep;L++){
     for(K=1;K<=4;K++){       
       PP[K-i]=hep.phep[L-i][K-i];
     }
-    bostdq(1,tofrom_.QQ,PP,RR);
+    bostdq(1,tofrom.QQ,PP,RR);
     for(K=1;K<=4;K++){     
       hep.phep[L-i][K-i]=RR[K-i];
     }
   }
 
-  tofrom_.fi1=0.0;
-  tofrom_.th1=0.0;
-  if(fabs(hep.phep[1-i][1-i])+fabs(hep.phep[1-i][2-i])>0.0) tofrom_.fi1=PHOAN1(hep.phep[1-i][1-i],hep.phep[1-i][2-i]);
+  tofrom.fi1=0.0;
+  tofrom.th1=0.0;
+  if(fabs(hep.phep[1-i][1-i])+fabs(hep.phep[1-i][2-i])>0.0) tofrom.fi1=PHOAN1(hep.phep[1-i][1-i],hep.phep[1-i][2-i]);
   if(fabs(hep.phep[1-i][1-i])+fabs(hep.phep[1-i][2-i])+fabs(hep.phep[1-i][3-i])>0.0)  
-    tofrom_.th1=PHOAN2(hep.phep[1-i][3-i],sqrt(hep.phep[1-i][1-i]*hep.phep[1-i][1-i]+hep.phep[1-i][2-i]*hep.phep[1-i][2-i]));
+    tofrom.th1=PHOAN2(hep.phep[1-i][3-i],sqrt(hep.phep[1-i][1-i]*hep.phep[1-i][1-i]+hep.phep[1-i][2-i]*hep.phep[1-i][2-i]));
 
   for(L=1;L<=hep.nhep;L++){ 
     for(K=1;K<=4;K++){       
       RR[K-i]=hep.phep[L-i][K-i];
     }
      
-    PHORO3(-tofrom_.fi1,RR);
-    PHORO2(-tofrom_.th1,RR);
+    PHORO3(-tofrom.fi1,RR);
+    PHORO2(-tofrom.th1,RR);
     for(K=1;K<=4;K++){     
       hep.phep[L-i][K-i]=RR[K-i];
     }
@@ -581,7 +581,7 @@ void PHOtoLAB(){
   int K,L;
   static int i=1;
   
-  if(tofrom_.XM<=0.0) return;
+  if(tofrom.XM<=0.0) return;
 
 
   for(L=1;L<=hep.nhep;L++){
@@ -589,9 +589,9 @@ void PHOtoLAB(){
       PP[K-i]=hep.phep[L-i][K-i];
     }
 
-    PHORO2( tofrom_.th1,PP);
-    PHORO3( tofrom_.fi1,PP);
-    bostdq(-1,tofrom_.QQ,PP,RR);
+    PHORO2( tofrom.th1,PP);
+    PHORO3( tofrom.fi1,PP);
+    bostdq(-1,tofrom.QQ,PP,RR);
 
     for(K=1;K<=4;K++){
       hep.phep[L-i][K-i]=RR[K-i];

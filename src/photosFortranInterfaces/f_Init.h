@@ -81,14 +81,14 @@ const static double TWOPI = 6.28318530717958648;
 		double sinthg;
 
 	} phophs_;
-	extern struct TOFROM
+	struct
 	{
 		double QQ[4];
 		double XM;
 		double th1;
 		double fi1;
 
-	} tofrom_;
+	} tofrom;
 
 	extern struct PHOPRO
 	{
