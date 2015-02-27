@@ -17,8 +17,8 @@ namespace Photospp
 
 // from photosC.cxx
 
-extern void PHODMP();
-extern double PHINT(int idumm);
+void PHODMP();
+double PHINT(int idumm);
 // ----------------------------------------------------------------------
 // PROVIDES ELECTRIC CHARGE AND WEAK IZOSPIN OF A FAMILY FERMION
 // IDFERM=1,2,3,4 DENOTES NEUTRINO, LEPTON, UP AND DOWN QUARK

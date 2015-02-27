@@ -16,8 +16,8 @@ namespace Photospp {
   return (a > b) ? a : b;
   }
    // 
-extern "C" void varran_( double RRR[], int *N);
-extern "C" double angfi(double X,double Y){                                               
+  //extern "C" void varran_( double RRR[], int *N);
+ double angfi(double X,double Y){                                               
   double THE;
   const double PI=3.141592653589793238462643;
 
@@ -32,7 +32,7 @@ extern "C" double angfi(double X,double Y){
    return THE;
 }
 
-extern "C" double angxy(double X,double Y){                                               
+ double angxy(double X,double Y){                                               
   double THE;
   const double PI=3.141592653589793238462643;
 
@@ -47,7 +47,7 @@ extern "C" double angxy(double X,double Y){
   return THE;                                                         
 }
 
-extern "C" void  bostd3(double EXE,double PVEC[4],double QVEC[4]){
+void  bostd3(double EXE,double PVEC[4],double QVEC[4]){
   // ----------------------------------------------------------------------
   // BOOST ALONG Z AXIS, EXE=EXP(ETA), ETA= HIPERBOLIC VELOCITY.
   //
@@ -75,7 +75,7 @@ extern "C" void  bostd3(double EXE,double PVEC[4],double QVEC[4]){
 // after investigations PHORO3 of PhotosUtilities.cxx will be used instead
 // but it must be checked first if it works
 
-extern "C" void rotod3(double ANGLE,double PVEC[4],double QVEC[4]){
+void rotod3(double ANGLE,double PVEC[4],double QVEC[4]){
 
  
   int j=1;  // convention of indices of Riemann space must be preserved.
@@ -92,7 +92,7 @@ extern "C" void rotod3(double ANGLE,double PVEC[4],double QVEC[4]){
 
 
 
-extern "C" void   rotod2(double PHI,double PVEC[4],double QVEC[4]){
+void   rotod2(double PHI,double PVEC[4],double QVEC[4]){
 
   double RVEC[4];
   int j=1;  // convention of indices of Riemann space must be preserved.
@@ -114,7 +114,7 @@ extern "C" void   rotod2(double PHI,double PVEC[4],double QVEC[4]){
   // exit(-1);
 }
 
-extern "C" void   lortra(int KEY,double PRM,double PNEUTR[4],double PNU[4],double PAA[4],double PP[4],double PE[4]){
+void   lortra(int KEY,double PRM,double PNEUTR[4],double PNU[4],double PAA[4],double PP[4],double PE[4]){
   // --------------------------------------------------------------------- 
   // THIS ROUTINE PERFORMS LORENTZ TRANSFORMATION ON MANY 4-VECTORS        
   // KEY   =1    BOOST    ALONG   3RD AXIS                                 
@@ -158,7 +158,7 @@ double amast(double VEC[4]){
   return ama;
 } 
 
-extern "C" void spaj(int KUDA,double P2[4],double Q2[4],double PP[4],double PE[4]){    
+void spaj(int KUDA,double P2[4],double Q2[4],double PP[4],double PE[4]){    
   //     **********************     
   // THIS PRINTS OUT FOUR MOMENTA OF PHOTONS 
   // ON OUTPUT UNIT NOUT
@@ -179,7 +179,7 @@ extern "C" void spaj(int KUDA,double P2[4],double Q2[4],double PP[4],double PE[4
 }
 
 //extern "C" {
- extern struct PARKIN { 
+  struct  { 
    double fi0; // FI0
    double fi1; // FI1
    double fi2; // FI2
@@ -198,7 +198,7 @@ extern "C" void spaj(int KUDA,double P2[4],double Q2[4],double PP[4],double PE[4
   } parkin;
 //}
 
-struct PARKIN parkin;
+//struct PARKIN parkin;
 
 void partra(int IBRAN,double PHOT[4]){
 
