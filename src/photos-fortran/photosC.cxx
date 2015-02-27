@@ -20,7 +20,7 @@ namespace Photospp
 
 // Declaration of structs defined in f_Init.h
 
-struct PHOCMS  phocms_;
+
 struct PHOCOP  phocop_;
 struct PHOKEY  phokey_;
 
@@ -1567,7 +1567,9 @@ void PHOIN(int IP,bool *BOOST,int *NHEP0){
   double PB;
   static int i=1;
   int &nhep0 = *NHEP0;
-  // double &BET[3]=phocms_.bet;
+  // double &BET[3]=BET;
+  double &GAM =phocms.gam;
+  double *BET = phocms.bet;
 
   //--
   // let-s calculate size of the little common entry
@@ -1648,19 +1650,19 @@ void PHOIN(int IP,bool *BOOST,int *NHEP0){
     //--
     //--   Boost daughter particles to rest frame of parent...
     //--   Resultant neutral system already calculated in rest frame !
-    for(J=1;J<=3;J++) phocms_.bet[J-i]=-pho.phep[1-i][J-i]/pho.phep[1-i][5-i];
-    phocms_.gam=pho.phep[1-i][4-i]/pho.phep[1-i][5-i];
+    for(J=1;J<=3;J++) BET[J-i]=-pho.phep[1-i][J-i]/pho.phep[1-i][5-i];
+    GAM=pho.phep[1-i][4-i]/pho.phep[1-i][5-i];
     for(I=pho.jdahep[1-i][1-i];I<=pho.jdahep[1-i][2-i];I++){
-      PB=phocms_.bet[1-i]*pho.phep[I-i][1-i]+phocms_.bet[2-i]*pho.phep[I-i][2-i]+phocms_.bet[3-i]*pho.phep[I-i][3-i];
-      for(J=1;J<=3;J++)   pho.phep[I-i][J-i]=pho.phep[I-i][J-i]+phocms_.bet[J-i]*(pho.phep[I-i][4-i]+PB/(phocms_.gam+1.0));
-      pho.phep[I-i][4-i]=phocms_.gam*pho.phep[I-i][4-i]+PB;
+      PB=BET[1-i]*pho.phep[I-i][1-i]+BET[2-i]*pho.phep[I-i][2-i]+BET[3-i]*pho.phep[I-i][3-i];
+      for(J=1;J<=3;J++)   pho.phep[I-i][J-i]=pho.phep[I-i][J-i]+BET[J-i]*(pho.phep[I-i][4-i]+PB/(GAM+1.0));
+      pho.phep[I-i][4-i]=GAM*pho.phep[I-i][4-i]+PB;
     }
     //--    Finally boost mother as well
     I=1;   
-    PB=phocms_.bet[1-i]*pho.phep[I-i][1-i]+phocms_.bet[2-i]*pho.phep[I-i][2-i]+phocms_.bet[3-i]*pho.phep[I-i][3-i];
-    for(J=1;J<=3;J++) pho.phep[I-i][J-i]=pho.phep[I-i][J-i]+phocms_.bet[J-i]*(pho.phep[I-i][4-i]+PB/(phocms_.gam+1.0));
+    PB=BET[1-i]*pho.phep[I-i][1-i]+BET[2-i]*pho.phep[I-i][2-i]+BET[3-i]*pho.phep[I-i][3-i];
+    for(J=1;J<=3;J++) pho.phep[I-i][J-i]=pho.phep[I-i][J-i]+BET[J-i]*(pho.phep[I-i][4-i]+PB/(GAM+1.0));
  
-    pho.phep[I-i][4-i]=phocms_.gam*pho.phep[I-i][4-i]+PB;
+    pho.phep[I-i][4-i]=GAM*pho.phep[I-i][4-i]+PB;
   }
 
 
@@ -1695,6 +1697,9 @@ void PHOOUT(int IP, bool BOOST, int nhep0){
   int LL,FIRST,LAST,I;
   int NN,J,K,NA;
   double PB;
+  double &GAM =phocms.gam;
+  double *BET = phocms.bet;
+
   static int i=1;
   if(pho.nhep==pho.nevhep) return;
   //--   When parent was not in its rest-frame, boost back...
@@ -1703,31 +1708,31 @@ void PHOOUT(int IP, bool BOOST, int nhep0){
     //PHOERR(404,"PHOOUT",1.0);  // we need to improve this warning:  program should never
                                // enter this place
 
-    double phocms_check = fabs(1 - phocms_.gam) + fabs(phocms_.bet[1-i]) + fabs(phocms_.bet[2-i]) + fabs(phocms_.bet[3-i]);
+    double phocms_check = fabs(1 - GAM) + fabs(BET[1-i]) + fabs(BET[2-i]) + fabs(BET[3-i]);
     if( phocms_check > 0.001 ) {
         Log::Error() << "Msg. from PHOOUT: possible problems with boosting due to the rounding errors." << endl
-                     << "Boost parameters:   ("<< phocms_.gam << ","
-                     << phocms_.bet[1-i] << "," << phocms_.bet[2-i] << "," << phocms_.bet[3-i] << ")"<<endl
+                     << "Boost parameters:   ("<< GAM << ","
+                     << BET[1-i] << "," << BET[2-i] << "," << BET[3-i] << ")"<<endl
                      << "should be equal to: (1,0,0,0) up to at least several digits." << endl;
     }
     else{
         Log::Warning() << "Msg. from PHOOUT: possible problems with boosting due to the rounding errors." << endl
-                       << "Boost parameters:   ("<< phocms_.gam << ","
-                       << phocms_.bet[1-i] << "," << phocms_.bet[2-i] << "," << phocms_.bet[3-i] << ")"<<endl
+                       << "Boost parameters:   ("<< GAM << ","
+                       << BET[1-i] << "," << BET[2-i] << "," << BET[3-i] << ")"<<endl
                        << "should be equal to: (1,0,0,0) up to at least several digits." << endl;
     }
 
     for (J=pho.jdahep[1-i][1-i];J<=pho.jdahep[1-i][2-i];J++){
-      PB=-phocms_.bet[1-i]*pho.phep[J-i][1-i]-phocms_.bet[2-i]*pho.phep[J-i][2-i]-phocms_.bet[3-i]*pho.phep[J-i][3-i];
-      for(K=1;K<=3;K++) pho.phep[J-i][K-i]=pho.phep[J-i][K-i]-phocms_.bet[K-i]*(pho.phep[J-i][4-i]+PB/(phocms_.gam+1.0));
-      pho.phep[J-i][4-i]=phocms_.gam*pho.phep[J-i][4-i]+PB;
+      PB=-BET[1-i]*pho.phep[J-i][1-i]-BET[2-i]*pho.phep[J-i][2-i]-BET[3-i]*pho.phep[J-i][3-i];
+      for(K=1;K<=3;K++) pho.phep[J-i][K-i]=pho.phep[J-i][K-i]-BET[K-i]*(pho.phep[J-i][4-i]+PB/(GAM+1.0));
+      pho.phep[J-i][4-i]=GAM*pho.phep[J-i][4-i]+PB;
     }
 
     //--   ...boost photon, or whatever else has shown up
     for(NN=pho.nevhep+1;NN<=pho.nhep;NN++){
-      PB=-phocms_.bet[1-i]*pho.phep[NN-i][1-i]-phocms_.bet[2-i]*pho.phep[NN-i][2-i]-phocms_.bet[3-i]*pho.phep[NN-i][3-i];
-      for(K=1;K<=3;K++) pho.phep[NN-i][K-i]=pho.phep[NN-i][K-i]-phocms_.bet[K-i]*(pho.phep[NN-i][4-i]+PB/(phocms_.gam+1.0));
-      pho.phep[NN-i][4-i]=phocms_.gam*pho.phep[NN][4-i]+PB;
+      PB=-BET[1-i]*pho.phep[NN-i][1-i]-BET[2-i]*pho.phep[NN-i][2-i]-BET[3-i]*pho.phep[NN-i][3-i];
+      for(K=1;K<=3;K++) pho.phep[NN-i][K-i]=pho.phep[NN-i][K-i]-BET[K-i]*(pho.phep[NN-i][4-i]+PB/(GAM+1.0));
+      pho.phep[NN-i][4-i]=GAM*pho.phep[NN][4-i]+PB;
     }
 					  }
   PHCORK(0);   // we have to use it because it clears input 
