@@ -68,19 +68,19 @@ const static double TWOPI = 6.28318530717958648;
 	        int ifstop;
 	} phosta;
 
-	extern struct PHOLUN
+	struct
 	{
 		int phlun;
-	} pholun_;
+	} pholun;
 
-	extern struct PHOPHS
+	struct
 	{
 		double xphmax;
 		double xphoto;
 		double costhg;
 		double sinthg;
 
-	} phophs_;
+	} phophs;
 	struct
 	{
 		double QQ[4];

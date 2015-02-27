@@ -22,11 +22,10 @@ namespace Photospp
 
 
 
-struct PHOLUN pholun_;
+
 struct PHOREST phorest_;
 struct PHOCMS  phocms_;
 struct PHOMOM  phomom_;
-struct PHOPHS  phophs_;
 struct PHOCORWT phocorwt_;
 struct PHOPRO  phopro_;
 struct PHOCOP  phocop_;
@@ -75,7 +74,7 @@ double PHINT(int IDUM){
   double EPS1[4],EPS2[4],PH[4],PL[4];
   static int i=1;
   int K,L;
-  //      DOUBLE PRECISION EMU,MCHREN,BETA,phophs_.costhg,MPASQR,XPH, XC1, XC2
+  //      DOUBLE PRECISION EMU,MCHREN,BETA,COSTHG,MPASQR,XPH, XC1, XC2
   double  XNUM1,XNUM2,XDENO,XC1,XC2;
 
   //      REAL*8 PHOCHA
@@ -155,14 +154,17 @@ double PHINT1(int IDUM){
       DOUBLE PRECISION phomom_.mchsqr,phomom_.mnesqr
       REAL*8 PNEUTR
       COMMON/PHOMOM/phomom_.mchsqr,phomom_.mnesqr,PNEUTR(5)
-      DOUBLE PRECISION phophs_.costhg,SINTHG
-      REAL*8 XPHMAX,phophs_.xphoto
-      COMMON/PHOPHS/XPHMAX,phophs_.xphoto,phophs_.costhg,SINTHG
+      DOUBLE PRECISION COSTHG,SINTHG
+      REAL*8 XPHMAX,XPHOTO
+      COMMON/PHOPHS/XPHMAX,XPHOTO,COSTHG,SINTHG
 
   */
   double MPASQR,XX,BETA;
   bool IFINT;
-  int K,IDENT; 
+  int K,IDENT;
+  double &COSTHG =phophs.costhg;
+  double &XPHOTO =phophs.xphoto;
+ 
   static int i=1;
   IDENT=pho.nhep;
   //
@@ -184,9 +186,9 @@ double PHINT1(int IDUM){
   // calculates interference weight contribution
   if(IFINT){
     MPASQR = pho.phep[1-i][5-i]*pho.phep[1-i][5-i];
-    XX=4.0*phomom_.mchsqr/MPASQR*(1.0-phophs_.xphoto)/(1.0-phophs_.xphoto+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR)/(1.0-phophs_.xphoto+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR);
+    XX=4.0*phomom_.mchsqr/MPASQR*(1.0-XPHOTO)/(1.0-XPHOTO+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR)/(1.0-XPHOTO+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR);
     BETA=sqrt(1.0-XX);
-    PHINT  = 2.0/(1.0+phophs_.costhg*phophs_.costhg*BETA*BETA);
+    PHINT  = 2.0/(1.0+COSTHG*COSTHG*BETA*BETA);
   }
   else{
     PHINT  = 1.0;
@@ -222,10 +224,12 @@ double PHINT2(int IDUM){
       DOUBLE PRECISION phomom_.mchsqr,phomom_.mnesqr
       REAL*8 PNEUTR
       COMMON/PHOMOM/phomom_.mchsqr,phomom_.mnesqr,PNEUTR(5)
-      DOUBLE PRECISION phophs_.costhg,SINTHG
-      REAL*8 XPHMAX,phophs_.xphoto
-      COMMON/PHOPHS/XPHMAX,phophs_.xphoto,phophs_.costhg,SINTHG
+      DOUBLE PRECISION COSTHG,SINTHG
+      REAL*8 XPHMAX,XPHOTO
+      COMMON/PHOPHS/XPHMAX,XPHOTO,COSTHG,SINTHG
   */
+  double &COSTHG =phophs.costhg;
+  double &XPHOTO =phophs.xphoto;
   double MPASQR,XX,BETA,pq1[4],pq2[4],pphot[4];
   double SS,PP2,PP,E1,E2,q1,q2,costhe,PHINT;
   bool IFINT;
@@ -253,15 +257,15 @@ double PHINT2(int IDUM){
   // calculates interference weight contribution
   if(IFINT){
     MPASQR = pho.phep[1-i][5-i]*pho.phep[1-i][5-i];
-    XX=4.0*phomom_.mchsqr/MPASQR*(1.0-phophs_.xphoto)/pow(1.-phophs_.xphoto+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR,2);
+    XX=4.0*phomom_.mchsqr/MPASQR*(1.0-XPHOTO)/pow(1.-XPHOTO+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR,2);
     BETA=sqrt(1.0-XX);
-    PHINT  = 2.0/(1.0+phophs_.costhg*phophs_.costhg*BETA*BETA);
-    SS =MPASQR*(1.0-phophs_.xphoto);
+    PHINT  = 2.0/(1.0+COSTHG*COSTHG*BETA*BETA);
+    SS =MPASQR*(1.0-XPHOTO);
     PP2=((SS-phomom_.mchsqr-phomom_.mnesqr)*(SS-phomom_.mchsqr-phomom_.mnesqr)-4*phomom_.mchsqr*phomom_.mnesqr)/SS/4;
     PP =sqrt(PP2);
     E1 =sqrt(PP2+phomom_.mchsqr);
     E2 =sqrt(PP2+phomom_.mnesqr);
-    PHINT= (E1+E2)*(E1+E2)/((E2+phophs_.costhg*PP)*(E2+phophs_.costhg*PP)+(E1-phophs_.costhg*PP)*(E1-phophs_.costhg*PP));
+    PHINT= (E1+E2)*(E1+E2)/((E2+COSTHG*PP)*(E2+COSTHG*PP)+(E1-COSTHG*PP)*(E1-COSTHG*PP));
     // return PHINT;
     //
     q1=PHOCHA(pho.idhep[pho.jdahep[1-i][1-i]-i]);
@@ -276,16 +280,16 @@ double PHINT2(int IDUM){
     costhe=costhe/sqrt(pphot[1-i]*pphot[1-i]+pphot[2-i]*pphot[2-i]+pphot[3-i]*pphot[3-i]);
     //
     // --- this IF checks whether JDAPHO(1,1) was MCH or MNE. 
-    // --- phophs_.costhg angle (and in-generation variables) may be better choice 
+    // --- COSTHG angle (and in-generation variables) may be better choice 
     // --- than costhe. note that in the formulae below amplitudes were 
-    // --- multiplied by (E2+phophs_.costhg*PP)*(E1-phophs_.costhg*PP). 
-    if(phophs_.costhg*costhe>0){
+    // --- multiplied by (E2+COSTHG*PP)*(E1-COSTHG*PP). 
+    if(COSTHG*costhe>0){
 
-      PHINT= pow(q1*(E2+phophs_.costhg*PP)-q2*(E1-phophs_.costhg*PP),2)/(q1*q1*(E2+phophs_.costhg*PP)*(E2+phophs_.costhg*PP)+q2*q2*(E1-phophs_.costhg*PP)*(E1-phophs_.costhg*PP));
+      PHINT= pow(q1*(E2+COSTHG*PP)-q2*(E1-COSTHG*PP),2)/(q1*q1*(E2+COSTHG*PP)*(E2+COSTHG*PP)+q2*q2*(E1-COSTHG*PP)*(E1-COSTHG*PP));
     }
     else{
 
-      PHINT= pow(q1*(E1-phophs_.costhg*PP)-q2*(E2+phophs_.costhg*PP),2)/(q1*q1*(E1-phophs_.costhg*PP)*(E1-phophs_.costhg*PP)+q2*q2*(E2+phophs_.costhg*PP)*(E2+phophs_.costhg*PP));
+      PHINT= pow(q1*(E1-COSTHG*PP)-q2*(E2+COSTHG*PP),2)/(q1*q1*(E1-COSTHG*PP)*(E1-COSTHG*PP)+q2*q2*(E2+COSTHG*PP)*(E2+COSTHG*PP));
     }
   }
   else{
@@ -955,9 +959,12 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   double CCOSTH,SSINTH,PVEC[4],PARNE;
   double TH3,FI3,TH4,FI4,FI5,ANGLE;
   int I,J,FIRST,LAST;
+  double &COSTHG =phophs.costhg;
+  double &SINTHG =phophs.sinthg;
+  double &XPHOTO =phophs.xphoto;
 
   //--
-  EPHOTO=phophs_.xphoto*pho.phep[IP-i][5-i]/2.0;
+  EPHOTO=XPHOTO*pho.phep[IP-i][5-i]/2.0;
   PMAVIR=sqrt(pho.phep[IP-i][5-i]*(pho.phep[IP-i][5-i]-2.0*EPHOTO));
   //--
   //--   Reconstruct  kinematics  of  charged particle  and  neutral system
@@ -999,15 +1006,15 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   pho.phep[pho.nhep-i][4-i]=EPHOTO*pho.phep[IP-i][5-i]/PMAVIR;
   //--
   //--   ...and photon momenta
-  CCOSTH=-phophs_.costhg;
-  SSINTH=phophs_.sinthg;
+  CCOSTH=-COSTHG;
+  SSINTH=SINTHG;
   TH3=PHOAN2(CCOSTH,SSINTH);
   FI3=TWOPI*Photos::randomDouble();
-  pho.phep[pho.nhep-i][1-i]=pho.phep[pho.nhep-i][4-i]*phophs_.sinthg*cos(FI3);
-  pho.phep[pho.nhep-i][2-i]=pho.phep[pho.nhep-i][4-i]*phophs_.sinthg*sin(FI3);
+  pho.phep[pho.nhep-i][1-i]=pho.phep[pho.nhep-i][4-i]*SINTHG*cos(FI3);
+  pho.phep[pho.nhep-i][2-i]=pho.phep[pho.nhep-i][4-i]*SINTHG*sin(FI3);
   //--
   //--   Minus sign because axis opposite direction of charged particle !
-  pho.phep[pho.nhep-i][3-i]=-pho.phep[pho.nhep-i][4-i]*phophs_.costhg;
+  pho.phep[pho.nhep-i][3-i]=-pho.phep[pho.nhep-i][4-i]*COSTHG;
   pho.phep[pho.nhep-i][5-i]=0.0;
   //--
   //--   Rotate in order to get photon along z-axis
@@ -1249,61 +1256,64 @@ double PHOCORN(double MPASQR,double MCHREN,int ME){
   double wt1,wt2,wt3;
   double  beta0,beta1,XX,YY,DATA;
   double S1,PHOCOR;
+  double &COSTHG =phophs.costhg;
+  double &XPHMAX =phophs.xphmax;
+  double &XPHOTO =phophs.xphoto;
 
 
 
   //--
   //--   Shaping (modified by ZW)...
-  XX=4.0*phomom_.mchsqr/MPASQR*(1.0-phophs_.xphoto)/pow(1.0-phophs_.xphoto+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR,2);
+  XX=4.0*phomom_.mchsqr/MPASQR*(1.0-XPHOTO)/pow(1.0-XPHOTO+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR,2);
   if(ME==1){
-    S1=MPASQR  * (1.0-phophs_.xphoto);
+    S1=MPASQR  * (1.0-XPHOTO);
     beta0=2*PHOTRI(1.0,sqrt(phomom_.mchsqr/MPASQR),sqrt(phomom_.mnesqr/MPASQR));
     beta1=2*PHOTRI(1.0,sqrt(phomom_.mchsqr/S1),sqrt(phomom_.mnesqr/S1));
-    wt1= (1.0-phophs_.costhg*sqrt(1.0-MCHREN))
-       /((1.0+pow(1.0-phophs_.xphoto/phophs_.xphmax,2))/2.0)*phophs_.xphoto;             // de-presampler
+    wt1= (1.0-COSTHG*sqrt(1.0-MCHREN))
+       /((1.0+pow(1.0-XPHOTO/XPHMAX,2))/2.0)*XPHOTO;             // de-presampler
            
-    wt2= beta1/beta0*phophs_.xphoto;                                                        //phase space jacobians
-    wt3=  beta1*beta1* (1.0-phophs_.costhg*phophs_.costhg) * (1.0-phophs_.xphoto)/phophs_.xphoto/phophs_.xphoto 
-      /pow(1.0 +phomom_.mchsqr/S1-phomom_.mnesqr/S1-beta1*phophs_.costhg,2)/2.0;             // matrix element
+    wt2= beta1/beta0*XPHOTO;                                                        //phase space jacobians
+    wt3=  beta1*beta1* (1.0-COSTHG*COSTHG) * (1.0-XPHOTO)/XPHOTO/XPHOTO 
+      /pow(1.0 +phomom_.mchsqr/S1-phomom_.mnesqr/S1-beta1*COSTHG,2)/2.0;             // matrix element
   }
   else if (ME==2){
-    S1=MPASQR  * (1.0-phophs_.xphoto);
+    S1=MPASQR  * (1.0-XPHOTO);
     beta0=2*PHOTRI(1.0,sqrt(phomom_.mchsqr/MPASQR),sqrt(phomom_.mnesqr/MPASQR));
     beta1=2*PHOTRI(1.0,sqrt(phomom_.mchsqr/S1),sqrt(phomom_.mnesqr/S1));
-    wt1= (1.0-phophs_.costhg*sqrt(1.0-MCHREN))
-      /((1.0+pow(1.0-phophs_.xphoto/phophs_.xphmax,2))/2.0)*phophs_.xphoto;          // de-presampler
+    wt1= (1.0-COSTHG*sqrt(1.0-MCHREN))
+      /((1.0+pow(1.0-XPHOTO/XPHMAX,2))/2.0)*XPHOTO;          // de-presampler
          
-    wt2= beta1/beta0*phophs_.xphoto;                                  // phase space jacobians
+    wt2= beta1/beta0*XPHOTO;                                  // phase space jacobians
 
-    wt3= beta1*beta1* (1.0-phophs_.costhg*phophs_.costhg) * (1.0-phophs_.xphoto)/phophs_.xphoto/phophs_.xphoto  // matrix element
-    /pow(1.0 +phomom_.mchsqr/S1-phomom_.mnesqr/S1-beta1*phophs_.costhg,2)/2.0 ;
-    wt3=wt3*(1-phophs_.xphoto/phophs_.xphmax+0.5*pow(phophs_.xphoto/phophs_.xphmax,2))/(1-phophs_.xphoto/phophs_.xphmax);
+    wt3= beta1*beta1* (1.0-COSTHG*COSTHG) * (1.0-XPHOTO)/XPHOTO/XPHOTO  // matrix element
+    /pow(1.0 +phomom_.mchsqr/S1-phomom_.mnesqr/S1-beta1*COSTHG,2)/2.0 ;
+    wt3=wt3*(1-XPHOTO/XPHMAX+0.5*pow(XPHOTO/XPHMAX,2))/(1-XPHOTO/XPHMAX);
     //       print*,"wt3=",wt3
     phocorwt_.phocorwt3=wt3;
     phocorwt_.phocorwt2=wt2;
     phocorwt_.phocorwt1=wt1;
 
-    //       YY=0.5D0*(1.D0-phophs_.xphoto/phophs_.xphmax+1.D0/(1.D0-phophs_.xphoto/phophs_.xphmax))
+    //       YY=0.5D0*(1.D0-XPHOTO/XPHMAX+1.D0/(1.D0-XPHOTO/XPHMAX))
     //       phwt_.beta=SQRT(1.D0-XX)
-    //       wt1=(1.D0-phophs_.costhg*SQRT(1.D0-MCHREN))/(1.D0-phophs_.costhg*phwt_.beta)
-    //       wt2=(1.D0-XX/YY/(1.D0-phwt_.beta**2*phophs_.costhg**2))*(1.D0+phophs_.costhg*phwt_.beta)/2.D0
+    //       wt1=(1.D0-COSTHG*SQRT(1.D0-MCHREN))/(1.D0-COSTHG*phwt_.beta)
+    //       wt2=(1.D0-XX/YY/(1.D0-phwt_.beta**2*COSTHG**2))*(1.D0+COSTHG*phwt_.beta)/2.D0
     //       wt3=1.D0
   }
   else if  ((ME==3) || (ME==4) || (ME==5)){
     YY=1.0;
     phwt_.beta=sqrt(1.0-XX);
-    wt1=(1.0-phophs_.costhg*sqrt(1.0-MCHREN))/(1.0-phophs_.costhg*phwt_.beta);
-    wt2=(1.0-XX/YY/(1.0-phwt_.beta*phwt_.beta*phophs_.costhg*phophs_.costhg))*(1.0+phophs_.costhg*phwt_.beta)/2.0;
-    wt3=(1.0+pow(1.0-phophs_.xphoto/phophs_.xphmax,2)-pow(phophs_.xphoto/phophs_.xphmax,3))/
-        (1.0+pow(1.0-phophs_.xphoto/phophs_.xphmax,2));
+    wt1=(1.0-COSTHG*sqrt(1.0-MCHREN))/(1.0-COSTHG*phwt_.beta);
+    wt2=(1.0-XX/YY/(1.0-phwt_.beta*phwt_.beta*COSTHG*COSTHG))*(1.0+COSTHG*phwt_.beta)/2.0;
+    wt3=(1.0+pow(1.0-XPHOTO/XPHMAX,2)-pow(XPHOTO/XPHMAX,3))/
+        (1.0+pow(1.0-XPHOTO/XPHMAX,2));
   }
   else{
     DATA=(ME-1.0)/2.0;
     PHOERR(6,"PHOCORN",DATA);
     YY=1.0;
     phwt_.beta=sqrt(1.0-XX);
-    wt1=(1.0-phophs_.costhg*sqrt(1.0-MCHREN))/(1.0-phophs_.costhg*phwt_.beta);
-    wt2=(1.0-XX/YY/(1.0-phwt_.beta*phwt_.beta*phophs_.costhg*phophs_.costhg))*(1.0+phophs_.costhg*phwt_.beta)/2.0;
+    wt1=(1.0-COSTHG*sqrt(1.0-MCHREN))/(1.0-COSTHG*phwt_.beta);
+    wt2=(1.0-XX/YY/(1.0-phwt_.beta*phwt_.beta*COSTHG*COSTHG))*(1.0+COSTHG*phwt_.beta)/2.0;
     wt3=1.0;
   }
   wt2=wt2*PHOFAC(1);
@@ -1345,22 +1355,25 @@ double  PHOCOR(double MPASQR,double MCHREN,int ME){
   double XX,YY,DATA;
   double PHOC;
   int IscaNLO;
+  double &COSTHG =phophs.costhg;
+  double &XPHMAX =phophs.xphmax;
+  double &XPHOTO =phophs.xphoto;
 
   //--
   //--   Shaping (modified by ZW)...
-  XX=4.0*phomom_.mchsqr/MPASQR*(1.0-phophs_.xphoto)/pow((1.0-phophs_.xphoto+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR),2);
+  XX=4.0*phomom_.mchsqr/MPASQR*(1.0-XPHOTO)/pow((1.0-XPHOTO+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR),2);
   if(ME==1){
     YY=1.0;
-    phwt_.wt3=(1.0-phophs_.xphoto/phophs_.xphmax)/((1.0+pow((1.0-phophs_.xphoto/phophs_.xphmax),2))/2.0);
+    phwt_.wt3=(1.0-XPHOTO/XPHMAX)/((1.0+pow((1.0-XPHOTO/XPHMAX),2))/2.0);
   }
   else if(ME==2){
-    YY=0.5*(1.0-phophs_.xphoto/phophs_.xphmax+1.0/(1.0-phophs_.xphoto/phophs_.xphmax));
+    YY=0.5*(1.0-XPHOTO/XPHMAX+1.0/(1.0-XPHOTO/XPHMAX));
     phwt_.wt3=1.0;
   }
   else if((ME==3)||(ME==4)||(ME==5)){
     YY=1.0;
-    phwt_.wt3=(1.0+pow(1.0-phophs_.xphoto/phophs_.xphmax,2)-pow(phophs_.xphoto/phophs_.xphmax,3))/
-              (1.0+pow(1.0-phophs_.xphoto/phophs_.xphmax,2)  );
+    phwt_.wt3=(1.0+pow(1.0-XPHOTO/XPHMAX,2)-pow(XPHOTO/XPHMAX,3))/
+              (1.0+pow(1.0-XPHOTO/XPHMAX,2)  );
   }
   else{
     DATA=(ME-1.0)/2.0;
@@ -1371,8 +1384,8 @@ double  PHOCOR(double MPASQR,double MCHREN,int ME){
 
 
   phwt_.beta=sqrt(1.0-XX);
-  phwt_.wt1=(1.0-phophs_.costhg*sqrt(1.0-MCHREN))/(1.0-phophs_.costhg*phwt_.beta);
-  phwt_.wt2=(1.0-XX/YY/(1.0-phwt_.beta*phwt_.beta*phophs_.costhg*phophs_.costhg))*(1.0+phophs_.costhg*phwt_.beta)/2.0;
+  phwt_.wt1=(1.0-COSTHG*sqrt(1.0-MCHREN))/(1.0-COSTHG*phwt_.beta);
+  phwt_.wt2=(1.0-XX/YY/(1.0-phwt_.beta*phwt_.beta*COSTHG*COSTHG))*(1.0+COSTHG*phwt_.beta)/2.0;
       
 
   IscaNLO=Photos::meCorrectionWtForScalar;
@@ -1548,7 +1561,7 @@ void PHOIN(int IP,bool *BOOST,int *NHEP0){
   double PB;
   static int i=1;
   int &nhep0 = *NHEP0;
-  //double &BET[3]=(phocms_.bet[0],phocms_.bet[1],phocms_.bet[2]);
+  // double &BET[3]=phocms_.bet;
 
   //--
   // let-s calculate size of the little common entry
@@ -1860,10 +1873,13 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
   double &BETA   = *pBETA;
   double &BIGLOG = *pBIGLOG;
   int &NCHAN =phoexp.nchan;
+  double &XPHMAX =phophs.xphmax;
+  double &XPHOTO =phophs.xphoto;
+
   //--
-  if(phophs_.xphmax<=phocop_.xphcut){
+  if(XPHMAX<=phocop_.xphcut){
     BETA=PHOFAC(-1);    // to zero counter, here beta is dummy
-    phophs_.xphoto=0.0;
+    XPHOTO=0.0;
     return;
   }
   //--   Probabilities for hard and soft bremstrahlung...
@@ -1877,7 +1893,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
   BIGLOG=log(MPASQR/ phomom_.mchsqr*(1.0+BETA)*(1.0+BETA)/4.0*
 	     pow(1.0+ phomom_.mchsqr/MPASQR,2));
   PRHARD=phocop_.alpha/PI*(1.0/BETA*BIGLOG+2*phokey_.fint)
-        *(log(phophs_.xphmax/phocop_.xphcut)-.75+phocop_.xphcut/phophs_.xphmax-.25*phocop_.xphcut*phocop_.xphcut/phophs_.xphmax/phophs_.xphmax);
+        *(log(XPHMAX/phocop_.xphcut)-.75+phocop_.xphcut/XPHMAX-.25*phocop_.xphcut*phocop_.xphcut/XPHMAX/XPHMAX);
   PRHARD=PRHARD*PHOCHA(IDENT)*PHOCHA(IDENT)*phokey_.fsec;
   // ----------- END OF VARIANT B ------------------
 #else
@@ -1885,7 +1901,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
   BIGLOG=log(MPASQR/ phomom_.mchsqr*(1.0+BETA)*(1.0+BETA)/4.0*
 	     pow(1.0+ phomom_.mchsqr/MPASQR,2));
   PRHARD=phocop_.alpha/PI*(1.0/BETA*BIGLOG)*
-    (log(phophs_.xphmax/phocop_.xphcut)-.75+phocop_.xphcut/phophs_.xphmax-.25*phocop_.xphcut*phocop_.xphcut/phophs_.xphmax/phophs_.xphmax);
+    (log(XPHMAX/phocop_.xphcut)-.75+phocop_.xphcut/XPHMAX-.25*phocop_.xphcut*phocop_.xphcut/XPHMAX/XPHMAX);
   PRHARD=PRHARD*PHOCHA(IDENT)*PHOCHA(IDENT)*phokey_.fsec*phokey_.fint;
   //me_channel_(&IDME);
   IDME=PH_HEPEVT_Interface::ME_channel;
@@ -1955,17 +1971,17 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
   if (RRR<PRSOFT){
     //--
     //--   No photon... (ie. photon too soft)
-    phophs_.xphoto=0.0;
-    if (RRR<PRKILL) phophs_.xphoto=-5.0;  //No photon...no further trials
+    XPHOTO=0.0;
+    if (RRR<PRKILL) XPHOTO=-5.0;  //No photon...no further trials
   }
   else{
   //--
   //--   Hard  photon... (ie.  photon  hard enough).
   //--   Calculate  Altarelli-Parisi Kernel
   do{
-    phophs_.xphoto=exp(Photos::randomDouble()*log(phocop_.xphcut/phophs_.xphmax));
-    phophs_.xphoto=phophs_.xphoto*phophs_.xphmax;}
-  while(Photos::randomDouble()>((1.0+pow(1.0-phophs_.xphoto/phophs_.xphmax,2))/2.0));
+    XPHOTO=exp(Photos::randomDouble()*log(phocop_.xphcut/XPHMAX));
+    XPHOTO=XPHOTO*XPHMAX;}
+  while(Photos::randomDouble()>((1.0+pow(1.0-XPHOTO/XPHMAX,2))/2.0));
   }
 
   //--
@@ -2011,6 +2027,10 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
   double &WT = *pWT;
   int &NEUDAU = *pNEUDAU;
   int &NCHARB = *pNCHARB;
+  double &COSTHG =phophs.costhg;
+  double &SINTHG =phophs.sinthg;
+  double &XPHOTO =phophs.xphoto;
+  double &XPHMAX =phophs.xphmax;
 
   static int i=1;
 
@@ -2079,19 +2099,19 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
 
       //--
       //--   Determine kinematical limit...
-      phophs_.xphmax=(MPASQR-pow(phomom_.pneutr[5-i]+pho.phep[CHAPOI[NCHARG-i]-i][5-i],2))/MPASQR;
+      XPHMAX=(MPASQR-pow(phomom_.pneutr[5-i]+pho.phep[CHAPOI[NCHARG-i]-i][5-i],2))/MPASQR;
 
       //--
       //--   Photon energy fraction...
       PHOENE(MPASQR,&MCHREN,&phwt_.beta,&BIGLOG,pho.idhep[CHAPOI[NCHARG-i]-i]);
      //--
 
-      if (phophs_.xphoto<-4.0) {
+      if (XPHOTO<-4.0) {
         NCHARG=0;                 // we really stop trials
-        phophs_.xphoto=0.0;       // in this case !!
+        XPHOTO=0.0;       // in this case !!
         //--   Energy fraction not too large (very seldom) ? Define angle.
       }
-      else if ((phophs_.xphoto<phocop_.xphcut) || (phophs_.xphoto > phophs_.xphmax)){
+      else if ((XPHOTO<phocop_.xphcut) || (XPHOTO > XPHMAX)){
         //--
         //--   No radiation was accepted, check  for more daughters  that may ra-
         //--   diate and correct radiation probability...
@@ -2114,17 +2134,17 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
         // corrections for more efiicient interference correction,
         // instead of doubling crude distribution, we add flat parallel channel
 	if(Photos::randomDouble()<BIGLOG/phwt_.beta/(BIGLOG/phwt_.beta+2*phokey_.fint)){
-	  phophs_.costhg=(1.0-DEL1)/phwt_.beta;
-	  phophs_.sinthg=sqrt(DEL1*DEL2-MCHREN)/phwt_.beta;
+	  COSTHG=(1.0-DEL1)/phwt_.beta;
+	  SINTHG=sqrt(DEL1*DEL2-MCHREN)/phwt_.beta;
 	}
 	else{
-	  phophs_.costhg=-1.0+2*Photos::randomDouble();
-	  phophs_.sinthg= sqrt(1.0-phophs_.costhg*phophs_.costhg);
+	  COSTHG=-1.0+2*Photos::randomDouble();
+	  SINTHG= sqrt(1.0-COSTHG*COSTHG);
 	}
  
 	if (phokey_.fint>1.0){
  
-	  WGT=1.0/(1.0-phwt_.beta*phophs_.costhg);
+	  WGT=1.0/(1.0-phwt_.beta*COSTHG);
 	  WGT=WGT/(WGT+phokey_.fint);
 	  //       WGT=1.0   // ??
 	}
@@ -2135,8 +2155,8 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
         // ----------- END OF VARIANT B ------------------
 #else
 	// ----------- VARIANT A ------------------
-        phophs_.costhg=(1.0-DEL1)/phwt_.beta;
-        phophs_.sinthg=sqrt(DEL1*DEL2-MCHREN)/phwt_.beta;
+        COSTHG=(1.0-DEL1)/phwt_.beta;
+        SINTHG=sqrt(DEL1*DEL2-MCHREN)/phwt_.beta;
         WGT=1.0;
         // ----------- END OF VARIANT A ------------------
 #endif
@@ -2172,7 +2192,7 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
 	if(IDME==2){
 	  b=PHOCORN(MPASQR,MCHREN,ME);
           WT=b*WGT;
-          WT=WT/(1-phophs_.xphoto/phophs_.xphmax+0.5*pow(phophs_.xphoto/phophs_.xphmax,2))*(1-phophs_.xphoto/phophs_.xphmax)/2; // factor to go to WnloWT
+          WT=WT/(1-XPHOTO/XPHMAX+0.5*pow(XPHOTO/XPHMAX,2))*(1-XPHOTO/XPHMAX)/2; // factor to go to WnloWT
 	}
         else if(IDME==1){
 
@@ -2187,7 +2207,7 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
 	else{
 	  a=PHOCOR(MPASQR,MCHREN,ME);
           WT=a*WGT;
-//          WT=b*WGT; // /(1-phophs_.xphoto/phophs_.xphmax+0.5*pow(phophs_.xphoto/phophs_.xphmax,2))*(1-phophs_.xphoto/phophs_.xphmax)/2;
+//          WT=b*WGT; // /(1-XPHOTO/XPHMAX+0.5*pow(XPHOTO/XPHMAX,2))*(1-XPHOTO/XPHMAX)/2;
 	}
       
 

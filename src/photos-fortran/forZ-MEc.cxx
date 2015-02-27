@@ -434,7 +434,7 @@ double PhotosMEforZ::phwtnlo(){
 
   XK=2.0*pho.phep[pho.nhep-i][4-i]/pho.phep[1-i][4-i];
 
-//  XK=2.0*pho.phep[pho.nhep-i][4-i]/pho.phep[1-i][4-i]/phophs_.xphmax;  // it is not used becuse here
+//  XK=2.0*pho.phep[pho.nhep-i][4-i]/pho.phep[1-i][4-i]/phophs.xphmax;  // it is not used becuse here
                                                                //order of emissions is meaningless
   if(pho.nhep<=4) XK=0.0;
   // the mother must be Z or gamma*  !!!!
@@ -516,7 +516,7 @@ double PhotosMEforZ::phwtnlo(){
     if(abs(hep.idhep[4-i])==abs(hep.idhep[3-i])) IDF=hep.idhep[3-i];
 
     IDHEP3=pho.idhep[3-i];
-    return Zphwtnlo(svar,XK,IDHEP3,phopro_.irep,QP,QM,PH,PP,PM,phophs_.costhg,phwt_.beta,phorest_.th1,IDE,IDF);
+    return Zphwtnlo(svar,XK,IDHEP3,phopro_.irep,QP,QM,PH,PP,PM,phophs.costhg,phwt_.beta,phorest_.th1,IDE,IDF);
   }
   else{
       // in other cases we just use default setups.

@@ -71,7 +71,7 @@ void Photos::initialize()
 // elementary security level, should remain 1 but we may want to have a method to change.
 	phosta.ifstop=1; 
 
-	pholun_.phlun=6; // Logical output unit for printing error messages
+	pholun.phlun=6; // Logical output unit for printing error messages
 
 // Further initialization done automatically
 // see places with - VARIANT A - VARIANT B - all over to switch between options
