@@ -135,13 +135,13 @@ const static double TWOPI = 6.28318530717958648;
 		double gam;
 	} phocms_;
 
-	extern struct PHOEXP
+	struct
 	{
 	        const static int NX = 10;
 		double pro[NX];
 		int nchan;
 	        int expini;    // bool
-	} phoexp_;
+	} phoexp;
 
 	//debug mode on if ipoin <  1 and ipoinm > 1
 	struct

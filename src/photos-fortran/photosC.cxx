@@ -32,7 +32,7 @@ struct PHOPRO  phopro_;
 struct PHOCOP  phocop_;
 struct PHWT    phwt_;
 struct PHOKEY  phokey_;
-struct PHOEXP  phoexp_;
+
 
 
 struct HEPEVT hep;
@@ -1858,6 +1858,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
   double &MCHREN = *pMCHREN;
   double &BETA   = *pBETA;
   double &BIGLOG = *pBIGLOG;
+  int &NCHAN =phoexp.nchan;
   //--
   if(phophs_.xphmax<=phocop_.xphcut){
     BETA=PHOFAC(-1);    // to zero counter, here beta is dummy
@@ -1908,21 +1909,21 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
   if(phopro_.irep==0) phopro_.probh=0.0;
   PRKILL=0.0;
   if(phokey_.iexp){           // IEXP
-    phoexp_.nchan=phoexp_.nchan+1;
-    if(phoexp_.expini){    // EXPINI
-      phoexp_.pro[phoexp_.nchan-i]=PRHARD+0.05*(1.0+phokey_.fint); // we store hard photon emission prob 
-	                                                           //for leg phoexp_.nchan
+    NCHAN=NCHAN+1;
+    if(phoexp.expini){    // EXPINI
+      phoexp.pro[NCHAN-i]=PRHARD+0.05*(1.0+phokey_.fint); // we store hard photon emission prob 
+	                                                           //for leg NCHAN
       PRHARD=0.0;                                                // to kill emission at initialization call
       phopro_.probh=PRHARD;
     }
     else{                // EXPINI
       PRSUM=0.0;
-      for(K=phoexp_.nchan;K<=phoexp_.NX;K++) PRSUM=PRSUM+phoexp_.pro[K-i];
+      for(K=NCHAN;K<=phoexp.NX;K++) PRSUM=PRSUM+phoexp.pro[K-i];
       PRHARD=PRHARD/PRSUM;  // note that PRHARD may be smaller than 
-                            //phoexp_.pro[phoexp_.nchan) because it is calculated
+                            //phoexp.pro[NCHAN) because it is calculated
                             // for kinematical configuartion as is 
                             // (with effects of previous photons)
-      PRKILL=phoexp_.pro[phoexp_.nchan-i]/PRSUM-PRHARD;
+      PRKILL=phoexp.pro[NCHAN-i]/PRSUM-PRHARD;
 
     }                     // EXPINI
     PRSOFT=1.0-PRHARD;
@@ -2314,6 +2315,8 @@ void PHTYPE(int ID){
   bool IPHOT;
   double RN,SUM;
   bool IFOUR;
+  int &NCHAN =phoexp.nchan;
+
   static int i=1;
 
 
@@ -2360,18 +2363,18 @@ void PHTYPE(int ID){
   //--
  if(IPHOT){
   if(phokey_.iexp){
-    phoexp_.expini=true;      // Initialization/cleaning
-    for(phoexp_.nchan=1;phoexp_.nchan<=phoexp_.NX;phoexp_.nchan++)
-        phoexp_.pro[phoexp_.nchan-i]=0.0;        
-    phoexp_.nchan=0;
+    phoexp.expini=true;      // Initialization/cleaning
+    for(NCHAN=1;NCHAN<=phoexp.NX;NCHAN++)
+        phoexp.pro[NCHAN-i]=0.0;        
+    NCHAN=0;
          
     phokey_.fsec=1.0;
     PHOMAK(ID,NHEP0);          // Initialization/crude formfactors into 
-                               // phoexp_.pro[phoexp_.nchan)
-    phoexp_.expini=false;
+                               // phoexp.pro[NCHAN)
+    phoexp.expini=false;
     RN=Photos::randomDouble();
     PRSUM=0.0;
-    for(K=1;K<=phoexp_.NX;K++)PRSUM=PRSUM+phoexp_.pro[K-i];
+    for(K=1;K<=phoexp.NX;K++)PRSUM=PRSUM+phoexp.pro[K-i];
       
     ESU=exp(-PRSUM);    
     // exponent for crude Poissonian multiplicity 
@@ -2384,7 +2387,7 @@ void PHTYPE(int ID){
       if(RN<SUM) break;
       ESU=ESU*PRSUM/K;        // we get at K ESU=EXP(-PRSUM)*PRSUM**K/K!
       SUM=SUM+ESU;            // thus we get distribuant at K.
-      phoexp_.nchan=0;
+      NCHAN=0;
       PHOMAK(ID,NHEP0);       // LOOPING
       if(SUM>1.0-phokey_.expeps) break;
     }
