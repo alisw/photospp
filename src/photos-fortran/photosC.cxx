@@ -19,7 +19,7 @@ namespace Photospp
 {
 
 // Declaration of structs defined in f_Init.h
-struct PHOSTA phosta_;
+
 struct TOFROM tofrom_;
 struct PHNUM  phnum_;
 struct PHOLUN pholun_;

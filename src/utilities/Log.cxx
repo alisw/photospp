@@ -163,14 +163,14 @@ void Log::PHOERR(int IMES,const char *TEXT,double DATA){
   static int i=1;
   char star80[81]= "********************************************************************************";
 
-  if (IMES<=PHOMES) phosta_.status[IMES-i]=phosta_.status[IMES-i]+1;
+  if (IMES<=PHOMES) phosta.status[IMES-i]=phosta.status[IMES-i]+1;
 // 
 //    Count number of non-fatal errors...
-  if ((IMES ==  6) && (phosta_.status[IMES-i]>=2)) return;
-  if ((IMES == 10) && (phosta_.status[IMES-i]>=2)) return;
+  if ((IMES ==  6) && (phosta.status[IMES-i]>=2)) return;
+  if ((IMES == 10) && (phosta.status[IMES-i]>=2)) return;
   SDATA=DATA;
-  //  int PHLUN=(int)pholun_.phlun;
-  bool IFSTOP=phosta_.ifstop;
+  //  int PHLUN=(int)pholun.phlun;
+  bool IFSTOP=phosta.ifstop;
   FILE *PHLUN = stdout;
   int furthA=0;
   fprintf(PHLUN,"%s\n",star80);
@@ -286,7 +286,7 @@ void Log::PHOREP(){
   static int PHOMES=10;
   int I;
   bool ERROR=false;
-  //  int PHLUN=(int)pholun_.phlun;
+  //  int PHLUN=(int)pholun.phlun;
   char star80[81]= "********************************************************************************";
   char X26[27] = "                          ";
   char EQ25[26]= "=========================";
@@ -304,13 +304,13 @@ void Log::PHOREP(){
   fprintf(PHLUN,"*\n");
   for(I=1;I<=PHOMES;I++){
 
-    if (phosta_.status[I-1] == 0) break;
+    if (phosta.status[I-1] == 0) break;
     if ((I == 6)|| (I == 10)){
-      fprintf(PHLUN,"* %s Warning # %2i  occured %6i times\n",X22, I,phosta_.status[I-1]); // I2 I6 
+      fprintf(PHLUN,"* %s Warning # %2i  occured %6i times\n",X22, I,phosta.status[I-1]); // I2 I6 
     }
     else{
       ERROR=true;
-      fprintf(PHLUN,"* %s Error # %2i occured %6i  times\n",X23, I,phosta_.status[I-1]);// I2 I6
+      fprintf(PHLUN,"* %s Error # %2i occured %6i  times\n",X23, I,phosta.status[I-1]);// I2 I6
     }	      
   }
 

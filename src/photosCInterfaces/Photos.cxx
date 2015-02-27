@@ -67,9 +67,9 @@ void Photos::initialize()
 	else              setExponentiation(true);
 
 // Initialize status counter for warning messages
-	for(int i=0;i<10;i++) phosta_.status[i]=0;
+	for(int i=0;i<10;i++) phosta.status[i]=0;
 // elementary security level, should remain 1 but we may want to have a method to change.
-	phosta_.ifstop=1; 
+	phosta.ifstop=1; 
 
 	pholun_.phlun=6; // Logical output unit for printing error messages
 
@@ -439,7 +439,7 @@ void Photos::setMeCorrectionWtForScalar(bool corr)
 
 void Photos::setStopAtCriticalError(bool stop)
 {
-	phosta_.ifstop=(int)stop;
+	phosta.ifstop=(int)stop;
 	if(!stop)
 	{
 		Log::Info()<<"PHOTOS production mode. Elementary test of data flow from event record disabled. "<<endl

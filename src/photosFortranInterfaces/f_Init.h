@@ -62,11 +62,11 @@ const static double TWOPI = 6.28318530717958648;
 		int ifw;
 	} phokey_;
 
-	extern struct PHOSTA
+	struct
 	{
 		int status[10];
 	        int ifstop;
-	} phosta_;
+	} phosta;
 
 	extern struct PHOLUN
 	{
