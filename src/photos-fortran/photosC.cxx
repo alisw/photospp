@@ -21,7 +21,6 @@ namespace Photospp
 // Declaration of structs defined in f_Init.h
 
 struct PHOCMS  phocms_;
-struct PHOMOM  phomom_;
 struct PHOCOP  phocop_;
 struct PHOKEY  phokey_;
 
@@ -144,9 +143,9 @@ double PHINT1(int IDUM){
   double PHINT;
 
   /*
-      DOUBLE PRECISION phomom_.mchsqr,phomom_.mnesqr
+      DOUBLE PRECISION MCHSQR,MNESQR
       REAL*8 PNEUTR
-      COMMON/PHOMOM/phomom_.mchsqr,phomom_.mnesqr,PNEUTR(5)
+      COMMON/PHOMOM/MCHSQR,MNESQR,PNEUTR(5)
       DOUBLE PRECISION COSTHG,SINTHG
       REAL*8 XPHMAX,XPHOTO
       COMMON/PHOPHS/XPHMAX,XPHOTO,COSTHG,SINTHG
@@ -157,7 +156,10 @@ double PHINT1(int IDUM){
   int K,IDENT;
   double &COSTHG =phophs.costhg;
   double &XPHOTO =phophs.xphoto;
- 
+  double *PNEUTR = phomom.pneutr;
+  double &MCHSQR = phomom.mchsqr;
+  double &MNESQR = phomom.mnesqr;
+
   static int i=1;
   IDENT=pho.nhep;
   //
@@ -179,7 +181,7 @@ double PHINT1(int IDUM){
   // calculates interference weight contribution
   if(IFINT){
     MPASQR = pho.phep[1-i][5-i]*pho.phep[1-i][5-i];
-    XX=4.0*phomom_.mchsqr/MPASQR*(1.0-XPHOTO)/(1.0-XPHOTO+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR)/(1.0-XPHOTO+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR);
+    XX=4.0*MCHSQR/MPASQR*(1.0-XPHOTO)/(1.0-XPHOTO+(MCHSQR-MNESQR)/MPASQR)/(1.0-XPHOTO+(MCHSQR-MNESQR)/MPASQR);
     BETA=sqrt(1.0-XX);
     PHINT  = 2.0/(1.0+COSTHG*COSTHG*BETA*BETA);
   }
@@ -214,15 +216,19 @@ double PHINT2(int IDUM){
 
 
   /*
-      DOUBLE PRECISION phomom_.mchsqr,phomom_.mnesqr
+      DOUBLE PRECISION MCHSQR,MNESQR
       REAL*8 PNEUTR
-      COMMON/PHOMOM/phomom_.mchsqr,phomom_.mnesqr,PNEUTR(5)
+      COMMON/PHOMOM/MCHSQR,MNESQR,PNEUTR(5)
       DOUBLE PRECISION COSTHG,SINTHG
       REAL*8 XPHMAX,XPHOTO
       COMMON/PHOPHS/XPHMAX,XPHOTO,COSTHG,SINTHG
   */
   double &COSTHG =phophs.costhg;
   double &XPHOTO =phophs.xphoto;
+  double &MCHSQR = phomom.mchsqr;
+  double &MNESQR = phomom.mnesqr;
+
+
   double MPASQR,XX,BETA,pq1[4],pq2[4],pphot[4];
   double SS,PP2,PP,E1,E2,q1,q2,costhe,PHINT;
   bool IFINT;
@@ -250,14 +256,14 @@ double PHINT2(int IDUM){
   // calculates interference weight contribution
   if(IFINT){
     MPASQR = pho.phep[1-i][5-i]*pho.phep[1-i][5-i];
-    XX=4.0*phomom_.mchsqr/MPASQR*(1.0-XPHOTO)/pow(1.-XPHOTO+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR,2);
+    XX=4.0*MCHSQR/MPASQR*(1.0-XPHOTO)/pow(1.-XPHOTO+(MCHSQR-MNESQR)/MPASQR,2);
     BETA=sqrt(1.0-XX);
     PHINT  = 2.0/(1.0+COSTHG*COSTHG*BETA*BETA);
     SS =MPASQR*(1.0-XPHOTO);
-    PP2=((SS-phomom_.mchsqr-phomom_.mnesqr)*(SS-phomom_.mchsqr-phomom_.mnesqr)-4*phomom_.mchsqr*phomom_.mnesqr)/SS/4;
+    PP2=((SS-MCHSQR-MNESQR)*(SS-MCHSQR-MNESQR)-4*MCHSQR*MNESQR)/SS/4;
     PP =sqrt(PP2);
-    E1 =sqrt(PP2+phomom_.mchsqr);
-    E2 =sqrt(PP2+phomom_.mnesqr);
+    E1 =sqrt(PP2+MCHSQR);
+    E2 =sqrt(PP2+MNESQR);
     PHINT= (E1+E2)*(E1+E2)/((E2+COSTHG*PP)*(E2+COSTHG*PP)+(E1-COSTHG*PP)*(E1-COSTHG*PP));
     // return PHINT;
     //
@@ -955,19 +961,21 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   double &COSTHG =phophs.costhg;
   double &SINTHG =phophs.sinthg;
   double &XPHOTO =phophs.xphoto;
+  double *PNEUTR = phomom.pneutr;
+  double &MNESQR = phomom.mnesqr;
 
   //--
   EPHOTO=XPHOTO*pho.phep[IP-i][5-i]/2.0;
   PMAVIR=sqrt(pho.phep[IP-i][5-i]*(pho.phep[IP-i][5-i]-2.0*EPHOTO));
   //--
   //--   Reconstruct  kinematics  of  charged particle  and  neutral system
-  phorest.fi1=PHOAN1(phomom_.pneutr[1-i],phomom_.pneutr[2-i]);
+  phorest.fi1=PHOAN1(PNEUTR[1-i],PNEUTR[2-i]);
   //--
   //--   Choose axis along  z of  PNEUTR, calculate  angle  between x and y
   //--   components  and z  and x-y plane and  perform Lorentz transform...
-  phorest.th1=PHOAN2(phomom_.pneutr[3-i],sqrt(phomom_.pneutr[1-i]*phomom_.pneutr[1-i]+phomom_.pneutr[2-i]*phomom_.pneutr[2-i]));
-  PHORO3(-phorest.fi1,phomom_.pneutr);
-  PHORO2(-phorest.th1,phomom_.pneutr);
+  phorest.th1=PHOAN2(PNEUTR[3-i],sqrt(PNEUTR[1-i]*PNEUTR[1-i]+PNEUTR[2-i]*PNEUTR[2-i]));
+  PHORO3(-phorest.fi1,PNEUTR);
+  PHORO2(-phorest.th1,PNEUTR);
   //--
   //--   Take  away  photon energy from charged particle and PNEUTR !  Thus
   //--   the onshell charged particle  decays into virtual charged particle
@@ -975,9 +983,9 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   //--   SQRT(pho.phep[5,IP)*(pho.phep[5,IP)-2*EPHOTO)).  Construct  new PNEUTR mo-
   //--   mentum in the rest frame of the parent:
   //--   1) Scaling parameters...
-  QNEW=PHOTRI(PMAVIR,phomom_.pneutr[5-i],pho.phep[NCHARB-i][5-i]);
-  QOLD=phomom_.pneutr[3-i];
-  GNEUT=(QNEW*QNEW+QOLD*QOLD+phomom_.mnesqr)/(QNEW*QOLD+sqrt((QNEW*QNEW+phomom_.mnesqr)*(QOLD*QOLD+phomom_.mnesqr)));
+  QNEW=PHOTRI(PMAVIR,PNEUTR[5-i],pho.phep[NCHARB-i][5-i]);
+  QOLD=PNEUTR[3-i];
+  GNEUT=(QNEW*QNEW+QOLD*QOLD+MNESQR)/(QNEW*QOLD+sqrt((QNEW*QNEW+MNESQR)*(QOLD*QOLD+MNESQR)));
   if(GNEUT<1.0){
     DATA=0.0;
     PHOERR(4,"PHOKIN",DATA);
@@ -985,7 +993,7 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   PARNE=GNEUT-sqrt(max(GNEUT*GNEUT-1.0,0.0));
   //--
   //--   2) ...reductive boost...
-  PHOBO3(PARNE,phomom_.pneutr);
+  PHOBO3(PARNE,PNEUTR);
   //--
   //--   ...calculate photon energy in the reduced system...
   pho.nhep=pho.nhep+1;
@@ -1011,20 +1019,20 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   pho.phep[pho.nhep-i][5-i]=0.0;
   //--
   //--   Rotate in order to get photon along z-axis
-  PHORO3(-FI3,phomom_.pneutr);
+  PHORO3(-FI3,PNEUTR);
   PHORO3(-FI3,pho.phep[pho.nhep-i]);
-  PHORO2(-TH3,phomom_.pneutr);
+  PHORO2(-TH3,PNEUTR);
   PHORO2(-TH3,pho.phep[pho.nhep-i]);
   ANGLE=EPHOTO/pho.phep[pho.nhep-i][4-i];
   //--
   //--   Boost to the rest frame of decaying particle
-  PHOBO3(ANGLE,phomom_.pneutr);
+  PHOBO3(ANGLE,PNEUTR);
   PHOBO3(ANGLE,pho.phep[pho.nhep-i]);
   //--
   //--   Back in the parent rest frame but PNEUTR not yet oriented !
-  FI4=PHOAN1(phomom_.pneutr[1-i],phomom_.pneutr[2-i]);
-  TH4=PHOAN2(phomom_.pneutr[3-i],sqrt(phomom_.pneutr[1-i]*phomom_.pneutr[1-i]+phomom_.pneutr[2-i]*phomom_.pneutr[2-i]));
-  PHORO3(FI4,phomom_.pneutr);
+  FI4=PHOAN1(PNEUTR[1-i],PNEUTR[2-i]);
+  TH4=PHOAN2(PNEUTR[3-i],sqrt(PNEUTR[1-i]*PNEUTR[1-i]+PNEUTR[2-i]*PNEUTR[2-i]));
+  PHORO3(FI4,PNEUTR);
   PHORO3(FI4,pho.phep[pho.nhep-i]);
   //--
   for(I=2; I<=4;I++) PVEC[I-i]=0.0;
@@ -1034,17 +1042,17 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   PHORO2(-TH3,PVEC);
   PHOBO3(ANGLE,PVEC);
   PHORO3(FI4,PVEC);
-  PHORO2(-TH4,phomom_.pneutr);
+  PHORO2(-TH4,PNEUTR);
   PHORO2(-TH4,pho.phep[pho.nhep-i]);
   PHORO2(-TH4,PVEC);
   FI5=PHOAN1(PVEC[1-i],PVEC[2-i]);
   //--
   //--   Charged particle restores original direction
-  PHORO3(-FI5,phomom_.pneutr);
+  PHORO3(-FI5,PNEUTR);
   PHORO3(-FI5,pho.phep[pho.nhep-i]);
-  PHORO2(phorest.th1,phomom_.pneutr);
+  PHORO2(phorest.th1,PNEUTR);
   PHORO2(phorest.th1,pho.phep[pho.nhep-i]);
-  PHORO3(phorest.fi1,phomom_.pneutr);
+  PHORO3(phorest.fi1,PNEUTR);
   PHORO3(phorest.fi1,pho.phep[pho.nhep-i]);
   //--   See whether neutral system has multiplicity larger than 1...
 
@@ -1084,12 +1092,12 @@ void PHODO(int IP,int NCHARB,int NEUDAU){
   else{
     //--
     //   ...only one 'neutral' particle in addition to photon!
-    for(J=1;J<=4;J++) pho.phep[NEUDAU-i][J-i]=phomom_.pneutr[J-i];
+    for(J=1;J<=4;J++) pho.phep[NEUDAU-i][J-i]=PNEUTR[J-i];
   }
   //--
   //--   All 'neutrals' treated, fill /PHOEVT/ for charged particle...
-  for (J=1;J<=3;J++) pho.phep[NCHARB-i][J-i]=-(pho.phep[pho.nhep-i][J-i]+phomom_.pneutr[J-i]);
-                     pho.phep[NCHARB-i][4-i]=pho.phep[IP-i][5-i]-(pho.phep[pho.nhep-i][4-i]+phomom_.pneutr[4-i]);
+  for (J=1;J<=3;J++) pho.phep[NCHARB-i][J-i]=-(pho.phep[pho.nhep-i][J-i]+PNEUTR[J-i]);
+                     pho.phep[NCHARB-i][4-i]=pho.phep[IP-i][5-i]-(pho.phep[pho.nhep-i][4-i]+PNEUTR[4-i]);
   //--
 }
 
@@ -1252,34 +1260,36 @@ double PHOCORN(double MPASQR,double MCHREN,int ME){
   double &COSTHG =phophs.costhg;
   double &XPHMAX =phophs.xphmax;
   double &XPHOTO =phophs.xphoto;
+  double &MCHSQR = phomom.mchsqr;
+  double &MNESQR = phomom.mnesqr;
 
 
 
   //--
   //--   Shaping (modified by ZW)...
-  XX=4.0*phomom_.mchsqr/MPASQR*(1.0-XPHOTO)/pow(1.0-XPHOTO+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR,2);
+  XX=4.0*MCHSQR/MPASQR*(1.0-XPHOTO)/pow(1.0-XPHOTO+(MCHSQR-MNESQR)/MPASQR,2);
   if(ME==1){
     S1=MPASQR  * (1.0-XPHOTO);
-    beta0=2*PHOTRI(1.0,sqrt(phomom_.mchsqr/MPASQR),sqrt(phomom_.mnesqr/MPASQR));
-    beta1=2*PHOTRI(1.0,sqrt(phomom_.mchsqr/S1),sqrt(phomom_.mnesqr/S1));
+    beta0=2*PHOTRI(1.0,sqrt(MCHSQR/MPASQR),sqrt(MNESQR/MPASQR));
+    beta1=2*PHOTRI(1.0,sqrt(MCHSQR/S1),sqrt(MNESQR/S1));
     wt1= (1.0-COSTHG*sqrt(1.0-MCHREN))
        /((1.0+pow(1.0-XPHOTO/XPHMAX,2))/2.0)*XPHOTO;             // de-presampler
            
     wt2= beta1/beta0*XPHOTO;                                                        //phase space jacobians
     wt3=  beta1*beta1* (1.0-COSTHG*COSTHG) * (1.0-XPHOTO)/XPHOTO/XPHOTO 
-      /pow(1.0 +phomom_.mchsqr/S1-phomom_.mnesqr/S1-beta1*COSTHG,2)/2.0;             // matrix element
+      /pow(1.0 +MCHSQR/S1-MNESQR/S1-beta1*COSTHG,2)/2.0;             // matrix element
   }
   else if (ME==2){
     S1=MPASQR  * (1.0-XPHOTO);
-    beta0=2*PHOTRI(1.0,sqrt(phomom_.mchsqr/MPASQR),sqrt(phomom_.mnesqr/MPASQR));
-    beta1=2*PHOTRI(1.0,sqrt(phomom_.mchsqr/S1),sqrt(phomom_.mnesqr/S1));
+    beta0=2*PHOTRI(1.0,sqrt(MCHSQR/MPASQR),sqrt(MNESQR/MPASQR));
+    beta1=2*PHOTRI(1.0,sqrt(MCHSQR/S1),sqrt(MNESQR/S1));
     wt1= (1.0-COSTHG*sqrt(1.0-MCHREN))
       /((1.0+pow(1.0-XPHOTO/XPHMAX,2))/2.0)*XPHOTO;          // de-presampler
          
     wt2= beta1/beta0*XPHOTO;                                  // phase space jacobians
 
     wt3= beta1*beta1* (1.0-COSTHG*COSTHG) * (1.0-XPHOTO)/XPHOTO/XPHOTO  // matrix element
-    /pow(1.0 +phomom_.mchsqr/S1-phomom_.mnesqr/S1-beta1*COSTHG,2)/2.0 ;
+    /pow(1.0 +MCHSQR/S1-MNESQR/S1-beta1*COSTHG,2)/2.0 ;
     wt3=wt3*(1-XPHOTO/XPHMAX+0.5*pow(XPHOTO/XPHMAX,2))/(1-XPHOTO/XPHMAX);
     //       print*,"wt3=",wt3
     phocorwt.phocorwt3=wt3;
@@ -1351,10 +1361,13 @@ double  PHOCOR(double MPASQR,double MCHREN,int ME){
   double &COSTHG =phophs.costhg;
   double &XPHMAX =phophs.xphmax;
   double &XPHOTO =phophs.xphoto;
+  double &MCHSQR = phomom.mchsqr;
+  double &MNESQR = phomom.mnesqr;
+
 
   //--
   //--   Shaping (modified by ZW)...
-  XX=4.0*phomom_.mchsqr/MPASQR*(1.0-XPHOTO)/pow((1.0-XPHOTO+(phomom_.mchsqr-phomom_.mnesqr)/MPASQR),2);
+  XX=4.0*MCHSQR/MPASQR*(1.0-XPHOTO)/pow((1.0-XPHOTO+(MCHSQR-MNESQR)/MPASQR),2);
   if(ME==1){
     YY=1.0;
     phwt.wt3=(1.0-XPHOTO/XPHMAX)/((1.0+pow((1.0-XPHOTO/XPHMAX),2))/2.0);
@@ -1868,6 +1881,8 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
   int &NCHAN =phoexp.nchan;
   double &XPHMAX =phophs.xphmax;
   double &XPHOTO =phophs.xphoto;
+  double &MCHSQR = phomom.mchsqr;
+  double &MNESQR = phomom.mnesqr;
 
   //--
   if(XPHMAX<=phocop_.xphcut){
@@ -1876,23 +1891,23 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
     return;
   }
   //--   Probabilities for hard and soft bremstrahlung...
-  MCHREN=4.0* phomom_.mchsqr/MPASQR/pow(1.0+ phomom_.mchsqr/MPASQR,2);
+  MCHREN=4.0* MCHSQR/MPASQR/pow(1.0+ MCHSQR/MPASQR,2);
   BETA=sqrt(1.0-MCHREN);
 
 #ifdef VARIANTB
   // ----------- VARIANT B ------------------
   // we replace 1D0/BETA*BIGLOG with (1.0/BETA*BIGLOG+2*phokey_.fint) 
   // for integral of new crude
-  BIGLOG=log(MPASQR/ phomom_.mchsqr*(1.0+BETA)*(1.0+BETA)/4.0*
-	     pow(1.0+ phomom_.mchsqr/MPASQR,2));
+  BIGLOG=log(MPASQR/ MCHSQR*(1.0+BETA)*(1.0+BETA)/4.0*
+	     pow(1.0+ MCHSQR/MPASQR,2));
   PRHARD=phocop_.alpha/PI*(1.0/BETA*BIGLOG+2*phokey_.fint)
         *(log(XPHMAX/phocop_.xphcut)-.75+phocop_.xphcut/XPHMAX-.25*phocop_.xphcut*phocop_.xphcut/XPHMAX/XPHMAX);
   PRHARD=PRHARD*PHOCHA(IDENT)*PHOCHA(IDENT)*phokey_.fsec;
   // ----------- END OF VARIANT B ------------------
 #else
   // ----------- VARIANT A ------------------
-  BIGLOG=log(MPASQR/ phomom_.mchsqr*(1.0+BETA)*(1.0+BETA)/4.0*
-	     pow(1.0+ phomom_.mchsqr/MPASQR,2));
+  BIGLOG=log(MPASQR/ MCHSQR*(1.0+BETA)*(1.0+BETA)/4.0*
+	     pow(1.0+ MCHSQR/MPASQR,2));
   PRHARD=phocop_.alpha/PI*(1.0/BETA*BIGLOG)*
     (log(XPHMAX/phocop_.xphcut)-.75+phocop_.xphcut/XPHMAX-.25*phocop_.xphcut*phocop_.xphcut/XPHMAX/XPHMAX);
   PRHARD=PRHARD*PHOCHA(IDENT)*PHOCHA(IDENT)*phokey_.fsec*phokey_.fint;
@@ -1979,7 +1994,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
 
   //--
   //--   Calculate parameter for PHOFAC function
-  phopro.xf=4.0* phomom_.mchsqr*MPASQR/pow(MPASQR+ phomom_.mchsqr-phomom_.mnesqr,2);
+  phopro.xf=4.0* MCHSQR*MPASQR/pow(MPASQR+ MCHSQR-MNESQR,2);
   return;
 }
 
@@ -2024,6 +2039,9 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
   double &SINTHG =phophs.sinthg;
   double &XPHOTO =phophs.xphoto;
   double &XPHMAX =phophs.xphmax;
+  double *PNEUTR = phomom.pneutr;
+  double &MCHSQR = phomom.mchsqr;
+  double &MNESQR = phomom.mnesqr;
 
   static int i=1;
 
@@ -2072,27 +2090,27 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
 
 //  do{
     
-      for (J=1;J<=3;J++) phomom_.pneutr[J-i] =-pho.phep[CHAPOI[NCHARG-i]-i][J-i];
-      phomom_.pneutr[4-i]=pho.phep[IP-i][5-i]-pho.phep[CHAPOI[NCHARG-i]-i][4-i];
+      for (J=1;J<=3;J++) PNEUTR[J-i] =-pho.phep[CHAPOI[NCHARG-i]-i][J-i];
+      PNEUTR[4-i]=pho.phep[IP-i][5-i]-pho.phep[CHAPOI[NCHARG-i]-i][4-i];
       //--
       //--   Calculate  invariant  mass of 'neutral' etc. systems
       MPASQR=pho.phep[IP-i][5-i]*pho.phep[IP-i][5-i];
-      phomom_.mchsqr=pow(pho.phep[CHAPOI[NCHARG-i]-i][5-i],2);
+      MCHSQR=pow(pho.phep[CHAPOI[NCHARG-i]-i][5-i],2);
       if((pho.jdahep[IP-i][2-i]-pho.jdahep[IP-i][1-i])==1){
         NEUPOI=pho.jdahep[IP-i][1-i];
         if(NEUPOI==CHAPOI[NCHARG-i]) NEUPOI=pho.jdahep[IP-i][2-i];
-        phomom_.mnesqr=pho.phep[NEUPOI-i][5-i]*pho.phep[NEUPOI-i][5-i];
-        phomom_.pneutr[5-i]=pho.phep[NEUPOI-i][5-i];
+        MNESQR=pho.phep[NEUPOI-i][5-i]*pho.phep[NEUPOI-i][5-i];
+        PNEUTR[5-i]=pho.phep[NEUPOI-i][5-i];
       }
       else{
-        phomom_.mnesqr=pow(phomom_.pneutr[4-i],2)-pow(phomom_.pneutr[1-i],2)-pow(phomom_.pneutr[2-i],2)-pow(phomom_.pneutr[3-i],2);
-        phomom_.mnesqr=max(phomom_.mnesqr,MINMAS-phomom_.mchsqr);
-        phomom_.pneutr[5-i]=sqrt(phomom_.mnesqr);
+        MNESQR=pow(PNEUTR[4-i],2)-pow(PNEUTR[1-i],2)-pow(PNEUTR[2-i],2)-pow(PNEUTR[3-i],2);
+        MNESQR=max(MNESQR,MINMAS-MCHSQR);
+        PNEUTR[5-i]=sqrt(MNESQR);
       }
 
       //--
       //--   Determine kinematical limit...
-      XPHMAX=(MPASQR-pow(phomom_.pneutr[5-i]+pho.phep[CHAPOI[NCHARG-i]-i][5-i],2))/MPASQR;
+      XPHMAX=(MPASQR-pow(PNEUTR[5-i]+pho.phep[CHAPOI[NCHARG-i]-i][5-i],2))/MPASQR;
 
       //--
       //--   Photon energy fraction...

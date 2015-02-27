@@ -123,12 +123,12 @@ const static double TWOPI = 6.28318530717958648;
 
 	} phocorwt;
 
-	extern struct PHOMOM
+	struct
 	{
 		double mchsqr;
 		double mnesqr;
 		double pneutr[5];
-	} phomom_;
+	} phomom;
 	extern struct PHOCMS
 	{
 		double bet[3];
