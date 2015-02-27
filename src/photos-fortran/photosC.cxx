@@ -20,7 +20,6 @@ namespace Photospp
 
 // Declaration of structs defined in f_Init.h
 struct PHOSTA phosta_;
-struct PHLUPY phlupy_;
 struct TOFROM tofrom_;
 struct PHNUM  phnum_;
 struct PHOLUN pholun_;
@@ -416,11 +415,11 @@ void PHLUPAB(int IPOINT){
 
   if (IPOIN0<0){
     IPOIN0=400000; //  ! maximal no-print point
-    phlupy_.ipoin =IPOIN0;
-    phlupy_.ipoinm=400001; // ! minimal no-print point
+    phlupy.ipoin =IPOIN0;
+    phlupy.ipoinm=400001; // ! minimal no-print point
   }
   
-  if (IPOINT<=phlupy_.ipoinm||IPOINT>=phlupy_.ipoin ) return;
+  if (IPOINT<=phlupy.ipoinm||IPOINT>=phlupy.ipoin ) return;
   if ((int)phnum_.iev<1000){
     for(I=1; I<=5;I++) SUM[I-i]=0.0;
      
@@ -486,11 +485,11 @@ void PHLUPA(int IPOINT){
 
   if (IPOIN0<0){
     IPOIN0=400000; //  ! maximal no-print point
-    phlupy_.ipoin =IPOIN0;
-    phlupy_.ipoinm=400001; // ! minimal no-print point
+    phlupy.ipoin =IPOIN0;
+    phlupy.ipoinm=400001; // ! minimal no-print point
   }
   
-  if (IPOINT<=phlupy_.ipoinm||IPOINT>=phlupy_.ipoin ) return;
+  if (IPOINT<=phlupy.ipoinm||IPOINT>=phlupy.ipoin ) return;
   if ((int)phnum_.iev<1000){
     for(I=1; I<=5;I++) SUM[I-i]=0.0;
      

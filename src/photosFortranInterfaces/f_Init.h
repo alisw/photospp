@@ -144,11 +144,11 @@ const static double TWOPI = 6.28318530717958648;
 	} phoexp_;
 
 	//debug mode on if ipoin <  1 and ipoinm > 1
-	extern struct PHLUPY
+	struct
 	{
 		int ipoin;
 		int ipoinm;
-	} phlupy_;
+	} phlupy;
 
 	/** Initialize kinematic corrections */
 	void PHCORK(int modcor);
