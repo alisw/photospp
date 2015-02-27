@@ -1074,7 +1074,10 @@ which differ only that are  written in capital letters instead os small one.
 
 \begin{description}
 \item[PH\_PHOQED] supplement for the PH\_HEPEVT event record to block emission 
-from some particles.
+from some particles. This struct is not preserved in C++.
+ Instead the qedrad[NMXHEP] field is added to HEPEVT struct type for two 
+objects hep and pho. In FORTRAN these were common blocks PH\_HEPEVT and PHOEVT.
+The qedrad[NMXHEP] is used in algorithm of pair emission only.
     \begin{description}
     \item[QEDRAD[ 10000]]  \textit{bool} flag enabling a {\tt FORTRAN} users
     to block emission from particles stored in PH\_HEPEVT. Not used in 
