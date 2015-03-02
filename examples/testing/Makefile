@@ -4,11 +4,17 @@ include $(PHOTOSLOCATION)/make.inc
 ROOTLIB      := $(shell root-config --glibs)
 ROOTINC      := $(shell root-config --cflags)
 ROOTLIBPATH  := $(shell root-config --libdir)
+
+# Keep in mind Makefile and examples are not prepared to automatically adapt
+# to different pythia versions: 8.170 (or lower), 8.180-8.185, 8.2
 PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib/archive -lpythia8 -llhapdfdummy -lhepmcinterface
+#PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib/archive -lpythia8 -llhapdfdummy -lpythia8tohepmc
+#PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib -lpythia8
+
 MC_TESTER_LIBS = -L$(MCTESTERLOCATION)/lib -lHEPEvent -lHepMCEvent -lMCTester
 HEPMC_LIBS     = -L$(HEPMCLOCATION)/lib -lHepMC
 TAUOLA_LIBS    = -L$(TAUOLALOCATION)/lib -lTauolaCxxInterface -lTauolaFortran
-PHOTOS_LIBS    = -L$(PHOTOSLOCATION)/lib -lPhotosCxxInterface -lPhotosFortran $(HEPMC_LIBS)
+PHOTOS_LIBS    = -L$(PHOTOSLOCATION)/lib -lPhotospp -lPhotosppHepMC $(HEPMC_LIBS)
 
 all:
 ifneq ($(HEPMCLOCATION), )

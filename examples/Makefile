@@ -10,7 +10,8 @@ ROOTLIBPATH   :=  $(shell root-config --libdir)
 TAUOLA_LIBS    = -L$(TAUOLALOCATION)/lib -lTauolaCxxInterface -lTauolaFortran
 PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib/archive -lpythia8 -llhapdfdummy -lhepmcinterface
 MC_TESTER_LIBS = -L$(MCTESTERLOCATION)/lib -lHEPEvent -lHepMCEvent -lMCTester
-PHOTOS_LIBS    = -L$(PHOTOSLOCATION)/lib -lPhotosCxxInterface -lPhotosFortran $(HEPMC_LIBS)
+PHOTOS_LIBS_FOR_HEPMC  = -L$(PHOTOSLOCATION)/lib -lPhotospp -lPhotosppHepMC $(HEPMC_LIBS)
+PHOTOS_LIBS_FOR_HEPEVT = -L$(PHOTOSLOCATION)/lib -lPhotospp -lPhotosppHEPEVT
 HEPMC_LIBS     =
 
 ifneq ($(HEPMCLOCATION), )
@@ -56,7 +57,7 @@ endif
 # Universal example (all paths presents) - linking procedure
 %.exe: %.o
 	$(CC) -o $@ $(LDFLAGS) $< $(ROOTLIB) \
-	$(TAUOLA_LIBS) $(PYTHIA_LIBS) $(MC_TESTER_LIBS) $(HEPMC_LIBS) $(PHOTOS_LIBS) \
+	$(TAUOLA_LIBS) $(PYTHIA_LIBS) $(MC_TESTER_LIBS) $(HEPMC_LIBS) $(PHOTOS_LIBS_FOR_HEPMC) \
 	-Wl,-rpath,$(PREFIX)/lib \
 	-Wl,-rpath,$(PHOTOSLOCATION)/lib \
 	-Wl,-rpath,$(ROOTLIBPATH) \
@@ -70,7 +71,7 @@ photos_pythia_example.exe: photos_pythia_example.cxx
 	$(CC) $(CFLAGS) -I$(PHOTOSLOCATION)/include -I$(PYTHIALOCATION)/include \
 	-I$(MCTESTERLOCATION)/include -I$(HEPMCLOCATION)/include $(ROOTINC) -c $<
 	$(CC) -o $@ $(LDFLAGS) $(<:.cxx=.o) $(ROOTLIB) \
-	$(PYTHIA_LIBS) $(MC_TESTER_LIBS) $(HEPMC_LIBS) $(PHOTOS_LIBS) \
+	$(PYTHIA_LIBS) $(MC_TESTER_LIBS) $(HEPMC_LIBS) $(PHOTOS_LIBS_FOR_HEPMC) \
 	-Wl,-rpath,$(PREFIX)/lib \
 	-Wl,-rpath,$(PHOTOSLOCATION)/lib \
 	-Wl,-rpath,$(ROOTLIBPATH) \
@@ -82,7 +83,7 @@ photos_pythia_example.exe: photos_pythia_example.cxx
 single_photos_gun_example.exe: single_photos_gun_example.cxx
 	$(CC) $(CFLAGS) -I$(PHOTOSLOCATION)/include -I$(PYTHIALOCATION)/include \
 	-I$(HEPMCLOCATION)/include -c $<
-	$(CC) -o $@ $(LDFLAGS) $(<:.cxx=.o) $(HEPMC_LIBS) $(PYTHIA_LIBS) $(PHOTOS_LIBS) \
+	$(CC) -o $@ $(LDFLAGS) $(<:.cxx=.o) $(HEPMC_LIBS) $(PYTHIA_LIBS) $(PHOTOS_LIBS_FOR_HEPMC) \
 	-Wl,-rpath,$(PREFIX)/lib \
 	-Wl,-rpath,$(PHOTOSLOCATION)/lib \
 	-Wl,-rpath,$(HEPMCLOCATION)/lib \
@@ -92,7 +93,7 @@ single_photos_gun_example.exe: single_photos_gun_example.cxx
 photosLCG_pythia_example.exe: photosLCG_pythia_example.cxx
 	$(CC) $(CFLAGS) -I$(PHOTOSLOCATION)/include -I$(PYTHIALOCATION)/include \
 	-I$(HEPMCLOCATION)/include -c $<
-	$(CC) -o $@ $(LDFLAGS) $(<:.cxx=.o) $(HEPMC_LIBS) $(PYTHIA_LIBS) $(PHOTOS_LIBS) \
+	$(CC) -o $@ $(LDFLAGS) $(<:.cxx=.o) $(HEPMC_LIBS) $(PYTHIA_LIBS) $(PHOTOS_LIBS_FOR_HEPMC) \
 	-Wl,-rpath,$(PREFIX)/lib \
 	-Wl,-rpath,$(PHOTOSLOCATION)/lib \
 	-Wl,-rpath,$(HEPMCLOCATION)/lib \
@@ -101,7 +102,7 @@ photosLCG_pythia_example.exe: photosLCG_pythia_example.cxx
 # Version for photos standalone example - only HepMC required
 photos_standalone_example.exe: photos_standalone_example.cxx
 	$(CC) $(CFLAGS) -I$(PHOTOSLOCATION)/include -I$(HEPMCLOCATION)/include -c $<
-	$(CC) -o $@ $(LDFLAGS) $(<:.cxx=.o) $(HEPMC_LIBS) $(PHOTOS_LIBS) \
+	$(CC) -o $@ $(LDFLAGS) $(<:.cxx=.o) $(HEPMC_LIBS) $(PHOTOS_LIBS_FOR_HEPMC) \
 	-Wl,-rpath,$(PREFIX)/lib \
 	-Wl,-rpath,$(PHOTOSLOCATION)/lib \
 	-Wl,-rpath,$(HEPMCLOCATION)/lib
@@ -110,7 +111,7 @@ photos_standalone_example.exe: photos_standalone_example.cxx
 photos_hepevt_example.exe: photos_hepevt_example.f photos_hepevt_example_interface.cxx
 	$(F77) $(FFLAGS) -c $<
 	$(CC)  $(CFLAGS) -I$(PHOTOSLOCATION)/include -c photos_hepevt_example_interface.cxx
-	$(F77) -o $@ $(LDFLAGS) $(<:.f=.o) photos_hepevt_example_interface.o $(HEPMC_LIBS) $(PHOTOS_LIBS) \
+	$(F77) -o $@ $(LDFLAGS) $(<:.f=.o) photos_hepevt_example_interface.o $(HEPMC_LIBS) $(PHOTOS_LIBS_FOR_HEPEVT) \
 	-Wl,-rpath,$(PREFIX)/lib \
 	-Wl,-rpath,$(PHOTOSLOCATION)/lib
 
