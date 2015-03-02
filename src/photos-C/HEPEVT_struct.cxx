@@ -2,18 +2,18 @@
 #include <cmath>
 #include "PhotosBranch.h"
 #include "PhotosParticle.h"
-#include "PH_HEPEVT_Interface.h"
+#include "HEPEVT_struct.h"
 #include "Log.h"
 using namespace std;
 
 namespace Photospp
 {
 
-vector<PhotosParticle*> PH_HEPEVT_Interface::m_particle_list;
-int PH_HEPEVT_Interface::ME_channel=0;
-int PH_HEPEVT_Interface::decay_idx=0;
+vector<PhotosParticle*> HEPEVT_struct::m_particle_list;
+int HEPEVT_struct::ME_channel=0;
+int HEPEVT_struct::decay_idx=0;
 
-void PH_HEPEVT_Interface::clear(){
+void HEPEVT_struct::clear(){
 
   m_particle_list.clear();
 
@@ -42,20 +42,20 @@ void PH_HEPEVT_Interface::clear(){
       }**/
 }
 
-void PH_HEPEVT_Interface::add_particle(int i,PhotosParticle * particle,
+void HEPEVT_struct::add_particle(int i,PhotosParticle * particle,
 				       int first_mother, int last_mother,
 				       int first_daughter, int last_daughter){
 
   if(i>0)
     i--; //account for fortran indicies begining at 1
   else
-    Log::Warning()<<"Index given to PH_HEPEVT_Interface::add_particle "
+    Log::Warning()<<"Index given to HEPEVT_struct::add_particle "
 	          <<"is too low (it must be > 0)."<<endl;
 
   //add to our internal list of pointer/index pairs
   m_particle_list.push_back(particle);
 
-  //now set the element of PH_HEPEVT
+  //now set the element of HEPEVT struct
   hep.nevhep=0; //dummy
   hep.nhep = hep.nhep + 1; // 1.II.2014: fix for gcc 4.8.1. Previously it was:
                            // hep.nhep = hep.nhep++; which technically is an undefined operation
@@ -107,9 +107,9 @@ void PH_HEPEVT_Interface::add_particle(int i,PhotosParticle * particle,
 
 }
 
-int PH_HEPEVT_Interface::set(PhotosBranch *branch)
+int HEPEVT_struct::set(PhotosBranch *branch)
 {
-	PH_HEPEVT_Interface::clear();
+	HEPEVT_struct::clear();
 	int idx=1;
 
 	//get mothers
@@ -154,11 +154,11 @@ int PH_HEPEVT_Interface::set(PhotosBranch *branch)
 			             0,0); //daughters
 	}
 	//Log::RedirectOutput( phodmp_ , Log::Debug(1000) );
-	Log::Debug(1000,false)<<"PH_HEPEVT returning: "<<( (decay_idx) ? decay_idx : 1 )<<" from "<<idx-1<<" particles."<<endl;
+	Log::Debug(1000,false)<<"HEPEVT_struct returning: "<<( (decay_idx) ? decay_idx : 1 )<<" from "<<idx-1<<" particles."<<endl;
 	return (decay_idx) ? decay_idx : 1;
 }
 
-void PH_HEPEVT_Interface::get(){
+void HEPEVT_struct::get(){
 
   int index = 0;
 
@@ -195,7 +195,7 @@ void PH_HEPEVT_Interface::get(){
     // 27.11.2014: This sanity check is no longer useful (or needed)
     //             We now allow photos to produce particles other than gamma
     //if(hep.idhep[index]!=PhotosParticle::GAMMA)
-    //  Log::Fatal("PH_HEPEVT_Interface::get(): Extra particle added to the PH_HEPEVT common block in not a photon!",6);
+    //  Log::Fatal("HEPEVT_struct::get(): Extra particle added to the HEPEVT struct in not a photon!",6);
     
     //create a new particle
     PhotosParticle * new_particle;
@@ -333,7 +333,7 @@ void PH_HEPEVT_Interface::get(){
     PhotosParticle * particle = m_particle_list.at(index);
 
     if(hep.idhep[index]!=particle->getPdgID())
-      Log::Fatal("PH_HEPEVT_Interface::get(): Something is wrong with the PH_HEPEVT common block",5);
+      Log::Fatal("HEPEVT_struct::get(): Something is wrong with the HEPEVT struct",5);
 
     // If new particles were added - for each daughter create a history entry
     if(isParticleCreated && Photos::isCreateHistoryEntries)
@@ -404,17 +404,17 @@ void PH_HEPEVT_Interface::get(){
   if(p2) delete p2;
 }
 
-void PH_HEPEVT_Interface::prepare()
+void HEPEVT_struct::prepare()
 {
 	check_ME_channel();
 }
 
-void PH_HEPEVT_Interface::complete()
+void HEPEVT_struct::complete()
 {
 
 }
 
-void PH_HEPEVT_Interface::check_ME_channel()
+void HEPEVT_struct::check_ME_channel()
 {
 	ME_channel=0;
 

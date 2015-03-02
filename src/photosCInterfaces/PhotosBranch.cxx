@@ -1,6 +1,6 @@
 #include <vector>
 #include <list>
-#include "PH_HEPEVT_Interface.h"
+#include "HEPEVT_struct.h"
 #include "PhotosParticle.h"
 #include "PhotosBranch.h"
 #include "Photos.h"
@@ -73,11 +73,11 @@ void PhotosBranch::process()
 	vector<PhotosParticle *> get = getParticles();
 	for(int i=0;i<(int)get.size();i++) cout<<"ID: "<<get.at(i)->getPdgID()<<" ("<<get.at(i)->getBarcode()<<"), "; cout<<endl;
 	*/
-	int index = PH_HEPEVT_Interface::set(this);
-	PH_HEPEVT_Interface::prepare();
+	int index = HEPEVT_struct::set(this);
+	HEPEVT_struct::prepare();
 	PHOTOS_MAKE_C(index);
-	PH_HEPEVT_Interface::complete();
-	PH_HEPEVT_Interface::get();
+	HEPEVT_struct::complete();
+	HEPEVT_struct::get();
 	checkMomentumConservation();
 }
 

@@ -16,7 +16,6 @@
  */
 
 #include <iostream>
-#include "f_Init.h"
 #include "PhotosEvent.h"
 #include "PhotosParticle.h"
 #include "PhotosHEPEVTParticle.h"

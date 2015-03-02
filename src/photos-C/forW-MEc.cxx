@@ -1,7 +1,6 @@
 #include "forW-MEc.h"
 #include "Photos.h"
-#include "f_Init.h"
-#include "PH_HEPEVT_Interface.h"
+#include "struct_decl.h"
 #include <cstdlib>
 #include<iostream>
 using std::cout;

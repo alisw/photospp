@@ -1,5 +1,5 @@
-#ifndef _f_Init_included_
-#define _f_Init_included_
+#ifndef _struct_decl_included_
+#define _struct_decl_included_
 
 namespace Photospp
 {

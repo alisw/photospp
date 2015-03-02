@@ -1,8 +1,7 @@
 #include "forZ-MEc.h"
 #include "Photos.h"
 #include "PhotosUtilities.h"
-#include "PH_HEPEVT_Interface.h"
-#include "f_Init.h"
+#include "struct_decl.h"
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>

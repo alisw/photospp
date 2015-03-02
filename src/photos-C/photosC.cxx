@@ -6,8 +6,8 @@
 #include <cstdio>
 #include <cmath>
 #include <iostream>
-#include "f_Init.h"
-#include "PH_HEPEVT_Interface.h"
+#include "struct_decl.h"
+#include "HEPEVT_struct.h"
 #include "PhotosUtilities.h"
 using std::cout;
 using std::endl;
@@ -18,7 +18,7 @@ using namespace PhotosUtilities;
 namespace Photospp
 {
 
-// Declaration of structs defined in f_Init.h
+// Instantiating structs declared in struct_decl.h
 
 struct HEPEVT hep;
 struct HEPEVT pho;
@@ -166,7 +166,7 @@ double PHINT1(int IDUM){
   int K,IDENT;
   double &COSTHG =phophs.costhg;
   double &XPHOTO =phophs.xphoto;
-  double *PNEUTR = phomom.pneutr;
+  //double *PNEUTR = phomom.pneutr; // unused variable
   double &MCHSQR = phomom.mchsqr;
   double &MNESQR = phomom.mnesqr;
 
@@ -1927,7 +1927,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
     (log(XPHMAX/phocop.xphcut)-.75+phocop.xphcut/XPHMAX-.25*phocop.xphcut*phocop.xphcut/XPHMAX/XPHMAX);
   PRHARD=PRHARD*PHOCHA(IDENT)*PHOCHA(IDENT)*phokey.fsec*phokey.fint;
   //me_channel_(&IDME);
-  IDME=PH_HEPEVT_Interface::ME_channel;
+  IDME=HEPEVT_struct::ME_channel;
   //        write(*,*) 'KANALIK IDME=',IDME
   if(IDME==0){  
     // do nothing
@@ -2209,7 +2209,7 @@ void PHOPRE(int IPARR,double *pWT,int *pNEUDAU,int *pNCHARB){
         NCHARB=NCHARB-pho.jdahep[IP-i][1-i]+3;
         NEUDAU=NEUDAU-pho.jdahep[IP-i][1-i]+3;
 
-        IDME=PH_HEPEVT_Interface::ME_channel;
+        IDME=HEPEVT_struct::ME_channel;
         //  two options introduced temporarily. 
         //  In future always PHOCOR-->PHOCORN
         //  Tests and adjustment of wts for Znlo needed.
@@ -2300,7 +2300,7 @@ void PHOMAK(int IPPAR,int NHEP0){
 #endif
   // get ID of channel dependent ME, ID=0 means no 
 
-  IDME=PH_HEPEVT_Interface::ME_channel;
+  IDME=HEPEVT_struct::ME_channel;
   // corrections for matrix elements
   // controlled by IDME
   // write(*,*) 'KANALIK IDME=',IDME

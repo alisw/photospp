@@ -9,7 +9,7 @@ endif
 OBJECTS_CC=$(SOURCES_CC:.cxx=.o)
 
 %.o: %.cxx
-	$(CC) $(CFLAGS) $(DEBUG) -I$(HEPMCLOCATION)/include -I. -I../utilities -I../photosFortranInterfaces -I../photosCInterfaces -c $< -o $@
+	$(CC) $(CFLAGS) $(DEBUG) -I$(HEPMCLOCATION)/include -I. -I../utilities -I../photos-C -I../photosCInterfaces -c $< -o $@
 
 all:   $(OBJECTS_CC)
 

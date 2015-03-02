@@ -1,17 +1,17 @@
-#ifndef _PH_HEPEVT_Interface_included_
-#define _PH_HEPEVT_Interface_included_
+#ifndef _HEPEVT_struct_included_
+#define _HEPEVT_struct_included_
 
 #include <vector>
 #include "PhotosBranch.h"
 #include "PhotosParticle.h"
-#include "f_Init.h"
+#include "struct_decl.h"
 
 namespace Photospp
 {
-  // const static int NMXHEP = 10000; at present NMXHEP is defined in f_Init.h
+  // const static int NMXHEP = 10000; at present NMXHEP is defined in struct_decl.h
 const static double NO_BOOST_THRESHOLD=1.0e-8;
 
-class PH_HEPEVT_Interface
+class HEPEVT_struct
 {
 public:
 	/** Convert PhotosBranch to HEPEVT */

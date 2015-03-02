@@ -16,8 +16,6 @@
 #include <stdlib.h>
 #include <list>
 #include "Photos.h"
-// TEMPORARY
-#include "f_Init.h"
 
 using std::stringstream;
 using std::string;
