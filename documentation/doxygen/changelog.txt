@@ -1,6 +1,7 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
 Mar 2 2015
+- version 3.58 introduced
 - directory structure reorganized to get rid of misleading FORTRAN keyword and obsolete
   photosFortranInterfaces directory.
 - libraries content and name changed. Now HEPEVT and HepMC interface can be

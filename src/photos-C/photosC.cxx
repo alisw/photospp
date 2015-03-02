@@ -2380,6 +2380,11 @@ void PHTYPE(int ID){
   //--
   NHEP0=hep.nhep;
   
+  // initialization of pho.qedrad for new event.
+  // some of (old style and doubling) restrictions introduced with PHOCHK,
+  // also new pairs have emissions blocked with   pho.qedrad[]
+  // most of the restrictions are introduced prior decay vertex is copied 
+  // to struct pho.
   for(int I = 0; I < NHEP0; ++I) {
     pho.qedrad[I]=true;
   }
