@@ -19,7 +19,7 @@ PHOTOS_FORTRAN_OBJECTS = src/$(PHOTOS_FORTRAN_DIR)/*.o
 EVENT_RECORD_INTERFACE_DIR   = eventRecordInterfaces
 FORTRAN_PHOTOS_INTERFACE_DIR = photosFortranInterfaces
 C_PHOTOS_INTERFACE_DIR       = photosCInterfaces
-PHOTOS_FORTRAN_DIR           = photos-fortran
+PHOTOS_FORTRAN_DIR           = photos-C
 UTILITIES_DIR                = utilities
 
 ##### Link objects to make library ######
