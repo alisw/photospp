@@ -2380,8 +2380,7 @@ void PHTYPE(int ID){
   //--
   NHEP0=hep.nhep;
   
-  // note that in hep. there are three entries before daughters and in pho. only two
-  for(int I=hep.jdahep[ID-i][0]-1-i; I <= hep.jdahep[ID-i][1]-1-i; ++I) {
+  for(int I = 0; I < NHEP0; ++I) {
     pho.qedrad[I]=true;
   }
 
