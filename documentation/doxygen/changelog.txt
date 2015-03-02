@@ -1,5 +1,11 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Mar 2 2015
+- directory structure reorganized to get rid of misleading FORTRAN keyword and obsolete
+  photosFortranInterfaces directory.
+- libraries content and name changed. Now HEPEVT and HepMC interface can be
+  linked separately
+- The new libraries are linked as: -lPhotospp -lPhotosppHEPEVT -lPhotosppHepMC
 Feb 26 2015
 - tests and rounding error fix for simultaneous pairs and photons generation in long runs
 Feb 3 2015
