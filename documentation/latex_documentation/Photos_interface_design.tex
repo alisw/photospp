@@ -494,33 +494,27 @@ The underlying HepMC::GenEvent is hence modified with the  insertion of photons.
 
 \section{Extensibility}
 \label{sec:extensibility}
- The purpose of the present version of the C++ interface to {\tt PHOTOS} is to enable 
+ The purpose of the C++ interface to {\tt PHOTOS} algorithm rewritten to C is to enable 
 all the functionality of its {\tt FORTRAN} predecessor to be available for the HepMC data
-structure. Some methods for improved initialization are already introduced in this version. The new program 
-functionality has been prepared to enable further extensions in the future. 
+structure. Some new methods for improved initialization are introduced. The new program 
+functionality has been prepared to enable extensions, such as emission kernels based on matrix elements
+or emission of pairs. 
 Let us briefly discuss some of these points.
 
 \subsection{{\tt PHOTOS} Extensions}
-In this paper we have presented an algorithm as it is today. 
-That is, a version which is compatible with the one implemented in {\tt FORTRAN}.
+In this paper we  present an algorithm, in its  
+ version which is compatible with the one implemented in {\tt FORTRAN}.
 
 \begin{itemize}
 
 
 \item
-As can be seen from the text presented, we have prepared the structure 
-for the implementation of channel dependent matrix elements. This work, requiring
-special modifications to the {\tt FORTRAN} code and  applicable one at a time only can  
-be simply integrated all together into the C++ version. This is not urgent.
- We are  not convinced if such complication is worth 
-the inconvenience for the user as it requests more strict control of the event 
-record content. The gain of precision is 
-not that important because the precision is already quite good. 
-This is why we have not incorporated  these auxiliary upgrades to C++ already now.
-Instead, as an intermediate step, we developed validation techniques
-for the program. These are required prior to a re-write of the
-numerically sensitive part of the program (which is algorithm-wise
-rather simple) anyway.
+We have prepared the structure 
+for the implementation of channel dependent matrix elements. This could   
+be  integrated all together into the C++ version of {\tt PHOTOS}. This completed by now task,
+was not urgent.
+The gain of precision was 
+not that substantial, already earlier precision was quite good. 
 
 \item
 Methods devised to check the content of HepMC as used by {\tt PHOTOS} are
@@ -537,7 +531,7 @@ predicted in advance.
 \item
 For the sake of debugging we have introduced new control methods 
 and ones which activate
-internal printouts of the {\tt FORTRAN} part of the code.
+internal printouts of the {\tt C} part of the code.
 The routine {\tt PHLUPA} \cite{Barberio:1993qi} can be activated  to verify 
 how an event is constructed/modified, and to investigate energy 
 momentum (non-) conservation or other inconsistencies.
@@ -554,9 +548,6 @@ rounding errors.  However, due to intermediate particles with
 good interaction with users. The protection which removes 
 inconsistencies in the event record may be a source of unexpected difficulties
 in the other cases. 
-At present, such methods are left in the {\tt FORTRAN} part of the algorithm, 
-which
-will be gradually reviewed and  migrated to C++.
 \end{itemize}
 
  
@@ -564,7 +555,10 @@ will be gradually reviewed and  migrated to C++.
 In the times of {\tt FORTRAN}, the {\tt PHOTOS} interface used an internal event structure which was
 based on {\tt HEPEVT},
 adding to it (understood as a data type) an extra variable defining 
-the status of particles with respect to QED Bremsstrahlung. In some cases, like
+the status of particles with respect to QED Bremsstrahlung. We still use event organization as of{\tt HEPEVT} 
+but in declaration of C structs used internally in {\tt PHOTOS} algorithm.
+
+In some cases, like
 $\tau \to l \nu_l \nu_\tau$, bremsstrahlung was already generated earlier
 by other generator, and {\tt PHOTOS} should not be activated on such decays.
 At present, instead, a set of initialization methods is 
@@ -575,12 +569,13 @@ improvement. For example if the vertex $q \bar q \to l^\pm l^\mp g$ is encounter
 (note the presence of $g$ in the final state),
 the interface could `on the fly' add an intermediate $Z$ into the record and enable {\tt PHOTOS}
 on the temporarily constructed decay branching, $Z \to l^\pm l^\mp $. 
+{\bf Do we have this option?}
 
-Internally, in the {\tt FORTRAN} part of {\tt PHOTOS}, the data
-structures based on {\tt HEPEVT}: {\tt PH\_HEPEVT} and {\tt PHOEVT}, 
+
+Internally, in the {\tt C} part of {\tt PHOTOS}, the data
+structs of C  based on {\tt HEPEVT}: {\tt pho} and {\tt hep}, 
 are used, but they store only a single elementary decay. 
-At this step in the program
-evolution it might not be the most elegant solution, but it prevents
+This solution  prevented
 the need to redo many of the {\tt FORTRAN} era benchmarks.
 
 
@@ -600,10 +595,10 @@ and confirmation of the agreement is concluded first.
 For $Z$ decays, comparisons  with Monte Carlo program based on exclusive 
 exponentiation with up to second order matrix element
 is possible and was performed on some benchmark distributions.
-Inclusion of a correcting weight was found to be numerically less important
-than absence of the second order matrix element in the YFS exponentiation scheme. 
+Inclusion of a correcting weight for complete first order matrix elements, was found to be numerically less important
+than absence of the second order matrix element in the YFS exponentiation scheme used by the reference programs. 
 In these comparisons the Monte Carlo programs from LEP times 
-\cite{koralz4:1994,kkcpc:1999} were used. In numerical tests {\tt MC-TESTER} \cite{Davidson:2008ma}
+\cite{koralz4:1994,kkcpc:1999} were used as the reference. In numerical tests {\tt MC-TESTER} \cite{Davidson:2008ma}
 was used. The advantage of the method is that C++ and {\tt FORTRAN} program
 results can be easily compared\footnote{We thank Andy Buckley for checking numerically
  that our conclusions on the first order exact YFS exponentiation results extend
@@ -647,11 +642,9 @@ the  program generation cover the full phase-space and that there are no
 approximations in phase-space. As in the {\tt FORTRAN} version, the code 
 features approximation in the kernel. In some cases the process dependent 
 complete first order 
-kernel is available but it is not always installed in the public version,  
-because the resulting approximation is 
-numerically unimportant and requires control of the spin state for the decaying 
-particle. This requires better control of the event record than what was available 
-in {\tt FORTRAN}. At present such an option is prepared (see Section \ref{sect:F77fill}) for $W$ and $Z$ decays. It is also available for the two body decays of scalar into scalars. Then, exact mean exact with respect to scalar QED only. 
+kernel is available. At present such an option is prepared 
+(see Section \ref{sect:F77fill}) for $W$ and $Z$ decays. It is also available for the two body decays of scalar 
+into scalars. Then, exact mean exact with respect to scalar QED only. 
 
 The main purpose of the present paper is program documentation. That is why
 we also need to cover the program tests required to guarantee its proper installation.
@@ -665,7 +658,7 @@ conservation appears. Such offending events should be studied
 before {\tt PHOTOS}  and after {\tt PHOTOS} is run to modify them.
 If it is impossible to understand why inconsistencies for energy momentum non 
 conservation were created by {\tt PHOTOS}, the authors should be contacted. Sometimes
-monitoring how an event is constructed inside the {\tt FORTRAN} part of the code
+monitoring how an event is constructed inside the internal {\tt C} part of the code
 may be useful. For that purpose the steering of monitoring\footnote{See Appendix \ref{App:Logging}
 for the command {\tt Log::LogPhlupa(int from, int to)}}
  is
@@ -703,7 +696,7 @@ runs are given in
 the LHC user and radiative corrections in decay of W's, Z's and Higgs particles.
 Most of the users of low energy experiments use the {\tt FORTRAN} version 
 of the code, which is why our tests and examples for the C++ version are not geared toward 
-low energy applications.
+low energy applications yet.
 
 
 \subsection{Results}
@@ -927,14 +920,14 @@ precision of the simulation result requires further checks. In the case of
 $Z$ decays, Refs.~\cite{Golonka:2005pn,Golonka:2006tw} may not be enough.
 With increasing precision, the estimation of uncertainty becomes dependent on 
 the particular choice of details for the experimental cuts. Comparisons of different
-calculations become important too. A good example of such work in the conext of 
+calculations become important too. A good example of such work in the context of 
 other measurements can be found in Refs.~\cite{Jadach:1995pd,Arbuzov:1996eq}; 
 for the simulation of 
 FSR QED corrections, the Monte Carlo programs collected for {\tt PHOTOS} generator 
 tests are probably enough. 
 A discussion of QED initial final state interference may follow the strategy presented
 in \cite{Jadach:1999gz}. There, the question of experimental cuts must be included 
-as well. Once these steps are completed, discussion 
+as well. Once these steps are finished, discussion 
 of complete electroweak corrections in the context of realistic observables should 
 be simplified.
 
@@ -968,19 +961,21 @@ will become an integrated part. \vskip -2 mm
 \label{sec:summary}
 We have presented a new version  of {\tt PHOTOS} Monte Carlo. The part of 
 {\tt PHOTOS} which operates on 
-event records is now rewritten into C++ and uses the HepMC event record 
-format for input and output. The physics performance of the program is the
-same as that of the {\tt FORTRAN/HEPEVT} version, but better steering options are introduced. 
-Also, when an elementary decay is to be modified by {\tt PHOTOS}, 
-it is first transformed to its rest frame. The $z$-axis is orientated along the decaying particle's mother's direction, as seen in this rest  frame. Such modification is 
+event records is now rewritten into C++ and uses the {\tt HepMC} event record 
+format for input and output. Interface to {\tt HEPEVT} event record of {\tt FORTRAN} is provided.
+The physics performance of the program is the
+same, or better,  as that of the {\tt FORTRAN/HEPEVT} version, better steering options are introduced. 
+When an elementary decay is to be modified by {\tt PHOTOS}, 
+it is first transformed to its rest frame. The $z$-axis is orientated along the decaying particle's mother's direction, 
+as seen in this rest  frame. Such modification is 
 necessary to calculate process dependent kernels
-featuring the complete first order matrix element. If the interest will arise,
-the appropriate kernels explained in
-Refs.~\cite{Golonka:2006tw,Nanava:2006vv,Nanava:2009vg} can be installed
-into the C++ version of {\tt PHOTOS}. The necessary information is extracted
-from the event record and can be used.
-At present some parts of the algorithm are left in {\tt FORTRAN}.
- This remaining {\tt FORTRAN} part of the code 
+featuring the complete first order matrix element. 
+The appropriate kernels explained in
+Refs.~\cite{Golonka:2006tw,Nanava:2006vv,Nanava:2009vg} are installed
+into the version, now fully in C, of internal algorithms of {\tt PHOTOS}. The necessary information is extracted
+from the event record and  used.
+No more  parts of the algorithm are left in {\tt FORTRAN}.
+ This remaining {\tt FORTRAN} part of the code is for the optional interface to {\tt HEPEVT} of {\tt FORTRAN}. 
 can be recoded to C++ rather easily, but the necessary numerical tests 
 are time consuming. That is why we have left these changes for later 
 releases. 
@@ -1562,11 +1557,11 @@ functions can be used from within the user's program after including the
         (from 0 to 65535) are turned off. If the range is negative ($s>e$) \textit{debug} messages
         won't be displayed. The last method turns displaying all of the above messages on and off.
   \item {\tt Log::LogPhlupa(int from, int to) } \\
-        Turns logging of debug messages from the {\tt FORTRAN} part of the program on and off.
-        Parameters of this routine specify the range of debug codes for the {\tt phlupa\_} routine.
+        Turns logging of debug messages from the {\tt C} part of the program on and off.
+        Parameters of this routine specify the range of debug codes for the {\tt phlupa} routine.
 \end{itemize}
 
-At present only the following debug messages can be printed:
+At present only the following debug messages can be printed {\bf I do not understand}:
 \begin{itemize}
   \item Debug(0)    - seed used by the random number generator
   \item Debug(1)    - which type of branching was found in {\tt HepMC}
@@ -1625,7 +1620,7 @@ or are introduced for backward compatibility.
         the decays like $J/\psi \to 5\pi^+ 5\pi^-$ higher value, at least equal to the number of charged decay 
         products, should be set. The algorithm performance will slow down linearly with the  maximum interference weight but all 
         simulation results will remain unchanged.   
-        }.
+        } and no matrix element based kernel is used\footnote{Also in this case higher  than default 2 should be used,}.
   \item {\tt Photos::setInfraredCutOff(double cut\_off)} \\
         Set the minimal energy (in units of decaying particle mass)
         for photons to be explicitly generated.
@@ -1647,17 +1642,17 @@ or are introduced for backward compatibility.
          A switch for complete effects of the matrix element (in leptonic W decays) {\it  installed in {\tt PHOTOS 3.2} }
         Because of lack of reinitialization in a particular decay channel this option can be used for the fixed 
         decay channel, and either for  W+ or for W-, also for fixed (not strongly varying) wirtuality. 
-        This option will be elaborated further.
+        This option will be elaborated further. {\bf I do not understand restriction.}
   \item {\tt Photos::setMeCorrectionWtForZ(bool corr)} \\
          A switch for complete effects of the matrix element (in leptonic Z decays) {\it  installed in {\tt PHOTOS 3.1} }
   \item {\tt Photos::initializeKinematicCorrections(int flag)} \\
-        Initialize kinematic corrections.
+        Initialize kinematic corrections necessary to avoid consequences of rounding errors.
   \item {\tt Photos::forceMassFrom4Vector(bool flag)}  \\
         By default, for all particles used by {\tt PHOTOS}, 
         mass is re-calculated and $\sqrt{E^2-p^2}$ is used. 
         If {\tt flag=false}, the particle mass stored in the  event record 
         is used. The choice may be important for the control 
-        of numerical stability in case ov very light stable particles, but may be incorrect for decay products 
+        of numerical stability in case of very light stable particles, but may be incorrect for decay products 
         themselves of non-negligible width.
   \item {\tt Photos::forceMass(int pdgid, double mass)} {\it  installed in {\tt PHOTOS 3.4}} \\
         For particles of PDGID (or -PDGID)  to be processed by {\tt PHOTOS},
