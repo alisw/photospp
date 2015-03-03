@@ -86,7 +86,7 @@
 \begin{flushright}
 {\bf  CERN-PH-TH/2010-261 \\
   IFJPAN-IV-2010-6  \\
-  November 2010- February 2015}
+ On-going updates from version  November 2010 to March 2015}
 \end{flushright}
 
 \begin{center}
@@ -120,26 +120,24 @@ distributed together
 with the program code.
 
 The
-{\tt PHOTOS} C++ physics precision is  now better than  its {\tt FORTRAN}
-predecessor, better steering options are also available. 
-An algorithm of the event record interface
-is prepared and used in particular in $Z$ and $W$ decays,
-for the  installation of process dependent variants of the 
-photon emission kernel. Pair emission is introduced also.
-Weights, featuring complete first order matrix elements, can be installed 
-for general use. In the {\tt FORTRAN} version of  {\tt PHOTOS} they were 
-available only for decays of particles   at rest and with spin 
- set along the $z$ axis.
+{\tt PHOTOS} C++ physics precision is   better than  its {\tt FORTRAN}
+predecessor, more convenientsteering options are also available. 
+An algorithm for the event record interface
+necessary for process dependent 
+photon emission kernel is implemented. 
+It is used  in $Z$ and $W$ decays for kernels
+of complete first order matrix elements of the decays.
+Additional, final state emission of lepton  pairs  is also available.
 
 Physics assumptions used in the program and properties of the
-solution it offers are reviewed. 
-In particular, it is  mentioned
-that the  second order matrix elements were used in design and 
+solution are reviewed. 
+In particular, it is explained how
+the  second order matrix elements were used in design and 
 validation of the program iteration procedure. Also it is explained
 that the phase space parameterization used in the program is exact. 
  }
 
-%\centerline{\normalsize \today}
+\centerline{\normalsize \today}
 
 \vfil
 

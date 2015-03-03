@@ -30,7 +30,7 @@ precision tool \cite{Golonka:2006tw}. Since in 2005, when
 multi-photon radiation was 
 introduced \cite{Golonka:2005pn} into program version 2.15, there were no 
 further public upgrades 
-of the program. The efforts were concentrated on documentation and 
+of the program until 2010. The efforts were concentrated on documentation and 
 new tests;
  phase space treatment was shown to be 
 exact \cite{Nanava:2006vv} and for several 
@@ -90,7 +90,7 @@ Section \ref{sec:tests} presents the program tests and benchmarks.
 A summary, section \ref{sec:summary}, closes the paper.
 There are three appendices \ref{Interface to PHOTOS}, 
 \ref{sec:User Guide} and \ref{sec:User Configuration} attached to the paper.
-Respectively, they describe the interface to the old {\tt FORTRAN} part of the code,
+Respectively, they describe the interface to the old { FORTRAN} style part of the code which is now written in C,
 provide a user guide and explain the program configuration methods and parameters. 
 
 
@@ -101,14 +101,14 @@ The first, internal part, operates on elementary decays. Thanks to carefully
 studied properties of the 
 QED (scalar QED) algorithm, with certain probability, 
 it replaces the kinematical configuration of the Born level decay with a new one, 
-where a bremsstrahlung photon or photons
+where a bremsstrahlung photon, photons or lepton pairs
 are added and other particle momenta are modified. This part of the program is sophisticated from the physics 
 point of view \cite{Golonka:2006tw,Nanava:2006vv},
 but from the point of view of data structures the algorithm is simple.
 That is why the gain from re-writing this part of the program to C++ is rather
-limited and will be postponed to a later step of the project development.
-On the other hand, there are not many obstacles for such a transformation to be
-performed. In fact it was already done
+limited and was postponed to a later step of the project development.
+On the other hand, there were no obstacles for such a transformation to be
+performed and it is completed now . In fact it was already done
 previously \cite{photosplus}, but the resulting program was developed too early 
 and did not attract users because of a lack of a C++ event record format standard at that time.
 
@@ -120,7 +120,8 @@ are sometimes violated.
 For its action, {\tt PHOTOS} needs to scan an event record (tree) 
 and localize branchings where
 it is supposed to act. The decaying particle (mother) and its primary decay products
-(daughters) have to be passed into the internal event structure of {\tt PHOTOS}. 
+(daughters) have to be passed into the internal event structure of {\tt PHOTOS}.
+For calculation of matrix element kernels, mother mothers are needed as well. 
 Finally for each daughter a list of all its subsequent decay products has to be 
 formed. Kinematical modifications need to be performed on all descendants of the modified daughter.
 
@@ -134,11 +135,13 @@ Prior to activation of the algorithm for  photon(s) generation and kinematic con
 will be boosted into the decaying particle's rest frame and the first mother
 will be oriented along the $z$ axis. 
 In many cases, the spin state of the decaying particle  can be calculated from kinematics of its production process.
-Later it can be passed on to the code which calculates the matrix element for our branching.
+Later it is passed on, to the code which calculates the matrix element for the branching.
 
 
-At present, the part of the code responsible for photon(s) generation and kinematic 
-construction is left in  {\tt FORTRAN}. It does not feature the options presented above yet.
+The part of the code responsible for photon(s) (lepton pair) 
+generation and kinematic 
+construction is rewritten from   {\tt FORTRAN} to C. It is extended
+in the last few years and   feature the options presented above.
 
 
 Before an actual description of the program, let us list the tasks the event record interface must be able to perform:
@@ -156,8 +159,8 @@ Before an actual description of the program, let us list the tasks the event rec
 
 The C++ version of the {\tt PHOTOS} interface implements all functionality
 of its predecessor, the {\tt PHOTOS} version 2.15 \cite{Golonka:2005pn} coded in {\tt FORTRAN}.
-The program is prepared for installation of the process-dependent correcting weights of refs 
-\cite{Golonka:2006tw,Nanava:2009vg} into its public available version. 
+The program has the process-dependent correcting weights of refs 
+\cite{Golonka:2006tw,Nanava:2009vg} installed.
 {\tt PHOTOS} can be attached to any Monte-Carlo program,
 provided that its output is available through a {\tt HepMC} \cite{Dobbs:2001ck} event record.
 It seems that {\tt HepMC} will
@@ -171,6 +174,9 @@ We have also
 envisaged the possibility that {\tt HepMC} may one day be replaced by another
 standard of event record, and we have provided a way to extend
 the interface to a possible new event record standard as well.
+In fact, the program can use as an input old {\tt FORTRAN} event record
+{\tt HEPEVT} as an input as well, variant of interface is prepared 
+for that purpose, but it is less comonly used, thus it is less tested.
 
 \subsection{Object Oriented Event Records  -- The Case of {\tt HepMC}}
 % nd-the next paragraph repeats information that's already stated in other places.
@@ -253,7 +259,10 @@ options for conventions of event record filling.
     \item  If there is  4-momentum non-conservation\footnote{For details see 
            Appendix~\ref{subsection:other_methods} for details.} in the vertex,
            {\tt PHOTOS} will not be invoked too.  A special kinematic correcting
-           method to remove smaller inconsistencies resulting e.g. from rounding errors is available too.
+           method to remove smaller inconsistencies resulting e.g. from 
+           rounding errors is available, but it must be used carefully to avoid
+           action on vertices where four-momentum is non conserved because 
+           of physics reasons.
 
     \item
            As in the {\tt FORTRAN} cases, we expect that  new  types of 
@@ -272,6 +281,9 @@ options for conventions of event record filling.
 information extracted from experimentally observed events (e.g. $Z\to \mu^+\mu^-$
  modified later to $Z\to \tau^+\tau^-$) should be allowed.
   Obviously, a new type (or types) of {\tt HepMC} filling will then appear.
+The possibility of reverse operation of {\tt PHOTOS}, actually to remove 
+photons from the decay vertex
+may be then envisaged.
 
 A good example is the evolution of {\tt PYTHIA}. While in version 8.108 the status codes for 
 our example processes took the values 0, 1 or 2  only (in the part of the record 
@@ -286,30 +298,33 @@ if instead of changes on the side of the {\tt PHOTOS} algorithm a different choi
 be a more appropriate 
 solution, but in this case we choose to adopt our algorithm.
 
-We have yet to decide on bar code conventions. Our programs, {\tt TAUOLA} and
+We can decide on alternative bar code conventions. Our programs, {\tt TAUOLA} and
  {\tt PHOTOS}, supplement the event record with new particle entries carrying bar codes 
 with values starting from 10001. That is the choice resulting from our use 
 of {\tt HepMC} methods and defaults.  
 
-\subsection{Interface to the Event Record of {\tt FORTRAN}}
+\subsection{Interface to the Event Record stuct of {\tt HEPEVT} type}
 \label{sect:F77fill}
 
-In principle it would be rather simple to completely rewrite {\tt PHOTOS} to
-C++. However to profit from numerical tests, for the time being the numerical core of {\tt PHOTOS}
-is still left in {\tt FORTRAN}. The C++ part of the code searches the whole event for
-suitable HepMC vertices for the generation of bremsstrahlung. Once such
-a vertex is found it is copied to an internal event record  which is 
-called  {\tt PH$\_$HEPEVT} (this is effectively the same structure as {\tt HEPEVT};
-the event record of {\tt FORTRAN}).
+It was rather simple to completely rewrite {\tt PHOTOS} to
+C++ completely. To profit from numerical tests, the numerical core of {\tt PHOTOS}
+was rewritten to esentially  plain  {\tt C}, common blocks were replaced
+with structs, old names of methods and functions were preserved. The 
+C++ part of the code searches the whole event for
+suitable {\tt HepMC} vertices for the generation of bremsstrahlung. Once such
+a vertex is found it is copied to an internal event record struct  which is 
+called {\tt hep}  (in older versions it was FORTRAN {\tt PH$\_$HEPEVT} common block);
+it is using {\tt HEPEVT},
+the event record of {\tt FORTRAN} as a struct type definition.
 The {\tt FORTRAN} code of {\tt PHOTOS} is then executed.
 The data structure passed in this way is rather simple. Only a single vertex consisting
 of the decaying particle along with its mothers and daughters is passed. Information 
-on mothers will be useful in future for the calculation of process dependent 
+on mothers is nececcary  for the calculation of process dependent, matrix element based, 
 kernels.
 
 
 
-A description of the interface to the remaining {\tt FORTRAN} parts of the code is
+A description of the interface to the remaining, essentially plain {\tt C}, parts of the code is
 given in  Appendix \ref{Interface to PHOTOS}.
 
 
@@ -1008,28 +1023,26 @@ also acknowledged.
 \newpage
 \appendix
 
-\section{Appendix: Interface to {\tt PHOTOS FORTRAN}}
+\section{Appendix: Interface to internal C part of {\tt PHOTOS}}
 \label{Interface to PHOTOS}
 
 
 This appendix is addressed to developers of the interface,
 and special users interested in advanced options of {\tt PHOTOS}.
 The discussed below {\tt COMMON} blocks of {\tt FORTRAN} were used in the
-program up  to version 3.53 only.
+program up  to version 3.53.
 Starting from version 3.54 some of these {\tt COMMON}  blocks were preserved,
 as the struct objects of C. The following ones may be of particular interest for the
 user:
 {\tt PHOCOP, PHOKEY, PHOSTA, PHLUPY}.
-
 Names of variables and structs are not modified with respect to {\tt FORTRAN}, 
-the  C++ definition style is adapted, small letters are used and underscore is added at the
-end of structs names.
-Common {\tt HEPEVT} is preserved for use of example and future applications,
- where the main program is in {\tt FORTRAN}.
+the  C++ definition style is adapted, small letters are for structs and variable names.
+
+Common block {\tt HEPEVT} of the event record, is preserved but for use only in {\tt FORTRAN} examples.  
 The interface is available
 through the classes {\tt PhotosHEPEVTEvent.h} and {\tt PhotosHEPEVTParticle.h}.
 Internally in C++  {\tt Photos} code, the {\tt HEPEVT}-like  data type
-is used.
+is used in structs declaration.
 
 \subsection{Common Blocks migrated to struct objects of C}
 
@@ -1079,9 +1092,9 @@ from some particles. This struct is not preserved in C++.
 objects hep and pho. In FORTRAN these were common blocks PH\_HEPEVT and PHOEVT.
 The qedrad[NMXHEP] is used in algorithm of pair emission only.
     \begin{description}
-    \item[QEDRAD[ 10000]]  \textit{bool} flag enabling a {\tt FORTRAN} users
-    to block emission from particles stored in PH\_HEPEVT. Not used in 
-     our interface.
+    \item[QEDRAD[10000]]  \textit{bool} flag enabling a {\tt FORTRAN} users
+    to block emission from particles stored in PH\_HEPEVT.
+    {\bf At present it is Not used.}
     \end{description}
 \end{description}
 
@@ -1106,13 +1119,13 @@ The qedrad[NMXHEP] is used in algorithm of pair emission only.
 In the following let us list routines which are called from the interface.
 
 \begin{description}
-\item[PHODMP] prints out the content of HEPEVT. \\
+\item[PHODMP] prints out the content of struct hep. \\
   Return type: \textit{void} \\
   Parameters: none
 \end{description}
 
 \begin{description}
-\item[PHOTOS\_MAKE] {\tt FORTRAN} part of interface. \\
+\item[PHOTOS\_MAKE\_C]  like {\tt PHOTOS\_MAKE} of {\tt FORTRAN} part of interface, but now in C. \\
   Return type: \textit{void} \\
   Parameters:
   \begin{enumerate}
@@ -1161,7 +1174,8 @@ However, in order to run the more advanced examples located in the {\tt /example
 \begin{itemize}
   \item {\tt ROOT} \cite{root-install-www} version 5.18 or later
   \item {\tt PYTHIA 8.1} \cite{Sjostrand:2007gs} or later. {\tt PYTHIA 8.1} must be compiled with {\tt HepMC} 2.xx
-        so that the {\tt PYTHIA} library {\tt hepmcinterface} exists.
+        so that the {\tt PYTHIA} library {\tt hepmcinterface} exists. 
+        {\bf Note restrictions for our examples due to change of initializations and makefile-s from PYTHIA 8.200 on}
   \item {\tt MC-TESTER} \cite{Golonka:2002rz,Davidson:2008ma} version 1.24 or later.
         Do not forget to type {\tt make libHepMCEvent} after compilation of {\tt MC-TESTER} is done.
   \item {\tt TAUOLA} \cite{Davidson:2010rw} version 1.0.5 or later. {\tt TAUOLA} must be compiled with {\tt HepMC}.
@@ -1201,7 +1215,7 @@ In order to compile the examples, compile the {\tt PHOTOS} C++ interface, enter 
 If neither {\tt HepMC}, {\tt Pythia8} nor {\tt MC-TESTER} are accessible,  the most basic
  example will be nonetheless provided. The {\tt /examples} directory will 
 contain the executable files for all examples which can be compiled and 
-linked.
+linked. {\bf what about HEPEVT example?}
 
 On {\tt CERN} platforms, ready to use software is located in the {\tt /afs/cern.ch/sw/lcg/}
 directory. To set the appropriate paths, the scripts 
@@ -1353,7 +1367,8 @@ The  {\tt Photospp} initialization methods can be used easily instead.
 
 In general, {\tt PHOTOS} will attempt to generate bremsstrahlung for every 
 branching point in the event record. This is of course not always appropriate.
-Already inside the {\tt FORTRAN} part of the new {\tt PHOTOS}, bremsstrahlung is prevented for vertices involving gluons or quarks 
+Already inside the internal {\tt C} part of {\tt PHOTOS}, 
+bremsstrahlung is prevented for vertices involving gluons or quarks 
 (with the exception of top quarks).
 
 This alone is insufficient. By default we suppress bremsstrahlung
@@ -1387,7 +1402,8 @@ For the user's convenience the following configuration methods are provided:
  \item {\tt Photos::suppressBremForDecay(0, motherID)} \hfill \\
        When only the PDGID of the mother is provided, {\tt PHOTOS} will skip all decay channels
 	   of this particle. Note that the number of daughters is to be provided,
-	   but  set for  this case to zero.
+	   If   set  to zero all decay channels are skpien and not only of given
+           multiplicity. {\bf I do not understand role of first paprameter equal 0}
  \item {\tt Photos::suppressBremForBranch(daughterCount, motherID, d1ID, d2ID, ...)} \hfill \\
        {\tt Photos::suppressBremForBranch(0, motherID)} \hfill \\
        The usage of these methods is similar to the previous functions. The difference is
@@ -1511,13 +1527,16 @@ Emission of additional pairs (electrons or muons) can be activated with
 method. Another method was prepared  to desactivate photonic emissions:
 \\{ \tt Photos::setPhotonEmission(false);} \\
 
-Tests and implementation of pair emission follow formulae 1 and 11 from Ref.~\cite{Jadach:1993wk}.
+Tests and implementation of final state radiation 
+pair emission follow at present formulae 1 and 11 from Ref.~\cite{Jadach:1993wk}. 
 The ageement, when pair emission phase space was restricted to soft region, was  at the   2-5 \% 
 level of the pair effect (which itself is at the 0.1 \% level of the cross section). 
 The  matrix element is coded  explicitly as function of four vectors; it is thus easy to replace/modify. 
 The phase space  is parametrized without any mass or other approximations. This feature 
 was checked separately with  the special runs (matrix element removed) of multimilion samples.
 
+The matrix element used for pair emission  is easy to improve. It is using four momenta of final state particles
+explicitly. 
 \subsection{Logging and Debugging}
 \label{App:Logging}
 This section describes the basic functionality of the logging and debugging tool.
