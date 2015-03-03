@@ -481,16 +481,18 @@ to be decayed are also added to the
 
 	\begin{enumerate}
   
-	\item The branching is written to {\tt PH\_HEPEVT}
+	\item The branching is written to struct {\tt hep}
 	\item The {\tt PHOTOS} photon adding algorithm is invoked 
- 	\item The resulting branching is taken back from {\tt PH\_HEPEVT} and any changes made by {\tt PHOTOS}
+ 	\item The resulting branching is taken back from {\tt hep} and any changes made by {\tt PHOTOS}
 	      to the already existing particles and their whole decay trees are integrated into the event record.
-	\item Finally, the created photons are added to the event record.
+	\item Finally, the created photons, or leptons,  are added to the event record.
 	\end{enumerate}
 
 \end{enumerate}
 
 The underlying HepMC::GenEvent is hence modified with the  insertion of photons.
+Alternatively, as in our {\tt PHOTOS/examples/photos\_hepevt\_example.f} interface {\tt HEPEVT} of {\tt FORTRAN} is used 
+and then content of  {\tt HEPEVT} is modified.
 
 \section{Extensibility}
 \label{sec:extensibility}
