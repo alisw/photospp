@@ -333,7 +333,7 @@ given in  Appendix \ref{Interface to PHOTOS}.
 \subsection{Classes and Responsibilities}
 
 The choice of splitting the source code into three main modules
- allows the separation of the {\tt FORTRAN} related code from the abstract C++ interface
+ allows the separation of the {\tt C}  code of the numerical algorithm from the abstract C++ interface
 and the concrete implementation of the interface created for the appropriate
 event record.
 
@@ -345,17 +345,16 @@ event record.
 \end{figure}
 
 \begin{itemize}
-  \item {\bf {\tt PHOTOS FORTRAN} Interface}\\
+  \item {\bf {\tt photos-C} }\\
        This part of the code provides an interface 
-       to the {\tt FORTRAN} library of {\tt PHOTOS}. In particular,
-	   a wrapper for the routine which invokes the processing
-	   of a single branch. Parts of the interface code are still left in {\tt FORTRAN}, but
-	   can be rather easily rewritten to C++. 
-       The most important part of this module, the {\tt PH\_HEPEVT\_Interface\_} class,
-       is already implemented  in C++. This class is responsible for writing
-	   the decay branch to be processed into the internal event record {\tt PH\_HEPEVT}.
-       For further details regarding the interface to {\tt FORTRAN}
-	   common blocks and routines see Appendix \ref{Interface to PHOTOS}.
+       to the {\tt C} numerical library of {\tt PHOTOS}. In particular,
+	    routine which invokes the processing
+	   of a single branch and the actual code for its processing. 
+       The most important part of this module, is the {\tt PH\_HEPEVT\_Interface\_} class.
+        This class is responsible for writing
+	   the decay branch to be processed into the internal event record struct {\tt hep}.
+       For further details regarding the interface to {\tt C} structs
+	    and methods see Appendix \ref{Interface to PHOTOS}.
   \item {\bf {\tt PHOTOS} C++ Interface} \\
        This is an abstract interface to the event record.
        The class {\tt PhotosEvent} contains information regarding the whole event
