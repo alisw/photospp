@@ -146,10 +146,22 @@ that the phase space parameterization used in the program is exact.
 {\footnotesize
 \begin{itemize}
 \item[${\dag}$]
-This work is partially supported by  EU Marie Curie Research Training Network 
-grant under the contract No. MRTN-CT-2006-0355505 and by  
-Polish Government grant N202 06434 (2008-2011). 
 
+This project is financed in part from funds of Polish National Science
+Centre under decisions  DEC-2011/03/B/ST2/00107 (TP), 
+%DEC-2011/03/B/ST2/02632 (ZW), 
+DEC-2011/03/B/ST2/00220 (ZW).
+This research was supported in part by
+the Research Executive Agency (REA) of the European Union under
+the Grant Agreement PITN–GA–2012–316704 (HiggsTools).
+
+% \\
+%{\em $^d$ Until September 1 2013 Grup de F\'{\i}sica Te\`orica, Institut de F\'{\i}sica d'Altes Energies, 
+%Universitat Aut\`onoma de Barcelona, E-08193 Bellaterra, Barcelona, Spain} \\
+%MS DEC-2012/04/M/ST2/00240"
+%ER DEC-2011/03/B/ST2/00220
+%ZW DEC-2011/03/B/ST2/00107"
+%SJ DEC-2011/03/B/ST2/02632"
 \end{itemize}
 }
 \null
