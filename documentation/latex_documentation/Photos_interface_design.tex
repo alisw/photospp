@@ -413,7 +413,7 @@ event record.
   \begin{itemize}
   \item { \bf Log} - general purpose logging class that allows filtering out output messages 
       of {\tt PHOTOS {\tt C++} Interface} and tracks statistics for each run.
-  \item { \bf PhotosRandom} - random number generator of Ref.~\cite{} taken from {\tt PHOTOS FORTRAN} and rewritten to {\tt C++}.
+  \item { \bf PhotosRandom} - random number generator of Ref.~\cite{James:1988vf,marsaglia:1987} taken from {\tt PHOTOS FORTRAN} and rewritten to {\tt C++}.
   \item { \bf PhotosDebugRandom} - static class deriving from {\tt PhotosRandom} providing several tools to store and restore
                                    state of {\tt PHOTOS} random number generator.
   \item { \bf PhotosUtilities.cxx} - support functions (e.g. boosting, rotations, etc.)
@@ -1057,7 +1057,7 @@ In the following let us list the original common blocks of {\tt FORTRAN} {\tt PH
 To simplify 
 and to preserve continuity of  the mathematical formulae shapes,
 in many places  we  use  aliases to the struct elements  
-which differ only that are  written in capital letters instead os small one.
+which differ only that are  written in capital letters instead of small ones.
 
 
 
@@ -1074,7 +1074,7 @@ which differ only that are  written in capital letters instead os small one.
     \begin{description}
 	\item[FSEC]   \textit{double} internal variable for algorithm options, the default is FSEC=1.0\; .
 	\item[FINT]   \textit{double} maximum interference weight.
-	\item[EXPEPS] \textit{double} technical parameter, blocks crude level high photon multiplicity from configurations less probable than EXPEPS, the default is $10^{-4}$.
+	\item[EXPEPS] \textit{double} technical parameter, blocks crude level high photon multiplicity from configurations less probable than EXPEPS. The default is $10^{-4}$.
 	\item[INTERF] \textit{bool} key for interference, the matrix element weight.
 	\item[ISEC]   \textit{bool} switch for double bremsstrahlung generation.
 	\item[ITRE]   \textit{bool} switch for bremsstrahlung generation up to a multiplicity of 4.
@@ -1097,7 +1097,7 @@ which differ only that are  written in capital letters instead os small one.
 from some particles. This struct is not preserved in {\tt C++}.
  Instead the qedrad[NMXHEP] field is added to {\tt HEPEVT} struct type for two 
 objects {\tt hep} and {\tt pho}. In FORTRAN these were common blocks PH\_HEPEVT and PHOEVT.
-The qedrad[NMXHEP] is used in algorithm of pair emission only.
+The qedrad[NMXHEP] is used in algorithm of pair emission.
     \begin{description}
     \item[QEDRAD[10000]]  \textit{bool} flag enabling a {\tt FORTRAN} users
     to block emission from particles stored in PH\_HEPEVT.
@@ -1136,7 +1136,7 @@ In the following let us list routines which are called from the interface.
   Return type: \textit{void} \\
   Parameters:
   \begin{enumerate}
-    \item \textit {int id} ID of particle from which {\tt PHOTOS} starts processing. In the {\tt C++} case the importance of this parameter is limited as only one branch is in {\tt HEPEVT} at a time.
+    \item \textit {int id} ID of particle from which {\tt PHOTOS} starts processing. In the {\tt C++} case the importance of this parameter is limited as only one branch is in {\tt hep} struct at a time. {\bf ZbW or pho?}
   \end{enumerate}
 \end{description}
 
@@ -1227,7 +1227,7 @@ linked. {\bf ZbW: what about HEPEVT example?}
 On {\tt CERN} platforms, ready to use software is located in the {\tt /afs/cern.ch/sw/lcg/}
 directory. To set the appropriate paths, the scripts 
 {\tt platform/afs.paths.sh} and {\tt platform/afs.paths.csh} are prepared and should be executed before
-{\tt ./configure}. For details see {\tt README} in the {\tt PHOTOS} main directory.
+{\tt ./configure}. For details see {\tt README} in the {\tt PHOTOS} main directory. {\bf ZbW: still true?}
 
 \subsection{ LCG configuration scripts; available from version 3.1  }
 \label{sec:autotools}
@@ -1288,7 +1288,8 @@ In all cases the following actions have to be performed:
  \item  Check that the appropriate system variables are set. Execution of  the script \\
 {\tt /configure.paths.sh} usually can perform this task; the configuration step 
 announces this script.
-  \item Enter the {\tt /examples/testing} directory. Execute {\tt make}. Modify test.inc if needed.
+  \item Enter the {\tt /examples/testing} directory. Execute {\tt make}. 
+Modify {\tt test.inc} if needed.
   \item Enter the sub-directory for the particular process of interest
 and execute {\tt make}.
 \end{itemize}
@@ -1375,7 +1376,7 @@ The  {\tt Photospp} initialization methods can be used easily instead.
 In general, {\tt PHOTOS} will attempt to generate bremsstrahlung for every 
 branching point in the event record. This is of course not always appropriate.
 Already inside the internal {\tt C} part of {\tt PHOTOS}, 
-bremsstrahlung is prevented for vertices involving gluons or quarks 
+bremsstrahlung is normally prevented for vertices involving gluons or quarks 
 (with the exception of top quarks).
 
 This alone is insufficient. By default we suppress bremsstrahlung
@@ -1410,7 +1411,7 @@ For the user's convenience the following configuration methods are provided:
        When only the PDGID of the mother is provided, {\tt PHOTOS} will skip all decay channels
 	   of this particle. Note that the number of daughters is to be provided,
 	   If   set  to zero all decay channels are skpied and not only of a given
-           multiplicity. {\bf ZbW: I do not understand role of first paprameter equal 0, it is implicityl given below. The above sentence may be incorrect.}
+           multiplicity. {\bf ZbW: I do not understand role of first paprameter equal 0, it is implicitly given below. The above sentence may be incorrect.}
  \item {\tt Photos::suppressBremForBranch(daughterCount, motherID, d1ID, d2ID, ...)} \hfill \\
        {\tt Photos::suppressBremForBranch(0, motherID)} \hfill \\
        The usage of these methods is similar to the previous functions. The difference is
@@ -1429,7 +1430,7 @@ For the user's convenience the following configuration methods are provided:
 	  In addition, all decays of $\pi^0$ will also be skipped. Note, that the minimum
 	  number of parameters that must be provided is two - the number of daughters
 	  (which should be zero if suppression for all decay channels of the particle is chosen) 
-	  and the mother PDGID.} \\ \\
+	  and the mother PDGID.} {\bf Z bW: what about $\tau^- \rightarrow \nu_\tau e^- \bar \nu_e\gamma$ ?} \\ \\
 {\tt Photos::suppressBremForBranch(2, 15, 16, -213); } \\
 \emph{When the decay $\tau^- \rightarrow \nu_\tau \rho^-$ is found, it will be skipped by
       {\tt PHOTOS} along with the decays of   $\rho^-$ 
@@ -1540,9 +1541,9 @@ The ageement, when pair emission phase space was restricted to soft region, was 
 level of the pair effect (which itself is at the 0.1 \% level of the cross section). 
 The  matrix element is coded  explicitly as function of four vectors; it is thus easy to replace/modify. 
 The phase space  is parametrized without any mass or other approximations. This feature 
-was checked separately with  the special runs (matrix element removed) of multimilion samples.
+was checked separately with  the special runs (matrix element removed) of 100 Mevt samples.
 
-The matrix element used for pair emission  is easy to improve. It is using four momenta of final state particles
+The matrix element used for pair emission  is easy to improve. It is using four momenta of final state particles and is coded 
 explicitly. 
 \subsection{Logging and Debugging}
 \label{App:Logging}
@@ -1632,7 +1633,7 @@ or are introduced for backward compatibility.
         the decays like $J/\psi \to 5\pi^+ 5\pi^-$ higher value, at least equal to the number of charged decay 
         products, should be set. The algorithm performance will slow down linearly with the  maximum interference weight but all 
         simulation results will remain unchanged.   
-        } and no matrix element based kernel is used\footnote{Also in this case higher  than default 2 should be used,}.
+        } and no matrix element based kernel is used\footnote{Also in this case higher  than default 2 should be used.}.
   \item {\tt Photos::setInfraredCutOff(double cut\_off)} \\
         Set the minimal energy (in units of decaying particle mass)
         for photons to be explicitly generated.
@@ -1649,7 +1650,7 @@ or are introduced for backward compatibility.
   \item {\tt Photos::setCorrectionWtForW(bool corr)} \\
          A switch for leading effects of the matrix element (in leptonic $W$ decays)
   \item {\tt Photos::setMeCorrectionWtForScalar(bool corr)} \\
-         A switch for complete effects of the matrix element (in scalar to 2 scalar decays) {\it  installed in {\tt PHOTOS 3.3}. At present tests are missing. }
+         A switch for complete effects of the matrix element (in scalar to two scalar decays) {\it  installed in {\tt PHOTOS 3.3}. {ZbW \bf At present tests are missing.} }
   \item {\tt Photos::setMeCorrectionWtForW(bool corr)} \\
          A switch for complete effects of the matrix element (in leptonic $W$ decays) {\it  installed in {\tt PHOTOS 3.2} }
         Because of lack of reinitialization in a particular decay channel this option can be used for the fixed 
