@@ -428,16 +428,14 @@ in {\bf src/photos-fortran/ } directory.
 in publications as well as in the code, now in C++. \\
   Files:
   \begin{itemize}
-    \item { \bf struct\_decl.h } - contains declaration of structures and functions defined in other files within this folder. %TP: I just realized we don't have photos-C.h file. We can rename this file to photos-C.h and remove this entry from here
-                                   {\tt Photos} class uses these structs to set several options and for internal variables such as weights, angles, four momenta of internal use.
-    \item { \bf photos-C.cxx } - core functionality of {\tt PHOTOS}
+    \item { \bf photos-C.cxx } - core functionality of {\tt PHOTOS}. Structures of this code contain internal variables such as weights, angles, four momenta, etc.
+                                 {\tt Photos} class uses some of these structures to set several initialization options.
     \item { \bf HEPEVT\_struct.cxx } - static class translating information about particles passed through abstract event record interface
                                        to {\tt HEPEVT}-like structure used by the core {\tt PHOTOS} code.
     \item { \bf forW-MEc.cxx } - routines to calculate matrix element in W decay. 
                                  Note distinct programming style than the rest of code in {\tt photos-C} directory.
     \item { \bf forZ-MEc.cxx } - routines to calculate matrix element in Z decay. 
                                  Note distinct programming style than the rest of code in {\tt photos-C} directory.
-%TP: what does 'own programming style' mean?
     \item { \bf pairs.cxx } - code for electron-positron and muon pairs emission.
     \end{itemize}
 

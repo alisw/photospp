@@ -1,7 +1,7 @@
 #include "forZ-MEc.h"
 #include "Photos.h"
 #include "PhotosUtilities.h"
-#include "struct_decl.h"
+#include "photosC.h"
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>

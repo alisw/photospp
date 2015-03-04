@@ -16,7 +16,7 @@
 #include <vector>
 #include "PhotosParticle.h"
 #include "PhotosRandom.h"
-#include "struct_decl.h"
+#include "photosC.h"
 // WARNING: VARIANT B of phase space generation was not tested in C++ for all
 // options of the program initialization.. 
 //#define VARIANTB true

@@ -6,7 +6,7 @@
 #include <cstdio>
 #include <cmath>
 #include <iostream>
-#include "struct_decl.h"
+#include "photosC.h"
 #include "HEPEVT_struct.h"
 #include "PhotosUtilities.h"
 using std::cout;
@@ -18,7 +18,7 @@ using namespace PhotosUtilities;
 namespace Photospp
 {
 
-// Instantiating structs declared in struct_decl.h
+// Instantiating structs declared in photosC.h
 
 struct HEPEVT hep;
 struct HEPEVT pho;

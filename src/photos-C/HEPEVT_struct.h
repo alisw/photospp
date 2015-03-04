@@ -4,11 +4,11 @@
 #include <vector>
 #include "PhotosBranch.h"
 #include "PhotosParticle.h"
-#include "struct_decl.h"
+#include "photosC.h"
 
 namespace Photospp
 {
-  // const static int NMXHEP = 10000; at present NMXHEP is defined in struct_decl.h
+  // const static int NMXHEP = 10000; at present NMXHEP is defined in photosC.h
 const static double NO_BOOST_THRESHOLD=1.0e-8;
 
 class HEPEVT_struct

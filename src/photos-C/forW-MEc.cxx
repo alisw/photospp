@@ -1,6 +1,6 @@
 #include "forW-MEc.h"
 #include "Photos.h"
-#include "struct_decl.h"
+#include "photosC.h"
 #include <cstdlib>
 #include<iostream>
 using std::cout;
