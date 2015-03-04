@@ -339,7 +339,7 @@ event record.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=0.6]{interface_design.eps}
+\includegraphics[scale=0.5]{interface_design.eps}
 \label{fig:design}
 \caption{{\tt PHOTOS} C++ interface class relation diagram}
 \end{figure}
@@ -384,7 +384,7 @@ event record.
 
 \begin{itemize}
 \item {\bf src/eventRecordInterfaces/ } - source code for classes which interface with event records.
-      Currently only the {\tt HepMC} interface is located here.\\
+      Currently, the {\tt HepMC} interface and an interface to {\tt FORTRAN} event record {\tt HEPEVT} are located here.\\
   Classes:
   \begin{itemize}
   \item { \bf PhotosHepMCEvent} - interface to HepMC::GenEvent objects. 
@@ -393,35 +393,29 @@ event record.
   \item { \bf PhotosHEPEVTParticle} - interface to a single particle from the {\tt HEPEVT} event record.
   \end{itemize}   
 
-\item {\bf src/photosCInterfaces/ } - source code for the general {\tt PHOTOS} interface.  \\
+\item {\bf src/photosCInterfaces/ } - source code for the abstract event record interface.  \\
   Classes:
   \begin{itemize}
   \item { \bf Photos } - controls the configuration and initialization of {\tt PHOTOS}.
   \item { \bf PhotosEvent } - abstract base class for event information.
   \item { \bf PhotosParticle } - abstract base class for particles in the event.
   \item { \bf PhotosBranch } - contains one {\tt PhotosParticle}, and  pointers to its mothers and daughters.
-  The filtering of branchings to be tried by {\tt PHOTOS} for photons emission is done here.
+                               The main algorithms of the abstract interface, such as invoking {\tt PHOTOS} processing
+                               or filtering out branchings that will not be processed, is performed here.
   \end{itemize}
 
-\item {\bf src/photosFortranInterfaces/ } -  interface to {\tt PHOTOS FORTRAN} routines and common blocks. \\
-  Files:
-    \begin{itemize}
-    \item { \bf f\_Init } - contains a wrapper for the {\tt PHOTOS FORTRAN} routines for initialization.
-    \item { \bf PH\_HEPEVT\_interface } - contains a wrapper for accessing the
-      {\tt  PH\_HEPEVT} common block.
-    \item { \bf photos\_make.f } - contains  {\tt FORTRAN} routines to be  migrated to C++ rather soon.
-    \item { \bf forW-ME.f } - c  {\tt FORTRAN} routines to calculate matrix element in W decay, own programming style.
-    \item { \bf forZ-ME.f } - {\tt FORTRAN} routines  to calculate matrix element in Z decay, own programming style.
-    \end{itemize}
-
 \item {\bf src/utilities/ } - source code for utilities.\\
-  Classes:
+  Files/classes:
   \begin{itemize}
   \item { \bf Log} - general purpose logging class that allows filtering out output messages 
       of {\tt PHOTOS C++ Interface} and tracks statistics for each run.
   \item { \bf PhotosRandom} - random number generator taken from {\tt PHOTOS FORTRAN} and rewritten to C++.
-  \end{itemize}   
-\item {\bf src/photos-fortran/ } - {\tt PHOTOS FORTRAN} core rewritten to C++. Since version 3.54 {\tt PHOTOS} has been
+  \item { \bf PhotosDebugRandom} - static class deriving from {\tt PhotosRandom} providing several tools to store and restore
+                                   state of {\tt PHOTOS} random number generator.
+  \item { \bf PhotosUtilities.cxx} - support functions (e.g. boosting, rotations, etc.)
+  \end{itemize}
+
+\item {\bf  src/photos-C/ } - core {\tt PHOTOS} code. Since version 3.54 {\tt PHOTOS} has been
       fully rewritten to C++ and located in its own namespace {\tt Photospp}\footnote{This means that no part of
       the code is shared with old {\tt PHOTOS FORTRAN} and both versions can be loaded simultanously without the
       risk of one version overwriting the options of the other.}. From the algorithmic point of view
@@ -429,8 +423,21 @@ full compatibility\footnote{The resulting modules are however not interchangeabl
  will not function if the {\tt PHOTOS FORTRAN} library is loaded instead of code encapsulated 
 in {\bf src/photos-fortran/ } directory.
 }
- with the {\tt FORTRAN } version is kept. The appropriate descriptions remain vaild;
-in publications as well as in the code, now in C++.
+ with the {\tt FORTRAN} version is kept. The appropriate descriptions remain vaild;
+in publications as well as in the code, now in C++. \\
+  Files:
+  \begin{itemize}
+    \item { \bf struct\_decl.h } - contains declaration of structures and functions defined in other files within this folder. %TP: I just realized we don't have photos-C.h file. We can rename this file to photos-C.h and remove this entry from here
+                                   {\tt Photos} class uses these structs to set several options.
+    \item { \bf photos-C.cxx } - core functionality of {\tt PHOTOS}
+    \item { \bf HEPEVT\_struct.cxx } - static class translating information about particles passed through abstract event record interface
+                                       to {\tt HEPEVT}-like structure used by the core {\tt PHOTOS} code.
+    \item { \bf forW-MEc.cxx } - routines to calculate matrix element in W decay, own programming style.
+    \item { \bf forZ-MEc.cxx } - routines to calculate matrix element in Z decay, own programming style. %TP: what does 'own programming style' mean?
+    \item { \bf pairs.cxx } - code for electron-positron and muon pairs emission.
+    \end{itemize}
+
+
   \item {\bf examples/ } - examples of different {\tt PHOTOS} C++ Interface uses.
     \begin{itemize}
         \item {\bf photos\_hepevt\_example} - stand alone example with a simple 
