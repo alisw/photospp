@@ -115,7 +115,7 @@ bremsstrahlung in the decay of particles and resonances
 since five years now.
 The main purpose of the present
 paper is to document technical aspects of the {\tt PHOTOS} Monte Carlo 
-installation and its use. A multitude of test results and examples are  
+installation and present version use. A multitude of test results and examples are  
 distributed together 
 with the program code.
 
@@ -127,7 +127,7 @@ necessary for process dependent
 photon emission kernel is implemented. 
 It is used  in $Z$ and $W$ decays for kernels
 of complete first order matrix elements of the decays.
-Additional, final state emission of lepton  pairs  is also available.
+Additional  emission of  final state lepton  pairs  is also available.
 
 Physics assumptions used in the program and properties of the
 solution are reviewed. 
