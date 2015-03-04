@@ -215,7 +215,7 @@ The {\tt HepMC} event record format is  evolving with time, making it necessary
  to adapt
 the code to new versions. The
 {\tt HepMC} versions 2.06, 2.05  and 2.03 were used  in the final tests of our 
-distribution. {\bf ZbW may be higher versions as well?}
+distribution.
 
 Evolution of the {\tt HepMC} format itself is not a crucial problem.
 In contrast, conventions on how physics information is  filled into {\tt HepMC}
@@ -347,17 +347,12 @@ event record.
 
 \begin{itemize}
   \item {\bf {\tt photos-C} }\\
-       This part of the code includes numerical algorithms of {\tt PHOTOS},
-       as well as  an interface 
-       to this {\tt C} numerical library of {\tt PHOTOS}. In particular,
-	    routine which invokes the processing
-	   of a single branch and the actual code for its processing.
-{\bf ZbW: something must be corrected here.} 
-       The most important part of this module, is the {\tt PH\_HEPEVT\_Interface\_} class.
-        This class is responsible for writing
-	   the decay branch to be processed into the internal event record struct {\tt hep}.
-       For further details regarding the interface to {\tt C} structs
-	    and methods see Appendix \ref{Interface to PHOTOS}.
+       This part of the code includes numerical algorithms of {\tt PHOTOS}. In particular,
+       the code for generating photons as well as electron-poistron and muon pairs.
+       The {\tt HEPEVT\_struct} class located here is responsible for writing
+       the decay branch to be processed into the internal event record struct {\tt hep} as
+       well as for writing the output of the processing back to the event record.
+       For further details see Appendix \ref{Interface to PHOTOS}.
   \item {\bf {\tt PHOTOS} {\tt C++} Interface} \\
        This is an abstract interface to the event record.
        The class {\tt PhotosEvent} contains information regarding the whole event
@@ -365,7 +360,8 @@ event record.
        All particles used by the interface are located in the event in the form of
        a list of {\tt PhotosParticle} objects.
        The last class located here, {\tt PhotosBranch}, contains information regarding
-	 elementary branching to be processed by {\tt PHOTOS}.
+       elementary branching to be processed by {\tt PHOTOS}. In particular, algorithm
+       which selects single branch for processing and filters out branches that will not be processed.
   \item {\bf Event Record Interface} \\
        This contains the event record implementation classes. All classes stored here represent
        the implementation of specific event record interfaces and are responsible for reading,
@@ -582,7 +578,7 @@ improvement. For example if the vertex $q \bar q \to l^\pm l^\mp g$ is encounter
 (note the presence of $g$ in the final state),
 the interface could `on the fly' add an intermediate $Z$ into the record and enable {\tt PHOTOS}
 on the temporarily constructed decay branching, $Z \to l^\pm l^\mp $. 
-{\bf ZbW: Do we have this option?}
+{\bf ZbW: Do we have this option? TP: No, but we can process qq->ll without intermediate Z.}
 
 
 Internally, in the {\tt C} part of {\tt PHOTOS}, the data
@@ -1094,12 +1090,12 @@ which differ only that are  written in capital letters instead of small ones.
 \item[PH\_PHOQED] supplement for the PH\_HEPEVT event record to block emission 
 from some particles. This struct is not preserved in {\tt C++}.
  Instead the qedrad[NMXHEP] field is added to {\tt HEPEVT} struct type for two 
-objects {\tt hep} and {\tt pho}. In FORTRAN these were common blocks PH\_HEPEVT and PHOEVT.
-The qedrad[NMXHEP] is used in algorithm of pair emission.
+objects {\tt hep} and {\tt pho}. In FORTRAN these were common blocks {\tt PH\_HEPEVT} and {\tt PHOEVT}.
+The {\tt qedrad[NMXHEP]} is used in the algorithm of pair emission.
     \begin{description}
-    \item[QEDRAD[10000]]  \textit{bool} flag enabling a {\tt FORTRAN} users
-    to block emission from particles stored in PH\_HEPEVT.
-    {\bf ZbW: At present it is Not used.}
+    \item[QEDRAD[10000]]  \textit{int} flag enabling a {\tt FORTRAN} users %TP: we should probably change it to bool in code
+    to block emission from particles stored in {\tt PH\_HEPEVT}.
+    {\bf ZbW: At present it is Not used. TP: maybe we should remove it altogether?}
     \end{description}
 \end{description}
 
@@ -1134,7 +1130,7 @@ In the following let us list routines which are called from the interface.
   Return type: \textit{void} \\
   Parameters:
   \begin{enumerate}
-    \item \textit {int id} ID of particle from which {\tt PHOTOS} starts processing. In the {\tt C++} case the importance of this parameter is limited as only one branch is in {\tt hep} struct at a time. {\bf ZbW or pho?}
+    \item \textit {int id} ID of particle from which {\tt PHOTOS} starts processing. In the {\tt C++} case the importance of this parameter is limited as only one branch is in {\tt hep} struct at a time. {\bf ZbW or pho? TP: Both. Only one branch is copied from event record to hep and then internally by PHOIN, from hep to pho.}
   \end{enumerate}
 \end{description}
 
@@ -1180,7 +1176,9 @@ However, in order to run the more advanced examples located in the {\tt /example
   \item {\tt ROOT} \cite{root-install-www} version 5.18 or later
   \item {\tt PYTHIA 8.1} \cite{Sjostrand:2007gs} or later. {\tt PYTHIA 8.1} must be compiled with {\tt HepMC} 2.xx
         so that the {\tt PYTHIA} library {\tt hepmcinterface} exists. 
-        {\bf ZbW: Note restrictions for our examples due to change of initializations and makefile-s from PYTHIA 8.200 on}
+        {\bf ZbW: Note restrictions for our examples due to change of initializations and makefile-s from PYTHIA 8.180 on.
+             TP: We still have not decided which versions we want to support. There are three setups: 8.170, 8.180 and 8.200.
+                 We have the first setup, second is easy, third a bit more complicated, but only a bit. We could support all but this complicates makefiles...}
   \item {\tt MC-TESTER} \cite{Golonka:2002rz,Davidson:2008ma} version 1.24 or later.
         Do not forget to type {\tt make libHepMCEvent} after compilation of {\tt MC-TESTER} is done.
   \item {\tt TAUOLA} \cite{Davidson:2010rw} version 1.0.5 or later. {\tt TAUOLA} must be compiled with {\tt HepMC}.
@@ -1217,15 +1215,14 @@ In order to compile the examples, compile the {\tt PHOTOS} {\tt C++} interface, 
   \item Execute {\tt make}
 \end{itemize}
 
-If neither {\tt HepMC}, {\tt Pythia8} nor {\tt MC-TESTER} are accessible,  the most basic
- example will be nonetheless provided. The {\tt /examples} directory will 
-contain the executable files for all examples which can be compiled and 
-linked. {\bf ZbW: what about HEPEVT example?}
+If neither {\tt HepMC}, {\tt Pythia8} nor {\tt MC-TESTER} are accessible, 
+only the {\tt HEPEVT} example will be provided. The {\tt /examples} directory will 
+contain the executable files for all examples which can be compiled and linked.
 
 On {\tt CERN} platforms, ready to use software is located in the {\tt /afs/cern.ch/sw/lcg/}
 directory. To set the appropriate paths, the scripts 
 {\tt platform/afs.paths.sh} and {\tt platform/afs.paths.csh} are prepared and should be executed before
-{\tt ./configure}. For details see {\tt README} in the {\tt PHOTOS} main directory. {\bf ZbW: still true?}
+{\tt ./configure}. For details see {\tt README} in the {\tt PHOTOS} main directory. {\bf ZbW: still true? TP: yes, however, it uses pythia8.135. Uf we change pythia support, we have to update these config files!}
 
 \subsection{ LCG configuration scripts; available from version 3.1  }
 \label{sec:autotools}
@@ -1405,14 +1402,17 @@ For the user's convenience the following configuration methods are provided:
 	   PDGID of the mother and the list of PDGIDs of daughters must be provided.
 	   There is no upper limit to the number of daughters.
 	   If a decay with the matching pattern is found, {\tt PHOTOS} will skip the decay.
+           The decay will be skipped if it contains additional photons or other particles,
+           as long as all of the particles from the pattern are present on the list of daughters.
  \item {\tt Photos::suppressBremForDecay(0, motherID)} \hfill \\
-       When only the PDGID of the mother is provided, {\tt PHOTOS} will skip all decay channels
-	   of this particle. Note that the number of daughters is to be provided,
-	   If   set  to zero all decay channels are skpied and not only of a given
-           multiplicity. {\bf ZbW: I do not understand role of first paprameter equal 0, it is implicitly given below. The above sentence may be incorrect.}
+       When only the PDGID of the mother is provided, (the {\it daughterCount} is 0) {\tt PHOTOS} will skip all decay channels
+	   of this particle. 
+           {\bf ZbW: I do not understand role of first paprameter equal 0, it is implicitly given below. The above sentence may be incorrect.
+           TP: Is it a bit more clear now? This number does not indicate multiplicity but simply number of daughters.
+               Also, below is different function but with the same two use cases.}
  \item {\tt Photos::suppressBremForBranch(daughterCount, motherID, d1ID, d2ID, ...)} \hfill \\
        {\tt Photos::suppressBremForBranch(0, motherID)} \hfill \\
-       The usage of these methods is similar to the previous functions. The difference is
+       The usage of this function is similar to the two uses of the previous function. The difference is
 	   that {\tt PHOTOS} will skip not only the corresponding channel,
 	   but also all consecutive decays of its daughters, making {\tt PHOTOS} skip the entire branch
 	   of decays instead of just one.
@@ -1424,11 +1424,14 @@ For the user's convenience the following configuration methods are provided:
 {\tt Photos::suppressBremForDecay(2, -15, -16, 211); } \\
 {\tt Photos::suppressBremForDecay(0, 111); } \\
 \emph{If the decays $\tau^- \rightarrow \nu_\tau e^- \bar \nu_e$ or
-      $\tau^+ \rightarrow \bar \nu_\tau \pi^+$ are found, they will be skipped by {\tt PHOTOS}.
+      $\tau^+ \rightarrow \bar \nu_\tau \pi^+$ are found, they will be skipped by {\tt PHOTOS}{\footnote
+      Note that the first line of this example states that any decays of $\tau^-$
+      that contain $\nu_\tau$, $e^-$ and $\bar \nu_e$ will be skipped regardless of how many other particles are in the decay.
+      So, for example, $\tau^- \rightarrow \nu_\tau e^- \bar \nu_e \gamma$ will be skipped as well}. %TP: I don't think I explain it clearly... it should probably be redone.
 	  In addition, all decays of $\pi^0$ will also be skipped. Note, that the minimum
 	  number of parameters that must be provided is two - the number of daughters
 	  (which should be zero if suppression for all decay channels of the particle is chosen) 
-	  and the mother PDGID.} {\bf Z bW: what about $\tau^- \rightarrow \nu_\tau e^- \bar \nu_e\gamma$ ?} \\ \\
+	  and the mother PDGID.} \\ \\
 {\tt Photos::suppressBremForBranch(2, 15, 16, -213); } \\
 \emph{When the decay $\tau^- \rightarrow \nu_\tau \rho^-$ is found, it will be skipped by
       {\tt PHOTOS} along with the decays of   $\rho^-$ 
@@ -1572,7 +1575,7 @@ functions can be used from within the user's program after including the
         Parameters of this routine specify the range of debug codes for the {\tt phlupa} routine.
 \end{itemize}
 
-At present only the following debug messages can be printed {\bf ZbW I do not understand, may be just `with' missing}:
+At present only the following debug messages are present in the code:
 \begin{itemize}
   \item Debug(0)    - seed used by the random number generator
   \item Debug(1)    - which type of branching was found in {\tt HepMC}
@@ -1581,6 +1584,9 @@ At present only the following debug messages can be printed {\bf ZbW I do not un
   \item Debug(701)  - branching is forced
   \item Debug(702)  - branching is suppressed
   \item Debug(703)  - branching is processed (i.e. passed to the filter)
+  \item Debug(900)  - started ME channel check
+  \item Debug(901)  - ME channel value obtained
+  \item Debug(902)  - final ME channel value after checking all flags
   \item Debug(2)    - execution of the branching filter was completed
   \item Debug(1000) - the number of particles sent to and retrieved from {\tt PHOTOS FORTRAN}
 \end{itemize}
@@ -1653,7 +1659,7 @@ or are introduced for backward compatibility.
          A switch for complete effects of the matrix element (in leptonic $W$ decays) {\it  installed in {\tt PHOTOS 3.2} }
         Because of lack of reinitialization in a particular decay channel this option can be used for the fixed 
         decay channel, and either for  W+ or for W-, also for fixed (not strongly varying) wirtuality. 
-        This option will be elaborated further. {\bf ZbW: I do not understand restriction.}
+        This option will be elaborated further. {\bf ZbW: I do not understand restriction. TP: I don't remember it as well. I only recall we had some problems with W. Needs to be investiagted.}
   \item {\tt Photos::setMeCorrectionWtForZ(bool corr)} \\
          A switch for complete effects of the matrix element (in leptonic $Z$ decays) {\it  installed in {\tt PHOTOS 3.1} }
   \item {\tt Photos::initializeKinematicCorrections(int flag)} \\
