@@ -578,7 +578,7 @@ improvement. For example if the vertex $q \bar q \to l^\pm l^\mp g$ is encounter
 (note the presence of $g$ in the final state),
 the interface could `on the fly' add an intermediate $Z$ into the record and enable {\tt PHOTOS}
 on the temporarily constructed decay branching, $Z \to l^\pm l^\mp $. 
-{\bf ZbW: Do we have this option? TP: No, but we can process qq->ll without intermediate Z.}
+We can process $q\bar q \to l\bar l$ without intermediate $Z$ though.
 
 
 Internally, in the {\tt C} part of {\tt PHOTOS}, the data
@@ -1095,7 +1095,7 @@ The {\tt qedrad[NMXHEP]} is used in the algorithm of pair emission.
     \begin{description}
     \item[QEDRAD[10000]]  \textit{int} flag enabling a {\tt FORTRAN} users %TP: we should probably change it to bool in code
     to block emission from particles stored in {\tt PH\_HEPEVT}.
-    {\bf ZbW: At present it is Not used. TP: maybe we should remove it altogether?}
+    {\bf ZbW: At present it is Not used. TP: maybe we should remove it altogether? ZbW: Yes we should do that.}
     \end{description}
 \end{description}
 
@@ -1130,7 +1130,9 @@ In the following let us list routines which are called from the interface.
   Return type: \textit{void} \\
   Parameters:
   \begin{enumerate}
-    \item \textit {int id} ID of particle from which {\tt PHOTOS} starts processing. In the {\tt C++} case the importance of this parameter is limited as only one branch is in {\tt hep} struct at a time. {\bf ZbW or pho? TP: Both. Only one branch is copied from event record to hep and then internally by PHOIN, from hep to pho.}
+    \item \textit {int id} ID of particle from which {\tt PHOTOS} starts 
+processing. In the {\tt C++} case the importance of this parameter is limited 
+as only one branch is in {\tt hep} struct at a time. 
   \end{enumerate}
 \end{description}
 
@@ -1407,12 +1409,9 @@ For the user's convenience the following configuration methods are provided:
  \item {\tt Photos::suppressBremForDecay(0, motherID)} \hfill \\
        When only the PDGID of the mother is provided, (the {\it daughterCount} is 0) {\tt PHOTOS} will skip all decay channels
 	   of this particle. 
-           {\bf ZbW: I do not understand role of first paprameter equal 0, it is implicitly given below. The above sentence may be incorrect.
-           TP: Is it a bit more clear now? This number does not indicate multiplicity but simply number of daughters.
-               Also, below is different function but with the same two use cases.}
  \item {\tt Photos::suppressBremForBranch(daughterCount, motherID, d1ID, d2ID, ...)} \hfill \\
        {\tt Photos::suppressBremForBranch(0, motherID)} \hfill \\
-       The usage of this function is similar to the two uses of the previous function. The difference is
+       The usage of this function is similar to the two cases of the previous function. The difference is
 	   that {\tt PHOTOS} will skip not only the corresponding channel,
 	   but also all consecutive decays of its daughters, making {\tt PHOTOS} skip the entire branch
 	   of decays instead of just one.
@@ -1427,7 +1426,9 @@ For the user's convenience the following configuration methods are provided:
       $\tau^+ \rightarrow \bar \nu_\tau \pi^+$ are found, they will be skipped by {\tt PHOTOS}{\footnote
       Note that the first line of this example states that any decays of $\tau^-$
       that contain $\nu_\tau$, $e^-$ and $\bar \nu_e$ will be skipped regardless of how many other particles are in the decay.
-      So, for example, $\tau^- \rightarrow \nu_\tau e^- \bar \nu_e \gamma$ will be skipped as well}. %TP: I don't think I explain it clearly... it should probably be redone.
+      So, for example, $\tau^- \rightarrow \nu_\tau e^- \bar \nu_e \gamma$ will be skipped as well. It is important to realize that exluding 
+$\tau^- \to \rightarrow \nu_\tau \pi^-$ lead to exclusion of
+$\tau^- \to \rightarrow \nu_\tau \pi^-\pi^0$ as well. If it is not required it must be allowed separately. {\bf  ZBW last sentence must be verified.}}. %TP: I don't think I explain it clearly... it should probably be redone.
 	  In addition, all decays of $\pi^0$ will also be skipped. Note, that the minimum
 	  number of parameters that must be provided is two - the number of daughters
 	  (which should be zero if suppression for all decay channels of the particle is chosen) 
@@ -1576,6 +1577,7 @@ functions can be used from within the user's program after including the
 \end{itemize}
 
 At present only the following debug messages are present in the code:
+{\bf ZbW I do not understand, looks like the printed message is `Debug(703) for example. }
 \begin{itemize}
   \item Debug(0)    - seed used by the random number generator
   \item Debug(1)    - which type of branching was found in {\tt HepMC}
