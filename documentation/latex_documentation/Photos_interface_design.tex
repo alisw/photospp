@@ -1364,6 +1364,13 @@ In particular, information from the field
 {\tt } the extension of {\tt HEPEVT} is ignored. 
 The  {\tt Photospp} initialization methods can be used easily instead.
 
+Note, that in case of  {\tt HEPEVT} algorithm of  {\tt PHOTOS}
+has to modify many pointers (stored as integer variables) to mothers 
+and daughters for all particles stored at later positions than the added 
+photons or lepton pairs. This part of the code was not tested to large detail.
+Our tests were performed for the cases where modified decay was the last one of the event record, thus  shifting of consecutives entries was not necessary.
+{\bf ZbW: really? we should check that.}
+
 \section{Appendix: User Configuration}
 \label{sec:User Configuration}
 
