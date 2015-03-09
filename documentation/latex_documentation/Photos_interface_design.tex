@@ -1562,9 +1562,9 @@ For details on its content we address the reader to comments in the {\tt /src/ut
 Let us present however some general scheme of the tool's
 functionality.  The {\tt PHOTOS} interface allows control over the
 amount of message data displayed during program execution and
-provides a basic tool for memory leak tracking. The following
-functions can be used from within the user's program after including the
-{\tt Log.h} file:
+provides a basic tool for memory leak tracking. The following initialization
+functions can be used in user's main program, 
+the  {\tt Log.h} header has to be then incuded:
 \begin{itemize}
   \item {\tt Log::Summary() } - Displays a summary of all messages.
   \item {\tt Log::SummaryAtExit() } - Displays the summary at the end of a program run.
@@ -1583,8 +1583,10 @@ functions can be used from within the user's program after including the
         Parameters of this routine specify the range of debug codes for the {\tt phlupa} routine.
 \end{itemize}
 
-At present only the following debug messages are present in the code:
-{\bf ZbW I do not understand, looks like the printed message is `Debug(703) for example. }
+With  {\tt Log::LogDebug(s,e)}  messages of $s$ to $e$ range, 
+will be printed at execution time:
+
+
 \begin{itemize}
   \item Debug(0)    - seed used by the random number generator
   \item Debug(1)    - which type of branching was found in {\tt HepMC}
