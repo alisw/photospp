@@ -93,16 +93,21 @@
 \title{PHOTOS Interface in C++\\[0.5cm]{} 
 \textbf{\small Technical and Physics Documentation  \\[0.4cm]\rule{4cm}{1pt}\\[0.4cm]}}
 
-\author{\LARGE N. Davidson$^{a,b}$, T. Przedzinski$^c$, Z. Was$^{a,d}$}\\[0.3cm]
-\textsf{\Large{\em $^a$ Institute of Nuclear Physics, 
-Polish Academy of Sciences,\\
-         ul. Radzikowskiego 152, 31-342 Cracow, Poland}\\
-{\em $^b$ The University of Melbourne, School of Physics \\ Australia  }\\
-{\em $^c $ The Faculty of Physics, Astronomy and Applied Computer
+\author{\LARGE N. Davidson$^{a}$, T. Przedzinski$^b$, Z. Was$^{c}$}\\[0.3cm]
+\textsf{\Large{\em {\em $^a$ Murdoch Childrens Research Institute, Royal
+Children’s Hospital, \\ Flemington Road, Parkville 3052, Melbourne, VIC,
+Australia
+ }\\
+{\em $^b $ The Faculty of Physics, Astronomy and Applied Computer
 Science,\\
-Jagellonian University, Reymonta 4, 30-059 Cracow, Poland}\\
-{\em $^d $ Theory Group, Physics Department, CERN, CH-1211, Geneva 23, Switzerland}
- }\\[0.3cm]
+Jagellonian University, Stanislawa
+Lojasiewicza 11,
+30-348 Cracow, Poland}
+ }\\
+$^c$ Institute of Nuclear Physics, 
+Polish Academy of Sciences,\\
+         ul. Radzikowskiego 152, 31-342 Cracow, Poland}
+\\[0.3cm]
 
 %\includegraphics[height=3cm]{logo.eps}\\[1cm]
 {\bf \Large Abstract} \vskip 2 mm 
