@@ -510,8 +510,8 @@ and then content of  {\tt HEPEVT} is modified.
 \section{Extensibility}
 \label{sec:extensibility}
  The purpose of the {\tt C++} interface to {\tt PHOTOS} algorithm rewritten to {\tt C} is to enable 
-all the functionality of its {\tt FORTRAN} predecessor to be available for the {\tt HepMC} data
-structure. Some new methods for improved initialization are introduced. The new program 
+all the functionality of its {\tt FORTRAN} predecessor to be available for the C++ data
+structures. Some new methods for improved initialization are introduced. The new program 
 functionality has been prepared to enable extensions, such as emission kernels based on matrix elements
 or emission of pairs. 
 Let us briefly discuss some of these points.
@@ -529,8 +529,7 @@ for the implementation of channel dependent matrix elements. This was
 integrated into the {\tt C++} version of {\tt PHOTOS}. 
 
 \item
-Methods devised to check the content of {\tt HepMC} as used by {\tt PHOTOS} are
-described in Appendix \ref{App:Logging}. 
+Methods devised to check the content of event record are described in Appendix \ref{App:Logging}. 
 They need to be used whenever {\tt PHOTOS} 
 processes events from a new generator e.g. upgraded versions of  {\tt PYTHIA},
 which may fill the event record in an unexpected way.
@@ -621,7 +620,7 @@ SHERPA and HERWIG++.  }.
 For inclusive calculations, FSR radiative corrections are at the one permille level.
 For semi-inclusive cross sections, such as the total rates of $Z$ decay for events
 where the hardest photon energy (or two hardest photon energies)   exceed 1 GeV in the $Z$ rest frame, differences
-between results from {\tt PHOTOS} ({\tt PHOTOS}  without the matrix element correcting weight)
+between results from {\tt PHOTOS}, with the matrix element correcting weight turned off, and
 and YFS based generators of the first or second order were also 
 at the 0.2 \% level. 
 On the other hand, if two  hard photons were requested and invariant masses constructed from leptons
@@ -910,7 +909,7 @@ from our example, {\tt examples/testing/Zmumu}, after adaptation of the center-o
 (91.17 GeV) and test
 energy threshold (1 GeV). Samples of 100 million events were used. 
 See  {\tt examples/testing/README-plots} for technical details. Reference 
-{\tt ROOT} files for {\tt KKMC CEEX} samples are, however, created outside of the distribution.
+{\tt ROOT} files for {\tt KKMC CEEX} samples are, however, created outside of the {\tt PHOTOS} distribution package.
   \label{fig:gamgam}
 }
 \end{figure}
@@ -975,8 +974,8 @@ will become an integrated part. \vskip -2 mm
 \label{sec:summary}
 We have presented a new version  of {\tt PHOTOS} Monte Carlo. The part of 
 {\tt PHOTOS} which operates on 
-event records is now rewritten into {\tt C++} and uses the {\tt HepMC} event record 
-format for input and output. Interface to {\tt HEPEVT} event record of {\tt FORTRAN} is provided.
+event records is now rewritten into {\tt C++} and an interface to the {\tt HepMC} event record 
+is prepared. Interface to {\tt HEPEVT} event record of {\tt FORTRAN} is provided as well.
 The physics performance of the program is the
 same, or better,  as that of the {\tt FORTRAN/HEPEVT} version, better steering options are introduced. 
 When an elementary decay is to be modified by {\tt PHOTOS}, 
@@ -1083,27 +1082,6 @@ which differ only that are  written in capital letters instead of small ones.
 \end{description}
 
 \begin{description}
-\item[PHLUPY] debug messages handling.
-    \begin{description}
-    \item[IPOIN]  \textit{int} messages above this value will not be displayed.
-	\item[IPOINM] \textit{int} messages below this value will not be displayed.
-    \end{description}
-\end{description}
-
-\begin{description}
-\item[PH\_PHOQED] supplement for the PH\_HEPEVT event record to block emission 
-from some particles. This struct is not preserved in {\tt C++}.
- Instead the qedrad[NMXHEP] field is added to {\tt HEPEVT} struct type for two 
-objects {\tt hep} and {\tt pho}. In FORTRAN these were common blocks {\tt PH\_HEPEVT} and {\tt PHOEVT}.
-The {\tt qedrad[NMXHEP]} is used in the algorithm of pair emission.
-    \begin{description}
-    \item[QEDRAD[10000]]  \textit{int} flag enabling a {\tt FORTRAN} users %TP: we should probably change it to bool in code
-    to block emission from particles stored in {\tt PH\_HEPEVT}.
-    {\bf ZbW: At present it is Not used. TP: maybe we should remove it altogether? ZbW: Yes we should do that.}
-    \end{description}
-\end{description}
-
-\begin{description}
 \item[PHOSTA] Status information.
     \begin{description}
     \item[STATUS[ 10]]  \textit{int} Status codes for the last 10 errors/warnings
@@ -1174,9 +1152,11 @@ scripts explained in Appendix \ref{sec:autotools} have to be used.} operating sy
 supported in the future if sufficient interest is found.
 
 The main interface library uses {\tt HepMC} \cite{Dobbs:2001ck} (version 2.03 or later) and requires that either
-its location has been provided or option of compilation without {\tt HepMC} has been chosen during the configuration step. This is sufficient to compile the interface and to run the simple, stand-alone example.
+its location has been provided or option of compilation without {\tt HepMC} has been chosen during the configuration step.
+This is sufficient to compile the interface and to run the {\tt HEPEVT} example.
 
-However, in order to run the more advanced examples located in the {\tt /examples} directory, {\tt HepMC} is required. It is also required to install:
+However, in order to run the more advanced examples located in the {\tt /examples} directory, {\tt HepMC} is required.
+To run all of the available examples, it is also required to install:
 
 \begin{itemize}
   \item {\tt ROOT} \cite{root-install-www} version 5.18 or later
@@ -1221,7 +1201,7 @@ In order to compile the examples, compile the {\tt PHOTOS} {\tt C++} interface, 
   \item Execute {\tt make}
 \end{itemize}
 
-If neither {\tt HepMC}, {\tt Pythia8} nor {\tt MC-TESTER} are accessible, 
+If neither {\tt HepMC}, {\tt Pythia8}, {\tt Tauola} nor {\tt MC-TESTER} are accessible, 
 only the {\tt HEPEVT} example will be provided. The {\tt /examples} directory will 
 contain the executable files for all examples which can be compiled and linked.
 
@@ -1230,7 +1210,9 @@ directory. To set the appropriate paths, the scripts
 {\tt platform/afs.paths.sh} and {\tt platform/afs.paths.csh} are prepared and should be executed before
 {\tt ./configure}. For details see {\tt README} in the {\tt PHOTOS} main directory. {\bf ZbW: still true? TP: yes, however, it uses pythia8.135. Uf we change pythia support, we have to update these config files!}
 
-\subsection{ LCG configuration scripts; available from version 3.1  }
+\subsection{ LCG configuration scripts; available from version 3.1%
+\footnote{12.III.2015: these scripts has not been updated to newest release and will not work! We will try to fix that soon.}
+}
 \label{sec:autotools}
 
 For our project still another configuration/automake system was
@@ -1282,6 +1264,8 @@ $W \rightarrow e \nu_e$, $W \rightarrow \mu \nu_\mu$,
 $Z \rightarrow e^+ e^-$, $Z \rightarrow \mu \mu$ or $Z \rightarrow \tau^+ \tau^-$,
 $K_{0}^{S} \rightarrow \pi \pi$,
 the main programs residing in the subdirectories of {\tt /examples/testing} should be executed.
+Note that all paths listed as optional in Appendix \ref{sec:Installation} are required for these
+tests to work.
 In all cases the following actions have to be performed:
 
 \begin{itemize}
@@ -1340,12 +1324,15 @@ constructed. To use the {\tt PHOTOS} interface in an external project, additiona
 compilation directives are required. For the static libraries:
 \begin{itemize}
   \item add {\tt -I<PhotosLocation>/include} at the compilation step,
-  \item add {\tt <PhotosLocation>/lib/libPhotosCxxInterface.a <PhotosLocation>/lib/libPhotosFortran.a} at the linking step of your project.
+  \item add {\tt <PhotosLocation>/lib/libPhotospp.a} as well as one or both of the libraries: 
+            {\tt <PhotosLocation>/lib/libPhotosppHepMC.a} and
+            {\tt <PhotosLocation>/lib/libPhotosppHEPEVT.a} has to be added to the linking step of your project.
 \end{itemize}
 For the shared objects:
 \begin{itemize}
   \item add {\tt -I<PhotosLocation>/include} at the compilation step,
-  \item add {\tt -L<PhotosLocation>/lib} along with {\tt -lPhotosCxxInterface -lPhotosFortran} at the linking step.
+  \item add {\tt -L<PhotosLocation>/lib} along with {\tt -lPhotospp} as well as one or both of the libraries:
+            {\tt -lPhotosppHepMC} and {\tt -lPhotosppHEPEVT} has to be added to the linking step.
   \item  {\tt PHOTOS} libraries must be provided for the executable; e.g. with the help of {\tt LD\_LIBRARY\_PATH}.
 \end{itemize}
 {\tt <PhotosLocation>} denotes the path to the {\tt PHOTOS} installation directory.
@@ -1372,8 +1359,7 @@ Note, that in case of  {\tt HEPEVT} algorithm of  {\tt PHOTOS}
 has to modify many pointers (stored as integer variables) to mothers 
 and daughters for all particles stored at later positions than the added 
 photons or lepton pairs. This part of the code was not tested to large detail.
-Our tests were performed for the cases where modified decay was the last one of the event record, thus  shifting of consecutives entries was not necessary.
-{\bf ZbW: really? we should check that.}
+Our tests were performed for the cases where modified decay was the last one of the event record, thus  shifting of consecutive entries was not necessary.
 
 \section{Appendix: User Configuration}
 \label{sec:User Configuration}
@@ -1434,12 +1420,12 @@ For the user's convenience the following configuration methods are provided:
 {\tt Photos::suppressBremForDecay(2, -15, -16, 211); } \\
 {\tt Photos::suppressBremForDecay(0, 111); } \\
 \emph{If the decays $\tau^- \rightarrow \nu_\tau e^- \bar \nu_e$ or
-      $\tau^+ \rightarrow \bar \nu_\tau \pi^+$ are found, they will be skipped by {\tt PHOTOS}{\footnote
-      Note that the first line of this example states that any decays of $\tau^-$
+      $\tau^+ \rightarrow \bar \nu_\tau \pi^+$ are found, they will be skipped by {\tt PHOTOS}{%
+      \footnote{Note that the first line of this example states that any decays of $\tau^-$
       that contain $\nu_\tau$, $e^-$ and $\bar \nu_e$ will be skipped regardless of how many other particles are in the decay.
-      So, for example, $\tau^- \rightarrow \nu_\tau e^- \bar \nu_e \gamma$ will be skipped as well. It is important to realize that exluding 
-$\tau^- \to \rightarrow \nu_\tau \pi^-$ lead to exclusion of
-$\tau^- \to \rightarrow \nu_\tau \pi^-\pi^0$ as well. If it is not required it must be allowed separately. {\bf  ZBW last sentence must be verified.}}. %TP: I don't think I explain it clearly... it should probably be redone.
+      So, for example, $\tau^- \rightarrow \nu_\tau e^- \bar \nu_e \gamma$ will be skipped as well. It is important to realize that excluding 
+$\tau^- \to \rightarrow \nu_\tau \pi^-$ leads to exclusion of
+$\tau^- \to \rightarrow \nu_\tau \pi^-\pi^0$ as well. If it is not required it must be allowed separately.} {\bf  ZBW last sentence must be verified. TP: I haven't verified it yet. I will.}}.
 	  In addition, all decays of $\pi^0$ will also be skipped. Note, that the minimum
 	  number of parameters that must be provided is two - the number of daughters
 	  (which should be zero if suppression for all decay channels of the particle is chosen) 
@@ -1542,17 +1528,19 @@ interface by calling \\ {\tt Photos::setMomentumUnit(MomentumUnits unit); }
 constructors for {\tt PhotosHepMCEvent} or {\tt PhotosHEPEVEvent} class for
 further examples
 
-As  default, photonic emissions are active but pair emission is not.
-Emission of additional pairs (electrons or muons) can be activated with
-\\ {\tt Photos::setPairEmission(true); } \\
-method. Another method was prepared  to desactivate photonic emissions:
-\\{ \tt Photos::setPhotonEmission(false);} \\
+To select available emission from {\tt PHOTOS} use:
+
+\begin{itemize}
+  \item {\tt Photos::setPairEmission(bool flag); } \\
+        Turn on or off emission of pairs (electrons or muons). Default is off.
+  \item {\tt Photos::setPhotonEmission(bool flag); } \\
+        Turn on or off emission of photons. Default is on.
+\end{itemize}
 
 Tests and implementation of final state radiation 
 pair emission follow at present formulae 1 and 11 from Ref.~\cite{Jadach:1993wk}. 
-The ageement, when pair emission phase space was restricted to soft region, was  at the   2-5 \% 
+The agreement, when pair emission phase space was restricted to soft region, was  at the   2-5 \% 
 level of the pair effect (which itself is at the 0.1 \% level of the cross section). 
-The  matrix element is coded  explicitly as function of four vectors; it is thus easy to replace/modify. 
 The phase space  is parametrized without any mass or other approximations. This feature 
 was checked separately with  the special runs (matrix element removed) of 100 Mevt samples.
 
@@ -1603,7 +1591,7 @@ will be printed at execution time:
   \item Debug(901)  - ME channel value obtained
   \item Debug(902)  - final ME channel value after checking all flags
   \item Debug(2)    - execution of the branching filter was completed
-  \item Debug(1000) - the number of particles sent to and retrieved from {\tt PHOTOS FORTRAN}
+  \item Debug(1000) - the number of particles sent to and retrieved from internal {\tt PHOTOS} event record.
 \end{itemize}
  
 The option {\tt Log::SetWarningLimit(int limit)} results in 
@@ -1669,7 +1657,7 @@ or are introduced for backward compatibility.
   \item {\tt Photos::setCorrectionWtForW(bool corr)} \\
          A switch for leading effects of the matrix element (in leptonic $W$ decays)
   \item {\tt Photos::setMeCorrectionWtForScalar(bool corr)} \\
-         A switch for complete effects of the matrix element (in scalar to two scalar decays) {\it  installed in {\tt PHOTOS 3.3}. {ZbW \bf At present tests are missing.} }
+         A switch for complete effects of the matrix element (in scalar to two scalar decays) {\it  installed in {\tt PHOTOS 3.3}.}
   \item {\tt Photos::setMeCorrectionWtForW(bool corr)} \\
          A switch for complete effects of the matrix element (in leptonic $W$ decays) {\it  installed in {\tt PHOTOS 3.2} }
         Because of lack of reinitialization in a particular decay channel this option can be used for the fixed 
@@ -1694,7 +1682,7 @@ or are introduced for backward compatibility.
         Up to version 3.51, option active if {\tt forceMassFrom4Vector = true} (default).
         From version 3.52, option works regardless of setting of {\tt forceMassFrom4Vector}.
   \item {\tt Photos::forceMassFromEventRecord(int pdgid)} {\it  installed in {\tt PHOTOS 3.4} \\
-        For particles of PDGID (or -PDGID} to be  processed by {\tt PHOTOS},
+        For particles of PDGID (or -PDGID) to be  processed by {\tt PHOTOS},
         mass value taken from the event record will be used instead of the one
         calculated from 4-vector. Note that if both {\tt forceMass} and {\tt forceMassFromEventRecord} is
         used for the same PDGID, the last executed function will take effect.
@@ -1704,11 +1692,12 @@ or are introduced for backward compatibility.
   \item {\tt Photos::createHistoryEntries(bool flag, int status)} {\it  installed in {\tt PHOTOS 3.4}} \\
         If set to {\tt true}, and if event record format allows,
         {\tt Photos} will store history entries consisting of particles
-        before processing. History entries will have status code equal {\tt status}.
-        The value of {\tt status} will also be added to the list of status
-        codes ignored by {\tt Photos} (see {\tt Photos::ignoreParticlesOfStatus})\footnote{In case of {\tt HepMC}, creates copies
+        before processing\footnote{In case of {\tt HepMC}, creates copies
         of all particles on the list of outgoing particles in vertices where
         photon was added and will be added at the end of the list.}.
+        History entries will have status code equal {\tt status}.
+        The value of {\tt status} will also be added to the list of status
+        codes ignored by {\tt Photos} (see {\tt Photos::ignoreParticlesOfStatus}).
         An example is provided in  {\tt photos\_pythia\_example.cxx}.
   \item {\tt Photos::ignoreParticlesOfStatus(int status)} Decay products with the status code
         {\tt status} will be ignored in check of momentum conservation and will not be passed
