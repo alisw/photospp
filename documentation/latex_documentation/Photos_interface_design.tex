@@ -37,8 +37,8 @@ exact \cite{Nanava:2006vv} and for several
 processes \cite{Golonka:2006tw,Nanava:2006vv,Nanava:2009vg}
 an exact matrix element was studied with the help of optional weights.
 Benchmark distributions, including comparisons with  
-other simulation programs, were collected on the program web page \cite{Photos_tests}%
-\footnote{An up-to-date version of the code described in this paper is
+other simulation programs, were collected on the {\tt MC-TESTER}~\cite{Davidson:2008ma} (special program devoted to tests) web page \cite{Photos_tests}%
+\footnote{An up-to-date version of the {\tt PHOTOS} code described in this paper is
 available from the web page of our project~\cite{photosC++}.}. 
 
  Such high precision applications require good control of the event record content on which {\tt PHOTOS} operates. On one side it 
@@ -176,13 +176,13 @@ from {\tt MC-TESTER} \cite{Davidson:2008ma,Golonka:2002rz}.
 \subsection{Object Oriented Event Records  -- The Case of {\tt HepMC}}
  In adapting the {\tt PHOTOS} interface to the {\tt C++} event record format
 the difference between the {\tt HEPEVT} event record, with its variant still used
-by the core of the {\tt PHOTOS} code,
+by the core of the {\tt PHOTOS} code (as a struct type),
 and the {\tt HepMC} event record has to be taken into account.  In the first case 
 a {\tt FORTRAN common block} containing a list of particles with their properties and
 with integer variables denoting pointers to their origins and
 descendants is used.  The {\tt HepMC} event structure is built from vertices,
 each of them having pointers to their origins and descendants. Links
-between vertices represent particles.  Fortunately, in both {\tt
+between vertices represent particles (or fields).  Fortunately, in both {\tt
   FORTRAN} and {\tt C++} cases, the event is structured as a
 tree\footnote{At least in principle, because in practice its
 properties may be rather like a graph without universally defined
@@ -238,7 +238,7 @@ interface should  be able to interpret correctly.
 
 \begin{itemize}
   \item \textbf{4-momentum conservation} is assumed for all vertices in the event record where {\tt PHOTOS} is expected to act.
-  \item \textbf{Status codes:} only information on whether a given particle is decaying (status 2) or stable (status 1).
+  \item \textbf{Status codes:} only information on whether a given particle is decaying (status 2) or stable (status 1) is used.
   \item \textbf{Pointers at a vertex} are assumed to be bi-directional. That is, it is possible to traverse the record structure from mother to daughter and from daughter to mother along the same path.
 \end{itemize}
 
@@ -301,7 +301,7 @@ We can decide on alternative bar code conventions. Our programs, {\tt TAUOLA} an
  {\tt PHOTOS}, supplement the event record with new particle entries carrying bar codes 
 with values starting from 10001. That is the choice resulting from our use 
 of {\tt HepMC} methods and defaults.  
-%TP: I think this paragraph is not needed at all
+{\bf TP: I think this paragraph is not needed at all.}
 
 \subsection{Interface to the Event Record stuct of {\tt HEPEVT} type}
 \label{sect:F77fill}
