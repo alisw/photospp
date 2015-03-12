@@ -37,7 +37,9 @@ exact \cite{Nanava:2006vv} and for several
 processes \cite{Golonka:2006tw,Nanava:2006vv,Nanava:2009vg}
 an exact matrix element was studied with the help of optional weights.
 Benchmark distributions, including comparisons with  
-other simulation programs, were collected on the program web page \cite{Photos_tests}. 
+other simulation programs, were collected on the program web page \cite{Photos_tests}%
+\footnote{An up-to-date version of the code described in this paper is
+available from the web page of our project~\cite{photosC++}.}. 
 
  Such high precision applications require good control of the event record content on which {\tt PHOTOS} operates. On one side it 
 requests skills and experience of the user and on the other it provides 
@@ -48,18 +50,15 @@ the high precision regime, good control of matrix element properties is necessar
 As was shown in \cite{Kleiss:1990jv}, complications for such methods arise at the second order matrix element only, thus at the precision level of 
 $(\frac{\alpha_{QED}}{\pi})^2 \simeq 10^{-5}$.}. 
 
-Until 2010 {\tt HEPEVT} \cite{Altarelli:1989wu} was used as the structure for 
+Until 2010 {\tt HEPEVT} \cite{Altarelli:1989wu} event record was used as the structure for 
 communication between physics Monte Carlo programs and detector/reconstruction 
 packages. Experimental physicists used {\tt HEPEVT} 
 for their own applications  as well. Later, to gain  flexibility, {\tt FORTRAN} was replaced by {\tt C++} and 
 instead of {\tt HEPEVT}, the {\tt C++} event structure  {\tt HepMC} \cite{Dobbs:2001ck}
 is used. Nothing prevented 
-moving {\tt PHOTOS} to an environment based on  {\tt HepMC}
+moving {\tt PHOTOS} to a C++ environment, allowing the use of event records such as {\tt HepMC},
 and to rewrite the whole 
- {\tt PHOTOS}\footnote{An up-to-date version of the code described in this paper is
-available from the web page of our project~\cite{photosC++}. 
-  }
- to {\tt C++}. In fact implementation of the algorithm in that language 
+{\tt PHOTOS} to {\tt C++}. In fact implementation of the algorithm in that language 
 is clearer and easier to
  maintain. Because of its design the {\tt PHOTOS} algorithm benefits from the object 
 oriented features of {\tt C++}. It is our third program, after {\tt MC-TESTER} \cite{Davidson:2008ma}
@@ -90,7 +89,7 @@ Section \ref{sec:tests} presents the program tests and benchmarks.
 A summary, section \ref{sec:summary}, closes the paper.
 There are three appendices \ref{Interface to PHOTOS}, 
 \ref{sec:User Guide} and \ref{sec:User Configuration} attached to the paper.
-Respectively, they describe the interface to the old { FORTRAN} style part of the code which is now written in C,
+Respectively, they describe the interface to the old part of the code, which has been rewritten from {\tt FORTRAN} to C,
 provide a user guide and explain the program configuration methods and parameters. 
 
 
@@ -106,22 +105,21 @@ are added and other particle momenta are modified. This part of the program is s
 point of view \cite{Golonka:2006tw,Nanava:2006vv},
 but from the point of view of data structures the algorithm is simple.
 That is why the gain from re-writing this part of the program to {\tt C} is rather
-limited and was postponed to a later step of the project development.
-On the other hand, there were no obstacles for such a transformation to be
-performed and it is completed now . In fact it was already done
+limited. Nonetheless, there were no obstacles for such a transformation to be
+performed and it is completed now. In fact it was already done
 previously \cite{photosplus}, but the resulting program was developed too early 
 and did not attract users because of a lack of a {\tt C++} event record format standard at that time.
 
-The typical results of high energy process simulation are events of complex structure.
+The typical result of high energy process simulation are events of complex structure.
 They include, for example, initial state parton showers, hard scattering parts,
 hadronization and finally chains of cascade decays of resonances. 
 A structure similar to a tree is created, but properties of such data structures
 are sometimes violated.
 For its action, {\tt PHOTOS} needs to scan an event record (tree) 
-and localize branchings where
+and localize decays (branches in the tree) where
 it is supposed to act. The decaying particle (mother) and its primary decay products
 (daughters) have to be passed into the internal event structure of {\tt PHOTOS}.
-For calculation of matrix element kernels, mother mothers are needed as well. 
+For calculation of matrix element kernels, mothers of the decaying particle are needed as well. 
 Finally for each daughter a list of all its subsequent decay products has to be 
 formed. Kinematical modifications need to be performed on all descendants of the modified daughter.
 
@@ -129,7 +127,7 @@ In the new, {\tt C++} version of the event record part of the algorithm, additio
 is added.
 The first mother of the decaying particle will be localized and passed together with  
 the elementary branching to the internal part of the program. 
-Prior to activation of the algorithm for  photon(s) (lepton pairs) generation and kinematic construction,
+Prior to activation of the algorithm for  photon(s) (and/or lepton pairs) generation and kinematic construction,
  the whole decay branching 
 (supplemented with its mother(s))
 will be boosted into the decaying particle's rest frame and the first mother
@@ -140,8 +138,8 @@ Later it is passed on, to the code which calculates the matrix element for the b
 
 The part of the code responsible for photon(s) (lepton pair) 
 generation and kinematic 
-construction is rewritten from   {\tt FORTRAN} to C. It is extended
-in the last few years and   feature the options presented above.
+construction has been also rewritten from {\tt FORTRAN} to C. It has been extended
+over the last few years and features the options presented above.
 
 
 Before an actual description of the program, let us list the tasks the event record interface must be able to perform:
@@ -155,14 +153,18 @@ Before an actual description of the program, let us list the tasks the event rec
 \end{enumerate}
 
 
-\subsection{{\tt C++} and {\tt HepMC} Specific Requirements}
+\subsection{ Requirements specific to event records}
 
 The {\tt C++} version of the {\tt PHOTOS} interface implements all functionality
 of its predecessor, the {\tt PHOTOS} version 2.15 \cite{Golonka:2005pn} coded in {\tt FORTRAN}.
 The program has the process-dependent correcting weights of refs 
 \cite{Golonka:2006tw,Nanava:2009vg} installed.
 {\tt PHOTOS} can be attached to any Monte-Carlo program,
-provided that its output is available through a {\tt HepMC} \cite{Dobbs:2001ck} event record.
+provided that its output is available through an event record for which an interface has been provided.
+The default distribution of {\tt PHOTOS} contains interface for {\tt HepMC} \cite{Dobbs:2001ck} event record,
+as well as an interface for an old {\tt FORTRAN} event record {\tt HEPEVT}%
+\footnote{This standard is less commonly used, thus the interface to it is less tested}.
+
 It seems that {\tt HepMC} will
 remain a generally accepted standard for the near future. However,
 already now several different options for how {\tt HepMC} is used are
@@ -170,27 +172,17 @@ widespread. The possibility of the flexible  adaptation of our event record
 interface to different
 options has been considered in the design,  drawing experience
 from {\tt MC-TESTER} \cite{Davidson:2008ma,Golonka:2002rz}.
-We have also
-envisaged the possibility that {\tt HepMC} may one day be replaced by another
-standard of event record, and we have provided a way to extend
-the interface to a possible new event record standard as well.
-In fact, the program can use as an input old {\tt FORTRAN} event record
-{\tt HEPEVT} as an input as well, variant of interface is prepared 
-for that purpose, but it is less comonly used, thus it is less tested.
 
 \subsection{Object Oriented Event Records  -- The Case of {\tt HepMC}}
-% nd-the next paragraph repeats information that's already stated in other places.
-% zbw: this is short intro to HepMC, later contexts of our use dominate. Nadia is it OK for you?
  In adapting the {\tt PHOTOS} interface to the {\tt C++} event record format
-the difference between the {\tt HEPEVT} event record, used in the {\tt
-  FORTRAN} version of the {\tt PHOTOS} interface, and the {\tt HepMC} event
-record, which is used for the {\tt C++} based interface, has to be taken into
-account.  In the first case 
+the difference between the {\tt HEPEVT} event record, with its variant still used
+by the core of the {\tt PHOTOS} code,
+and the {\tt HepMC} event record has to be taken into account.  In the first case 
 a {\tt FORTRAN common block} containing a list of particles with their properties and
 with integer variables denoting pointers to their origins and
 descendants is used.  The {\tt HepMC} event structure is built from vertices,
 each of them having pointers to their origins and descendants. Links
-between vertices represent particles or fields.  Fortunately, in both {\tt
+between vertices represent particles.  Fortunately, in both {\tt
   FORTRAN} and {\tt C++} cases, the event is structured as a
 tree\footnote{At least in principle, because in practice its
 properties may be rather like a graph without universally defined
@@ -215,7 +207,9 @@ The {\tt HepMC} event record format is  evolving with time, making it necessary
  to adapt
 the code to new versions. The
 {\tt HepMC} versions 2.06, 2.05  and 2.03 were used  in the final tests of our 
-distribution.
+distribution%
+\footnote{The interface has also been tested and is fully compatible
+with the current beta versions of {\tt HepMC} 3.0}.
 
 Evolution of the {\tt HepMC} format itself is not a crucial problem.
 In contrast, conventions on how physics information is  filled into {\tt HepMC}
@@ -244,8 +238,7 @@ interface should  be able to interpret correctly.
 
 \begin{itemize}
   \item \textbf{4-momentum conservation} is assumed for all vertices in the event record where {\tt PHOTOS} is expected to act.
-  \item \textbf{Status codes:} only information on whether a given particle is incoming, outgoing or intermediate will be used. We assume the codes used will be 0, 1 or 2 like in {\tt HEPEVT}. All other codes will be treated as
-equivalent to  the status 2.
+  \item \textbf{Status codes:} only information on whether a given particle is decaying (status 2) or stable (status 1).
   \item \textbf{Pointers at a vertex} are assumed to be bi-directional. That is, it is possible to traverse the record structure from mother to daughter and from daughter to mother along the same path.
 \end{itemize}
 
@@ -274,6 +267,11 @@ options for conventions of event record filling.
            {\tt PHOTOS}. 
            Debugging can then be time consuming, and will need to be repeated for every new
            case.
+           
+    \item  In case of low-mass particles vulnerable to numerical fluctuation (such as muons, electrons),
+           correct information about particle's mass is expected. Since in such cases mass calculated
+           from 4-vector can often be incorrect (including negative values) an appropriate method
+           of {\tt PHOTOS} must be used to correct that information (see \ref{subsection:other_methods}).
    \end{itemize}
 
 
@@ -303,13 +301,14 @@ We can decide on alternative bar code conventions. Our programs, {\tt TAUOLA} an
  {\tt PHOTOS}, supplement the event record with new particle entries carrying bar codes 
 with values starting from 10001. That is the choice resulting from our use 
 of {\tt HepMC} methods and defaults.  
+%TP: I think this paragraph is not needed at all
 
 \subsection{Interface to the Event Record stuct of {\tt HEPEVT} type}
 \label{sect:F77fill}
 
 It was rather simple to  rewrite {\tt PHOTOS} to
 {\tt C++} completely. To profit from numerical tests, the  core of {\tt PHOTOS}
-was rewritten to esentially  plain  {\tt C}. Common blocks were replaced
+was rewritten to essentially  plain  {\tt C}. Common blocks were replaced
 with structs, old names of methods and functions were preserved. The 
 {\tt C++} part of the code searches the whole event for
 suitable {\tt HepMC} vertices for the generation of bremsstrahlung. Once such
@@ -376,7 +375,11 @@ event record.
        They can be used as a template for a new interface to any other event record%
        \footnote{Thanks to the polymorphism, abstract part of the algorithm
        is well separated from the specific event record implementations.
-       It even allows simultaneous use of several distinct event record implementations.}.
+       It even allows simultaneous use of several distinct event record implementations.
+       For example, a separate set of classes deriving from {\tt PhotosParticle} and {\tt PhotosEvent}
+       can be written for {\tt HepMC} events generated by {\tt PYTHIA}, treating particle status codes
+       differently than before, and separate set for {\tt HepMC} events taken from other MC generators.
+       The choice between these two implementations can be introduced in user code.}.
 \end{itemize}
 
 \subsection{Directory Structure}
@@ -471,7 +474,7 @@ The first step is creation of a {\tt PhotosHepMCEvent} object from
 a {\tt HepMC::GenEvent} event record. After that, the {\tt process()} method should
 be executed by the user's code\footnote{Instead of creating a {\tt PhotosHepMCEvent} and processing the whole event,
 a user may want to execute {\tt Photos::processParticle(...)} or {\tt Photos::processBranch(...)}
-for branching or branch, where {\tt PHOTOS} is expected to perform its tasks.
+for branch, where {\tt PHOTOS} is expected to perform its tasks.
 For details see Appendix~\ref{PHOTOSgun}.
 }, invoking the following process:
 
@@ -485,16 +488,17 @@ For details see Appendix~\ref{PHOTOSgun}.
 to be decayed are also added to the 
 	  list of branchings.
 \item Branchings are filtered out again, this time with  the user's choice of processes
-      to be skipped by the photon adding algorithm.
+      to be skipped by {\tt PHOTOS}.
 \item Each branching  is processed by {\tt PHOTOS} separately:
 
 	\begin{enumerate}
   
 	\item The branching is written to struct {\tt hep}
-	\item The {\tt PHOTOS} photon adding algorithm is invoked 
- 	\item The resulting branching is taken back from {\tt hep} and any changes made by {\tt PHOTOS}
-	      to the already existing particles and their whole decay trees are integrated into the event record.
-	\item Finally, the created photons, or leptons,  are added to the event record.
+	\item The {\tt PHOTOS} photon and pair adding algorithm is invoked 
+	\item The resulting branching is taken back from {\tt hep} and introduced to the event record.
+	\item Any changes made by {\tt PHOTOS} to the already existing particles
+          invokes kinematical changes to their whole decay trees.
+	\item Finally, the created particles are added to the event record.
 	\end{enumerate}
 
 \end{enumerate}
@@ -1035,7 +1039,7 @@ program up  to version 3.53.
 Starting from version 3.54 some of these {\tt COMMON}  blocks were preserved,
 as the struct objects of C. The following ones may be of particular interest for the
 user:
-{\tt PHOCOP, PHOKEY, PHOSTA, PHLUPY}.
+{\tt PHOCOP, PHOKEY, PHOSTA}.
 Names of variables and structs are not modified with respect to {\tt FORTRAN}, 
 the  {\tt C++} definition style is adapted, small letters are for structs and variable names.
 

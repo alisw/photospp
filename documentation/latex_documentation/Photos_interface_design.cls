@@ -127,7 +127,7 @@ with the program code.
 
 The
 {\tt PHOTOS} C++ physics precision is   better than  its {\tt FORTRAN}
-predecessor, more convenientsteering options are also available. 
+predecessor, more convenient steering options are also available. 
 An algorithm for the event record interface
 necessary for process dependent 
 photon emission kernel is implemented. 
@@ -139,7 +139,7 @@ Physics assumptions used in the program and properties of the
 solution are reviewed. 
 In particular, it is explained how
 the  second order matrix elements were used in design and 
-validation of the program iteration procedure. Also it is explained
+validation of the program iteration procedure. Also, it is explained
 that the phase space parameterization used in the program is exact. 
  }
 
