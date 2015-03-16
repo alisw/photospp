@@ -115,7 +115,7 @@ Polish Academy of Sciences,\\
 
 \end{center}
 
-{ The first version of {\tt PHOTOS} Monte Carlo for
+{ The first version of the {\tt PHOTOS} Monte Carlo for
 bremsstrahlung in the decay of particles and resonances
  with an interface to the HepMC event record written in C++ is available
 since five years now.
