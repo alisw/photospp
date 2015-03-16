@@ -1669,10 +1669,12 @@ or are introduced for backward compatibility.
          A switch for complete effects of the matrix element (in scalar to two scalar decays) {\it  installed in {\tt PHOTOS 3.3}.}
   \item {\tt Photos::setMeCorrectionWtForW(bool corr)} \\
          A switch for complete effects of the matrix element (in leptonic decays of $W$'s produced from anihilation of light fermions) {\it  installed in {\tt PHOTOS 3.2} }
-        Because of lack of reinitialization of matrix element for  a particular decay channel this option can be used for the fixed 
-        decay channel, either for  $W^+$ or for $W^-$. Also it is requested that virtuality of the boson is fixed (not strongly 
-        with respect to $W$ mass). 
-        This option will be elaborated further. {\bf ZbW: I do not understand restriction. TP: I don't remember it as well. I only recall we had some problems with W. Needs to be investiagted. Most probably it is the question of initialization for the series. This warning may be leftover   from some remote version of the code.}
+%{\bf    Because of lack of reinitialization of matrix element for  
+%        a particular decay channel this option can be used for the fixed 
+%        decay channel, either for  $W^+$ or for $W^-$. Also it is requested
+%        that virtuality of the boson is fixed (not strongly with respect 
+%        to $W$ mass).  This warning was leftover.  It was fixed still in F77 
+%        see svn diff -r 439:442.}
   \item {\tt Photos::setMeCorrectionWtForZ(bool corr)} \\
          A switch for complete effects of the matrix element (in leptonic $Z$ decays) {\it  installed in {\tt PHOTOS 3.1} }
   \item {\tt Photos::initializeKinematicCorrections(int flag)} \\
