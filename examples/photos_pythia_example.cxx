@@ -8,7 +8,7 @@
 
 //pythia header files
 #include "Pythia8/Pythia.h"
-#include "Pythia8/Pythia8ToHepMC.h"
+#include "Pythia8Plugins/HepMC2.h"
 
 //MC-TESTER header files
 #include "Generate.h"
@@ -150,13 +150,8 @@ int main(int argc,char **argv)
 	Event& event = pythia.event;
 	//pythia.settings.listAll();
 
-	pythia.readString("PartonLevel:ISR = on");
-	pythia.readString("PartonLevel:FSR = off");
-
-	pythia.readString("WeakSingleBoson:ffbar2gmZ = on");
-	pythia.readString("23:onMode = off");
-	pythia.readString("23:onIfAny = 13");
-	pythia.init( 11, -11, 91.187);                           //e+ e- collisions
+	pythia.readFile("photos_pythia_example.conf");
+	pythia.init();
 
 	MC_Initialize();
 
@@ -217,6 +212,6 @@ int main(int argc,char **argv)
 		// Clean up
 		delete HepMCEvt;
 	}
-	pythia.statistics();
+	pythia.stat();
 	MC_Finalize();
 }

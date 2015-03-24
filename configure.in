@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT( [Photos C++ Interface], [3.3], [tomasz.przedzinski@uj.edu.pl] )
+AC_INIT( [Photos C++ Interface], [3.6], [tomasz.przedzinski@uj.edu.pl] )
 AC_LANG_CPLUSPLUS
 
 AC_PREFIX_DEFAULT([`pwd`])
@@ -141,7 +141,7 @@ fi
 pythia8data=$PYTHIA8DATA
 
 if test -z "$pythia8data"; then
-	pythia8data=$with_pythia8/xmldoc
+	pythia8data=$with_pythia8/share/Pythia8/xmldoc
 fi
 
 ln -sf platform/make.inc make.inc

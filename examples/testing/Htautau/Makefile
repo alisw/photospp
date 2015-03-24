@@ -8,7 +8,6 @@ CONF=pythia_H.conf
 NAME=Htautau
 
 PROGRAM=$(PHOTOS_TAUOLA)
-PYTHIA_MODE=$(HIGGS_MODE)
 TAUOLA_MODE=$(RHORHO_MODE)
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root
@@ -17,7 +16,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) $(PYTHIA_MODE) $(EVENTS) $(TAUOLA_MODE)
+	$(PROGRAM) $(CONF) $(EVENTS) $(TAUOLA_MODE)
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:

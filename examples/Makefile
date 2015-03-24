@@ -12,10 +12,10 @@ MC_TESTER_LIBS = -L$(MCTESTERLOCATION)/lib -lHEPEvent -lHepMCEvent -lMCTester
 
 # Keep in mind Makefile and examples are not prepared to automatically adapt
 # to different pythia versions: 8.170 (or lower), 8.180-8.185, 8.2
-# At present they are adapted to v8.185
+# At present they are adapted to v8.2
 #PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib/archive -lpythia8 -llhapdfdummy -lhepmcinterface
-PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib/archive -lpythia8 -llhapdfdummy -lpythia8tohepmc
-#PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib -lpythia8
+#PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib/archive -lpythia8 -llhapdfdummy -lpythia8tohepmc
+PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib -lpythia8 -ldl
 
 PHOTOS_LIBS_FOR_HEPMC  = -L$(PHOTOSLOCATION)/lib -lPhotospp -lPhotosppHepMC $(HEPMC_LIBS)
 PHOTOS_LIBS_FOR_HEPEVT = -L$(PHOTOSLOCATION)/lib -lPhotospp -lPhotosppHEPEVT

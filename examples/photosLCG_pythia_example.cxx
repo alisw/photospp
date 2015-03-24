@@ -8,7 +8,7 @@
 
 //pythia header files
 #include "Pythia8/Pythia.h"
-#include "Pythia8/Pythia8ToHepMC.h"
+#include "Pythia8Plugins/HepMC2.h"
 
 //PHOTOS header files
 #include "Photos/Photos.h"
@@ -62,21 +62,8 @@ int main(int argc,char **argv)
 	Event& event = pythia.event;
 	//pythia.settings.listAll();
 
-	if(!ShowersOn)
-	{
-		//pythia.readString("HadronLevel:all = off");
-		pythia.readString("HadronLevel:Hadronize = off");
-		pythia.readString("SpaceShower:QEDshowerByL = off");
-		pythia.readString("SpaceShower:QEDshowerByQ = off");
-	}
-	pythia.readString("PartonLevel:ISR = on");
-	pythia.readString("PartonLevel:FSR = off");
-
-	pythia.readString("WeakSingleBoson:ffbar2gmZ = on");
-	pythia.readString("23:onMode = off");
-	pythia.readString("23:onIfAny = 13");
-	//pythia.readString("23:onIfAny = 11");
-	pythia.init( 11, -11, 91.187);                           //e+ e- collisions
+	pythia.readFile("photosLCG_pythia_example.conf");
+	pythia.init();
 
 	Photos::initialize();
 
@@ -156,7 +143,7 @@ int main(int argc,char **argv)
 		delete HepMCEvt;
 	}
 	
-	pythia.statistics();
+	pythia.stat();
 
 	ratio_exp   = ratio_exp   / (double)NumberOfEvents;
 	ratio_exp_2 = ratio_exp_2 / (double)NumberOfEvents;

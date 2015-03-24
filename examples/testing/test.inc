@@ -7,11 +7,11 @@ COMPARE=../compare.sh
 PHOTOS_ONLY   =../photos_test.exe
 PHOTOS_TAUOLA =../photos_tauola_test.exe
 
-# Pythia modes
-DEFAULT_MODE =0 # ee@200GeV    (for Wenu, Wmunu, WmunuNLO)
-Z_MU_MODE    =1 # ee@91.187GeV (for Zmumu, ZmumuNLO, Ztautau, ScalarNLO)
-PP_MODE      =2 # pp@14TeV     (for Zee, ttbar)
-HIGGS_MODE   =3 # ee@500GeV    (for Htautau)
+# Pythia modes reference:
+# ee@200GeV    - Wenu, Wmunu, WmunuNLO
+# ee@91.187GeV - Zmumu, ZmumuNLO, Ztautau, ScalarNLO, pairs
+# pp@14TeV     - Zee, ttbar
+# ee@500GeV    - Htautau
 
 # Special modes
 TOP_MODE     =1 # Turn on MC-Tester fix for Top decays

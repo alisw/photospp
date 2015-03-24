@@ -10,7 +10,6 @@ CONF=pythia_Z.conf
 NAME=Ztautau
 
 PROGRAM=$(PHOTOS_TAUOLA)
-PYTHIA_MODE=$(Z_MU_MODE)
 TAUOLA_MODE=$(PIPI_MODE)
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root
@@ -19,7 +18,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) $(PYTHIA_MODE) $(EVENTS) $(TAUOLA_MODE) 2>/dev/null
+	$(PROGRAM) $(CONF) $(EVENTS) $(TAUOLA_MODE) 2>/dev/null
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:

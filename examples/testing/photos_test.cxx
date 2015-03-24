@@ -8,7 +8,7 @@
 
 //Pythia header files
 #include "Pythia8/Pythia.h"
-#include "Pythia8/Pythia8ToHepMC.h"
+#include "Pythia8Plugins/HepMC2.h"
 
 //MC-TESTER header files
 #include "Generate.h"
@@ -87,10 +87,10 @@ void fixForMctester(HepMC::GenEvent *evt)
 int main(int argc,char **argv)
 {
 
-	// Program needs at least 3 parameters
-	if(argc<4)
+	// Program needs at least 2 parameters
+	if(argc<3)
 	{
-		cout<<endl<<"Usage: "<<argv[0]<<" <pythia_conf> <pythia_mode> <no_events> [ <special_mode> ]"<<endl;
+		cout<<endl<<"Usage: "<<argv[0]<<" <pythia_conf> <no_events> [ <special_mode> ]"<<endl;
 		cout<<endl<<"   eg. "<<argv[0]<<" pythia_W.conf 0 10000 4 0"<<endl;
 		cout<<endl;
 		return -1;
@@ -102,60 +102,43 @@ int main(int argc,char **argv)
 	Pythia pythia;
 	Event& event = pythia.event;
 
-	pythia.readString("HadronLevel:Hadronize = off");
-	pythia.readString("SpaceShower:QEDshowerByL = off");
-	pythia.readString("SpaceShower:QEDshowerByQ = off");
-	pythia.readString("PartonLevel:ISR = off");
-	pythia.readString("PartonLevel:FSR = off");
-
-	// Tauola is currently set to undecay taus. Otherwise, uncomment this line.
-	//pythia.particleData.readString("15:mayDecay = off");
-
 	/********************************************************
 	  Read input parameters from console. List of parameters:
 	  1. Pythia configuration filename
-	  2. Pythia mode - e+e-@200GeV , e+e-@91.187GeV or pp@14TeV
-	  3. Number of events
-	  4. Special mode - default(off), ttbar, NLO
-	  5. Photos - use 1-photon mode on/off
+	  2. Number of events
+	  3. Special mode - default(off), ttbar, NLO
+	  4. Photos - use 1-photon mode on/off
 
 	  Example where all input parameters are used:
 
-	  ./photos_test.exe pythia_W.conf 0 100000 0 0
+	  ./photos_test.exe pythia_W.conf 100000 0 0
 	    - use pythia_W.conf
-	    - initialize using e+ e- @ 200GeV collisions
 	    - generate 100 000 events
 	    - default configuration (not using any special mode)
 	    - Photos is not using 1-photon mode (default option, except for WmunuNLO and ZmumuNLO)
 	*********************************************************/
 
 	// 1. Load pythia configuration file (argv[1], from console)
-	if(argc>1) pythia.readFile(argv[1]);
+	pythia.readFile(argv[1]);
 
-	// 2. Initialize pythia (argv[2], from console)
-	if(atoi(argv[2])==0)      pythia.init( 11, -11, 200.);         //e+ e- collisions
-	else if(atoi(argv[2])==1) pythia.init( 11, -11, 91.187);       //e+ e- collisions
-	else                      pythia.init( -2212, -2212, 14000.0); //p  p  collisions
+	// 2. Get number of events (argv[2], from console)
+	NumberOfEvents = atoi(argv[2]);
 
-	// 3. Get number of events (argv[3], from console)
-	if(argc>3) NumberOfEvents=atoi(argv[3]);
-
+    pythia.init();
 	Photos::initialize();
 
 	Photos::setInfraredCutOff(1.e-6);
 	Photos::maxWtInterference(3.0);
 
-
-
 	bool topDecays = false;
 
-	// 5. Check if we're using any special mode
-	if(argc>4)
+	// 3. Check if we're using any special mode
+	if(argc>3)
 	{
 		// Top decays
-		if(atoi(argv[4])==1)      topDecays=true;
+		if(atoi(argv[3])==1)      topDecays=true;
 		// NLO mode
-		else if(atoi(argv[4])==2)
+		else if(atoi(argv[3])==2)
 		{
 			Photos::setMeCorrectionWtForW(true);
 			Photos::setMeCorrectionWtForZ(true);
@@ -163,22 +146,19 @@ int main(int argc,char **argv)
 		}
 	}
 
-	// 1-photon mode
-	if(argc>5 && atoi(argv[5])==1)
+	// 4. Check if we're using 1-photon mode
+	if(argc>4 && atoi(argv[4])==1)
 	{
 		Photos::setDoubleBrem(false);
 		Photos::setExponentiation(false);
 		Photos::setInfraredCutOff(0.001);
 		Photos::maxWtInterference(2.0);
-
-
 	}
 
-	 Photos::setPhotonEmission(true);
-	 bool pary=true;
-	 Photos::setPairEmission(pary);
+	Photos::setPhotonEmission(true);
+	bool pary=true;
+	Photos::setPairEmission(pary);
 	MC_Initialize();
-
 
 	Photos::iniInfo();
 	Log::SummaryAtExit();
@@ -224,7 +204,7 @@ int main(int argc,char **argv)
 		// Clean up
 		delete HepMCEvt;
 	}
-	pythia.statistics();
+	pythia.stat();
 	MC_Finalize();
 
       if(pary){			

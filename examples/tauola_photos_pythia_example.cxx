@@ -8,7 +8,7 @@
 
 //pythia header files
 #include "Pythia8/Pythia.h"
-#include "Pythia8/Pythia8ToHepMC.h"
+#include "Pythia8Plugins/HepMC2.h"
 
 //MC-TESTER header files
 #include "Generate.h"
@@ -68,16 +68,8 @@ int main(int argc,char **argv)
 	Pythia pythia;
 	Event& event = pythia.event;
 
-	pythia.readString("PartonLevel:ISR = off");
-	pythia.readString("PartonLevel:FSR = off");
-
-	pythia.readString("WeakSingleBoson:ffbar2gmZ = on");
-	pythia.readString("23:onMode = off");
-	pythia.readString("23:onIfAny = 15");
-	pythia.particleData.readString("15:mayDecay = off"); //<- uncomment for pythia+tauola
-
-	//pythia.init( -2212, -2212, 14000.0);     //proton proton collisions
-	pythia.init( 11, -11, 91.187);             //electron positron collisions
+    pythia.readFile("tauola_photos_pythia_example.conf");
+    pythia.init();
 
 	// TAUOLA and PHOTOS initialization
 	Tauola::initialize();
@@ -174,7 +166,7 @@ int main(int argc,char **argv)
 	}
 
 	Log::RedirectOutput(Log::Info());
-	pythia.statistics();
+	pythia.stat();
 	Log::RevertOutput();
 
 	MC_Finalize();

@@ -51,19 +51,19 @@ include_dir:
 
 ####### Make object files ########
 $(EVENT_RECORD_INTERFACE_DIR):
-	make -C src/$(EVENT_RECORD_INTERFACE_DIR)
+	+make -C src/$(EVENT_RECORD_INTERFACE_DIR)
 	cp src/$(EVENT_RECORD_INTERFACE_DIR)/*.h include/Photos
 
 $(PHOTOS_C_INTERFACE_DIR):
-	make -C src/$(PHOTOS_C_INTERFACE_DIR)
+	+make -C src/$(PHOTOS_C_INTERFACE_DIR)
 	cp src/$(PHOTOS_C_INTERFACE_DIR)/*.h include/Photos
 
 $(UTILITIES_DIR):
-	make -C src/$(UTILITIES_DIR)
+	+make -C src/$(UTILITIES_DIR)
 	cp src/$(UTILITIES_DIR)/*.h include/Photos
 
 $(PHOTOS_C_DIR):
-	make -C src/$(PHOTOS_C_DIR)
+	+make -C src/$(PHOTOS_C_DIR)
 	cp src/$(PHOTOS_C_DIR)/*.h include/Photos
 
 install:

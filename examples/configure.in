@@ -236,7 +236,7 @@ AC_CHECK_HEADER([Pythia8/Pythia.h],
 ])
 
 if test $HAS_PYTHIA = 1; then
-	AC_CHECK_HEADER([Pythia8/Pythia8ToHepMC.h], ,
+	AC_CHECK_HEADER([Pythia8Plugins/HepMC2.h], ,
 	[ HAS_PYTHIA=0 &&
 	  echo "" &&
 	  echo "WARNING: Pythia8 has been compiled without the required" &&
@@ -245,7 +245,7 @@ if test $HAS_PYTHIA = 1; then
 	])
 	echo "checking for PYTHIA8DATA: $env_pythia8data"
 	if test $HAS_PYTHIA = 1 && test -z "$env_pythia8data"; then
-		pythia8data=$with_pythia8/xmldoc
+		pythia8data=$with_pythia8/share/Pythia8/xmldoc
 		echo ""
 		echo "WARNING: Pythia8 location is valid, however PYTHIA8DATA"
 		echo "         variable required by Pythia is not set."

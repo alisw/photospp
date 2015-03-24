@@ -9,7 +9,7 @@
 
 //Pythia header files
 #include "Pythia8/Pythia.h"
-#include "Pythia8/Pythia8ToHepMC.h"
+#include "Pythia8Plugins/HepMC2.h"
 
 //MC-TESTER header files
 #include "Generate.h"
@@ -65,11 +65,11 @@ void checkMomentumConservationInEvent(HepMC::GenEvent *evt)
 int main(int argc,char **argv)
 {
 
-	// Program needs at least 4 parameters
-	if(argc<5)
+	// Program needs at least 3 parameters
+	if(argc<4)
 	{
-		cout<<endl<<"Usage: "<<argv[0]<<" <pythia_conf> <pythia_mode> <no_events> <tauola_mode> [ <alpha_order> <ScalarNLO_mode> ]"<<endl;
-		cout<<endl<<"   eg. "<<argv[0]<<" pythia_H.conf 0 10000 4 0 0"<<endl;
+		cout<<endl<<"Usage: "<<argv[0]<<" <pythia_conf>  <no_events> <tauola_mode> [ <alpha_order> <ScalarNLO_mode> ]"<<endl;
+		cout<<endl<<"   eg. "<<argv[0]<<" pythia_H.conf 10000 4 0 0"<<endl;
 		cout<<endl;
 		return -1;
 	}
@@ -80,30 +80,18 @@ int main(int argc,char **argv)
 	Pythia pythia;
 	Event& event = pythia.event;
 
-	pythia.readString("HadronLevel:Hadronize = off");
-	pythia.readString("SpaceShower:QEDshowerByL = off");
-	pythia.readString("SpaceShower:QEDshowerByQ = off");
-	pythia.readString("PartonLevel:ISR = off");
-	pythia.readString("PartonLevel:FSR = off");
-
-	// Tauola is currently set to undecay taus. Otherwise, uncomment this line.
-	//pythia.particleData.readString("15:mayDecay = off");
-
 	/********************************************************
 	  Read input parameters from console. List of parameters:
 	  1. Pythia configuration filename
-	  2. Pythia mode - e+e-@200GeV , e+e-@91.187GeV, pp@14TeV or e+e-@500GeV
-	     (only e+e-@91.187GeV and e+e-@500GeV are used in this example)
-	  3. Number of events
-	  4. Tauola decay mode (refer to Tauola documentation)
-	  5. Photos - use 1-photon mode on/off
-	  6. Photos - use ScalarNLO mode on/off
+	  2. Number of events
+	  3. Tauola decay mode (refer to Tauola documentation)
+	  4. Photos - use 1-photon mode on/off
+	  5. Photos - use ScalarNLO mode on/off
 
 	  Example where all input parameters are used:
 
-	  ./photos_tauola_test.exe pythia_H.conf 1 100000 4 0 0
+	  ./photos_tauola_test.exe pythia_H.conf 100000 4 0 0
 	  - use pythia_H.conf
-	  - initialize using e+ e- @ 91.187GeV collisions
 	  - generate 100 000 events
 	  - fix TAUOLA decay to channel 4 (RHORHO_MODE)
 	  - Photos is not using 1-photon mode (default option)
@@ -111,30 +99,18 @@ int main(int argc,char **argv)
 	*********************************************************/
 
 	// 1. Load pythia configuration file (argv[1], from console)
-	if(argc>1) pythia.readFile(argv[1]);
+	pythia.readFile(argv[1]);
 
-	// 2. Initialize pythia to e+e-@91.17GeV or e+e-@500GeV collisions (argv[2], from console)
-	if(atoi(argv[2])==1)      pythia.init( 11, -11, 91.187); // e+ e- collisions
-	else if(atoi(argv[2])==3) pythia.init( 11, -11, 500.);   // e+ e- collisions
-	else
-	{
-		cout<<"ERROR: Wrong Pythia mode ("<<atoi(argv[4])<<")"<<endl;
-		cout<<"       Only modes '1' and '3' are used by this program."<<endl;
-		return -1;
-	}
+	// 2. Get number of events (argv[2], from console)
+	NumberOfEvents = atoi(argv[2]);
 
-	// 3. Get number of events (argv[3], from console)
-	if(argc>3) NumberOfEvents=atoi(argv[3]);
+	// 3. Set Tauola decay mode (argv[3], from console)
+	// argv[3]=3 (tau => pi nu_tau)    for Ztautau
+	// argv[3]=4 (tau => pi pi nu_tau) for Htautau
+	Tauola::setSameParticleDecayMode(atoi(argv[3]));
+	Tauola::setOppositeParticleDecayMode(atoi(argv[3]));
 
-	// 4. Set Tauola decay mode (argv[4], from console)
-	if(argc>4)
-	{
-		// argv[4]=3 (tau => pi nu_tau)    for Ztautau
-		// argv[4]=4 (tau => pi pi nu_tau) for Htautau
-		Tauola::setSameParticleDecayMode(atoi(argv[4]));
-		Tauola::setOppositeParticleDecayMode(atoi(argv[4]));
-	}
-
+    pythia.init();
 	Tauola::initialize();
 	Photos::initialize();
 
@@ -142,8 +118,8 @@ int main(int argc,char **argv)
 	Photos::setInfraredCutOff(1.e-6);
 	Photos::maxWtInterference(3.0);
 
-	// 5. Check if we're using 1-photon mode
-	if( argc>5 && atoi(argv[5]) )
+	// 4. Check if we're using 1-photon mode
+	if( argc>4 && atoi(argv[4]) )
 	{
 		Photos::setDoubleBrem(false);
 		Photos::setExponentiation(false);
@@ -155,13 +131,13 @@ int main(int argc,char **argv)
 		Photos::maxWtInterference(2.0);
 	}
 
-	// 6. Check if we're in ScalarNLO mode
-	if( argc>6 )
+	// 5. Check if we're in ScalarNLO mode
+	if( argc>5 )
 	{
 		Tauola::setEtaK0sPi(1,1,0);
     
 		// Check if we are using NLO
-		if(atoi(argv[6])) Photos::setMeCorrectionWtForScalar(true);
+		if(atoi(argv[5])) Photos::setMeCorrectionWtForScalar(true);
 	}
 
 	Log::SummaryAtExit();
@@ -209,6 +185,6 @@ int main(int argc,char **argv)
 		//clean up
 		delete HepMCEvt;
 	}
-	pythia.statistics();
+	pythia.stat();
 	MC_Finalize();
 }

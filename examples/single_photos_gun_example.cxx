@@ -8,7 +8,7 @@
 
 //pythia header files
 #include "Pythia8/Pythia.h"
-#include "Pythia8/Pythia8ToHepMC.h"
+#include "Pythia8Plugins/HepMC2.h"
 
 //PHOTOS header files
 #include "Photos/Photos.h"
@@ -63,7 +63,12 @@ int main(int argc,char **argv)
 	pythia.readString("SpaceShower:QEDshowerByQ = off");
 	pythia.readString("PartonLevel:ISR = off");
 	pythia.readString("PartonLevel:FSR = off");
-	pythia.init( 11, -11, 92.);
+	pythia.readString("Beams:idA =  11");
+	pythia.readString("Beams:idB = -11");
+	pythia.readString("Beams:eCM =  92.");
+
+	pythia.readFile("single_photos_gun_example.conf");
+	pythia.init();
 
 	Photos::initialize();
 	Photos::setInfraredCutOff(0.001/200);
@@ -122,7 +127,7 @@ int main(int argc,char **argv)
 		//clean up
 		delete HepMCEvt;
 	}
-	pythia.statistics();
+	pythia.stat();
 
 	// Print results
 	cout.precision(2);

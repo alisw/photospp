@@ -11,7 +11,6 @@ CONF=pythia_Z.conf
 NAME=ScalarNLO
 
 PROGRAM=$(PHOTOS_TAUOLA)
-PYTHIA_MODE=$(Z_MU_MODE)
 TAUOLA_MODE=$(K-STAR_MODE)
 
 ONE_PHOTON_MODE= 0
@@ -23,7 +22,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) $(PYTHIA_MODE) $(EVENTS) $(TAUOLA_MODE) $(ONE_PHOTON_MODE) $(USE_NLO)
+	$(PROGRAM) $(CONF) $(EVENTS) $(TAUOLA_MODE) $(ONE_PHOTON_MODE) $(USE_NLO)
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:

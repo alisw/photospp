@@ -8,7 +8,6 @@ CONF=pythia_ttbar.conf
 NAME=ttbar
 
 PROGRAM=$(PHOTOS_ONLY)
-PYTHIA_MODE =$(PP_MODE)
 SPECIAL_MODE=$(TOP_MODE)
 
 tester.$(NAME).pdf: mc-tester.$(NAME).root
@@ -23,7 +22,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	@echo
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) $(PYTHIA_MODE) $(EVENTS) $(SPECIAL_MODE) 2>/dev/null
+	$(PROGRAM) $(CONF) $(EVENTS) $(SPECIAL_MODE) 2>/dev/null
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:
