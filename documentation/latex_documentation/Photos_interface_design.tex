@@ -1165,12 +1165,8 @@ To run all of the available examples, it is also required to install:
 
 \begin{itemize}
   \item {\tt ROOT} \cite{root-install-www} version 5.18 or later
-  \item {\tt PYTHIA 8.1} \cite{Sjostrand:2007gs} or later. {\tt PYTHIA 8.1} must be compiled with {\tt HepMC} 2.xx
-        so that the {\tt PYTHIA} library {\tt hepmcinterface} exists\footnote{
-We are adopted to setups of {\tt PYTHIA 8.170,]}. 
-              The necessary minor changes to superimpose setups necessary
- for  versions starting fom  8.180
- and further again 8.200 will explained in {\tt README} files.}
+  \item {\tt PYTHIA 8.2} \cite{Sjostrand:2007gs} or later\footnote{
+Examples can be adapted to use {\tt pythia8.1}. The necessary changes are explained in {\tt examples/README-PYTHIA-VERSIONS}.}.
   \item {\tt MC-TESTER} \cite{Golonka:2002rz,Davidson:2008ma} version 1.24 or later.
         Do not forget to type {\tt make libHepMCEvent} after compilation of {\tt MC-TESTER} is done.
   \item {\tt TAUOLA} \cite{Davidson:2010rw} version 1.0.5 or later. {\tt TAUOLA} must be compiled with {\tt HepMC}.
@@ -1221,8 +1217,7 @@ these config files need to be updated. See the {\tt README } files.}
 }
 \label{sec:autotools}
 
-For our project still another configuration/automake system was
-prepared\footnote{12.III.2015: these scripts have not been updated to newest release and will not work! We will try to fix that soon.} 
+For our project still another configuration/automake system was prepared
 for use in LCG/Genser project\footnote{We have used the expertise and advice
 of Dmitri Konstantinov and Oleg Zenin in organization of configuration scripts
 for our whole distribution tar-ball as well. Thanks to this choice, we hope, our solution

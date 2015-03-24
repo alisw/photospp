@@ -1,5 +1,10 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Mar 24 2015
+- examples updated to pythia v8.2
+- LCG scripts updated to the new directory structure and pythia v8.2
+- examples/README-PYTHIA-VERSIONS added explaining how to use examples with
+  older pythia versions
 Mar 2 2015
 - version 3.58 introduced
 - directory structure reorganized to get rid of misleading FORTRAN keyword and obsolete
