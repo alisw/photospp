@@ -7,8 +7,8 @@
  */
 
 //pythia header files
-#include "Pythia.h"
-#include "HepMCInterface.h"
+#include "Pythia8/Pythia.h"
+#include "Pythia8/Pythia8ToHepMC.h"
 
 //MC-TESTER header files
 #include "Generate.h"
@@ -145,7 +145,7 @@ void switch_history_entries_status(HepMC::GenEvent *evt)
 int main(int argc,char **argv)
 {
 	// Initialization of pythia
-	HepMC::I_Pythia8 ToHepMC;
+	HepMC::Pythia8ToHepMC ToHepMC;
 	Pythia pythia;
 	Event& event = pythia.event;
 	//pythia.settings.listAll();

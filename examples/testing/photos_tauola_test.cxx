@@ -8,8 +8,8 @@
  */
 
 //Pythia header files
-#include "Pythia.h"
-#include "HepMCInterface.h"
+#include "Pythia8/Pythia.h"
+#include "Pythia8/Pythia8ToHepMC.h"
 
 //MC-TESTER header files
 #include "Generate.h"
@@ -74,14 +74,13 @@ int main(int argc,char **argv)
 		return -1;
 	}
 
-	HepMC::I_Pythia8 ToHepMC;
+	HepMC::Pythia8ToHepMC ToHepMC;
 
 	// Initialization of pythia
 	Pythia pythia;
 	Event& event = pythia.event;
 
 	pythia.readString("HadronLevel:Hadronize = off");
-	pythia.readString("SpaceShower:QEDshower = off");
 	pythia.readString("SpaceShower:QEDshowerByL = off");
 	pythia.readString("SpaceShower:QEDshowerByQ = off");
 	pythia.readString("PartonLevel:ISR = off");

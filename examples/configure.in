@@ -226,7 +226,7 @@ fi
 # Check for Pythia
 CPPFLAGS="-I$with_pythia8/include $CPPFLAGS"
 
-AC_CHECK_HEADER([Pythia.h],
+AC_CHECK_HEADER([Pythia8/Pythia.h],
   HAS_PYTHIA=1,
 [ HAS_PYTHIA=0 &&
   echo "" &&
@@ -236,7 +236,7 @@ AC_CHECK_HEADER([Pythia.h],
 ])
 
 if test $HAS_PYTHIA = 1; then
-	AC_CHECK_HEADER([HepMCInterface.h], ,
+	AC_CHECK_HEADER([Pythia8/Pythia8ToHepMC.h], ,
 	[ HAS_PYTHIA=0 &&
 	  echo "" &&
 	  echo "WARNING: Pythia8 has been compiled without the required" &&

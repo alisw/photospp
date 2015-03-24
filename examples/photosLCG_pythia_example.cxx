@@ -7,8 +7,8 @@
  */
 
 //pythia header files
-#include "Pythia.h"
-#include "HepMCInterface.h"
+#include "Pythia8/Pythia.h"
+#include "Pythia8/Pythia8ToHepMC.h"
 
 //PHOTOS header files
 #include "Photos/Photos.h"
@@ -57,7 +57,7 @@ double calculate_ratio(HepMC::GenEvent *evt, double *ratio_2)
 int main(int argc,char **argv)
 {
 	// Initialization of pythia
-	HepMC::I_Pythia8 ToHepMC;
+	HepMC::Pythia8ToHepMC ToHepMC;
 	Pythia pythia;
 	Event& event = pythia.event;
 	//pythia.settings.listAll();
@@ -66,7 +66,6 @@ int main(int argc,char **argv)
 	{
 		//pythia.readString("HadronLevel:all = off");
 		pythia.readString("HadronLevel:Hadronize = off");
-		pythia.readString("SpaceShower:QEDshower = off");
 		pythia.readString("SpaceShower:QEDshowerByL = off");
 		pythia.readString("SpaceShower:QEDshowerByQ = off");
 	}

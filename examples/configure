@@ -3534,18 +3534,18 @@ fi
 # Check for Pythia
 CPPFLAGS="-I$with_pythia8/include $CPPFLAGS"
 
-if test "${ac_cv_header_Pythia_h+set}" = set; then
-  echo "$as_me:$LINENO: checking for Pythia.h" >&5
-echo $ECHO_N "checking for Pythia.h... $ECHO_C" >&6
-if test "${ac_cv_header_Pythia_h+set}" = set; then
+if test "${ac_cv_header_Pythia8_Pythia_h+set}" = set; then
+  echo "$as_me:$LINENO: checking for Pythia8/Pythia.h" >&5
+echo $ECHO_N "checking for Pythia8/Pythia.h... $ECHO_C" >&6
+if test "${ac_cv_header_Pythia8_Pythia_h+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 fi
-echo "$as_me:$LINENO: result: $ac_cv_header_Pythia_h" >&5
-echo "${ECHO_T}$ac_cv_header_Pythia_h" >&6
+echo "$as_me:$LINENO: result: $ac_cv_header_Pythia8_Pythia_h" >&5
+echo "${ECHO_T}$ac_cv_header_Pythia8_Pythia_h" >&6
 else
   # Is the header compilable?
-echo "$as_me:$LINENO: checking Pythia.h usability" >&5
-echo $ECHO_N "checking Pythia.h usability... $ECHO_C" >&6
+echo "$as_me:$LINENO: checking Pythia8/Pythia.h usability" >&5
+echo $ECHO_N "checking Pythia8/Pythia.h usability... $ECHO_C" >&6
 cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
 _ACEOF
@@ -3553,7 +3553,7 @@ cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 $ac_includes_default
-#include <Pythia.h>
+#include <Pythia8/Pythia.h>
 _ACEOF
 rm -f conftest.$ac_objext
 if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
@@ -3589,15 +3589,15 @@ echo "$as_me:$LINENO: result: $ac_header_compiler" >&5
 echo "${ECHO_T}$ac_header_compiler" >&6
 
 # Is the header present?
-echo "$as_me:$LINENO: checking Pythia.h presence" >&5
-echo $ECHO_N "checking Pythia.h presence... $ECHO_C" >&6
+echo "$as_me:$LINENO: checking Pythia8/Pythia.h presence" >&5
+echo $ECHO_N "checking Pythia8/Pythia.h presence... $ECHO_C" >&6
 cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
 _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
-#include <Pythia.h>
+#include <Pythia8/Pythia.h>
 _ACEOF
 if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
   (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
@@ -3631,25 +3631,25 @@ echo "${ECHO_T}$ac_header_preproc" >&6
 # So?  What about this header?
 case $ac_header_compiler:$ac_header_preproc:$ac_cxx_preproc_warn_flag in
   yes:no: )
-    { echo "$as_me:$LINENO: WARNING: Pythia.h: accepted by the compiler, rejected by the preprocessor!" >&5
-echo "$as_me: WARNING: Pythia.h: accepted by the compiler, rejected by the preprocessor!" >&2;}
-    { echo "$as_me:$LINENO: WARNING: Pythia.h: proceeding with the compiler's result" >&5
-echo "$as_me: WARNING: Pythia.h: proceeding with the compiler's result" >&2;}
+    { echo "$as_me:$LINENO: WARNING: Pythia8/Pythia.h: accepted by the compiler, rejected by the preprocessor!" >&5
+echo "$as_me: WARNING: Pythia8/Pythia.h: accepted by the compiler, rejected by the preprocessor!" >&2;}
+    { echo "$as_me:$LINENO: WARNING: Pythia8/Pythia.h: proceeding with the compiler's result" >&5
+echo "$as_me: WARNING: Pythia8/Pythia.h: proceeding with the compiler's result" >&2;}
     ac_header_preproc=yes
     ;;
   no:yes:* )
-    { echo "$as_me:$LINENO: WARNING: Pythia.h: present but cannot be compiled" >&5
-echo "$as_me: WARNING: Pythia.h: present but cannot be compiled" >&2;}
-    { echo "$as_me:$LINENO: WARNING: Pythia.h:     check for missing prerequisite headers?" >&5
-echo "$as_me: WARNING: Pythia.h:     check for missing prerequisite headers?" >&2;}
-    { echo "$as_me:$LINENO: WARNING: Pythia.h: see the Autoconf documentation" >&5
-echo "$as_me: WARNING: Pythia.h: see the Autoconf documentation" >&2;}
-    { echo "$as_me:$LINENO: WARNING: Pythia.h:     section \"Present But Cannot Be Compiled\"" >&5
-echo "$as_me: WARNING: Pythia.h:     section \"Present But Cannot Be Compiled\"" >&2;}
-    { echo "$as_me:$LINENO: WARNING: Pythia.h: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: Pythia.h: proceeding with the preprocessor's result" >&2;}
-    { echo "$as_me:$LINENO: WARNING: Pythia.h: in the future, the compiler will take precedence" >&5
-echo "$as_me: WARNING: Pythia.h: in the future, the compiler will take precedence" >&2;}
+    { echo "$as_me:$LINENO: WARNING: Pythia8/Pythia.h: present but cannot be compiled" >&5
+echo "$as_me: WARNING: Pythia8/Pythia.h: present but cannot be compiled" >&2;}
+    { echo "$as_me:$LINENO: WARNING: Pythia8/Pythia.h:     check for missing prerequisite headers?" >&5
+echo "$as_me: WARNING: Pythia8/Pythia.h:     check for missing prerequisite headers?" >&2;}
+    { echo "$as_me:$LINENO: WARNING: Pythia8/Pythia.h: see the Autoconf documentation" >&5
+echo "$as_me: WARNING: Pythia8/Pythia.h: see the Autoconf documentation" >&2;}
+    { echo "$as_me:$LINENO: WARNING: Pythia8/Pythia.h:     section \"Present But Cannot Be Compiled\"" >&5
+echo "$as_me: WARNING: Pythia8/Pythia.h:     section \"Present But Cannot Be Compiled\"" >&2;}
+    { echo "$as_me:$LINENO: WARNING: Pythia8/Pythia.h: proceeding with the preprocessor's result" >&5
+echo "$as_me: WARNING: Pythia8/Pythia.h: proceeding with the preprocessor's result" >&2;}
+    { echo "$as_me:$LINENO: WARNING: Pythia8/Pythia.h: in the future, the compiler will take precedence" >&5
+echo "$as_me: WARNING: Pythia8/Pythia.h: in the future, the compiler will take precedence" >&2;}
     (
       cat <<\_ASBOX
 ## -------------------------------------------- ##
@@ -3660,18 +3660,18 @@ _ASBOX
       sed "s/^/$as_me: WARNING:     /" >&2
     ;;
 esac
-echo "$as_me:$LINENO: checking for Pythia.h" >&5
-echo $ECHO_N "checking for Pythia.h... $ECHO_C" >&6
-if test "${ac_cv_header_Pythia_h+set}" = set; then
+echo "$as_me:$LINENO: checking for Pythia8/Pythia.h" >&5
+echo $ECHO_N "checking for Pythia8/Pythia.h... $ECHO_C" >&6
+if test "${ac_cv_header_Pythia8_Pythia_h+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-  ac_cv_header_Pythia_h=$ac_header_preproc
+  ac_cv_header_Pythia8_Pythia_h=$ac_header_preproc
 fi
-echo "$as_me:$LINENO: result: $ac_cv_header_Pythia_h" >&5
-echo "${ECHO_T}$ac_cv_header_Pythia_h" >&6
+echo "$as_me:$LINENO: result: $ac_cv_header_Pythia8_Pythia_h" >&5
+echo "${ECHO_T}$ac_cv_header_Pythia8_Pythia_h" >&6
 
 fi
-if test $ac_cv_header_Pythia_h = yes; then
+if test $ac_cv_header_Pythia8_Pythia_h = yes; then
   HAS_PYTHIA=1
 else
    HAS_PYTHIA=0 &&
@@ -3685,18 +3685,18 @@ fi
 
 
 if test $HAS_PYTHIA = 1; then
-	if test "${ac_cv_header_HepMCInterface_h+set}" = set; then
-  echo "$as_me:$LINENO: checking for HepMCInterface.h" >&5
-echo $ECHO_N "checking for HepMCInterface.h... $ECHO_C" >&6
-if test "${ac_cv_header_HepMCInterface_h+set}" = set; then
+	if test "${ac_cv_header_Pythia8_Pythia8ToHepMC_h+set}" = set; then
+  echo "$as_me:$LINENO: checking for Pythia8/Pythia8ToHepMC.h" >&5
+echo $ECHO_N "checking for Pythia8/Pythia8ToHepMC.h... $ECHO_C" >&6
+if test "${ac_cv_header_Pythia8_Pythia8ToHepMC_h+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 fi
-echo "$as_me:$LINENO: result: $ac_cv_header_HepMCInterface_h" >&5
-echo "${ECHO_T}$ac_cv_header_HepMCInterface_h" >&6
+echo "$as_me:$LINENO: result: $ac_cv_header_Pythia8_Pythia8ToHepMC_h" >&5
+echo "${ECHO_T}$ac_cv_header_Pythia8_Pythia8ToHepMC_h" >&6
 else
   # Is the header compilable?
-echo "$as_me:$LINENO: checking HepMCInterface.h usability" >&5
-echo $ECHO_N "checking HepMCInterface.h usability... $ECHO_C" >&6
+echo "$as_me:$LINENO: checking Pythia8/Pythia8ToHepMC.h usability" >&5
+echo $ECHO_N "checking Pythia8/Pythia8ToHepMC.h usability... $ECHO_C" >&6
 cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
 _ACEOF
@@ -3704,7 +3704,7 @@ cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 $ac_includes_default
-#include <HepMCInterface.h>
+#include <Pythia8/Pythia8ToHepMC.h>
 _ACEOF
 rm -f conftest.$ac_objext
 if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
@@ -3740,15 +3740,15 @@ echo "$as_me:$LINENO: result: $ac_header_compiler" >&5
 echo "${ECHO_T}$ac_header_compiler" >&6
 
 # Is the header present?
-echo "$as_me:$LINENO: checking HepMCInterface.h presence" >&5
-echo $ECHO_N "checking HepMCInterface.h presence... $ECHO_C" >&6
+echo "$as_me:$LINENO: checking Pythia8/Pythia8ToHepMC.h presence" >&5
+echo $ECHO_N "checking Pythia8/Pythia8ToHepMC.h presence... $ECHO_C" >&6
 cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
 _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
-#include <HepMCInterface.h>
+#include <Pythia8/Pythia8ToHepMC.h>
 _ACEOF
 if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
   (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
@@ -3782,25 +3782,25 @@ echo "${ECHO_T}$ac_header_preproc" >&6
 # So?  What about this header?
 case $ac_header_compiler:$ac_header_preproc:$ac_cxx_preproc_warn_flag in
   yes:no: )
-    { echo "$as_me:$LINENO: WARNING: HepMCInterface.h: accepted by the compiler, rejected by the preprocessor!" >&5
-echo "$as_me: WARNING: HepMCInterface.h: accepted by the compiler, rejected by the preprocessor!" >&2;}
-    { echo "$as_me:$LINENO: WARNING: HepMCInterface.h: proceeding with the compiler's result" >&5
-echo "$as_me: WARNING: HepMCInterface.h: proceeding with the compiler's result" >&2;}
+    { echo "$as_me:$LINENO: WARNING: Pythia8/Pythia8ToHepMC.h: accepted by the compiler, rejected by the preprocessor!" >&5
+echo "$as_me: WARNING: Pythia8/Pythia8ToHepMC.h: accepted by the compiler, rejected by the preprocessor!" >&2;}
+    { echo "$as_me:$LINENO: WARNING: Pythia8/Pythia8ToHepMC.h: proceeding with the compiler's result" >&5
+echo "$as_me: WARNING: Pythia8/Pythia8ToHepMC.h: proceeding with the compiler's result" >&2;}
     ac_header_preproc=yes
     ;;
   no:yes:* )
-    { echo "$as_me:$LINENO: WARNING: HepMCInterface.h: present but cannot be compiled" >&5
-echo "$as_me: WARNING: HepMCInterface.h: present but cannot be compiled" >&2;}
-    { echo "$as_me:$LINENO: WARNING: HepMCInterface.h:     check for missing prerequisite headers?" >&5
-echo "$as_me: WARNING: HepMCInterface.h:     check for missing prerequisite headers?" >&2;}
-    { echo "$as_me:$LINENO: WARNING: HepMCInterface.h: see the Autoconf documentation" >&5
-echo "$as_me: WARNING: HepMCInterface.h: see the Autoconf documentation" >&2;}
-    { echo "$as_me:$LINENO: WARNING: HepMCInterface.h:     section \"Present But Cannot Be Compiled\"" >&5
-echo "$as_me: WARNING: HepMCInterface.h:     section \"Present But Cannot Be Compiled\"" >&2;}
-    { echo "$as_me:$LINENO: WARNING: HepMCInterface.h: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: HepMCInterface.h: proceeding with the preprocessor's result" >&2;}
-    { echo "$as_me:$LINENO: WARNING: HepMCInterface.h: in the future, the compiler will take precedence" >&5
-echo "$as_me: WARNING: HepMCInterface.h: in the future, the compiler will take precedence" >&2;}
+    { echo "$as_me:$LINENO: WARNING: Pythia8/Pythia8ToHepMC.h: present but cannot be compiled" >&5
+echo "$as_me: WARNING: Pythia8/Pythia8ToHepMC.h: present but cannot be compiled" >&2;}
+    { echo "$as_me:$LINENO: WARNING: Pythia8/Pythia8ToHepMC.h:     check for missing prerequisite headers?" >&5
+echo "$as_me: WARNING: Pythia8/Pythia8ToHepMC.h:     check for missing prerequisite headers?" >&2;}
+    { echo "$as_me:$LINENO: WARNING: Pythia8/Pythia8ToHepMC.h: see the Autoconf documentation" >&5
+echo "$as_me: WARNING: Pythia8/Pythia8ToHepMC.h: see the Autoconf documentation" >&2;}
+    { echo "$as_me:$LINENO: WARNING: Pythia8/Pythia8ToHepMC.h:     section \"Present But Cannot Be Compiled\"" >&5
+echo "$as_me: WARNING: Pythia8/Pythia8ToHepMC.h:     section \"Present But Cannot Be Compiled\"" >&2;}
+    { echo "$as_me:$LINENO: WARNING: Pythia8/Pythia8ToHepMC.h: proceeding with the preprocessor's result" >&5
+echo "$as_me: WARNING: Pythia8/Pythia8ToHepMC.h: proceeding with the preprocessor's result" >&2;}
+    { echo "$as_me:$LINENO: WARNING: Pythia8/Pythia8ToHepMC.h: in the future, the compiler will take precedence" >&5
+echo "$as_me: WARNING: Pythia8/Pythia8ToHepMC.h: in the future, the compiler will take precedence" >&2;}
     (
       cat <<\_ASBOX
 ## -------------------------------------------- ##
@@ -3811,18 +3811,18 @@ _ASBOX
       sed "s/^/$as_me: WARNING:     /" >&2
     ;;
 esac
-echo "$as_me:$LINENO: checking for HepMCInterface.h" >&5
-echo $ECHO_N "checking for HepMCInterface.h... $ECHO_C" >&6
-if test "${ac_cv_header_HepMCInterface_h+set}" = set; then
+echo "$as_me:$LINENO: checking for Pythia8/Pythia8ToHepMC.h" >&5
+echo $ECHO_N "checking for Pythia8/Pythia8ToHepMC.h... $ECHO_C" >&6
+if test "${ac_cv_header_Pythia8_Pythia8ToHepMC_h+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-  ac_cv_header_HepMCInterface_h=$ac_header_preproc
+  ac_cv_header_Pythia8_Pythia8ToHepMC_h=$ac_header_preproc
 fi
-echo "$as_me:$LINENO: result: $ac_cv_header_HepMCInterface_h" >&5
-echo "${ECHO_T}$ac_cv_header_HepMCInterface_h" >&6
+echo "$as_me:$LINENO: result: $ac_cv_header_Pythia8_Pythia8ToHepMC_h" >&5
+echo "${ECHO_T}$ac_cv_header_Pythia8_Pythia8ToHepMC_h" >&6
 
 fi
-if test $ac_cv_header_HepMCInterface_h = yes; then
+if test $ac_cv_header_Pythia8_Pythia8ToHepMC_h = yes; then
   :
 else
    HAS_PYTHIA=0 &&

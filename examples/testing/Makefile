@@ -7,15 +7,15 @@ ROOTLIBPATH  := $(shell root-config --libdir)
 
 # Keep in mind Makefile and examples are not prepared to automatically adapt
 # to different pythia versions: 8.170 (or lower), 8.180-8.185, 8.2
-# At present it's adapted to v8.170
-PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib/archive -lpythia8 -llhapdfdummy -lhepmcinterface
-#PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib/archive -lpythia8 -llhapdfdummy -lpythia8tohepmc
+# At present they are adapted to v8.185
+#PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib/archive -lpythia8 -llhapdfdummy -lhepmcinterface
+PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib/archive -lpythia8 -llhapdfdummy -lpythia8tohepmc
 #PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib -lpythia8
 
 MC_TESTER_LIBS = -L$(MCTESTERLOCATION)/lib -lHEPEvent -lHepMCEvent -lMCTester
 HEPMC_LIBS     = -L$(HEPMCLOCATION)/lib -lHepMC
 TAUOLA_LIBS    = -L$(TAUOLALOCATION)/lib -lTauolaCxxInterface -lTauolaFortran
-PHOTOS_LIBS    = -L$(PHOTOSLOCATION)/lib -lPhotospp -lPhotosppHepMC $(HEPMC_LIBS)
+PHOTOS_LIBS    = -L$(PHOTOSLOCATION)/lib -lPhotospp -lPhotosppHepMC -lPhotosppHEPEVT $(HEPMC_LIBS)
 
 all:
 ifneq ($(HEPMCLOCATION), )

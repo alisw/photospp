@@ -7,8 +7,8 @@
  */
 
 //pythia header files
-#include "Pythia.h"
-#include "HepMCInterface.h"
+#include "Pythia8/Pythia.h"
+#include "Pythia8/Pythia8ToHepMC.h"
 
 //MC-TESTER header files
 #include "Generate.h"
@@ -62,7 +62,7 @@ void checkMomentumConservationInEvent(HepMC::GenEvent *evt)
 
 int main(int argc,char **argv)
 {
-	HepMC::I_Pythia8 ToHepMC;
+	HepMC::Pythia8ToHepMC ToHepMC;
 
 	// Initialization of pythia
 	Pythia pythia;
