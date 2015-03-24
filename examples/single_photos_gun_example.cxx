@@ -55,17 +55,6 @@ int main(int argc,char **argv)
 	HepMC::Pythia8ToHepMC ToHepMC;
 	Pythia pythia;
 	Event& event = pythia.event;
-	pythia.readString("WeakSingleBoson:ffbar2gmZ = on");
-	pythia.readString("23:onMode = off");
-	pythia.readString("23:onIfAny = 15");
-	pythia.readString("HadronLevel:Hadronize = off");
-	pythia.readString("SpaceShower:QEDshowerByL = off");
-	pythia.readString("SpaceShower:QEDshowerByQ = off");
-	pythia.readString("PartonLevel:ISR = off");
-	pythia.readString("PartonLevel:FSR = off");
-	pythia.readString("Beams:idA =  11");
-	pythia.readString("Beams:idB = -11");
-	pythia.readString("Beams:eCM =  92.");
 
 	pythia.readFile("single_photos_gun_example.conf");
 	pythia.init();
