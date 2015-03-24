@@ -20,6 +20,7 @@ if test "$ANSWER" = "yes" || test "$ANSWER" = "y"; then
   rm -rf ../config* ../make* ../Make*
   rm -rf ../src/make.inc ../src/*/Makefile ../src/photos-fortran/make*
   rm -rf ../examples/config* ../examples/make* ../examples/Make*
+  rm -rf ../examples/testing/make* ../examples/testing/Make*
 
   echo "Copying and configuring new scripts"
   cp -rf LCGCONFIG/* ../.

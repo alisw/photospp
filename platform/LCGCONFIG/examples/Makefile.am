@@ -15,8 +15,7 @@ AM_LDFLAGS = -R $(prefix)/lib
 
 LDADD =                          \
 $(FLIBS)                         \
-$(prefix)/lib/libPhotosCxxInterface.so \
-$(prefix)/lib/libPhotosFortran.so
+-L$(prefix)/lib/ -lPhotospp -lPhotosppHepMC -lPhotosppHEPEVT
 
 photos_hepevt_example_exe_LDADD = -lphotos_hepevt_example_interface $(LDADD)
 
@@ -37,10 +36,10 @@ photos_standalone_example_exe_SOURCES  = photos_standalone_example.cxx
 ### Photos gun example (require Pythia8) ###
 if HAS_PYTHIA8
 
-AM_LDFLAGS  += -R $(PYTHIA8_DIR)/lib/archive
+AM_LDFLAGS  += -R $(PYTHIA8_DIR)/lib
 
 INCLUDES += -I$(PYTHIA8_DIR)/include
-LDADD    += -L$(PYTHIA8_DIR)/lib/archive -lpythia8 -llhapdfdummy -lhepmcinterface
+LDADD    += -L$(PYTHIA8_DIR)/lib/ -lpythia8
 
 example_PROGRAMS += single_photos_gun_example.exe  photosLCG_pythia_example.exe
 

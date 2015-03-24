@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT( [Photos C++ Interface], [3.3], [tomasz.przedzinski@cern.ch] )
+AC_INIT( [Photos C++ Interface], [3.6], [tomasz.przedzinski@cern.ch] )
 
 AC_CONFIG_AUX_DIR([config])
 
@@ -124,7 +124,7 @@ if test "x$with_pythia8" != "x"; then
     echo ""
     echo "WARNING: Pythia8 location specified but PYTHIA8DATA variable not set."
     echo "         This variable is required to run the examples. Try:"
-    echo "         export PYTHIA8DATA=<path_to_pythia8>/xmldoc"
+    echo "         export PYTHIA8DATA=<path_to_pythia8>/share/Pythia8/xmldoc"
     echo ""
   fi
 fi
@@ -185,5 +185,5 @@ AM_CONDITIONAL([HAS_PYTHIA8],  [test "x$with_pythia8"   != "x"])
 AM_CONDITIONAL([HAS_MCTESTER], [test "x$with_mc_tester" != "x"])
 AM_CONDITIONAL([HAS_TAUOLA],   [test "x$with_tauola"    != "x"])
 
-AC_CONFIG_FILES([Makefile src/Makefile examples/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile examples/Makefile examples/testing/Makefile])
 AC_OUTPUT
