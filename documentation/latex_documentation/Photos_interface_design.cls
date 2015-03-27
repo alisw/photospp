@@ -115,19 +115,18 @@ Polish Academy of Sciences,\\
 
 \end{center}
 
-{ The first version of the {\tt PHOTOS} Monte Carlo for
+{ For five years now, {\tt PHOTOS} Monte Carlo for
 bremsstrahlung in the decay of particles and resonances
- with an interface to the HepMC event record written in C++ is available
-since five years now.
+has been available with an interface to the {\tt C++ HepMC} event record. 
 The main purpose of the present
-paper is to document technical aspects of the {\tt PHOTOS} Monte Carlo 
+paper is to document the technical aspects of the {\tt PHOTOS} Monte Carlo 
 installation and present version use. A multitude of test results and examples are  
 distributed together 
 with the program code.
 
 The
-{\tt PHOTOS} C++ physics precision is   better than  its {\tt FORTRAN}
-predecessor, more convenient steering options are also available. 
+{\tt PHOTOS} {\tt C++} physics precision is   better than  its {\tt FORTRAN}
+predecessor and more convenient steering options are also available. 
 An algorithm for the event record interface
 necessary for process dependent 
 photon emission kernel is implemented. 
