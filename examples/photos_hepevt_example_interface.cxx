@@ -4,6 +4,7 @@
  * @author Tomasz Przedzinski
  * @date 21 August 2013
  */
+#include <cstdlib>
 #include "Photos/Photos.h"
 #include "Photos/PhotosHEPEVTEvent.h"
 using namespace Photospp;

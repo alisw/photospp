@@ -18,7 +18,7 @@ MC_TESTER_LIBS = -L$(MCTESTERLOCATION)/lib -lHEPEvent -lHepMCEvent -lMCTester
 PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib -lpythia8 -ldl
 
 PHOTOS_LIBS_FOR_HEPMC  = -L$(PHOTOSLOCATION)/lib -lPhotospp -lPhotosppHepMC $(HEPMC_LIBS)
-PHOTOS_LIBS_FOR_HEPEVT = -L$(PHOTOSLOCATION)/lib -lPhotospp -lPhotosppHEPEVT
+PHOTOS_LIBS_FOR_HEPEVT = -L$(PHOTOSLOCATION)/lib -lPhotospp -lPhotosppHEPEVT -lstdc++
 HEPMC_LIBS     =
 
 ifneq ($(HEPMCLOCATION), )
