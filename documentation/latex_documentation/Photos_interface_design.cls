@@ -86,7 +86,7 @@
 \begin{flushright}
 {\bf  CERN-PH-TH/2010-261 \\
   IFJPAN-IV-2010-6  \\
- On-going updates from version  November 2010 to March 2015}
+ Updated version; for the program as of  April 2015}
 \end{flushright}
 
 \begin{center}
