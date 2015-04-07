@@ -1354,14 +1354,6 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 ##############################################################################
 # Process command line options
 
-if test "$AFS_PATHS" == "yes"; then
-	with_hepmc=$HEPMCLOCATION
-	with_tauola=$TAUOLALOCATION
-	with_mc_tester=$MCTESTERLOCATION
-	with_pythia8=$PYTHIALOCATION
-	pythia8data=$PYTHIA8DATA
-fi
-
 echo ""
 
 echo "$as_me:$LINENO: checking if HepMC location defined" >&5
@@ -2952,7 +2944,7 @@ fi
 
 
 # Provide some information about the compiler.
-echo "$as_me:2955:" \
+echo "$as_me:2947:" \
      "checking for Fortran 77 compiler version" >&5
 ac_compiler=`set X $ac_compile; echo $2`
 { (eval echo "$as_me:$LINENO: \"$ac_compiler --version </dev/null >&5\"") >&5
@@ -4777,7 +4769,6 @@ else
   echo "         --with-hepmc=/path/to/HepMC" ;
   echo "       or use";
   echo "         --without-hepmc";
-  echo "       (Consider using 'source platform/afs.paths.sh' (or .csh) )"
   echo ""
   exit -1
 

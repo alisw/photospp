@@ -89,7 +89,6 @@ Clean: clean
 make.inc:
 	@echo ""
 	@echo "Please execute ./configure first!"
-	@echo "(Consider using 'source platform/afs.paths.sh' [or .csh] first)"
 	@echo ""
 	@false
 

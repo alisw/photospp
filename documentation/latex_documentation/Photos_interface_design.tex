@@ -1216,18 +1216,13 @@ only the {\tt HEPEVT} example will be provided.
 %ND - it seems a bit excessive that all of PYTHIA, TAUOLA and MC-TESTER are required for
 % The c++ examples to work. Aren't there any simple stand alone example?
 
-On {\tt CERN} platforms, ready to use software is located in the {\tt /afs/cern.ch/sw/lcg/}
-directory, see section \ref{sec:autotools} for details. To set the appropriate paths, the scripts 
-{\tt platform/afs.paths.sh} and {\tt platform/afs.paths.csh} are prepared and should be executed before
-{\tt ./configure}. For details see {\tt README} in the {\tt PHOTOS} main directory\footnote { It is prepared for {\tt  Pythia} 8.2. For later  versions
-these config files need to be updated. See the {\tt README } files.}
-
 \subsection{ LCG configuration scripts; available from version 3.1%
 }
 \label{sec:autotools}
 %ND - why is there a script for LCG and also one for CERN? ZW: I think it is the same
 %TP: The above note about afs.paths.sh is about setting paths to /afs installations of pythia, HepMC, etc. This is different than LCG scripts.
 %TP: I think we should drop the afs.paths.sh. It's impractical to use it now - the way they distribute the software through /afs has changed...
+%TP: 07 Apr 2015: It is now removed from the code and documentation
 For our project still another configuration/automake system was prepared
 for use in LCG/Genser projects\footnote{We have used the expertise and advice
 of Dmitri Konstantinov and Oleg Zenin in organization of configuration scripts

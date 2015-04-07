@@ -11,14 +11,6 @@ AC_CONFIG_SRCDIR([src/photosCInterfaces/Photos.cxx])
 ##############################################################################
 # Process command line options
 
-if test "$AFS_PATHS" == "yes"; then
-	with_hepmc=$HEPMCLOCATION
-	with_tauola=$TAUOLALOCATION
-	with_mc_tester=$MCTESTERLOCATION
-	with_pythia8=$PYTHIALOCATION
-	pythia8data=$PYTHIA8DATA
-fi
-
 echo ""
 
 AC_MSG_CHECKING([if HepMC location defined])
@@ -121,7 +113,6 @@ AC_CHECK_HEADERS([HepMC/Version.h], ,
   echo "         --with-hepmc=/path/to/HepMC" ;
   echo "       or use";
   echo "         --without-hepmc";
-  echo "       (Consider using 'source platform/afs.paths.sh' (or .csh) )"
   echo ""
   exit -1
 ])

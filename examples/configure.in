@@ -60,14 +60,6 @@ if test ! -z "$PYTHIALOCATION"; then
   pythialocation=$PYTHIALOCATION
 fi
 
-### Force all paths if AFS_PATHS was defined
-
-if test "$AFS_PATHS" == "yes"; then
-  with_hepmc=$HEPMCLOCATION
-  with_mc_tester=$MCTESTERLOCATION
-  with_pythia8=$PYTHIALOCATION
-fi
-
 ##############################################################################
 # Process command line options
 
@@ -117,7 +109,6 @@ AC_CHECK_HEADERS([HepMC/Version.h],
   echo "" &&
   echo "INFO: HepMC not found. To provide location use:" &&
   echo "      './configure --with-hepmc=<path_to_HepMC>' "
-  echo "      (Consider using 'source platform/afs.paths.sh' (or .csh) )"
   echo ""
 ])
 
@@ -158,7 +149,6 @@ if test "$HAS_ROOT_CONFIG" == "no"; then
         echo "      to ROOT bin folder not provied via \$PATH variable. Use:"
         echo "      export PATH=\$PATH:<path_to_root>/bin"
         echo "      export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:\`root-config --libdir\`"
-        echo "     (consider using 'source platform/afs.paths.sh' (or .csh) )"
 	echo ""
 else
 	AC_CHECK_PROG(HAS_ROOT_EXE,root,[yes],[no])

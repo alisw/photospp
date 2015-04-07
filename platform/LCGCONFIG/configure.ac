@@ -59,7 +59,6 @@ AC_CHECK_HEADERS([HepMC/Version.h], ,
   echo "       './configure --with-hepmc=<path_to_HepMC>' "
   echo "       or use:"
   echo "       './configure --without-hepmc"
-  echo "       (Consider using 'source platform/afs.paths.sh' (or .csh) )"
   echo ""
   exit -1
 ])

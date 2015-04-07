@@ -17,11 +17,6 @@ To use MC-Tester, ROOT must be installed and
 its path provided via the PATH variable.
 
 3)
-If afs paths were used during interface compilation,
-all these paths are set alredy and 
-can not be changed.
-
-4)
 Examples require:
 photos_hepevt_example.exe        - does not require any new libraries
 photos_standalone_example.exe    - require HepMC
