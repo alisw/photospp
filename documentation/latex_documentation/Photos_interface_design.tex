@@ -100,7 +100,7 @@ other versions, consult {\tt README} files and {\tt changelog.txt} of the {\tt d
 The algorithm of {\tt PHOTOS} Monte Carlo can be divided into two parts.
 The first, internal part, operates on elementary decays. Thanks to carefully 
 studied properties of the 
-QED (scalar QED) algorithm, with certain probability, 
+QED (scalar QED), the  algorithm (with certain probability) 
 replaces the kinematical configuration of the Born level decay with a new one, 
 where a bremsstrahlung photon, photons or lepton pairs
 are added and other particle momenta are modified. This part of the program is sophisticated from the physics 
@@ -167,7 +167,7 @@ The program has the process-dependent correcting weights of refs
 provided that its output is available through an event record for which an interface has been provided.
 The default distribution of {\tt PHOTOS} contains an interface for the {\tt HepMC} \cite{Dobbs:2001ck} event record,
 as well as an interface for an old {\tt FORTRAN} event record, {\tt HEPEVT}%
-\footnote{This standard is less commonly used, thus the interface to it is less tested}.
+\footnote{This standard is less commonly used, thus the interface to it is less tested.}.
 
 It seems that {\tt HepMC} will
 remain a generally accepted standard for the near future. However,
@@ -365,7 +365,7 @@ event record.
        The last class located here, {\tt PhotosBranch}, contains information regarding
        elementary branching to be processed by {\tt PHOTOS}. In particular, 
        it contains the algorithm
-       which selects single branch for processing and filters out branches that will not be processed.
+       which selects single branching for processing and filters out branchings that will not be processed.
   \item {\bf Event Record Interface} \\
        This contains the event record implementation classes. All classes stored here represent
        the implementation of specific event record interfaces and are responsible for reading,
@@ -406,7 +406,7 @@ event record.
   \item { \bf PhotosParticle } - abstract base class for particles in the event.
   \item { \bf PhotosBranch } - contains one {\tt PhotosParticle} and  pointers to its mothers and daughters.
                                The main algorithms of the abstract interface, such as invoking {\tt PHOTOS} processing
-                               or filtering out branchings that will not be processed, is performed here.
+                               or filtering out branchings that will not be processed, is defined here.
   \end{itemize}
 
 \item {\bf src/utilities/ } - source code for utilities.\\
@@ -515,7 +515,7 @@ and then the content of  {\tt HEPEVT} is modified.
 
 \section{Extensibility}
 \label{sec:extensibility}
- The purpose of the {\tt C++} interface to the {\tt C} {\tt PHOTOS} algorithm is to make available 
+ The first purpose of the {\tt C++} interface to the {\tt C} {\tt PHOTOS} algorithm is to make available 
 all the functionality of its {\tt FORTRAN} predecessor for 
 {\tt C++} data
 structures. Some new methods for improved initialization are introduced. The new program 
@@ -532,7 +532,7 @@ already implemented in {\tt FORTRAN}. Further extensions were introduced:
 
 
 \item
-We have prepared the structure 
+We have prepared the structure (branching including particle's mothers)  
 for the implementation of channel dependent matrix elements. This was   
 integrated into the {\tt C++} version of {\tt PHOTOS}. 
 
@@ -562,7 +562,7 @@ information passed to {\tt PHOTOS}.
 Numerical stability is another consideration; it cannot be separated from
 physics constraints. The condition  $E^2-p^2=m^2$ may be broken  because of 
 rounding errors.  However, due to intermediate particles with
-  substantial widths, the on mass shell condition may not be applicable.
+  substantial widths, the on-mass-shell condition may not be applicable.
 {\tt PHOTOS} may be adapted to such varying conditions, but it requires
 good interaction with users. The protection which removes 
 inconsistencies in the event record may be a source of unexpected difficulties
@@ -605,13 +605,13 @@ the need to redo many of the {\tt FORTRAN} era benchmarks.
 
 \section{Testing}
 \label{sec:tests} 
-One of the most important parts of the {\tt PHOTOS} project are its physics oriented tests.
+ Some of the most important parts of the {\tt PHOTOS} project are its physics oriented tests.
 Several domains
 of physics tests should be mentioned. Users interested in precision 
 simulations of $Z$ or $W$ decays  will 
 find  the papers \cite{Nanava:2009vg,Golonka:2006tw,Golonka:2005pn}
 most interesting. There, careful comparison with the first order matrix element 
-and confirmation of the agreement was first shown.
+and confirmation of the agreement was shown.
 For $Z$ decays, comparisons  with a Monte Carlo program based on exclusive 
 exponentiation with up to the second order matrix element
 is possible and was performed on some benchmark distributions.
@@ -907,7 +907,7 @@ the particular case of $Z$ decay but for the general case of double bremsstrahlu
 \subfigure[ {\tt CEEX2}: red; {\tt PHOTOS}: green]{\label{plot:b}
 \includegraphics[scale=0.35]{b-M1@0001.eps}
 }
-\caption{ The spectrum of the $\gamma \gamma$ invariant mass in $Z \to \mu^+\mu^-$
+\caption{ The spectrum of the $\gamma \gamma$ invariant mass, for the bremstrahlung photons in $Z \to \mu^+\mu^-$
 decays. Events with two hard photons, both of energy above 1 GeV in the $Z$ rest 
 frame are taken. Comparisons are shown for {\tt CEEX2} and {\tt CEEX1} (left plot), and {\tt CEEX2} and {\tt PHOTOS}
 (right plot). The prediction from {\tt PHOTOS} is clearly superior for
@@ -1063,9 +1063,9 @@ In the following let us list the original common blocks of {\tt FORTRAN} {\tt PH
 To simplify 
 and to preserve continuity of  the mathematical formulae shapes,
 in many places  we  use  aliases to the struct elements  
-which differ only in that they are  written in capital letters instead of small ones%
-\footnote{Note that relevant parameters listed here can be set through
-the appropriate accessors (see Appendix \ref{subsection:other_methods}).}.
+which differ only in that they are  written in capital letters instead of small ones.
+Note that relevant parameters  listed only here, can be set through
+the appropriate accessors see Appendix \ref{subsection:other_methods}  for more explanations.
 
 
 \begin{description}
@@ -1082,7 +1082,7 @@ the appropriate accessors (see Appendix \ref{subsection:other_methods}).}.
 	\item[FSEC]   \textit{double} internal variable for algorithm options, the default is FSEC=1.0\; .
 	\item[FINT]   \textit{double} maximum interference weight.
 	\item[EXPEPS] \textit{double} technical parameter which blocks the crude level high photon multiplicity from configurations less probable than EXPEPS. The default is $10^{-4}$.
-	\item[INTERF] \textit{bool} switch for interference, the matrix element weight.
+	\item[INTERF] \textit{bool} switch for interference, in the matrix element weight.
 	\item[ISEC]   \textit{bool} switch for double bremsstrahlung generation.
 	\item[ITRE]   \textit{bool} switch for bremsstrahlung generation up to a multiplicity of 4.
 	\item[IEXP]   \textit{bool} switch for exponentiation mode.
@@ -1165,8 +1165,8 @@ The main interface library uses {\tt HepMC} \cite{Dobbs:2001ck} (version 2.03 or
 its location has been provided or compilation without {\tt HepMC} has been chosen as an option during the configuration step.
 The later is only sufficient to compile the interface and to run the {\tt HEPEVT} example.
 
-However, in order to run the more advanced examples located in the {\tt /examples} directory, {\tt HepMC} is required.
-To run all of the available examples, it is also required to install:
+In order to run further examples located in the {\tt /examples} directory, {\tt HepMC} is required.
+To run all of the available examples, it is  required to install:
 
 \begin{itemize}
   \item {\tt ROOT} \cite{root-install-www} version 5.18 or later
@@ -1229,7 +1229,7 @@ of Dmitri Konstantinov and Oleg Zenin in organization of configuration scripts
 for our whole distribution tar-ball as well. Thanks to this choice, we hope, our solution
  will be compatible with ones in general use.} \cite{LCG,Kirsanov:2008zz}.
 
-To activate this set of autotool\cite{autotools}-based installation scripts,
+To activate this set of autotool based \cite{autotools} installation scripts,
 enter the {\tt platform} directory and execute the {\tt use-LCG-config.sh} script.
 Then, the installation procedure and the names of the configuration script parameters will differ from the ones 
 described in our paper. Instruction given in the  './INSTALL' readme file, created by the {\tt use-LCG-config.sh} script,
@@ -1353,7 +1353,7 @@ for event processing.
 For backward-compatibility with {\tt HEPEVT} event records, an interface has been prepared
 allowing the {\tt PHOTOS C++ Interface} to be invoked from the {\tt FORTRAN} project. An example,
 {\tt photos\_hepevt\_example.f}, has been prepared to demonstrate how {\tt PHOTOS} can be
-initialized and executed from {\tt FORTRAN} code. Since {\tt PHOTOS} works in a {\tt C++} environment,
+initialized and executed from {\tt FORTRAN} code. Since {\tt PHOTOS} works in a {\tt C++} environment,  \\
 {\tt photos\_hepevt\_example\_interface.cxx} must be introduced to invoke {\tt PHOTOS}.
 
 Since version 3.54, {\tt PHOTOS} is fully in {\tt C++} and initialization can no longer
@@ -1537,10 +1537,10 @@ In case of the {\tt HepMC} event record, this information is automatically obtai
 from the event. For {\tt HEPEVT} events, {\tt GEV} is assumed. For all other
 interfaces, the unit is undefined and has to be set in the event record
 interface by calling \\ {\tt Photos::setMomentumUnit(MomentumUnits unit); }\\
-(e.g. {\tt Photos::setMomentumUnit(Photos::MEV); })
+(e.g. {\tt Photos::setMomentumUnit(Photos::MEV); }).
 \\ See
 constructors for the {\tt PhotosHepMCEvent} or {\tt PhotosHEPEVEvent} class for
-further examples
+further examples.
 
 To select available emission from {\tt PHOTOS} use:
 
