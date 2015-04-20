@@ -179,7 +179,7 @@ void spaj(int KUDA,double P2[4],double Q2[4],double PP[4],double PE[4]){
 }
 
 //extern "C" {
-  struct  { 
+  struct PARKIN { 
    double fi0; // FI0
    double fi1; // FI1
    double fi2; // FI2

@@ -123,7 +123,7 @@ double PHINT(int IDUM){
   }
 
   PHINT2=(XNUM1*XNUM1 + XNUM2*XNUM2) / XDENO;
-  return (XNUM1*XNUM1 + XNUM2*XNUM2) / XDENO;
+  return PHINT2;
 
 }
 
@@ -1843,8 +1843,8 @@ void PHOCHK(int JFIRST){
     }
     IFRAD=((abs(pho.idhep[1-i])==6) && (pho.idhep[2-i]==0));
     IFRAD=IFRAD
-      &&    ((abs(pho.idhep[3-i])==24) &&(abs(pho.idhep[4-i])== 5)
-	  || (abs(pho.idhep[3-i])== 5) &&(abs(pho.idhep[4-i])==24) )
+      && ( ((abs(pho.idhep[3-i])==24) && (abs(pho.idhep[4-i])== 5))
+	  ||   ((abs(pho.idhep[3-i])== 5) && (abs(pho.idhep[4-i])==24)) )
       &&  (IDENT==4);
   
     if(IFRAD){    
