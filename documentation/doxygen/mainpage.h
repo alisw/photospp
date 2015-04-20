@@ -19,7 +19,7 @@
  The source code and documentation are updated daily from the repository. The following files are provided for download of the developement version:
  - <a href="resources/PHOTOS.development.version/Photos_interface_design.development.version.pdf">Photos_interface_design.pdf</a>  full software documentation.
  - <a href="resources/PHOTOS.development.version/PHOTOS.development.version.tar.gz">PHOTOS development version source code </a> tarball
-   ( <a href="resources/PHOTOS.development.version/PHOTOS.development.version.tar.gz"> version for LHC/LCG</a>  installation)
+   ( <a href="resources/PHOTOS.development.version/PHOTOS.development.version-LHC.tar.gz"> version for LHC/LCG</a>  installation)
    and its <a href="resources/PHOTOS.development.version/svn_info_photos.development.version.txt">revision info</a> SVN tag, tarball creation date/time, etc.
    For updates with respect to release 3.0 see <a href="resources/PHOTOS.development.version/changelog.development.version.txt">changelog.txt</a>.
 
