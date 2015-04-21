@@ -130,7 +130,8 @@ int main(int argc,char **argv)
 	Photos::setInfraredCutOff(1.e-6);
 	Photos::maxWtInterference(3.0);
 
-	bool topDecays = false;
+	bool topDecays    = false;
+	bool pairEmission = false;
 
 	// 3. Check if we're using any special mode
 	if(argc>3)
@@ -144,6 +145,11 @@ int main(int argc,char **argv)
 			Photos::setMeCorrectionWtForZ(true);
 			//Photos::meCorrectionWtForScalar(true);
 		}
+		// Pairs emission
+		else if(atoi(argv[3])==4)
+		{
+			pairEmission = true;
+		}
 	}
 
 	// 4. Check if we're using 1-photon mode
@@ -155,9 +161,11 @@ int main(int argc,char **argv)
 		Photos::maxWtInterference(2.0);
 	}
 
-	Photos::setPhotonEmission(true);
-	bool pary=true;
-	Photos::setPairEmission(pary);
+	// Photon emission is turned on by default
+	// Use this flag to turn it off if needed
+	//Photos::setPhotonEmission(false);
+	Photos::setPairEmission(pairEmission);
+
 	MC_Initialize();
 
 	Photos::iniInfo();
@@ -207,7 +215,8 @@ int main(int argc,char **argv)
 	pythia.stat();
 	MC_Finalize();
 
-      if(pary){			
+	// Additional printout for pairs
+	if( pairEmission ) {
 	// PAIR emission
 	// Test with formula 11 from UTHEP-93-0301 M. Skrzypek ...
 	const double PI=3.141592653589793238462643;     
@@ -230,7 +239,6 @@ int main(int argc,char **argv)
         num=0.99* 4.0/3.0*(L*L*L/3.+ (31./36.- PI*PI/6.)*L+0.5940);
 	printf (" Z->mumu: \n");
 	printf (" Abslolute= %15.8f  Relative to crude= %15.8f \n",num/PI/PI/ALFINV/ALFINV/0.99, num/deno);
-     }
-
+	}
 	
 }

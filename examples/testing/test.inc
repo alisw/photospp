@@ -16,6 +16,7 @@ PHOTOS_TAUOLA =../photos_tauola_test.exe
 # Special modes
 TOP_MODE     =1 # Turn on MC-Tester fix for Top decays
 NLO_MODE     =2 # Turn on Photos NLO corrections
+PAIRS_MODE   =4 # Turn on pairs emission
 
 # Tauola generation modes
 PIPI_MODE    =3 # ee@91.187GeV (for Ztautau)

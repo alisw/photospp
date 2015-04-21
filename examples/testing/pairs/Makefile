@@ -5,6 +5,7 @@ NAME_BENCHMARK = mc-tester.root-Zmumu-pairs-10M
 
 CONF = pythia_Z_resonance_peak.conf
 NAME = pairs
+SPECIAL_MODE = $(PAIRS_MODE)
 
 PROGRAM     = $(PHOTOS_ONLY)
 
@@ -14,7 +15,7 @@ tester.$(NAME).pdf: mc-tester.$(NAME).root
 	$(VIEWER) tester.$(NAME).pdf &
 
 mc-tester.$(NAME).root: $(PROGRAM) $(CONF)
-	$(PROGRAM) $(CONF) $(EVENTS)
+	$(PROGRAM) $(CONF) $(EVENTS) $(SPECIAL_MODE)
 	mv mc-tester.root mc-tester.$(NAME).root
 
 clean:
