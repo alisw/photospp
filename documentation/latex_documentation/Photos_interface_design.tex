@@ -1259,7 +1259,7 @@ That is why, distributions monitoring production processes obtained
 from distributed initialization for {\tt PYTHIA 8.201}, may differ from 
 the  reference ones. See e.g. 
 {\tt User Histograms}, plots {\tt mother-PT mother-eta},  in 
-{\tt examples/testing/ScalNLO}. }.
+{\tt examples/testing/ScalNLO} or {\tt examples/testing/WmunuNLO}. }.
 
 In principle, these tests have to be performed for any new hard 
 process and after any new installation. This is to ensure that 
@@ -1739,14 +1739,14 @@ and in top decay.
   \item {\tt bool Photos::isStatusCodeIgnored(int status)} Returns {\tt true} if {\tt status}
         is on the list of ignored status codes.
   \item {\tt Photos::setMomentumConservationThreshold(double momentum\_{}conservation\_{}threshold)} \\
-        The default value is 0.1 (in {\tt MEV/GEV}, depending
-on the units used by {\tt HepMC}). If larger energy-momentum non-conservation
-        is found then photon generation is skipped in the vertex. 
-        At present, for the evaluation of non-conservation  the standard method of {\tt HepMC}
-        is used. That effectively means that {\it only} momentum, but not energy is checked. This turns out to be insufficient in some rare cases. 
-We expect {\tt HepMC}
-to be appropriately extended in its future releases. Alternatively, easy to install
-patch may be introduced into our method. 
+        %NOTE: currently, our check is: sqrt( sumpx*sumpx + sumpy*sumpy + sumpz*sumpz + sume*sume) > Photos::momentum_conservation_threshold
+        %      where 'sumpx' (etc.) is the sum of px of all incomming particles minus sum of px of all outgoing particles
+        Threshold relative to the difference of the sum of the 4-momenta of incoming and outgoing
+        particles. The default value is 0.1. If larger energy-momentum non-conservation
+        is found then photon generation is skipped in the vertex\footnote{
+        In the past, momentum conservation was checked using the standard method of {\tt HepMC}.
+        That effectively meant that {\it only} momentum, but not energy was checked.
+        This turned out to be insufficient in some rare cases.}.
   \item {\tt Photos::iniInfo()} \\
         The printout performed with  {\tt Photos::initialize()}  will exhibit 
         outdated information
