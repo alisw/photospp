@@ -6,7 +6,8 @@ Htautau/mc-tester.benchmark.Htautau.root
 
 PROCESS:
   collision:	e+e-@500GeV
-  generator:	pythia, HiggsSM:ffbar2H, using "25:m0=120"
+  generator:	pythia, HiggsSM:ffbar2H, using 25:m0 = 120
+                25:mMin = 50 and 25:mMax = 200
             	tauola, decay mode: 4 (tau => pi pi nu_tau)
      events:	10M
 
@@ -33,7 +34,7 @@ pairs/mc-tester.root-Zmumu-pairs-10M
 PROCESS:
   collision:	e+e-@91.187
   generator:	pythia, WeakSingleBoson:ffbar2gmZ = on
-                23:mMin = 91.17, 23:mMax = 91.2
+                Z0 decays to muons, 23:mMin = 91.17, 23:mMax = 91.2
      events:	10M
 
 PHOTOS:
@@ -42,35 +43,6 @@ PHOTOS:
         exp:	yes
       pairs:	yes
      cutoff:	1.e-6
-
-MCTESTER:
-   particle:	23 (Z0)
- mass power:	2
- mass scale:	on
- histograms:	120 bins; [0 , 1.1]
-
-   analysis:	UserTreeAnalysis
-     E_test:	0.01/91.187 (10MeV), max 1 photon
-
---------------------------------------------------------------------------------
-
-pairs/mc-tester.root-Zmumu-pairs-10M-PRHARD-0.99
-----------------------------------------
-
-PROCESS:
-  collision:	e+e-@91.187
-  generator:	pythia, WeakSingleBoson:ffbar2gmZ = on
-                23:mMin = 91.17, 23:mMax = 91.2
-     events:	10M
-
-PHOTOS:
-      first:	no
-     second:	no
-        exp:	yes
-      pairs:	yes
-     cutoff:	1.e-6
-       NOTE: Internal variable PRHARD hard-coded to 0.99
-             grep "PRHARD=" src/photos-C/*
 
 MCTESTER:
    particle:	23 (Z0)
