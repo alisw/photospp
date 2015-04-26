@@ -142,7 +142,7 @@ validation of the program iteration procedure. Also, it is explained
 that the phase space parameterization used in the program is exact. 
  }
 
-\centerline{\normalsize \today}
+\centerline{\normalsize Submitted to Comp. Phys. Commun.}
 
 \vfil
 

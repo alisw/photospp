@@ -1,5 +1,8 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Apr 26 2015
+- cleaning of code, examples reference files completed. 
+  Version no 3.60 introduced, code prepared for submission to CPC 
 Mar 24 2015
 - examples updated to pythia v8.2
 - LCG scripts updated to the new directory structure and pythia v8.2
