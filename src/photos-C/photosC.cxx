@@ -2598,7 +2598,16 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double *pSTRENG) {
      PNEu[K]=PNEU[K];
     }
     */
-    trypar(&JESLI,&STRENG,AMCH,masslep,PCHAR,PNEU,PELE,PPOZ);
+    //        printf ("idlep,pdgidid= %10i %10i\n",idlep,pho.idhep[I]);
+
+       // arrangements for the case when emitted lept6ons have 
+       // the same flavour as emitters
+	bool sameflav=abs(idlep)==abs(pho.idhep[I]);
+	int idsign=1;                       
+	if(pho.idhep[I]<0) idsign=-1; // this is to ensure 
+	                       //that first lepton has the same PDGID as emitter
+
+	trypar(&JESLI,&STRENG,AMCH,masslep,PCHAR,PNEU,PELE,PPOZ,&sameflav);
     //  printf ("rowerek %10.7f\n",STRENG);
     //emitted pair four momenta are stored in PELE PPOZ
     //then JESLI=.true.
@@ -2652,7 +2661,7 @@ if (JESLI) {
       // electron: adding to vertex
       pho.nhep = pho.nhep+1;
       pho.isthep[pho.nhep-i] = 1;
-      pho.idhep [pho.nhep-i] = idlep;
+      pho.idhep [pho.nhep-i] = idlep*idsign;
       pho.jmohep[pho.nhep-i][0] = IP;
       pho.jmohep[pho.nhep-i][1] = 0;
       pho.jdahep[pho.nhep-i][0] = 0;
@@ -2669,7 +2678,7 @@ if (JESLI) {
       // positron: adding
       pho.nhep = pho.nhep+1;
       pho.isthep[pho.nhep-i] = 1;
-      pho.idhep [pho.nhep-i] =-idlep;
+      pho.idhep [pho.nhep-i] =-idlep*idsign;
       pho.jmohep[pho.nhep-i][0] = IP;
       pho.jmohep[pho.nhep-i][1] = 0;
       pho.jdahep[pho.nhep-i][0] = 0;

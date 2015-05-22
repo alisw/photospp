@@ -234,7 +234,7 @@ void partra(int IBRAN,double PHOT[4]){
 }
 
 
-  void trypar(bool *JESLI,double *pSTRENG,double AMCH, double AMEL, double PA[4],double PB[4],double PE[4],double PP[4]){       
+  void trypar(bool *JESLI,double *pSTRENG,double AMCH, double AMEL, double PA[4],double PB[4],double PE[4],double PP[4],bool *sameflav){       
   double &STRENG = *pSTRENG;
   //      COMMON  /PARKIN/ 
   double &FI0=parkin.fi0;
@@ -608,6 +608,49 @@ printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
             ( 4*(pq1/pq-ppq1/ppq)*(pq2/pq-ppq2/ppq)
 	     -XMP*XMP*(AMCH2/pq/pq+AMNE2/ppq/ppq-ppp/pq/ppq-ppp/pq/ppq) );
          //   *(1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX));  // A-P kernel divide by (1-XP/XPMAX)?
+ // if (*sameflav){
+ //printf ("samef=  %d\n",*sameflav);
+ //exit(0);
+ //}
+ if(*sameflav){
+ // we interchange: PAA <--> pp
+  for( int k=0;k<=3;k++){
+   double stored=PAA[k];
+   PAA[k]=PE[k];
+   PE[k]=stored;
+ }
+
+  pq=      PAA[3]*PP[3]-PAA[2]*PP[2]-PAA[1]*PP[1]-PAA[0]*PP[0];
+  pq=pq   +PAA[3]*PE[3]-PAA[2]*PE[2]-PAA[1]*PE[1]-PAA[0]*PE[0];
+
+  ppq=     PNEUTR[3]*PP[3]-PNEUTR[2]*PP[2]-PNEUTR[1]*PP[1]-PNEUTR[0]*PP[0];
+  ppq=ppq+ PNEUTR[3]*PE[3]-PNEUTR[2]*PE[2]-PNEUTR[1]*PE[1]-PNEUTR[0]*PE[0];
+  pq1 =PAA[3]*PP[3]-PAA[2]*PP[2]-PAA[1]*PP[1]-PAA[0]*PP[0];
+  pq2 =PAA[3]*PE[3]-PAA[2]*PE[2]-PAA[1]*PE[1]-PAA[0]*PE[0];
+ 
+  ppq1=PNEUTR[3]*PP[3]-PNEUTR[2]*PP[2]-PNEUTR[1]*PP[1]-PNEUTR[0]*PP[0];
+  ppq2=PNEUTR[3]*PE[3]-PNEUTR[2]*PE[2]-PNEUTR[1]*PE[1]-PNEUTR[0]*PE[0];
+
+  ppp=PNEUTR[3]*PAA[3]-PNEUTR[2]*PAA[2]-PNEUTR[1]*PAA[1]-PNEUTR[0]*PAA[0];
+
+  XMP=-(PP[0]+PE[0])*(PP[0]+PE[0])-(PP[1]+PE[1])*(PP[1]+PE[1])
+      -(PP[2]+PE[2])*(PP[2]+PE[2])+(PP[3]+PE[3])*(PP[3]+PE[3]);
+  XMP=sqrt(fabs(XMP));
+
+    
+YOT1=YOT1+1./2./XMP/XMP/XMP/XMP*
+            ( 4*(pq1/pq-ppq1/ppq)*(pq2/pq-ppq2/ppq)
+	     -XMP*XMP*(AMCH2/pq/pq+AMNE2/ppq/ppq-ppp/pq/ppq-ppp/pq/ppq) );
+         //   *(1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX));  // A-P kernel divide by (1-XP/XPMAX)?
+	 	 
+ // we interchange: PAA <--> pp back into place
+ for( int k=0;k<=3;k++){
+   double stored=PAA[k];
+   PAA[k]=PE[k];
+   PE[k]=stored;
+ }
+ } // end sameflav
+ 
   double WT=YOT1*YOT2*YOT3;
 
   WT=WT/8;  //   origin must be understood
