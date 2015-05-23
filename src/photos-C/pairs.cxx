@@ -319,13 +319,16 @@ printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
     *2*log(AMTO/AMEL/2.0)                         // virtuality
       *log(AMTO/AMEL/2.0)                         // soft
       *log((AMTO*AMTO+2*AMCH*AMCH)/2.0/AMCH/AMCH);// collinear
-
-
+  double FREJECT=2.;  // to make room for interference second pair posiblty.
+  PRHARD=PRHARD*FREJECT;
   // enforces hard pairs to be generated 'always'
   // for the sake of tests with high statistics, also for flat phase space.
   //   PRHARD=0.99* STRENG*2;
   //   STRENG=0.0;
-
+  if (PRHARD>1.0) {
+    printf(" stop from Photos pairs.cxx PRHARD= %18.13f \n",PRHARD);
+    exit(0);
+  }
  // delta is for tests with PhysRevD.49.1178, default is AMTO*2 no restriction on pair phase space
  double delta=AMTO*2; //5;//.125; //AMTO*2; //.125; //AMTO*2; ;0.25;
 
@@ -638,11 +641,14 @@ printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
   XMP=sqrt(fabs(XMP));
 
     
-YOT1=YOT1+1./2./XMP/XMP/XMP/XMP*
+double YOT1p=1./2./XMP/XMP/XMP/XMP*
             ( 4*(pq1/pq-ppq1/ppq)*(pq2/pq-ppq2/ppq)
 	     -XMP*XMP*(AMCH2/pq/pq+AMNE2/ppq/ppq-ppp/pq/ppq-ppp/pq/ppq) );
          //   *(1-XP/XPMAX+0.5*(XP/XPMAX)*(XP/XPMAX));  // A-P kernel divide by (1-XP/XPMAX)?
-	 	 
+ double wtint=0.;  // not yet installed
+ wtint=1;//(YOT1+YOT1p+wtint)/(YOT1+YOT1p);
+ YOT1=YOT1*wtint;
+
  // we interchange: PAA <--> pp back into place
  for( int k=0;k<=3;k++){
    double stored=PAA[k];
@@ -653,7 +659,7 @@ YOT1=YOT1+1./2./XMP/XMP/XMP/XMP*
  
   double WT=YOT1*YOT2*YOT3;
 
-  WT=WT/8;  //   origin must be understood
+  WT=WT/8/FREJECT;  //   origin must be understood
 
   if(WT>1.0){
     printf (" from Photos pairs.cxx WT= %15.8f  \n",WT);
