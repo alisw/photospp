@@ -2689,6 +2689,38 @@ if (JESLI) {
         pho.phep[pho.nhep-i][K-i] = PPOZ[K-i];
       }
 
+      // for mc-test with KORALW, mumu from mu mu emissions: BEGIN
+      /*
+      double RRX[2];
+      for( int k=0;k<=1;k++) RRX[k]=Photos::randomDouble();
+
+      for(int KK=0;KK<=pho.nhep-i;KK++){
+	for(int KJ=KK+1;KJ<=pho.nhep-i;KJ++){
+ // 1 <-> 3
+      if(RRX[0]>.5&&pho.idhep[KK]==13&&pho.idhep[KJ]==13){
+	for( int k=0;k<=3;k++){
+	  double stored=pho.phep[KK][k];
+	  pho.phep[KK][k]=pho.phep[KJ][k];
+	  pho.phep[KJ][k]=stored;
+	}
+      }
+ // 2 <-> 4
+      
+      if(RRX[1]>.5&&pho.idhep[KK]==-13&&pho.idhep[KJ]==-13){
+	for( int k=0;k<=3;k++){
+	  double stored=pho.phep[KK][k];
+	  pho.phep[KK][k]=pho.phep[KJ][k];
+	  pho.phep[KJ][k]=stored;
+
+	}
+      }
+      
+      }
+      }
+    
+      // for mc-test with KORALW, mumu from mu mu emissions: END
+      */
+
       pho.phep[pho.nhep-i][4] = masslep;
            PHCORK(0);
       // write in

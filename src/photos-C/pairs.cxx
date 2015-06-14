@@ -321,6 +321,8 @@ printf (" too small energy to emit %10.7f\n",PAA[4-j]+PNEUTR[4-j]);
       *log((AMTO*AMTO+2*AMCH*AMCH)/2.0/AMCH/AMCH);// collinear
   double FREJECT=2.;  // to make room for interference second pair posiblty.
   PRHARD=PRHARD*FREJECT;
+  //   PRHARD=PRHARD*50; // to increase number of pairs in test of mu mu from mu
+  //   fror mumuee set *15
   // enforces hard pairs to be generated 'always'
   // for the sake of tests with high statistics, also for flat phase space.
   //   PRHARD=0.99* STRENG*2;
