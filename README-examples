@@ -52,10 +52,10 @@ available, which takes about 4 minutes to run.
 3. PYTHIA8 EXAMPLES
 --------------------
 
-It is worth noting, that providing path to pythia8 allows to compile
-'single_photos_gun_example.exe' as well as 'photosLCG_pythia_example.exe'
-used by GENSER (Generator Service Project for LHC Computing Grid)
-to validate PHOTOS. These examples require pythia8.201
+Providing path to pythia8 allows to compile 'single_photos_gun_example.exe'
+as well as 'photosLCG_pythia_example.exe' used by GENSER (Generator Service
+Project for LHC Computing Grid) to validate PHOTOS. These examples require
+pythia8.201
 
    -------
    pythia8
@@ -121,8 +121,6 @@ directory vary, depending on the statistics used, from a minute to hours.
 Lastly, Tauola++ can be added to compile 'tauola_photos_pythia_example.exe' as well
 as rest of the tests in 'examples/testing' directory.
 
-After following steps in point 3,4 and building Tauola++, go to PHOTOS/examples and execute:
-
    --------
    Tauola++
    --------
@@ -136,6 +134,7 @@ After following steps in point 3,4 and building Tauola++, go to PHOTOS/examples 
    ./configure --with-hepmc=<PATH_TO_HEPMC>
    make
 
+After following steps in points 3 and 4 and building Tauola++, go to PHOTOS/examples and execute:
 
 ./confugire --with-pythia8=<YOUR_PATH_TO_PYTHIA8> --with-mc-tester=<YOUR_PATH_TO_MC_TESTER> --with-tauola=<YOUR_PATH_TO_TAUOLA>
 make            
@@ -148,7 +147,7 @@ NOTE: depending on your configuration of pythia8 and Tauola, you may need to inc
 
       Photos::maxWtInterference(3);
 
-      Beofre line:
+      After line:
 
       Photos::initialize();
 
