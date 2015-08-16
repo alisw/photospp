@@ -93,7 +93,9 @@
 \title{PHOTOS Interface in C++\\[0.5cm]{} 
 \textbf{\small Technical and Physics Documentation  \\[0.1cm]\rule{4cm}{1pt}\\[0.3cm]}}
 
-\author{\LARGE N. Davidson$^{a}$, T. Przedzinski$^b$, Z. Was$^{c,d}$}\\[0.3cm]
+\author{\LARGE N. Davidson$^{a}$, T. Przedzinski$^{b,}$%
+\footnote{Corresponding author; e-mail: {\tt tomasz.przedzinski@cern.ch}; phone no.: $+48 503651129$ },
+Z. Was$^{c,d}$}\\[0.3cm]
 \textsf{\Large{\em {\em $^a$ Murdoch Childrens Research Institute, Royal
 Children’s Hospital, \\ Flemington Road, Parkville 3052, Melbourne, VIC,
 Australia
