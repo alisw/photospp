@@ -17,6 +17,9 @@
 
 \maketitle
 
+%\include{Photos_program_summary}
+%\newpage
+
 \tableofcontents\pdfbookmark[0]{Table of Contents}{toc}
 
 \newpage
@@ -99,8 +102,8 @@ other versions, consult {\tt README} files and {\tt changelog.txt} of the {\tt d
 \label{sec:requrements}
 The algorithm of {\tt PHOTOS} Monte Carlo can be divided into two parts.
 The first, internal part, operates on elementary decays. Thanks to carefully 
-studied properties of the 
-QED (scalar QED), the  algorithm (with certain probability) 
+studied properties of the Quantum Electrodynamics (QED) and 
+scalar QED:, the  algorithm (with certain probability) 
 replaces the kinematical configuration of the Born level decay with a new one, 
 where a bremsstrahlung photon, photons or lepton pairs
 are added and other particle momenta are modified. This part of the program is sophisticated from the physics 
@@ -224,8 +227,6 @@ This is quite similar to the previous
 
 \subsubsection{Event Record Structure Scenarios}
 
-
-
 While many Monte-Carlo generators (e.g. {\tt PYTHIA 8.1} \cite{Sjostrand:2007gs}, 
 {\tt HERWIG++} \cite{Bahr:2008pv}), {\tt SHERPA} \cite{Gleisberg:2008ta} can 
 store events in {\tt HepMC} format, the  representations of
@@ -289,6 +290,15 @@ The possibility of reverse operation of {\tt PHOTOS}, actually to remove
 photons from the decay vertex
 may be then envisaged.
 
+We were trying to be as adaptive as possible by providing user with options to
+adapt event record so it can be used with {\tt Photos} (see Appendix \ref{subsection:other_methods}).
+However, we have not blocked user froam using {\tt Photos} on events where Photos
+may be able to act correctly (such as cases described in this section)
+because user may willingly try to apply {\tt Photos} to such use cases
+to test functionality that we have not thought of. In such cases,
+user is advised to take into account warnings produced by {\tt Photos}
+but otherwise may proceed unhindered.
+
 A good example for event record divergence from the standard,
 is the evolution of {\tt PYTHIA}. While in version 8.108 the status codes for 
 our example processes took the values 0, 1 or 2  only (in the part of the record 
@@ -307,6 +317,14 @@ solution, but in this case we choose to adapt our algorithm%
 with values starting from 10001. That is the choice resulting from our use 
 of {\tt HepMC} methods and defaults.  }.
 
+One of the key concepts of the design of {\tt Photos} C++ interface, described in
+Section \ref{sec:design}, is that it allows user to adapt to variety of different
+Event Records and Event Record standards. We have provided the interface to the
+most universal {\tt HepMC} structure that does not take into account how event
+information has been filled. There are too many variations of HepMC event filling
+scenarios for us to include within the project. Instead, this basic interface
+can be easily extended to adapt to the different variations on how {\tt HepMC}
+event is handled.
 
 \subsection{Interface to the Event Record stuct of {\tt HEPEVT} type}
 \label{sect:F77fill}
@@ -1260,6 +1278,13 @@ from distributed initialization for {\tt PYTHIA 8.201}, may differ from
 the  reference ones. See e.g. 
 {\tt User Histograms}, plots {\tt mother-PT mother-eta},  in 
 {\tt examples/testing/ScalNLO} or {\tt examples/testing/WmunuNLO}. }.
+
+A set of example  programs located in directory {\tt PHOTOS/examples} has been
+provided, along with an example output of these programs.
+{\tt PHOTOS/README-testing} file has been provided as well with a set of
+instructions that can be followed to compile all of the examples. These
+examples can be used to test the most basic functionality of {\tt Photos}
+interface.
 
 In principle, these tests have to be performed for any new hard 
 process and after any new installation. This is to ensure that 
