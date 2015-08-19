@@ -2598,16 +2598,7 @@ void PHOPAR(int IPARR,int NHEP0,int idlep, double masslep, double *pSTRENG) {
      PNEu[K]=PNEU[K];
     }
     */
-    //        printf ("idlep,pdgidid= %10i %10i\n",idlep,pho.idhep[I]);
-
-       // arrangements for the case when emitted lept6ons have 
-       // the same flavour as emitters
-	bool sameflav=abs(idlep)==abs(pho.idhep[I]);
-	int idsign=1;                       
-	if(pho.idhep[I]<0) idsign=-1; // this is to ensure 
-	                       //that first lepton has the same PDGID as emitter
-
-	trypar(&JESLI,&STRENG,AMCH,masslep,PCHAR,PNEU,PELE,PPOZ,&sameflav);
+    trypar(&JESLI,&STRENG,AMCH,masslep,PCHAR,PNEU,PELE,PPOZ);
     //  printf ("rowerek %10.7f\n",STRENG);
     //emitted pair four momenta are stored in PELE PPOZ
     //then JESLI=.true.
@@ -2661,7 +2652,7 @@ if (JESLI) {
       // electron: adding to vertex
       pho.nhep = pho.nhep+1;
       pho.isthep[pho.nhep-i] = 1;
-      pho.idhep [pho.nhep-i] = idlep*idsign;
+      pho.idhep [pho.nhep-i] = idlep;
       pho.jmohep[pho.nhep-i][0] = IP;
       pho.jmohep[pho.nhep-i][1] = 0;
       pho.jdahep[pho.nhep-i][0] = 0;
@@ -2678,7 +2669,7 @@ if (JESLI) {
       // positron: adding
       pho.nhep = pho.nhep+1;
       pho.isthep[pho.nhep-i] = 1;
-      pho.idhep [pho.nhep-i] =-idlep*idsign;
+      pho.idhep [pho.nhep-i] =-idlep;
       pho.jmohep[pho.nhep-i][0] = IP;
       pho.jmohep[pho.nhep-i][1] = 0;
       pho.jdahep[pho.nhep-i][0] = 0;
@@ -2688,38 +2679,6 @@ if (JESLI) {
       for(int K = 1; K<=4; ++K) {
         pho.phep[pho.nhep-i][K-i] = PPOZ[K-i];
       }
-
-      // for mc-test with KORALW, mumu from mu mu emissions: BEGIN
-      /*
-      double RRX[2];
-      for( int k=0;k<=1;k++) RRX[k]=Photos::randomDouble();
-
-      for(int KK=0;KK<=pho.nhep-i;KK++){
-	for(int KJ=KK+1;KJ<=pho.nhep-i;KJ++){
- // 1 <-> 3
-      if(RRX[0]>.5&&pho.idhep[KK]==13&&pho.idhep[KJ]==13){
-	for( int k=0;k<=3;k++){
-	  double stored=pho.phep[KK][k];
-	  pho.phep[KK][k]=pho.phep[KJ][k];
-	  pho.phep[KJ][k]=stored;
-	}
-      }
- // 2 <-> 4
-      
-      if(RRX[1]>.5&&pho.idhep[KK]==-13&&pho.idhep[KJ]==-13){
-	for( int k=0;k<=3;k++){
-	  double stored=pho.phep[KK][k];
-	  pho.phep[KK][k]=pho.phep[KJ][k];
-	  pho.phep[KJ][k]=stored;
-
-	}
-      }
-      
-      }
-      }
-    
-      // for mc-test with KORALW, mumu from mu mu emissions: END
-      */
 
       pho.phep[pho.nhep-i][4] = masslep;
            PHCORK(0);
