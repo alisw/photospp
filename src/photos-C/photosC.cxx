@@ -2385,7 +2385,11 @@ void PHTYPE(int ID){
   // also new pairs have emissions blocked with   pho.qedrad[]
   // most of the restrictions are introduced prior decay vertex is copied 
   // to struct pho.
-  for(int I = 0; I < NHEP0; ++I) {
+
+  // Calculate size of the pho common block (number of daughters + 2)
+  int pho_size = (hep.jdahep[ID-i][2-i] - hep.jdahep[ID-i][1-i] + 1) + 2;
+
+  for(int I = 0; I < pho_size; ++I) {
     pho.qedrad[I]=true;
   }
 
