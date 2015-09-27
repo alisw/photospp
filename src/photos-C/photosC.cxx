@@ -2386,8 +2386,13 @@ void PHTYPE(int ID){
   // most of the restrictions are introduced prior decay vertex is copied 
   // to struct pho.
 
-  // Calculate size of the pho common block (number of daughters + 2)
-  int pho_size = (hep.jdahep[ID-i][2-i] - hep.jdahep[ID-i][1-i] + 1) + 2;
+  // Establish size for the struct pho: number of daughters + 2 places for mothers (no granmoms) 
+  // This solution is  `hep.nhep hardy'. Use of hep.nhep  was perilous 
+  // if decaying particle (ID-i) was the first in the event. That was the case of EvtGen
+  // interface. We adopt to such non-standard HepMC fill. 
+  // TP ZW (26.09.15): Thanks to Michal Kreps and John Back
+
+  int pho_size = max(NHEP0,(hep.jdahep[ID-i][2-i] - hep.jdahep[ID-i][1-i] + 1) +2);
 
   for(int I = 0; I < pho_size; ++I) {
     pho.qedrad[I]=true;
