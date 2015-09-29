@@ -7,12 +7,12 @@
 
  @section download1 New release
 
- The source code and documentation for release 3.60. The following files are provided for download:
- - <a href="resources/PHOTOS.3.60/Photos_interface_design.3.60.pdf">Photos_interface_design.pdf</a> full software documentation.
- - <a href="resources/PHOTOS.3.60/PHOTOS.3.60.tar.gz">PHOTOS 3.60 source code </a> tarball
-   ( <a href="resources/PHOTOS.3.60/PHOTOS.3.60-LHC.tar.gz"> version for LHC/LCG</a>  installation)
-   and its <a href="resources/PHOTOS.3.60/svn_info_photos.3.60.txt">revision info</a> SVN tag, tarball creation date/time, etc.
-   For updates with respect to release 3.0 see <a href="resources/PHOTOS.3.60/changelog.3.60.txt">changelog.txt</a>
+ The source code and documentation for release 3.61. The following files are provided for download:
+ - <a href="resources/PHOTOS.3.61/Photos_interface_design.3.61.pdf">Photos_interface_design.pdf</a> full software documentation.
+ - <a href="resources/PHOTOS.3.61/PHOTOS.3.61.tar.gz">PHOTOS 3.61 source code </a> tarball
+   ( <a href="resources/PHOTOS.3.61/PHOTOS.3.61-LHC.tar.gz"> version for LHC/LCG</a>  installation)
+   and its <a href="resources/PHOTOS.3.61/svn_info_photos.3.61.txt">revision info</a> SVN tag, tarball creation date/time, etc.
+   For updates with respect to release 3.0 see <a href="resources/PHOTOS.3.61/changelog.3.61.txt">changelog.txt</a>
 
  @section developement Developement version
 
@@ -24,6 +24,13 @@
    For updates with respect to release 3.0 see <a href="resources/PHOTOS.development.version/changelog.development.version.txt">changelog.txt</a>.
 
  @section download Older releases
+
+ The source code and documentation for release 3.60. The following files are provided for download:
+ - <a href="resources/PHOTOS.3.60/Photos_interface_design.3.60.pdf">Photos_interface_design.pdf</a> full software documentation.
+ - <a href="resources/PHOTOS.3.60/PHOTOS.3.60.tar.gz">PHOTOS 3.60 source code </a> tarball
+   ( <a href="resources/PHOTOS.3.60/PHOTOS.3.60-LHC.tar.gz"> version for LHC/LCG</a>  installation)
+   and its <a href="resources/PHOTOS.3.60/svn_info_photos.3.60.txt">revision info</a> SVN tag, tarball creation date/time, etc.
+   For updates with respect to release 3.0 see <a href="resources/PHOTOS.3.60/changelog.3.60.txt">changelog.txt</a>
 
  The source code and documentation for release 3.56. The following files are provided for download:
  - <a href="resources/PHOTOS.3.56/Photos_interface_design.3.56.pdf">Photos_interface_design.pdf</a> full software documentation.
