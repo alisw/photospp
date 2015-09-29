@@ -1,5 +1,14 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Sept 29 2015
+- Change to enable use of Photos in case when there are no incoming (beam
+  or grandmother(s) ) for the decaying particle. Relevant part of the code, 
+  requiring the adaptation, became active since introduction of pair 
+  emission in  Photos v. 3.56. Such non-standard contents of event records
+  result in some cases of downgraded precision. In particular, matrix elements 
+  in case of Z/gamma*/W  (in future also narrow vector states) decays, 
+  can not be then calculated. Thanks to John Back and Michal Kreps 
+  for the input. 
 Apr 26 2015
 - cleaning of code, examples reference files completed. 
   Version no 3.60 introduced, code prepared for submission to CPC 
