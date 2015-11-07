@@ -1951,7 +1951,7 @@ void PHOENE(double MPASQR,double *pMCHREN,double *pBETA,double *pBIGLOG,int IDEN
   if(phokey.iexp){           // IEXP
     NCHAN=NCHAN+1;
     if(phoexp.expini){    // EXPINI
-      phoexp.pro[NCHAN-i]=PRHARD+0.05*(1.0+phokey.fint); // we store hard photon emission prob 
+      phoexp.pro[NCHAN-i]=PRHARD+0.25*(1.0+phokey.fint); // we store hard photon emission prob 
 	                                                           //for leg NCHAN
       PRHARD=0.0;                                                // to kill emission at initialization call
       phopro.probh=PRHARD;
