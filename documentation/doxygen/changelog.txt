@@ -1,5 +1,9 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Nov 7 2015
+- Technical parameter to conpensate kinematic shifting of non-relativistic
+  decay products of charge TWO increased. It increases the size of the crude
+  distribution removing fatal error in such events. Thanks to Torben Ferber for input.
 Sept 29 2015
 - Change to enable use of Photos in case when there are no incoming (beam
   or grandmother(s) ) for the decaying particle. Relevant part of the code, 
