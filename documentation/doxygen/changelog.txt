@@ -9,7 +9,7 @@ Sept 29 2015
 - Change to enable use of Photos in case when there are no incoming (beam
   or grandmother(s) ) for the decaying particle. Relevant part of the code, 
   requiring the adaptation, became active since introduction of pair 
-  emission in  Photos v. 3.56. This created a problem for EvtGen interface. 
+  emission in  Photos v. 3.57. This created a problem for EvtGen interface. 
   Such non-standard contents of event records will continue to
   result in some cases of downgraded precision, but not anymore to fault. 
   In particular, matrix elements in case of Z/gamma*/W

@@ -32,7 +32,7 @@
    and its <a href="resources/PHOTOS.3.60/svn_info_photos.3.60.txt">revision info</a> SVN tag, tarball creation date/time, etc.
    For updates with respect to release 3.0 see <a href="resources/PHOTOS.3.60/changelog.3.60.txt">changelog.txt</a>
 
- The source code and documentation for release 3.56 (not suitable for EvtGen interface). The following files are provided for download:
+ The source code and documentation for release 3.56. The following files are provided for download:
  - <a href="resources/PHOTOS.3.56/Photos_interface_design.3.56.pdf">Photos_interface_design.pdf</a> full software documentation.
  - <a href="resources/PHOTOS.3.56/PHOTOS.3.56.tar.gz">PHOTOS 3.56 source code </a> tarball
    ( <a href="resources/PHOTOS.3.56/PHOTOS.3.56-LHC.tar.gz"> version for LHC/LCG</a>  installation)
