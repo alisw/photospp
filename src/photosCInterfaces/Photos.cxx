@@ -214,7 +214,7 @@ void Photos::iniInfo()
 	if(meCorrectionWtForW)    cout<<"                    ME in decay of W is active"<<endl;
 	if(meCorrectionWtForScalar)    cout<<"                    ME in decay of Scalar is active"<<endl;
 	if(IfPair)          cout<<"                    emission of pairs is active"<<endl;
-	if(IfPhot)          cout<<"                    emission of photons is inactive"<<endl;
+	if(!IfPhot)          cout<<"                    emission of photons is inactive"<<endl;
 
 	cout<<endl<<"          WARNING:  /HEPEVT/ is not anymore used."<<endl<<endl;
 	// Revert output stream flags and precision
