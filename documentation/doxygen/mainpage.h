@@ -160,6 +160,6 @@ and MC-TESTER must be installed. In some cases TAUOLA C++ will be needed too.
 
 
  <hr>
- Last update 27 September 2013.
+Last update; usually last night by the robot, see the doxygen time below and revision info of the development version.
 
 */
