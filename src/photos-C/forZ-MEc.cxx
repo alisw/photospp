@@ -14,6 +14,8 @@ using namespace PhotosUtilities;
 namespace Photospp
 {
 
+ double (*PhotosMEforZ::currentVakPol)(double[4], double[4], double[4], double[4], double[4], int, int) = default_VakPol;
+
 // from photosC.cxx
 
 void PHODMP();
@@ -379,14 +381,20 @@ double PhotosMEforZ::Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,double q
 
 }
 
-double PhotosMEforZ::default_VakPol(double qp[4],double qm[4],double ph[4],double pp[4],double pm[4],int IDE,int IDF){
-        return 1;} // that is default. 
+double PhotosMEforZ::VakPol(double qp[4],double qm[4],double ph[4],double pp[4],double pm[4],int IDE,int IDF)
+{
+  return PhotosMEforZ::currentVakPol(qp,qm,ph,pp,pm,IDE,IDF);
 }
 
-void set_VakPol( double (*fun)(double, double, double, double, double,  int, int) )
+double PhotosMEforZ::default_VakPol(double qp[4],double qm[4],double ph[4],double pp[4],double pm[4],int IDE,int IDF)
 {
-  if(fun==NULL) VakPol = default_VakPol;
-  else          VakPol = fun;
+  return 1; // that is default. 
+}
+
+void PhotosMEforZ::set_VakPol( double (*fun)(double[4], double[4], double[4], double[4], double[4],  int, int) )
+{
+  if (fun==NULL) PhotosMEforZ::currentVakPol = default_VakPol;
+  else           PhotosMEforZ::currentVakPol = fun;
 }
 
 //----------------------------------------------------------------------

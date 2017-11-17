@@ -17,6 +17,7 @@
 
 //PHOTOS header files
 #include "Photos/Photos.h"
+#include "Photos/forZ-MEc.h"
 #include "Photos/PhotosHepMCEvent.h"
 #include "Photos/Log.h"
 
@@ -58,6 +59,13 @@ void checkMomentumConservationInEvent(HepMC::GenEvent *evt)
   cout.precision(6);
   cout.setf(ios_base::floatfield);
 	cout<<endl<<"Vector Sum: "<<px<<" "<<py<<" "<<pz<<" "<<e<<endl;
+}
+
+// Example of user function that can be passed to PHOTOS
+// for calculation of anomalous couplings in Z NLO
+double exampleAnmalousCouplingsZNLO(double qp[4],double qm[4],double ph[4],double pp[4],double pm[4],int IDE,int IDF)
+{
+    return 1.0;
 }
 
 int main(int argc,char **argv)
@@ -110,6 +118,10 @@ int main(int argc,char **argv)
 	// all particles with this status code.
 	//Photos::createHistoryEntries(true,3);
 
+    // Example of use of anomalous couplings in Z NLO with user function passed by pointer
+    //Photos::setMeCorrectionWtForZ(true);
+    //PhotosMEforZ::set_VakPol(exampleAnmalousCouplingsZNLO);
+    
 	MC_Initialize();
 
 	// Begin event loop

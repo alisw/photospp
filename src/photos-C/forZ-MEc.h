@@ -3,12 +3,12 @@
 
 namespace Photospp
 {
-  double (*VakPol)(double, double, double, double, double, int, int) = default_VakPol;
 
 class PhotosMEforZ
 {
 public:
   static double phwtnlo();
+  static void   set_VakPol(double (*fun)(double[4], double[4], double[4], double[4], double[4], int, int) );
 
 private:
   static void   GIVIZO(int idferm,int ihelic,double *sizo3,double *charge,int *kolor);
@@ -18,9 +18,11 @@ private:
   static double PHASYZ(double SVAR, int IDE, int IDF);
   static double Zphwtnlo(double svar,double xk, int IDHEP3, int IREP, double qp[4], double qm[4],double ph[4], double pp[4], double pm[4], double COSTHG, double BETA, double th1, int IDE, int IDF);
 
-  void set_VakPol(double (*fun)(double, double, double, double, double, int, int) );
   static double         VakPol(double qp[4],double qm[4],double ph[4],double pp[4],double pm[4],int IDE,int IDF);
   static double default_VakPol(double qp[4],double qm[4],double ph[4],double pp[4],double pm[4],int IDE,int IDF);
+
+private:
+  static double (*currentVakPol)(double[4], double[4], double[4], double[4], double[4], int, int);
 };
 
 } // namespace Photospp
