@@ -371,13 +371,23 @@ double PhotosMEforZ::Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,double q
   wagan2=3.8; //  ! overwrite 
   waga=2/(1.0+COSTHG*BETA)*wagan2 ; 
 	   //     %       * svar/4./xkap*(1.D0-COSTHG*BETA)*sqrt(1.0-xk)
+    
 
+  waga=waga*VakPol(qp,qm,ph,pp,pm,IDE,IDF);  // default VakWpol returns 1. Hook for the user function
+    
   return waga;
 
 }
 
+double PhotosMEforZ::default_VakPol(double qp[4],double qm[4],double ph[4],double pp[4],double pm[4],int IDE,int IDF){
+        return 1;} // that is default. 
+}
 
-
+void set_VakPol( double (*fun)(double, double, double, double, double,  int, int) )
+{
+  if(fun==NULL) VakPol = default_VakPol;
+  else          VakPol = fun;
+}
 
 //----------------------------------------------------------------------
 //

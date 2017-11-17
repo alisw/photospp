@@ -1,5 +1,7 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Nov 17 2017
+Draft for anomalous couplings in Z NLO matrix element introduced
 Nov 7 2015
 - Technical parameter to conpensate kinematic shifting, due to earlier photon emissions, 
   increased. Necessary for  non-relativistic (charge TWO) decay products. It increases the size 
