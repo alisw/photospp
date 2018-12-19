@@ -309,11 +309,13 @@ double PhotosMEforZ::Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,double q
   wagan2=2*(BT*t*t+BU*u*u+BT*t1*t1+BU*u1*u1)
     /(1+(1-xk)*(1-xk))* 2.0/(BT*(1-C)*(1-C)+BU*(1+C)*(1+C))/svar/svar;
 
+  wagan2=wagan2*VakPol(qp,qm,ph,pp,pm,IDE,IDF);  // default VakWpol returns 1. Hook for the user function
   //!        waga=waga*wagan2
   //!        waga=waga*(1-delta) /wt2 ! sprawdzone ze to jest =2/(1.D0+COSTHG*BETA)
   waga=2/(1.0+COSTHG*BETA)*wagan2;  
   //!     %       * svar/4./xkap*(1.D0-COSTHG*BETA)*sqrt(1.0-xk)
-
+  
+  
   if(wagan2<=3.8) return waga;
 
   // 
@@ -369,13 +371,13 @@ double PhotosMEforZ::Zphwtnlo(double svar,double xk,int IDHEP3,int IREP,double q
   fprintf(PHLUN,"wagan2= %f",wagan2);
   fprintf(PHLUN," ###################  ");
 
-
+  //  wagan2=wagan2*VakPol(qp,qm,ph,pp,pm,IDE,IDF); // default VakWpol returns 1. Hook for the user function
   wagan2=3.8; //  ! overwrite 
   waga=2/(1.0+COSTHG*BETA)*wagan2 ; 
 	   //     %       * svar/4./xkap*(1.D0-COSTHG*BETA)*sqrt(1.0-xk)
     
 
-  waga=waga*VakPol(qp,qm,ph,pp,pm,IDE,IDF);  // default VakWpol returns 1. Hook for the user function
+
     
   return waga;
 
