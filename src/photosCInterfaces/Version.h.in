@@ -1,0 +1,26 @@
+/**
+ * This file contains tauola version definitions
+ *
+ * @date January 24 2020
+ */
+#ifndef PHOTOS_VERSION_H
+#define PHOTOS_VERSION_H
+
+#include <string>
+
+/** @brief PHOTOS version string */
+#define PHOTOS_VERSION "@PACKAGE_VERSION@"
+
+/** @brief PHOTOS version code */
+#define PHOTOS_VERSION_CODE @PHOTOS_VERSION_CODE@
+
+namespace Photospp {
+
+/* @brief Get PHOTOS library version string */
+inline std::string version() {
+    return PHOTOS_VERSION;
+}
+
+} // namespace Photospp
+
+#endif

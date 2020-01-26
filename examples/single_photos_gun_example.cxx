@@ -44,8 +44,8 @@ void checkMomentumConservationInEvent(HepMC::GenEvent *evt)
 			//(*p)->print();
 		}
 	}
-  cout.precision(6);
-  cout.setf(ios_base::floatfield);
+	cout.precision(6);
+	cout.setf(ios_base::scientific, ios_base::floatfield);
 	cout<<endl<<"Vector Sum: "<<px<<" "<<py<<" "<<pz<<" "<<e<<endl;
 }
 
@@ -120,7 +120,7 @@ int main(int argc,char **argv)
 
 	// Print results
 	cout.precision(2);
-	cout.setf(ios::fixed);
+	cout.setf(ios_base::fixed, ios_base::floatfield);
 	cout<<endl;
 	if(tauCount==0)
 	{

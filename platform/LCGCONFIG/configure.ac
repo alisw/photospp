@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT( [Photos C++ Interface], [3.6], [tomasz.przedzinski@cern.ch] )
+AC_INIT( [Photos C++ Interface], [3.62], [tomasz.przedzinski@cern.ch] )
 
 AC_CONFIG_AUX_DIR([config])
 
@@ -31,6 +31,21 @@ AC_ARG_ENABLE(
     CXXFLAGS="-O2"
   ]
 )
+##############################################################################
+# Check for HepMC3
+
+AC_MSG_CHECKING([if HepMC3 location defined])
+AC_ARG_WITH(
+  [hepmc3],
+  [AS_HELP_STRING([--with-hepmc3], [Path to HepMC 3.1+ (use --without-hepmc3 to compile without HepMC3)] )],
+  [
+    AC_MSG_RESULT([$with_hepmc3]) ;
+    AC_SUBST(HEPMC3_DIR,[$with_hepmc3])
+  ],
+  [AC_MSG_RESULT([no])]
+)
+
+
 
 # Check for HepMC
 
@@ -86,7 +101,6 @@ AC_C_INLINE
 AC_CHECK_TYPES([ptrdiff_t])
 
 # Checks for library functions.
-AC_FUNC_MALLOC
 AC_FUNC_STRFTIME
 AC_CHECK_FUNCS([atexit getcwd pow sqrt], ,
 [ echo "" &&
@@ -180,6 +194,7 @@ AC_ARG_WITH(
 )
 
 AM_CONDITIONAL([HAS_HEPMC],    [test "x$with_hepmc"     != "x"])
+AM_CONDITIONAL([HAS_HEPMC3],   [test "x$with_hepmc3"    != "x"])
 AM_CONDITIONAL([HAS_PYTHIA8],  [test "x$with_pythia8"   != "x"])
 AM_CONDITIONAL([HAS_MCTESTER], [test "x$with_mc_tester" != "x"])
 AM_CONDITIONAL([HAS_TAUOLA],   [test "x$with_tauola"    != "x"])

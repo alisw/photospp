@@ -2,11 +2,14 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT( [Photos C++ Interface], [3.6], [tomasz.przedzinski@uj.edu.pl] )
+AC_INIT( [Photos C++ Interface], [3.62], [tomasz.przedzinski@uj.edu.pl] )
 AC_LANG_CPLUSPLUS
 
 AC_PREFIX_DEFAULT([`pwd`])
 AC_CONFIG_SRCDIR([src/photosCInterfaces/Photos.cxx])
+
+PHOTOS_VERSION_CODE=`echo $(($(echo $PACKAGE_VERSION | sed 's/\./00+/' | sed 's/\./\+/')))`
+AC_SUBST(PHOTOS_VERSION_CODE)
 
 ##############################################################################
 # Process command line options
@@ -21,10 +24,18 @@ AC_ARG_WITH(
   [AC_MSG_RESULT([no])]
 )
 
+AC_MSG_CHECKING([if HepMC3 location defined])
+AC_ARG_WITH(
+  [hepmc3],
+  [AS_HELP_STRING([--with-hepmc3], [Path to HepMC 3.1+ (use --without-hepmc3 to compile without HepMC3)] )],
+  [AC_MSG_RESULT([$with_hepmc3])],
+  [AC_MSG_RESULT([no])]
+)
+
 AC_MSG_CHECKING([if MC-TESTER location defined])
 AC_ARG_WITH(
   [mc-tester],
-    [AS_HELP_STRING([--with-mc-tester], [Path to MC-TESTER 1.23 or later (used by examples only)] )],
+  [AS_HELP_STRING([--with-mc-tester], [Path to MC-TESTER 1.23 or later (used by examples only)] )],
   [AC_MSG_RESULT([$with_mc_tester])],
   [AC_MSG_RESULT([no])]
 )
@@ -32,7 +43,7 @@ AC_ARG_WITH(
 AC_MSG_CHECKING([if Pythia 8 location defined])
 AC_ARG_WITH(
   [pythia8],
-    [AS_HELP_STRING([--with-pythia8], [Path to Pythia 8.1 or later (used by examples only)] )],
+  [AS_HELP_STRING([--with-pythia8], [Path to Pythia 8.1 or later (used by examples only)] )],
   [AC_MSG_RESULT([$with_pythia8])],
   [AC_MSG_RESULT([no])]
 )
@@ -40,7 +51,7 @@ AC_ARG_WITH(
 AC_MSG_CHECKING([if Tauola location defined])
 AC_ARG_WITH(
   [tauola],
-    [AS_HELP_STRING([--with-tauola], [Path to Tauola C++ interface v1.0.5 or later (used by examples only)] )],
+  [AS_HELP_STRING([--with-tauola], [Path to Tauola C++ interface v1.0.5 or later (used by examples only)] )],
   [AC_MSG_RESULT([$with_tauola])],
   [AC_MSG_RESULT([no])]
 )
@@ -90,7 +101,6 @@ AC_C_INLINE
 AC_CHECK_TYPES([ptrdiff_t])
 
 # Checks for library functions.
-AC_FUNC_MALLOC
 AC_FUNC_STRFTIME
 AC_CHECK_FUNCS([atexit getcwd pow sqrt], ,
 [ echo "" &&
@@ -139,10 +149,11 @@ ln -sf platform/make.inc make.inc
 
 AC_SUBST(with_photos)
 AC_SUBST(with_hepmc)
+AC_SUBST(with_hepmc3)
 AC_SUBST(pythia8data)
 AC_SUBST(with_tauola)
 AC_SUBST(with_pythia8)
 AC_SUBST(with_mc_tester)
-AC_CONFIG_FILES([platform/make.inc configure.paths.sh configure.paths.csh])
+AC_CONFIG_FILES([platform/make.inc configure.paths.sh configure.paths.csh src/photosCInterfaces/Version.h])
 AC_OUTPUT
 

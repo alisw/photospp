@@ -56,8 +56,8 @@ void checkMomentumConservationInEvent(HepMC::GenEvent *evt)
 			//(*p)->print();
 		}
 	}
-  cout.precision(6);
-  cout.setf(ios_base::floatfield);
+	cout.precision(6);
+	cout.setf(ios_base::scientific, ios_base::floatfield);
 	cout<<endl<<"Vector Sum: "<<px<<" "<<py<<" "<<pz<<" "<<e<<endl;
 }
 
@@ -88,7 +88,7 @@ int main(int argc,char **argv)
 	//Photos::setExponentiation(false);
 
 	Log::SummaryAtExit();
-	cout.setf(ios::fixed);
+	cout.setf(ios_base::fixed, ios_base::floatfield);
 	//Log::LogInfo(false) //To turn printing of last five events and pythia statistics off
 
 	// Example setup - suppress processing of whole Z0 decay,

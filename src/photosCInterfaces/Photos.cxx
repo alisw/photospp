@@ -102,7 +102,7 @@ void Photos::initialize()
 // Print PHOTOS header
 //------------------------------------------------------------------------------
 	int                coutPrec = cout.precision(6);
-	ios_base::fmtflags flags    = cout.setf(ios_base::floatfield);
+	ios_base::fmtflags flags    = cout.setf(ios_base::scientific, ios_base::floatfield);
 	cout<<endl;
 	cout<<"********************************************************************************"<<endl<<endl;
 
@@ -192,7 +192,7 @@ void Photos::iniInfo()
 // Print PHOTOS header again
 //------------------------------------------------------------------------------
 	int                coutPrec = cout.precision(6);
-	ios_base::fmtflags flags    = cout.setf(ios_base::floatfield);
+	ios_base::fmtflags flags    = cout.setf(ios_base::scientific, ios_base::floatfield);
 	cout<<endl;
 	cout<<"********************************************************************************"<<endl<<endl;
 	cout<<"                            ========================================="<<endl;

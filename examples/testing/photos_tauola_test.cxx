@@ -57,8 +57,8 @@ void checkMomentumConservationInEvent(HepMC::GenEvent *evt)
 			//(*p)->print();
 		}
 	}
-  cout.precision(6);
-  cout.setf(ios_base::floatfield);
+	cout.precision(6);
+	cout.setf(ios_base::scientific, ios_base::floatfield);
 	cout<<endl<<"Vector Sum: "<<px<<" "<<py<<" "<<pz<<" "<<e<<endl;
 }
 
@@ -141,13 +141,13 @@ int main(int argc,char **argv)
 	}
 
 	Log::SummaryAtExit();
-	cout.setf(ios::fixed);
 
 	MC_Initialize();
 
 	// Begin event loop
 	for(unsigned long iEvent = 0; iEvent < NumberOfEvents; ++iEvent)
 	{
+		cout.setf(ios_base::fixed, ios_base::floatfield);
 		if(iEvent%1000==0) Log::Info()<<"Event: "<<iEvent<<"\t("<<iEvent*(100./NumberOfEvents)<<"%)"<<endl;
 		if(!pythia.next()) continue;
 

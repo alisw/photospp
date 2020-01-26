@@ -7,7 +7,7 @@ endif
 ROOTLIB       :=  $(shell root-config --glibs)
 ROOTINC       :=  $(shell root-config --cflags)
 ROOTLIBPATH   :=  $(shell root-config --libdir)
-TAUOLA_LIBS    = -L$(TAUOLALOCATION)/lib -lTauolaCxxInterface -lTauolaFortran
+TAUOLA_LIBS    = -L$(TAUOLALOCATION)/lib -lTauolaCxxInterface -lTauolaFortran -lTauolaHepMC
 MC_TESTER_LIBS = -L$(MCTESTERLOCATION)/lib -lHEPEvent -lHepMCEvent -lMCTester
 
 # Keep in mind Makefile and examples are not prepared to automatically adapt
@@ -18,15 +18,24 @@ MC_TESTER_LIBS = -L$(MCTESTERLOCATION)/lib -lHEPEvent -lHepMCEvent -lMCTester
 PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib -lpythia8 -ldl
 
 PHOTOS_LIBS_FOR_HEPMC  = -L$(PHOTOSLOCATION)/lib -lPhotospp -lPhotosppHepMC $(HEPMC_LIBS)
+PHOTOS_LIBS_FOR_HEPMC3 = -L$(PHOTOSLOCATION)/lib -lPhotospp -lPhotosppHepMC3 $(HEPMC3_LIBS)
 PHOTOS_LIBS_FOR_HEPEVT = -L$(PHOTOSLOCATION)/lib -lPhotospp -lPhotosppHEPEVT -lstdc++
 HEPMC_LIBS     =
+HEPMC3_LIBS     =
 
 ifneq ($(HEPMCLOCATION), )
   override HEPMC_LIBS += -L$(HEPMCLOCATION)/lib -lHepMC
 endif
 
+ifneq ($(HEPMC3LOCATION), )
+  override HEPMC3_LIBS += -L$(HEPMC3LOCATION)/lib -lHepMC3
+endif
+
 all:
 	@make photos_hepevt_example.exe
+ifneq ($(HEPMC3LOCATION), )
+	@make photos_hepmc3_standalone_example.exe
+endif
 ifneq ($(HEPMCLOCATION), )
 	@make photos_standalone_example.exe
 ifneq ($(PYTHIALOCATION), )
@@ -46,6 +55,8 @@ endif
 	echo " ./photos_hepevt_example.exe"; fi
 	@if test -e photos_standalone_example.exe; then \
 	echo " ./photos_standalone_example.exe"; fi
+	@if test -e photos_hepmc3_standalone_example.exe; then \
+	echo " ./photos_hepmc3_standalone_example.exe"; fi
 	@if test -e single_photos_gun_example.exe; then \
 	echo " ./single_photos_gun_example.exe"; fi
 	@if test -e photosLCG_pythia_example.exe; then \
@@ -113,6 +124,14 @@ photos_standalone_example.exe: photos_standalone_example.cxx
 	-Wl,-rpath,$(PREFIX)/lib \
 	-Wl,-rpath,$(PHOTOSLOCATION)/lib \
 	-Wl,-rpath,$(HEPMCLOCATION)/lib
+
+# Version for photos HepMC3 standalone example - only HepMC3 required
+photos_hepmc3_standalone_example.exe: photos_hepmc3_standalone_example.cxx
+	$(CC) $(CFLAGS) -I$(PHOTOSLOCATION)/include -I$(HEPMC3LOCATION)/include -c $<
+	$(CC) -o $@ $(LDFLAGS) $(<:.cxx=.o) $(HEPMC3_LIBS) $(PHOTOS_LIBS_FOR_HEPMC3) \
+	-Wl,-rpath,$(PREFIX)/lib \
+	-Wl,-rpath,$(PHOTOSLOCATION)/lib \
+	-Wl,-rpath,$(HEPMC3LOCATION)/lib
 
 # Version for photos HEPEVT example - no other libraries are required
 photos_hepevt_example.exe: photos_hepevt_example.f photos_hepevt_example_interface.cxx

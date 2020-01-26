@@ -1,5 +1,12 @@
+exec_prefix   = @prefix@
+
+
 PREFIX        = @prefix@
+LIBDIR        = @libdir@
 HEPMCLOCATION = @with_hepmc@
+HEPMC3LOCATION = @with_hepmc3@
+
+LIB_VER = @PACKAGE_VERSION@
 
 F77      = @F77@
 F77FLAGS = @FFLAGS@ -fPIC -fno-automatic -fno-backslash -ffixed-line-length-132
@@ -17,7 +24,7 @@ CPP     = @DIRECT_CPP@
 CPPFLAGS= -C -P -traditional-cpp
 
 CC      = @CXX@
-CFLAGS  = @CXXFLAGS@ -fPIC -Wall -Wno-write-strings
+CFLAGS  = @CXXFLAGS@ -fPIC -Wall -Wno-write-strings  -std=c++11
 
 GCC     = @CC@
 GCCFLAGS= -O3 -fomit-frame-pointer -DHAVE_UNDERSCORE

@@ -2,6 +2,7 @@
 
 setenv PHOTOSLOCATION "@with_photos@"
 setenv HEPMCLOCATION "@with_hepmc@"
+setenv HEPMC3LOCATION "@with_hepmc3@"
 setenv TAUOLALOCATION "@with_tauola@"
 setenv PYTHIALOCATION "@with_pythia8@"
 setenv MCTESTERLOCATION "@with_mc_tester@"
@@ -14,5 +15,5 @@ set ROOTLIB=`root-config --libdir`
 # that user might want to compile
 if (! $?LD_LIBRARY_PATH) setenv LD_LIBRARY_PATH ""
 
-setenv LD_LIBRARY_PATH "${PHOTOSLOCATION}/lib:${PREFIX}/lib:${HEPMCLOCATION}/lib:${TAUOLALOCATION}/lib:${PYTHIALOCATION}/lib/archive:${MCTESTERLOCATION}/lib:${ROOTLIB}:${LD_LIBRARY_PATH}"
+setenv LD_LIBRARY_PATH "${PHOTOSLOCATION}/lib:${PREFIX}/lib:${HEPMCLOCATION}/lib:${HEPMC3LOCATION}/lib:${TAUOLALOCATION}/lib:${PYTHIALOCATION}/lib/archive:${MCTESTERLOCATION}/lib:${ROOTLIB}:${LD_LIBRARY_PATH}"
 

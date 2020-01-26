@@ -74,7 +74,7 @@ int main(int argc,char **argv)
 	//Photos::iniInfo();
 
 	Log::SummaryAtExit();
-	cout.setf(ios::fixed);
+	cout.setf(ios_base::fixed, ios_base::floatfield);
 
 	double ratio_exp   = 0.0, ratio_alpha   = 0.0;
 	double ratio_exp_2 = 0.0, ratio_alpha_2 = 0.0;
@@ -155,7 +155,7 @@ int main(int argc,char **argv)
 	double err_alpha = sqrt( (ratio_alpha_2 - ratio_alpha * ratio_alpha) / (double)NumberOfEvents );
 	
 	cout.precision(6);
-	cout.setf(ios::fixed);
+	cout.setf(ios_base::fixed, ios_base::floatfield);
 	cout << "********************************************************" << endl;
 	cout << "* Z -> l + bar_l + gammas                              *" << endl;
 	cout << "* E(l + bar_l) / E(l + bar_l + gammas) ratio           *" << endl;

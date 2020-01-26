@@ -11,6 +11,7 @@
 #include "HepMC/IO_GenEvent.h"
 
 //PHOTOS header files
+#include "Photos/Version.h"
 #include "Photos/Photos.h"
 #include "Photos/PhotosHepMCEvent.h"
 #include "Photos/Log.h"
@@ -43,13 +44,15 @@ void checkMomentumConservationInEvent(HepMC::GenEvent *evt)
 			//(*p)->print();
 		}
 	}
-  cout.precision(6);
-  cout.setf(ios_base::floatfield);
+	cout.precision(6);
+	cout.setf(ios_base::scientific, ios_base::floatfield);
 	cout<<endl<<"Vector Sum: "<<px<<" "<<py<<" "<<pz<<" "<<e<<endl;
 }
 
 int main()
 {
+	 cout << endl << "Photospp version " << Photospp::version() << " standalone example" << endl << endl;
+
 	HepMC::IO_GenEvent file("photos_standalone_example.dat",std::ios::in);
 
 	Photos::initialize();
@@ -99,7 +102,7 @@ int main()
 
 	// Print results
 	cout.precision(2);
-	cout.setf(ios::fixed);
+	cout.setf(ios_base::fixed, ios_base::floatfield);
 	cout<<endl;
 	if(evtCount==0)
 	{

@@ -22,7 +22,7 @@ echo ""
 AC_MSG_CHECKING([if Photos location defined])
 AC_ARG_WITH(
   [photos],
-    [AS_HELP_STRING([--with-photos], [Path to Photos installation (needed if examples are separated from Photos source code)] )],
+  [AS_HELP_STRING([--with-photos], [Path to Photos installation (needed if examples are separated from Photos source code)] )],
   [AC_MSG_RESULT($with_photos)],
   [
     with_photos=`(cd ..; pwd)`
@@ -48,6 +48,10 @@ if test ! -z "$HEPMCLOCATION"; then
   hepmclocation=$HEPMCLOCATION
 fi
 
+if test ! -z "$HEPMC3LOCATION"; then
+  hepmc3location=$HEPMC3LOCATION
+fi
+
 if test ! -z "$TAUOLALOCATION"; then
   tauolalocation=$TAUOLALOCATION
 fi
@@ -68,7 +72,7 @@ echo ""
 AC_MSG_CHECKING([if Tauola location defined])
 AC_ARG_WITH(
   [tauola],
-    [AS_HELP_STRING([--with-tauola], [Path to Tauola C++ v1.0.5 or later] )],,
+  [AS_HELP_STRING([--with-tauola], [Path to Tauola C++ v1.0.5 or later] )],,
   [with_tauola=$tauolalocation]
 )
 AC_MSG_RESULT([$with_tauola])
@@ -76,7 +80,7 @@ AC_MSG_RESULT([$with_tauola])
 AC_MSG_CHECKING([if MC-TESTER location defined])
 AC_ARG_WITH(
   [mc-tester],
-    [AS_HELP_STRING([--with-mc-tester], [Path to MC-TESTER 1.23 or later] )],,
+  [AS_HELP_STRING([--with-mc-tester], [Path to MC-TESTER 1.23 or later] )],,
   [with_mc_tester=$mctesterlocation]
 )
 AC_MSG_RESULT([$with_mc_tester])
@@ -84,19 +88,26 @@ AC_MSG_RESULT([$with_mc_tester])
 AC_MSG_CHECKING([if Pythia 8 location defined])
 AC_ARG_WITH(
   [pythia8],
-    [AS_HELP_STRING([--with-pythia8], [Path to Pythia 8.1 or later] )],,
+  [AS_HELP_STRING([--with-pythia8], [Path to Pythia 8.1 or later] )],,
   [with_pythia8=$pythialocation]
 )
 AC_MSG_RESULT([$with_pythia8])
 
-
 AC_MSG_CHECKING([if HepMC location is defined])
 AC_ARG_WITH(
   [hepmc],
-    [AS_HELP_STRING([--with-hepmc], [Path to HepMC 2.xx] )],,
+  [AS_HELP_STRING([--with-hepmc], [Path to HepMC 2.xx] )],,
   [with_hepmc=$hepmclocation]
 )
 AC_MSG_RESULT([$with_hepmc])
+
+AC_MSG_CHECKING([if HepMC3 location is defined])
+AC_ARG_WITH(
+  [hepmc3],
+  [AS_HELP_STRING([--with-hepmc3], [Path to HepMC 3.1+] )],,
+  [with_hepmc3=$hepmc3location]
+)
+AC_MSG_RESULT([$with_hepmc3])
 
 echo ""
 ##############################################################################
@@ -111,6 +122,20 @@ AC_CHECK_HEADERS([HepMC/Version.h],
   echo "      './configure --with-hepmc=<path_to_HepMC>' "
   echo ""
 ])
+
+##############################################################################
+# Check for HepMC3 header files
+CPPFLAGS="-I$with_hepmc3/include $CPPFLAGS"
+
+AC_CHECK_HEADERS([HepMC/Version.h],
+  HAS_HEPMC=1,
+[ HAS_HEPMC=0 &&
+  echo "" &&
+  echo "INFO: HepMC3 not found. To provide location use:" &&
+  echo "      './configure --with-hepmc3=<path_to_HepMC>' "
+  echo ""
+])
+
 
 ##############################################################################
 # Check for Photos

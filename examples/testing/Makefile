@@ -14,7 +14,7 @@ PYTHIA_LIBS    = -L$(PYTHIALOCATION)/lib -lpythia8 -ldl
 
 MC_TESTER_LIBS = -L$(MCTESTERLOCATION)/lib -lHEPEvent -lHepMCEvent -lMCTester
 HEPMC_LIBS     = -L$(HEPMCLOCATION)/lib -lHepMC
-TAUOLA_LIBS    = -L$(TAUOLALOCATION)/lib -lTauolaCxxInterface -lTauolaFortran
+TAUOLA_LIBS    = -L$(TAUOLALOCATION)/lib -lTauolaCxxInterface -lTauolaFortran -lTauolaHepMC
 PHOTOS_LIBS    = -L$(PHOTOSLOCATION)/lib -lPhotospp -lPhotosppHepMC -lPhotosppHEPEVT $(HEPMC_LIBS)
 
 all:

@@ -48,7 +48,7 @@ void PhotosDebugRandom::setSaveState(int i, int j, double c, double list[97])
 void PhotosDebugRandom::print()
 {
   int                coutPrec = cout.precision(18);
-	ios_base::fmtflags flags    = cout.setf(ios_base::floatfield);
+	ios_base::fmtflags flags    = cout.setf(ios_base::scientific, ios_base::floatfield);
 
   Log::RedirectOutput(Log::Info());
 
