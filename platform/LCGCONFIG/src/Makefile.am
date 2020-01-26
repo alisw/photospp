@@ -9,6 +9,7 @@ photos-C/forZ-MEc.h                          \
 photos-C/forW-MEc.h                          \
 photos-C/HEPEVT_struct.h                     \
 photosCInterfaces/PhotosParticle.h           \
+photosCInterfaces/Version.h                  \
 photosCInterfaces/Photos.h                   \
 photosCInterfaces/PhotosEvent.h              \
 photosCInterfaces/PhotosBranch.h             \
@@ -52,9 +53,23 @@ if HAS_HEPMC
   libPhotosppHepMC_la_LIBADD = libPhotospp.la
 endif
 
-INCLUDES = -I$(top_srcdir)/src/photos-C \
-           -I$(top_srcdir)/src/photosCInterfaces \
-           -I$(top_srcdir)/src/utilities \
-           -I$(HEPMC_DIR)/include
+if HAS_HEPMC3
+  lib_LTLIBRARIES += libPhotosppHepMC3.la 
+
+  libPhotosppHepMC3_la_SOURCES = \
+  eventRecordInterfaces/PhotosHepMC3Event.cxx    \
+  eventRecordInterfaces/PhotosHepMC3Particle.cxx
+
+  include_HEADERS += \
+  eventRecordInterfaces/PhotosHepMC3Particle.h  \
+  eventRecordInterfaces/PhotosHepMC3Event.h
+  
+  libPhotosppHepMC3_la_LIBADD = libPhotospp.la
+endif
+
+AM_CPPFLAGS = -I$(top_srcdir)/src/photos-C \
+              -I$(top_srcdir)/src/photosCInterfaces \
+              -I$(top_srcdir)/src/utilities \
+              -I$(HEPMC_DIR)/include
 
 libPhotosppHEPEVT_la_LIBADD = libPhotospp.la

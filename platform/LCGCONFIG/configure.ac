@@ -6,13 +6,18 @@ AC_INIT( [Photos C++ Interface], [3.62], [tomasz.przedzinski@cern.ch] )
 
 AC_CONFIG_AUX_DIR([config])
 
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([1.13 subdir-objects])
+AC_CONFIG_MACRO_DIRS([m4])
 
 AC_LANG_CPLUSPLUS
 
 AC_PREFIX_DEFAULT([`pwd`])
 AC_CONFIG_HEADERS([config/config.h])
 AC_CONFIG_SRCDIR([src/photosCInterfaces/Photos.cxx])
+
+PHOTOS_VERSION_CODE=`echo $(($(echo $PACKAGE_VERSION | sed 's/\./00+/' | sed 's/\./\+/')))`
+AC_SUBST(PHOTOS_VERSION_CODE)
+
 ##############################################################################
 # Check for debug flags
 
@@ -80,6 +85,25 @@ AC_CHECK_HEADERS([HepMC/Version.h], ,
 
 else
   with_hepmc=""
+fi
+
+
+if ! test "$with_hepmc3" == "no"; then
+
+CPPFLAGS="-I$with_hepmc3/include $CPPFLAGS"
+
+AC_CHECK_HEADERS([HepMC3/Version.h], ,
+[ echo "" &&
+  echo "ERROR: HepMC3 not found. To provide location use:" &&
+  echo "       './configure --with-hepmc3=<path_to_HepMC>' "
+  echo "       or use:"
+  echo "       './configure --without-hepmc3"
+  echo ""
+  exit -1
+])
+
+else
+  with_hepmc3=""
 fi
 
 ##############################################################################
@@ -199,5 +223,5 @@ AM_CONDITIONAL([HAS_PYTHIA8],  [test "x$with_pythia8"   != "x"])
 AM_CONDITIONAL([HAS_MCTESTER], [test "x$with_mc_tester" != "x"])
 AM_CONDITIONAL([HAS_TAUOLA],   [test "x$with_tauola"    != "x"])
 
-AC_CONFIG_FILES([Makefile src/Makefile examples/Makefile examples/testing/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile examples/Makefile examples/testing/Makefile src/photosCInterfaces/Version.h])
 AC_OUTPUT

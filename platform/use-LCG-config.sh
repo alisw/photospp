@@ -8,7 +8,7 @@ fi
 echo "This option will overwrite all configuration scripts/makefiles"
 echo "and modify the configuration procedure to match LCG setup."
 echo ""
-echo "You will need autotools version 2.59 or higher."
+echo "You will need autoconf version 2.59 or higher and automake version 1.13 or higher."
 echo ""
 echo "Proceed? (Yes/No)"
 read ANSWER
@@ -25,6 +25,10 @@ if test "$ANSWER" = "yes" || test "$ANSWER" = "y"; then
   echo "Copying and configuring new scripts"
   cp -rf LCGCONFIG/* ../.
   cd ..
+  libtoolize --force
+  aclocal
+  autoheader
+  automake --force-missing --add-missing
   autoreconf --install --force
 	echo "Done."
 else
