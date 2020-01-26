@@ -1,7 +1,9 @@
 Changelog for changes with respect to version 3.0
 -------------------------------------------------
+Jan 26 2020
+- Added HepMC3 support. Thanks Andrii Verbytskyi for his help in setting it up
 Nov 17 2017
-Draft for anomalous couplings in Z NLO matrix element introduced
+- Draft for anomalous couplings in Z NLO matrix element introduced
 Nov 7 2015
 - Technical parameter to conpensate kinematic shifting, due to earlier photon emissions, 
   increased. Necessary for  non-relativistic (charge TWO) decay products. It increases the size 

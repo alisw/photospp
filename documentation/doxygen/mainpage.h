@@ -23,6 +23,9 @@
    and its <a href="resources/PHOTOS.development.version/svn_info_photos.development.version.txt">revision info</a> SVN tag, tarball creation date/time, etc.
    For updates with respect to release 3.0 see <a href="resources/PHOTOS.development.version/changelog.development.version.txt">changelog.txt</a>.
 
+ <b>IMPORTANT NOTE:</b> Since 26.01.2020 we have added HepMC3 support (HepMC3 is avialble on the official <a href="https://hepmc.web.cern.ch/hepmc/">HepMC website</a>).
+ We have also adapted examples to current Tauola development version (v1.1.7 release candidate) which means <b>Tauola examples and tests will not compile with Tauola v1.1.6 or older</b>.
+
  @section download Older releases
 
  The source code and documentation for release 3.60 (not suitable for EvtGen interface). The following files are provided for download:
