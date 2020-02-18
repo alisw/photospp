@@ -31,8 +31,8 @@ class PhotosParticle;
 class Photos
 {
 public:
-	static const int VER_MAJOR=3, VER_MINOR=62;
-	static const int DAT_DAY  =29, DAT_MONTH=9, DAT_YEAR=15;
+	static const int VER_MAJOR=3, VER_MINOR=64;
+	static const int DAT_DAY  =18, DAT_MONTH=2, DAT_YEAR=20;
     
 	/** Units */
 	static enum MomentumUnits { DEFAULT_MOMENTUM=-1, MEV, GEV } momentumUnit;
