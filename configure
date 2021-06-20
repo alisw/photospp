@@ -629,8 +629,8 @@ with_mc_tester
 with_pythia8
 with_tauola
 pythia8data
-with_hepmc3
 with_photos
+with_hepmc3
 with_hepmc
 EGREP
 GREP
@@ -4645,6 +4645,43 @@ done
 
 else
   with_hepmc=""
+
+fi
+
+
+##############################################################################
+# Check for HepMC3 header files
+
+# If user specified --without-hepmc, skip hepmc check
+if ! test "$with_hepmc3" == "no"; then
+
+
+CPPFLAGS="-I$with_hepmc3/include $CPPFLAGS"
+
+for ac_header in HepMC3/Version.h
+do :
+  ac_fn_cxx_check_header_mongrel "$LINENO" "HepMC3/Version.h" "ac_cv_header_HepMC3_Version_h" "$ac_includes_default"
+if test "x$ac_cv_header_HepMC3_Version_h" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_HEPMC3_VERSION_H 1
+_ACEOF
+
+else
+   echo "" &&
+  echo "ERROR: HepMC not found. To provide location use:" &&
+  echo "         --with-hepmc3=/path/to/HepMC" ;
+  echo "       or use";
+  echo "         --without-hepmc3";
+  echo ""
+  exit -1
+
+fi
+
+done
+
+
+else
+  with_hepmc3=""
 
 fi
 
