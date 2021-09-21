@@ -1,9 +1,14 @@
 /** 
-
  @mainpage C++ Interface to PHOTOS 
  @brief Description of PHOTOS Interface in C++
 
+ <b>NOTE:</b> We are slowly moving towards CERN GitLab. See: <a href="https://gitlab.cern.ch/photospp/photospp">Photospp GitLab page</a>
+
+ @section License
+
  @authors Nadia Davidson, Tomasz Przedzinski, Zbigniew Was
+
+ This software is available under MIT license. See <a href="resources/LICENSE">LICENSE</a> file.
 
  @section download1 New release
 

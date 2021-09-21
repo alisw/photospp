@@ -1,5 +1,20 @@
-Changelog for changes with respect to version 3.0
--------------------------------------------------
+     C O N T R I B U T O R S
+     -----------------------
+
+Main authors:
+-------------
+  N. Davidson
+  T. Przedzinski
+  Z. Was
+
+Additional contributors:
+------------------------
+  A. Verbytskyi - from v3.64
+
+
+        C H A N G E L O G
+        -----------------
+
 Jan 26 2020
 - Added HepMC3 support. Thanks Andrii Verbytskyi for his help in setting it up
 Nov 17 2017
